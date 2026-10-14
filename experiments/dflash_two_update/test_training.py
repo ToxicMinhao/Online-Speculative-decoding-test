@@ -241,6 +241,26 @@ class NumericalTrainingTests(unittest.TestCase):
         self.assertEqual(trainer.optimizer_steps, 0)
         self.assertFalse(trainer.optimizer.state)
 
+    def test_replay_phase_timers_survive_each_training_presentation(self):
+        _, backend, trainer = self.fixture()
+        original = backend.forward_block
+        def timed(block, slots):
+            result = original(block, slots)
+            backend.last_phase_seconds = {"draft_replay_with_feature_transfer_s": 0.1,
+                "student_frozen_head_s": 0.2, "teacher_head_reconstruction_s": 0.3}
+            return result
+        backend.forward_block = timed
+        result = trainer.train_event(1, [response(t) for t in range(9, 17)])
+        presentations = [p for b in result["batches"] for p in b["presentations"]]
+        self.assertEqual(len(presentations), 16)
+        # Each response has9+1eligible slots in chunks of2: six forward calls.
+        for presentation in presentations:
+            phases = presentation["forward_nested_phase_seconds"]
+            self.assertAlmostEqual(phases["draft_replay_with_feature_transfer_s"], 0.6)
+            self.assertAlmostEqual(phases["student_frozen_head_s"], 1.2)
+            self.assertAlmostEqual(phases["teacher_head_reconstruction_s"], 1.8)
+        self.assertEqual(result["optimizer_steps_total"], 8)
+
     def test_checkpoint_teacher_episode_and_old_support_rejected(self):
         for change in ("checkpoint", "teacher", "episode"):
             _, _, trainer = self.fixture()

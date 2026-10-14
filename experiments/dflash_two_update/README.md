@@ -152,15 +152,41 @@ reference. Negative effects and incomplete episodes remain in the report.
 Record accepted draft tokens, trace-derived verification progress, calls per
 1,000 output tokens, complete request latency/throughput, context/output
 lengths, supervised-position counts and both checkpoints. Complete request
-latency includes prefill. Total output tokens per verification includes the
+latency includes prefill, drafting and target verification. Paired frozen/adapted
+latency and throughput describe **inference-only performance with an available
+checkpoint**: training and activation are excluded, and capture is disabled for
+these paired timings. Total output tokens per verification includes the
 initial target token and is named separately from verification-only progress.
 
-Native receipts separate capture/replay, training, export/activation, cache
-maintenance and worker loading. Canonical request timing already contains
-capture; nested timers are not added again. The observed update-call wait is
-included in the accounted episode total, including any lazy initialization
-unless separately identified. Initial loading, diagnostic timing repetitions,
-AR switching and benchmark-only weight switches are also recorded separately.
+`activation_s` measures the **entire** synchronous publication call, including
+checkpoint validation, worker communication and publication. The worker's inner
+timer is retained as `native_activation_s`; it is nested inside activation and
+is never an additional charge. Request timing starts after publication and the
+separately timed cache flush. Reusing the active checkpoint records zero for
+both activation timers.
+
+Native receipts and the report's `cost_breakdown` separate capture, replay,
+training, export, transfer, activation, cache maintenance and worker loading.
+Replay phase timers are nested inside forward/training time. Capture's
+device-to-host transfer timer overlaps capture phases. The two workers share
+local checkpoint paths, so a separate checkpoint transfer is explicitly marked
+not performed; device copies remain inside capture, replay, export or activation.
+Unrecorded costs are marked missing rather than assumed free.
+
+The reconstructed adaptive episode total is exactly:
+
+```text
+sum(canonical request_s) + sum(canonical cache_maintenance_s)
++ sum(canonical activation_s) + sum(observed_update_call_s)
+```
+
+Canonical request timing already contains capture; it is not added again.
+The observed update-call wait includes replay, training, export, optimizer-state
+save, checkpoint validation and any lazy trainer initialization; its nested
+timers are not added again. Initial loading, diagnostic validation, repeated
+timings, AR switching and benchmark-only weight switches are recorded separately.
+Validation required for a canonical checkpoint publication is an activation
+cost, not excluded diagnostic overhead.
 The report distinguishes actual experiment wall time from reconstructed
 serving-plus-update episode cost; it does not call either an asynchronous
 production measurement.

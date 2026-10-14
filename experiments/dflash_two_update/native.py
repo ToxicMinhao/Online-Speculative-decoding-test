@@ -375,7 +375,7 @@ class NativeBackend:
         self.worker = self.trainer = None
         self.episode_id = None
         self.serial = 0
-        self.totals = {'startup_s': 0., 'shutdown_s': 0., 'activation_s': 0.}
+        self.totals = {'startup_s': 0., 'shutdown_s': 0., 'activation_s': 0., 'native_activation_s': 0.}
 
     def start_episode(self, episode_id, config=None):
         require(self.episode_id is None, 'Finish prior episode before resetting draft/optimizer')
@@ -451,10 +451,17 @@ class NativeBackend:
                 checkpoint == self.checkpoints[checkpoint['checkpoint_id']], 'Unregistered learned checkpoint')
         self._ensure_worker('sd')
         if self.active_checkpoint == checkpoint['checkpoint_id']:
-            return {'status': 'passed', 'activation_s': 0., 'checkpoint_id': self.active_checkpoint}
+            return {'status': 'passed', 'activation_s': 0., 'native_activation_s': 0.,
+                    'checkpoint_id': self.active_checkpoint}
+        # Validation precedes the worker's internal timer. Charge the entire
+        # synchronous call; the narrower native timer is a nested diagnostic.
+        started = time.perf_counter()
         result = self.worker.call('publish', checkpoint)
+        activation_s = time.perf_counter() - started
+        result = {**result, 'native_activation_s': result['activation_s'], 'activation_s': activation_s}
         self.active_checkpoint = checkpoint['checkpoint_id']
         self.totals['activation_s'] += result['activation_s']
+        self.totals['native_activation_s'] += result['native_activation_s']
         return result
 
     def serve(self, input_ids, checkpoint_id, capture=False, *, turn_index, repeat=None):
@@ -466,15 +473,17 @@ class NativeBackend:
                     checkpoint_id == ('F' if turn_index <= 16 else 'U1'),
                     'Feedback must be fresh canonical support from the serving draft')
         startup = self._ensure_worker('ar' if checkpoint_id == 'AR' else 'sd')
-        activation = 0.
+        activation = native_activation = 0.
         if checkpoint_id != 'AR':
-            activation = self.publish(checkpoint_id)['activation_s']
+            publication = self.publish(checkpoint_id)
+            activation, native_activation = publication['activation_s'], publication['native_activation_s']
         reset = self.worker.call('flush', {})
         started = time.perf_counter()
         result = self.worker.call('generate', {'input_ids': input_ids, 'checkpoint_id': checkpoint_id,
             'capture': bool(capture), 'turn': turn_index, 'repeat': repeat})
         result['request_s'] = time.perf_counter() - started
-        result.update(startup_s=startup, activation_s=activation, cache_maintenance_s=reset['seconds'])
+        result.update(startup_s=startup, activation_s=activation, native_activation_s=native_activation,
+                      cache_maintenance_s=reset['seconds'])
         return result
 
     def train_event(self, event, responses):
@@ -487,6 +496,10 @@ class NativeBackend:
             startup = self.trainer.startup_s
         result = self.trainer.call('train', {'event': event, 'responses': responses})
         result['trainer_startup_s'] = startup
+        # Both workers read the same local checkpoint path. Device copies are
+        # inside export/publication; there is no separate checkpoint transfer.
+        result['checkpoint_transfer'] = {'performed': False, 'seconds': 0.,
+            'scope': 'Shared local filesystem; device copies remain inside export and activation.'}
         checkpoint = result['checkpoint']
         require(checkpoint['checkpoint_id'] == 'U' + str(event), 'Training export version differs')
         verify_checkpoint(checkpoint)
@@ -509,7 +522,7 @@ class NativeBackend:
             receipt['free_after_bytes'] = shutil.disk_usage(self.out).free
             write_json(self.out / 'NATIVE_FINISH.json', receipt)
         self.episode_id = None
-        self.totals = {'startup_s': 0., 'shutdown_s': 0., 'activation_s': 0.}
+        self.totals = {'startup_s': 0., 'shutdown_s': 0., 'activation_s': 0., 'native_activation_s': 0.}
         require(not errors, 'Native shutdown failed: ' + str(errors))
         return receipt
 

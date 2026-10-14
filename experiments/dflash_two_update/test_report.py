@@ -184,6 +184,41 @@ class ReportTests(unittest.TestCase):
         for value in result["frozen_episode_reference_s_by_repeat"]:
             self.assertAlmostEqual(value, 19.2 + 35.2)
 
+    def test_separate_cost_diagnostics_preserve_nesting_and_transfer_scope(self):
+        source = episode()
+        source["canonical"][8]["capture_costs"] = {
+            "append_capture_s": 0.6, "transfer_s": 0.4, "serialization_s": 0.2,
+            "captured_device_to_host_bytes": 1024}
+        for row in source["canonical"]:
+            row["native_activation_s"] = 0.05
+        for update in source["updates"]:
+            update.update(training_s=7., export_s=1., optimizer_state_save_s=0.5,
+                          checkpoint_transfer={"performed": False, "seconds": 0.})
+            update["accounting"] = {"batches": [{"presentations": [{
+                "phase_seconds": {"forward_and_heads_s": 4., "backward_s": 2.},
+                "forward_nested_phase_seconds": {"draft_replay_with_feature_transfer_s": 2.,
+                    "student_frozen_head_s": 1., "teacher_head_reconstruction_s": 1.}}]}]}
+        result = summarized(source)
+        costs = result["cost_breakdown"]
+        self.assertEqual(costs["capture"]["timer_sums"]["transfer_s"], 0.4)
+        self.assertNotIn("captured_device_to_host_bytes", costs["capture"]["timer_sums"])
+        self.assertEqual(costs["capture"]["per_request"][0]["costs"]["captured_device_to_host_bytes"], 1024)
+        self.assertEqual(costs["replay"]["nested_phase_seconds"]["teacher_head_reconstruction_s"], 2.)
+        self.assertEqual(costs["training"]["response_phase_seconds"]["forward_and_heads_s"], 8.)
+        self.assertEqual(costs["per_update"][0]["export_s"], 1.)
+        self.assertFalse(costs["per_update"][0]["checkpoint_transfer"]["performed"])
+        self.assertAlmostEqual(costs["native_activation_s"], 1.6)
+        self.assertAlmostEqual(costs["activation_s"], 3.2)
+        self.assertAlmostEqual(result["accounted_adaptive_episode_s"], 103.6)
+        self.assertIn("available checkpoint", window(result)["metrics"]["U1"]["measurement_scope"])
+
+    def test_unrecorded_costs_are_not_claimed_to_be_zero(self):
+        costs = summarized(episode())["cost_breakdown"]
+        self.assertIsNone(costs["native_activation_s"])
+        self.assertIsNone(costs["per_update"][0]["export_s"])
+        self.assertIsNone(costs["per_update"][0]["checkpoint_transfer"])
+        self.assertEqual(costs["replay"]["nested_phase_seconds"], {})
+
     def test_incomplete_or_failed_episode_has_no_whole_episode_cost_claim(self):
         for case in ("failed", "missing_turn", "missing_update"):
             source = episode()

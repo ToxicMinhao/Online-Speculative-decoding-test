@@ -233,6 +233,7 @@ class PersistentFullKLTrainer:
 
     def _train_response(self, response, audit):
         phases = {key: 0.0 for key in ("feature_record_read_s", "forward_and_heads_s", "loss_reduction_s", "backward_s")}
+        forward_nested_phases = {}
         synchronize = getattr(self.backend, "synchronize", lambda: None)
         seen_blocks = positions = eligible_blocks = 0
         scalar = 0.0
@@ -263,6 +264,8 @@ class PersistentFullKLTrainer:
                 student, teacher, _hard = self.backend.forward_block(block, chosen)
                 synchronize()
                 phases["forward_and_heads_s"] += time.perf_counter() - started
+                for name, seconds in getattr(self.backend, "last_phase_seconds", {}).items():
+                    forward_nested_phases[name] = forward_nested_phases.get(name, 0.) + seconds
                 require(student.requires_grad and not teacher.requires_grad and student.shape[0] == len(chosen),
                         "Replay student differentiation/teacher detachment differs")
                 started = time.perf_counter()
@@ -280,7 +283,8 @@ class PersistentFullKLTrainer:
                 positions == audit["eligible_positions"], "Replay block/position coverage differs")
         self.backend.finish_response()
         return dict(record_id=response["record_id"], turn=response["turn"], loss=scalar,
-                    eligible_blocks=eligible_blocks, eligible_positions=positions, phase_seconds=phases)
+                    eligible_blocks=eligible_blocks, eligible_positions=positions, phase_seconds=phases,
+                    forward_nested_phase_seconds=forward_nested_phases)
 
     def train_event(self, event, responses):
         import torch

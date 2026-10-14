@@ -87,7 +87,7 @@ def valid_result(result, input_ids, checkpoint, capture):
             (checkpoint != "AR" and result["verification_calls"] > 0), "Verification count differs")
     require(not capture or isinstance(result.get("feedback"), dict), "Captured current-response feedback absent")
     require(result.get("input_ids_sha256", digest(input_ids)) == digest(input_ids), "Backend input changed")
-    for key in ("cache_maintenance_s", "activation_s", "startup_s"):
+    for key in ("cache_maintenance_s", "activation_s", "native_activation_s", "startup_s"):
         value = result.get(key, 0.)
         require(type(value) in (float, int) and math.isfinite(value) and value >= 0, "Invalid cost: " + key)
 
