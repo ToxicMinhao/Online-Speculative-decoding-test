@@ -1,0 +1,34 @@
+{
+  "workspace_root": "/path/to/qualified/workspace",
+  "output_root": "/path/to/fresh/native_outputs",
+  "model_bindings": {
+    "path": "/path/to/qualified/workspace/research/fast_w8_001/data/MODEL_BINDINGS.json",
+    "bytes": 7731,
+    "sha256": "0adc652a186ef4d9910854481d0651f5f47c80e1d04832e1b6980219780275f6"
+  },
+  "runtime_source_sha256": {
+    "layers/logits_processor.py": "5c6c54bec37b941652e29908c773a756fe6c86f99932ab80043672a1eaa0f086",
+    "model_executor/cuda_graph_runner.py": "b838eb4043d732931e8a7ca1b97b01891696370ac23d4f892dd29f225ce44e6b",
+    "model_executor/forward_batch_info.py": "7a2c43c9bf3bf8051dd5542a07f4b35c84ea4741a8a23a348b59bbdf66e418dc",
+    "models/dflash.py": "d4fcfe005a1acc51a4938d038e1dbc1a2c8ff245842f4253338527335b2327b2",
+    "models/llama.py": "10a8397da941650017e3a2d07579fe1db3aa06464026f2e1ab19e8c85fbaea0d",
+    "server_args.py": "bd60199803698e4ffe6dc44499a8d42be73f42db28056cb6750411523cf56c04",
+    "speculative/dflash_info.py": "9c7ac23a1bf0840eec8218f02f2adbfc3e419099cd19822137ce5c6e0e902218",
+    "speculative/dflash_worker.py": "9397402f5cfbf60b00b7d27d551e5e9e1b605be9b084d028d4ddda76c475dc8c"
+  },
+  "python_executable": "/path/to/qualified/conda/environment/bin/python",
+  "serving_cuda_visible_devices": "0",
+  "training_cuda_visible_devices": "1",
+  "output_cap": 256,
+  "block_size": 10,
+  "max_capture_bytes": 4294967296,
+  "episode_storage_budget_bytes": 68719476736,
+  "reserve_bytes": 8589934592,
+  "worker_env": {
+    "HF_ENDPOINT": "https://hf-mirror.com",
+    "SGLANG_ENABLE_SPEC_V2": "0",
+    "PYTHONDONTWRITEBYTECODE": "1"
+  },
+  "conda_prefix": "/path/to/qualified/conda/environment",
+  "conda_bootstrap": "/path/to/conda/etc/profile.d/conda.sh"
+}
