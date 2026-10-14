@@ -32,7 +32,7 @@ import urllib.error
 import urllib.request
 
 HERE = Path(__file__).resolve().parent
-OUTPUT_CAP, INPUT_LIMIT, CONTEXT_LIMIT, BLOCK_SIZE = 512, 31744, 32768, 10
+OUTPUT_CAP, INPUT_LIMIT, CONTEXT_LIMIT, BLOCK_SIZE = 256, 31744, 32768, 10
 PREFILL_CHUNK_SIZE = 8192  # Pin the qualified A800 runtime default for every arm.
 MAX_CAPTURE_BYTES = 4 * 2**30
 USER_HEADER = '<|start_header_id|>user<|end_header_id|>\n\n'
@@ -174,6 +174,7 @@ def capture_modules(root):
         ("document['draft_version'] == 'released_F'", "document['draft_version'] in ('F', 'U1', 'U2')"),
         ('CONTEXT_LIMIT = 17408', f'CONTEXT_LIMIT = {CONTEXT_LIMIT}'),
         ('len(ids) <= 16384', f'len(ids) <= {INPUT_LIMIT}'),
+        ('OUTPUT_CAP = 512', f'OUTPUT_CAP = {OUTPUT_CAP}'),
     ])
     original_validate = records.validate
 
@@ -577,7 +578,7 @@ def _serving_entry(config):
         TV_TARGET_REGISTRY_SHA256=config['registry_sha256'], TV_TARGET_ID='T0',
         TV_TARGET_IDENTITY_SHA256=config['target']['identity_sha256'], TV_OUTPUT_CAP=str(OUTPUT_CAP),
         D181_SERVING_OUT=config['worker_out'])
-    import tv_d202_serving as entry
+    entry = serving_module(root)
     require(Path(entry.inherited.__file__).resolve() == root /
         'research/multiturn_online_setting_20261008/online_driver_d181/serving.py', 'Native serving import collision')
     install_context_guard(entry)
@@ -585,23 +586,61 @@ def _serving_entry(config):
 
 
 def install_context_guard(entry):
-    """Widen the shared SD/AR input guard in memory, preserving the source file."""
+    """Set shared SD/AR input/output guards together; preserve source bytes."""
     if hasattr(entry, '_two_update_context_compatibility'):
         receipt = entry._two_update_context_compatibility
-        require(receipt['input_limit'] == INPUT_LIMIT and receipt['context_limit'] == CONTEXT_LIMIT,
+        require(receipt['input_limit'] == INPUT_LIMIT and receipt['context_limit'] == CONTEXT_LIMIT and
+                receipt['output_cap'] == OUTPUT_CAP,
                 'Serving context guard was installed with different limits')
         return receipt
     before = ("require(isinstance(ids, list) and 0 < len(ids) <= 16384 and all(type(x) is int and x >= 0 for x in ids),\n"
               "            'Require one untruncated input-ID sequence of at most16384 tokens')")
     after = (f"require(isinstance(ids, list) and 0 < len(ids) <= {INPUT_LIMIT} and all(type(x) is int and x >= 0 for x in ids),\n"
              f"            'Require one untruncated input-ID sequence of at most{INPUT_LIMIT} tokens')")
-    function, receipt = entry.exact_guard_edit(entry._original_bridge.generate, before, after,
-                                              entry.inherited.__dict__)
+    # Apply both edits to one original source snapshot. Re-inspecting an already
+    # exec-compiled function can recover the physical file's old function body.
+    import inspect
+    import textwrap
+    original = entry._original_bridge.generate
+    source = textwrap.dedent(inspect.getsource(original))
+    cap_before = "1 <= params['max_new_tokens'] <= 512, 'Require pinned greedy sampling and1–512 token cap'"
+    cap_after = (f"1 <= params['max_new_tokens'] <= {OUTPUT_CAP}, "
+                 f"'Require pinned greedy sampling and1–{OUTPUT_CAP} token cap'")
+    require(source.count(before) == source.count(cap_before) == 1,
+            'Original shared input/output guards changed')
+    updated = source.replace(before, after).replace(cap_before, cap_after)
+    function, receipt = entry.exact_guard_edit(original, source, updated, entry.inherited.__dict__)
     entry._original_bridge.generate = function
-    receipt.update(input_limit=INPUT_LIMIT, context_limit=CONTEXT_LIMIT,
+    receipt.update(input_limit=INPUT_LIMIT, context_limit=CONTEXT_LIMIT, output_cap=OUTPUT_CAP,
                    scope='Common D181 base generate guard inherited by both SD and AR')
     entry._two_update_context_compatibility = receipt
     return receipt
+
+
+def serving_module(root):
+    """Admit cap 256 in the isolated TV wrapper, with one joint bridge edit."""
+    path = Path(root) / 'research/target_variant_specialization_001/native_tools/tv_d202_serving.py'
+    name = 'tv_d202_serving'
+    if name in sys.modules:
+        module = sys.modules[name]
+        require(hasattr(module, 'two_update_compatibility') and module.CAP == OUTPUT_CAP and
+                module.two_update_compatibility['source_sha256'] == sha(path),
+                'Serving module collision or output-cap compatibility differs')
+        return module
+    module = _load(path, name, [
+        ("require(CAP in (512, 1024, 2048), 'Unsupported campaign output cap')",
+         f"require(CAP == {OUTPUT_CAP}, 'Require declared two-update output cap')"),
+        ('if CAP != 512:', f'if CAP not in ({OUTPUT_CAP}, 512):'),
+    ])
+    # The native trace class is also shared by the subclass used for SD. AR's
+    # own trace constructor already uses module.CAP.
+    trace = sys.modules['trajectory_trace']
+    function, receipt = module.exact_guard_edit(trace.RequestTrace.__init__,
+        '1 <= max_new_tokens <= 512, "Unqualified output cap"',
+        f'1 <= max_new_tokens <= {OUTPUT_CAP}, "Unqualified output cap"', trace.__dict__)
+    trace.RequestTrace.__init__ = function
+    module.CAP_EDITS.append(receipt)
+    return module
 
 
 def serving_engine_kwargs(native, draft_path, *, is_ar):
@@ -681,6 +720,10 @@ class _ServingService:
         Engine.run_scheduler_process_func = staticmethod(_ar_scheduler if is_ar else _sd_scheduler)
         kwargs = serving_engine_kwargs(native, config['released']['path'], is_ar=is_ar)
         write_json(self.out / 'CONTEXT_COMPATIBILITY.json', install_context_guard(entry))
+        write_json(self.out / 'OUTPUT_CAP_COMPATIBILITY.json', {
+            'output_cap': OUTPUT_CAP, 'serving_module': entry.two_update_compatibility,
+            'trajectory_edits': entry.CAP_EDITS,
+            'scope': 'Current 256-token run; earlier 512-token results remain separate.'})
         write_json(self.out / 'ENGINE_KWARGS.json', kwargs)
         self.engine = Engine(**kwargs)
         if is_ar:

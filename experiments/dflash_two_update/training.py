@@ -20,6 +20,7 @@ import time
 BLOCK_SIZE = 10
 INPUT_LIMIT = 31744
 CONTEXT_LIMIT = 32768
+OUTPUT_CAP = 256
 RECIPE = dict(seed=17, learning_rate=3e-4, betas=(0.9, 0.999), eps=1e-8,
               weight_decay=0.01, gradient_clip=1.0, passes=2,
               responses_per_step=2, optimizer_steps_per_event=8,
@@ -112,7 +113,8 @@ def audit_response(response):
     require(type(response.get("turn")) is int, "Invalid response turn")
     require(type(response.get("input_token_count")) is int and response["input_token_count"] > 0,
             "Invalid response input boundary")
-    require(type(response.get("output_cap")) is int and response["output_cap"] > 0, "Invalid output cap")
+    require(type(response.get("output_cap")) is int and response["output_cap"] == OUTPUT_CAP,
+            "Invalid output cap; mixed-cap feedback is prohibited")
     require(_sha256(response.get("capture_checkpoint_sha256")), "Missing capture checkpoint hash")
     ids = response.get("input_ids")
     require(isinstance(ids, list) and len(ids) == response["input_token_count"] and

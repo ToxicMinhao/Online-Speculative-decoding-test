@@ -18,7 +18,7 @@ SCENARIOS = ("STABLE_CODE", "STABLE_MATH", "SHORT_CODE_FIRST",
              "SHORT_MATH_FIRST", "RANDOM_MIX")
 PHASES = ("context", "support", "evaluation_then_support", "final_evaluation")
 REPEATS = 3
-INPUT_LIMIT, CONTEXT_LIMIT, OUTPUT_CAP, BLOCK_SIZE = 31744, 32768, 512, 10
+INPUT_LIMIT, CONTEXT_LIMIT, OUTPUT_CAP, BLOCK_SIZE = 31744, 32768, 256, 10
 
 
 def require(ok, message):
@@ -78,7 +78,7 @@ def valid_result(result, input_ids, checkpoint, capture):
     ids = result.get("output_ids")
     require(isinstance(ids, list) and ids and all(type(x) is int and x >= 0 for x in ids),
             "Native output token IDs required")
-    require(len(ids) <= 512 and isinstance(result.get("text"), str), "Output cap/text contract differs")
+    require(len(ids) <= OUTPUT_CAP and isinstance(result.get("text"), str), "Output cap/text contract differs")
     require(type(result.get("request_s")) in (float, int) and
             math.isfinite(result["request_s"]) and result["request_s"] >= 0, "Invalid request timer")
     for key in ("accepted_draft_tokens", "verification_calls"):

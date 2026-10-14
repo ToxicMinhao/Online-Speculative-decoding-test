@@ -63,12 +63,16 @@ gradients still pass through its frozen output projection into the draft.
   response presentations. U2 continues Adam counters 9–16, not 1–8 again.
 - Qualified frozen Llama-3.1-8B-Instruct target and released DFlash-UltraChat
   model snapshots are checked through exact checkpoint/source hashes.
-- Greedy generation; 512 output-token cap with natural EOS; block size 10
+- Greedy generation; 256 output-token cap with natural EOS; block size 10
   (known seed plus nine proposals). Full input limit 31,744 and native total
   context limit 32,768 are checked independently, including the final proposal
   block beyond the output boundary. No history truncation. These common limits
   supersede the initial 16,384/17,408 admission after the retained turn-27
   overflow; qualification is required before the fresh experiment.
+- The user subsequently reduced the output cap from 512 to 256 for a faster
+  fresh run. Every arm, capture validator and training example uses 256; prior
+  512-token attempts remain separate and are not mixed into this comparison.
+  The last partial proposal block keeps the unchanged native cap/EOS mask.
 - Chunked prefill is pinned to the existing A800 default of 8,192 for SD and
   target-only AR. The recorder accepts contiguous initial-prefix pieces, but
   requires the complete prefix before drafting and preserves all checks on

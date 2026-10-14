@@ -73,7 +73,7 @@ class ContextLimitTests(unittest.TestCase):
         self.assertGreater(N.capture_memory_bound(), 2 * 2**30)
         self.assertLess(N.capture_memory_bound(), N.MAX_CAPTURE_BYTES)
         self.assertEqual(N.MAX_CAPTURE_BYTES, 4 * 2**30)
-        self.assertEqual(N.episode_storage_bound(2097259104), 34928840256)
+        self.assertEqual(N.episode_storage_bound(2097259104), 34425523776)
         self.assertGreater(N.episode_storage_bound(2097259104), 32 * 2**30)
 
     def test_controller_rejects_over_limit_before_backend_without_clipping(self):
@@ -163,7 +163,7 @@ class InstalledContextLimitTests(unittest.TestCase):
         self.assertIs(N.install_context_guard(entry), receipt)
         self.assertNotEqual(receipt['original_sha256'], receipt['effective_sha256'])
         sampling = {'temperature': 0, 'top_p': 1, 'top_k': 1,
-                    'max_new_tokens': 512, 'ignore_eos': False}
+                    'max_new_tokens': N.OUTPUT_CAP, 'ignore_eos': False}
         for cls in (sd, ar):
             instance = cls(); instance.blocked = None; instance.capture = False
             instance.engine = SimpleNamespace(generate=mock.Mock(return_value={'output_ids': [123]}))
@@ -173,6 +173,8 @@ class InstalledContextLimitTests(unittest.TestCase):
                 self.assertIs(instance.engine.generate.call_args.kwargs['input_ids'], ids)
             with self.assertRaisesRegex(ValueError, 'at most31744'):
                 instance.generate({'input_ids': [7] * 31745, 'sampling_params': sampling})
+            with self.assertRaisesRegex(ValueError, '1–256 token cap'):
+                instance.generate({'input_ids': [7], 'sampling_params': {**sampling, 'max_new_tokens': 257}})
             self.assertEqual(instance.engine.generate.call_count, 3)
         self.assertEqual(N.sha(path), before_hash)
 

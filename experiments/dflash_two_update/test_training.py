@@ -22,7 +22,7 @@ def response(turn, checkpoint=RELEASED):
     rid = f"episode:turn{turn}"
     result = dict(episode_id="episode", turn=turn, record_id=rid, target_id="T0",
                   target_identity_sha256=TARGET, capture_checkpoint_sha256=checkpoint,
-                  input_token_count=boundary, input_ids=list(range(boundary)), output_cap=512,
+                  input_token_count=boundary, input_ids=list(range(boundary)), output_cap=training.OUTPUT_CAP,
                   output_ids=[1, 2, 3, 4], eligible_block_count=2, eligible_position_count=10, blocks=[])
     for index, (offset, emitted, finished) in enumerate(((1, [2, 3], False), (3, [4], True))):
         anchor = boundary + offset - 1
@@ -118,7 +118,8 @@ class MaskAndScheduleTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "exposure"):
             training.audit_response(r)
         r = response(17, UPDATED)
-        r["output_cap"] = training.CONTEXT_LIMIT
+        r["input_token_count"] = training.INPUT_LIMIT + 1
+        r["input_ids"] = [1] * r["input_token_count"]
         with self.assertRaisesRegex(ValueError, "truncation forbidden"):
             training.audit_response(r)
 

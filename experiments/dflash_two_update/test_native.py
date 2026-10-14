@@ -49,7 +49,7 @@ def native_record(turn=17, version='U1'):
         'episode_id': 'R1-STABLE', 'turn': turn, 'record_id': 'R1-STABLE:t' + str(turn).zfill(2),
         'prompt_id': 'R1-STABLE:t' + str(turn).zfill(2), 'target_id': 'T0',
         'target_identity_sha256': 'a' * 64, 'draft_identity_sha256': 'b' * 64,
-        'capture_checkpoint_sha256': 'b' * 64, 'draft_version': version, 'output_cap': 512,
+        'capture_checkpoint_sha256': 'b' * 64, 'draft_version': version, 'output_cap': N.OUTPUT_CAP,
         'input_ids': ids, 'output_ids': output, 'input_ids_sha256': N.object_hash(ids),
         'output_ids_sha256': N.object_hash(output), 'input_token_count': len(ids),
         'feature_layers': [1, 8, 15, 22, 29], 'feature_boundary': 'raw_target_aux_before_all_draft_transforms',
