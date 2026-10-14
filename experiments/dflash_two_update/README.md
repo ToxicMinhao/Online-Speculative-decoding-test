@@ -64,12 +64,21 @@ gradients still pass through its frozen output projection into the draft.
 - Qualified frozen Llama-3.1-8B-Instruct target and released DFlash-UltraChat
   model snapshots are checked through exact checkpoint/source hashes.
 - Greedy generation; 512 output-token cap with natural EOS; block size 10
-  (known seed plus nine proposals). Full input limit 16,384 and native total
-  context limit 17,408 are checked independently. No history truncation.
+  (known seed plus nine proposals). Full input limit 31,744 and native total
+  context limit 32,768 are checked independently, including the final proposal
+  block beyond the output boundary. No history truncation. These common limits
+  supersede the initial 16,384/17,408 admission after the retained turn-27
+  overflow; qualification is required before the fresh experiment.
 - Chunked prefill is pinned to the existing A800 default of 8,192 for SD and
   target-only AR. The recorder accepts contiguous initial-prefix pieces, but
   requires the complete prefix before drafting and preserves all checks on
   verified versus rejected generated rows. It does not alter native scheduling.
+- Serving, capture validation and training replay all use this same 32K total
+  limit. Historical dependency files remain byte-identical; exact in-memory
+  compatibility edits and their hashes are recorded. Capture has a 4GiB host
+  allowance; admission includes retained tensors and temporary prefix
+  concatenation. The episode storage bound increases with the input ceiling
+  and includes all sixteen records, both exports and both optimizer states.
 - Qualified cold prefix-cache policy before every request; normal native KV
   reuse within a request. All methods use the same saved complete input.
 

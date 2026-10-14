@@ -18,7 +18,8 @@ import time
 
 
 BLOCK_SIZE = 10
-CONTEXT_LIMIT = 17408
+INPUT_LIMIT = 31744
+CONTEXT_LIMIT = 32768
 RECIPE = dict(seed=17, learning_rate=3e-4, betas=(0.9, 0.999), eps=1e-8,
               weight_decay=0.01, gradient_clip=1.0, passes=2,
               responses_per_step=2, optimizer_steps_per_event=8,
@@ -118,7 +119,8 @@ def audit_response(response):
             all(type(v) is int and v >= 0 for v in ids), "Input token inventory/boundary differs")
     if "input_ids_sha256" in response:
         require(digest(ids) == response["input_ids_sha256"], "Input token hash differs")
-    require(response["input_token_count"] + response["output_cap"] <= CONTEXT_LIMIT,
+    require(response["input_token_count"] <= INPUT_LIMIT and
+            response["input_token_count"] + response["output_cap"] + BLOCK_SIZE - 1 <= CONTEXT_LIMIT,
             "Full accumulated history plus output cap exceeds limit; truncation forbidden")
     blocks = response.get("blocks")
     require(isinstance(blocks, list) and blocks, "Response has no captured blocks")

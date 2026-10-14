@@ -32,8 +32,9 @@ import urllib.error
 import urllib.request
 
 HERE = Path(__file__).resolve().parent
-OUTPUT_CAP, INPUT_LIMIT, CONTEXT_LIMIT, BLOCK_SIZE = 512, 16384, 17408, 10
+OUTPUT_CAP, INPUT_LIMIT, CONTEXT_LIMIT, BLOCK_SIZE = 512, 31744, 32768, 10
 PREFILL_CHUNK_SIZE = 8192  # Pin the qualified A800 runtime default for every arm.
+MAX_CAPTURE_BYTES = 4 * 2**30
 USER_HEADER = '<|start_header_id|>user<|end_header_id|>\n\n'
 ASSISTANT_HEADER = '<|start_header_id|>assistant<|end_header_id|>\n\n'
 EOT = '<|eot_id|>'
@@ -105,8 +106,9 @@ def check_dependencies(workspace_root):
 def check_input(ids):
     require(isinstance(ids, list) and 0 < len(ids) <= INPUT_LIMIT and
             all(type(x) is int and 0 <= x < 128256 for x in ids),
-            'Exact complete input must fit 16384 tokens; truncation is prohibited')
-    require(len(ids) + OUTPUT_CAP <= CONTEXT_LIMIT, 'Complete history exceeds native context')
+            f'Exact complete input must fit {INPUT_LIMIT} tokens; truncation is prohibited')
+    require(len(ids) + OUTPUT_CAP + BLOCK_SIZE - 1 <= CONTEXT_LIMIT,
+            'Complete history, output and final proposals exceed native context')
 
 
 def encode_history(tokenizer, messages):
@@ -170,6 +172,8 @@ def capture_modules(root):
     records = _load(directory / 'records.py', 'records', [
         ("ALLOWED_ROLES = {'Q', 'FAST_W8_SUPPORT'}", "ALLOWED_ROLES = {'TWO_UPDATE_SUPPORT'}"),
         ("document['draft_version'] == 'released_F'", "document['draft_version'] in ('F', 'U1', 'U2')"),
+        ('CONTEXT_LIMIT = 17408', f'CONTEXT_LIMIT = {CONTEXT_LIMIT}'),
+        ('len(ids) <= 16384', f'len(ids) <= {INPUT_LIMIT}'),
     ])
     original_validate = records.validate
 
@@ -302,6 +306,14 @@ def episode_storage_bound(model_bytes):
     return 16 * response + 6 * model_bytes + 512 * 2**20
 
 
+def capture_memory_bound():
+    """One response: retained tensors plus prefix concatenation/copy overlap."""
+    context = (INPUT_LIMIT + OUTPUT_CAP - 1) * 20480 * 2
+    teacher = (OUTPUT_CAP - 1) * BLOCK_SIZE * 4096 * 2
+    branch = BLOCK_SIZE * 20480 * 2
+    return 2 * context + teacher + 2 * branch + 64 * 2**20
+
+
 class _WorkerClient:
     def __init__(self, config, kind, out):
         self.config, self.kind, self.out = config, kind, Path(out)
@@ -401,6 +413,9 @@ class NativeBackend:
                 'Resident trainer requires a separate assigned GPU')
         require(cfg.get('output_cap', OUTPUT_CAP) == OUTPUT_CAP and cfg.get('block_size', BLOCK_SIZE) == BLOCK_SIZE,
                 'Qualified decoding geometry is fixed')
+        capture_bytes = cfg.get('max_capture_bytes', MAX_CAPTURE_BYTES)
+        require(type(capture_bytes) is int and capture_bytes >= capture_memory_bound(),
+                'Capture allowance must cover the complete prefix and serialization overlap')
         require(cfg['runtime_source_sha256'] == dependencies['runtime_source_sha256'] and
                 REQUIRED_RUNTIME <= set(cfg['runtime_source_sha256']), 'Exact qualified collector runtime pins required')
         reserve = cfg.get('reserve_bytes', 8 * 2**30)
@@ -430,6 +445,11 @@ class NativeBackend:
         self.out, self.episode_id = out, episode_id
         self.config = {**cfg, 'episode_id': episode_id, 'episode_out': str(out), 'target': target,
             'released': frozen, 'registry_path': str(models_path), 'registry_sha256': sha(models_path),
+            'max_capture_bytes': capture_bytes,
+            'effective_limits': {'input_tokens': INPUT_LIMIT, 'total_context_tokens': CONTEXT_LIMIT,
+                'output_tokens': OUTPUT_CAP, 'proposal_block_tokens': BLOCK_SIZE,
+                'chunked_prefill_tokens': PREFILL_CHUNK_SIZE,
+                'capture_memory_bound_bytes': capture_memory_bound()},
             'tokenizer_path': models.get('tokenizer_path', target['model_path']),
             'public_source_sha256': {name: sha(HERE / name) for name in ('native.py', 'training.py', 'native_dependencies.json')}}
         from transformers import AutoTokenizer
@@ -560,7 +580,47 @@ def _serving_entry(config):
     import tv_d202_serving as entry
     require(Path(entry.inherited.__file__).resolve() == root /
         'research/multiturn_online_setting_20261008/online_driver_d181/serving.py', 'Native serving import collision')
+    install_context_guard(entry)
     return entry
+
+
+def install_context_guard(entry):
+    """Widen the shared SD/AR input guard in memory, preserving the source file."""
+    if hasattr(entry, '_two_update_context_compatibility'):
+        receipt = entry._two_update_context_compatibility
+        require(receipt['input_limit'] == INPUT_LIMIT and receipt['context_limit'] == CONTEXT_LIMIT,
+                'Serving context guard was installed with different limits')
+        return receipt
+    before = ("require(isinstance(ids, list) and 0 < len(ids) <= 16384 and all(type(x) is int and x >= 0 for x in ids),\n"
+              "            'Require one untruncated input-ID sequence of at most16384 tokens')")
+    after = (f"require(isinstance(ids, list) and 0 < len(ids) <= {INPUT_LIMIT} and all(type(x) is int and x >= 0 for x in ids),\n"
+             f"            'Require one untruncated input-ID sequence of at most{INPUT_LIMIT} tokens')")
+    function, receipt = entry.exact_guard_edit(entry._original_bridge.generate, before, after,
+                                              entry.inherited.__dict__)
+    entry._original_bridge.generate = function
+    receipt.update(input_limit=INPUT_LIMIT, context_limit=CONTEXT_LIMIT,
+                   scope='Common D181 base generate guard inherited by both SD and AR')
+    entry._two_update_context_compatibility = receipt
+    return receipt
+
+
+def serving_engine_kwargs(native, draft_path, *, is_ar):
+    """One context/chunk envelope for frozen, updated and target-only engines."""
+    kwargs = native.engine_kwargs(draft_path)
+    kwargs['context_length'] = CONTEXT_LIMIT
+    kwargs['chunked_prefill_size'] = PREFILL_CHUNK_SIZE
+    if is_ar:
+        for name in ('speculative_draft_model_path', 'speculative_algorithm', 'speculative_num_draft_tokens'):
+            kwargs.pop(name)
+    return kwargs
+
+
+def replay_module(root):
+    return _load(Path(root) / 'research/fast_w8_001/training/replay.py', 'two_update_w8_replay', [
+        ('SERVING_CONTEXT = 17408', f'SERVING_CONTEXT = {CONTEXT_LIMIT}'),
+        ('Complete context+proposal exceeds native17408; cannot truncate or copy old16896 pad limit',
+         f'Complete context+proposal exceeds native{CONTEXT_LIMIT}; truncation prohibited'),
+    ])
 
 
 def _sd_scheduler(*args, **kwargs):
@@ -578,7 +638,7 @@ def _sd_scheduler(*args, **kwargs):
                     pending['draft_version'] == active['checkpoint_id'] and
                     pending['prompt_id'] == self.context['conversation_id'], 'Capture is bound to a stale/different draft')
             self.feature_capture = cache.ResponseCapture(pending, self.input_ids,
-                max_bytes=config.get('max_capture_bytes', 2 * 2**30)) if pending['capture'] else None
+                max_bytes=config.get('max_capture_bytes', MAX_CAPTURE_BYTES)) if pending['capture'] else None
 
         def finish(self, output_ids, meta):
             value = super().finish(output_ids, meta)
@@ -619,11 +679,8 @@ class _ServingService:
         from sglang.srt.entrypoints.engine import Engine
         is_ar = config['kind'] == 'ar'
         Engine.run_scheduler_process_func = staticmethod(_ar_scheduler if is_ar else _sd_scheduler)
-        kwargs = native.engine_kwargs(config['released']['path'])
-        kwargs['chunked_prefill_size'] = PREFILL_CHUNK_SIZE
-        if is_ar:
-            for name in ('speculative_draft_model_path', 'speculative_algorithm', 'speculative_num_draft_tokens'):
-                kwargs.pop(name)
+        kwargs = serving_engine_kwargs(native, config['released']['path'], is_ar=is_ar)
+        write_json(self.out / 'CONTEXT_COMPATIBILITY.json', install_context_guard(entry))
         write_json(self.out / 'ENGINE_KWARGS.json', kwargs)
         self.engine = Engine(**kwargs)
         if is_ar:
@@ -779,9 +836,10 @@ class _TrainerService:
         qualified_native.CORE.verify_checkpoint(draft, config['released']['path'])
         self.records, _ = capture_modules(root)
         sys.path.insert(0, str(root / 'research/fast_w8_001/training'))
-        replay = _load(root / 'research/fast_w8_001/training/replay.py', 'two_update_w8_replay')
+        replay = replay_module(root)
+        write_json(self.out / 'REPLAY_COMPATIBILITY.json', replay.two_update_compatibility)
         self.backend = replay.NativeReplay(draft, {'T0': self.components}, ReplayRecords(self.records),
-            identities={'T0': config['target']['identity_sha256']})
+            identities={'T0': config['target']['identity_sha256']}, context_limit=CONTEXT_LIMIT)
         self.backend.activate('T0')
         training = _load(HERE / 'training.py', 'two_update_persistent_training')
         self.trainer = training.PersistentFullKLTrainer(draft, self.backend, episode_id=config['episode_id'],

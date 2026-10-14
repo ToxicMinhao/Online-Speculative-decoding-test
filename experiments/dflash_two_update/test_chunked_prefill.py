@@ -96,9 +96,11 @@ class ChunkedPrefillTests(unittest.TestCase):
                              finished=False, commit_rows=2)
 
     def test_single_and_chunked_prefill_keep_identical_rows_and_accounting(self):
-        # 8431 reproduces the failed turn. 16384 is the experiment input ceiling.
+        # 8431 reproduces the failed turn. Longer cases cover the 32K extension.
         for size, chunks in ((8192, [8192]), (8431, [8192, 239]),
-                             (16384, [8192, 8192]), (8431, [4096, 4096, 239])):
+                             (16384, [8192, 8192]), (8431, [4096, 4096, 239]),
+                             (25930, [8192, 8192, 8192, 1354]),
+                             (31744, [8192, 8192, 8192, 7168])):
             with self.subTest(size=size, chunks=chunks):
                 full, split = self.capture(size), self.capture(size)
                 self.append(full, 0, size)

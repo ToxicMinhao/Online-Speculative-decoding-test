@@ -80,7 +80,7 @@ class NativeContractTests(unittest.TestCase):
             N.encode_history(Tokenizer(), [{'role': 'user', 'content': 'x'},
                 {'role': 'assistant', 'content': 'answer'}, {'role': 'user', 'content': 'y'}])
         with self.assertRaisesRegex(ValueError, 'truncation'):
-            N.check_input([1] * 16385)
+            N.check_input([1] * (N.INPUT_LIMIT + 1))
 
     def test_first_and_later_prompt_trimming_fails_visibly(self):
         with self.assertRaisesRegex(ValueError, 'silent rewrite'):

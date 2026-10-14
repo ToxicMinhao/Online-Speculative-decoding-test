@@ -18,6 +18,7 @@ SCENARIOS = ("STABLE_CODE", "STABLE_MATH", "SHORT_CODE_FIRST",
              "SHORT_MATH_FIRST", "RANDOM_MIX")
 PHASES = ("context", "support", "evaluation_then_support", "final_evaluation")
 REPEATS = 3
+INPUT_LIMIT, CONTEXT_LIMIT, OUTPUT_CAP, BLOCK_SIZE = 31744, 32768, 512, 10
 
 
 def require(ok, message):
@@ -96,7 +97,7 @@ def call(backend, input_ids, checkpoint, *, capture, turn, repeat=None):
     require(type(turn) is int and 1 <= turn <= 32, "Invalid turn")
     require(input_ids and all(type(x) is int and x >= 0 for x in input_ids), "Invalid input tokens")
     # These are the qualified independent limits, not a history-truncation policy.
-    require(len(input_ids) <= 16384 and len(input_ids) + 512 <= 17408,
+    require(len(input_ids) <= INPUT_LIMIT and len(input_ids) + OUTPUT_CAP + BLOCK_SIZE - 1 <= CONTEXT_LIMIT,
             "Full accumulated history exceeds qualified context; truncation prohibited")
     result = backend.serve(list(input_ids), checkpoint, capture=capture, turn_index=turn, repeat=repeat)
     valid_result(result, input_ids, checkpoint, capture)

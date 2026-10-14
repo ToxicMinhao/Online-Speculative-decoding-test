@@ -48,7 +48,7 @@ class FakeBackend:
                 ids.extend(message["output_ids"])
         turn = int(messages[-1]["content"].split()[-1])
         if turn == self.overflow_turn:
-            ids.extend([99] * (16385 - len(ids)))
+            ids.extend([99] * (experiment.INPUT_LIMIT + 1 - len(ids)))
         self.encoded.append({"episode": self.episode, "messages": copy.deepcopy(messages),
                              "turn": turn, "input_ids": list(ids)})
         return ids
@@ -204,7 +204,7 @@ class ExperimentProtocolTests(unittest.TestCase):
         self.assertEqual(result["status"], "failed")
         self.assertIn("truncation prohibited", result["error"])
         self.assertEqual(len(result["canonical"]), 16)
-        self.assertEqual(len(backend.encoded[-1]["input_ids"]), 16385)
+        self.assertEqual(len(backend.encoded[-1]["input_ids"]), experiment.INPUT_LIMIT + 1)
         self.assertEqual(len(backend.encoded[-1]["messages"]), 33)
         self.assertFalse(any(event["kind"] == "serve" and event["turn"] >= 17 for event in backend.events))
         self.assertEqual(len(result["updates"]), 1)
