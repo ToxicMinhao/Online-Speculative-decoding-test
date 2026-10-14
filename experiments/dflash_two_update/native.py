@@ -33,6 +33,7 @@ import urllib.request
 
 HERE = Path(__file__).resolve().parent
 OUTPUT_CAP, INPUT_LIMIT, CONTEXT_LIMIT, BLOCK_SIZE = 512, 16384, 17408, 10
+PREFILL_CHUNK_SIZE = 8192  # Pin the qualified A800 runtime default for every arm.
 USER_HEADER = '<|start_header_id|>user<|end_header_id|>\n\n'
 ASSISTANT_HEADER = '<|start_header_id|>assistant<|end_header_id|>\n\n'
 EOT = '<|eot_id|>'
@@ -191,6 +192,18 @@ def capture_modules(root):
         ("declaration['role'] in ('Q', 'FAST_W8_SUPPORT')", "declaration['role'] == 'TWO_UPDATE_SUPPORT'"),
         ("draft_version='released_F'", "draft_version=self.declaration['draft_version']"),
         ('        validate(doc)', '        add_response_ownership(doc)\n        validate(doc)'),
+        # Initial prompt features arrive once per native prefill chunk. Keep
+        # the existing absolute-position and verified-branch checks, allowing
+        # unverified appends only inside the original, contiguous input prefix.
+        ("require(self.context_rows == 0 and len(raw) == len(self.input_ids),\n"
+         "                    'Only first prefill may append without a verified branch')",
+         "require(self.active is None and not self.blocks and\n"
+         "                    self.context_rows < len(self.input_ids) and\n"
+         "                    self.context_rows + len(raw) <= len(self.input_ids),\n"
+         "                    'Only contiguous initial prefill may append without a verified branch')"),
+        ("require(self.active is None and self.last_branch is None, 'Previous block not committed')",
+         "require(self.active is None and self.last_branch is None, 'Previous block not committed')\n"
+         "        require(self.context_rows >= len(self.input_ids), 'Initial prefill is incomplete')"),
     ])
     cache.add_response_ownership = add_response_ownership
     return records, cache
@@ -607,6 +620,7 @@ class _ServingService:
         is_ar = config['kind'] == 'ar'
         Engine.run_scheduler_process_func = staticmethod(_ar_scheduler if is_ar else _sd_scheduler)
         kwargs = native.engine_kwargs(config['released']['path'])
+        kwargs['chunked_prefill_size'] = PREFILL_CHUNK_SIZE
         if is_ar:
             for name in ('speculative_draft_model_path', 'speculative_algorithm', 'speculative_num_draft_tokens'):
                 kwargs.pop(name)

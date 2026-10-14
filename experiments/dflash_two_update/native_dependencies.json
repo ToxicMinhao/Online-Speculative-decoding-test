@@ -3,7 +3,9 @@
     "Version-bound current draft F/U1 support metadata and explicit loss ownership; native feature/verification math unchanged.",
     "Cold publication allowlist admits verified episode U1/U2 exports through existing idle/flush/native-load/fused-helper-refresh transaction.",
     "One persistent full-weight trainer and AdamW instance for both events.",
-    "Original emitted assistant tokens retained in complete causal history."
+    "Original emitted assistant tokens retained in complete causal history.",
+    "Experiment-local recorder adapter accepts contiguous initial prefill chunks, requires complete input before drafting, and retains verified-branch checks; historical collector is unchanged.",
+    "Native chunked prefill is explicitly fixed to the existing A800 default of 8192 for all SD and AR arms."
   ],
   "qualification_status": "new integration requires bounded GPU checks before scientific execution",
   "qualified_model_bindings": {

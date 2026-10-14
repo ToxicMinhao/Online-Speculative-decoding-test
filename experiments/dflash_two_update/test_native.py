@@ -213,7 +213,10 @@ class InstalledSourceTests(unittest.TestCase):
                 self.records.validate(document)
 
     def test_capture_compatibility_is_exact_and_recorded(self):
-        self.assertEqual(len(self.cache.two_update_compatibility['edits']), 3)
+        self.assertEqual(len(self.cache.two_update_compatibility['edits']), 5)
+        changes = self.cache.two_update_compatibility['edits']
+        self.assertIn('Only contiguous initial prefill', changes[3]['after'])
+        self.assertIn('Initial prefill is incomplete', changes[4]['after'])
         self.assertIn("draft_version=self.declaration['draft_version']",
                       [row['after'] for row in self.cache.two_update_compatibility['edits']])
 

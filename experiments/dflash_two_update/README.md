@@ -5,9 +5,8 @@ Compare it with the same released frozen DFlash; target-only autoregressive
 generation supplies a timing reference. This is an OSD-style DFlash control,
 not an exact reproduction of published OSD.
 
-This commit contains implementation and CPU validation. **No new model
-generation, GPU qualification, training run, or scientific result is included.**
-Dataset artifacts and local review receipts stay outside the repository.
+This repository contains implementation and tests. Dataset artifacts, native
+qualification receipts, experiment outputs and model files remain outside it.
 
 ## What is tested
 
@@ -67,6 +66,10 @@ gradients still pass through its frozen output projection into the draft.
 - Greedy generation; 512 output-token cap with natural EOS; block size 10
   (known seed plus nine proposals). Full input limit 16,384 and native total
   context limit 17,408 are checked independently. No history truncation.
+- Chunked prefill is pinned to the existing A800 default of 8,192 for SD and
+  target-only AR. The recorder accepts contiguous initial-prefix pieces, but
+  requires the complete prefix before drafting and preserves all checks on
+  verified versus rejected generated rows. It does not alter native scheduling.
 - Qualified cold prefix-cache policy before every request; normal native KV
   reuse within a request. All methods use the same saved complete input.
 
