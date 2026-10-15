@@ -1,8 +1,8 @@
 # DFlash two-update follow-up comparison
 
-Implementation for review. **No follow-up GPU experiment has run.** The next
-execution gate is user review of this code. CPU tests establish protocol and
-small-fixture numerical checks, not native capacity or research results.
+**Native qualification passed; the ten-session campaign is authorized after
+storage admission.** See [VALIDATION.md](VALIDATION.md) for the completed checks.
+Qualification establishes execution readiness, not scientific benefit.
 
 Two questions are tested with the existing ten R1/R2 development sessions:
 
@@ -101,9 +101,13 @@ once. Benchmark replays and one-time loading remain separate from that session;
 actual experiment wall time includes them. Missing timings are unmeasured, not
 zero. No complete frozen-session speedup is invented from the partial score windows.
 
-Keep original and new checkpoints, optimizer recovery states, exact tokens,
-configuration/source hashes, anchors, raw timings, output checks and failures.
-This entry point performs no cleanup and never overwrites a prior attempt.
+Keep original and new model checkpoints, exact tokens, configuration/source
+hashes, anchors, raw timings, output checks and failures. Preserve optimizer
+recovery states for active or failed sessions. Under the approved storage policy,
+a separate operational controller may retire only a fully completed session's
+optimizer files after validation and a verified compact evidence archive; record
+the exact removed paths and loss of optimizer continuation. This scientific
+entry point performs no cleanup and never overwrites a prior attempt.
 
 ## Review and later execution
 
@@ -138,7 +142,7 @@ python experiments/dflash_two_update_followup/run.py run --comparison both \
 Use [runtime_config.example.json](runtime_config.example.json) with the qualified
 installation; it is not a portable standalone environment. The bridge verifies
 the existing runtime pins in `../dflash_two_update/native_dependencies.json`,
-the author sources and both code trees. A native GPU qualification remains
-required for this new teacher/trainer integration before the full campaign.
+the author sources and both code trees. The native GPU qualification for this
+teacher/trainer integration has passed; scientific efficacy remains untested.
 The inherited storage gate is conservative and includes a reserve and checkpoint
 overlap. Review available space and active jobs before any server session.
