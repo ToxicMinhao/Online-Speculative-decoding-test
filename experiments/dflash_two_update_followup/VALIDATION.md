@@ -1,8 +1,39 @@
 # Implementation validation — October 15, 2026
 
+## Retained-author replay extension — awaiting review
+
+- **71 follow-up CPU tests passed, zero skipped**, including 21 new replay
+  tests and the existing pinned-author numerical comparisons.
+- **81 existing two-update regression tests passed, zero skipped.** Installed
+  source checks were enabled. Total: 152 passing CPU tests.
+- All ten actual compact original/author result pairs pass the new reference
+  validation without loading a model or reading retired optimizer states.
+- The real CLI metadata plan specifies 720 scores over the ten admitted
+  development episodes, zero generated histories, zero updates and zero
+  optimizer steps. R3/R4 remain reserved.
+- Replay tests cover exact F/A1/A2 identities, the completed manifest/state/
+  retention/result chain, wrong or altered inputs, foreign checkpoint paths,
+  no training/capture, rotating fresh repeats, immutable saved contexts,
+  mismatch preservation, A2/A1 arithmetic and complete CSV output.
+- Independent review found two issues before upload: foreign-episode checkpoint
+  paths needed a stricter guard, and a capture-contaminated final score could
+  leave a complete matrix with a falsely valid timing comparison. Both are
+  repaired and covered by regression tests; raw failed rows remain retained.
+- CPU environment: Python 3.10.18, PyTorch 2.11.0+cu130, user-site packages
+  disabled and `CUDA_VISIBLE_DEVICES` empty. No GPU experiment or A800 operation
+  was performed for this extension. The initial wrong-environment test failure
+  is preserved in the local implementation record.
+
+The previous native qualification below applies to the original integration.
+It does not replace review or native admission checks for the new retained-author
+entry point. See [AUTHOR_REPLAY.md](AUTHOR_REPLAY.md). The original ten-session
+campaign is complete; this new replay is not started.
+
+## Original integration qualification
+
 CPU implementation checks and the subsequently authorized native GPU qualification
 have passed. These are execution/correctness checks, not scientific efficacy
-results. The full ten-session campaign has not started.
+results. The following records describe the qualification before that campaign.
 
 ## Completed checks
 

@@ -25,7 +25,7 @@ OUTPUT_CAP, BLOCK_SIZE = _base.OUTPUT_CAP, _base.BLOCK_SIZE
 digest, require, load_dataset = _base.digest, _base.require, _base.load_dataset
 AUTHOR_ARM = "AdaFlash OSD training path under our session protocol"
 AUTHOR_COMMIT = "507b7aba5fbccaa99a400f161e4f2794ba6a388c"
-MODES = ("checkpoints-only", "author-path", "both")
+MODES = ("checkpoints-only", "author-path", "both", "author-replay")
 
 
 def validate_episode(rows, *, allow_reserved=False):
@@ -66,7 +66,8 @@ def plan(streams, mode="both"):
                          "author_path": {"updates_after_turns": [16, 24],
                                          "support_turns": [list(range(9, 17)), list(range(17, 25))],
                                          "early_methods": ["F", "C1", "A1"],
-                                         "final_methods": ["F", "C1", "C2", "A2"]}})
+                                         "final_methods": ["F", "C1", "C2", "A2"]},
+                         "author_replay": {"turns": list(range(25, 33)), "methods": ["F", "A1", "A2"]}})
     author = mode in ("author-path", "both")
     comparison = mode == "checkpoints-only"
     return {"schema_version": 1, "status": "review_only", "gpu_launch_authorized": False,
@@ -77,11 +78,13 @@ def plan(streams, mode="both"):
             "response_presentations_total": 320 if author else 0,
             "canonical_request_executions": 320 if author else 0,
             "checkpoint_comparison_executions": 720 if comparison else 0,
+            "author_replay_score_executions": 720 if mode == "author-replay" else 0,
             "author_path_score_executions": 1680 if author else 0,
             "total_score_executions": 1680 if author else 720,
             "notes": ["Metadata-only plan; no native backend, remote command or GPU launch.",
                       "Author-path final scoring includes the requested F/C1/C2 comparison contemporaneously.",
                       "Both mode reuses the author-path final F/C1/C2 matrix; it does not execute duplicate comparisons.",
+                      "Author-replay loads retained A1/A2 and makes 720 fresh F/A1/A2 scores; no histories or updates are generated.",
                       "Timing repeats are measurements, never training data or independent prompts.",
                       "R3/R4 remain reserved. All scores replay original saved canonical inputs.",
                       "All serving disables proposed-block tensor capture; support stores only committed token metadata."]}
@@ -169,6 +172,83 @@ def validate_reference(reference, rows):
             require(score.get("output_ids") == item["output_ids"] and
                     score.get("canonical_output_match") is True, "Reference SD preservation failed")
     return reference
+
+
+def author_checkpoint_identities(reference, author_reference):
+    return {"F": reference["canonical"][0]["checkpoint_identity_sha256"],
+            **{update["checkpoint_id"]: update["checkpoint"]["checkpoint_identity_sha256"]
+               for update in author_reference["updates"]}}
+
+
+def validate_author_reference(author_reference, reference, rows=None):
+    """Validate retained author evidence without opening training/optimizer files."""
+    if rows is not None:
+        validate_reference(reference, rows)
+    source_binding = reference.get("source_binding", {})
+    require(reference.get("status") == "complete" and _sha(source_binding.get("file_sha256")) and
+            _sha(source_binding.get("uncompressed_sha256")) and source_binding.get("result_sha256") ==
+            digest({key: value for key, value in reference.items() if key != "source_binding"}),
+            "Original reference source binding is absent or changed")
+    author = author_reference
+    require(isinstance(author, dict) and author.get("status") == "complete" and
+            author.get("mode") == "author-path", "Retained author result is incomplete or has the wrong mode")
+    require(all(author.get(key) == reference.get(key) for key in ("episode_id", "scenario", "replica")) and
+            author.get("replica") in (1, 2) and author.get("author_commit") == AUTHOR_COMMIT,
+            "Retained author episode or recipe differs")
+    binding = author.get("source_binding", {})
+    require(_sha(binding.get("file_sha256")) and _sha(binding.get("uncompressed_sha256")) and
+            binding.get("result_sha256") == digest({k: v for k, v in author.items() if k != "source_binding"}),
+            "Retained author source binding is absent or changed")
+    original = author.get("reference_source_binding", {})
+    require(all(original.get(key) == reference["source_binding"].get(key) for key in
+                ("file_sha256", "uncompressed_sha256", "result_sha256")),
+            "Retained author result refers to a different original reference")
+    require(author.get("cleanup", {}).get("status") == "passed", "Retained author cleanup did not pass")
+    updates = author.get("updates")
+    require(isinstance(updates, list) and len(updates) == 2, "Retained author needs two completed updates")
+    for event, update in enumerate(updates, 1):
+        checkpoint = update.get("checkpoint", {})
+        require(update.get("status") == "passed" and update.get("checkpoint_id") == f"A{event}" and
+                update.get("optimizer_steps") == event * 8 and checkpoint.get("checkpoint_id") == f"A{event}" and
+                isinstance(checkpoint.get("path"), str) and bool(checkpoint["path"]) and
+                update.get("checkpoint_path") == checkpoint["path"], "Retained author update completion differs")
+        files = checkpoint.get("files", {})
+        require(all(isinstance(files.get(name), dict) and _sha(files[name].get("sha256")) and
+                    type(files[name].get("bytes")) is int and files[name]["bytes"] > 0
+                    for name in ("config.json", "model.safetensors", "version.txt")) and
+                checkpoint.get("checkpoint_identity_sha256") == digest(files),
+                "Retained author checkpoint file binding differs")
+    identities = {**checkpoint_identities(reference), **author_checkpoint_identities(reference, author)}
+    canonical = author.get("canonical")
+    require(isinstance(canonical, list) and len(canonical) == 32, "Retained author needs 32 canonical turns")
+    for turn, item in enumerate(canonical, 1):
+        label = "F" if turn <= 16 else ("A1" if turn <= 24 else "A2")
+        saved = reference["canonical"][turn - 1]
+        require(item.get("turn") == turn and item.get("episode_id") == author["episode_id"] and
+                item.get("question_id") == saved["question_id"] and item.get("phase") == saved["phase"] and
+                item.get("checkpoint_id") == label and item.get("checkpoint_identity_sha256") == identities[label],
+                "Retained author canonical chronology or weights differ")
+        _tokens(item.get("input_ids"), "retained author input", maximum=INPUT_LIMIT)
+        _tokens(item.get("output_ids"), "retained author output", maximum=OUTPUT_CAP)
+        require(item.get("input_ids_sha256") == digest(item["input_ids"]), "Retained author input hash differs")
+        _capture_off(item)
+    support = author.get("support")
+    require(isinstance(support, list) and [row.get("support_turn") for row in support] == list(range(9, 25)),
+            "Retained author support schedule differs")
+    scores = author.get("scores")
+    expected = {(turn, repeat, method) for turn in range(17, 33) for repeat in range(REPEATS)
+                for method in (["F", "C1", "A1"] if turn <= 24 else ["F", "C1", "C2", "A2"])}
+    require(isinstance(scores, list) and len(scores) == 168 and
+            {(row.get("turn"), row.get("repeat"), row.get("checkpoint_id")) for row in scores} == expected,
+            "Retained author scores incomplete or duplicated")
+    for score in scores:
+        saved = reference["canonical"][score["turn"] - 1]
+        require(score.get("input_ids_sha256") == digest(saved["input_ids"]) and
+                score.get("output_ids") == saved["output_ids"] and score.get("same_generation_valid") is True and
+                score.get("checkpoint_identity_sha256") == identities[score["checkpoint_id"]],
+                "Retained author scored inputs, outputs or weights differ")
+        _capture_off(score)
+    return author
 
 
 def method_order(methods, repeat, episode_index):
@@ -284,6 +364,27 @@ def run_checkpoint_comparison(rows, reference, backend, *, emit=lambda kind, dat
         score_window(backend, reference["canonical"][24:32], ["F", "C1", "C2"],
                      episode_index=episode_index, identities=checkpoint_identities(reference),
                      emit=emit, destination=result["scores"])
+        result["status"] = "complete"
+    except Exception as error:
+        result.update(status="failed", error=repr(error))
+        emit("failure", {"error": repr(error), "completed_scores": len(result["scores"])})
+    finally:
+        _finish(result, backend, started, emit)
+    return result
+
+
+def run_author_replay(rows, reference, author_reference, backend, *, emit=lambda kind, data: None):
+    """Fresh F/A1/A2 final-input scores using retained weights; no learning."""
+    episode_index = validate_episode(rows)
+    validate_author_reference(author_reference, reference, rows)
+    result, started = _result(rows, reference, "author-replay"), time.monotonic()
+    identities = author_checkpoint_identities(reference, author_reference)
+    result["retained_author_source_binding"] = copy.deepcopy(author_reference["source_binding"])
+    result["retained_author_checkpoints"] = identities
+    try:
+        backend.start_episode(result["episode_id"], reference=reference, author_reference=author_reference)
+        score_window(backend, reference["canonical"][24:32], ["F", "A1", "A2"],
+                     episode_index=episode_index, identities=identities, emit=emit, destination=result["scores"])
         result["status"] = "complete"
     except Exception as error:
         result.update(status="failed", error=repr(error))

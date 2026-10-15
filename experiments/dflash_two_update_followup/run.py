@@ -8,8 +8,8 @@ from pathlib import Path
 import sys
 
 from experiment import (MODES, load_dataset, load_reference, plan, require,
-                        run_author_episode, run_checkpoint_comparison, validate_reference)
-from report import summarize
+                        run_author_episode, run_author_replay, run_checkpoint_comparison, validate_reference)
+from report import summarize, write_comparison_csv
 
 
 def sha(path):
@@ -33,6 +33,9 @@ def main():
     parser.add_argument('--reference', type=Path)
     parser.add_argument('--reference-sha256')
     parser.add_argument('--runtime-config', type=Path)
+    parser.add_argument('--completed-campaign', type=Path)
+    parser.add_argument('--campaign-manifest-sha256')
+    parser.add_argument('--campaign-state-sha256')
     parser.add_argument('--allow-gpu-execution', action='store_true')
     args = parser.parse_args()
     require(not args.out.exists(), 'Use a fresh output directory; preserve earlier attempts')
@@ -41,12 +44,18 @@ def main():
     streams = load_dataset(args.selection, args.streams)
     protocol = plan(streams, mode=args.comparison)
     if args.action == 'plan':
-        require(not any((args.episode, args.reference, args.reference_sha256, args.runtime_config, args.allow_gpu_execution)),
+        require(not any((args.episode, args.reference, args.reference_sha256, args.runtime_config, args.allow_gpu_execution,
+                         args.completed_campaign, args.campaign_manifest_sha256, args.campaign_state_sha256)),
                 'Plan is metadata-only and does not accept native execution arguments')
     else:
         require(args.allow_gpu_execution and args.runtime_config and args.episode and args.reference and args.reference_sha256,
                 'Execution needs explicit approval flag, episode, runtime config and bound original result')
         require(args.episode in {e['episode_id'] for e in protocol['episodes']}, 'Only R1/R2 may execute')
+        replay_args = (args.completed_campaign, args.campaign_manifest_sha256, args.campaign_state_sha256)
+        if args.comparison == 'author-replay':
+            require(all(replay_args), 'Author replay needs the completed campaign and fixed manifest/state hashes')
+        else:
+            require(not any(replay_args), 'Completed-campaign arguments are only valid for author-replay')
     args.out.mkdir(parents=True)
     write(args.out / 'PLAN.json', protocol)
     write(args.out / 'SOURCE_MANIFEST.json', {
@@ -58,6 +67,14 @@ def main():
     rows = [r for r in streams if r['stream_id'] == args.episode]
     reference = load_reference(args.reference, args.reference_sha256)
     validate_reference(reference, rows)
+    author_reference = provenance = None
+    if args.comparison == 'author-replay':
+        from replay_binding import load_author_replay
+        author_reference, provenance = load_author_replay(
+            args.completed_campaign, args.campaign_manifest_sha256, args.campaign_state_sha256,
+            episode_id=args.episode, reference=reference, selection_path=args.selection,
+            streams_path=args.streams, runtime_config_path=args.runtime_config)
+        write(args.out / 'AUTHOR_REPLAY_BINDING.json', provenance)
     config = json.loads(args.runtime_config.read_text())
     config['output_root'] = str(args.out.resolve() / 'native')
     write(args.out / 'RUNTIME_CONFIG.json', config)
@@ -70,10 +87,16 @@ def main():
             f.write(json.dumps({'event': kind, 'data': data}, ensure_ascii=False, allow_nan=False) + '\n')
             f.flush(); os.fsync(f.fileno())
     # The author final matrix already includes F/C1/C2; both never duplicates it.
-    execute = run_checkpoint_comparison if args.comparison == 'checkpoints-only' else run_author_episode
-    result = execute(rows, reference, backend, emit=emit)
+    if args.comparison == 'author-replay':
+        result = run_author_replay(rows, reference, author_reference, backend, emit=emit)
+        result['replay_provenance'] = provenance
+    else:
+        execute = run_checkpoint_comparison if args.comparison == 'checkpoints-only' else run_author_episode
+        result = execute(rows, reference, backend, emit=emit)
     write(args.out / 'RESULT.json', result)
-    write(args.out / 'REPORT.json', summarize([result]))
+    summary = summarize([result])
+    write(args.out / 'REPORT.json', summary)
+    write_comparison_csv(args.out / 'COMPARISONS.csv', summary)
     print(json.dumps({'status': result['status'], 'episode': args.episode, 'report': str(args.out / 'REPORT.json')}))
     return 0 if result['status'] == 'complete' else 1
 

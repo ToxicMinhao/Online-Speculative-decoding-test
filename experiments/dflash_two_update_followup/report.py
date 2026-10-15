@@ -1,5 +1,6 @@
 """Descriptive follow-up accounting; repeated timings are not independent data."""
 from collections import defaultdict
+import csv
 import math
 
 
@@ -45,6 +46,8 @@ def totals(rows):
 def _methods(mode, window):
     if mode == "checkpoints-only":
         return ["F", "C1", "C2"] if window == "25-32" else []
+    if mode == "author-replay":
+        return ["F", "A1", "A2"] if window == "25-32" else []
     return ["F", "C1", "A1"] if window == "17-24" else ["F", "C1", "C2", "A2"]
 
 
@@ -63,6 +66,9 @@ def _valid_pair(left, right, expected):
     for key, row in zip(_keys(left), left):
         other = indexed[key]
         if not (row.get("same_generation_valid") is True and other.get("same_generation_valid") is True and
+                row.get("feedback") is None and other.get("feedback") is None and
+                row.get("capture_costs") is None and other.get("capture_costs") is None and
+                row.get("status") not in ("failed", "error") and other.get("status") not in ("failed", "error") and
                 row.get("input_match") is True and other.get("input_match") is True and
                 row.get("checkpoint_identity_match") is True and other.get("checkpoint_identity_match") is True and
                 row.get("question_id") == other.get("question_id") and
@@ -97,7 +103,8 @@ def _window(episodes, window, repeat):
                        and row.get("checkpoint_id") == method] for method in methods}
     metrics = {method: totals(rows) for method, rows in groups.items()}
     comparisons = []
-    pairs = [(method, "F") for method in methods if method != "F"]
+    pairs = [("A2", "A1")] if mode == "author-replay" else []
+    pairs += [(method, "F") for method in methods if method != "F"]
     pairs += [(candidate, control) for candidate, control in (("C2", "C1"), ("A1", "C1"), ("A2", "C2"))
               if candidate in methods and control in methods]
     for candidate, control in pairs:
@@ -161,6 +168,7 @@ def cost_breakdown(episode):
                                                               if row.get("feedback") is not None or row.get("capture_costs") is not None]},
             "support_preparation_timers": _timers(support),
             "canonical_timers": _timers(canonical), "per_update": per_update,
+            "benchmark_timers": _timers(episode.get("scores", [])),
             "lifecycle_receipt": episode.get("cleanup"), "experiment_wall_s": episode.get("experiment_wall_s"),
             "scope": ("Sum only the five nonoverlapping components. Canonical request includes any inline token collection; "
                       "observed support preparation includes separate token metadata serialization. Teacher preparation/replay is within training_s; "
@@ -187,7 +195,7 @@ def summarize(episodes):
         key = (episode.get("mode"), episode.get("episode_id"))
         if key in seen:
             raise ValueError("Duplicate episode/mode would double-count repeated evidence")
-        if episode.get("mode") not in ("checkpoints-only", "author-path"):
+        if episode.get("mode") not in ("checkpoints-only", "author-path", "author-replay"):
             raise ValueError("Unknown follow-up result mode")
         seen.add(key)
     reports = []
@@ -197,6 +205,8 @@ def summarize(episodes):
                         "replica": episode["replica"], "mode": episode["mode"], "status": episode["status"],
                         "error": episode.get("error"), "cleanup_error": episode.get("cleanup_error"),
                         "reference_source_binding": episode.get("reference_source_binding"),
+                        "retained_author_source_binding": episode.get("retained_author_source_binding"),
+                        "replay_provenance": episode.get("replay_provenance"),
                         "original_update_costs": episode.get("original_update_costs"),
                         "original_capture_costs": episode.get("original_capture_costs"),
                         "original_cost_scope": episode.get("original_cost_scope"),
@@ -215,6 +225,7 @@ def summarize(episodes):
                     scenarios.append({"scenario": scenario, **_window(subset, window, repeat)})
     return {"schema_version": 1, "episodes": reports, "scenarios": scenarios, "pooled": pooled,
             "interpretation_limits": [INFERENCE_SCOPE,
+                "Author-replay A2/A1 measures the second author-path update on identical final inputs. An incremental regression can coexist with improvement over frozen; report both.",
                 "C2 versus C1 is measured on identical later saved contexts; previous early-versus-late percentages did not isolate this comparison.",
                 "A1/C1 and A2/C2 compare complete training recipes under the common protocol; they do not isolate an individual sampling or weighting component.",
                 "Three timing repeats share prompts, checkpoints and training seed17. Descriptive pooling does not create independent prompts, replicas or training seeds.",
@@ -223,3 +234,61 @@ def summarize(episodes):
                 "Accepted proposal tokens, all committed output progress and trace-derived verification progress have separate denominators. Initial target tokens occur in all-output progress.",
                 "Full cost is reconstructed only for complete canonical trajectories with all required timers; benchmark replays and nested timers are excluded from that sum.",
                 "Model/context adaptations preclude calling the author-path arm an exact paper reproduction. R3/R4 remain reserved; no result selects a mechanism or advances the stage."]}
+
+
+def write_comparison_csv(path, summary):
+    """Export every episode, scenario and pooled repeat without averaging ratios."""
+    metrics = ("executions", "distinct_request_contexts", "output_tokens", "complete_request_s",
+               "mean_request_s", "output_tokens_per_second", "verification_calls",
+               "calls_per_1000_output_tokens", "accepted_draft_tokens",
+               "accepted_draft_tokens_per_verification", "verification_committed_tokens",
+               "verification_committed_tokens_per_call", "committed_output_tokens_per_verification")
+    fields = ["scope", "episode_id", "scenario", "mode", "window", "repeat", "candidate", "control",
+              "paired_same_generation_valid", "latency_reduction_percent", "verification_call_reduction_percent",
+              "calls_per_1000_token_reduction_percent"]
+    fields += [side + "_" + key for side in ("candidate", "control") for key in metrics]
+    windows = [("episode", episode["episode_id"], episode["scenario"], window)
+               for episode in summary["episodes"] for window in episode["windows"]]
+    windows += [("scenario", "", window["scenario"], window) for window in summary["scenarios"]]
+    windows += [("pooled", "", "", window) for window in summary["pooled"]]
+    with open(path, "x", encoding="utf-8", newline="") as handle:
+        writer = csv.DictWriter(handle, fieldnames=fields)
+        writer.writeheader()
+        for scope, episode_id, scenario, window in windows:
+            for comparison in window["comparisons"]:
+                row = {"scope": scope, "episode_id": episode_id, "scenario": scenario,
+                       "mode": window["mode"], "window": window["window"], "repeat": window["repeat"],
+                       **comparison}
+                for side in ("candidate", "control"):
+                    values = window["metrics"][comparison[side]]
+                    row.update({side + "_" + key: values.get(key) for key in metrics})
+                writer.writerow(row)
+
+
+def main():
+    """Recompute fresh replay reports; this command cannot start native workers."""
+    import argparse
+    import hashlib
+    import json
+    from pathlib import Path
+    parser = argparse.ArgumentParser(description=main.__doc__)
+    parser.add_argument("results", nargs="+", type=Path)
+    parser.add_argument("--out", required=True, type=Path)
+    args = parser.parse_args()
+    if args.out.exists() or args.out.resolve().is_relative_to(Path(__file__).resolve().parents[2]):
+        parser.error("Use a fresh output directory outside the public checkout")
+    payloads = [path.read_bytes() for path in args.results]
+    summary = summarize(json.loads(payload) for payload in payloads)
+    bindings = [{"path": str(path.resolve()), "bytes": len(payload),
+                 "sha256": hashlib.sha256(payload).hexdigest()}
+                for path, payload in zip(args.results, payloads)]
+    args.out.mkdir(parents=True)
+    for name, value in (("AGGREGATE_REPORT.json", summary), ("RESULT_BINDINGS.json", bindings)):
+        with (args.out / name).open("x", encoding="utf-8") as handle:
+            json.dump(value, handle, indent=2, ensure_ascii=False, allow_nan=False)
+            handle.write("\n")
+    write_comparison_csv(args.out / "COMPARISONS.csv", summary)
+
+
+if __name__ == "__main__":
+    main()
