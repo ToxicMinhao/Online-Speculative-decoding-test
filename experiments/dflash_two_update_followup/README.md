@@ -1,8 +1,9 @@
 # DFlash two-update follow-up comparison
 
-**Native qualification passed; the ten-session campaign is authorized after
-storage admission.** See [VALIDATION.md](VALIDATION.md) for the completed checks.
-Qualification establishes execution readiness, not scientific benefit.
+**The original ten-session campaign is complete. The retained-author replay
+extension is awaiting review before GPU execution.** See
+[AUTHOR_REPLAY.md](AUTHOR_REPLAY.md) for that bounded extension and
+[VALIDATION.md](VALIDATION.md) for the original native qualification.
 
 Two questions are tested with the existing ten R1/R2 development sessions:
 
@@ -25,8 +26,11 @@ or training budget. The full-weight forward-KL controls and fixed target remain.
 covering 160 distinct saved request contexts. Repeats are timing measurements,
 not independent examples. `checkpoints-only` can independently evaluate the
 retained F/C1/C2 weights on final inputs with no training (72 scores per session).
-The final author-path U1 measurement is deliberately absent; this experiment
-does not isolate the causal benefit of the author's second update.
+The original campaign deliberately omitted author-path U1 on final inputs.
+The new `author-replay` mode closes this gap with retained F/A1/A2 checkpoints,
+without retraining. It executes 72 fresh scores per episode, 720 overall.
+The original `both`, `author-path` and `checkpoints-only` modes retain their
+original comparison matrices.
 
 All score calls disable feature capture, training and publication within the
 inference timer. They use the identical saved input IDs, unchanged native

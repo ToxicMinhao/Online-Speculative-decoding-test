@@ -59,24 +59,32 @@ base.worker_command = worker_command
 
 
 class NativeBackend(base.NativeBackend):
-    def start_episode(self, episode_id, *, reference):
+    def start_episode(self, episode_id, *, reference, author_reference=None):
         require(reference['episode_id'] == episode_id, 'External checkpoint episode differs')
-        external = {}
-        for event, update in enumerate(reference['updates'], 1):
+        external, retained = {}, {}
+        if author_reference is not None:
+            protocol_spec = importlib.util.spec_from_file_location('_followup_replay_protocol', HERE / 'experiment.py')
+            protocol = importlib.util.module_from_spec(protocol_spec)
+            protocol_spec.loader.exec_module(protocol)
+            protocol.validate_author_reference(author_reference, reference)
+        source = reference if author_reference is None else author_reference
+        for event, update in enumerate(source['updates'], 1):
             checkpoint = copy.deepcopy(update['checkpoint'])
-            checkpoint['checkpoint_id'] = 'C' + str(event)
+            checkpoint['checkpoint_id'] = ('C' if author_reference is None else 'A') + str(event)
             base.verify_checkpoint(checkpoint)
-            external[checkpoint['checkpoint_id']] = checkpoint
+            destination = external if author_reference is None else retained
+            destination[checkpoint['checkpoint_id']] = checkpoint
         reviewed = {'followup_source_sha256': followup_sources(),
                     'author_sources_sha256': sha(HERE / 'author_sources.json')}
         for key, actual in reviewed.items():
             require(key not in self.config or self.config[key] == actual, 'Configured reviewed source differs: ' + key)
-        self.config.update(external_checkpoints=external, **reviewed)
+        self.config.update(external_checkpoints=external, retained_author_checkpoints=retained, **reviewed)
         check_followup_sources(self.config)
         result = super().start_episode(episode_id)
         require(self.checkpoints['F']['checkpoint_identity_sha256'] ==
                 reference['canonical'][0]['checkpoint_identity_sha256'], 'Frozen initializer changed')
         self.checkpoints.update(external)
+        self.checkpoints.update(retained)
         return result
 
     def serve(self, input_ids, checkpoint_id, capture=False, *, turn_index, repeat=None):
@@ -85,6 +93,7 @@ class NativeBackend(base.NativeBackend):
         return super().serve(input_ids, checkpoint_id, capture=False, turn_index=turn_index, repeat=repeat)
 
     def prepare_support(self, item):
+        require(not self.config.get('retained_author_checkpoints'), 'Retained author replay forbids support collection')
         started = time.perf_counter()
         turn, label = item['turn'], item['checkpoint_id']
         require(9 <= turn <= 24 and label == ('F' if turn <= 16 else 'A1'), 'Support is not new canonical feedback')
@@ -105,6 +114,7 @@ class NativeBackend(base.NativeBackend):
                 'collection_timing_scope': 'After serving; token metadata serialization only, no feature capture or teacher replay.'}
 
     def train_event(self, event, responses):
+        require(not self.config.get('retained_author_checkpoints'), 'Retained author replay forbids training')
         require(self.episode_id is not None and event in (1, 2), 'Invalid author update')
         startup = 0.
         if self.trainer is None:
@@ -132,6 +142,10 @@ def admit_checkpoint(config, checkpoint):
         require(checkpoint == config['released'], 'Frozen checkpoint differs')
     elif label in ('C1', 'C2'):
         require(checkpoint == config['external_checkpoints'][label], 'Unbound retained checkpoint')
+    elif config.get('retained_author_checkpoints'):
+        retained = config['retained_author_checkpoints']
+        require(checkpoint == retained.get(label),
+                'Unbound retained author checkpoint')
     else:
         expected = Path(config['episode_out']) / 'checkpoints' / ('U' + label[-1])
         require(Path(checkpoint['path']) == expected, 'Author checkpoint belongs to another episode')
