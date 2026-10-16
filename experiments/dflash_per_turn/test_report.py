@@ -173,6 +173,26 @@ class ReportTests(unittest.TestCase):
         row["verification_calls"] = 4
         self.assertIsNone(report.classify_update(result, 3)["kind"])
 
+    def test_case_report_keeps_timing_only_regression_separate_from_drafting_erosion(self):
+        for calls, basis in ((5, "timing_only"), (7, "verification_calls")):
+            with self.subTest(metric_basis=basis), tempfile.TemporaryDirectory() as temp:
+                result = fixture()
+                change(result, 3, "D2", verification_calls=calls)
+                selection = report.classify_update(result, 3)
+                self.assertEqual(selection["metric_basis"], basis)
+                result["diagnostics"].append(dict(event=2, kind="harmful", next_turn=3, earlier_turn=1,
+                    status="complete", scores=[], branch={"main_state_restored": True}, selection=selection))
+                out = Path(temp) / "reports"
+                report.write_reports([result], out)
+                text = (out / "CASES.md").read_text()
+                if basis == "timing_only":
+                    self.assertIn("unchanged verification calls", text)
+                    self.assertIn("does not establish reduced draft-target agreement", text)
+                    self.assertNotIn("This is erosion of a useful adaptation", text)
+                else:
+                    self.assertIn("This is erosion of a useful adaptation", text)
+                    self.assertNotIn("unchanged verification calls", text)
+
     def test_zero_verification_calls_remain_valid_without_division_by_zero(self):
         result = fixture()
         for row in result["canonical"] + result["scores"]:

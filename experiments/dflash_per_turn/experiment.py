@@ -171,15 +171,26 @@ def validate_update(update, event, support):
 def implementation_checks(result):
     n = result["planned_requests"]
     ids = [row["turn"] for row in result["canonical"]]
+    diagnostics = result.get("diagnostics", [])
+    diagnostic_scores = [row for case in diagnostics for row in case.get("scores", [])]
+    incomplete_diagnostics = sum(case.get("status") != "complete" or
+        case.get("branch", {}).get("main_state_restored") is not True or
+        len(case.get("scores", [])) != 2 * 3 * REPEATS for case in diagnostics)
+    invalid_diagnostic_scores = sum(row.get("same_generation_valid") is not True for row in diagnostic_scores)
     return dict(status="passed" if result.get("status") == "complete" and
                 ids == list(range(1, n + 1)) and len(result["scores"]) == 9 * (n - 1) and
                 all(row.get("same_generation_valid") for row in result["scores"]) and
+                not incomplete_diagnostics and not invalid_diagnostic_scores and
                 len(result["updates"]) == n - 1 and
                 all(u.get("mask_and_schedule_check") is True for u in result["updates"]) and
                 result.get("cleanup", {}).get("status") == "passed" else "failed",
                 canonical_requests=len(ids), expected_requests=n, timing_replays=len(result["scores"]),
                 expected_timing_replays=9 * (n - 1), update_events=len(result["updates"]),
                 invalid_scores=sum(not s.get("same_generation_valid") for s in result["scores"]),
+                diagnostic_timing_replays=len(diagnostic_scores),
+                expected_diagnostic_timing_replays=len(diagnostics) * 2 * 3 * REPEATS,
+                invalid_diagnostic_scores=invalid_diagnostic_scores,
+                incomplete_diagnostic_cases=incomplete_diagnostics,
                 scope="First-stream implementation gate; no positive performance threshold.")
 
 

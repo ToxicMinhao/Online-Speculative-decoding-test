@@ -170,6 +170,19 @@ class ProtocolTests(unittest.TestCase):
         self.assertEqual(len(result["updates"]), 1)
         self.assertEqual(backend.training_state, 1)
 
+    def test_incomplete_diagnostic_evidence_fails_implementation_gate(self):
+        result, _ = self.run_one(classify=lambda r, t: {"kind": "harmful"})
+        self.assertEqual(result["implementation_checks"]["status"], "passed")
+        for mutation in (lambda case: case.update(status="running"),
+                         lambda case: case["scores"].pop(),
+                         lambda case: case["branch"].update(main_state_restored=False)):
+            with self.subTest(mutation=mutation):
+                changed = copy.deepcopy(result)
+                mutation(changed["diagnostics"][0])
+                checks = e.implementation_checks(changed)
+                self.assertEqual(checks["status"], "failed")
+                self.assertEqual(checks["incomplete_diagnostic_cases"], 1)
+
     def test_old_answer_loss_mask_rejected(self):
         class BadMask(FakeBackend):
             def train_event(self, event, responses):
@@ -191,6 +204,27 @@ class ProtocolTests(unittest.TestCase):
             self.assertEqual(campaign["status"], "stopped")
             self.assertEqual(len(campaign["results"]), 1)
             self.assertEqual(campaign["first_stream_gate"]["status"], "failed")
+
+    def test_diagnostic_output_mismatch_stops_campaign_with_valid_main_scores(self):
+        from .run import run_campaign
+        class BadDiagnostic(FakeBackend):
+            def serve(self, ids, checkpoint_id, capture=False, *, turn_index, repeat=None):
+                row = super().serve(ids, checkpoint_id, capture, turn_index=turn_index, repeat=repeat)
+                if checkpoint_id == "D1":
+                    row["verification_calls"] = 3  # Select the first harmful event.
+                if checkpoint_id.startswith("L"):
+                    row["output_ids"] = [11, 99, turn_index, 128009]
+                return row
+        with tempfile.TemporaryDirectory() as tmp:
+            campaign = run_campaign([stream(name) for name in e.EXPECTED_STREAMS], BadDiagnostic,
+                                    Path(tmp), config={})
+            self.assertEqual(campaign["status"], "stopped")
+            self.assertEqual(len(campaign["results"]), 1)
+            checks = campaign["first_stream_gate"]
+            self.assertEqual(checks["status"], "failed")
+            self.assertEqual(checks["invalid_scores"], 0)
+            self.assertGreater(checks["invalid_diagnostic_scores"], 0)
+            self.assertEqual(checks["diagnostic_timing_replays"], checks["expected_diagnostic_timing_replays"])
 
     def test_complete_campaign_continues_all_six(self):
         from .run import run_campaign

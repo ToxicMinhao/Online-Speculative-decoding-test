@@ -481,7 +481,9 @@ def write_reports(results, directory):
                               + _format(accumulated.get("verification_call_reduction_percent")) + ".")
             if case.get("kind") == "harmful" and accumulated.get("paired_same_generation_valid"):
                 call_gain = accumulated.get("verification_call_reduction_percent")
-                if call_gain is not None and call_gain > 0:
+                if selection.get("metric_basis") == "timing_only":
+                    case_lines.append("The latest update increases measured request time with unchanged verification calls. This timing-only result does not establish reduced draft-target agreement or erosion of an earlier drafting gain.")
+                elif call_gain is not None and call_gain > 0:
                     case_lines.append("The latest update is harmful under the stated selection criterion, but accumulated adaptation still needs fewer verification calls than frozen. This is erosion of a useful adaptation, not evidence that all learning was harmful.")
                 elif call_gain is not None and call_gain < 0:
                     case_lines.append("The latest-update regression coexists with more verification calls than frozen. The two comparisons remain distinct; this event alone does not explain all accumulated underperformance.")
