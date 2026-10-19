@@ -250,7 +250,11 @@ def run_native_block(scheduler, anchor, arm, out):
                 stop = min(start+PREFILL_CHUNK, len(prefix_ids))
                 req.fill_ids = prefix_ids[:stop]
                 if start:
-                    req.prefix_indices = scheduler.req_to_token_pool.req_to_token[req.req_pool_idx, :start].clone()
+                    # Native pool indices are int32, but the prefix-copy kernel
+                    # consumes int64 pointers. Preserve values/device and own
+                    # the copy rather than passing the pool's storage/view.
+                    req.prefix_indices = scheduler.req_to_token_pool.req_to_token[
+                        req.req_pool_idx, :start].to(dtype=torch.int64, copy=True)
                 req.set_extend_input_len(stop-start)
                 req.is_chunked = int(stop < len(prefix_ids))
                 batch = ScheduleBatch.init_new([req], scheduler.req_to_token_pool,

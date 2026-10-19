@@ -49,11 +49,27 @@ and synthetic PersonaMem results. Contributions can be negative or exceed
 100% when other conversations regress. There is no inferred kernel breakdown.
 
 Token decisions are aligned by exact canonical prefix IDs and absolute output
-position. Verification-call number is never the join key. Target predictions
-conditioned on rejected hypothetical proposals are not relabeled as canonical
-supervision. Unmatched starts/positions and beyond-output proposals remain in
-coverage tables. Native accepted-prefix lengths and first-rejection positions
-are preserved separately from these position-level associations.
+position. **Matched-condition repairs additionally require identical draft-block
+starts.** A frozen third-position error and an OSD first-position success are
+different DFlash inputs even if their verifier prefixes match; they do not count
+as a matched-condition repair. Verification-call number is never the join key.
+Target predictions conditioned on rejected hypothetical proposals are not
+relabeled as canonical supervision. Unmatched starts/positions and beyond-output
+proposals remain in coverage tables. Native accepted-prefix lengths and
+first-rejection positions are preserved separately from these associations.
+
+`aligned_decisions.csv` retains all canonical-position pairs with an explicit
+`comparison_scope`. `matched_condition_decisions.csv` contains only equal-start
+pairs, which alone supply `repair`/`new_error` counts in `pattern_summary.csv`
+and `pattern_recurrence_summary.csv`. `different_start_observations.csv` retains
+unequal-start outcomes descriptively as `frozen_wrong_osd_correct` or
+`frozen_correct_osd_wrong` (plus both-correct/both-wrong), with `effect=null`.
+Their category/recurrence counts and denominators remain separate in
+`different_start_pattern_summary.csv` and `different_start_recurrence_summary.csv`.
+Coverage reports both groups and unmatched positions; no different-start row
+enters a matched-repair denominator. Overall request latency and verification
+counts are unaffected. Analysis schema 2/report schema v2 make this distinction
+explicit; the report refuses a populated legacy repair summary without its scope.
 
 The declared, mutually exclusive lexical categories are whitespace/punctuation,
 code-syntax lexemes, identifiers/numbers, ordinary text, and mixed/uncategorized.
@@ -189,7 +205,8 @@ automatic retry; partial results and claims are retained.
 
 The report writer produces Markdown plus JSON/CSV tables covering per-turn and
 conversation gains, every original timing repeat, native blocks, paired
-decisions, recurrence/category denominators, missing evidence, separate costs,
+decisions with matched/different-start scopes and separate recurrence/category
+denominators, missing evidence, separate costs,
 local anchors, native margins and mathematical capacity classifications.
 Interpretation ends at attribution and unresolved explanations; no replacement
 mechanism is implemented. Private inputs, artifacts and results stay outside

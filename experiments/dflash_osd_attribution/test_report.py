@@ -132,3 +132,37 @@ def test_report_missing_tokenizer_and_stream_keeps_planned_denominator(tmp_path)
     assert "source RESULT missing" in text
     rows = list(csv.DictReader((tmp_path/"missing_streams.csv").open()))
     assert rows == analysis["missing_streams"]
+
+
+def test_report_separates_different_start_successes_from_matched_repairs(tmp_path):
+    from experiments.dflash_osd_attribution.test_analysis import analyze, different_start_fixture
+    result, traces = different_start_fixture()
+    analysis = analyze(result, traces)
+    write_report(tmp_path, analysis=analysis)
+    matched = list(csv.DictReader((tmp_path/"pattern_recurrence_summary.csv").open()))
+    different = list(csv.DictReader((tmp_path/"different_start_recurrence_summary.csv").open()))
+    assert sum(int(r["repair"]) for r in matched) == 0
+    assert sum(int(r["new_error"]) for r in matched) == 1
+    assert sum(int(r["paired_decision_denominator"]) for r in matched) == 2
+    assert sum(int(r["paired_observation_denominator"]) for r in different) == 3
+    assert sum(int(r["frozen_wrong_osd_correct"]) for r in different) == 1
+    assert all("repair" not in r and "new_error" not in r for r in different)
+    native_rows = list(csv.DictReader((tmp_path/"different_start_observations.csv").open()))
+    assert len(native_rows) == 3 and all(r["effect"] == "" for r in native_rows)
+    text = (tmp_path/"REPORT.md").read_text()
+    assert "### Matched-condition prediction changes" in text
+    assert "### Different-start native observations" in text
+    assert "identical draft-block start and identical absolute output position" in text
+    assert "never enter the preceding repair table" in text
+
+
+def test_report_rejects_legacy_or_wrong_scope_repair_summary(tmp_path):
+    from experiments.dflash_osd_attribution.test_analysis import analyze, fixture
+    result, traces = fixture()
+    analysis = analyze(result, traces)
+    analysis["pattern_summary"][0]["comparison_scope"] = "different_start_native_observation"
+    with pytest.raises(ValueError, match="matched_condition scope"):
+        write_report(tmp_path, analysis=analysis)
+    analysis["pattern_summary"][0].pop("comparison_scope")
+    with pytest.raises(ValueError, match="regenerate legacy analysis"):
+        write_report(tmp_path, analysis=analysis)

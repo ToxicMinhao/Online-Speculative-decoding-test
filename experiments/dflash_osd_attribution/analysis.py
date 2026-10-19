@@ -189,6 +189,12 @@ def _trained_tokens(result, turn):
 
 
 def _aligned_decisions(frozen, osd, output, prior_tokens, decode_token):
+    """Retain canonical-position pairs without conflating drafter conditioning.
+
+    Equal verifier prefixes are necessary but insufficient for a DFlash repair
+    comparison: a token at masked slot 3 is not conditioned like slot 1 of a
+    later block. Only equal block starts receive a matched-condition effect.
+    """
     maps = []
     for rows in (frozen, osd):
         by_position = defaultdict(list)
@@ -207,14 +213,19 @@ def _aligned_decisions(frozen, osd, output, prior_tokens, decode_token):
         earlier_training = token in prior_tokens
         current_repeat = token in output[:position]
         text = decode_token(token)
+        same_start = a["block_output_start"] == b["block_output_start"]
+        effect = ("repair" if not a["correct"] and b["correct"] else
+                  "new_error" if a["correct"] and not b["correct"] else
+                  "both_correct" if a["correct"] else "both_wrong")
         aligned.append(dict(absolute_output_position=position, canonical_token_id=token,
             token_text=text, token_text_available=text is not None, category=category(text),
             frozen_correct=a["correct"], osd_correct=b["correct"],
-            effect=("repair" if not a["correct"] and b["correct"] else
-                    "new_error" if a["correct"] and not b["correct"] else
-                    "both_correct" if a["correct"] else "both_wrong"),
+            comparison_scope="matched_condition" if same_start else "different_start_native_observation",
+            effect=effect if same_start else None,
+            native_outcome={"repair": "frozen_wrong_osd_correct", "new_error": "frozen_correct_osd_wrong",
+                            "both_correct": "both_correct", "both_wrong": "both_wrong"}[effect],
             frozen_block_start=a["block_output_start"], osd_block_start=b["block_output_start"],
-            same_block_start=a["block_output_start"] == b["block_output_start"],
+            same_block_start=same_start,
             frozen_block_position=a["block_position"], osd_block_position=b["block_position"],
             appeared_in_prior_trained_response=earlier_training,
             appeared_earlier_in_current_response=current_repeat,
@@ -341,6 +352,8 @@ def analyze_campaign(results, load_trace, decode_token, *, require_full_campaign
                     unmatched.extend({**identity, **v} for v in missing)
                     starts = [{v["block_output_start"] for v in method_blocks[a]} for a in METHODS]
                     token_coverage.append({**identity, "valid": True, "paired_canonical_decisions": len(aligned),
+                        "matched_condition_decisions": sum(v["same_block_start"] for v in aligned),
+                        "different_start_observations": sum(not v["same_block_start"] for v in aligned),
                         "unmatched_decision_positions": len(missing), "matched_block_starts": len(starts[0]&starts[1]),
                         "frozen_unmatched_block_starts": len(starts[0]-starts[1]),
                         "osd_unmatched_block_starts": len(starts[1]-starts[0]),
@@ -357,24 +370,41 @@ def analyze_campaign(results, load_trace, decode_token, *, require_full_campaign
     for row in conversations:
         row["share_of_net_saved_time_percent"] = 100*row["saved_request_s"]/total["saved_request_s"] if total["saved_request_s"] else None
         row["share_of_net_saved_calls_percent"] = 100*row["saved_verification_calls"]/total["saved_verification_calls"] if total["saved_verification_calls"] else None
-    pattern = []
+    matched = [d for d in decisions if d["comparison_scope"] == "matched_condition"]
+    different = [d for d in decisions if d["comparison_scope"] == "different_start_native_observation"]
+    pattern, different_pattern = [], []
     for source in sorted({r["source"] for r in results}):
-        subset = [d for d in decisions if d["source"] == source]
+        subset = [d for d in matched if d["source"] == source]
+        different_subset = [d for d in different if d["source"] == source]
         for cat in CATEGORIES:
             for recurrence in ("earlier_training", "current_response_only", "not_seen_in_either", "prior_training_evidence_unavailable"):
                 selected = [d for d in subset if d["category"] == cat and d["recurrence"] == recurrence]
                 counts = Counter(d["effect"] for d in selected)
                 pattern.append(dict(source=source, category=cat, recurrence=recurrence,
+                    comparison_scope="matched_condition",
                     paired_decision_denominator=len(selected), frozen_error_denominator=counts["repair"]+counts["both_wrong"],
                     frozen_correct_denominator=counts["new_error"]+counts["both_correct"],
                     **{effect: counts[effect] for effect in ("repair", "new_error", "both_correct", "both_wrong")}))
-    return dict(schema_version=1, overall=total, per_turn=per_turn, conversations=conversations,
+                observations = [d for d in different_subset if d["category"] == cat and d["recurrence"] == recurrence]
+                outcomes = Counter(d["native_outcome"] for d in observations)
+                different_pattern.append(dict(source=source, category=cat, recurrence=recurrence,
+                    comparison_scope="different_start_native_observation",
+                    paired_observation_denominator=len(observations),
+                    frozen_error_observation_denominator=outcomes["frozen_wrong_osd_correct"]+outcomes["both_wrong"],
+                    frozen_correct_observation_denominator=outcomes["frozen_correct_osd_wrong"]+outcomes["both_correct"],
+                    **{effect: outcomes[effect] for effect in
+                       ("frozen_wrong_osd_correct", "frozen_correct_osd_wrong", "both_correct", "both_wrong")}))
+    return dict(schema_version=2, overall=total, per_turn=per_turn, conversations=conversations,
         sources=[_aggregate([r for r in per_turn if r["source"] == source], source) for source in sorted({r["source"] for r in results})],
         timing_repeats=timing, blocks=blocks, aligned_decisions=decisions, unmatched_positions=unmatched,
+        matched_condition_decisions=matched, different_start_observations=different,
         token_coverage=token_coverage, pattern_summary=pattern, costs=[cost_rows(r) for r in results],
+        different_start_pattern_summary=different_pattern,
         exclusions=exclusions, recurrence_evidence_issues=recurrence_issues,
         method="Three repeat times averaged per request; one validated repeat-zero trajectory per method/request. "
                "Ratios pool summed measurements. Exact canonical prefix and absolute output position align decisions. "
+               "Repairs/new errors and their recurrence statistics additionally require identical draft-block starts. "
+               "Different-start native outcomes retain separate descriptive denominators, never pooled repair counts. "
                "Code syntax and other token categories are lexical heuristics, not semantic task labels. Recurrence is exact token-ID presence; "
                "not_seen_in_either does not establish semantic novelty. Associations do not prove memorization or specialization. "
                "Local repair frequency cannot be converted to a percentage of total saved time. Conversation contributions may be negative or exceed 100%.")

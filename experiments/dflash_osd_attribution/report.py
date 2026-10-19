@@ -94,6 +94,8 @@ def summarize_diagnostic(comparisons):
 
 
 def _pattern_summary(rows):
+    if any(r.get("comparison_scope") != "matched_condition" for r in rows):
+        raise ValueError("Repair summaries require explicit matched_condition scope; regenerate legacy analysis")
     result = []
     for source in sorted({r["source"] for r in rows}):
         for recurrence in sorted({r["recurrence"] for r in rows if r["source"] == source}):
@@ -102,6 +104,21 @@ def _pattern_summary(rows):
                 **{key: sum(r[key] for r in group) for key in
                    ("paired_decision_denominator", "frozen_error_denominator", "frozen_correct_denominator",
                     "repair", "new_error", "both_correct", "both_wrong")}))
+    return result
+
+
+def _different_start_summary(rows):
+    if any(r.get("comparison_scope") != "different_start_native_observation" for r in rows):
+        raise ValueError("Different-start summaries require explicit native-observation scope")
+    result = []
+    for source in sorted({r["source"] for r in rows}):
+        for recurrence in sorted({r["recurrence"] for r in rows if r["source"] == source}):
+            group = [r for r in rows if r["source"] == source and r["recurrence"] == recurrence]
+            result.append(dict(source=source, recurrence=recurrence,
+                **{key: sum(r[key] for r in group) for key in
+                   ("paired_observation_denominator", "frozen_error_observation_denominator",
+                    "frozen_correct_observation_denominator", "frozen_wrong_osd_correct",
+                    "frozen_correct_osd_wrong", "both_correct", "both_wrong")}))
     return result
 
 
@@ -122,17 +139,20 @@ def write_report(output_dir, analysis=None, diagnostic=None, inventory=None):
     local = summarize_diagnostic(comparisons)
     overall_local = local["summary"][-1]
     native_patterns = _pattern_summary(analysis.get("pattern_summary", [])) if analysis is not None else []
-    payload = dict(schema="osd_gain_attribution_report_v1", analysis=analysis,
+    different_patterns = _different_start_summary(analysis.get("different_start_pattern_summary", [])) if analysis is not None else []
+    payload = dict(schema="osd_gain_attribution_report_v2", analysis=analysis,
                    diagnostic=diagnostic, diagnostic_summary=local["summary"], inventory=inventory)
     _json(out/"REPORT.json", payload)
     for name, rows in local.items():
         _csv(out/("diagnostic_"+name+".csv"), rows)
     if analysis is not None:
         for name in ("per_turn", "conversations", "sources", "timing_repeats", "blocks", "aligned_decisions",
+                     "matched_condition_decisions", "different_start_observations", "different_start_pattern_summary",
                      "unmatched_positions", "token_coverage", "pattern_summary", "costs", "exclusions",
                      "recurrence_evidence_issues", "missing_streams"):
             _csv(out/(name+".csv"), analysis.get(name, []))
         _csv(out/"pattern_recurrence_summary.csv", native_patterns)
+        _csv(out/"different_start_recurrence_summary.csv", different_patterns)
         _json(out/"native_overall.json", analysis.get("overall"))
     cases = (inventory or {}).get("cases", [])
     _csv(out/"artifact_cases.csv", cases)
@@ -169,17 +189,30 @@ def write_report(output_dir, analysis=None, diagnostic=None, inventory=None):
         lines += ["Ratios use summed measurements. Contributions retain negative values and can exceed 100% "
                   "when another conversation regresses. Paired serving measurements use the BANK arm's exact saved inputs "
                   "with available checkpoints; they do not include adaptation or checkpoint activation.", "",
-                  "### Where recorded prediction changes occur", ""]
+                  "### Matched-condition prediction changes", ""]
         lines += _table([("source", "Source"), ("recurrence", "Canonical-token recurrence"),
-            ("paired_decision_denominator", "Paired positions"), ("frozen_error_denominator", "Frozen errors"),
+            ("paired_decision_denominator", "Matched positions"), ("frozen_error_denominator", "Frozen errors"),
             ("repair", "Repairs"), ("frozen_correct_denominator", "Frozen correct"), ("new_error", "New errors")], native_patterns)
-        lines += ["Decision pairing requires exact canonical prefix token IDs and absolute output position; "
-                  "verification-call number is not an alignment key. Unmatched starts/positions and rejected-history "
-                  "predictions remain in the coverage/exclusion tables. Different block starts can still produce "
-                  "comparable canonical-prefix decisions, but do not establish the mechanism of the change.", "",
+        lines += ["A matched-condition repair or new error requires exact canonical prefix token IDs, identical "
+                  "draft-block start and identical absolute output position. Verification-call number is not an "
+                  "alignment key. Equal verifier prefixes alone do not imply equal DFlash inputs: predicting the "
+                  "third masked token differs from predicting the first token of a later block.", "",
+                  "### Different-start native observations", ""]
+        lines += _table([("source", "Source"), ("recurrence", "Canonical-token recurrence"),
+            ("paired_observation_denominator", "Different-start positions"),
+            ("frozen_error_observation_denominator", "Frozen wrong observations"),
+            ("frozen_wrong_osd_correct", "Frozen wrong / OSD correct"),
+            ("frozen_correct_observation_denominator", "Frozen correct observations"),
+            ("frozen_correct_osd_wrong", "Frozen correct / OSD wrong")], different_patterns)
+        lines += ["These rows compare observed outcomes under different draft-block starts. They are descriptive "
+                  "native-trajectory observations, not matched-condition repairs or new errors. Their denominators "
+                  "and recurrence counts are separate; they never enter the preceding repair table. All aligned rows "
+                  "retain comparison_scope, while unmatched positions and rejected-history predictions remain in "
+                  "coverage/exclusion tables. Overall request latency and verification-call comparisons are unchanged.", "",
                   "The declared categories—whitespace/punctuation, code-syntax lexemes, identifiers/numbers, ordinary "
                   "text and mixed/uncategorized—are lexical heuristics. The full category denominators are in "
-                  "pattern_summary.csv. Earlier-training recurrence requires a verified prior OSD training response; "
+                  "pattern_summary.csv for matched conditions and different_start_pattern_summary.csv for descriptive "
+                  "different-start observations. Earlier-training recurrence requires a verified prior OSD training response; "
                   "current-answer-only recurrence excludes it. Exact token-ID absence is a limited familiarity proxy, "
                   "not semantic novelty. These associations do not prove memorization or domain specialization.", "",
                   "### Cost boundary", ""]

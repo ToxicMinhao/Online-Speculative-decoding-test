@@ -82,11 +82,15 @@ def test_alignment_uses_absolute_position_and_exact_canonical_prefix():
     position3 = next(d for d in report["aligned_decisions"] if d["absolute_output_position"] == 3)
     assert position3["frozen_block_start"] == 3 and position3["osd_block_start"] == 1
     assert position3["same_block_start"] is False
-    assert position3["effect"] == "both_correct"
+    assert position3["effect"] is None
+    assert position3["native_outcome"] == "both_correct"
+    assert position3["comparison_scope"] == "different_start_native_observation"
     # Frozen's speculative position3 after its wrong token90 is not paired.
     assert report["token_coverage"][0]["f_noncanonical_or_beyond_output_proposals"] == 1
     assert report["token_coverage"][0]["matched_block_starts"] == 1
     assert report["token_coverage"][0]["unmatched_decision_positions"] == 1
+    assert report["token_coverage"][0]["matched_condition_decisions"] == 2
+    assert report["token_coverage"][0]["different_start_observations"] == 2
 
 
 @pytest.mark.parametrize("change,reason", [
@@ -194,7 +198,11 @@ def test_fixed_campaign_scope_and_qualification_exclusion():
 def test_token_denominators_preserve_uncategorized_and_unmatched():
     result, traces = fixture()
     report = analyze_campaign([result], traces.__getitem__, lambda _: "word;", require_full_campaign=False)
-    assert sum(r["paired_decision_denominator"] for r in report["pattern_summary"]) == len(report["aligned_decisions"])
+    matched = sum(r["paired_decision_denominator"] for r in report["pattern_summary"])
+    different = sum(r["paired_observation_denominator"] for r in report["different_start_pattern_summary"])
+    assert matched == len(report["matched_condition_decisions"])
+    assert different == len(report["different_start_observations"])
+    assert matched + different == len(report["aligned_decisions"])
     assert all(r["category"] == "mixed_uncategorized" for r in report["pattern_summary"] if r["paired_decision_denominator"])
     assert report["unmatched_positions"]
 
@@ -237,3 +245,49 @@ def test_missing_pinned_tokenizer_preserves_token_id_and_native_measurements():
     assert all(r["category"] == "mixed_uncategorized" for r in report["aligned_decisions"])
     assert any(r["effect"] == "repair" for r in report["aligned_decisions"])
     assert all(isinstance(r["appeared_in_prior_trained_response"], bool) for r in report["aligned_decisions"])
+
+
+def different_start_fixture():
+    """Frozen masked slot 3 fails where OSD masked slot 1 succeeds."""
+    result, _ = fixture()
+    inputs, output = [100, 101], [10, 11, 12, 13, 14, 15, 16, 17]
+    events = {
+        "F": [event(inputs, output, 1, [11, 12, 90], [11, 12, 13]),
+              event(inputs, output, 4, [14, 15, 16])],
+        "OSD": [event(inputs, output, 1, [11, 91, 92], [11, 12, 93]),
+                event(inputs, output, 3, [13, 14, 15]), event(inputs, output, 7, [17])],
+    }
+    traces = {arm: trace_for(inputs, output, rows) for arm, rows in events.items()}
+    for row in result["canonical"]:
+        row.update(input_ids=inputs, output_ids=output)
+    for row in result["scores"]:
+        native = events[row["arm"]]
+        row.update(input_ids=inputs, output_ids=output, verification_calls=len(native),
+            accepted_draft_tokens=sum(e["committed_provenance"].count("accepted_draft") for e in native),
+            verification_committed_tokens=sum(len(e["committed_token_ids"]) for e in native))
+    return result, traces
+
+
+def test_different_start_success_is_not_a_matched_repair_or_pooled_recurrence():
+    result, traces = different_start_fixture()
+    report = analyze(result, traces)
+    assert not report["exclusions"]
+    row = next(r for r in report["aligned_decisions"] if r["absolute_output_position"] == 3)
+    assert (row["frozen_block_start"], row["frozen_block_position"]) == (1, 2)
+    assert (row["osd_block_start"], row["osd_block_position"]) == (3, 0)
+    assert row["native_outcome"] == "frozen_wrong_osd_correct"
+    assert row["effect"] is None and row in report["different_start_observations"]
+    assert row not in report["matched_condition_decisions"]
+    assert sum(r["repair"] for r in report["pattern_summary"]) == 0
+    assert sum(r["new_error"] for r in report["pattern_summary"]) == 1
+    assert sum(r["paired_decision_denominator"] for r in report["pattern_summary"]) == 2
+    assert sum(r["paired_observation_denominator"] for r in report["different_start_pattern_summary"]) == 3
+    assert sum(r["frozen_wrong_osd_correct"] for r in report["different_start_pattern_summary"]) == 1
+    assert all("repair" not in r for r in report["different_start_pattern_summary"])
+    assert report["token_coverage"][0]["matched_condition_decisions"] == 2
+    assert report["token_coverage"][0]["different_start_observations"] == 3
+    # The interpretation fix must not change observed native performance.
+    assert report["overall"]["frozen_request_s"] == 4.0
+    assert report["overall"]["osd_request_s"] == 3.0
+    assert report["overall"]["frozen_verification_calls"] == 2
+    assert report["overall"]["osd_verification_calls"] == 3

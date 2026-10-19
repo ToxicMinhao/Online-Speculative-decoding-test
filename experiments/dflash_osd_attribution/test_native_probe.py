@@ -63,7 +63,7 @@ def test_plan_limits_and_checkpoint_binding(monkeypatch):
 
 def fake_runtime(monkeypatch, *, mismatch=False, repeat_forward=False, bad_flush=False):
     torch = pytest.importorskip("torch")
-    flags = dict(prefills=0, blocks=0, head_calls=0, flushes=0, context=[], claimed=[])
+    flags = dict(prefills=0, blocks=0, head_calls=0, flushes=0, context=[], claimed=[], prefix_indices=[])
     class Params:
         def __init__(self, **kwargs): self.kwargs = kwargs
         def normalize(self, tokenizer): pass
@@ -78,6 +78,7 @@ def fake_runtime(monkeypatch, *, mismatch=False, repeat_forward=False, bad_flush
             obj=cls(); obj.reqs=reqs; return obj
         def prepare_for_extend(self):
             req=self.reqs[0]
+            flags['prefix_indices'].append(req.prefix_indices.clone())
             self.seq_lens=torch.tensor([len(req.fill_ids)])
     class Model:
         def named_parameters(self): return []
@@ -106,7 +107,7 @@ def fake_runtime(monkeypatch, *, mismatch=False, repeat_forward=False, bad_flush
         flags["flushes"]+=1
         return not bad_flush or flags["flushes"]<2
     scheduler=types.SimpleNamespace(draft_worker=worker,flush_cache=flush,tokenizer=None,
-        model_config=types.SimpleNamespace(vocab_size=100),req_to_token_pool=types.SimpleNamespace(req_to_token=torch.arange(20000).view(1,-1)),
+        model_config=types.SimpleNamespace(vocab_size=100),req_to_token_pool=types.SimpleNamespace(req_to_token=torch.arange(20000,dtype=torch.int32).view(1,-1)),
         token_to_kv_pool_allocator=None,tree_cache=None,enable_overlap=False,spec_algorithm=None)
     modules={"sglang.srt.managers.schedule_batch":types.SimpleNamespace(Req=Req,ScheduleBatch=Batch),
              "sglang.srt.sampling.sampling_params":types.SimpleNamespace(SamplingParams=Params),
@@ -133,12 +134,16 @@ def test_one_native_block_no_verification_or_generated_history(monkeypatch,tmp_p
 
 
 def test_full_context_prefill_chunking_without_extra_draft_blocks(monkeypatch,tmp_path):
+    torch=pytest.importorskip('torch')
     scheduler,flags=fake_runtime(monkeypatch)
     a=anchor();a["input_ids"]=[10]*8431;a["canonical_prefix_ids"]=a["input_ids"]+[20]
     result=p.run_native_block(scheduler,a,"F",tmp_path)
     assert result["target_prefill_chunks"]==[8192,239]
     assert flags["prefills"]==2 and flags["blocks"]==1
     assert flags["context"][-1]==a["input_ids"]
+    assert scheduler.req_to_token_pool.req_to_token.dtype == torch.int32
+    assert all(indices.dtype == torch.int64 for indices in flags['prefix_indices'])
+    assert torch.equal(flags['prefix_indices'][1], torch.arange(8192, dtype=torch.int64))
 
 
 def test_seed_mismatch_retained_invalid_without_retry(monkeypatch,tmp_path):
