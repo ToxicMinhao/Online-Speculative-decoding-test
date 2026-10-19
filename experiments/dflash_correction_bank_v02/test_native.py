@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import copy
+import io
 import itertools
 import json
 from pathlib import Path
@@ -83,7 +84,28 @@ def test_native_profile_rpc_is_separate_from_generation(tmp_path):
         assert name=='correction_bank_profile'
         (tmp_path/'BANK_PROFILE.json').write_text('{"paths": []}')
     service.engine=SimpleNamespace(collective_rpc=rpc)
-    assert service.bank_profile({})=={'paths':[]}
+    assert service.bank_profile({})=={'status':'passed','paths':[]}
+
+
+def test_native_profile_receipt_passes_the_actual_worker_client_contract(tmp_path):
+    service=native.ServingService.__new__(native.ServingService);service.out=tmp_path
+    receipt={'schema':'correction_bank_v02_cost_profile_v1','paths':[{'modules':0,'mean_s':.001}]}
+    def rpc(name):
+        assert name=='correction_bank_profile'
+        (tmp_path/'BANK_PROFILE.json').write_text(json.dumps(receipt))
+    service.engine=SimpleNamespace(collective_rpc=rpc)
+    client=native.base._WorkerClient.__new__(native.base._WorkerClient)
+    client.url='http://127.0.0.1:1';client.token='fixture-token'
+    def open_request(request,timeout):
+        assert request.full_url==client.url+'/bank_profile'
+        assert json.loads(request.data)=={} and timeout==7200
+        return io.BytesIO(json.dumps(service.bank_profile({})).encode())
+    opener=SimpleNamespace(open=open_request)
+    with patch.object(native.base.urllib.request,'build_opener',return_value=opener):
+        result=client.call('bank_profile',{})
+    assert result==dict(receipt,status='passed')
+    # The underlying diagnostic remains a receipt, not an altered RPC payload.
+    assert json.loads((tmp_path/'BANK_PROFILE.json').read_text())==receipt
 
 
 def test_worker_entry_and_sources_are_v02_without_mutating_historical_command():

@@ -414,7 +414,9 @@ class ServingService(per_turn.ServingService):
 
     def bank_profile(self, body):
         self.engine.collective_rpc('correction_bank_profile')
-        return json.loads((self.out / 'BANK_PROFILE.json').read_text())
+        # Scheduler diagnostics are not themselves worker-RPC envelopes.  The
+        # shared client requires a successful status on every completed action.
+        return dict(json.loads((self.out / 'BANK_PROFILE.json').read_text()), status='passed')
 
     def generate(self, body):
         arm, state = body['arm'], body['state']
