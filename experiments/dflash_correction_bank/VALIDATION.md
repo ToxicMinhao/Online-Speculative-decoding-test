@@ -2,7 +2,7 @@
 
 ## Material Passport
 
-- Status: CPU implementation checks passed; submitted for review.
+- Status: CPU implementation checks passed; reviewer fixes submitted for review.
 - Scope: algorithm implementation, causal orchestration and reporting. No GPU qualification or model-performance result.
 - Definition: user-supplied v0.1 specification, SHA-256 `453b142466d8c6d8025391cf3d942426460876e34aa5bcb80c3f78c7b8314e12`, with the three subsequent clarifications.
 - Research status: existing stage unchanged; execution waits for review.
@@ -11,19 +11,26 @@
 
 | Check | Result |
 | --- | --- |
-| New correction-bank tests | 52 passed |
+| Correction-bank tests, including reviewer regression cases | 63 passed |
 | Existing per-turn and follow-up tests, in the same invocation | 123 passed, 2 optional artifact/tokenizer checks skipped |
 | Earlier two-update tests, in a separate invocation | 64 passed, 17 optional installed-source checks skipped |
 | Approved six-stream package plan | Passed; 116 contexts, 110 updates per learning arm, 1,044 main timed executions |
 | Python syntax, configuration JSON and Git whitespace checks | Passed |
 
-The main invocation finished in 23.41 seconds. The earlier suite finished in
+The main invocation finished in 24.07 seconds. The earlier suite finished in
 1.94 seconds. Test environment: Python 3.10.18, NumPy 2.2.6, SciPy 1.15.3,
 pytest 8.3.5 and a CPU-used PyTorch 2.11.0+cu130 installation, with CUDA devices
 hidden and one BLAS/OpenMP thread. This is not the native runtime qualification.
 The skipped historical tests require explicit local installed-source/tokenizer
 paths; none of the new bank tests is skipped. No historical scientific source
 was modified.
+
+The three findings against `b32e45c` are addressed in
+[REVIEW_FIXES.md](REVIEW_FIXES.md): stable prefill geometry captured before native
+mutation, native-versus-reference correction-survival measurements, and an
+explicit empty final-analysis path for one-token answers. Eleven new regression
+tests cover those changes and prevent qualification from passing solely on empty
+measurements. No new GPU qualification has been performed.
 
 Coverage includes:
 

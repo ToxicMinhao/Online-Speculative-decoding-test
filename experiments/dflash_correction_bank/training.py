@@ -157,7 +157,8 @@ class BankTrainingService(per_turn.TrainerService):
             diagnostic_reconstruction_s=time.perf_counter()-tick
         event_started=time.perf_counter()
         features=sampled_features(self.bank_draft,self.components.embed_tokens,self.teacher_features,response,
-                                  generator=self.bank_generator,synchronize=self._synchronize)
+                                  generator=self.bank_generator,synchronize=self._synchronize,
+                                  final_analysis=final)
         objective=self._objective(features)
         summary=FeedbackSummary(descriptor=read.descriptor,G=objective.G,S=objective.S,omega=objective.omega,
             phi=objective.phi,T=objective.T,forecast=read.forecast,error=objective.G-read.forecast,
@@ -185,6 +186,7 @@ class BankTrainingService(per_turn.TrainerService):
                       for old,new in zip(before_records,self.bank.protection))
         checks={'frozen_backbone':True,'current_response_only':True,
                 'fixed_sampled_objective':True,'protection_records_immutable':immutable,
+                'sampled_positions':len(objective.h),
                 'served_record_precedes_trials':write['records_before_owner_trials']==
                     write['records_before']+int(write['served_gain']>0)}
         qualification_s=0.
@@ -251,6 +253,17 @@ class BankTrainingService(per_turn.TrainerService):
             else:
                 checks['compiled_fusion']={'passed':True,'zero_exposure':True}
                 checks['fusion_detail']={'no_eligible_positions':True,'separate_nonempty_turn_check_required':True}
+            # Observe the actual serving arithmetic on the same frozen sampled
+            # features. This neither changes the matrix nor requires any gain.
+            from .precision import qualify_native_precision
+            native_cases={'zero':np.zeros_like(read.effective),'served':read.effective,
+                'controlled_nonzero':np.eye(rank)*(self.bank.config.radius/np.sqrt(rank))}
+            if write['owner'] is not None:
+                native_cases['fitted']=self.bank.matrices[write['owner']].copy()
+            checks['native_precision']=qualify_native_precision(objective,native_cases)
+            checks['native_precision']['controlled_case']='C = radius * identity / sqrt(rank), independent of feedback and RNG'
+            checks['native_precision']['fitted_case_available']=write['owner'] is not None
+            checks['native_precision_reported']=True
             checks.update(masks_and_conditioning=True,compressed_feedback=checks['compressed_direct']['passed'],
                           direct_retention_bounds=checks['direct_historical']['passed'],current_response_fit_reported=True)
             qualification_s=time.perf_counter()-tick
@@ -271,7 +284,8 @@ class BankTrainingService(per_turn.TrainerService):
             'accepted_steps':sum(bool(s['accepted']) for s in write['steps']),
             'nonzero_steps':sum(bool(s['nonzero']) for s in write['steps']),
             'feasible_noop_steps':sum(bool(s['accepted'] and not s['nonzero']) for s in write['steps']),
-            'owner':write['owner'],'served_gain':write['served_gain'],
+            'owner':write['owner'],
+            'served_gain':None if features['metadata'].get('zero_supervision') else write['served_gain'],
             'prewrite_singleton_gains':{str(c['owner']):write['frozen_loss']-c['base_loss']
                                         for c in write['candidates']},
             'prewrite_singleton_gain_scope':'Current-response feedback diagnostic, computed after serving; never a read input',
@@ -281,11 +295,14 @@ class BankTrainingService(per_turn.TrainerService):
             'blocked_writes':sum(not s['accepted'] for s in write['steps']),
             'teacher_precision':objective.teacher_precision,
             'accounting':features['metadata'],
+            'analysis_no_op':bool(final and features['metadata'].get('zero_supervision')),
+            'analysis_no_op_reason':features['metadata'].get('no_op_reason'),
             'costs':{**features['costs'],'feedback_compression_s':objective.compression_s,
                 'candidate_gradient_s':write['candidate_gradient_s'],'all_objective_s':write['all_objective_s'],
                 'solver_s':write['solver_s'],'bank_write_s':write['adaptation_s'],
                 'qualification_only_s':qualification_s+diagnostic_reconstruction_s+qualification_artifact_s,
                 'qualification_artifact_s':qualification_artifact_s,
+                'native_precision_s':checks.get('native_precision',{}).get('wall_s',0.),
                 'diagnostic_reconstruction_s':diagnostic_reconstruction_s,
                 'adaptation_total_s':event_s-qualification_s-qualification_artifact_s,
                 'feedback_event_wall_s':event_s,

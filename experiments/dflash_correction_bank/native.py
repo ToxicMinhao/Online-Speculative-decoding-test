@@ -277,14 +277,19 @@ class NativeBackend(per_turn.NativeBackend):
         zero_preserves = (bool(zero_rows) and len(paired_frozen) == len(zero_rows) and
                           all(v.get('same_generation_valid') is True for v in zero_rows+paired_frozen))
         evidence = self.qualification_evidence
+        nonempty = [v for v in evidence if v.get('sampled_positions',0)>0]
         checks = dict(
-            compiled_fusion=bool(evidence) and all(v.get('compiled_fusion', {}).get('passed') is True for v in evidence),
+            compiled_fusion=bool(nonempty) and all(v.get('compiled_fusion', {}).get('passed') is True for v in evidence),
             masks_and_conditioning=bool(evidence) and all(v.get('current_response_only') and v.get('fixed_sampled_objective') for v in evidence),
-            compressed_feedback=bool(evidence) and all(v.get('compressed_direct', {}).get('passed') is True for v in evidence),
+            compressed_feedback=bool(nonempty) and all(v.get('compressed_direct', {}).get('passed') is True for v in evidence),
             direct_retention_bounds=bool(evidence) and all(v.get('direct_historical', {}).get('passed') is True for v in evidence),
-            current_response_fit_reported=bool(evidence) and all('source_fit' in v for v in evidence))
+            current_response_fit_reported=bool(nonempty) and all('source_fit' in v for v in evidence),
+            native_precision_reported=bool(nonempty) and all(
+                v.get('native_precision_reported') is True and v.get('native_precision',{}).get('status')=='measured'
+                for v in evidence))
         checks.update(cold_start=cold_start, zero_preserves_outputs=zero_preserves,
-                      direct_evidence=self.qualification_evidence, performance_win_required=False)
+                      direct_evidence=self.qualification_evidence, nonempty_feedback_responses=len(nonempty),
+                      performance_win_required=False)
         write_json(self.out / 'QUALIFICATION.json', checks)
         return checks
 

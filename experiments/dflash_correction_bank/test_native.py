@@ -3,8 +3,9 @@ from __future__ import annotations
 
 from pathlib import Path
 import json
+import sys
 import tempfile
-from types import SimpleNamespace
+from types import ModuleType, SimpleNamespace
 import unittest
 from unittest.mock import patch
 
@@ -92,7 +93,174 @@ class CorrectionFeatures(unittest.TestCase):
                 context.finish()
 
 
+@unittest.skipIf(torch is None, 'Torch CPU is required for installed hook checks')
+class InstalledForwardWrapper(unittest.TestCase):
+    """Exercise install() itself against the native prefill consumption contract."""
+    def install_stub(self, directory):
+        class StubDFlashWorker:
+            tp_size = 1
+            use_compact_draft_cache = False
+
+            def __init__(self):
+                self.forward_calls = []
+                self.head_calls = []
+
+            def forward_batch_generation(self, batch, **kwargs):
+                # The first real prefill may have no speculative input yet.
+                self.forward_calls.append(dict(spec_info_before=batch.spec_info, kwargs=kwargs))
+                features = batch.features
+                # Pinned native forward creates a new DFlashDraftInput, appends
+                # its context to KV, and exposes that *consumed* state on batch.
+                draft_input = SimpleNamespace(ctx_lens=torch.tensor(batch.extend_lens), target_hidden=features)
+                draft_input.ctx_lens.zero_()
+                draft_input.target_hidden = draft_input.target_hidden[:0]
+                batch.spec_info = draft_input
+                # Deliberately invalidate the mutable geometry too: the wrapper
+                # must hold scalar values captured before native execution.
+                batch.extend_lens[0] = 0
+                batch.prefix_lens[0] = -1
+                return SimpleNamespace(logits_output=SimpleNamespace(teacher_hidden_states=features),
+                                       native_marker='unchanged')
+
+            def _greedy_sample_from_vocab_parallel_head(self, *, hidden_states, lm_head, chunk_size=256):
+                self.head_calls.append((hidden_states, lm_head, chunk_size))
+                return torch.argmax(hidden_states @ lm_head.T, dim=-1)
+
+        class StubScheduler:
+            pass
+
+        names = ('sglang', 'sglang.srt', 'sglang.srt.speculative', 'sglang.srt.managers',
+                 'sglang.srt.speculative.dflash_worker', 'sglang.srt.managers.scheduler')
+        modules = {name: ModuleType(name) for name in names}
+        modules['sglang.srt.speculative.dflash_worker'].DFlashWorker = StubDFlashWorker
+        modules['sglang.srt.managers.scheduler'].Scheduler = StubScheduler
+        patcher = patch.dict(sys.modules, modules)
+        patcher.start(); self.addCleanup(patcher.stop)
+        entry = SimpleNamespace(RequestTrace=type('UncalledTrace', (), {}), _active_trace=None,
+                                inherited=SimpleNamespace(strict_idle=lambda _: None))
+        hooks.install(entry, {'worker_out': str(directory)}, projections={}, bank_factory=lambda _: None)
+        return entry, StubDFlashWorker()
+
+    def context(self):
+        observed = []
+        bank = SimpleNamespace(matrices=np.zeros((4, 2, 2)), allocated=np.zeros(4, dtype=bool),
+                               feedback=[], protection=[], write_log=[])
+        def read(descriptor):
+            observed.append(descriptor.copy())
+            return SimpleNamespace(alpha=np.zeros(4), effective=np.zeros((2, 2)),
+                                   forecast=np.zeros((2, 2)), diagnostics={'cold_start': True})
+        bank.read = read
+        context = hooks.RequestCorrection({'arm': 'BANK', 'state_sha256': 'a'*64},
+            {'U': np.eye(4, 2), 'V_in': np.eye(4, 2), 'V_descriptor': np.eye(4, 2)}, None,
+            active_bank={'bank': bank, 'state_sha256': 'a'*64})
+        return context, observed
+
+    def batch(self, start, length, *, feature_rows=None):
+        return SimpleNamespace(forward_mode=SimpleNamespace(is_extend=lambda: True),
+            is_extend_in_batch=False, batch_size=lambda: 1, extend_lens=[length], prefix_lens=[start],
+            spec_info=None, features=torch.ones(length if feature_rows is None else feature_rows, 4))
+
+    def test_installed_wrapper_survives_consumed_state_and_routes_only_final_chunk(self):
+        with tempfile.TemporaryDirectory() as directory:
+            entry, worker = self.install_stub(directory)
+            context, observed = self.context()
+            forecast = Path(directory)/'forecast.json'
+            entry._active_trace = SimpleNamespace(bank_correction=context, input_ids=[1]*8431,
+                                                   bank_forecast_path=forecast)
+            first = self.batch(0, 8192)
+            result = worker.forward_batch_generation(first, test_argument='preserved')
+            self.assertEqual(result.native_marker, 'unchanged')
+            self.assertIsNone(worker.forward_calls[0]['spec_info_before'])
+            self.assertEqual(worker.forward_calls[0]['kwargs'], {'test_argument': 'preserved'})
+            self.assertEqual(first.spec_info.ctx_lens.tolist(), [0])
+            self.assertEqual(context.prompt_seen, 8192)
+            self.assertEqual(observed, [])
+            self.assertFalse(forecast.exists())
+            second = self.batch(8192, 239)
+            second.spec_info = first.spec_info
+            second.features[-1] = torch.tensor([3., 4., 8., 9.])
+            worker.forward_batch_generation(second)
+            self.assertEqual(second.spec_info.ctx_lens.tolist(), [0])
+            self.assertEqual(context.prompt_seen, 8431)
+            self.assertEqual(len(observed), 1)
+            np.testing.assert_allclose(observed[0], [.6, .8], atol=1e-7)
+            self.assertTrue(forecast.is_file())
+            hidden = torch.arange(36, dtype=torch.float32).reshape(9, 4)
+            E = torch.eye(4)
+            predicted = worker._greedy_sample_from_vocab_parallel_head(hidden_states=hidden, lm_head=E, chunk_size=9)
+            self.assertIs(worker.head_calls[0][0], hidden)
+            self.assertIs(worker.head_calls[0][1], E)
+            self.assertEqual(worker.head_calls[0][2], 9)
+            self.assertTrue(torch.equal(predicted, torch.argmax(hidden @ E.T, dim=-1)))
+            self.assertEqual(len(observed), 1)
+
+    def test_installed_wrapper_rejects_returned_feature_length_mismatch(self):
+        with tempfile.TemporaryDirectory() as directory:
+            entry, worker = self.install_stub(directory)
+            context, observed = self.context()
+            forecast = Path(directory)/'forecast.json'
+            entry._active_trace = SimpleNamespace(bank_correction=context, input_ids=[1]*8431,
+                                                   bank_forecast_path=forecast)
+            with self.assertRaisesRegex(RuntimeError, 'actual native prefill length'):
+                worker.forward_batch_generation(self.batch(0, 8192, feature_rows=8191))
+            self.assertEqual(observed, [])
+            self.assertEqual(context.prompt_seen, 0)
+            self.assertFalse(forecast.exists())
+
+    def test_installed_wrapper_rejects_prefix_gap_before_routing(self):
+        with tempfile.TemporaryDirectory() as directory:
+            entry, worker = self.install_stub(directory)
+            context, observed = self.context()
+            forecast = Path(directory)/'forecast.json'
+            entry._active_trace = SimpleNamespace(bank_correction=context, input_ids=[1]*8431,
+                                                   bank_forecast_path=forecast)
+            worker.forward_batch_generation(self.batch(0, 8192))
+            with self.assertRaisesRegex(RuntimeError, 'not contiguous'):
+                worker.forward_batch_generation(self.batch(8191, 239))
+            self.assertEqual(observed, [])
+            self.assertFalse(forecast.exists())
+
+    def test_other_arms_keep_native_forward_and_head_without_bank_geometry(self):
+        with tempfile.TemporaryDirectory() as directory:
+            entry, worker = self.install_stub(directory)
+            context = hooks.RequestCorrection({'arm': 'OSD'}, {}, None)
+            entry._active_trace = SimpleNamespace(bank_correction=context)
+            batch = self.batch(0, 2)
+            result = worker.forward_batch_generation(batch)
+            self.assertEqual(result.native_marker, 'unchanged')
+            hidden, E = torch.ones(9, 4), torch.eye(4)
+            predicted = worker._greedy_sample_from_vocab_parallel_head(hidden_states=hidden, lm_head=E)
+            self.assertIs(worker.head_calls[0][0], hidden)
+            self.assertTrue(torch.equal(predicted, torch.argmax(hidden @ E.T, dim=-1)))
+
+
 class ControllerAccounting(unittest.TestCase):
+    def test_qualification_requires_measurements_not_positive_native_gains(self):
+        backend=native.NativeBackend({})
+        evidence=dict(sampled_positions=0,compiled_fusion={'passed':True},
+            current_response_only=True,fixed_sampled_objective=True,compressed_direct={'passed':True},
+            direct_historical={'passed':True},source_fit={'gain':None},native_precision_reported=True,
+            native_precision={'status':'measured','sampled_positions':0,'performance_gate':False})
+        result=dict(canonical=[dict(arm='BANK',turn=t,read={'coefficients':[0.]*4}) for t in (1,2)],
+            scores=[dict(arm=a,turn=t,repeat=0,read={'coefficients':[0.]*4},same_generation_valid=True)
+                    for t in (1,2) for a in ('BANK','F')])
+        with tempfile.TemporaryDirectory() as directory:
+            backend.out=Path(directory);backend.qualification_evidence=[evidence]
+            empty=backend.qualify(result)
+            self.assertFalse(empty['compiled_fusion'])
+            self.assertFalse(empty['compressed_feedback'])
+            self.assertFalse(empty['native_precision_reported'])
+            evidence['sampled_positions']=1
+            evidence['source_fit']={'gain':0.,'performance_gate':False}
+            evidence['native_precision']=dict(status='measured',sampled_positions=1,performance_gate=False,
+                cases=[dict(label='fitted',correction_survived_feature_rounding=False,
+                            native_loss_change=0.,reference_loss_change=-.01)])
+            measured=backend.qualify(result)
+            self.assertTrue(measured['compiled_fusion'])
+            self.assertTrue(measured['native_precision_reported'])
+            self.assertEqual(measured['nonempty_feedback_responses'],1)
+            self.assertFalse(measured['performance_win_required'])
+
     def test_bank_read_in_request_but_activation_and_cache_outside(self):
         backend = native.NativeBackend({})
         backend.projections = {'path': 'p', 'sha256': 'p'*64}

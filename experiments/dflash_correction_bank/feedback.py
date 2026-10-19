@@ -12,12 +12,61 @@ import time
 import numpy as np
 
 from experiments.dflash_per_turn import training as osd_training
+from experiments.dflash_per_turn.framing import VOCAB_SIZE
 
 author = osd_training.author
 
 
+def empty_final_features(response, embed_tokens, generator):
+    """Audit an analysis-only final answer without invoking the author sampler.
+
+    Its valid-count-minus-one rule has no anchors for a one-token answer. This
+    does not change the inherited OSD audit/sampler or skip a scheduled update.
+    Keep the exact response, zero exposure and unchanged RNG explicit.
+    """
+    import torch
+    require=author.require
+    require(isinstance(response.get('record_id'),str) and response['record_id'],'Missing response identity')
+    require(type(response.get('turn')) is int,'Invalid response turn')
+    for key in ('episode_id','target_id'):
+        require(isinstance(response.get(key),str) and response[key],'Missing '+key)
+    for key in ('target_identity_sha256','capture_checkpoint_sha256'):
+        require(author._sha256(response.get(key)),'Missing/invalid '+key)
+    ids,output=response.get('input_ids'),response.get('output_ids')
+    require(isinstance(ids,list) and ids and isinstance(output,list) and len(output)==1 and
+            all(type(i) is int and 0<=i<VOCAB_SIZE for i in ids+output),'Invalid empty-final token IDs')
+    require(type(response.get('input_token_count')) is int and response['input_token_count']==len(ids),
+            'Input boundary does not match exact full causal prompt')
+    require(type(response.get('output_cap')) is int and response['output_cap']==author.OUTPUT_CAP,
+            'Output cap differs from qualified protocol')
+    require(len(ids)<=author.INPUT_LIMIT and len(ids)+len(output)+author.BLOCK_SIZE-1<=author.CONTEXT_LIMIT,
+            'Full causal history exceeds context envelope; truncation forbidden')
+    for key,values in (('input_ids_sha256',ids),('output_ids_sha256',output)):
+        if key in response:require(response[key]==author.digest(values),'Token hash differs: '+key)
+    rng=generator.get_state().cpu().numpy().copy()
+    width=embed_tokens.weight.shape[1]
+    empty=torch.empty((0,width),dtype=embed_tokens.weight.dtype)
+    metadata=dict(record_id=response['record_id'],turn=response['turn'],response_start=len(ids),
+        response_end_exclusive=len(ids)+len(output),real_sequence_length=len(ids)+len(output),
+        padded_sequence_length=len(ids)+len(output)+author.BLOCK_SIZE-1,
+        right_padding_positions=author.BLOCK_SIZE-1,response_tokens=len(output),
+        eligible_anchor_count=len(output),sampled_anchor_count=0,anchor_positions=[],block_keep_mask=[],
+        label_positions=[],teacher_positions=[],binary_loss_mask=[],position_weights=[],
+        eligible_positions=0,unique_supervised_position_ids=[],unique_supervised_positions=0,
+        eligible_blocks=0,backbone_forward_calls=0,teacher_forward_calls=0,weighted_position_sum=0.,
+        zero_supervision=True,analysis_only=True,no_op_reason='final_answer_has_fewer_than_two_eligible_anchors',
+        fixed_objective_across_candidates_and_steps=True,normalization='empty analysis objective; no sampler invoked',
+        input_ids_sha256=author.digest(ids),output_ids_sha256=author.digest(output),
+        sequence_sha256=author.digest(ids+output),
+        loss_mask_sha256=author.digest([0]*len(ids)+[1]*len(output)+[0]*(author.BLOCK_SIZE-1)))
+    metadata['sampling_and_weights_sha256']=author.digest(metadata)
+    return dict(h=empty,teacher_h=empty.clone(),omega=np.empty(0,dtype=np.float64),metadata=metadata,
+        rng_before=rng,rng_after=rng.copy(),costs={'teacher_preparation_s':0.,'frozen_feature_s':0.})
+
+
 def sampled_features(draft, embed_tokens, teacher_features, response, *, generator,
-                     mask_token_id=128002, attention_backend='flex_attention', synchronize=lambda: None):
+                     mask_token_id=128002, attention_backend='flex_attention', synchronize=lambda: None,
+                     final_analysis=False):
     """One fixed author-sampled objective, reused for every owner and both steps.
 
     Full causal target replay, own-block bidirectional draft mask, target label
@@ -25,10 +74,12 @@ def sampled_features(draft, embed_tokens, teacher_features, response, *, generat
     The author mask excludes the anchor slot and all earlier-response loss.
     """
     import torch
-    audit = author.audit_response(response)
     for module in (draft, embed_tokens):
         if module.training or any(p.requires_grad or p.grad is not None for p in module.parameters()):
             raise ValueError('Bank feature extraction requires frozen eval modules')
+    if final_analysis and isinstance(response.get('output_ids'),list) and len(response['output_ids'])<2:
+        return empty_final_features(response,embed_tokens,generator)
+    audit = author.audit_response(response)
     device = next(draft.parameters()).device
     rng_before = generator.get_state().cpu().numpy().copy()
     synchronize(); start = time.perf_counter()

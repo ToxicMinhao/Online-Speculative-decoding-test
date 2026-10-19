@@ -22,7 +22,7 @@ REPEATS = 3
 QUALIFICATION_CHECKS = (
     "zero_preserves_outputs", "compiled_fusion", "masks_and_conditioning",
     "compressed_feedback", "direct_retention_bounds", "current_response_fit_reported",
-    "cold_start",
+    "native_precision_reported", "cold_start",
 )
 
 

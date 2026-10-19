@@ -175,7 +175,78 @@ def test_feedback_service_round_trip_keeps_direct_history_and_final_write_is_ski
         assert checks['protection_records_immutable'] and checks['served_record_precedes_trials']
         assert checks['compressed_direct']['passed'] and checks['direct_historical']['passed']
         assert checks['compiled_fusion']['passed']
+        precision=checks['native_precision']
+        assert precision['status']=='measured' and not precision['performance_gate']
+        assert {c['label'] for c in precision['cases']}==({'zero','served','controlled_nonzero'} if turn==3 else
+                                                      {'zero','served','controlled_nonzero','fitted'})
         assert result['qualification_replay'] and load_snapshot(result['feedback'])['teacher_precision']
         assert result['costs']['qualification_only_s']>=result['costs']['diagnostic_reconstruction_s']
         if turn==3:np.testing.assert_array_equal(before,service.bank.matrices)
     assert len(service.qualification_replay)==3
+
+
+def test_one_token_final_feedback_has_no_anchors_calls_or_rng_consumption():
+    draft=torch.nn.Linear(7,7).eval().requires_grad_(False)
+    embed=torch.nn.Embedding(19,7).eval().requires_grad_(False)
+    generator=torch.Generator().manual_seed(17);before=generator.get_state().clone()
+    response=dict(record_id='short:BANK:t20',episode_id='short',turn=20,target_id='T0',
+        target_identity_sha256='a'*64,capture_checkpoint_sha256='b'*64,
+        input_ids=[3]*20,output_ids=[128009],input_token_count=20,output_cap=1024)
+    def forbidden(*args,**kwargs):raise AssertionError('No teacher/backbone work for empty final analysis')
+    draft.forward=forbidden
+    features=sampled_features(draft,embed,forbidden,response,generator=generator,final_analysis=True)
+    assert features['h'].shape==(0,7) and features['omega'].size==0
+    assert features['metadata']['analysis_only'] and features['metadata']['zero_supervision']
+    assert features['metadata']['sampled_anchor_count']==0
+    assert features['metadata']['eligible_positions']==0 and features['costs']['teacher_preparation_s']==0
+    assert np.array_equal(features['rng_before'],features['rng_after'])
+    assert torch.equal(before,generator.get_state())
+    # Only final analysis is relaxed; ordinary training retains the author rule.
+    with pytest.raises(ValueError,match='requires >=2'):
+        sampled_features(draft,embed,forbidden,response,generator=generator)
+    with pytest.raises(ValueError,match='requires >=2'):author.audit_response(response)
+    with pytest.raises(ValueError,match='Token hash differs'):
+        sampled_features(draft,embed,forbidden,{**response,'output_ids_sha256':'c'*64},
+                         generator=generator,final_analysis=True)
+    for malformed in ([],[128256],[-1],[True]):
+        with pytest.raises(ValueError,match='Invalid empty-final token IDs'):
+            sampled_features(draft,embed,forbidden,{**response,'output_ids':malformed},
+                             generator=generator,final_analysis=True)
+    with pytest.raises(ValueError,match='Invalid empty-final token IDs'):
+        sampled_features(draft,embed,forbidden,{**response,'input_ids':[128256],'input_token_count':1},
+                         generator=generator,final_analysis=True)
+
+
+def test_one_token_final_analysis_completes_training_service_without_a_write(tmp_path):
+    from types import SimpleNamespace
+    from .training import BankTrainingService,plain
+    obj,p=objective_fixture()
+    service=BankTrainingService.__new__(BankTrainingService)
+    service.config={'episode_id':'toy','target':{'identity_sha256':'a'*64}}
+    embed=torch.nn.Embedding(19,7).double().eval().requires_grad_(False)
+    service.components=SimpleNamespace(lm_head=SimpleNamespace(weight=obj.E),embed_tokens=embed)
+    service.projections=p;service.bank=CorrectionBank(BankConfig(kappa=p.kappa,rank=3))
+    service.bank_directory=tmp_path;service.arrays=tmp_path/'arrays'
+    service.bank_draft=torch.nn.Linear(7,7).eval().requires_grad_(False)
+    def forbidden(*args,**kwargs):raise AssertionError('No teacher replay for empty final analysis')
+    service.teacher_features=forbidden;service.bank_generator=torch.Generator().manual_seed(17)
+    service._check_bank_frozen=lambda:None;service._synchronize=lambda:None
+    service.last_turn=19;service.qualification_objectives={};service.qualification_replay={}
+    service.snapshot_reference=save_snapshot(service.bank.snapshot(),tmp_path/'initial.json',array_root=service.arrays)
+    before=service.bank.matrices.copy();read=service.bank.read(np.array([1.,0.,0.]))
+    snapshot=service.snapshot_reference
+    saved=plain({'alpha':read.alpha,'effective':read.effective,'forecast':read.forecast,
+        'descriptor':read.descriptor,'diagnostics':read.diagnostics,'snapshot_sha256':snapshot['sha256']})
+    response=dict(record_id='toy:BANK:t20',episode_id='toy',turn=20,target_id='T0',
+        target_identity_sha256='a'*64,capture_checkpoint_sha256='b'*64,
+        input_ids=[1,2],output_ids=[128009],input_token_count=2,output_cap=1024)
+    result=service.feedback({'turn':20,'final':True,'qualification':True,
+        'before_snapshot':snapshot,'response':response,'served_read':saved})
+    assert result['status']=='passed' and result['scheduled_steps']==result['accepted_steps']==0
+    assert result['analysis_no_op'] and result['accounting']['eligible_positions']==0
+    assert result['served_gain'] is None and result['owner'] is None
+    np.testing.assert_array_equal(before,service.bank.matrices)
+    assert not service.bank.protection and service.last_turn==20
+    assert load_snapshot(result['feedback'])['summary']['phi'].shape==(0,3)
+    assert result['qualification_checks']['native_precision']['sampled_positions']==0
+    assert all(c['no_eligible_anchors'] for c in result['qualification_checks']['native_precision']['cases'])

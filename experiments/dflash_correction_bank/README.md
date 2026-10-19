@@ -100,6 +100,9 @@ all native prefill chunks, including the existing 8,192-token chunking policy;
 no generated-answer feature enters the read decision. No extra target prefill
 is introduced solely for the descriptor. Hook receipts and computed projection
 artifacts are saved and hashed.
+The wrapper copies `ScheduleBatch.extend_lens` and `prefix_lens` before calling
+native forward. It must not read `draft_input.ctx_lens` afterwards: the pinned
+runtime clears that field when it consumes the target features into draft KV.
 
 Teacher logits use the qualified frozen vocabulary head in its native BF16
 computation, followed by float64 normalization and analytical correction-space
@@ -111,6 +114,18 @@ mathematical fixed-feature objective, not automatically to these finite-precisio
 native logits. GPU qualification must check this boundary, output preservation,
 compressed/direct gradients and actual retained-anchor losses. A KL reduction
 does not itself establish fewer verification calls.
+
+Qualification additionally runs `precision.py` on the same sampled frozen
+features for zero, served and fitted matrices, plus the deterministic control
+`C = r * I / sqrt(64)`. It compares actual native corrected-head logits with
+the FP64 reference, centering logit changes to remove softmax-invariant offsets.
+It records each path's loss change against its own zero-correction baseline,
+using identical teacher probabilities, along with feature/logit magnitude ratios,
+changed coordinates and correction survival after rounding. A magnitude ratio
+can exceed one if rounding amplifies a change; it is not a bounded percentage.
+These are observations, not a performance or nonzero-survival admission test.
+Their cost belongs to qualification. The protection guarantee remains scoped
+to the mathematical fixed-feature objective.
 
 ## Causal comparison protocol
 
@@ -137,6 +152,13 @@ are never overwritten to force agreement. At every turn:
    and perform its update. Replays never supply feedback or replace history.
 5. Continue persistent state to the next turn. Skip both final writes; final
    bank feedback summarization is retained as analysis-only work.
+
+A final one-token answer has no anchors under the author's valid-count-minus-one
+sampler. BANK records an explicit empty analysis diagnostic with no teacher or
+backbone call, no RNG consumption and no write. Its unobserved loss gain is null.
+This exception applies only to final analysis; OSD's training recipe and the
+nonfinal sampler/audit remain unchanged. Invalid or empty serving outputs are
+not accepted by this exception.
 
 The main comparison therefore has **116 contexts, 232 canonical executions,
 110 update events per learning arm and 1,044 timed executions**. There is no
@@ -170,6 +192,10 @@ canonical target conditioning, compressed-versus-direct current-response loss
 changes/gradients, and direct old-anchor retention bounds. Qualification retains
 frozen draft and teacher features so actual historical losses can be recomputed;
 checking only stored quadratic constraints is insufficient.
+At least one response must provide nonempty sampled measurements; an empty
+final diagnostic cannot turn entirely vacuous checks into qualification. The
+native-versus-reference precision report is required, but no sign or minimum
+size of its measured improvement is required.
 
 The fixed correction space's source-fit change is reported, without requiring a
 positive gain. The specified cold-start read must remain frozen on turns 1 and
@@ -249,6 +275,7 @@ baseline campaigns and ablations are outside this first run.
 | --- | --- |
 | `core.py`, `projections.py` | Fixed coordinates, read optimization, candidate owners and cumulative protection |
 | `feedback.py`, `training.py` | Qualified response sampling, frozen objective/compression and direct qualification |
+| `precision.py` | Qualification-only native BF16 versus reference logits/losses and rounding-survival measurements |
 | `native.py`, `native_hooks.py` | Existing native verifier/runtime, causal descriptor and compiled correction |
 | `artifacts.py` | Immutable, hash-bound snapshots and content-addressed arrays |
 | `experiment.py`, `run.py` | Own-arm histories, paired pre-update replay, qualification and clean restart |

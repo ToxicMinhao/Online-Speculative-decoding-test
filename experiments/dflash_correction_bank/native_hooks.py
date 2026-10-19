@@ -217,16 +217,29 @@ def install(entry, config, *, projections=None, bank_factory=None):
         trace = entry._active_trace
         correction = getattr(trace, 'bank_correction', None)
         is_prompt = (batch.forward_mode.is_extend() or getattr(batch, 'is_extend_in_batch', False))
-        result = original_forward(worker, batch, **kwargs)
-        if correction is not None and correction.enabled and is_prompt:
+        capture_prompt = correction is not None and correction.enabled and is_prompt
+        if capture_prompt:
             require(batch.batch_size() == 1 and int(worker.tp_size) == 1 and not worker.use_compact_draft_cache,
                     'Bank requires qualified C1 full-context runtime')
+            # Pinned ScheduleBatch.get_model_worker_batch() passes these lists
+            # as extend_seq_lens/extend_prefix_lens. Snapshot scalar geometry
+            # before native execution: _append_target_hidden_to_draft_kv()
+            # consumes and zeros draft_input.ctx_lens before forward returns.
+            # The first prefill may have spec_info=None; never read it here.
+            lengths = getattr(batch, 'extend_lens', None)
+            prefixes = getattr(batch, 'prefix_lens', None)
+            require(isinstance(lengths, (tuple, list)) and isinstance(prefixes, (tuple, list)) and
+                    len(lengths) == len(prefixes) == 1,
+                    'Missing qualified ScheduleBatch prefill geometry')
+            chunk_length, start = lengths[0], prefixes[0]
+            require(type(chunk_length) is int and chunk_length > 0 and type(start) is int and start >= 0,
+                    'Invalid native prefill length or prefix offset')
+        result = original_forward(worker, batch, **kwargs)
+        if capture_prompt:
             features = getattr(result.logits_output, 'teacher_hidden_states', None)
             require(features is not None, 'Pinned target final-normalized prehead features unavailable')
-            info = batch.spec_info
-            require(info.ctx_lens.numel() == 1 and int(info.ctx_lens[0].item()) == features.shape[0],
+            require(features.ndim == 2 and chunk_length == features.shape[0],
                     'Target prompt features differ from actual native prefill length')
-            start = int((batch.seq_lens-info.ctx_lens)[0].item())
             correction.prefill(features, start=start, prompt_length=len(trace.input_ids),
                                forecast_path=trace.bank_forecast_path)
         return result
@@ -245,6 +258,7 @@ def install(entry, config, *, projections=None, bank_factory=None):
         'draft_hook': 'DFlashWorker._greedy_sample_from_vocab_parallel_head(hidden_states), after DFlashModel.norm',
         'descriptor_hook': 'DFlashWorker.forward_batch_generation extend result.logits_output.teacher_hidden_states[-1]',
         'descriptor_scope': 'Last prompt token, final frozen target norm; complete chunked prefill only',
+        'prefill_geometry_hook': 'ScheduleBatch.extend_lens/prefix_lens copied before native forward; consumed draft_input.ctx_lens is never read',
         'extra_target_calls': 0, 'compiled_vocabulary_projections_per_draft_position': 1,
         'zero_path': 'Exact original hidden tensor; no addition or cast',
         'nonzero_precision': 'FP32 small correction/addition then cast to original BF16 vocabulary input',
