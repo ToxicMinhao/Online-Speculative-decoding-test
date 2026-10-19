@@ -248,9 +248,12 @@ remain. Do not describe retired historical checkpoints as archived or retained.
 
 Storage admission is still required before execution. A read-only guard runs
 before qualification can start. It budgets at least 8 GiB for each main bank,
-12 GiB for qualification including direct replay features, seven retained final
-OSD bundles, OSD checkpoint/optimizer/export overlap, and an additional 8 GiB
-free-space reserve. These are
+12 GiB for qualification including direct replay features, fourteen retained
+OSD bundles (the final update's pre/post states in each of seven episodes),
+OSD checkpoint/optimizer/export overlap, and an additional 8 GiB free-space
+reserve. The corrected default bound is 161.18 GiB for the pinned draft. The
+earlier estimate of 125.58 GiB undercounted retained OSD states; see
+[OPERATIONS_REPAIR.md](OPERATIONS_REPAIR.md). These are
 not a proof that the entire six-stream campaign fits the current server. Budget
 qualification features, accumulated retained stream artifacts, snapshot-array
 growth, transfers and staging for the whole campaign. Verified offloading to the

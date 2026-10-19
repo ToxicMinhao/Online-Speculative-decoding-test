@@ -1,5 +1,18 @@
 # Implementation validation — correction bank v0.1
 
+## October 19 operational repair
+
+The post-campaign storage accounting and partial-start cleanup repair passes
+193 CPU tests (70 bank and 123 inherited), with two optional historical checks
+skipped. See [OPERATIONS_REPAIR.md](OPERATIONS_REPAIR.md) for the corrected
+161.18 GiB budget, lifecycle regressions and scope. The campaign is paused;
+these repairs do not require completing the missing conversation. The previous
+125.58 GiB estimate below is historical and superseded.
+
+The rest of this file records the original pre-execution CPU submission.
+Subsequent native qualification and partial campaign evidence are retained
+separately; they do not apply to unexecuted changes in this repair.
+
 ## Material Passport
 
 - Status: CPU implementation checks passed; reviewer fixes submitted for review.

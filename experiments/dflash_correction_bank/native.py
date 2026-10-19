@@ -75,10 +75,14 @@ def campaign_storage_bound(model_bytes, *, main_bank_bytes=8*2**30,
                            qualification_bank_bytes=12*2**30, reserve_bytes=8*2**30):
     """Conservative whole-campaign disk peak, with no assumed offload/deletion.
 
-    Seven episodes = one qualification plus six fresh streams. A final OSD
-    bundle is one BF16 checkpoint and two BF16 Adam moments (3 model-sized
-    units), plus 64MiB metadata. The qualified rolling bound is 11 model units;
-    its final 3 units are already included, so 8 transient units remain.
+    Seven episodes = one qualification plus six fresh streams. Inherited
+    retirement keeps BOTH pre/post bundles for the final OSD update. Each is
+    one BF16 checkpoint and two BF16 Adam moments (3 model-sized units), plus
+    64MiB metadata. Thus 6 model units remain per episode. The qualified rolling
+    bound is 11 units; subtract the 6 already retained, leaving 5 transient
+    units and the full 512MiB rolling overhead. No final-state deletion is
+    assumed. The extra per-bundle metadata allowance is not subtracted from
+    that rolling overhead.
 
     Each main bank retains at most 24 response Fisher/feature summaries in an
     8GiB envelope. Qualification has a 12GiB envelope: at most 20 responses,
@@ -90,15 +94,23 @@ def campaign_storage_bound(model_bytes, *, main_bank_bytes=8*2**30,
     require(type(qualification_bank_bytes) is int and qualification_bank_bytes >= 12*2**30,
             'Qualification bank/replay envelope below 12GiB')
     require(type(reserve_bytes) is int and reserve_bytes >= 8*2**30, 'Reserve below 8GiB')
-    final_osd = 7*(3*model_bytes+64*2**20)
+    bundles_per_episode = 2
+    retained_model_units = bundles_per_episode*3
+    final_osd = 7*bundles_per_episode*(3*model_bytes+64*2**20)
     banks = 6*main_bank_bytes+qualification_bank_bytes
-    transient = 8*model_bytes+512*2**20
-    return dict(schema='bank_campaign_storage_v1', episodes=7, main_streams=6,
+    rolling = _original_storage_bound(model_bytes, remaining_diagnostic_cases=0)
+    transient = rolling-retained_model_units*model_bytes
+    require(transient >= 0, 'Rolling bound cannot be smaller than retained OSD state')
+    return dict(schema='bank_campaign_storage_v2', episodes=7, main_streams=6,
         model_bytes=model_bytes, retained_osd_bundles_bytes=final_osd,
         retained_bank_and_qualification_bytes=banks, transient_rolling_bytes=transient,
+        active_episode_osd_peak_bytes=rolling,
         reserve_bytes=reserve_bytes, planned_writes_bytes=final_osd+banks+transient,
         required_free_bytes=final_osd+banks+transient+reserve_bytes,
-        assumptions={'final_osd_bundle_model_units': 3, 'transient_model_units': 8,
+        assumptions={'final_osd_bundle_model_units': 3, 'final_osd_bundles_per_episode': bundles_per_episode,
+            'retained_osd_model_units_per_episode': retained_model_units,
+            'metadata_bytes_per_osd_bundle': 64*2**20,
+            'rolling_osd_model_units': 11, 'transient_model_units': 5,
             'main_bank_envelope_bytes': main_bank_bytes, 'qualification_bank_envelope_bytes': qualification_bank_bytes,
             'author_anchors_max': 512, 'supervised_positions_per_anchor_max': 9,
             'first_qualification_requests': 20, 'main_stream_requests_max': 24,
@@ -294,13 +306,19 @@ class NativeBackend(per_turn.NativeBackend):
         return checks
 
     def close_episode(self, result):
-        episode = self.episode_id
-        out = self.out
+        # Admission can fail before the inherited backend assigns self.out.
+        # Still close any initialized workers, but never create a directory or
+        # reuse a previous episode's output path just to record cleanup.
+        initialized = self.episode_id is not None
+        episode = self.episode_id if initialized else result.get('episode_id')
+        out = self.out if initialized else None
         finished = self.finish_episode()
         receipt = dict(status='passed', episode_id=episode, native=finished,
+            episode_initialized=initialized,
             retention='Bank snapshots/projections/statistics/protection/anchors/solver records retained; final OSD restart preserved. Old completed OSD comparisons retired with exact manifests.',
-            qualification_direct_features_retained=bool(self.qualification))
-        write_json(out / 'BANK_CLOSE.json', receipt)
+            qualification_direct_features_retained=bool(initialized and getattr(self, 'qualification', False)))
+        if out is not None:
+            write_json(out / 'BANK_CLOSE.json', receipt)
         return receipt
 
 

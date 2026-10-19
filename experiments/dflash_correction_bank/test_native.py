@@ -324,12 +324,47 @@ class StorageAndPins(unittest.TestCase):
         M = 2*2**30
         budget = native.campaign_storage_bound(M)
         self.assertEqual(budget['episodes'], 7)
-        self.assertEqual(budget['retained_osd_bundles_bytes'], 7*(3*M+64*2**20))
+        self.assertEqual(budget['schema'], 'bank_campaign_storage_v2')
+        self.assertEqual(budget['retained_osd_bundles_bytes'], 7*2*(3*M+64*2**20))
         self.assertEqual(budget['retained_bank_and_qualification_bytes'], 60*2**30)
-        self.assertEqual(budget['transient_rolling_bytes'], 8*M+512*2**20)
+        self.assertEqual(budget['transient_rolling_bytes'], 5*M+512*2**20)
+        self.assertEqual(budget['active_episode_osd_peak_bytes'], native._original_storage_bound(M, 0))
+        self.assertEqual(budget['assumptions']['final_osd_bundles_per_episode'], 2)
         self.assertEqual(budget['required_free_bytes'], budget['planned_writes_bytes']+8*2**30)
         self.assertFalse(budget['assumptions']['offload_assumed'])
         self.assertFalse(budget['assumptions']['final_osd_retirement_assumed'])
+
+    def test_budget_covers_retained_episodes_plus_every_next_episode_peak(self):
+        M = 2_097_259_104
+        # A larger qualification envelope must also be covered at its actual
+        # point in the schedule, not just at the final campaign peak.
+        for main, qualification in ((8*2**30, 12*2**30), (10*2**30, 48*2**30)):
+            budget = native.campaign_storage_bound(M, main_bank_bytes=main,
+                                                   qualification_bank_bytes=qualification)
+            retained_osd = 2*(3*M+64*2**20)
+            previous = 0
+            for envelope in [qualification]+[main]*6:
+                required = previous+native._original_storage_bound(M, 0)+envelope+budget['reserve_bytes']
+                self.assertLessEqual(required, budget['required_free_bytes'])
+                previous += retained_osd+envelope
+            self.assertLessEqual(previous+budget['reserve_bytes'], budget['required_free_bytes'])
+
+    def test_historical_campaign_capacity_and_declared_budget_are_rejected(self):
+        with tempfile.TemporaryDirectory() as directory:
+            models = Path(directory)/'models.json'
+            models.write_text(json.dumps({'released_draft': {'checkpoint_files': {
+                'model.safetensors': {'bytes': 2_097_259_104}}}}))
+            config = {'model_bindings': native.base.binding(models), 'output_root': str(Path(directory)/'outputs')}
+            fixed = native.campaign_storage_bound(2_097_259_104)
+            self.assertEqual(fixed['required_free_bytes'], 173_062_016_928)
+            with patch.object(native.shutil, 'disk_usage', return_value=SimpleNamespace(free=136_406_708_224)):
+                with self.assertRaisesRegex(ValueError, 'No GPU started'):
+                    native.admit_campaign_storage(config)
+            # Even unlimited real space cannot legitimize an explicitly
+            # declared budget smaller than the required retention envelope.
+            with patch.object(native.shutil, 'disk_usage', return_value=SimpleNamespace(free=10**15)):
+                with self.assertRaisesRegex(ValueError, 'cumulative campaign storage'):
+                    native.admit_campaign_storage({**config, 'campaign_storage_budget_bytes': 126_251_656_416})
 
     def test_cannot_lower_qualification_replay_budget(self):
         with self.assertRaisesRegex(ValueError, 'Qualification bank/replay'):
