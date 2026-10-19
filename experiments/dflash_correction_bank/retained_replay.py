@@ -137,7 +137,7 @@ def trace_offsets(bound):
         if isinstance(value, dict):
             for key, item in value.items():
                 location = path+'/'+str(key)
-                if 'reject' in key.lower() and ('offset' in key.lower() or 'position' in key.lower()):
+                if 'reject' in key.lower() and any(part in key.lower() for part in ('offset', 'position', 'index')):
                     found.append(dict(path=location, value=item))
                 elif isinstance(item, (dict, list)):
                     visit(item, location)

@@ -5,6 +5,7 @@ from types import SimpleNamespace
 import pytest
 
 from . import retained_replay as replay
+from .artifacts import binding
 
 
 def records():
@@ -63,6 +64,14 @@ def test_bypassed_head_is_not_evidence_against_corrections():
     rows['BANK']['read']['corrected_head_calls'] = 0
     result = replay.summarize(case, rows, {'status': 'unavailable'})
     assert not result['gain_comparison_valid'] and result['calls_saved'] is None
+
+
+def test_existing_native_rejection_boundary_is_reported(tmp_path):
+    path = tmp_path/'trace.json'
+    path.write_text(json.dumps({'events': [{'rejection_boundary_proposal_index': 4}]}))
+    result = replay.trace_offsets(binding(path))
+    assert result == dict(status='available', fields=[
+        dict(path='/events/0/rejection_boundary_proposal_index', value=4)])
 
 
 def test_fresh_output_required_before_any_read_or_gpu(tmp_path):
