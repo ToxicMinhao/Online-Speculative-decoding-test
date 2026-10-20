@@ -24,10 +24,20 @@ def gradients(parameters, values):
             for name, parameter in parameters.items()}
 
 
+def fixture_full_gradient(parameters, a, b):
+    # Old synthetic fixtures intentionally make the direct full gradient equal
+    # to A+B. Production has no such fallback; explicit differing tests follow.
+    return {name: (a[name] + b[name]).to(p.dtype) for name, p in parameters.items()}
+
+
 def ordinary(parameters, optimizer, a, b):
+    return ordinary_full(parameters, optimizer, fixture_full_gradient(parameters, a, b))
+
+
+def ordinary_full(parameters, optimizer, full):
     optimizer.zero_grad(set_to_none=True)
     for name, p in parameters.items():
-        p.grad = (a[name] + b[name]).to(p.dtype)
+        p.grad = full[name].detach().clone()
     norm = torch.nn.utils.clip_grad_norm_(list(parameters.values()), 1., error_if_nonfinite=True)
     optimizer.step()
     return norm
@@ -71,6 +81,82 @@ class AgreementSignTests(unittest.TestCase):
 
 
 class AdamDisplacementTests(unittest.TestCase):
+    def test_explicit_full_loss_gradient_is_mandatory_without_sum_fallback(self):
+        p, opt = setup({'x': [1.]})
+        a, b = gradients(p, {'x': [1.]}), gradients(p, {'x': [2.]})
+        with self.assertRaisesRegex(TypeError, 'full_loss_gradient'):
+            core.apply_adamw_step(p, opt, a, b)
+        with self.assertRaisesRegex(ValueError, 'full-loss'):
+            core.apply_adamw_step(p, opt, a, b, full_loss_gradient=None)
+        with self.assertRaisesRegex(ValueError, 'inventory'):
+            core.apply_adamw_step(p, opt, a, b, full_loss_gradient={})
+        self.assertFalse(opt.state)
+
+    def test_disabled_filter_uses_direct_full_gradient_even_when_group_sum_differs(self):
+        for dtype in (torch.float32, torch.bfloat16):
+            p, opt = setup({'x': [.25, -.25]}, dtype=dtype, lr=.01)
+            warmup = {'x': torch.tensor([.25, -.5], dtype=dtype)}
+            ordinary_full(p, opt, warmup)
+            q, control = setup({'x': p['x'].detach().float().tolist()}, dtype=dtype, lr=.01)
+            control.load_state_dict(copy.deepcopy(opt.state_dict()))
+            a = gradients(p, {'x': [2., -3.]})
+            b = gradients(p, {'x': [3., -2.]})
+            full = {'x': torch.tensor([-7., 11.], dtype=dtype)}
+            self.assertFalse(torch.equal((a['x']+b['x']).to(dtype), full['x']))
+            ordinary_full(q, control, full)
+            record = core.apply_adamw_step(p, opt, a, b, full_loss_gradient=full, mode='unfiltered')
+            self.assertTrue(torch.equal(p['x'], q['x']))
+            assert_states_equal(self, opt, control)
+            self.assertEqual(record['optimizer_steps_after'], 2)
+            self.assertEqual(record['proposal_gradient_source'], 'direct_full_loss_gradient')
+
+    def test_direct_full_gradient_controls_proposal_while_raw_groups_control_filter(self):
+        for mode in ('G', 'N'):
+            p, opt = setup({'x': [0., 0.]}, lr=.1, weight_decay=0, betas=(0., 0.))
+            a = gradients(p, {'x': [1., 1.]})
+            b = gradients(p, {'x': [1., 1.]})
+            full = {'x': torch.tensor([-100., 100.])}
+            copies = [x['x'].clone() for x in (a, b, full)]
+            record = core.apply_adamw_step(p, opt, a, b, full_loss_gradient=full, mode=mode)
+            # A+B proposes two negative changes; the explicit full gradient
+            # proposes positive/negative. Only its second direction is allowed.
+            self.assertEqual(record['kept_nonzero_coordinates'], 1)
+            self.assertLess(float(p['x'][1]), 0.)
+            if mode == 'G':
+                self.assertEqual(float(p['x'][0]), 0.)
+            else:
+                self.assertGreater(float(p['x'][0]), 0.)
+                self.assertAlmostEqual(record['uniform_scale_alpha'], 2**-.5, places=6)
+            self.assertLess(float(opt.state[p['x']]['exp_avg'][0]), 0.)
+            self.assertGreater(float(opt.state[p['x']]['exp_avg'][1]), 0.)
+            for original, expected in zip((a, b, full), copies):
+                self.assertTrue(torch.equal(original['x'], expected))
+            self.assertNotEqual(p['x'].grad.data_ptr(), full['x'].data_ptr())
+            self.assertGreater(record['gradient_norm_before_clip'], 100.)
+
+    def test_native_full_gradient_precision_and_finiteness_are_required(self):
+        p, opt = setup({'x': [1.]}, dtype=torch.bfloat16)
+        a, b = gradients(p, {'x': [1.]}), gradients(p, {'x': [1.]})
+        for invalid in (torch.tensor([1.], dtype=torch.float32),
+                        torch.tensor([float('nan')], dtype=torch.bfloat16),
+                        torch.tensor([float('inf')], dtype=torch.bfloat16),
+                        torch.tensor([1., 2.], dtype=torch.bfloat16)):
+            with self.assertRaisesRegex(ValueError, 'native full-loss'):
+                core.apply_adamw_step(p, opt, a, b, full_loss_gradient={'x': invalid})
+        self.assertFalse(opt.state)
+
+    def test_direct_full_gradient_does_not_relax_n_one_percent_rounding_control(self):
+        p, opt = setup({'x': [.05, .05]}, dtype=torch.bfloat16)
+        a, b = gradients(p, {'x': [1., 1.]}), gradients(p, {'x': [1., -2.]})
+        full = {'x': torch.tensor([2., -1.], dtype=torch.bfloat16)}
+        record = core.apply_adamw_step(p, opt, a, b, full_loss_gradient=full, mode='N')
+        self.assertEqual(record['uniform_control']['policy']['relative_error_max'], .01)
+        self.assertEqual(record['uniform_control']['status'], 'failed')
+        self.assertAlmostEqual(record['uniform_control']['relative_error'], 2**.5-1., places=12)
+        self.assertEqual(record['optimizer_steps_after'], 1)
+        self.assertEqual(record['hypothetical_filtered_step_norm'], .000244140625)
+        self.assertEqual(record['applied_step_norm'], record['proposed_step_norm'])
+
     def test_unfiltered_matches_ordinary_with_existing_momentum_for_both_dtypes(self):
         for dtype in (torch.float32, torch.bfloat16):
             p, opt = setup({'a': [1., -2., .5], 'b': [3., -4.]}, dtype=dtype)
@@ -80,7 +166,7 @@ class AdamDisplacementTests(unittest.TestCase):
             control.load_state_dict(copy.deepcopy(opt.state_dict()))
             a2, b2 = {n: -2*x for n, x in a.items()}, {n: .25*x for n, x in b.items()}
             ordinary(q, control, a2, b2)
-            record = core.apply_adamw_step(p, opt, a2, b2, mode='unfiltered')
+            record = core.apply_adamw_step(p, opt, a2, b2, full_loss_gradient=fixture_full_gradient(p, a2, b2), mode='unfiltered')
             for n in p:
                 self.assertTrue(torch.equal(p[n], q[n]), (dtype, n))
             assert_states_equal(self, opt, control)
@@ -93,7 +179,7 @@ class AdamDisplacementTests(unittest.TestCase):
         ordinary(p, opt, gradients(p, {'x': [-1.]}), gradients(p, {'x': [-1.]}))
         previous = p['x'].detach().clone()
         a, b = gradients(p, {'x': [.01]}), gradients(p, {'x': [.01]})
-        record = core.apply_adamw_step(p, opt, a, b, mode='G')
+        record = core.apply_adamw_step(p, opt, a, b, full_loss_gradient=fixture_full_gradient(p, a, b), mode='G')
         self.assertTrue(torch.equal(p['x'], previous))
         self.assertGreater(record['proposed_step_norm'], 0)
         self.assertEqual(record['kept_nonzero_coordinates'], 0)
@@ -102,8 +188,8 @@ class AdamDisplacementTests(unittest.TestCase):
 
     def test_weight_decay_participates_in_the_actual_direction(self):
         p, opt = setup({'x': [1000.]}, lr=.1, weight_decay=.1)
-        record = core.apply_adamw_step(p, opt, gradients(p, {'x': [-1e-12]}),
-                                     gradients(p, {'x': [-1e-12]}), mode='G')
+        a, b = gradients(p, {'x': [-1e-12]}), gradients(p, {'x': [-1e-12]})
+        record = core.apply_adamw_step(p, opt, a, b, full_loss_gradient=fixture_full_gradient(p, a, b), mode='G')
         self.assertEqual(float(p['x']), 1000.)
         self.assertGreater(record['proposed_step_norm'], 9.)
         self.assertEqual(record['applied_step_norm'], 0.)
@@ -114,7 +200,7 @@ class AdamDisplacementTests(unittest.TestCase):
         p, opt = setup({'x': [0.], 'y': [0.]}, lr=.1, weight_decay=0, betas=(0., 0.))
         a, b = gradients(p, {'x': [1.], 'y': [1.]}), gradients(p, {'x': [1.], 'y': [-2.]})
         before_a, before_b = copy.deepcopy(a), copy.deepcopy(b)
-        record = core.apply_adamw_step(p, opt, a, b, mode='N')
+        record = core.apply_adamw_step(p, opt, a, b, full_loss_gradient=fixture_full_gradient(p, a, b), mode='N')
         self.assertAlmostEqual(record['uniform_scale_alpha'], 2**-.5, places=6)
         self.assertAlmostEqual(float(p['x']), -.1*(2**-.5), places=6)
         self.assertAlmostEqual(float(p['y']), .1*(2**-.5), places=6)
@@ -127,8 +213,8 @@ class AdamDisplacementTests(unittest.TestCase):
         p, opt = setup({'x': [0., 0.]}, lr=.1, weight_decay=0, betas=(0., 0.))
         q, other = setup({'x': [0., 0.]}, lr=.1, weight_decay=0, betas=(0., 0.))
         a, b = gradients(p, {'x': [1., 1.]}), gradients(p, {'x': [1., -2.]})
-        rg = core.apply_adamw_step(p, opt, a, b, mode='G')
-        rn = core.apply_adamw_step(q, other, a, b, mode='N')
+        rg = core.apply_adamw_step(p, opt, a, b, full_loss_gradient=fixture_full_gradient(p, a, b), mode='G')
+        rn = core.apply_adamw_step(q, other, a, b, full_loss_gradient=fixture_full_gradient(q, a, b), mode='N')
         self.assertEqual(float(p['x'][1]), 0.)
         self.assertGreater(float(q['x'][1]), 0.)
         assert_states_equal(self, opt, other)
@@ -142,7 +228,7 @@ class AdamDisplacementTests(unittest.TestCase):
         for mode in ('G', 'N'):
             p['x'].data.zero_()
             before = int(opt.state[p['x']]['step']) if p['x'] in opt.state else 0
-            record = core.apply_adamw_step(p, opt, a, b, mode=mode)
+            record = core.apply_adamw_step(p, opt, a, b, full_loss_gradient=fixture_full_gradient(p, a, b), mode=mode)
             self.assertTrue(record['applied_zero'])
             self.assertTrue(bool((p['x'] == 0).all()))
             self.assertEqual(int(opt.state[p['x']]['step']), before+1)
@@ -151,7 +237,7 @@ class AdamDisplacementTests(unittest.TestCase):
     def test_zero_proposal_has_zero_alpha_and_advances_optimizer(self):
         p, opt = setup({'x': [0.]}, weight_decay=0)
         a, b = gradients(p, {'x': [0.]}), gradients(p, {'x': [0.]})
-        record = core.apply_adamw_step(p, opt, a, b, mode='N')
+        record = core.apply_adamw_step(p, opt, a, b, full_loss_gradient=fixture_full_gradient(p, a, b), mode='N')
         self.assertEqual(record['uniform_scale_alpha'], 0.)
         self.assertEqual(record['proposed_step_norm'], 0.)
         self.assertEqual(record['nonzero_keep_fraction'], 0.)
@@ -163,7 +249,7 @@ class AdamDisplacementTests(unittest.TestCase):
         a, b = gradients(p, {'x': [100., 100.]}), gradients(p, {'x': [100., -200.]})
         original_clip = torch.nn.utils.clip_grad_norm_
         with patch.object(torch.nn.utils, 'clip_grad_norm_', wraps=original_clip) as clip:
-            record = core.apply_adamw_step(p, opt, a, b, mode='G')
+            record = core.apply_adamw_step(p, opt, a, b, full_loss_gradient=fixture_full_gradient(p, a, b), mode='G')
         self.assertEqual(clip.call_count, 1)
         self.assertEqual(a['x'].tolist(), [100., 100.])
         self.assertEqual(b['x'].tolist(), [100., -200.])
@@ -174,7 +260,7 @@ class AdamDisplacementTests(unittest.TestCase):
     def test_bf16_n_reports_applied_rounding_separately(self):
         p, opt = setup({'x': [1., 1.]}, dtype=torch.bfloat16, lr=.01, weight_decay=0, betas=(0., 0.))
         a, b = gradients(p, {'x': [1., 1.]}), gradients(p, {'x': [1., -2.]})
-        record = core.apply_adamw_step(p, opt, a, b, mode='N')
+        record = core.apply_adamw_step(p, opt, a, b, full_loss_gradient=fixture_full_gradient(p, a, b), mode='N')
         self.assertNotEqual(record['native_rounding_norm_difference'], 0.)
         self.assertEqual(record['actual_parameter_dtype'], 'torch.bfloat16')
         self.assertEqual(opt.state[p['x']]['exp_avg'].dtype, torch.bfloat16)
@@ -185,7 +271,7 @@ class AdamDisplacementTests(unittest.TestCase):
         q, control = setup({'x': [1., 1.]}, dtype=torch.bfloat16, lr=.01, weight_decay=0)
         a, b = gradients(p, {'x': [1., 1.]}), gradients(p, {'x': [1., -2.]})
         ordinary(q, control, a, b)
-        record = core.apply_adamw_step(p, opt, a, b, mode='G')
+        record = core.apply_adamw_step(p, opt, a, b, full_loss_gradient=fixture_full_gradient(p, a, b), mode='G')
         self.assertEqual(p['x'][0], q['x'][0])
         self.assertEqual(float(p['x'][1]), 1.)
         self.assertEqual(record['native_rounding_norm_difference'], 0.)
@@ -195,7 +281,7 @@ class AdamDisplacementTests(unittest.TestCase):
         p, opt = setup({'x': [1.]})
         a, b = gradients(p, {'x': [float('nan')]}), gradients(p, {'x': [1.]})
         with self.assertRaisesRegex(ValueError, 'nonfinite'):
-            core.apply_adamw_step(p, opt, a, b)
+            core.apply_adamw_step(p, opt, a, b, full_loss_gradient=fixture_full_gradient(p, a, b))
         self.assertFalse(opt.state)
         self.assertEqual(float(p['x']), 1.)
 
@@ -205,22 +291,22 @@ class AdamDisplacementTests(unittest.TestCase):
         ordinary(p, opt, a, b)
         opt.state[p['x']]['exp_avg'].fill_(float('inf'))
         with self.assertRaisesRegex(ValueError, 'nonfinite'):
-            core.apply_adamw_step(p, opt, a, b)
+            core.apply_adamw_step(p, opt, a, b, full_loss_gradient=fixture_full_gradient(p, a, b))
         self.assertEqual(int(opt.state[p['x']]['step']), 1)
 
     def test_incomplete_inventory_and_changed_clip_are_rejected(self):
         p, opt = setup({'x': [1.], 'y': [2.]})
         a = gradients(p, {'x': [1.], 'y': [1.]})
         with self.assertRaisesRegex(ValueError, 'inventory'):
-            core.apply_adamw_step(p, opt, a, {'x': a['x']})
+            core.apply_adamw_step(p, opt, a, {'x': a['x']}, full_loss_gradient=fixture_full_gradient(p, a, a))
         with self.assertRaisesRegex(ValueError, 'clip'):
-            core.apply_adamw_step(p, opt, a, a, clip_norm=2.)
+            core.apply_adamw_step(p, opt, a, a, full_loss_gradient=fixture_full_gradient(p, a, a), clip_norm=2.)
         self.assertFalse(opt.state)
 
     def test_two_steps_recompute_from_filtered_state_and_keep_history(self):
         p, opt = setup({'x': [0., 0.]}, weight_decay=0)
         a, b = gradients(p, {'x': [1., 1.]}), gradients(p, {'x': [1., -2.]})
-        records = [core.apply_adamw_step(p, opt, a, b, mode='G') for _ in range(2)]
+        records = [core.apply_adamw_step(p, opt, a, b, full_loss_gradient=fixture_full_gradient(p, a, b), mode='G') for _ in range(2)]
         self.assertEqual([r['optimizer_steps_after'] for r in records], [1, 2])
         self.assertEqual(float(p['x'][1]), 0.)
         self.assertLess(float(opt.state[p['x']]['exp_avg'][1]), 0.)

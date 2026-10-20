@@ -14,10 +14,14 @@ def run_deterministic_checks():
     parameters = {'x': torch.nn.Parameter(torch.tensor([1., -1.], dtype=torch.bfloat16))}
     optimizer = torch.optim.AdamW(list(parameters.values()), lr=3e-4, betas=(.9, .999), eps=1e-8, weight_decay=.01)
     a = {'x': torch.tensor([1., -1.])}; b = {'x': -a['x']}
+    # This synthetic objective has an explicitly zero full gradient. Production
+    # obtains its full gradient by a separate backward, never an A+B fallback.
+    full = {'x': torch.zeros_like(parameters['x'])}
     before = parameters['x'].detach().clone()
-    stats = apply_adamw_step(parameters, optimizer, a, b, mode='G')
+    stats = apply_adamw_step(parameters, optimizer, a, b, full_loss_gradient=full, mode='G')
     if not (torch.equal(before, parameters['x']) and stats['optimizer_steps_after'] == 1 and
-            stats['optimizer_step_calls'] == 1):
+            stats['optimizer_step_calls'] == 1 and
+            stats['proposal_gradient_source'] == 'direct_full_loss_gradient'):
         raise AssertionError('Zero applied step must still advance Adam exactly once')
     if norm_match(1.4142135623730951, 1.)['status'] != 'failed' or norm_match(0., 1e-30)['status'] != 'failed':
         raise AssertionError('Rounded N control must not admit oversized or erased steps')

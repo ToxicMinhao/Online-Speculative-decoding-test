@@ -32,7 +32,8 @@ def full_result():
 def test_review_bf16_counterexample_rejects_norm_control_without_changing_update():
     params, opt = setup({'x': [.05, .05]}, dtype=torch.bfloat16)
     a, b = gradients(params, {'x': [1., 1.]}), gradients(params, {'x': [1., -2.]})
-    stats = core.apply_adamw_step(params, opt, a, b, mode='N')
+    full = {'x': torch.tensor([2., -1.], dtype=torch.bfloat16)}
+    stats = core.apply_adamw_step(params, opt, a, b, full_loss_gradient=full, mode='N')
     assert stats['uniform_scale_alpha'] == pytest.approx(1 / math.sqrt(2))
     assert stats['hypothetical_filtered_step_norm'] == pytest.approx(.000244140625)
     assert stats['applied_step_norm'] == pytest.approx(stats['proposed_step_norm'])

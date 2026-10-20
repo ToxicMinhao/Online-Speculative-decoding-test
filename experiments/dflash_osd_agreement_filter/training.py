@@ -27,14 +27,16 @@ require, digest, audit_response = qualified.require, qualified.digest, qualified
 RECIPE = dict(qualified.RECIPE)
 rng_state, restore_rng, state_digest = qualified.rng_state, qualified.restore_rng, qualified.state_digest
 GROUP_PROTOCOL = dict(
-    schema='chronological_response_groups_v1',
+    schema='chronological_response_groups_direct_full_v2',
     eligible_positions='response_start+1 through response_end_exclusive-1',
     midpoint='floor(unique_eligible_count/2); odd extra position belongs to B',
     overlapping_occurrences='same absolute output position always has the same group',
     across_passes='groups fixed; qualified anchor sampler advances normally each pass',
     denominator='both partial losses use the qualified whole-response weighted denominator',
     raw_gradient_storage='native autograd gradients converted to FP32 without clipping',
-    aggregate_storage='FP32 group sum cast to native parameter dtype before one global clip',
+    aggregate_storage='Direct native full-loss gradient cloned before one global clip',
+    gradient_sum_role='diagnostic only; historical tolerance is unchanged and is not an admission gate',
+    normal_backward_calls=3,
     gradient_sum_tolerance='abs(sum-reference) <= 8*eps_native*(abs(A)+abs(B)+abs(reference))+1e-8',
     loss_sum_rtol=2e-6, loss_sum_atol=1e-7,
     qualified_parameter_dtypes=['bfloat16', 'float32'],
@@ -216,7 +218,8 @@ def grouped_response_loss(draft, embed_tokens, lm_head, input_ids, hidden_states
     return loss, loss_a, loss_b, metadata
 
 
-def check_gradient_sum(raw_a, raw_b, reference, parameters, *, context=None, report_path=None, observer=None):
+def check_gradient_sum(raw_a, raw_b, reference, parameters, *, context=None, report_path=None, observer=None,
+                       enforce_tolerance=True):
     """Collect complete compact evidence before enforcing the unchanged gate."""
     from experiments.dflash_osd_agreement_filter.gradient_diagnostics import (
         summarize_gradient_sum, durable_write, enforce_gradient_sum)
@@ -225,7 +228,12 @@ def check_gradient_sum(raw_a, raw_b, reference, parameters, *, context=None, rep
         durable_write(report_path, summary)
     if observer is not None:
         observer(summary, raw_a, raw_b, reference)
-    enforce_gradient_sum(summary)
+    if enforce_tolerance:
+        enforce_gradient_sum(summary)
+    else:
+        # A numerical non-additivity observation is allowed in v2. Nonfinite
+        # gradients still invalidate the update, even with a finite full loss.
+        require(summary['nonfinite_input_coordinates'] == 0, 'Nonfinite gradient qualification')
     return summary
 
 
@@ -350,42 +358,70 @@ class AgreementTrainer(qualified.PersistentPerTurnTrainer):
             projection_chunk=self.projection_chunk)
         self.synchronize()
         forward_s = time.perf_counter() - started
-        started = time.perf_counter()
         params = tuple(self.parameters.values())
+        def memory():
+            if self.device.type != 'cuda':
+                return None
+            return dict(allocated_bytes=torch.cuda.memory_allocated(self.device),
+                        reserved_bytes=torch.cuda.memory_reserved(self.device),
+                        event_peak_allocated_bytes=torch.cuda.max_memory_allocated(self.device),
+                        event_peak_reserved_bytes=torch.cuda.max_memory_reserved(self.device))
+        backward_memory = {'before_a': memory()}
+        started = time.perf_counter()
         raw_a = dict(zip(self.parameters, (v.detach().float() for v in
             torch.autograd.grad(loss_a, params, retain_graph=True, allow_unused=False))))
-        raw_b = dict(zip(self.parameters, (v.detach().float() for v in
-            torch.autograd.grad(loss_b, params, retain_graph=self.qualification, allow_unused=False))))
-        reference_check = None
-        if self.qualification:
-            reference = dict(zip(self.parameters, torch.autograd.grad(loss, params, allow_unused=False)))
-            context = dict(getattr(self, '_gradient_check_context', {}))
-            context.update(record_id=response['record_id'], response_audit=audit,
-                           sampling=sampling, groups=groups,
-                           losses=dict(full=float(loss.detach()), a=float(loss_a.detach()), b=float(loss_b.detach())),
-                           active_checkpoint_sha256=self.active_checkpoint_sha256,
-                           anchor_rng_after_sha256=state_digest(self.generator.get_state()),
-                           global_rng_after_sha256=state_digest(rng_state()))
-            directory = getattr(self, 'gradient_diagnostics_dir', None)
-            report_path = (Path(directory) / ('event_%02d_pass_%02d_%s.json' %
-                           (context['event'], context['pass_index'], context['trial_type']))) if directory else None
-            reference_check = check_gradient_sum(raw_a, raw_b, reference, self.parameters,
-                context=context, report_path=report_path,
-                observer=getattr(self, 'gradient_diagnostics_observer', None))
-            del reference
-        require(all(bool(torch.isfinite(v).all()) for row in (raw_a, raw_b) for v in row.values()),
-                'Nonfinite raw group gradient')
         self.synchronize()
-        backward_s = time.perf_counter() - started
+        a_s = time.perf_counter() - started
+        backward_memory['after_a'] = memory()
+        started = time.perf_counter()
+        raw_b = dict(zip(self.parameters, (v.detach().float() for v in
+            torch.autograd.grad(loss_b, params, retain_graph=True, allow_unused=False))))
+        self.synchronize()
+        b_s = time.perf_counter() - started
+        backward_memory['after_b'] = memory()
+        started = time.perf_counter()
+        full_gradient = dict(zip(self.parameters, (v.detach() for v in
+            torch.autograd.grad(loss, params, allow_unused=False))))
+        self.synchronize()
+        full_s = time.perf_counter() - started
+        backward_memory['after_full'] = memory()
+        started = time.perf_counter()
+        context = dict(getattr(self, '_gradient_check_context', {}))
+        context.update(record_id=response['record_id'], response_audit=audit,
+                       sampling=sampling, groups=groups,
+                       losses=dict(full=float(loss.detach()), a=float(loss_a.detach()), b=float(loss_b.detach())),
+                       active_checkpoint_sha256=self.active_checkpoint_sha256,
+                       anchor_rng_after_sha256=state_digest(self.generator.get_state()),
+                       global_rng_after_sha256=state_digest(rng_state()),
+                       numerical_protocol=GROUP_PROTOCOL['schema'],
+                       sum_tolerance_is_admission_gate=False)
+        directory = getattr(self, 'gradient_diagnostics_dir', None)
+        report_path = (Path(directory) / ('event_%02d_pass_%02d_%s.json' %
+                       (context['event'], context['pass_index'], context['trial_type']))) if directory else None
+        sum_diagnostic = check_gradient_sum(raw_a, raw_b, full_gradient, self.parameters,
+            context=context, report_path=report_path,
+            observer=getattr(self, 'gradient_diagnostics_observer', None), enforce_tolerance=False)
+        self.synchronize()
+        diagnostic_s = time.perf_counter() - started
+        storage = sum(v.numel()*v.element_size() for v in full_gradient.values())
+        incremental_peak = (max(0, backward_memory['after_full']['event_peak_allocated_bytes'] -
+                                   backward_memory['after_b']['event_peak_allocated_bytes'])
+                            if self.device.type == 'cuda' else None)
         metadata = dict(record_id=response['record_id'], turn=response['turn'], loss=float(loss.detach()),
             partial_loss_a=float(loss_a.detach()), partial_loss_b=float(loss_b.detach()),
             response_start=audit['response_start'], response_end_exclusive=audit['response_end_exclusive'],
             sequence_sha256=audit['sequence_sha256'], loss_mask_sha256=audit['loss_mask_sha256'], **sampling,
-            gradient_sum_qualification=reference_check,
-            gradient_backward_calls=3 if self.qualification else 2,
+            gradient_sum_diagnostic=sum_diagnostic, sum_tolerance_is_admission_gate=False,
+            gradient_backward_calls=3, numerical_protocol=GROUP_PROTOCOL['schema'],
             raw_gradient_storage_dtype='torch.float32 promoted from native autograd dtype',
-            phase_seconds=dict(teacher_preparation_s=teacher_s, forward_and_loss_s=forward_s, backward_s=backward_s))
-        return metadata, raw_a, raw_b
+            ordinary_proposal_gradient='direct full-loss native autograd gradient',
+            backward_memory=backward_memory, full_gradient_storage_bytes=storage,
+            third_backward_incremental_event_peak_bytes=incremental_peak,
+            memory_interpretation='Observed live/event peaks, not an isolated two-versus-three-backward memory counterfactual',
+            phase_seconds=dict(teacher_preparation_s=teacher_s, forward_and_loss_s=forward_s,
+                backward_a_s=a_s, backward_b_s=b_s, backward_full_s=full_s,
+                backward_s=a_s+b_s+full_s, gradient_sum_diagnostic_s=diagnostic_s))
+        return metadata, raw_a, raw_b, full_gradient
 
     def train_event(self, event, responses):
         import torch
@@ -433,14 +469,14 @@ class AgreementTrainer(qualified.PersistentPerTurnTrainer):
                     global_rng_before_sha256=state_digest(rng_state()))
                 if getattr(self, 'gradient_diagnostics_dir', None) is not None:
                     self._gradient_check_context['state_identity_sha256'] = state_digest(self.snapshot())
-                value, raw_a, raw_b = self._grouped_response(response, audit, groups)
+                value, raw_a, raw_b, full_gradient = self._grouped_response(response, audit, groups)
                 self._check_owner()
                 optimizer_started = time.perf_counter()
                 stats = core.apply_adamw_step(self.parameters, self.optimizer, raw_a, raw_b,
-                    mode=self.arm if self.filter_enabled else 'unfiltered', clip_norm=1.0)
+                    full_loss_gradient=full_gradient, mode=self.arm if self.filter_enabled else 'unfiltered', clip_norm=1.0)
                 self.optimizer.zero_grad(set_to_none=True)
                 self.optimizer_steps += 1
-                del raw_a, raw_b
+                del raw_a, raw_b, full_gradient
                 self._check_owner()
                 self.synchronize()
                 self.response_presentations += 1
@@ -504,13 +540,11 @@ class AgreementTrainer(qualified.PersistentPerTurnTrainer):
             raise
 
     def qualify_disabled_filter(self, responses):
-        """Two isolated two-step trials, then restore the exact pre-trial state.
+        """Compare unchanged H with disabled filtering, then restore exactly.
 
-        Only qualification G may call this. The ordinary reference is the
-        unchanged parent implementation; the second trial disables G's mask.
-        This costs four temporary optimizer steps and extra CPU state copies,
-        all explicitly separated from the main pilot's 96 steps. No generated
-        answers are changed and no qualification learning survives restoration.
+        Both trials use the same initial state and anchor/RNG sequence. Four
+        temporary steps are separate from serving updates. The historical
+        gradient-sum tolerance is diagnostic; all equivalence gates are intact.
         """
         import torch
         require(self.qualification and self.arm == 'G' and self.filter_enabled,
@@ -522,10 +556,37 @@ class AgreementTrainer(qualified.PersistentPerTurnTrainer):
         initial = self.snapshot()
         identity = state_digest(initial)
         initial_steps = self.optimizer_steps
+        result = self.last_qualification_receipt = dict(status='running', event=event,
+            numerical_protocol=GROUP_PROTOCOL['schema'],
+            tolerances=copy.deepcopy(EQUIVALENCE_TOLERANCES),
+            compiler_runtime=dict(self.compiler_runtime),
+            raw_gradient_sum_rule=GROUP_PROTOCOL['gradient_sum_tolerance'],
+            raw_gradient_sum_role='diagnostic_only; a historical failure is not a passed old gate',
+            sum_tolerance_is_admission_gate=False,
+            temporary_optimizer_steps=0, persistent_optimizer_steps_before=initial_steps,
+            initial_state_identity_sha256=identity, comparisons={})
+        def counters():
+            names = ('completed_events', 'optimizer_steps', 'response_presentations',
+                     'eligible_position_presentations', 'eligible_block_presentations',
+                     'active_checkpoint_sha256', 'awaiting_checkpoint')
+            return {**{name: getattr(self, name) for name in names},
+                    'seen_record_ids': sorted(self.seen_record_ids)}
+        def peaks():
+            if self.device.type != 'cuda':
+                return dict(peak_memory_allocated_bytes=None, peak_memory_reserved_bytes=None)
+            self.synchronize()
+            return dict(peak_memory_allocated_bytes=torch.cuda.max_memory_allocated(self.device),
+                        peak_memory_reserved_bytes=torch.cuda.max_memory_reserved(self.device))
         success = False
-        result = None
+        trial = None
         try:
+            if self.device.type == 'cuda':
+                torch.cuda.reset_peak_memory_stats(self.device)
+            trial = 'ordinary_reference'
             reference = qualified.PersistentPerTurnTrainer.train_event(self, event, responses)
+            result['reference_accounting'] = reference
+            result['reference_memory'] = peaks()
+            result['temporary_optimizer_steps'] = self.optimizer_steps-initial_steps
             reference_weights = {name: value.detach().cpu().clone() for name, value in self.parameters.items()}
             reference_optimizer = {}
             for name, parameter in self.parameters.items():
@@ -534,17 +595,35 @@ class AgreementTrainer(qualified.PersistentPerTurnTrainer):
                                              for key, value in self.optimizer.state[parameter].items()}
             reference_anchor_rng = self.generator.get_state().cpu().clone()
             reference_global_rng = rng_state()
+            reference_counters = counters()
             self.restore(initial)
+            require(state_digest(self.snapshot()) == identity, 'Inter-trial exact restoration failed')
+            result['inter_trial_restored_state_identity_sha256'] = identity
             self.filter_enabled = False
+            trial = 'disabled_filter'
             observed = self.train_event(event, responses)
+            result.update(grouped_accounting=observed, grouped_memory=peaks(),
+                          temporary_optimizer_steps=2+self.optimizer_steps-initial_steps)
+            observed_counters = counters()
+            result['counters'] = dict(reference=reference_counters, grouped=observed_counters,
+                                      exact_match=reference_counters == observed_counters)
+            require(reference_counters == observed_counters, 'Disabled-filter progress counters differ')
+            result.update(reference_anchor_exposure_sha256=reference['anchor_exposure_sha256'],
+                          grouped_anchor_exposure_sha256=observed['anchor_exposure_sha256'])
             require(reference['anchor_exposure_sha256'] == observed['anchor_exposure_sha256'],
                     'Disabled-filter trial changed anchor/exposure sequence')
-            require(torch.equal(reference_anchor_rng, self.generator.get_state().cpu()) and
-                    state_digest(reference_global_rng) == state_digest(rng_state()),
+            result['rng'] = dict(sampler_exact=torch.equal(reference_anchor_rng, self.generator.get_state().cpu()),
+                stochastic_exact=state_digest(reference_global_rng) == state_digest(rng_state()),
+                reference_sampler_sha256=state_digest(reference_anchor_rng),
+                grouped_sampler_sha256=state_digest(self.generator.get_state().cpu()),
+                reference_stochastic_sha256=state_digest(reference_global_rng),
+                grouped_stochastic_sha256=state_digest(rng_state()))
+            require(result['rng']['sampler_exact'] and result['rng']['stochastic_exact'],
                     'Disabled-filter trial changed sampler or stochastic RNG consumption')
-            comparisons = {}
             for name, parameter in self.parameters.items():
-                item = dict(parameter=_compare_native_tensor(reference_weights[name], parameter, 'parameter'))
+                result['currently_checked_parameter'] = name
+                item = result['comparisons'][name] = dict(
+                    parameter=_compare_native_tensor(reference_weights[name], parameter, 'parameter'))
                 current = self.optimizer.state[parameter]
                 expected = reference_optimizer[name]
                 require(set(current) == set(expected), 'Disabled-filter Adam state inventory differs')
@@ -556,30 +635,31 @@ class AgreementTrainer(qualified.PersistentPerTurnTrainer):
                                 'Disabled-filter Adam counter or other tensor differs')
                     else:
                         require(value == current[key], 'Disabled-filter Adam metadata differs')
-                comparisons[name] = item
-            displacement_comparison = _compare_displacements(initial['draft'], reference_weights, self.parameters)
-            result = dict(status='passed', event=event, tolerances=copy.deepcopy(EQUIVALENCE_TOLERANCES),
-                          compiler_runtime=dict(self.compiler_runtime),
-                          raw_gradient_sum_rule=GROUP_PROTOCOL['gradient_sum_tolerance'],
-                          reference_anchor_exposure_sha256=reference['anchor_exposure_sha256'],
-                          grouped_anchor_exposure_sha256=observed['anchor_exposure_sha256'],
-                          reference_accounting=reference, grouped_accounting=observed,
-                          comparisons=comparisons, displacement_comparison=displacement_comparison,
-                          temporary_optimizer_steps=4,
-                          persistent_optimizer_steps_before=initial_steps,
-                          initial_state_identity_sha256=identity)
+                item['adam_counters_and_metadata_exact'] = True
+            result['displacement_comparison'] = _compare_displacements(initial['draft'], reference_weights, self.parameters)
+            result.pop('currently_checked_parameter', None)
+            result['status'] = 'passed'
             success = True
+        except BaseException as error:
+            result.update(status='failed', failed_trial=trial, error_type=type(error).__name__, error=str(error))
+            result['temporary_optimizer_steps'] = max(result['temporary_optimizer_steps'],
+                (2 if trial == 'disabled_filter' else 0) + self.optimizer_steps-initial_steps)
+            raise
         finally:
             self.filter_enabled = True
-            self.restore(initial)
-            # A rejected qualification must not silently make the trainer usable.
+            try:
+                self.restore(initial)
+                restored = state_digest(self.snapshot())
+                result.update(restored_state_identity_sha256=restored,
+                              exact_state_restoration=restored == identity,
+                              persistent_optimizer_steps_after=self.optimizer_steps,
+                              qualification_wall_s=time.perf_counter()-started,
+                              interpretation='Unchanged finite-precision equivalence gates; not performance evidence')
+                require(restored == identity, 'Qualification failed to restore exact initial state')
+            except BaseException as restoration_error:
+                result.update(status='failed', restoration_error=str(restoration_error))
+                self.failed = True
+                raise
             if not success:
                 self.failed = True
-        if state_digest(self.snapshot()) != identity:
-            self.failed = True
-            raise ValueError('Qualification failed to restore exact initial state')
-        result.update(restored_state_identity_sha256=identity,
-                      persistent_optimizer_steps_after=self.optimizer_steps,
-                      qualification_wall_s=time.perf_counter()-started,
-                      interpretation='Finite-precision recipe equivalence; not exact BF16 bit equality or performance evidence')
         return result

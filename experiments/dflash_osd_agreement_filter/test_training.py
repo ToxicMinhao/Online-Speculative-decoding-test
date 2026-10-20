@@ -250,7 +250,7 @@ class Numerical(unittest.TestCase):
             self.assertEqual({int(v['step']) for v in model.optimizer.state.values()}, {2})
             for b in result['batches']:
                 self.assertEqual(b['agreement']['optimizer_step_calls'], 1)
-                self.assertEqual(b['presentations'][0]['gradient_sum_qualification']['status'], 'passed')
+                self.assertEqual(b['presentations'][0]['gradient_sum_diagnostic']['status'], 'passed')
             model.bind_checkpoint(1, 'b' * 64)
             second = model.train_event(2, [response(2, 'b' * 64, prefix=45)])
             self.assertEqual(second['optimizer_steps_total'], 4)
@@ -258,6 +258,24 @@ class Numerical(unittest.TestCase):
             model.bind_checkpoint(2, 'd' * 64)
             with self.assertRaisesRegex(ValueError, 'exactly two'):
                 model.train_event(3, [response(3, 'd' * 64)])
+
+    def test_normal_gn_updates_execute_three_backwards_and_record_costs(self):
+        import torch
+        for arm in ('G', 'N'):
+            model = trainer(arm, qualification=False)
+            real = torch.autograd.grad
+            with patch.object(torch.autograd, 'grad', wraps=real) as grad:
+                result = model.train_event(1, [response(1)])
+            self.assertEqual(grad.call_count, 6)
+            for batch in result['batches']:
+                p = batch['presentations'][0]
+                self.assertEqual(p['gradient_backward_calls'], 3)
+                self.assertFalse(p['sum_tolerance_is_admission_gate'])
+                self.assertEqual(p['ordinary_proposal_gradient'], 'direct full-loss native autograd gradient')
+                phases = p['phase_seconds']
+                self.assertAlmostEqual(phases['backward_s'], sum(phases[k] for k in
+                    ('backward_a_s', 'backward_b_s', 'backward_full_s')))
+                self.assertGreater(p['full_gradient_storage_bytes'], 0)
 
     def test_disabled_filter_matches_qualified_with_pinned_native_rounding_tolerance(self):
         import torch
@@ -268,8 +286,8 @@ class Numerical(unittest.TestCase):
             actual = grouped.train_event(1, [response(1)])
             self.assertEqual(expected['anchor_exposure_sha256'], actual['anchor_exposure_sha256'])
             for name, parameter in grouped.parameters.items():
-                # Two-group BF16 differentiation changes reduction order. Pin
-                # this tolerance explicitly; this is not bitwise equivalence.
+                # Reuse the unchanged native equivalence tolerance even though
+                # the direct full backward now supplies the AdamW proposal.
                 ref = reference.parameters[name]
                 check = training._compare_native_tensor(ref.detach(), parameter, 'parameter')
                 self.assertLessEqual(check['max_error_over_tolerance'], 1.)
@@ -328,6 +346,11 @@ class Numerical(unittest.TestCase):
             receipt = model.qualify_disabled_filter([response(1)])
             self.assertEqual(receipt['status'], 'passed')
             self.assertEqual(receipt['temporary_optimizer_steps'], 4)
+            self.assertTrue(receipt['counters']['exact_match'])
+            self.assertTrue(receipt['rng']['sampler_exact'])
+            self.assertTrue(receipt['rng']['stochastic_exact'])
+            self.assertFalse(receipt['sum_tolerance_is_admission_gate'])
+            self.assertTrue(receipt['exact_state_restoration'])
             self.assertEqual(receipt['persistent_optimizer_steps_after'], 0)
             self.assertEqual(before, training.state_digest(model.snapshot()))
             self.assertFalse(model.failed)
@@ -346,6 +369,27 @@ class Numerical(unittest.TestCase):
         import torch
         self.assertTrue(all(torch.equal(value, initial[name]) for name, value in model.parameters.items()))
         self.assertFalse(model.optimizer.state)
+        self.assertEqual(model.last_qualification_receipt['status'], 'failed')
+        self.assertTrue(model.last_qualification_receipt['exact_state_restoration'])
+        self.assertEqual(model.last_qualification_receipt['temporary_optimizer_steps'], 4)
+
+    def test_inter_trial_restoration_failure_preserves_completed_temporary_step_count(self):
+        model = trainer('G', qualification=True)
+        real = model.restore
+        calls = []
+        def restore_then_fail_once(state):
+            real(state)
+            calls.append(1)
+            if len(calls) == 1:
+                raise ValueError('injected inter-trial restoration check')
+        model.restore = restore_then_fail_once
+        with self.assertRaisesRegex(ValueError, 'inter-trial'):
+            model.qualify_disabled_filter([response(1)])
+        receipt = model.last_qualification_receipt
+        self.assertEqual(receipt['temporary_optimizer_steps'], 2)
+        self.assertTrue(receipt['exact_state_restoration'])
+        self.assertEqual(model.optimizer_steps, 0)
+        self.assertTrue(model.failed)
 
     def test_equivalence_rejects_a_missing_or_materially_different_update(self):
         import torch

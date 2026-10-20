@@ -3,9 +3,12 @@
 Native training has BF16 parameters and BF16 Adam moments, not FP32 master
 weights. Raw group gradients are FP32 copies of the parameter gradients produced
 by autograd; promoting a BF16 gradient does not recover precision already lost.
-Their FP32 sum is cast to the parameter dtype before the ordinary one-time global
-clip and AdamW step. The resulting signed displacement is measured in FP32 from
-native pre/post weights. No gradient/displacement products decide the mask.
+The separately computed native full-loss gradient supplies the ordinary one-time
+global clip and AdamW step. A+B is never substituted for that gradient: separate
+low-precision backwards need not add to the direct full-loss backward. Raw A/B
+gradients are used only for filtering and its diagnostics. The resulting signed
+displacement is measured in FP32 from native pre/post weights. No gradient/
+displacement products decide the mask.
 
 FP64 reductions determine N's single global alpha and diagnostics. N's result is
 rounded back to the native parameter dtype; the actual applied norm is therefore
@@ -26,10 +29,13 @@ controls = importlib.util.module_from_spec(_control_spec)
 _control_spec.loader.exec_module(controls)
 
 NUMERICS = {
+    'version': 'agreement_direct_full_loss_gradient_v2',
     'native_parameter_dtype': 'torch.bfloat16',
     'native_optimizer_moment_dtype': 'torch.bfloat16',
     'raw_group_gradient_buffer_dtype': 'torch.float32',
-    'aggregate': 'FP32 group sum cast to native parameter dtype before clipping',
+    'full_loss_gradient_dtype': 'native parameter dtype; BF16 in the qualified runtime',
+    'aggregate': 'direct full-response loss gradient; never reconstructed from A+B',
+    'proposal_gradient_source': 'explicit full_loss_gradient mapping from the same current weights and sampled forward',
     'clipping': 'torch.nn.utils.clip_grad_norm_; max_norm=1; foreach=None; once',
     'displacement': 'native AdamW post weight promoted to FP32 minus native pre weight promoted to FP32',
     'sign_check': 'non-strict sign comparisons on finite raw FP32 gradients and FP32 displacement; no products',
@@ -92,7 +98,7 @@ def _state_steps(optimizer, parameters, *, require_existing=False):
     return steps
 
 
-def _validate(parameters, optimizer, gradients_a, gradients_b, mode, clip_norm):
+def _validate(parameters, optimizer, gradients_a, gradients_b, full_loss_gradient, mode, clip_norm):
     import torch
     _require(isinstance(parameters, Mapping) and bool(parameters), 'Ordered trainable parameters required')
     _require(isinstance(optimizer, torch.optim.AdamW), 'Qualified torch AdamW required')
@@ -100,6 +106,8 @@ def _validate(parameters, optimizer, gradients_a, gradients_b, mode, clip_norm):
     _require(clip_norm == 1.0, 'Keep the qualified global gradient clip of 1.0')
     _require(list(gradients_a) == list(parameters) == list(gradients_b),
              'Group gradients must cover the complete ordered parameter inventory')
+    _require(isinstance(full_loss_gradient, Mapping) and list(full_loss_gradient) == list(parameters),
+             'Explicit full-loss gradients must cover the complete ordered parameter inventory')
     values = list(parameters.values())
     _require(len({id(p) for p in values}) == len(values), 'Duplicate trainable parameter')
     owned = [p for group in optimizer.param_groups for p in group['params']]
@@ -118,6 +126,11 @@ def _validate(parameters, optimizer, gradients_a, gradients_b, mode, clip_norm):
                      gradient.dtype == torch.float32 and gradient.shape == parameter.shape and
                      gradient.device == parameter.device and bool(torch.isfinite(gradient).all()),
                      f'Invalid/nonfinite raw FP32 group {label} gradient for {name}')
+        full = full_loss_gradient[name]
+        _require(isinstance(full, torch.Tensor) and not full.is_sparse and
+                 full.dtype == parameter.dtype and full.shape == parameter.shape and
+                 full.device == parameter.device and bool(torch.isfinite(full).all()),
+                 f'Invalid/nonfinite native full-loss gradient for {name}')
     return _state_steps(optimizer, parameters)
 
 
@@ -156,24 +169,27 @@ def _accumulate(totals, displacement, a, b, mask, *, applied_only=False):
         totals['kept_nonzero'].add_(((d != 0) & keep).sum())
 
 
-def apply_adamw_step(parameters, optimizer, gradients_a, gradients_b, *, mode='G', clip_norm=1.0):
+def apply_adamw_step(parameters, optimizer, gradients_a, gradients_b, *, full_loss_gradient,
+                     mode='G', clip_norm=1.0):
     """Apply one step and return JSON-safe numerical/optimizer diagnostics.
 
     A/B gradients must come from the same current weights and use the original
-    full-loss denominator. Caller owns sampling, gradient-summation qualification,
-    and zero_grad afterward. Existing .grad buffers are replaced with the summed
-    aggregate and left containing its clipped value. Raw input buffers are never
-    modified. H/L/unfiltered are fixtures/qualification modes; live H/L training
-    uses the unchanged qualified ordinary trainer.
+    full-loss denominator. ``full_loss_gradient`` is mandatory and must be the
+    direct full-loss gradient in the native parameter dtype. Caller owns matching
+    its sampled forward/current weights to A/B and zero_grad afterward. Existing
+    .grad buffers are replaced with independent clones of that full-loss gradient
+    and left containing its clipped value. Neither the full-loss input nor raw
+    group input buffers are modified. There is no A+B fallback. H/L/unfiltered
+    are fixtures/qualification modes; live H/L uses the unchanged ordinary trainer.
     """
     import torch
-    before_steps = _validate(parameters, optimizer, gradients_a, gradients_b, mode, clip_norm)
+    before_steps = _validate(parameters, optimizer, gradients_a, gradients_b,
+                             full_loss_gradient, mode, clip_norm)
     with torch.no_grad():
         for name, parameter in parameters.items():
-            aggregate = gradients_a[name].detach() + gradients_b[name].detach()
-            _require(bool(torch.isfinite(aggregate).all()), 'Nonfinite summed raw gradient')
-            parameter.grad = aggregate.to(parameter.dtype)
-            _require(bool(torch.isfinite(parameter.grad).all()), 'Nonfinite native aggregate gradient')
+            # Clipping mutates .grad in place; never alias the recorded direct
+            # gradient or reconstruct it from separately differentiated groups.
+            parameter.grad = full_loss_gradient[name].detach().clone()
         # Match the qualified clip exactly, including its native dtype and foreach
         # dispatch. Do not clip the two group gradients individually.
         clip_return = torch.nn.utils.clip_grad_norm_(list(parameters.values()), clip_norm,
@@ -226,6 +242,7 @@ def apply_adamw_step(parameters, optimizer, gradients_a, gradients_b, *, mode='G
         applied_norm = math.sqrt(scalars['applied_sq'])
         return {
             'mode': mode, 'numerics': dict(NUMERICS), 'actual_parameter_dtype': str(next(iter(parameters.values())).dtype),
+            'proposal_gradient_source': 'direct_full_loss_gradient',
             'optimizer_steps_before': next(iter(before_steps.values())),
             'optimizer_steps_after': next(iter(after_steps.values())), 'optimizer_step_calls': 1,
             'gradient_norm_before_clip': float(clip_return),

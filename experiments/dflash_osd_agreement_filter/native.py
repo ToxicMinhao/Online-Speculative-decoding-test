@@ -7,6 +7,7 @@ whole-publication timing. Independent worker lifetimes isolate arm states.
 from __future__ import annotations
 
 import importlib.util
+import copy
 import json
 import os
 from pathlib import Path
@@ -26,6 +27,69 @@ _spec.loader.exec_module(per_turn)
 base, followup = per_turn.base, per_turn.followup
 require, sha, write_json = base.require, base.sha, base.write_json
 ARMS = ('H', 'L', 'G', 'N')
+
+
+def effective_training_receipt(inherited, trainer, config, compiler_runtime):
+    """Replace inherited eight-response metadata with the actual arm recipe."""
+    effective = copy.deepcopy(inherited)
+    effective.setdefault('args', {})['learning_rate'] = trainer.learning_rate
+    grouped = config['agreement_arm'] in ('G', 'N')
+    effective.update(
+        recipe={**training.RECIPE, 'learning_rate': trainer.learning_rate},
+        agreement_arm=config['agreement_arm'],
+        agreement_source_sha256=config['agreement_source_sha256'],
+        schedule='Newest actual response only; two passes and two committed optimizer steps',
+        compiler_runtime=copy.deepcopy(compiler_runtime),
+        qualification=config['agreement_qualification'],
+        numerical_protocol=(training.GROUP_PROTOCOL['schema'] if grouped else
+                            'qualified_ordinary_author_full_loss_gradient'),
+        agreement_numerics=copy.deepcopy(training.core.NUMERICS),
+        agreement_numerics_applies_to=('G', 'N'),
+        ordinary_proposal_gradient='direct full-loss native autograd gradient',
+        gradient_backward_calls_per_optimizer_step=3 if grouped else 1,
+        gradient_backward_calls_per_event=6 if grouped else 2,
+        gradient_sum_role='diagnostic only; unchanged historical tolerance is not an admission gate'
+                          if grouped else 'not computed',
+        sum_tolerance_is_admission_gate=False,
+    )
+    return effective
+
+
+def direct_full_qualification_checks(result):
+    """Validate v2 construction while retaining a failed historical sum check."""
+    from experiments.dflash_osd_agreement_filter.gradient_diagnostics import SUM_ERROR
+    presentations = [p for batch in result['accounting']['batches']
+                     for p in batch['presentations']]
+    require(len(presentations) == 2, 'Two direct-full response passes are required')
+    diagnostics = []
+    for presentation in presentations:
+        require(presentation.get('ordinary_proposal_gradient') ==
+                'direct full-loss native autograd gradient' and
+                presentation.get('gradient_backward_calls') == 3 and
+                presentation.get('numerical_protocol') == training.GROUP_PROTOCOL['schema'] and
+                presentation.get('sum_tolerance_is_admission_gate') is False,
+                'Direct full-gradient qualification receipt missing or changed')
+        check = presentation.get('gradient_sum_diagnostic')
+        require(isinstance(check, dict) and
+                check.get('schema') == 'agreement_gradient_sum_diagnostic_v1' and
+                check.get('status') in ('passed', 'failed') and
+                check.get('nonfinite_input_coordinates') == 0,
+                'Finite raw-gradient diagnostic missing or invalid')
+        counts = check.get('nonfinite_counts', {})
+        require(set(counts) == {'a', 'b', 'sum', 'reference', 'error', 'tolerance',
+                               'error_over_tolerance'} and
+                all(type(value) is int and value == 0 for value in counts.values()),
+                'Nonfinite raw-gradient diagnostic')
+        require(check['status'] != 'failed' or
+                (check.get('first_failure') or {}).get('error') == SUM_ERROR,
+                'Unexpected failed raw-gradient diagnostic')
+        diagnostics.append(check)
+    return dict(status='passed', numerical_protocol=training.GROUP_PROTOCOL['schema'],
+                ordinary_proposal_gradient='direct full-loss native autograd gradient',
+                gradient_backward_calls_per_optimizer_step=3,
+                gradient_backward_calls_per_event=6,
+                gradient_sum_diagnostics=diagnostics, sum_tolerance_is_admission_gate=False,
+                scope='Direct-full construction checks; historical sum failures remain diagnostic')
 
 
 def source_pins():
@@ -115,11 +179,8 @@ class TrainerService(per_turn.TrainerService):
             attention_backend='flex_attention', check_frozen=self.check_frozen,
             arm=config['agreement_arm'], qualification=config['agreement_qualification'])
         self.trainer.gradient_diagnostics_dir = self.out / 'gradient_checks'
-        effective = json.loads((self.out / 'AUTHOR_RUNTIME.json').read_text())
-        effective.update(agreement_arm=config['agreement_arm'], agreement_source_sha256=config['agreement_source_sha256'],
-                         schedule='Newest actual response only; two passes and two committed optimizer steps',
-                         compiler_runtime=compiler_runtime,
-                         qualification=config['agreement_qualification'])
+        effective = effective_training_receipt(
+            json.loads((self.out / 'AUTHOR_RUNTIME.json').read_text()), self.trainer, config, compiler_runtime)
         write_json(self.out / 'AUTHOR_RUNTIME.json', effective)
         self.states = self.out / 'states'; self.states.mkdir()
         self.updates = {}
@@ -133,7 +194,15 @@ class TrainerService(per_turn.TrainerService):
         if self.config['agreement_qualification'] and self.config['agreement_arm'] == 'G' and body['event'] == 1:
             require(self.qualification_receipt is None, 'Qualification must run once')
             started = time.perf_counter()
-            self.qualification_receipt = self.trainer.qualify_disabled_filter(body['responses'])
+            try:
+                self.qualification_receipt = self.trainer.qualify_disabled_filter(body['responses'])
+            except BaseException:
+                failed_receipt = getattr(self.trainer, 'last_qualification_receipt', None)
+                if failed_receipt is not None:
+                    self.qualification_receipt = copy.deepcopy(failed_receipt)
+                    self.qualification_receipt['observed_wall_s'] = time.perf_counter() - started
+                    write_json(self.out / 'DISABLED_FILTER_QUALIFICATION.json', self.qualification_receipt)
+                raise
             self.qualification_receipt['observed_wall_s'] = time.perf_counter() - started
             write_json(self.out / 'DISABLED_FILTER_QUALIFICATION.json', self.qualification_receipt)
             require(self.qualification_receipt.get('status') == 'passed', 'Disabled-filter equivalence failed')
@@ -142,13 +211,10 @@ class TrainerService(per_turn.TrainerService):
         if self.config['agreement_qualification'] and self.config['agreement_arm'] == 'G':
             require(self.qualification_receipt is not None and self.qualification_receipt['status'] == 'passed',
                     'Disabled-filter qualification receipt missing')
-            checks = [p['gradient_sum_qualification'] for b in result['accounting']['batches']
-                      for p in b['presentations']]
-            require(len(checks) == 2 and all(c.get('status') == 'passed' for c in checks),
-                    'Raw group gradient qualification missing or failed')
-            result['qualification_checks'] = dict(status='passed', gradient_sums=checks,
-                disabled_filter_status=self.qualification_receipt['status'],
-                scope='Correctness checks; no performance threshold')
+        if self.config['agreement_qualification'] and self.config['agreement_arm'] in ('G', 'N'):
+            result['qualification_checks'] = direct_full_qualification_checks(result)
+            if self.config['agreement_arm'] == 'G':
+                result['qualification_checks']['disabled_filter_status'] = self.qualification_receipt['status']
         if self.qualification_receipt is not None and body['event'] == 1:
             result['disabled_filter_qualification'] = self.qualification_receipt
         write_json(self.out / ('UPDATE_%d.json' % body['event']), result)

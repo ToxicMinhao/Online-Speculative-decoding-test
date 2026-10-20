@@ -1,4 +1,9 @@
-"""Trainer integration writes numerical evidence before the unchanged failure."""
+"""Direct-full-gradient training retains numerical evidence without a sum gate.
+
+The historical helper's default enforcement remains tested for diagnostic replay.
+Current training explicitly observes finite non-additivity and still rejects
+nonfinite gradients before any optimizer step.
+"""
 from __future__ import annotations
 
 import copy
@@ -55,16 +60,34 @@ class GradientDiagnosticIntegrationTests(unittest.TestCase):
 
     def test_nonfinite_check_still_fails_after_durable_explicit_receipt(self):
         args = self.make_gradients(invalid=float('nan'))
+        for enforce in (True, False):
+            with self.subTest(enforce_tolerance=enforce), tempfile.TemporaryDirectory() as folder:
+                report = Path(folder) / 'nonfinite.json'
+                with self.assertRaisesRegex(ValueError, '^Nonfinite gradient qualification$'):
+                    training.check_gradient_sum(*args, context={'losses': {'a': float('inf')}},
+                                                report_path=report, enforce_tolerance=enforce)
+                retained = json.loads(report.read_text())
+            self.assertEqual(retained['status'], 'failed')
+            self.assertEqual(retained['nonfinite_counts']['a'], 1)
+            self.assertEqual(retained['samples'][0]['g_a']['nonfinite_float'], 'nan')
+            self.assertEqual(retained['context']['losses']['a']['nonfinite_float'], 'inf')
+            json.dumps(retained, allow_nan=False)
+
+    def test_explicit_observation_mode_retains_finite_violation_without_admission_failure(self):
+        args = self.make_gradients()
+        observed = []
         with tempfile.TemporaryDirectory() as folder:
-            report = Path(folder) / 'nonfinite.json'
-            with self.assertRaisesRegex(ValueError, '^Nonfinite gradient qualification$'):
-                training.check_gradient_sum(*args, context={'losses': {'a': float('inf')}}, report_path=report)
+            report = Path(folder) / 'observation.json'
+            def observer(summary, *_):
+                self.assertEqual(json.loads(report.read_text()), summary)
+                observed.append(summary['status'])
+            summary = training.check_gradient_sum(*args, report_path=report, observer=observer,
+                                                  enforce_tolerance=False)
             retained = json.loads(report.read_text())
-        self.assertEqual(retained['status'], 'failed')
-        self.assertEqual(retained['nonfinite_counts']['a'], 1)
-        self.assertEqual(retained['samples'][0]['g_a']['nonfinite_float'], 'nan')
-        self.assertEqual(retained['context']['losses']['a']['nonfinite_float'], 'inf')
-        json.dumps(retained, allow_nan=False)
+        self.assertEqual(observed, ['failed'])
+        self.assertEqual(summary, retained)
+        self.assertEqual(summary['tolerance_violation_coordinates'], 1)
+        self.assertEqual(summary['nonfinite_input_coordinates'], 0)
 
     def test_success_is_also_durable_and_tolerance_definition_is_unchanged(self):
         a, b, reference, parameters = self.make_gradients(invalid=0.)
@@ -85,7 +108,7 @@ class GradientDiagnosticIntegrationTests(unittest.TestCase):
         self.assertEqual(before['displacement_relative_error_max'], .10)
         self.assertIs(training.COMPILER_POLICY['donated_buffer'], False)
 
-    def test_toy_trainer_failure_preserves_pass_and_sampling_context_without_optimizer_step(self):
+    def test_toy_trainer_records_finite_nonadditivity_but_uses_unchanged_full_gradient(self):
         model = trainer('G', qualification=True, filter_enabled=False)
         first_response = response(1)
         original_check = training.check_gradient_sum
@@ -94,7 +117,9 @@ class GradientDiagnosticIntegrationTests(unittest.TestCase):
             model.gradient_diagnostics_dir = Path(folder)
             report = Path(folder) / 'event_01_pass_00_disabled_filter.json'
             def observer(summary, raw_a, raw_b, full):
-                self.assertEqual(json.loads(report.read_text()), summary)
+                index = summary['context']['pass_index']
+                pass_report = Path(folder) / ('event_01_pass_%02d_disabled_filter.json' % index)
+                self.assertEqual(json.loads(pass_report.read_text()), summary)
                 observed.append(summary)
             model.gradient_diagnostics_observer = observer
             def deliberate_numerical_failure(a, b, full, parameters, **kwargs):
@@ -106,14 +131,27 @@ class GradientDiagnosticIntegrationTests(unittest.TestCase):
                 changed[name].view(-1)[0] += 100.
                 return original_check(a, b, changed, parameters, **kwargs)
             with patch.object(training, 'check_gradient_sum', side_effect=deliberate_numerical_failure):
-                with self.assertRaisesRegex(ValueError, 'Grouped raw gradients differ beyond declared sum tolerance'):
-                    model.train_event(1, [first_response])
+                result = model.train_event(1, [first_response])
             self.assertTrue(report.is_file())
             retained = json.loads(report.read_text())
-        self.assertEqual(len(observed), 1)
-        self.assertTrue(model.failed)
-        self.assertEqual(model.optimizer_steps, 0)
-        self.assertEqual(model.completed_events, 0)
+        self.assertEqual(len(observed), 2)
+        self.assertTrue(all(item['status'] == 'failed' for item in observed))
+        self.assertFalse(model.failed)
+        self.assertEqual(model.optimizer_steps, 2)
+        self.assertEqual(model.completed_events, 1)
+        for batch in result['batches']:
+            presentation = batch['presentations'][0]
+            self.assertFalse(presentation['sum_tolerance_is_admission_gate'])
+            self.assertEqual(presentation['gradient_backward_calls'], 3)
+            self.assertEqual(batch['agreement']['proposal_gradient_source'], 'direct_full_loss_gradient')
+        # Perturbing only a copied diagnostic reference cannot affect the actual
+        # independently differentiated full gradient used for AdamW.
+        control = trainer('G', qualification=True, filter_enabled=False)
+        control.train_event(1, [first_response])
+        for name, parameter in model.parameters.items():
+            self.assertTrue(torch.equal(parameter, control.parameters[name]), name)
+        self.assertEqual(training.state_digest(model.optimizer.state_dict()),
+                         training.state_digest(control.optimizer.state_dict()))
         context = retained['context']
         self.assertEqual(context['event'], 1)
         self.assertEqual(context['pass_index'], 0)
@@ -129,6 +167,26 @@ class GradientDiagnosticIntegrationTests(unittest.TestCase):
         self.assertTrue(context['sampling']['anchor_positions'])
         self.assertAlmostEqual(context['losses']['full'], context['losses']['a'] + context['losses']['b'], places=6)
         self.assertEqual(retained['rule'], training.GROUP_PROTOCOL['gradient_sum_tolerance'])
+
+    def test_toy_trainer_nonfinite_observation_still_fails_before_optimizer(self):
+        model = trainer('G', qualification=True, filter_enabled=False)
+        original_check = training.check_gradient_sum
+        def inject_nonfinite(a, b, full, parameters, **kwargs):
+            changed = dict(a)
+            name = next(iter(changed))
+            changed[name] = changed[name].detach().clone()
+            changed[name].view(-1)[0] = float('nan')
+            return original_check(changed, b, full, parameters, **kwargs)
+        with tempfile.TemporaryDirectory() as folder:
+            model.gradient_diagnostics_dir = Path(folder)
+            with patch.object(training, 'check_gradient_sum', side_effect=inject_nonfinite):
+                with self.assertRaisesRegex(ValueError, '^Nonfinite gradient qualification$'):
+                    model.train_event(1, [response(1)])
+            retained = json.loads((Path(folder) / 'event_01_pass_00_disabled_filter.json').read_text())
+        self.assertTrue(model.failed)
+        self.assertEqual(model.optimizer_steps, 0)
+        self.assertFalse(model.optimizer.state)
+        self.assertEqual(retained['nonfinite_input_coordinates'], 1)
 
 
 if __name__ == '__main__':

@@ -64,19 +64,35 @@ def run_phase(streams, references, backend_factory, out, *, config, qualificatio
     return state
 
 
-def run_qualified_campaign(streams, references, backend_factory, out, *, config, fixtures):
+def run_qualified_campaign(streams, references, backend_factory, out, *, config, fixtures,
+                           qualification_only=False):
     started = time.monotonic()
+    require(type(qualification_only) is bool, 'qualification_only must be an explicit boolean')
+    scope = dict(mode='qualification_only' if qualification_only else 'qualification_then_campaign',
+                 campaign_execution_permitted=not qualification_only)
+    write_json(Path(out) / 'EXECUTION_SCOPE.json', scope)
     require(fixtures.get('status') == 'passed', 'Deterministic correctness fixtures failed')
     write_json(Path(out) / 'DETERMINISTIC_QUALIFICATION.json', fixtures)
     qualification = run_phase(streams[:1], references, backend_factory, Path(out) / 'qualification',
                               config=config, qualification=True)
-    result = dict(qualification=qualification, campaign=None, status='qualification_failed')
+    result = dict(qualification=qualification, campaign=None, campaign_started=False,
+                  status='qualification_failed', execution_scope=scope)
     if qualification['status'] == 'complete':
-        # Distinct directories and freshly constructed workers/optimizers/RNG for every arm.
-        result['campaign'] = run_phase(streams, references, backend_factory, Path(out) / 'campaign',
-                                      config=config, qualification=False)
-        result['status'] = result['campaign']['status']
-    result['actual_campaign_wall_s_including_qualification'] = time.monotonic() - started
+        if qualification_only:
+            result.update(status='qualification_complete',
+                          stop_reason='Correctness qualification completed; campaign remains paused pending review.')
+        else:
+            # Distinct directories and freshly constructed workers/optimizers/RNG for every arm.
+            result['campaign_started'] = True
+            result['campaign'] = run_phase(streams, references, backend_factory, Path(out) / 'campaign',
+                                          config=config, qualification=False)
+            result['status'] = result['campaign']['status']
+    elif qualification_only:
+        result['stop_reason'] = 'Correctness qualification failed; preserve evidence and keep campaign paused.'
+    result['actual_execution_wall_s'] = time.monotonic() - started
+    if not qualification_only:
+        # Retain the historical field for the original full-campaign workflow.
+        result['actual_campaign_wall_s_including_qualification'] = result['actual_execution_wall_s']
     write_json(Path(out) / 'EXECUTION.json', result)
     return result
 
@@ -91,9 +107,13 @@ def main(argv=None):
     parser.add_argument('--tokenizer', type=Path)
     parser.add_argument('--runtime-config', type=Path)
     parser.add_argument('--allow-gpu-execution', action='store_true')
+    parser.add_argument('--qualification-only', action='store_true',
+                        help='Run first-stream correctness qualification and stop even if it passes; no campaign.')
     parser.add_argument('--reviewed-code-sha256')
     parser.add_argument('--reviewed-reference-sha256')
     args = parser.parse_args(argv)
+    require(not args.qualification_only or args.action == 'run',
+            '--qualification-only applies only to the run action')
     require(not args.out.exists() and not args.out.resolve().is_relative_to(HERE.parents[1]),
             'Use a fresh artifact directory outside the public checkout')
     streams = load_streams(args.dataset)
@@ -144,9 +164,9 @@ def main(argv=None):
     from .qualification import run_deterministic_checks
     from .native import NativeBackend
     result = run_qualified_campaign(streams, references, NativeBackend, args.out, config=config,
-                                    fixtures=run_deterministic_checks())
+                                    fixtures=run_deterministic_checks(), qualification_only=args.qualification_only)
     print(json.dumps(result))
-    return 0 if result['status'] == 'complete' else 1
+    return 0 if result['status'] in ('complete', 'qualification_complete') else 1
 
 
 if __name__ == '__main__':
