@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "metadata_checked_utc_date": "2026-10-20",
+  "author_source": {
+    "repository": "https://github.com/ZinYY/AdaFlash",
+    "commit": "507b7aba5fbccaa99a400f161e4f2794ba6a388c",
+    "file": "pipeline/data/prepare_data.py",
+    "sha256": "2ed074cf3f01fbc07ffa28dc9deaf8cd0c1baab69737f4aa7de75ead2c6c990f",
+    "note": "Reuse dataset repositories and author row partitions. Preprocessing adaptations below are explicit; this is not an author experiment reproduction."
+  },
+  "metadata_provenance": "Revisions from huggingface.co/api/datasets/{repository}/revision/{revision}; file SHA256 and sizes from huggingface.co/api/datasets/{repository}/tree/{revision}?recursive=true&expand=false, using lfs.oid and lfs.size. Implementation retrieved metadata and bounded provenance previews, not full corpora. No real sample has been selected; this module never downloads data.",
+  "sources": {
+    "gsm8k_train": {
+      "domain": "gsm8k", "dataset": "openai/gsm8k", "revision": "740312add88f781978c0658806c59bc2815b9866", "config": "main", "split": "train",
+      "repository_path": "main/train-00000-of-00001.parquet", "format": "parquet", "bytes": 2306545,
+      "sha256": "ea82612ea9582142387730c793eb67d3b12849002bc0b7fa6f8efafa7351419d"
+    },
+    "gsm8k_test": {
+      "domain": "gsm8k", "dataset": "openai/gsm8k", "revision": "740312add88f781978c0658806c59bc2815b9866", "config": "main", "split": "test",
+      "repository_path": "main/test-00000-of-00001.parquet", "format": "parquet", "bytes": 419088,
+      "sha256": "ee7b8da9e381df27b9e3f7758a159ab2bdaa4dbaa910546cbbc47e0cb44e4f59"
+    },
+    "codealpaca_train": {
+      "domain": "codealpaca", "dataset": "sahil2801/CodeAlpaca-20k", "revision": "3bd2de8099ee8a140653ad9b9df783554d5efabb", "resolved_ref": "refs/convert/parquet", "config": "default", "split": "train",
+      "repository_path": "default/train/0000.parquet", "format": "parquet", "bytes": 3339837,
+      "sha256": "5a2fa0c510d42843292c583f357086abb59f95796e0f55727b97e449aa93bed9"
+    },
+    "sharegpt_train": {
+      "domain": "sharegpt", "dataset": "Aeala/ShareGPT_Vicuna_unfiltered", "revision": "8b0048ad6ae8c22f46a78c15559dec98feef5539", "split": "train",
+      "repository_path": "ShareGPT_V4.3_unfiltered_cleaned_split.json", "format": "json", "bytes": 464322921,
+      "sha256": "dd5828821b7e707ca3dc4d0de07e2502c3ce278fcf1a74b81a3464f26006371e"
+    }
+  },
+  "selection": {
+    "seed": 20261020,
+    "domain_order": ["gsm8k", "codealpaca", "sharegpt"],
+    "role_order": ["feedback", "evaluation"],
+    "groups_per_domain": 2,
+    "requests_per_role_per_group": 4,
+    "candidate_order": "One Python random.Random(20261020) instance; shuffle each role's source-row indices in declared domain/role order. Inspect until eight eligible globally distinct requests are accepted per role. First four are group0, next four group1. Persist visited exclusions and uninspected counts; no model result enters selection.",
+    "partitions": {
+      "gsm8k": "Official main/train feedback and main/test evaluation.",
+      "codealpaca": "Author partition: all rows except final1024 feedback; final1024 evaluation.",
+      "sharegpt": "Author partition within the explicitly selected file: rows[0:30000] feedback; rows[30000:31024] evaluation. No implicit concatenation with the Wasteland file."
+    },
+    "prompt_dedup": "SHA256 of NFC text with whitespace runs collapsed, case preserved; dedup globally across all groups/roles. Serving retains exact original text, including whitespace.",
+    "conversation_dedup": "ShareGPT root IDs are globally unique across selected groups/roles. Admission first requires the initial-chunk rule; duplicate initial rows cannot bypass source/root or prompt deduplication.",
+    "sharegpt_initial_chunk": {
+      "rule": "zero_source_offset_and_user_first_v1",
+      "id_format": "<root>_<source-message-offset>; root contains no whitespace or underscores; offset is 0 or a canonical positive decimal integer. Unsupported or nested suffix formats fail closed.",
+      "eligibility": "Require offset 0 and source message 0 itself to be human/user text. Never scan past an assistant/system message. Exclude every positive offset even when the first speaker is human/user. Do not resolve across role partitions or substitute a continuation.",
+      "manifest_evidence": "Selected source ID, root, offset 0, source-message index 0, first role and rule version. Every visited excluded continuation retains source ID, row, candidate rank, offset, root and reason. Unknown origins have a separate reason; uninspected counts remain explicit.",
+      "provenance": {
+        "reupload_readme": "https://huggingface.co/datasets/Aeala/ShareGPT_Vicuna_unfiltered/blob/8b0048ad6ae8c22f46a78c15559dec98feef5539/README.md",
+        "upstream_split_script": "https://huggingface.co/datasets/anon8231489123/ShareGPT_Vicuna_unfiltered/blob/192ab2185289094fc556ec8ce5ce1e8e587154ca/split_long_conversation.py",
+        "script_sha256": "5f91c27efe1366a586952e94efa986b1a840692b4a312dda69325f1873c4755c",
+        "meaning": "The upstream splitter appends start_idx to the source ID and slices conversations[start_idx:end_idx], beginning at zero.",
+        "limitation": "Initial means the first recorded message under the pinned dataset's source-offset convention. The full downstream V4.3 cleaning code is unavailable; this does not guarantee completeness or semantic self-containment of the original web conversation."
+      }
+    },
+    "english_filter": {
+      "package": "langdetect", "version": "1.0.9", "seed": 20261020,
+      "minimum_en_probability": 0.9,
+      "inputs": "First user text and concatenation of all source user messages; both must classify en. Source assistant answers are never language-detector inputs.",
+      "limitation": "Deterministic language-ID heuristic, not perfect language verification. Selected probabilities and exclusions are retained."
+    },
+    "preprocessing": {
+      "gsm8k": "Exact question field; answer unused. Stable source ID is official split plus zero-based row index.",
+      "codealpaca": "Exact instruction, plus two newline separators and exact input when input is nonempty. This intentionally retains task inputs that the author normalizer omits. Output unused. Stable source ID uses zero-based row index.",
+      "sharegpt": "Exact value of message 0 from an eligible user-first initial chunk; no scan for a later user. No source assistant, system, later user text, or profile in serving input. Require all conversation message payloads to be text and reject detected image markers. Use source id plus row index for provenance."
+    }
+  },
+  "local_binding_contract": "Provide a JSON object mapping each sources key to an existing local source file path (or {path: ...}). Bytes and SHA256 must equal the upstream artifact; transformed JSON exports cannot substitute for pinned Parquet. No network download occurs in prepare. Tokenizer must be the locally available pinned qualified tokenizer. Runtime outputs must be outside the public Git checkout."
+}
