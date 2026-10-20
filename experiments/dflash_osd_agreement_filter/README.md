@@ -1,13 +1,16 @@
 # Agreement-filtered OSD: bounded development pilot
 
-**Current scope: the direct-full-gradient repair and correctness qualification
-only. The repaired protocol has not yet passed native qualification; the main
-pilot remains paused even if this qualification succeeds.**
+**Numerical repair evaluated: disabled-filter equivalence passes exactly, but
+full qualification stops at N's unchanged 1% norm gate.** N's actual BF16 update
+norm exceeds its intended norm by 31.19% and 23.72% in the first event's two steps.
+The main pilot remains paused. [Native qualification report](NUMERICAL_REPAIR_QUALIFICATION.md).
+
 Earlier native qualification failed the gradient-sum gate. The completed
-[bounded diagnostic](GRADIENT_DIAGNOSTIC_RESULTS.md) and its unfavorable checks
-remain historical evidence. The [numerical protocol revision](NUMERICAL_PROTOCOL_V2.md)
-changes how G/N construct their ordinary proposal; it does not claim that the old
-gate passed or that filtering improves performance.
+[bounded diagnostic](GRADIENT_DIAGNOSTIC_RESULTS.md) remains historical evidence.
+The [numerical protocol revision](NUMERICAL_PROTOCOL_V2.md) now uses the direct
+full-loss gradient for the ordinary proposal. All 8 recorded sum checks still
+fail their historical tolerance and remain diagnostic; none is relabeled as a
+passed old gate. No filtering efficacy is established.
 
 The question is whether selecting components of an ordinary OSD update improves
 subsequent drafting beyond lowering its learning rate or uniformly shrinking it.

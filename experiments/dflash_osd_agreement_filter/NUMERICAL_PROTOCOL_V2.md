@@ -11,10 +11,11 @@ also failed the sum comparison. These observations support finite-precision
 non-additivity, without locating its first operation or establishing filtering
 efficacy.
 
-The user authorized this narrow repair and correctness qualification. **Native
-qualification of the revised rule is pending. The main pilot remains paused
-after either a pass or a failure; no automatic campaign follows.** Historical
-results and their source versions remain intact.
+The user authorized this narrow repair and correctness qualification. The
+[native result](NUMERICAL_REPAIR_QUALIFICATION.md) now shows exact disabled-filter
+equivalence to unchanged H, while N fails its unchanged 1% norm control. **Full
+qualification remains unsuccessful and the main pilot remains paused.**
+Historical results and their source versions remain intact; no retuning follows.
 
 ## The change
 

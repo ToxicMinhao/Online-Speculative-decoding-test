@@ -1,5 +1,23 @@
 # Implementation and native qualification status
 
+## Direct-full repair: native equivalence passes; N control fails
+
+[Detailed result](NUMERICAL_REPAIR_QUALIFICATION.md), executed code `a142802`.
+All 164 package CPU tests and 47 installed-Torch checks pass. Native disabled-filter
+weights, Adam moments and actual displacement exactly match unchanged H after
+two steps; counters, anchors, RNG and restoration match exactly. All 8 historical
+sum checks remain failed diagnostics under the explicit revised protocol.
+
+N fails the unchanged 1% norm gate (31.19% and23.72% errors). Qualification stops
+with 10 canonical generations, 8 valid scored replays, 7 events/14 steps plus 4
+restored temporary steps. Main campaign absent; no efficacy conclusion. Runtime
+recipe metadata now correctly records one response/two passes/two steps.
+Third full backwards cost 0.282–0.336s per normal G/N pass; complete instrumented
+training and memory costs are reported separately. 300 independent checks audit
+the retained evidence without claiming independent raw-tensor reconstruction.
+
+The historical attempts below retain their original outcomes and limits.
+
 ## Native retry outcome (qualification failed; pilot not started)
 
 The compatibility repair passes **99 local CPU tests** and **two focused tests
