@@ -101,6 +101,10 @@ class ServingService(per_turn.ServingService):
 class TrainerService(per_turn.TrainerService):
     def __init__(self, config):
         check_sources(config)
+        # Pin saved-buffer lifetime before inherited setup can compile a model.
+        # Apply to ordinary H/L and grouped G/N, including the reference trial.
+        compiler_runtime = training.configure_compiler_runtime()
+        write_json(Path(config['worker_out']) / 'COMPILER_RUNTIME.json', compiler_runtime)
         # Build the same teacher, BF16 draft/head and source-pinned author setup.
         # Avoid the parent per-turn constructor's initial optimizer-state file.
         followup.TrainerService.__init__(self, config)
@@ -113,6 +117,7 @@ class TrainerService(per_turn.TrainerService):
         effective = json.loads((self.out / 'AUTHOR_RUNTIME.json').read_text())
         effective.update(agreement_arm=config['agreement_arm'], agreement_source_sha256=config['agreement_source_sha256'],
                          schedule='Newest actual response only; two passes and two committed optimizer steps',
+                         compiler_runtime=compiler_runtime,
                          qualification=config['agreement_qualification'])
         write_json(self.out / 'AUTHOR_RUNTIME.json', effective)
         self.states = self.out / 'states'; self.states.mkdir()

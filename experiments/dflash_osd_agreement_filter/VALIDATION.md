@@ -1,6 +1,31 @@
-# Implementation validation — review hold
+# Implementation and native qualification status
 
-## Reviewer control fixes
+## First native attempt and compiler compatibility repair
+
+The user authorized native qualification and the unchanged bounded pilot only
+after every correctness and numerical-control gate passes. The first attempt
+on installed Torch `2.9.1+cu130` stopped after 547.60 seconds: H and L completed
+their first-stream checks (four update events, eight persistent optimizer steps,
+six valid paired scores); G failed during the temporary disabled-filter trial
+before a persistent update. N and the main campaign were not started.
+
+The compiled backward rejects `retain_graph=True` when donated saved buffers
+are nonempty. The compatibility repair pins
+`torch._functorch.config.donated_buffer=False` before model setup/compilation for
+**all H/L/G/N trainer workers**, including the ordinary reference trial. It
+records the effective flag and Torch version, and rejects later drift. No
+precision, loss, learning rate, optimizer, anchor, exposure, inference setting,
+or acceptance tolerance is changed. Original author/runtime files are untouched.
+
+A focused CPU AOTAutograd regression reproduces the original donated-buffer
+error after an ordinary backward warm-up, then verifies three backward calls
+from one compiled forward after the fix. Trainer checks also cover all four
+arms, configuration drift, and pinning before native model construction.
+
+The failed attempt and its completed controls remain preserved. A fresh native
+qualification is still required; this repair is not a filtering result.
+
+## Reviewer control fixes (historical, before native execution)
 
 After `c5cf3e7`, the updated package passes **93 CPU tests**. Native GPU
 qualification remains unrun. The targeted reviewer cases now reproduce and reject
@@ -97,4 +122,4 @@ native-precision and displacement tolerances, not merely report them. Validate
 native outputs, caches and peak memory. Correctness failures stop execution;
 unfavorable efficacy does not authorize retuning or block a correct campaign.
 
-**Await review before GPU qualification or experiment execution.**
+**Execution is authorized, but the campaign remains gated on a complete native qualification pass.**

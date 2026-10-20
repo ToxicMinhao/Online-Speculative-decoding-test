@@ -53,6 +53,38 @@ EQUIVALENCE_TOLERANCES = dict(
     reduction_chunk_elements=1_048_576,
 )
 
+COMPILER_POLICY = dict(
+    schema='agreement_reusable_backward_buffers_v1',
+    setting='torch._functorch.config.donated_buffer',
+    donated_buffer=False,
+    scope='All H/L/G/N trainer workers, before model setup or compiled forward',
+    reason='One shared forward supplies multiple retained-graph backwards; saved buffers must remain reusable.',
+)
+
+
+def compiler_runtime():
+    """Check the effective compiler policy without silently repairing drift."""
+    import torch
+    import torch._functorch.config as config
+    require(getattr(config, 'donated_buffer', None) is False,
+            'Agreement training requires donated_buffer=False before compilation')
+    return {**COMPILER_POLICY, 'torch_version': str(torch.__version__),
+            'effective_donated_buffer': config.donated_buffer}
+
+
+def configure_compiler_runtime():
+    """Disable single-use saved-buffer donation, equally for every learning arm.
+
+    Native workers call this before the inherited model/runtime constructor;
+    direct trainers call it before any training forward. This is a compiler
+    buffer-lifetime compatibility setting, with no loss or precision change.
+    """
+    import torch._functorch.config as config
+    require(type(getattr(config, 'donated_buffer', None)) is bool,
+            'Installed Torch lacks the required donated_buffer compiler setting')
+    config.donated_buffer = False
+    return compiler_runtime()
+
 
 def response_groups(audit):
     """All potentially supervised positions, independent of either pass's draw."""
@@ -296,6 +328,7 @@ class AgreementTrainer(qualified.PersistentPerTurnTrainer):
         require(arm in ('H', 'L', 'G', 'N'), 'Unknown learning arm')
         require(type(qualification) is bool and type(filter_enabled) is bool, 'Boolean qualification/filter required')
         require(filter_enabled or (qualification and arm == 'G'), 'Disabled filter is qualification-only G')
+        self.compiler_runtime = configure_compiler_runtime()
         self.arm, self.qualification, self.filter_enabled = arm, qualification, filter_enabled
         self._initializing = True
         super().__init__(*args, **kwargs)
@@ -306,6 +339,7 @@ class AgreementTrainer(qualified.PersistentPerTurnTrainer):
 
     def _check_owner(self):
         import torch
+        require(compiler_runtime() == self.compiler_runtime, 'Trainer compiler configuration changed')
         super()._check_owner()
         require(all(p.dtype in (torch.bfloat16, torch.float32) for p in self.parameters.values()) and
                 len({p.dtype for p in self.parameters.values()}) == 1, 'Qualified parameter precision changed')
@@ -375,6 +409,7 @@ class AgreementTrainer(qualified.PersistentPerTurnTrainer):
             result = super().train_event(event, responses)
             result.update(agreement_arm=self.arm, qualification=self.qualification,
                           filter_enabled=False, group_protocol=None,
+                          compiler_runtime=dict(self.compiler_runtime),
                           peak_memory_allocated_bytes=(torch.cuda.max_memory_allocated(self.device)
                                                        if self.device.type == 'cuda' else None),
                           peak_memory_reserved_bytes=(torch.cuda.max_memory_reserved(self.device)
@@ -432,6 +467,7 @@ class AgreementTrainer(qualified.PersistentPerTurnTrainer):
             arm_name=author.ARM_NAME + ' with agreement filter' if self.arm == 'G' else
                      author.ARM_NAME + ' with own-state uniform step scaling',
             agreement_arm=self.arm, author_commit=author.AUTHOR_COMMIT, qualification=self.qualification,
+            compiler_runtime=dict(self.compiler_runtime),
             filter_enabled=self.filter_enabled, recipe={**RECIPE, 'learning_rate': self.learning_rate},
             group_protocol=dict(GROUP_PROTOCOL), fixed_groups=groups, response_audits=[audit],
             capture_checkpoint_sha256=self.active_checkpoint_sha256, support_turns=[event],
@@ -453,14 +489,16 @@ class AgreementTrainer(qualified.PersistentPerTurnTrainer):
         state['schema_version'] = 'dflash_agreement_filter_state_v1'
         state['agreement'] = dict(arm=self.arm, qualification=self.qualification, filter_enabled=self.filter_enabled,
                                   group_protocol=copy.deepcopy(GROUP_PROTOCOL), numerics=copy.deepcopy(core.NUMERICS),
-                                  equivalence_tolerances=copy.deepcopy(EQUIVALENCE_TOLERANCES))
+                                  equivalence_tolerances=copy.deepcopy(EQUIVALENCE_TOLERANCES),
+                                  compiler_runtime=dict(self.compiler_runtime))
         return state
 
     def restore(self, state, *, draft_state=None):
         require(state.get('schema_version') == 'dflash_agreement_filter_state_v1', 'Foreign recovery schema')
         require(state.get('agreement') == dict(arm=self.arm, qualification=self.qualification,
                 filter_enabled=self.filter_enabled, group_protocol=GROUP_PROTOCOL, numerics=core.NUMERICS,
-                equivalence_tolerances=EQUIVALENCE_TOLERANCES), 'Recovery arm/filter protocol differs')
+                equivalence_tolerances=EQUIVALENCE_TOLERANCES,
+                compiler_runtime=self.compiler_runtime), 'Recovery arm/filter protocol differs')
         require(state.get('learning_rate') == (1e-4 if self.arm == 'L' else 3e-4), 'Recovery learning rate differs')
         restored = dict(state)
         restored['schema_version'] = 'dflash_per_turn_state_v1'
@@ -526,6 +564,7 @@ class AgreementTrainer(qualified.PersistentPerTurnTrainer):
                 comparisons[name] = item
             displacement_comparison = _compare_displacements(initial['draft'], reference_weights, self.parameters)
             result = dict(status='passed', event=event, tolerances=copy.deepcopy(EQUIVALENCE_TOLERANCES),
+                          compiler_runtime=dict(self.compiler_runtime),
                           raw_gradient_sum_rule=GROUP_PROTOCOL['gradient_sum_tolerance'],
                           reference_anchor_exposure_sha256=reference['anchor_exposure_sha256'],
                           grouped_anchor_exposure_sha256=observed['anchor_exposure_sha256'],

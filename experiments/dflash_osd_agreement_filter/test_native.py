@@ -74,3 +74,19 @@ def test_training_service_qualifies_once_and_keeps_receipt_for_both_events(tmp_p
     assert first['qualification_checks']['status'] == second['qualification_checks']['status'] == 'passed'
     assert 'disabled_filter_qualification' in first and 'disabled_filter_qualification' not in second
     assert (tmp_path / 'DISABLED_FILTER_QUALIFICATION.json').exists()
+
+
+@pytest.mark.parametrize('arm', ('H', 'L', 'G', 'N'))
+def test_compiler_setting_is_pinned_before_inherited_model_setup(tmp_path, monkeypatch, arm):
+    import json
+    import torch._functorch.config as config
+    monkeypatch.setattr(native, 'check_sources', lambda cfg: None)
+    def stop_before_models(owner, cfg):
+        assert config.donated_buffer is False
+        receipt = json.loads((tmp_path / 'COMPILER_RUNTIME.json').read_text())
+        assert receipt['effective_donated_buffer'] is False
+        assert receipt['setting'] == 'torch._functorch.config.donated_buffer'
+        raise RuntimeError('test stopped before model construction')
+    monkeypatch.setattr(native.followup.TrainerService, '__init__', stop_before_models)
+    with config.patch(donated_buffer=True), pytest.raises(RuntimeError, match='test stopped before model construction'):
+        native.TrainerService({'worker_out': str(tmp_path), 'agreement_arm': arm})

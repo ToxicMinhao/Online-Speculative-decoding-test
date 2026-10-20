@@ -111,6 +111,55 @@ class Numerical(unittest.TestCase):
         import torch
         torch.set_num_threads(1)
 
+    def test_every_direct_trainer_pins_compiler_and_rejects_drift(self):
+        import torch
+        import torch._functorch.config as config
+        for arm in ('H', 'L', 'G', 'N'):
+            with self.subTest(arm=arm), config.patch(donated_buffer=True):
+                model = trainer(arm)
+                self.assertIs(config.donated_buffer, False)
+                self.assertIs(model.compiler_runtime['effective_donated_buffer'], False)
+                self.assertEqual(model.compiler_runtime['torch_version'], str(torch.__version__))
+                self.assertEqual(model.snapshot()['agreement']['compiler_runtime'], model.compiler_runtime)
+                config.donated_buffer = True
+                with self.assertRaisesRegex(ValueError, 'donated_buffer=False'):
+                    model.train_event(1, [response(1)])
+                self.assertEqual(model.optimizer_steps, 0)
+                self.assertEqual(model.draft.forward_calls, 0)
+
+    def test_compiled_single_backward_warmup_then_shared_forward_multiple_backwards(self):
+        """Exercise actual AOTAutograd cache reuse that eager toy models miss."""
+        import torch
+        import torch._functorch.config as config
+        def forward(x, weight):
+            y = torch.nn.functional.linear(x, weight)
+            return y.sin().cos() * y.sigmoid()
+        x = torch.arange(16, dtype=torch.float32).reshape(4, 4) / 16
+        def trial():
+            weight = torch.nn.Parameter(torch.eye(4))
+            compiled = torch.compile(forward, backend='aot_eager', fullgraph=True)
+            # The native disabled-filter reference trial warms an ordinary
+            # backward before the grouped trial reuses the compiled function.
+            torch.autograd.grad(compiled(x, weight).sum(), weight)
+            y = compiled(x, weight)  # Exactly one forward for all three losses.
+            a = torch.autograd.grad(y[:2].sum(), weight, retain_graph=True)[0]
+            b = torch.autograd.grad(y[2:].sum(), weight, retain_graph=True)[0]
+            full = torch.autograd.grad(y.sum(), weight)[0]
+            eager = torch.autograd.grad(forward(x, weight).sum(), weight)[0]
+            torch.testing.assert_close(a + b, full, rtol=1e-6, atol=1e-7)
+            torch.testing.assert_close(full, eager, rtol=1e-6, atol=1e-7)
+        try:
+            with config.patch(donated_buffer=True):
+                torch._dynamo.reset()
+                with self.assertRaisesRegex(RuntimeError, 'non-empty donated buffers'):
+                    trial()
+                torch._dynamo.reset()
+                receipt = training.configure_compiler_runtime()
+                self.assertIs(receipt['effective_donated_buffer'], False)
+                trial()
+        finally:
+            torch._dynamo.reset()
+
     def test_shared_forward_loss_and_gradient_sum_match_original_with_overlap(self):
         import torch
         for dtype in (torch.float32, torch.bfloat16):

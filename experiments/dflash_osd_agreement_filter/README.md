@@ -99,6 +99,17 @@ observed errors and zero/nonzero coordinate transitions. These are finite-precis
 acceptance limits, not claims of exact native equality. Failure blocks the pilot;
 no silent tolerance adjustment is authorized.
 
+Native compatibility fixes the Torch AOTAutograd setting
+`torch._functorch.config.donated_buffer=False` before model setup in **every**
+H/L/G/N trainer worker. Compiled single-use donated buffers cannot support the
+retained graph needed by the two group backwards and qualification's full-loss
+backward. The disabled-filter reference trial can otherwise compile a backward
+that rejects the subsequent grouped trial. Keeping saved buffers reusable changes
+compiler memory reuse, not the loss, BF16 precision, optimizer or tolerances.
+Its memory/runtime costs remain measured. `COMPILER_RUNTIME.json`,
+`AUTHOR_RUNTIME.json`, update accounting and recovery state record the effective
+setting and Torch version; configuration drift fails before another update.
+
 ## Qualification and causal evaluation
 
 Before the campaign, deterministic fixtures check numerical corner cases. Run
