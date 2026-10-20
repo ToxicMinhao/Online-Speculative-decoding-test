@@ -9,6 +9,10 @@ import time
 from experiments.dflash_per_turn.experiment import (BLOCK_SIZE, CONTEXT_LIMIT, EXPECTED_STREAMS, INPUT_LIMIT,
     OUTPUT_CAP, digest, require, valid_ids, validate_measurement, validate_stream)
 
+from .measurement import measurement_validation, preserve_invalid_numbers
+
+from .controls import N_NORM_POLICY, n_update_control, n_checkpoint_control
+
 LEARNING_ARMS = ("H", "L", "G", "N")
 ARMS = ("F",) + LEARNING_ARMS
 LEARNING_RATES = {"H": 3e-4, "L": 1e-4, "G": 3e-4, "N": 3e-4}
@@ -30,6 +34,7 @@ def plan(streams):
             "output_cap": OUTPUT_CAP, "block_size": BLOCK_SIZE, "input_limit": INPUT_LIMIT,
             "context_limit": CONTEXT_LIMIT, "passes": 2, "steps_per_event": 2,
             "learning_rates": LEARNING_RATES, "primary_control": "H",
+            "N_control_policy": dict(N_NORM_POLICY),
             "scope": "Development screen; single-shot latency is diagnostic, not deployment speedup."}
 
 
@@ -54,21 +59,25 @@ def score(backend, reference, checkpoint, arm, *, emit, destination):
     input_match = output.get("input_ids") == reference["input_ids"] and output.get("input_ids_sha256") == digest(reference["input_ids"])
     output_match = output.get("output_ids") == reference["output_ids"]
     identity_match = output.get("checkpoint_identity_sha256") == expected
+    validation = measurement_validation(output)
     row = {**output, "episode_id": reference["episode_id"], "turn": reference["turn"],
            "source": reference["source"], "synthetic": reference["synthetic"], "arm": arm,
            "checkpoint_id": checkpoint, "repeat": 0, "canonical": False, "training_data": False,
-           "capture": False, "reference_input_ids_sha256": digest(reference["input_ids"]),
+           "capture": output.get("capture", False), "reference_input_ids_sha256": digest(reference["input_ids"]),
            "reference_output_ids_sha256": digest(reference["output_ids"]),
            "reference_context_sha256": reference.get("context_sha256"),
            "input_match": input_match, "canonical_output_match": output_match,
            "checkpoint_identity_match": identity_match,
            "same_generation_valid": input_match and output_match and identity_match,
-           "output_tokens": len(output.get("output_ids", [])),
+           "measurement_validation": validation,
+           "output_tokens": len(output["output_ids"]) if isinstance(output.get("output_ids"), list) else None,
            "context_tokens": len(reference["input_ids"]),
            "latency_scope": "Single-shot capture-disabled diagnostic; no deployment-speedup claim."}
+    if validation["status"] != "passed":
+        row = preserve_invalid_numbers(row)
     destination.append(row)
-    emit("score", row)  # Preserve mismatches and malformed receipts before validation.
-    validate_measurement(output)
+    emit("score", row)  # Preserve mismatches and validation errors before rejecting.
+    require(validation["status"] == "passed", "; ".join(validation["errors"]))
     if not row["same_generation_valid"]:
         emit("benchmark_mismatch", row)
     return row
@@ -126,6 +135,10 @@ def validate_update(update, event, support, arm):
                 value = stats.get(key)
                 require(type(value) in (int, float) and math.isfinite(value) and value >= 0,
                         "Missing/nonfinite agreement diagnostic: " + key)
+    if arm == "N":
+        control = n_update_control(update)
+        update["uniform_control"] = control
+        require(control["status"] == "passed", "N actual displacement failed the fixed norm-match criterion: " + str(control["errors"]))
     return True
 
 
@@ -141,6 +154,8 @@ def implementation_checks(result):
             problems.append(arm + ":update_schedule_or_mask")
         if value.get("cleanup", {}).get("status") != "passed":
             problems.append(arm + ":cleanup")
+    if n_checkpoint_control(result, 3)["status"] != "passed":
+        problems.append("N:numerical_control_not_qualified")
     scores = result.get("scores", [])
     for turn in (2, 3):
         for arm in ARMS:

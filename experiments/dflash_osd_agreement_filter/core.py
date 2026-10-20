@@ -18,6 +18,12 @@ from __future__ import annotations
 
 from collections.abc import Mapping
 import math
+import importlib.util
+from pathlib import Path
+
+_control_spec = importlib.util.spec_from_file_location('_agreement_norm_controls', Path(__file__).with_name('controls.py'))
+controls = importlib.util.module_from_spec(_control_spec)
+_control_spec.loader.exec_module(controls)
 
 NUMERICS = {
     'native_parameter_dtype': 'torch.bfloat16',
@@ -29,6 +35,7 @@ NUMERICS = {
     'sign_check': 'non-strict sign comparisons on finite raw FP32 gradients and FP32 displacement; no products',
     'sign_tolerance': 0.0,
     'reductions': 'FP64 global reductions over all trainable parameters',
+    'uniform_control_policy': dict(controls.N_NORM_POLICY),
     'uniform_scale_application': 'FP32 alpha*d added to FP32 pre weight, then native dtype rounding',
     'filter_application': 'retain exact ordinary proposed native weight or restore exact native pre weight',
     'reduction_chunk_elements': 1_048_576,
@@ -225,6 +232,7 @@ def apply_adamw_step(parameters, optimizer, gradients_a, gradients_b, *, mode='G
             'gradient_norm_after_clip_fp64': math.sqrt(scalars['clipped_gradient_sq']),
             'proposed_step_norm': proposed_norm, 'hypothetical_filtered_step_norm': filtered_norm,
             'uniform_scale_alpha': alpha if mode == 'N' else None,
+            'uniform_control': controls.norm_match(applied_norm, filtered_norm) if mode == 'N' else None,
             'own_hypothetical_uniform_scale': alpha,
             'ideal_applied_step_norm': filtered_norm if mode in ('G', 'N') else proposed_norm,
             'applied_step_norm': applied_norm,

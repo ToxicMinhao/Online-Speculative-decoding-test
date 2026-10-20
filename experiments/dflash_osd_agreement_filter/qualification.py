@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from .core import agreement_mask, apply_adamw_step, NUMERICS
+from .controls import norm_match
 
 
 def run_deterministic_checks():
@@ -18,6 +19,8 @@ def run_deterministic_checks():
     if not (torch.equal(before, parameters['x']) and stats['optimizer_steps_after'] == 1 and
             stats['optimizer_step_calls'] == 1):
         raise AssertionError('Zero applied step must still advance Adam exactly once')
+    if norm_match(1.4142135623730951, 1.)['status'] != 'failed' or norm_match(0., 1e-30)['status'] != 'failed':
+        raise AssertionError('Rounded N control must not admit oversized or erased steps')
     return dict(status='passed', device='cpu', numerics=dict(NUMERICS),
-                checks=['product_underflow_rejected', 'non_strict_zero_sign', 'zero_write_keeps_adam_step'],
+                checks=['product_underflow_rejected', 'non_strict_zero_sign', 'zero_write_keeps_adam_step', 'N_oversized_or_erased_norm_rejected'],
                 scope='Deterministic guards; full numerical tests and native first-stream qualification remain separate.')

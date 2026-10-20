@@ -69,7 +69,23 @@ Signed displacements are FP32 differences of native pre/post weights. Norms and
 directional-derivative diagnostics use chunked FP64 reductions. G retains the
 exact proposed native value or the exact old value. N's scaled result rounds back
 to BF16: report its ideal norm **and actual stored displacement norm**. Do not
-claim an exact post-rounding norm match. Full constants live in `core.NUMERICS`,
+claim exact post-rounding direction or norm equality. **N qualifies only when
+`abs(actual_norm - intended_norm) / intended_norm <= 0.01` at every optimizer
+step.** A zero intended norm requires an exactly zero actual norm; there is no
+absolute tolerance that can admit an erased tiny update. This 1% numerical
+admission limit is fixed before GPU outcomes and cannot be tuned to performance.
+`controls.N_NORM_POLICY` pins it. A failed step preserves the update/checkpoint,
+stops qualification or the run, and prevents the clean main campaign from
+launching after failed qualification. No alternative precision/update is applied.
+
+Reporting recomputes N's validity from both steps of every ancestral event and
+binds that evidence to the evaluated N checkpoint. A later good event cannot
+repair an earlier control failure. Missing, duplicate, stale or mismatched evidence
+also blocks selective-filter attribution. Native comparisons remain visible as
+descriptive measurements; they cannot establish an advantage beyond taking a
+smaller step when N fails. Pooled tables disclose qualified-control denominators.
+
+Full constants live in `core.NUMERICS`,
 `training.GROUP_PROTOCOL` and `training.EQUIVALENCE_TOLERANCES`.
 
 Split BF16 backwards can differ numerically from a full backward. Qualification
@@ -103,6 +119,11 @@ file hash is required at execution. Each arm uses D1 for request 2 and D2 for
 request 3, before learning the corresponding response. Replays have capture and
 learning disabled and cannot supply training feedback or alter conversation
 history. Preserve output mismatches; affected comparisons cannot claim gains.
+Every scored row carries measurement-validation status and errors. Reports rerun
+the same qualified validator rather than trusting saved flags: impossible counts,
+invalid costs, malformed outputs and capture-enabled receipts cannot enter gain
+pools. Rejected nonfinite values are retained as explicit lossless JSON markers,
+so strict serialization cannot discard their failure evidence.
 
 Serving remains greedy, block size 10, **1,024 output tokens or EOS**, full history,
 and the qualified cold-request/weight-switch cache policy. No silent truncation.

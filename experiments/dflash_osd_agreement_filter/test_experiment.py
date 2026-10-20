@@ -4,6 +4,7 @@ import unittest
 
 from experiments.dflash_per_turn.test_experiment import FakeBackend as QualifiedFake, stream
 from . import experiment as e
+from .controls import norm_match
 
 
 def references(source):
@@ -46,17 +47,21 @@ class Backend(QualifiedFake):
             raise RuntimeError("test failure")
         result = super().train_event(event, responses)
         result["accounting"]["recipe"]["learning_rate"] = e.LEARNING_RATES[self.arm]
+        result["accounting"]["capture_checkpoint_sha256"] = e.digest("F" if event == 1 else "D1")
         if self.arm in ("G", "N"):
             account = result["accounting"]
             start = len(responses[0]["input_ids"])
             group = {"a": [start + 1], "b": [start + 2], "identity_sha256": "fixture"}
             account.update(agreement_arm=self.arm, filter_enabled=True, fixed_groups=group)
             for index, batch in enumerate(account["batches"]):
+                batch["pass_index"] = index
                 batch["agreement"] = {"mode": self.arm, "optimizer_step_calls": 1,
                     "optimizer_steps_before": 2 * (event - 1) + index,
                     "optimizer_steps_after": 2 * (event - 1) + index + 1,
                     "proposed_step_norm": 1., "hypothetical_filtered_step_norm": .5,
                     "applied_step_norm": .5, "mask_keep_fraction": .5}
+                if self.arm == "N":
+                    batch["agreement"]["uniform_control"] = norm_match(.5, .5)
                 batch["presentations"][0].update(normalization_denominator=1., grouping={
                     "identity_sha256": "fixture", "group_a_positions": group["a"], "group_b_positions": group["b"],
                     "shared_denominator": 1., "group_a_presentations": 1, "group_b_presentations": 1})

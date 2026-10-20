@@ -1,5 +1,34 @@
 # Implementation validation — review hold
 
+## Reviewer control fixes
+
+After `c5cf3e7`, the updated package passes **93 CPU tests**. Native GPU
+qualification remains unrun. The targeted reviewer cases now reproduce and reject
+incorrect control/measurement validity:
+
+- BF16 weights `[0.05, 0.05]`, LR `3e-4`, gradients A `[1,1]`, B `[1,-2]` produce
+  N's unchanged actual norm about `0.00034527` against intended `0.00024414`.
+  The 41.4% discrepancy fails the predeclared 1% per-step norm criterion; the
+  implementation does not alter precision or the update to force a pass.
+- A score with accepted draft tokens exceeding output tokens retains its failure
+  status/errors and cannot enter report gains. Reporting reruns the shared
+  validator, rejecting forged passed status and checking the same cost, token,
+  count and capture constraints. Nonfinite failure evidence round-trips through
+  strict JSON with explicit lossless markers.
+- Control tests cover threshold boundaries, zero/tiny/nonfinite norms, missing
+  or duplicate steps/events, stale receipts, cumulative invalidity and checkpoint
+  ancestry. Failed N qualification cannot start the campaign; failed updates
+  retain checkpoint/recovery evidence and do not retire it.
+- Descriptive native comparisons remain separate from selective-filter attribution;
+  qualified-control denominators are disclosed, and H remains primary.
+
+Independent review also passed 64 focused checks across control, measurement,
+reporting, controller and numerical-core tests. All checks are CPU-only; historical
+scientific source is unchanged. The original validation below is retained as the
+initial implementation record, not a new execution claim.
+
+## Initial implementation (`c5cf3e7`)
+
 Validated locally with CPU Torch 2.11. No A800 access, model loading, native GPU
 qualification, training experiment or pilot serving occurred. The pinned external
 runtime remains an execution prerequisite; CPU tests do not establish its current

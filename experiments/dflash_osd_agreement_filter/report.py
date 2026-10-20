@@ -7,6 +7,8 @@ import math
 from pathlib import Path
 
 from .experiment import ARMS, LEARNING_ARMS, digest
+from .controls import n_checkpoint_control, n_update_control, N_NORM_POLICY
+from .measurement import measurement_validation
 
 SCOPE = ("Existing development requests, one capture-disabled replay per checkpoint/request. "
          "Latency is diagnostic, not deployment speedup. Checkpoints are compared on identical "
@@ -47,9 +49,14 @@ def _reference(result, turn):
 
 
 def _invalid(row, reference):
+    validation = measurement_validation(row)
+    reasons = ["measurement_validation:" + error for error in validation["errors"]]
+    recorded = row.get("measurement_validation")
+    if recorded is not None and (not isinstance(recorded, dict) or
+            recorded.get("status") != "passed" or recorded.get("errors") != []):
+        reasons.append("recorded_measurement_validation_failed")
     if reference is None:
-        return ["missing_immutable_reference"]
-    reasons = []
+        return reasons + ["missing_immutable_reference"]
     for key in ("same_generation_valid", "input_match", "canonical_output_match", "checkpoint_identity_match"):
         if row.get(key) is not True:
             reasons.append(key)
@@ -83,9 +90,13 @@ def comparison(result, turn, candidate, control):
     valid = not invalid
     new, old = (totals(g) for g in groups)
     calls_saved = old["verification_calls"] - new["verification_calls"] if valid else None
+    norm_control = n_checkpoint_control(result, turn)
     return {"episode_id": result["episode_id"], "source": result["source"], "synthetic": result["synthetic"],
             "turn": turn, "candidate": candidate, "control": control, "valid": valid,
             "invalid_reasons": sorted(set(invalid)), "candidate_metrics": new, "control_metrics": old,
+            "N_control_status": norm_control["status"], "N_control_errors": norm_control["errors"],
+            "selective_filter_attribution_eligible": valid and norm_control["status"] == "passed",
+            "comparison_scope": "Descriptive native measurements; selective attribution additionally requires all N controls to qualify",
             "verification_calls_saved": calls_saved,
             "verification_call_reduction_percent": _reduction(new["verification_calls"], old["verification_calls"]) if valid else None,
             "diagnostic_latency_reduction_percent": _reduction(new["diagnostic_request_s"], old["diagnostic_request_s"]) if valid else None,
@@ -97,7 +108,12 @@ def _pool(pairs):
     candidate_rows = [r for _, groups in valid for r in groups[0]]
     control_rows = [r for _, groups in valid for r in groups[1]]
     new, old = totals(candidate_rows), totals(control_rows)
+    attributable = [(row, groups) for row, groups in valid if row["selective_filter_attribution_eligible"]]
     return {"expected_requests": len(pairs), "valid_requests": len(valid), "invalid_requests": len(pairs) - len(valid),
+            "norm_control_qualified_requests": len(attributable),
+            "norm_control_failed_requests": len(valid) - len(attributable),
+            "selective_filter_attribution_eligible": bool(valid) and len(attributable) == len(valid),
+            "comparison_scope": "Descriptive only when any contributing N control fails; not a norm-matched selective-filter result",
             "improved_requests": sum(row["drafting_result"] == "improvement" for row, _ in valid),
             "regressed_requests": sum(row["drafting_result"] == "regression" for row, _ in valid),
             "tied_requests": sum(row["drafting_result"] == "tie" for row, _ in valid),
@@ -126,6 +142,7 @@ def _costs(result):
                 "peak_memory_reserved_bytes": account.get("peak_memory_reserved_bytes"),
                 "source_losses": [b.get("loss") for b in account.get("batches", [])],
                 "agreement_steps": [b.get("agreement") for b in account.get("batches", [])],
+                "N_numerical_control": n_update_control(update) if arm == "N" else None,
                 "fixed_groups": account.get("fixed_groups"),
                 "cost_scope": "Teacher preparation is nested in training; observed update wall includes nested components."})
     return records
@@ -154,16 +171,22 @@ def summarize(results):
         for turn in (2, 3):
             selected = {row["control"]: row for row, _ in all_pairs if row["episode_id"] == result["episode_id"] and
                         row["turn"] == turn and row["candidate"] == "G"}
+            norm_control = n_checkpoint_control(result, turn)
             if not all(selected.get(c, {}).get("valid") for c in ("F", "H", "L", "N")):
                 label = "invalid_comparison"
             elif selected["H"]["verification_calls_saved"] < 0:
                 label = ("tradeoff_not_improvement_over_ordinary_OSD" if all(selected[c]["verification_calls_saved"] > 0 for c in ("L", "N"))
                          else "worse_than_ordinary_OSD")
+            elif norm_control["status"] != "passed":
+                label = "selective_filter_attribution_unavailable_N_norm_control"
             elif all(selected[c]["verification_calls_saved"] > 0 for c in ("H", "L", "N")):
                 label = "useful_filter_signal" if selected["F"]["verification_calls_saved"] > 0 else "control_advantage_without_frozen_gain"
             else:
                 label = "no_clear_filter_advantage"
-            interpretations.append({"episode_id": result["episode_id"], "turn": turn, "interpretation": label})
+            interpretations.append({"episode_id": result["episode_id"], "turn": turn, "interpretation": label,
+                "N_numerical_control": norm_control,
+                "selective_filter_attribution_eligible": all(selected.get(c, {}).get("valid") for c in ("F", "H", "L", "N"))
+                    and norm_control["status"] == "passed"})
     scores = [{"episode_id": r["episode_id"], "source": r["source"], "synthetic": r["synthetic"], **s}
               for r in results for s in r.get("scores", [])]
     per_request = []
@@ -177,7 +200,7 @@ def summarize(results):
                 per_request.append({"episode_id": result["episode_id"], "source": result["source"],
                     "synthetic": result["synthetic"], "turn": turn, "arm": arm,
                     "valid": not invalid, "invalid_reasons": sorted(set(invalid)), **totals(records)})
-    return {"schema_version": 1, "scope": SCOPE, "primary_control": "H", "results": [
+    return {"schema_version": 2, "scope": SCOPE, "primary_control": "H", "N_control_policy": dict(N_NORM_POLICY), "results": [
                 {"episode_id": r["episode_id"], "status": r.get("status"),
                  "implementation_checks": r.get("implementation_checks"), "actual_wall_s": r.get("actual_wall_s")} for r in results],
             "comparisons": [r for r, _ in all_pairs], "pooled": pooled, "interpretations": interpretations,
@@ -220,6 +243,8 @@ def write_reports(results, out):
         _csv(out / (key.upper() + ".csv"), summary[key])
     lines = ["# OSD agreement-filter development screen", "", SCOPE, "",
              "H is the primary ordinary-OSD control. Beating L and N while losing to H is a tradeoff, not an improvement over OSD.", "",
+             "N's applied norm must match its own intended filtered norm within 1% at every ancestral step (zero requires exact zero). "
+             "Failed/missing controls preserve descriptive measurements but block selective-filter attribution. No tolerance or precision retuning.", "",
              "Verification calls on each fixed request:", "",
              "| Conversation | Turn | F | H | L | G | N |", "|---|---|---:|---:|---:|---:|---:|"]
     keys = list(dict.fromkeys((r["episode_id"], r["turn"]) for r in summary["per_request"]))
@@ -228,15 +253,15 @@ def write_reports(results, out):
         values = [str(rows[arm]["verification_calls"]) if rows[arm]["valid"] else "invalid / unavailable" for arm in ARMS]
         lines.append(f"| {episode} | {turn} | " + " | ".join(values) + " |")
     lines += ["", "PER_REQUEST.csv also reports accepted draft tokens, committed progress per call, token lengths and validity for every arm.", "",
-             "| Source | Turn | Comparison | Valid / expected | Calls saved | Call reduction | Improved / regressed / tied |",
-             "|---|---|---|---:|---:|---:|---:|"]
+             "| Source | Turn | Comparison | Valid / expected | N control qualified / valid | Calls saved | Call reduction | Improved / regressed / tied |",
+             "|---|---|---|---:|---:|---:|---:|---:|"]
     for row in summary["pooled"]:
         if row["candidate"] != "G":
             continue
         reduction = row["verification_call_reduction_percent"]
         reduction = "unavailable" if reduction is None else f"{reduction:+.2f}%"
         lines.append(f"| {row['source']} | {row['turn']} | G / {row['control']} | {row['valid_requests']} / {row['expected_requests']} | "
-                     f"{row['verification_calls_saved']} | {reduction} | {row['improved_requests']} / {row['regressed_requests']} / {row['tied_requests']} |")
+                     f"{row['norm_control_qualified_requests']} / {row['valid_requests']} | {row['verification_calls_saved']} | {reduction} | {row['improved_requests']} / {row['regressed_requests']} / {row['tied_requests']} |")
     lines += ["", "Every per-request alternative, regression, mismatch and native measurement is retained in the CSV/JSON tables. "
               "Pooled ratios use summed measurements over valid pairs, not averages of request percentages.", "",
               "Source fitting and a smaller step alone do not establish transfer. Turn 2 tests the first update; turn 3 tests the accumulated two-update state, "
