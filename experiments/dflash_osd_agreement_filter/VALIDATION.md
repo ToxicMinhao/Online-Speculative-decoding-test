@@ -1,5 +1,21 @@
 # Implementation and native qualification status
 
+## Native retry outcome (qualification failed; pilot not started)
+
+The compatibility repair passes **99 local CPU tests** and **two focused tests
+on the installed A800 Torch 2.9.1**, including the original compiled-backward
+reproduction and repeated-backward success. Fresh qualification confirms the
+compiler setting, then stops after 548.71 seconds at G's **fixed raw-gradient
+sum tolerance** during its first update's temporary disabled-filter trial.
+H/L complete four events/eight persistent steps and six valid paired scores;
+G has no committed update, N is unrun, and the main campaign is not created.
+
+The failure log does not retain the offending parameter/coordinate, gradient
+values, error size, or grouped-pass index. BF16 accumulation versus an
+implementation discrepancy is unresolved. No tolerance, precision, learning
+rate, or mechanism was changed to force continuation. The correct status is
+**unqualified**, not evidence that selective filtering helps or fails.
+
 ## First native attempt and compiler compatibility repair
 
 The user authorized native qualification and the unchanged bounded pilot only
@@ -22,8 +38,8 @@ error after an ordinary backward warm-up, then verifies three backward calls
 from one compiled forward after the fix. Trainer checks also cover all four
 arms, configuration drift, and pinning before native model construction.
 
-The failed attempt and its completed controls remain preserved. A fresh native
-qualification is still required; this repair is not a filtering result.
+The failed attempt and its completed controls remain preserved. The fresh native
+retry is reported above; this repair is not a filtering result.
 
 ## Reviewer control fixes (historical, before native execution)
 
