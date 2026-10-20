@@ -27,6 +27,10 @@ CODEALPACA_EVAL_ROWS = 1024
 SHAREGPT_FEEDBACK_ROWS = 30000
 SHAREGPT_EVAL_ROWS = 1024
 CATALOG_PATH = Path(__file__).with_name("dataset_sources.json")
+# The pinned split file uses <conversation-id>_<source-message-offset>.
+# Fail closed for missing/ambiguous offsets (including nested chunk suffixes).
+SHAREGPT_CHUNK_ID = re.compile(r"(?P<root>[^_\s]+)_(?P<start>0|[1-9][0-9]*)")
+INITIAL_CHUNK_RULE = "zero_source_offset_and_user_first_v1"
 IMAGE_MARKER = re.compile(r"<\s*(?:image|img)\b|!\[[^\]]*\]\(", re.I)
 
 
@@ -57,8 +61,14 @@ def prompt_identity(text):
     return digest(" ".join(unicodedata.normalize("NFC", text).split()).encode())
 
 
-def conversation_identity(source_id):
-    return re.sub(r"_\d+$", "", str(source_id))
+def sharegpt_chunk_identity(source_id):
+    """Parse the pinned split convention, never infer start from row order/role."""
+    if not isinstance(source_id, str):
+        return None
+    match = SHAREGPT_CHUNK_ID.fullmatch(source_id)
+    if match is None:
+        return None
+    return {"conversation_root_id": match["root"], "source_start_index": int(match["start"])}
 
 
 def catalog():
@@ -158,8 +168,19 @@ def _extract_prompt(row, domain, english_detector):
         source_id = row.get("id")
         if not isinstance(source_id, (str, int)) or not str(source_id):
             return None, "missing_conversation_id"
+        chunk = sharegpt_chunk_identity(source_id)
+        if chunk is None:
+            return None, "sharegpt_unverified_chunk_origin"
+        if chunk["source_start_index"] != 0:
+            return chunk, "sharegpt_continuation_chunk"
         if not isinstance(messages, list) or not messages:
-            return None, "missing_conversation"
+            return chunk, "missing_conversation"
+        first = messages[0]
+        if not isinstance(first, dict):
+            return chunk, "nontext_conversation"
+        first_role = first.get("from", first.get("role"))
+        if first_role not in ("human", "user"):
+            return {**chunk, "first_message_role": first_role}, "sharegpt_initial_chunk_not_user_first"
         users = []
         for message in messages:
             if not isinstance(message, dict):
@@ -174,11 +195,13 @@ def _extract_prompt(row, domain, english_detector):
                 return None, "unsupported_conversation_role"
         if not users:
             return None, "no_user_request"
-        text = users[0]
+        # Never search past an assistant/system prefix for an isolated follow-up.
+        text = first.get("value", first.get("content"))
         first_language = english_detector(text)
         conversation_language = english_detector("\n\n".join(users))
         metadata = {"conversation_id": str(source_id),
-                    "conversation_root_id": conversation_identity(source_id),
+                    **chunk, "source_message_index": 0,
+                    "first_message_role": first_role, "initial_chunk_rule": INITIAL_CHUNK_RULE,
                     "source_prompt_fields": {"first_user": text},
                     "language": {"first_user": first_language, "all_source_users": conversation_language}}
         if not first_language["eligible"] or not conversation_language["eligible"]:
@@ -225,7 +248,9 @@ def _select_manifest(sources, receipts, tokenizer, *, tokenizer_binding,
                          "candidate_rank": rank}
                 if reason:
                     exclusions.append({**audit, "reason": reason,
-                                       **({"language": item["language"]} if item and "language" in item else {})})
+                                       **({k: item[k] for k in ("language", "conversation_root_id",
+                                                              "source_start_index", "first_message_role")
+                                           if k in item} if item else {})})
                     continue
                 text = item["text"]
                 content_id = prompt_identity(text)
@@ -393,7 +418,14 @@ def validate_manifest(manifest):
                                 row["language"][k].get("en_probability", 0) >= 0.9
                                 for k in ("first_user", "all_source_users")),
                             "ShareGPT exact first-user or language evidence changed")
-                    root = conversation_identity(row["conversation_id"])
+                    chunk = sharegpt_chunk_identity(row.get("conversation_id"))
+                    require(row.get("source_id") == row.get("conversation_id") and chunk is not None and
+                            chunk["source_start_index"] == row.get("source_start_index") == 0 and
+                            row.get("source_message_index") == 0 and
+                            row.get("first_message_role") in ("human", "user") and
+                            row.get("initial_chunk_rule") == INITIAL_CHUNK_RULE,
+                            "ShareGPT request is not a verified user-first initial chunk")
+                    root = chunk["conversation_root_id"]
                     require(root == row["conversation_root_id"] and root not in conversations,
                             "ShareGPT conversations overlap")
                     conversations.add(root)

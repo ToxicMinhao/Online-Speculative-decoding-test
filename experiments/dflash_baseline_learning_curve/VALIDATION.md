@@ -10,7 +10,7 @@ Environment: Python 3.10.18, PyTorch 2.11.0+cu130 (CPU tensors), pytest 8.3.5.
 
 | Check | Outcome |
 |---|---:|
-| New learning-curve package | 65 passed |
+| New learning-curve package, after ShareGPT repair | 82 passed |
 | Existing two-update native wrapper | 11 passed, 4 skipped |
 | Existing author loss and follow-up native wrapper | 22 passed |
 | Existing per-turn training and framing/dataset contracts | 18 passed, 2 skipped |
@@ -61,6 +61,30 @@ git diff --check
   remove scheduled optimizer steps.
 - Storage admission includes both exports and both optimizer states for all six
   groups, staging and the reserve. No automatic checkpoint deletion is added.
+
+## ShareGPT review repair
+
+The review of `3b82fc0` exposed that selecting the first human message anywhere
+in a split chunk could turn a continuation into an independent request. The
+selector now requires source-message offset zero and a human/user message at
+index zero. User-first noninitial chunks are also excluded; missing or ambiguous
+origin metadata is never assumed to mean an initial chunk. Selected origin
+receipts are checked again when validating the sealed manifest, and visited
+continuation exclusions retain their source IDs, offsets and reasons.
+
+The offset meaning is pinned to the upstream splitter identified by Aeala's
+README; see `dataset_sources.json` for exact revisions and script SHA256. Bounded
+source previews support that convention, without selecting the actual sample.
+This check establishes the first recorded request in the pinned source, not
+semantic completeness of every original web conversation.
+
+The 17 added regression cases cover assistant-first and user-first noninitial
+chunks, nonuser-first zero-offset chunks, unknown/malformed/nested IDs, duplicate
+initial rows across role partitions, exact whitespace and origin receipts,
+manifest exclusion/shortfall reporting, and rehashed manifests with invalid
+origins. All 29 data tests and all 82 package tests pass. The inherited suites
+listed above passed at `3b82fc0`; the repair does not change their implementation.
+No dataset selection, native model execution or GPU qualification was performed.
 
 ## Remaining execution checks
 

@@ -57,7 +57,14 @@ Sources follow the pinned author's dataset repositories. GSM8K uses official
 train/test splits. CodeAlpaca uses disjoint prompt partitions; nonempty `input`
 fields are retained along with `instruction` (an explicit adaptation from the
 author's instruction-only normalizer). ShareGPT uses disjoint conversations,
-English text and only the first user message. Recorded answers are unused.
+English text and only message 0 of a verified initial chunk: its ID must have
+source-message offset `_0`, and message 0 itself must be human/user text.
+Positive offsets are excluded even if they start with a user; unknown or
+ambiguous offsets and assistant/system-first chunks are excluded too. The
+selector never scans forward to find an isolated follow-up. Visited exclusions
+and selected origin metadata are retained in the manifest and revalidated at
+launch. The pinned upstream splitting code and the limit of this provenance
+check are recorded in `dataset_sources.json`. Recorded answers are unused.
 
 Selection is CPU-only, requires the exact local source files and qualified
 local tokenizer, and never downloads data or loads a model. The manifest is

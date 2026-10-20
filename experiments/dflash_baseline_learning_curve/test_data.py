@@ -104,14 +104,29 @@ def test_global_prompt_dedup_cross_domain_and_role(sources):
         data.validate_manifest(manifest)
 
 
-def test_sharegpt_partition_cannot_reuse_conversation_chunk_root(sources):
-    # Same root across every row and both roles permits only one request.
+def test_sharegpt_partitions_exclude_all_continuation_offsets(sources):
+    # Only offset zero can supply a first request, regardless of row partition.
     for i, row in enumerate(sources["sharegpt_train"]):
         row["id"] = f"same-root_{i}"
     manifest = prepared(sources)
     share = [r for r in all_rows(manifest) if r["domain"] == "sharegpt"]
     assert len(share) == 1
-    assert len([x for x in manifest["exclusions"] if x["reason"] == "duplicate_conversation_root"]) == 47
+    excluded = [x for x in manifest["exclusions"] if x["reason"] == "sharegpt_continuation_chunk"]
+    assert len(excluded) == 47
+    assert {x["source_start_index"] for x in excluded} == set(range(1, 48))
+    assert all(x["conversation_root_id"] == "same-root" for x in excluded)
+    assert manifest["status"] == "shortfall"
+
+
+def test_duplicate_initial_chunk_cannot_cross_role_partitions(sources):
+    for row in sources["sharegpt_train"]:
+        row["id"] = "same-root_0"
+    manifest = prepared(sources)
+    share = [r for r in all_rows(manifest) if r["domain"] == "sharegpt"]
+    assert len(share) == 1 and share[0]["role"] == "feedback"
+    excluded = [x for x in manifest["exclusions"] if x["reason"] == "duplicate_source_id"]
+    assert len(excluded) == 47
+    assert manifest["status"] == "shortfall"
 
 
 def test_language_and_nontext_exclusions_are_explicit(sources):
@@ -214,3 +229,82 @@ def test_assistant_answers_do_not_change_language_inputs():
     assert reason is None and item["text"] == "  Explain this task.\n"
     assert seen == ["  Explain this task.\n", "  Explain this task.\n\n\nAnother English follow up."]
     assert "NON_ENGLISH" not in json.dumps(item)
+
+
+@pytest.mark.parametrize("speaker", ["gpt", "human"])
+def test_noninitial_chunk_is_excluded_even_if_it_starts_with_user(speaker):
+    row = {"id": "abc1234_12", "conversations": [
+        {"from": speaker, "value": "Earlier context or follow-up."},
+        {"from": "human", "value": "Please explain why that approach uses this value."}]}
+    calls = []
+    item, reason = data._extract_prompt(row, "sharegpt", lambda text: calls.append(text))
+    assert reason == "sharegpt_continuation_chunk"
+    assert item == {"conversation_root_id": "abc1234", "source_start_index": 12}
+    assert calls == []  # Eligibility is resolved before language checks/tokenization.
+
+
+@pytest.mark.parametrize("speaker", ["gpt", "assistant", "system"])
+def test_offset_zero_does_not_allow_scanning_past_nonuser_first_message(speaker):
+    row = {"id": "abc1234_0", "conversations": [
+        {"from": speaker, "value": "An explanation with omitted context."},
+        {"from": "human", "value": "Why does that use this value?"}]}
+    item, reason = data._extract_prompt(row, "sharegpt", english)
+    assert reason == "sharegpt_initial_chunk_not_user_first"
+    assert item["source_start_index"] == 0 and item["first_message_role"] == speaker
+    assert "text" not in item
+
+
+@pytest.mark.parametrize("identity", ["abc1234", "abc1234_00", "abc1234_bad", "abc1234_2_0", 1234])
+def test_unverified_chunk_origin_is_never_assumed_initial(identity):
+    row = {"id": identity, "conversations": [{"from": "human", "value": "A standalone looking request."}]}
+    _, reason = data._extract_prompt(row, "sharegpt", english)
+    assert reason == "sharegpt_unverified_chunk_origin"
+
+
+def test_initial_chunk_keeps_exact_first_message_and_origin_receipt():
+    text = "\n  Explain this code:\n    value = 3\n"
+    row = {"id": "abc1234_0", "conversations": [
+        {"from": "human", "value": text},
+        {"from": "gpt", "value": "Unused original answer."},
+        {"from": "human", "value": "Why this value?"}]}
+    item, reason = data._extract_prompt(row, "sharegpt", english)
+    assert reason is None and item["text"] == text
+    assert item["source_start_index"] == item["source_message_index"] == 0
+    assert item["initial_chunk_rule"] == data.INITIAL_CHUNK_RULE
+    assert item["first_message_role"] == "human"
+    assert item["conversation_root_id"] == "abc1234"
+
+
+def test_manifest_logs_assistant_first_and_unknown_origins_without_replacement(sources):
+    for row in sources["sharegpt_train"][:32]:
+        row["conversations"].insert(0, {"from": "gpt", "value": "An earlier explanation."})
+    for i, row in enumerate(sources["sharegpt_train"][32:]):
+        row["id"] = f"unknown{i}"
+    manifest = prepared(sources)
+    assert manifest["status"] == "shortfall"
+    reasons = [x["reason"] for x in manifest["exclusions"]]
+    assert reasons.count("sharegpt_initial_chunk_not_user_first") == 32
+    assert reasons.count("sharegpt_unverified_chunk_origin") == 16
+    assert all(x["first_message_role"] == "gpt" for x in manifest["exclusions"]
+               if x["reason"] == "sharegpt_initial_chunk_not_user_first")
+    assert not [r for r in all_rows(manifest) if r["domain"] == "sharegpt"]
+
+
+@pytest.mark.parametrize("change", ["continuation", "assistant_first", "source_message", "missing_evidence"])
+def test_rehashed_manifest_cannot_readmit_invalid_chunk_origins(sources, change):
+    manifest = prepared(sources)
+    row = manifest["groups"][4]["feedback"][0]
+    if change == "continuation":
+        row["conversation_id"] = row["conversation_root_id"] + "_2"
+        row["source_id"] = row["conversation_id"]
+        row["source_start_index"] = 2
+    elif change == "assistant_first":
+        row["first_message_role"] = "gpt"
+    elif change == "source_message":
+        row["source_message_index"] = 1
+    else:
+        del row["initial_chunk_rule"]
+    del manifest["manifest_payload_sha256"]
+    manifest["manifest_payload_sha256"] = data.json_digest(manifest)
+    with pytest.raises(ValueError, match="verified user-first initial chunk"):
+        data.validate_manifest(manifest)
