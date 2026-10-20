@@ -12,3 +12,5 @@ Focused code for controlled speculative-decoding research. Generated datasets, m
 - [Frozen-DFlash correction bank](experiments/dflash_correction_bank/README.md): four fixed-space correction modules, causal selection and constrained writes with cumulative protection; fresh comparisons with frozen DFlash and the qualified OSD path. Implementation submitted for review; native qualification and the six-stream campaign have not run.
 
 - [Agreement-filtered OSD pilot](experiments/dflash_osd_agreement_filter/README.md): bounded five-arm, three-request comparison of selective versus uniform update control; implementation for review, GPU execution on hold.
+
+- [Fixed-feedback DFlash learning curve](experiments/dflash_baseline_learning_curve/README.md): six independent four-feedback/four-evaluation groups, continuous checkpoints at steps 0/2/8, and training-free held-out timing. Implementation submitted for review; GPU execution remains paused.
