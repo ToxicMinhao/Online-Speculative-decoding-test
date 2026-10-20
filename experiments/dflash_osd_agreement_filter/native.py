@@ -114,6 +114,7 @@ class TrainerService(per_turn.TrainerService):
             released_checkpoint_sha256=config['released']['checkpoint_identity_sha256'], mask_token_id=128002,
             attention_backend='flex_attention', check_frozen=self.check_frozen,
             arm=config['agreement_arm'], qualification=config['agreement_qualification'])
+        self.trainer.gradient_diagnostics_dir = self.out / 'gradient_checks'
         effective = json.loads((self.out / 'AUTHOR_RUNTIME.json').read_text())
         effective.update(agreement_arm=config['agreement_arm'], agreement_source_sha256=config['agreement_source_sha256'],
                          schedule='Newest actual response only; two passes and two committed optimizer steps',

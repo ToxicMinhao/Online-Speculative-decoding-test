@@ -216,41 +216,17 @@ def grouped_response_loss(draft, embed_tokens, lm_head, input_ids, hidden_states
     return loss, loss_a, loss_b, metadata
 
 
-def check_gradient_sum(raw_a, raw_b, reference, parameters):
-    """Declare and check finite-precision equivalence, not algebraic bit equality."""
-    import torch
-    max_error = max_scaled = native_max_error = 0.0
-    error_sq = ref_sq = native_error_sq = 0.0
-    coordinates = different = native_different = 0
-    for name, parameter in parameters.items():
-        arrays = [v.reshape(-1) for v in (raw_a[name], raw_b[name], reference[name])]
-        for start in range(0, parameter.numel(), EQUIVALENCE_TOLERANCES['reduction_chunk_elements']):
-            end = start + EQUIVALENCE_TOLERANCES['reduction_chunk_elements']
-            a, b, ref = (v[start:end].float() for v in arrays)
-            require(all(bool(torch.isfinite(v).all()) for v in (a, b, ref)), 'Nonfinite gradient qualification')
-            aggregate = a + b
-            error = (aggregate - ref).abs()
-            native_error = (aggregate.to(parameter.dtype).float() - ref).abs()
-            tolerance = 8 * torch.finfo(parameter.dtype).eps * (a.abs() + b.abs() + ref.abs()) + 1e-8
-            require(bool(torch.all(error <= tolerance)), 'Grouped raw gradients differ beyond declared sum tolerance')
-            max_error = max(max_error, float(error.max()))
-            native_max_error = max(native_max_error, float(native_error.max()))
-            max_scaled = max(max_scaled, float((error / tolerance).max()))
-            coordinates += error.numel()
-            different += int((error != 0).sum())
-            native_different += int((native_error != 0).sum())
-            error_sq += float(error.double().square().sum())
-            native_error_sq += float(native_error.double().square().sum())
-            ref_sq += float(ref.double().square().sum())
-    return dict(status='passed', max_abs_error=max_error, max_error_over_tolerance=max_scaled,
-                reference_l2_norm=ref_sq**.5, sum_error_l2_norm=error_sq**.5,
-                native_cast_sum_error_l2_norm=native_error_sq**.5,
-                native_cast_sum_max_abs_error=native_max_error, coordinates=coordinates,
-                differing_coordinates=different, differing_fraction=different/coordinates,
-                native_cast_differing_coordinates=native_different,
-                native_cast_differing_fraction=native_different/coordinates,
-                rule=GROUP_PROTOCOL['gradient_sum_tolerance'],
-                reference='same sampled forward and current weights; no optimizer step or new anchor draw')
+def check_gradient_sum(raw_a, raw_b, reference, parameters, *, context=None, report_path=None, observer=None):
+    """Collect complete compact evidence before enforcing the unchanged gate."""
+    from experiments.dflash_osd_agreement_filter.gradient_diagnostics import (
+        summarize_gradient_sum, durable_write, enforce_gradient_sum)
+    summary = summarize_gradient_sum(raw_a, raw_b, reference, parameters, context=context)
+    if report_path is not None:
+        durable_write(report_path, summary)
+    if observer is not None:
+        observer(summary, raw_a, raw_b, reference)
+    enforce_gradient_sum(summary)
+    return summary
 
 
 def _compare_native_tensor(reference, current, kind):
@@ -383,7 +359,19 @@ class AgreementTrainer(qualified.PersistentPerTurnTrainer):
         reference_check = None
         if self.qualification:
             reference = dict(zip(self.parameters, torch.autograd.grad(loss, params, allow_unused=False)))
-            reference_check = check_gradient_sum(raw_a, raw_b, reference, self.parameters)
+            context = dict(getattr(self, '_gradient_check_context', {}))
+            context.update(record_id=response['record_id'], response_audit=audit,
+                           sampling=sampling, groups=groups,
+                           losses=dict(full=float(loss.detach()), a=float(loss_a.detach()), b=float(loss_b.detach())),
+                           active_checkpoint_sha256=self.active_checkpoint_sha256,
+                           anchor_rng_after_sha256=state_digest(self.generator.get_state()),
+                           global_rng_after_sha256=state_digest(rng_state()))
+            directory = getattr(self, 'gradient_diagnostics_dir', None)
+            report_path = (Path(directory) / ('event_%02d_pass_%02d_%s.json' %
+                           (context['event'], context['pass_index'], context['trial_type']))) if directory else None
+            reference_check = check_gradient_sum(raw_a, raw_b, reference, self.parameters,
+                context=context, report_path=report_path,
+                observer=getattr(self, 'gradient_diagnostics_observer', None))
             del reference
         require(all(bool(torch.isfinite(v).all()) for row in (raw_a, raw_b) for v in row.values()),
                 'Nonfinite raw group gradient')
@@ -438,6 +426,13 @@ class AgreementTrainer(qualified.PersistentPerTurnTrainer):
             for pass_index in range(2):
                 self.optimizer.zero_grad(set_to_none=True)
                 batch_started = time.perf_counter()
+                self._gradient_check_context = dict(event=event, pass_index=pass_index,
+                    trial_type='filtered' if self.filter_enabled else 'disabled_filter',
+                    optimizer_steps_before=self.optimizer_steps,
+                    anchor_rng_before_sha256=state_digest(self.generator.get_state()),
+                    global_rng_before_sha256=state_digest(rng_state()))
+                if getattr(self, 'gradient_diagnostics_dir', None) is not None:
+                    self._gradient_check_context['state_identity_sha256'] = state_digest(self.snapshot())
                 value, raw_a, raw_b = self._grouped_response(response, audit, groups)
                 self._check_owner()
                 optimizer_started = time.perf_counter()
