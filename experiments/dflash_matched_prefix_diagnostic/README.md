@@ -6,12 +6,13 @@ without extending the correct proposed prefix. It compares each original
 group's F, S8 (`3e-4`) and L8 (`3e-5`) at **identical canonical block starts**.
 It does not train or measure deployment speedup.
 
-Status: the original cold-prefix native qualification stopped on a frozen-proposal
-reconstruction mismatch. The schedule-replay repair is implemented for review;
-its GPU qualification remains pending. Nine frozen blocks passed; the tenth differed at one
-of nine proposals. No adapted checkpoint was evaluated and the remaining five
-groups were not started. See [VALIDATION.md](VALIDATION.md). The earlier
-agreement-filter and correction-bank campaigns remain paused.
+Status: **all six repaired groups completed and independently audited**.
+The original cold-prefix failure remains preserved. Original-schedule replay
+now passes all-nine frozen equality at all 240 selected locations; the full
+720 measured blocks and 25,854 reconstruction target forwards completed with
+zero invalid pairs or unknown work. See [VALIDATION.md](VALIDATION.md) for
+results, costs and interpretation limits. The bounded diagnostic has stopped;
+earlier agreement-filter and correction-bank campaigns remain paused.
 
 ## Inputs and fixed selection
 

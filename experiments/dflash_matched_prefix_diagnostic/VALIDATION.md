@@ -1,11 +1,66 @@
 # Implementation validation
 
-Status: **schedule-replay repair implemented and CPU-checked; awaiting review
-before GPU qualification.** The original cold-prefix attempt failed the all-nine
-reconstruction gate and remains unchanged evidence. No adaptation comparison is
-available.
+Status: **repaired native run completed all six groups, with independent audit**.
+Executed scientific commit `133fb74d01633861bf0c31181d45a99669e43cdc`;
+subsequent documentation commits do not change that executed code identity.
+The original cold-prefix failure remains preserved below.
 
-## Repair validation
+## Completed native qualification and bounded diagnostic
+
+All **468 CPU tests pass** locally and under the installed A800 Torch runtime.
+Admission verifies 13 unique checkpoint identities, pinned model/runtime/source
+bindings, and exact parity of all 240 selected locations. Native execution used
+server plan `e6f7a8694324095400c365ee8ebdd9ecdb1df42a273ddaa88eb5e2a241b5437e`
+and scientific source `6e0ad836d48f9ce9f9ad86ee442e6426cdcfad51f845b1b6690e453fdc7f94b4`.
+
+The first group completed 120 measured blocks and 2,100 historical reconstruction
+target forwards. Its native correctness gate passed, so the remaining five
+continued unchanged. Total: **720 measured blocks / 25,854 reconstruction target
+forwards**, 480 valid F–adapted pairs, zero unknown work, zero unattempted work,
+zero invalid comparisons. All **240 F blocks reproduce all nine proposals**,
+including the original failed location. Fresh target predictions, commits,
+seeds and cache advances also pass their recorded checks.
+
+No training, new response generation, scored-block target verification, retries,
+extra warmups, retuning or tolerance changes. The controller exited 0 after
+**1,001.03 s (16m41s)** and both GPUs are idle. Independent evidence audit passed
+**926,017 checks**; all 1,591 privately transferred files pass size/SHA256 checks.
+The audit recomputes recorded evidence and arithmetic, not uninstrumented GPU
+behavior or tensor-byte identity.
+
+| Population | Arm vs F | Requests / locations | Mean correct-prefix change | Gain / loss / tie blocks | Useful first-error fixes / eligible F errors | New earlier-error blocks |
+|---|---|---:|---:|---:|---:|---:|
+| Source controls | S8 (`3e-4`) | 6 / 48 | +2.83333 | 36 / 0 / 12 | 36 / 41 | 0 |
+| Source controls | L8 (`3e-5`) | 6 / 48 | +0.47917 | 10 / 0 / 38 | 10 / 41 | 0 |
+| Held-out | S8 (`3e-4`) | 24 / 192 | −0.07292 | 36 / 34 / 122 | 36 / 172 | 34 |
+| Held-out | L8 (`3e-5`) | 24 / 192 | +0.00521 | 1 / 1 / 190 | 1 / 172 | 1 |
+
+Prefix changes are tokens per block, averaged within requests then equally
+across requests. Primary length includes matched EOS; cap-truncated matches
+remain censored. The six source controls are illustrative, not an estimate for
+all 24 original source responses. S8 shows strong fitting but mixed transfer;
+L8 leaves nearly every held-out prefix unchanged. These local changes are not
+saved verification calls or serving speedups, and do not establish why response
+KL changed. Historical full-response calls remain separate retained evidence.
+
+Diagnostic cost: 129.57 s loading, 519.25 s probe RPC wall, 181.94 s shutdown.
+Within execution, recorded prefill is 32.07 s, reconstruction 353.20 s,
+activation 44.85 s, cache maintenance 26.87 s and head inspection 3.64 s.
+The 306.85 s historical target-verification timer is **inside** reconstruction;
+component timers must not be added again to wall time. Peak observed allocated
+GPU memory: 70,127,768,064 bytes. A800 free space after packaging: 11.65 GB,
+above the unchanged 8 GiB reserve. No artifacts were deleted.
+
+The bounded run is complete and stopped. Private prompts, token IDs, traces,
+checkpoint payloads and runtime artifacts remain outside Git. Native success
+validates original-schedule replay on these cases; it does not prove the exact
+numerical cause of the preserved cold-prefix failure. Earlier campaigns remain
+paused; no new mechanism or experiment is started.
+
+The following sections preserve the implementation checks, original failure,
+and pre-execution requirements as historical records.
+
+## Repair implementation and pre-execution checks
 
 The repair prefills only the original prompt, replays saved verification inputs
 through the native target verifier/cache commit path, and then evaluates the
@@ -145,7 +200,7 @@ selection IDs/offsets/proposals must stay identical. The run command requires
 that sealed plan, the reviewed source hash, a clean checkout and explicit GPU
 execution authorization. It will not silently reselect or rerun a failed probe.
 
-## Remaining native qualification
+## Original native qualification requirements (now completed)
 
 The first complete group must establish target-seed reconstruction, all-nine
 frozen proposal equality, per-arm geometry/cache correctness, native argmax
