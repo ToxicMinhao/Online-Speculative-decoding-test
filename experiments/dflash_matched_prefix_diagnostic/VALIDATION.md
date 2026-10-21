@@ -1,8 +1,37 @@
 # Implementation validation
 
-Status: **CPU implementation and retained-evidence admission checked; native GPU
-qualification has not run.** No new model evaluations, training, generations,
-target verification or response-level KL computations were executed.
+Status: **CPU checks passed; the first native qualification attempt failed the
+all-nine frozen-proposal reconstruction gate.** No adaptation comparison is
+available. The CPU-only preparation described below preceded this native run.
+
+## Native qualification attempt
+
+Executed scientific commit `e82681540b719647879583b70692583311bc6c1e` on A800,
+without source changes or retuning. All 413 tests also passed with installed
+Torch through the existing isolated test-tools directory. Source/runtime/model
+bindings and 13 unique checkpoint identities passed admission.
+
+The controller stopped in `gsm8k_00` after ten F evaluations: nine reconstructed
+all nine retained proposals, and one differed at the eighth proposal. Its target
+prefill was only 101 tokens, so no 8,192-token chunk boundary was crossed. Both
+the retained and reconstructed block have a five-token correct prefix; the
+difference occurs after their first error. The full reconstruction criterion
+still fails and was not relaxed.
+
+The fresh BF16 head has two tied maximum-logit tokens at the changed position.
+The retained original logits and the identity of the second fresh tied token
+are unavailable here. Numerical sensitivity is a possible explanation, not an
+established cause. Target-seed, masks/positions, cache, finite-logit, native
+argmax inspection and mutation-guard checks passed. Cold versus incremental
+execution and any implementation discrepancy remain unresolved.
+
+There were zero S8/L8 evaluations, valid pairs, training steps, generated response
+tokens, target verifications, retries or explicit warmups. All other groups
+remain unexecuted; no scientific benefit/harm conclusion follows. Campaign wall
+time was 75.97 s; cleanup passed and both GPUs are idle. Peak allocated memory
+at the failed probe was 69,924,793,344 bytes. All 77 retrieved compact files were
+hash-verified privately. Responses, raw tokens and runtime artifacts remain
+outside Git. No automatic restart is authorized by this failure report.
 
 ## Local checks
 

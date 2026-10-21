@@ -6,10 +6,11 @@ without extending the correct proposed prefix. It compares each original
 group's F, S8 (`3e-4`) and L8 (`3e-5`) at **identical canonical block starts**.
 It does not train or measure deployment speedup.
 
-Status: implementation submitted for review. CPU validation and evidence
-admission are described in [VALIDATION.md](VALIDATION.md). Native GPU
-qualification has not run. The earlier agreement-filter and correction-bank
-campaigns remain paused.
+Status: the first native qualification attempt stopped on a frozen-proposal
+reconstruction mismatch. Nine frozen blocks passed; the tenth differed at one
+of nine proposals. No adapted checkpoint was evaluated and the remaining five
+groups were not started. See [VALIDATION.md](VALIDATION.md). The earlier
+agreement-filter and correction-bank campaigns remain paused.
 
 ## Inputs and fixed selection
 
