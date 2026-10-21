@@ -2,6 +2,7 @@
 
 Focused code for controlled speculative-decoding research. Generated datasets, model weights, raw experiment results and private operational records are kept outside this repository.
 
+- [DFlash matched-prefix diagnostic](experiments/dflash_matched_prefix_diagnostic/README.md): retained F/S8/L8 checkpoints at fixed canonical block starts, with EOS-inclusive prefix scoring and censored cap boundaries. Implementation for review; GPU execution remains paused.
 - [DFlash lower-LR control](experiments/dflash_lower_lr_control/README.md): six fresh L8 checkpoints at `3e-5`, matched to retained F/S8 training and diagnostic records. All six groups completed and audited; source fitting and held-out transfer remain separate.
 - [DFlash KL-to-native diagnostic](experiments/dflash_kl_native_diagnostic/README.md): retained F/S8 checkpoints, 24 natural source replays and 48 read-only held-out KL evaluations, with zero optimizer steps. Code submitted for review; GPU execution has not started.
 
