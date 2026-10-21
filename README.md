@@ -2,6 +2,8 @@
 
 Focused code for controlled speculative-decoding research. Generated datasets, model weights, raw experiment results and private operational records are kept outside this repository.
 
+- [DFlash KL-to-native diagnostic](experiments/dflash_kl_native_diagnostic/README.md): retained F/S8 checkpoints, 24 natural source replays and 48 read-only held-out KL evaluations, with zero optimizer steps. Code submitted for review; GPU execution has not started.
+
 - [Bounded OSD gain attribution](experiments/dflash_osd_attribution/README.md): existing five-stream analysis, at most 160 matched-prefix pairs, and a fixed-space mathematical capacity screen. Implementation for review; no new analysis or GPU diagnostic has run.
 
 - [STABLE/SHORT dataset construction](datasets/stable_short/README.md): pinned-source prompt selection, deterministic stream assembly and validation. No inference or training.
