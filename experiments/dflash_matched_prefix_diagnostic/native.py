@@ -25,7 +25,9 @@ base, kl = qualified.base, qualified.kl
 require, sha, digest, write_json = base.require, base.sha, base.object_hash, base.write_json
 ARMS = ('F', 'S8', 'L8')
 MIN_RESERVE_BYTES = 8 * 2**30
-GROUP_BYTES, STAGING_BYTES = 64 * 2**20, 64 * 2**20
+# Replay schedules occur in plans, native receipts, events and final reports.
+# Allow uncompressed retrieval staging; do not assume a compression ratio.
+GROUP_BYTES, STAGING_BYTES = 192 * 2**20, 1024 * 2**20
 
 
 def source_pins():
@@ -59,7 +61,7 @@ def storage_preflight(config):
         planned_write_bytes=writes, groups=6, group_budget_bytes=GROUP_BYTES,
         staging_bytes=STAGING_BYTES, reserve_bytes=reserve, checkpoint_copies=0,
         optimizer_states=0, feature_tensor_exports=0,
-        scope='At most 720 compact block/position receipts plus configuration, logs and retrieval staging')
+        scope='At most 720 measured block receipts plus sealed historical reconstruction receipts, logs and retrieval staging')
 
 
 def worker_command(config):
@@ -97,7 +99,10 @@ class NativeBackend:
         self.used = set()
         self.costs = dict(loading_s=0., activation_s=0., cache_maintenance_s=0.,
             probe_wall_s=0., shutdown_s=0., attempted_probes=0, native_draft_block_evaluations=0,
-            native_head_calls=0, target_prefill_chunk_count=0, head_inspection_s=0.)
+            native_head_calls=0, target_prefill_chunk_count=0, head_inspection_s=0.,
+            reconstruction_target_verifications=0, reconstruction_target_verify_attempts=0,
+            target_verifications=0, scored_target_verifications=0,
+            reconstruction_s=0., reconstruction_target_verify_s=0.)
 
     def start(self, group):
         from .native_probe import validate_plan
@@ -189,12 +194,15 @@ class NativeBackend:
         finally:
             self.costs['probe_wall_s'] += time.perf_counter() - started
             if value:
-                for field in ('native_draft_block_evaluations','native_head_calls'):
+                for field in ('native_draft_block_evaluations','native_head_calls',
+                              'reconstruction_target_verifications','reconstruction_target_verify_attempts',
+                              'target_verifications','scored_target_verifications'):
                     count = value.get(field)
                     if type(count) is int:
                         self.costs[field] += count
                 self.costs['target_prefill_chunk_count'] += len(value.get('target_prefill_chunks', []))
-                for field in ('activation_s','cache_maintenance_s','head_inspection_s'):
+                for field in ('activation_s','cache_maintenance_s','head_inspection_s',
+                              'reconstruction_s','reconstruction_target_verify_s'):
                     self.costs[field] += value.get('costs', {}).get(field, 0.)
 
     def close(self):

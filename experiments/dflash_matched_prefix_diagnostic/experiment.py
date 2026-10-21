@@ -1,7 +1,8 @@
 """Execute each sealed native location/arm once; retain failures before gating.
 
-No optimizer, feedback capture, full generation, teacher verification or loss
-evaluation is constructed here. The first group gates correctness, not efficacy.
+No optimizer, feedback capture, full generation or loss evaluation is constructed
+here. Historical target verification forwards reconstruct the saved schedule;
+they are separately budgeted and never scored as new verification outcomes. The first group gates correctness, not efficacy.
 """
 from __future__ import annotations
 
@@ -24,8 +25,17 @@ def _count(result):
     result['unattempted_arm_evaluations'] = result['planned_arm_evaluations'] - result['attempted_arm_evaluations']
     result['valid_pair_comparisons'] = sum(
         pair.get('valid') is True for loc in locations for pair in loc['comparisons'].values())
-    for key in ('target_verifications', 'regenerated_response_tokens', 'training_steps'):
-        result[key] = sum(row.get(key, 0) for row in rows if type(row.get(key, 0)) is int)
+    for key in ('target_verifications', 'reconstruction_target_verifications',
+                'reconstruction_target_verify_attempts', 'scored_target_verifications',
+                'regenerated_response_tokens', 'training_steps'):
+        result[key] = sum(row[key] for row in rows if type(row.get(key)) is int and row[key] >= 0)
+    result['unknown_reconstruction_work_receipts'] = sum(
+        type(row.get('reconstruction_target_verifications')) is not int for row in rows) + sum(
+        len(set(loc['attempted_arms']) - set(loc['rows'])) for loc in locations)
+    result['unattempted_reconstruction_target_verifications'] = sum(
+        len(set(ARMS) - set(loc['attempted_arms'])) * loc['anchor']['reconstruction']['target_verification_count']
+        for loc in locations)
+
     require(result['attempted_arm_evaluations'] <= result['planned_arm_evaluations'] <= MAX_BLOCK_EVALUATIONS,
             'Sealed diagnostic budget exceeded')
 
@@ -36,6 +46,8 @@ def run_campaign(plan, backend_factory, *, emit=lambda *args: None, snapshot=lam
     result = dict(status='running', plan=copy.deepcopy(plan), groups=[],
         selected_locations=sum(len(r['anchors']) for g in groups for r in g['requests']),
         planned_arm_evaluations=3*sum(len(r['anchors']) for g in groups for r in g['requests']),
+        planned_reconstruction_target_verifications=sum(len(ARMS) * anchor['reconstruction']['target_verification_count']
+            for group in groups for request in group['requests'] for anchor in request['anchors']),
         attempted_arm_evaluations=0, actual_draft_block_evaluations=0,
         explicit_warmups=0, automatic_retries=0, response_kl_evaluations=0,
         first_group_qualification={'status': 'not_attempted'}, unexecuted_groups=[])
@@ -67,7 +79,7 @@ def run_campaign(plan, backend_factory, *, emit=lambda *args: None, snapshot=lam
                 native_group['anchors'] = [loc['anchor'] for loc in current['locations']]
                 current['startup'] = backend.start(native_group)
                 persist()
-            # Same sealed prefixes and cold caches, but only three checkpoint
+            # Same sealed prefixes and independently reconstructed caches, but only three checkpoint
             # activations per group rather than switching after every block.
             for arm in ARMS:
                 for loc in current['locations']:
@@ -144,6 +156,10 @@ def run_campaign(plan, backend_factory, *, emit=lambda *args: None, snapshot=lam
     if result['status'] == 'complete':
         require(result['actual_draft_block_evaluations'] == result['planned_arm_evaluations'] and
                 result['unknown_work_receipts'] == 0, 'Completed native work differs from sealed plan')
+        require(result['target_verifications'] == result['reconstruction_target_verifications'] ==
+                result['reconstruction_target_verify_attempts'] == result['planned_reconstruction_target_verifications'] and
+                result['unknown_reconstruction_work_receipts'] == 0 and result['scored_target_verifications'] == 0,
+                'Completed reconstruction work differs from sealed plan')
     result['actual_wall_s'] = time.monotonic()-started
     persist()
     return preserve_invalid_numbers(result)

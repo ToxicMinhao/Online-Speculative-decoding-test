@@ -192,3 +192,26 @@ def test_report_rejects_changed_sealed_request_and_excludes_changed_anchor():
     location["anchor"] = deepcopy(location["anchor"])
     location["anchor"]["unsealed_extra"] = True
     assert overall(summarize(result))["valid_locations"] == 0
+
+
+def test_report_rechecks_saved_schedule_receipts_before_claiming_gain():
+    result = result_fixture(("r", 2, 2, 4))
+    row = result["groups"][0]["locations"][1]["rows"]["S8"]
+    row["reconstruction_rounds"][0]["fresh_target_predicted_token_ids"] = []
+    summary = overall(summarize(result))
+    assert summary["valid_locations"] == 1 and summary["invalid_locations"] == 1
+
+
+def test_reconstruction_target_work_and_nested_time_are_visible(tmp_path):
+    result = result_fixture(("r", 2, 2, 4))
+    result.update(planned_reconstruction_target_verifications=3, reconstruction_target_verifications=3,
+                  reconstruction_target_verify_attempts=3, target_verifications=3, scored_target_verifications=0,
+                  unknown_reconstruction_work_receipts=0, unattempted_reconstruction_target_verifications=0)
+    row = result["groups"][0]["locations"][1]["rows"]["S8"]
+    row["costs"] = {"reconstruction_s": 2., "reconstruction_target_verify_s": 1.}
+    analysis = write_reports(result, tmp_path)
+    assert analysis["counters"]["reconstruction_target_verifications"] == 3
+    records = [item for item in analysis["costs"] if item.get("anchor_id") == row["anchor_id"] and item.get("arm") == "S8"]
+    assert records[0]["target_verifications"] == 1
+    assert records[0]["costs"] == row["costs"]
+    assert "reconstruction_target_verify_s is included in reconstruction_s" in (tmp_path / "REPORT.md").read_text()

@@ -133,7 +133,11 @@ def _retained(request, group):
 def _cost_rows(result):
     counters = dict(result.get("counters", {}))
     for key in ("selected_locations", "planned_arm_evaluations", "attempted_arm_evaluations",
-                "actual_draft_block_evaluations", "unattempted_arm_evaluations", "unknown_work_receipts"):
+                "actual_draft_block_evaluations", "unattempted_arm_evaluations", "unknown_work_receipts",
+                "planned_reconstruction_target_verifications", "reconstruction_target_verifications",
+                "reconstruction_target_verify_attempts", "target_verifications", "scored_target_verifications",
+                "unknown_reconstruction_work_receipts", "unattempted_reconstruction_target_verifications",
+                "regenerated_response_tokens", "training_steps"):
         if key in result:
             counters[key] = result[key]
     rows = [{"scope": "campaign", "costs": result.get("costs", {}), "counters": counters,
@@ -151,7 +155,9 @@ def _cost_rows(result):
                 for key, item in value.items():
                     if key.endswith(("_seconds", "_s", "_bytes")) or key in (
                         "target_prefill_chunks", "native_head_calls", "draft_block_evaluations",
-                        "target_verifications", "regenerated_response_tokens", "training_steps",
+                        "target_verifications", "reconstruction_target_verifications", "reconstruction_target_verify_attempts",
+                        "scored_target_verifications", "reconstruction_schedule_sha256", "reconstruction_rounds",
+                        "regenerated_response_tokens", "training_steps",
                         "optimizer_creations", "optimizer_loads"):
                         row[key] = item
                 rows.append(row)
@@ -349,8 +355,12 @@ def write_reports(result, out):
     else:
         text.extend(["", "Assess the reported gains, losses, useful fixes and new earlier errors together. Positive local means "
                      "describe sampled prefix improvement; mixed or incomplete patterns do not establish an end-to-end benefit."])
-    text.extend(["", "Costs preserve target-prefill chunks, head inspection, loading, cache maintenance, wall time and memory "
-                 "under their original scopes. Nested/subset costs are not summed into a new latency measure. The raw result "
+    text.extend(["", "Costs preserve original-prompt target-prefill chunks, historical reconstruction target verifications, "
+                 "head inspection, loading, cache maintenance, wall time and memory "
+                 "under their original scopes. Historical verification forwards replay retained proposal blocks only, "
+                 "without extra draft evaluations, scored target verification or regenerated histories. "
+                 "reconstruction_target_verify_s is included in reconstruction_s; these nested/subset costs "
+                 "are not summed into a new latency measure. The raw result "
                  "retains plan, implementation/configuration bindings, invalid rows and unattempted locations.", ""])
     (out / "REPORT.md").write_text("\n".join(text))
     return analysis

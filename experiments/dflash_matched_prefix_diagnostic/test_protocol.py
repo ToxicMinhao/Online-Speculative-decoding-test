@@ -14,13 +14,31 @@ def anchor_fixture(*, request_id="r", start=1, canonical=None, output=None, froz
     if frozen_length < len(canonical):
         proposals[frozen_length] = 999
     prefix = [1, 2] + output[:start]
-    return dict(anchor_id=f"g:{request_id}:{start}", group_id="g", domain="gsm8k", population=population,
+    anchor = dict(anchor_id=f"g:{request_id}:{start}", group_id="g", domain="gsm8k", population=population,
                 request_id=request_id, source_control=population == "source", input_ids=[1, 2], output_ids=output,
-                block_output_start=start, canonical_prefix_ids=prefix, canonical_prefix_sha256=digest(prefix),
+                block_output_start=start, retained_round_index=start - 1, canonical_prefix_ids=prefix, canonical_prefix_sha256=digest(prefix),
                 seed_token_id=output[start - 1], canonical_next_ids=canonical, eos_ids=[2],
                 expected_frozen_proposal_ids=proposals, expected_absolute_positions=list(range(2 + start, 11 + start)),
                 response_boundary="eos" if output[-1] == 2 else "cap", reaches_response_boundary=start + len(canonical) == len(output),
                 checkpoints={arm: {"checkpoint_identity_sha256": digest(arm)} for arm in ARMS})
+    rounds = []
+    for offset in range(1, start):
+        positions = list(range(len(anchor["input_ids"]) + offset - 1, len(anchor["input_ids"]) + offset + 9))
+        rounds.append(dict(round_index=offset - 1, output_offset=offset,
+            verification_input_token_ids=[output[offset - 1]] + [777] * 9,
+            verification_input_positions=positions, draft_proposed_token_ids=[777] * 9,
+            target_predicted_token_ids=[output[offset]] + [777] * 9,
+            target_prediction_positions=[position + 1 for position in positions],
+            commit_length=1, committed_token_ids=[output[offset]], next_seed_token_id=output[offset],
+            native_acceptance_length_before_stop=0, stop_clipped=False, finished=False,
+            raw_event_sha256=digest([request_id, offset])))
+    reconstruction = dict(mode="recorded_target_verification_schedule",
+        prefill=dict(input_ids_sha256=digest(anchor["input_ids"]), prompt_tokens=len(anchor["input_ids"]),
+                     seed_token_id=output[0], event_sha256=digest([request_id, "prefill"])),
+        rounds=rounds, target_verification_count=len(rounds))
+    reconstruction["schedule_sha256"] = digest(reconstruction)
+    anchor["reconstruction"] = reconstruction
+    return anchor
 
 
 def row_fixture(anchor, arm="F", *, prefix_length=None, proposals=None):
@@ -41,11 +59,11 @@ def row_fixture(anchor, arm="F", *, prefix_length=None, proposals=None):
                checkpoint_identity_sha256=identity, cache_checkpoint_identity_sha256=identity,
                helper_checkpoint_identity_sha256=identity, native_absolute_proposal_positions=anchor["expected_absolute_positions"],
                native_materialized_block_ids=[anchor["seed_token_id"]] + [128002] * 9,
-               prefix_input_ids_sha256=digest(anchor["canonical_prefix_ids"][:-1]), native_feature_dtype="torch.bfloat16",
+               prefix_input_ids_sha256=digest(anchor["input_ids"]), native_feature_dtype="torch.bfloat16",
                native_logits_dtype="torch.bfloat16", inspection_reduction_dtype="torch.float32", nonfinite_logit_count=0,
                state_hash_kind="parameter_and_buffer_identity_version_signature", target_state_before_sha256=digest("target"),
                target_state_after_sha256=digest("target"), draft_state_before_sha256=digest("draft"),
-               draft_state_after_sha256=digest("draft"), target_prefill_chunks=[len(anchor["canonical_prefix_ids"]) - 1],
+               draft_state_after_sha256=digest("draft"), target_prefill_chunks=[len(anchor["input_ids"])],
                frozen_proposals_match_retained=proposals == anchor["expected_frozen_proposal_ids"] if arm == "F" else None,
                positions=[])
     for flag in ("target_seed_matches", "valid_reconstruction", "cache_valid", "helper_refresh_valid", "immutable_weights",
@@ -54,8 +72,21 @@ def row_fixture(anchor, arm="F", *, prefix_length=None, proposals=None):
         row[flag] = True
     for key in ("native_draft_block_evaluations", "draft_block_evaluations", "native_head_calls"):
         row[key] = 1
-    for key in ("target_verifications", "regenerated_response_tokens", "training_steps", "optimizer_creations", "optimizer_loads"):
+    for key in ("scored_target_verifications", "regenerated_response_tokens", "training_steps", "optimizer_creations", "optimizer_loads"):
         row[key] = 0
+    reconstruction = anchor["reconstruction"]
+    row["reconstruction_schedule_sha256"] = reconstruction["schedule_sha256"]
+    row["reconstructed_prefill_seed_id"] = reconstruction["prefill"]["seed_token_id"]
+    for key in ("reconstruction_target_verifications", "reconstruction_target_verify_attempts", "target_verifications"):
+        row[key] = reconstruction["target_verification_count"]
+    row["reconstruction_rounds"] = [dict(
+        {key: item[key] for key in ("round_index", "output_offset", "commit_length", "next_seed_token_id")},
+        status="passed", target_predictions_match=True, committed_tokens_match=True, cache_advance_matches=True,
+        target_call_attempts=1, fresh_target_predicted_token_ids=item["target_predicted_token_ids"],
+        fresh_committed_token_ids=item["committed_token_ids"],
+        seq_lens_before=len(anchor["input_ids"]) + item["output_offset"] - 1,
+        seq_lens_after=len(anchor["input_ids"]) + item["output_offset"] - 1 + item["commit_length"])
+        for item in reconstruction["rounds"]]
     for index, token in enumerate(anchor["canonical_next_ids"]):
         correct = proposals[index] == token
         row["positions"].append(dict(block_position=index, native_block_slot=index + 1,
@@ -234,3 +265,50 @@ def test_both_missing_arms_are_unattempted_without_observed_invalid_rows():
     pair, _ = compare_anchor(anchor_fixture(), {}, {"status": "not_attempted"}, "L8")
     assert pair["status"] == "unattempted" and pair["missing_arms"] == ["F", "L8"]
     assert pair["invalid_observed_arms"] == [] and pair["invalid_reasons"] == []
+
+
+def test_recorded_schedule_target_work_is_allowed_without_scoring_verification():
+    anchor = anchor_fixture(start=4)
+    row = row_fixture(anchor)
+    assert row["target_verifications"] == row["reconstruction_target_verifications"] == 3
+    assert row["native_draft_block_evaluations"] == 1 and row["scored_target_verifications"] == 0
+    assert row["target_prefill_chunks"] == [2]
+    assert validate_row(anchor, "F", row)["status"] == "passed"
+
+
+@pytest.mark.parametrize("key,bad", [
+    ("reconstructed_prefill_seed_id", 999), ("reconstruction_schedule_sha256", "a" * 64),
+    ("reconstruction_target_verifications", 2),
+    ("reconstruction_target_verify_attempts", 4), ("target_verifications", 0),
+    ("scored_target_verifications", 1), ("target_prefill_chunks", [5]),
+    ("reconstruction_rounds", []), ("prefix_input_ids_sha256", digest([1, 2, 10, 10, 10])),
+])
+def test_saved_schedule_accounting_must_reconcile_exactly(key, bad):
+    anchor = anchor_fixture(start=4)
+    row = row_fixture(anchor)
+    row[key] = bad
+    assert validate_row(anchor, "F", row)["status"] == "failed"
+
+
+@pytest.mark.parametrize("key,bad", [
+    ("status", "failed"), ("round_index", 99), ("output_offset", 99), ("commit_length", 0),
+    ("next_seed_token_id", 999), ("target_predictions_match", False), ("committed_tokens_match", False),
+    ("cache_advance_matches", False), ("target_call_attempts", 2), ("fresh_target_predicted_token_ids", []),
+    ("fresh_committed_token_ids", []), ("seq_lens_before", 99), ("seq_lens_after", 99),
+])
+def test_raw_reconstruction_receipts_are_revalidated(key, bad):
+    anchor = anchor_fixture(start=4)
+    row = row_fixture(anchor)
+    row["reconstruction_rounds"][1][key] = bad
+    assert validate_row(anchor, "F", row)["status"] == "failed"
+
+
+def test_legacy_cold_prefill_row_cannot_silently_pass_repaired_protocol():
+    anchor = anchor_fixture(start=4)
+    row = row_fixture(anchor)
+    del anchor["reconstruction"]
+    for key in ("reconstruction_schedule_sha256", "reconstruction_target_verifications",
+                "reconstruction_target_verify_attempts", "reconstruction_rounds", "scored_target_verifications"):
+        del row[key]
+    row["target_verifications"] = 0
+    assert validate_row(anchor, "F", row)["status"] == "failed"

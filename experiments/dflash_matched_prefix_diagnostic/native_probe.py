@@ -1,7 +1,9 @@
-"""Native cold-prefill + exactly one draft block, stopping before verification.
+"""Replay original target schedule, then measure exactly one native draft block.
 
 Adapted from the historical OSD attribution probe. No correction projections,
 feature exports, training forward, response generation or response-level KL.
+Historical target verification is reconstruction work, separately counted; the
+measured block stops at the draft head and is never sent for verification.
 """
 from __future__ import annotations
 
@@ -37,6 +39,7 @@ def preserve_invalid_numbers(value):
 
 
 def validate_anchor(anchor):
+    from experiments.dflash_matched_prefix_diagnostic.evidence import validate_reconstruction
     ids, output = anchor['input_ids'], anchor['output_ids']
     require(isinstance(ids, list) and ids and isinstance(output, list) and output and
             all(type(t) is int and 0 <= t < 128256 for t in ids + output), 'Exact canonical token IDs required')
@@ -58,6 +61,7 @@ def validate_anchor(anchor):
     require(len(ids) <= base.INPUT_LIMIT and len(output) <= 1024 and
             0 < len(prefix)-1 and len(prefix)-1+BLOCK_SIZE <= base.CONTEXT_LIMIT,
             'Canonical context plus complete proposal block exceeds the qualified limit')
+    validate_reconstruction(anchor)
     return prefix[:-1]
 
 
@@ -115,6 +119,38 @@ def _memory(torch):
 class ProbeComplete(BaseException):
     def __init__(self, result):
         self.result = result
+
+
+def prepare_recorded_verification(worker, batch, draft_input, record):
+    """Use the pinned worker's fixed-width verification setup, without drafting.
+
+    Mirrors only dflash_worker.py's nonadaptive DFlashVerifyInput construction.
+    Allocation, mask construction, verification, rejected-KV freeing and target
+    feature commits remain the unchanged native implementation. Never force a
+    recorded acceptance length or replace freshly computed target predictions.
+    """
+    import torch
+    from sglang.srt.speculative.dflash_info import DFlashVerifyInput
+    from sglang.srt.speculative.dflash_utils import resolve_dflash_verify_mask_policy
+    from sglang.srt.model_executor.forward_batch_info import ForwardMode
+    require(batch.batch_size() == 1 and not batch.has_grammar,
+            'Recorded reconstruction requires one unconstrained request')
+    require(batch.sampling_info is not None and batch.sampling_info.is_all_greedy,
+            'Recorded reconstruction requires the original greedy sampling')
+    require(int(draft_input.verified_id[0]) == record['verification_input_token_ids'][0],
+            'Reconstruction seed differs from retained verification input')
+    require(int(batch.seq_lens[0]) == record['verification_input_positions'][0],
+            'Reconstruction cache position differs from retained verification input')
+    worker._append_target_hidden_to_draft_kv(batch, draft_input)
+    verify_input = DFlashVerifyInput(
+        draft_token=torch.tensor(record['verification_input_token_ids'], dtype=torch.int64, device=worker.device),
+        positions=torch.tensor(record['verification_input_positions'], dtype=torch.int64, device=worker.device),
+        draft_token_num=BLOCK_SIZE, candidate_lens=None)
+    _, custom_mask = resolve_dflash_verify_mask_policy(worker.model_runner.attn_backend)
+    verify_input.prepare_for_verify(batch, worker.page_size, build_custom_mask=custom_mask)
+    batch.forward_mode = ForwardMode.TARGET_VERIFY
+    batch.spec_info = verify_input
+    batch.return_hidden_states = False
 
 
 def inspect_head(hidden_states, lm_head, proposals, anchor, arm, out=None):
@@ -177,15 +213,20 @@ def run_native_block(scheduler, anchor, arm, out):
     from sglang.srt.sampling.sampling_params import SamplingParams
     from sglang.srt.model_executor.forward_batch_info import ForwardMode
     prefix_ids = validate_anchor(anchor)
+    reconstruction = anchor['reconstruction']
+    prompt_ids = anchor['input_ids']
     require(arm in native.ARMS, 'Undeclared arm')
     out = Path(out); out.mkdir(parents=True, exist_ok=True)
     path = out / (digest([anchor['anchor_id'], arm])+'.json')
     require(not path.exists(), 'Never overwrite a native block result')
     value = {k:anchor[k] for k in ('anchor_id','group_id','domain','population','request_id','seed_token_id')}
     identity = anchor['checkpoints'][arm]['checkpoint_identity_sha256']
-    value.update(status='running', arm=arm, checkpoint=anchor['checkpoints'][arm],
+    value.update(schema_version=2, status='running', arm=arm, checkpoint=anchor['checkpoints'][arm],
         checkpoint_identity_sha256=identity, canonical_prefix_ids=list(anchor['canonical_prefix_ids']),
-        canonical_prefix_sha256=digest(anchor['canonical_prefix_ids']), prefix_input_ids_sha256=digest(prefix_ids),
+        canonical_prefix_sha256=digest(anchor['canonical_prefix_ids']), prefix_input_ids_sha256=digest(prompt_ids),
+        reconstruction_schedule_sha256=reconstruction['schedule_sha256'], reconstruction_rounds=[],
+        reconstruction_target_verifications=0, reconstruction_target_verify_attempts=0,
+        scored_target_verifications=0,
         cache_checkpoint_identity_sha256=identity, helper_checkpoint_identity_sha256=identity,
         target_prefill_chunks=[], target_prefill_chunk_attempts=[], positions=[], target_verifications=0,
         regenerated_response_tokens=0, training_steps=0, optimizer_creations=0, optimizer_loads=0,
@@ -193,9 +234,10 @@ def run_native_block(scheduler, anchor, arm, out):
         attempted_probes=1, target_seed_matches=False, valid_reconstruction=False,
         state_hash_kind='parameter_and_buffer_identity_version_signature',
         no_generated_history=True, no_training=True, cache_valid=False, helper_refresh_valid=True,
-        cache_policy='Cold target/draft caches before and after every checkpoint/location',
+        cache_policy='Cold before/after each checkpoint/location; original prompt and recorded target verification schedule',
         costs=dict(target_prefill_s=0., native_draft_forward_s=0., native_head_s=0., head_inspection_s=0.,
-                   cache_maintenance_s=0.), timing_scope='Diagnostic only; no saved-call or speedup interpretation')
+                   reconstruction_s=0., reconstruction_target_verify_s=0.,
+                   cache_maintenance_s=0.), timing_scope='Diagnostic only; reconstruction timers are nested, not additive deployment costs')
     started = time.perf_counter()
     worker = scheduler.draft_worker
     target = worker.target_worker.model_runner.model
@@ -203,6 +245,8 @@ def run_native_block(scheduler, anchor, arm, out):
     originals = {}
     failure = None
     phase = 'idle'
+    replay_record = None
+    replay_receipt = None
     before = {}
     try:
         entry = base._serving_entry(base._worker_config())
@@ -227,6 +271,7 @@ def run_native_block(scheduler, anchor, arm, out):
         originals['head'] = worker._greedy_sample_from_vocab_parallel_head
         originals['draft'] = worker.draft_model_runner.forward
         originals['target'] = worker.target_worker.forward_batch_generation
+        originals['prepare'] = worker._prepare_for_speculative_decoding
 
         def counted_forward(*args, **kwargs):
             require(value['native_draft_block_evaluations'] == 0 and phase == 'block',
@@ -241,8 +286,37 @@ def run_native_block(scheduler, anchor, arm, out):
                 value['costs']['native_draft_forward_s'] += time.perf_counter()-tick
 
         def guarded_target(*args, **kwargs):
-            require(phase == 'prefill', 'Target verification/output generation is forbidden')
-            return originals['target'](*args, **kwargs)
+            require(phase in ('prefill', 'reconstruction'), 'Scored target verification/output generation is forbidden')
+            if phase == 'prefill':
+                require(not kwargs.get('is_verify', False), 'Prefill cannot verify')
+                return originals['target'](*args, **kwargs)
+            require(replay_record is not None and replay_receipt is not None and kwargs.get('is_verify') is True,
+                    'Only the declared historical target verification is permitted')
+            model_batch = args[0]
+            require(model_batch.input_ids.detach().reshape(-1).cpu().tolist() == replay_record['verification_input_token_ids'] and
+                    model_batch.spec_info.positions.detach().reshape(-1).cpu().tolist() == replay_record['verification_input_positions'],
+                    'Native reconstruction verification geometry changed')
+            require(replay_receipt['target_call_attempts'] == 0, 'Duplicate reconstruction target forward')
+            replay_receipt['target_call_attempts'] += 1
+            value['reconstruction_target_verify_attempts'] += 1
+            value['reconstruction_target_verifications'] += 1
+            value['target_verifications'] += 1
+            tick = time.perf_counter()
+            try:
+                result = originals['target'](*args, **kwargs)
+                predictions = result.logits_output.next_token_logits.argmax(-1).detach().reshape(-1).cpu().tolist()
+                replay_receipt['fresh_target_predicted_token_ids'] = predictions
+                replay_receipt['target_predictions_match'] = predictions == replay_record['target_predicted_token_ids']
+                require(replay_receipt['target_predictions_match'], 'Historical target predictions do not reconstruct')
+                return result
+            finally:
+                _sync(torch)
+                value['costs']['reconstruction_target_verify_s'] += time.perf_counter()-tick
+
+        def recorded_prepare(_self, batch, draft_input):
+            require(phase == 'reconstruction' and replay_record is not None,
+                    'Recorded proposal setup outside reconstruction')
+            prepare_recorded_verification(_self, batch, draft_input, replay_record)
 
         def capture_head(_self, *, hidden_states, lm_head, chunk_size=256):
             value['native_head_calls'] += 1
@@ -276,27 +350,27 @@ def run_native_block(scheduler, anchor, arm, out):
         sampling = SamplingParams(temperature=0, max_new_tokens=1024, ignore_eos=False)
         sampling.normalize(scheduler.tokenizer)
         req = Req(rid='matched-prefix-'+digest([anchor['anchor_id'],arm]), origin_input_text='',
-            origin_input_ids=prefix_ids, sampling_params=sampling, eos_token_ids=set(anchor['eos_ids']),
+            origin_input_ids=prompt_ids, sampling_params=sampling, eos_token_ids=set(anchor['eos_ids']),
             vocab_size=scheduler.model_config.vocab_size)
         req.tokenizer = scheduler.tokenizer
         batch = None
         with torch.inference_mode():
             value['inference_mode'] = torch.is_inference_mode_enabled()
             phase = 'prefill'
-            for start in range(0, len(prefix_ids), PREFILL_CHUNK):
-                stop = min(start+PREFILL_CHUNK, len(prefix_ids))
-                req.fill_ids = prefix_ids[:stop]
+            for start in range(0, len(prompt_ids), PREFILL_CHUNK):
+                stop = min(start+PREFILL_CHUNK, len(prompt_ids))
+                req.fill_ids = prompt_ids[:stop]
                 if start:
                     # Pool stores int32; the native prefix-copy kernel needs an
                     # owned int64 tensor. Conversion must preserve device/values.
                     req.prefix_indices = scheduler.req_to_token_pool.req_to_token[
                         req.req_pool_idx, :start].to(dtype=torch.int64, copy=True)
                 req.set_extend_input_len(stop-start)
-                req.is_chunked = int(stop < len(prefix_ids))
+                req.is_chunked = int(stop < len(prompt_ids))
                 batch = ScheduleBatch.init_new([req], scheduler.req_to_token_pool,
                     scheduler.token_to_kv_pool_allocator, scheduler.tree_cache, scheduler.model_config,
                     scheduler.enable_overlap, scheduler.spec_algorithm,
-                    chunked_req=req if stop < len(prefix_ids) else None)
+                    chunked_req=req if stop < len(prompt_ids) else None)
                 batch.prepare_for_extend()
                 value['target_prefill_chunk_attempts'].append(stop-start)
                 tick = time.perf_counter()
@@ -306,14 +380,60 @@ def run_native_block(scheduler, anchor, arm, out):
                     _sync(torch)
                     value['costs']['target_prefill_s'] += time.perf_counter()-tick
                 value['target_prefill_chunks'].append(stop-start)
-            require(batch is not None and int(batch.seq_lens[0]) == len(prefix_ids), 'Native prefix length changed')
+            require(batch is not None and int(batch.seq_lens[0]) == len(prompt_ids), 'Native original prompt length changed')
+            first_seed = int(batch.spec_info.verified_id[0])
+            value['reconstructed_prefill_seed_id'] = first_seed
+            require(first_seed == reconstruction['prefill']['seed_token_id'],
+                    'Reconstructed target seed differs from original prefill seed')
+            require(req.output_ids == [], 'Prefill unexpectedly appended output tokens')
+            req.output_ids.append(first_seed)
+            # The scheduler normally appends this first target token after
+            # prefill. Subsequent commits are made by unchanged native verify.
+            worker._prepare_for_speculative_decoding = types.MethodType(recorded_prepare, worker)
+            for replay_record in reconstruction['rounds']:
+                phase = 'reconstruction'
+                replay_receipt = {key:replay_record[key] for key in
+                    ('round_index','output_offset','commit_length','next_seed_token_id')}
+                replay_receipt.update(status='running', target_call_attempts=0)
+                value['reconstruction_rounds'].append(replay_receipt)
+                tick = time.perf_counter()
+                try:
+                    offset = replay_record['output_offset']
+                    require(req.output_ids == anchor['output_ids'][:offset], 'History differs before reconstruction round')
+                    before_len = int(batch.seq_lens[0])
+                    replay_receipt['seq_lens_before'] = before_len
+                    batch.forward_mode = ForwardMode.DECODE
+                    # Explicitly enter the running-batch branch; never let a
+                    # retained EXTEND flag select a second prompt prefill.
+                    batch.is_extend_in_batch = False
+                    worker.forward_batch_generation(batch)
+                    committed = list(req.output_ids[offset:])
+                    after_len = int(batch.seq_lens[0])
+                    replay_receipt.update(fresh_committed_token_ids=committed, seq_lens_after=after_len,
+                        committed_tokens_match=committed == replay_record['committed_token_ids'],
+                        cache_advance_matches=(after_len-before_len == replay_record['commit_length'] and
+                            int(batch.spec_info.draft_seq_lens[0]) == after_len))
+                    require(replay_receipt['target_call_attempts'] == 1 and replay_receipt.get('target_predictions_match'),
+                            'Missing reconstruction target forward')
+                    require(replay_receipt['committed_tokens_match'] and replay_receipt['cache_advance_matches'] and
+                            int(batch.spec_info.verified_id[0]) == replay_record['next_seed_token_id'] and not req.finished(),
+                            'Native reconstruction commit/cache/seed differs from retained round')
+                    replay_receipt['status'] = 'passed'
+                except BaseException as error:
+                    replay_receipt.update(status='failed', error=str(error))
+                    raise
+                finally:
+                    _sync(torch)
+                    value['costs']['reconstruction_s'] += time.perf_counter()-tick
+            worker._prepare_for_speculative_decoding = originals['prepare']
+            require(req.output_ids == anchor['output_ids'][:anchor['block_output_start']] and
+                    int(batch.seq_lens[0]) == len(prefix_ids), 'Reconstructed canonical prefix differs at selected block')
             reconstructed = int(batch.spec_info.verified_id[0])
             value.update(reconstructed_target_seed_id=reconstructed,
                          target_seed_matches=reconstructed == anchor['seed_token_id'])
-            # This gate MUST precede filling a saved seed and materializing any
-            # draft block. Failed seed reconstruction consumes zero draft calls.
+            # Never replace a mismatched seed. Reconstruction failure consumes
+            # no measured draft block, and all target work remains recorded.
             require(value['target_seed_matches'], 'Reconstructed target seed differs from saved canonical seed')
-            batch.spec_info.verified_id.fill_(anchor['seed_token_id'])
             phase = 'block'
             batch.forward_mode = ForwardMode.DECODE
             worker._prepare_for_speculative_decoding(batch, batch.spec_info)
@@ -336,6 +456,7 @@ def run_native_block(scheduler, anchor, arm, out):
             worker._greedy_sample_from_vocab_parallel_head = originals['head']
             worker.draft_model_runner.forward = originals['draft']
             worker.target_worker.forward_batch_generation = originals['target']
+            worker._prepare_for_speculative_decoding = originals['prepare']
         cleanup_errors = []
         for name, model in (('target',target), ('draft',draft)):
             try:
@@ -381,8 +502,20 @@ def _scheduler_rpc(self, anchor_id, arm):
 def _probe_scheduler(*args, **kwargs):
     entry = base._serving_entry(base._worker_config())
     from sglang.srt.managers.scheduler import Scheduler
+    # D202's whole-response observer requires begin/finish_trace around every
+    # native verify. This diagnostic has no generated response to trace. Keep
+    # its source guard and D181 publication/cache setup, but do not install the
+    # observational wrappers. Underlying native verify/acceptance stay intact.
+    sources = entry.source_guard()
+    require(not getattr(Scheduler, '_d197_trace_installed', False) and entry._active_trace is None,
+            'Whole-response observers must not be installed in the replay worker')
     Scheduler.matched_prefix_probe = _scheduler_rpc
-    return entry.serving_scheduler(*args, **kwargs)
+    entry.inherited.write(entry.inherited.outpath('REPLAY_OBSERVER_COMPATIBILITY.json'), dict(
+        status='passed', sources=sources, whole_response_observers_installed=False,
+        native_verify_unchanged=True, native_acceptance_unchanged=True,
+        scheduler='Pinned D181 scheduler with publication/cache transactions',
+        scope='Diagnostic-only entry point; reconstruction receipts replace whole-response trace observers'))
+    return entry._original_scheduler(*args, **kwargs)
 
 
 class ProbeService(base._ServingService):
@@ -449,6 +582,10 @@ class ProbeService(base._ServingService):
                     native_head_calls=None if rpc_started else 0, counters_known=not rpc_started,
                     target_prefill_chunks=[], error=str(error),
                     failure_stage='scheduler_transport' if rpc_started else 'activation')
+                for field in ('draft_block_evaluations', 'reconstruction_target_verifications',
+                              'reconstruction_target_verify_attempts', 'target_verifications',
+                              'scored_target_verifications'):
+                    value[field] = None if rpc_started else 0
             value.update(status='failed', publication=publication, service_error=str(error))
             value.setdefault('costs', {}).update(activation_s=publication_elapsed,
                 service_wall_s=time.perf_counter()-started)

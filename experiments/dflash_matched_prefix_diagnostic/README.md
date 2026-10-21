@@ -6,8 +6,9 @@ without extending the correct proposed prefix. It compares each original
 group's F, S8 (`3e-4`) and L8 (`3e-5`) at **identical canonical block starts**.
 It does not train or measure deployment speedup.
 
-Status: the first native qualification attempt stopped on a frozen-proposal
-reconstruction mismatch. Nine frozen blocks passed; the tenth differed at one
+Status: the original cold-prefix native qualification stopped on a frozen-proposal
+reconstruction mismatch. The schedule-replay repair is implemented for review;
+its GPU qualification remains pending. Nine frozen blocks passed; the tenth differed at one
 of nine proposals. No adapted checkpoint was evaluated and the remaining five
 groups were not started. See [VALIDATION.md](VALIDATION.md). The earlier
 agreement-filter and correction-bank campaigns remain paused.
@@ -36,8 +37,12 @@ contain hashes and provenance, not private prompts or answers.
 The upper limit is **30 requests × eight locations × three arms = 720 native
 one-block evaluations**. First-group qualification is included. The actual
 budget follows the sealed plan. There are no extra model warmups, automatic
-retries, complete-response generations, target verifications, response-level
-KL evaluations, optimizer steps or new checkpoints.
+retries, complete-response generations, scored-block target verifications,
+response-level KL evaluations, optimizer steps or new checkpoints. Historical
+target verifications now reconstruct each original cache sequence. Their exact
+count is sealed separately: the retained 240-location plan requires **25,854
+additional target-verification forwards**, including all three arms. These are
+not extra draft measurements, and their runtime is not assumed negligible.
 
 Within each group, evaluate all selected locations under F, then S8, then L8.
 This sealed order avoids repeatedly reloading weights; every probe still
@@ -52,12 +57,31 @@ context limit. No training forward substitutes for native drafting.
 
 For prompt `P`, saved canonical response `Y` and output offset `s`:
 
-1. Cold-prefill `P + Y[:s-1]` in the pinned 8,192-token chunks.
-2. Require the reconstructed target seed to equal `Y[s-1]` **before** supplying
-   that saved seed to the native materializer.
-3. Run one native draft block, containing the known seed and nine proposed
-   tokens. Inspect the unchanged greedy vocabulary head and stop before target
-   verification. Proposed tokens never change the canonical history.
+1. Cold-prefill the **original prompt `P`** in the pinned 8,192-token chunks.
+   Require its first target token to match the saved prefill seed.
+2. Replay every retained verification round before `s`, with its **original
+   seed and nine proposal IDs**, through the native target-verification path.
+   No historical draft forward is run. Recompute target predictions, acceptance,
+   rejected-KV freeing and committed target-feature materialization using the
+   unchanged native verifier; check all target IDs, committed tokens, cache
+   increments and next seeds against the saved trace. Never force a saved
+   acceptance length or overwrite a mismatched prediction.
+3. Require the reconstructed history and next seed to equal `P + Y[:s]`.
+   Run exactly one measured native draft block, containing the known seed and
+   nine proposals. Inspect the unchanged greedy head and stop before verifying
+   **this measured block**. The replay buffer must match the saved history; it
+   does not create a new response or supply learning feedback.
+
+The reconstruction schedule and raw event hashes are part of plan schema v2.
+Each arm replays the same frozen-trajectory target inputs while materializing
+its own checkpoint's draft KV. Every reconstruction forward is counted before
+execution, including a failing call. Failed reconstruction receipts are durable
+and consume zero measured draft blocks when the failure precedes drafting.
+
+The diagnostic scheduler preserves the pinned source guards and D181 cache/weight
+publication setup. It omits D202's whole-response observation hooks, whose active
+trace requirement is incompatible with partial replay; native verification and
+acceptance functions are unchanged. A startup compatibility receipt records this.
 
 Every arm uses valid caches for its own weights and refreshed checkpoint
 helpers. Preserve native masks, absolute positions and target conditioning.
@@ -65,7 +89,9 @@ Long-prefix cache indices are copied to `int64`, even when the native pool is
 `int32`. Checkpoint/runtime/file identities and read-only state guards remain
 explicit. No optimizer is constructed or loaded.
 
-Cold-prefill numerics need not equal the retained incremental-cache execution.
+The old cold-prefix path did not reproduce one retained proposal. Original-schedule
+replay removes that known execution difference, but native numerical equivalence
+still requires GPU qualification; this repair is not proof of the failure cause.
 **All nine reconstructed F proposals must match the saved block**, including
 unscoreable terminal positions. Failure is retained as invalid evidence; no
 location is replaced or rerun to obtain a match.
@@ -113,8 +139,12 @@ location effects within each request, then equally across requests; also retain
 raw counts and valid/selected denominators. Keep source controls and held-out
 results separate. Include the retained complete-response call counts as context.
 
-Count target-prefill chunks, head-inspection work, loading/activation, cache
-maintenance, elapsed wall time and peak memory separately. Diagnostic timings
+Count original-prompt prefill chunks, reconstruction target forwards, measured
+draft blocks, head inspection, loading/activation, cache maintenance, elapsed
+wall time and peak memory separately. `reconstruction_target_verify_s` is a
+component of `reconstruction_s`, which also includes setup, native commit and
+feature materialization. Both are diagnostic timers nested inside block wall
+time, not costs to add together. Diagnostic timings
 are not deployment latency. Do not sum nested timers twice or extrapolate local
 repairs into saved verification calls. Margins/log probabilities do not identify
 where the earlier response-level KL reduction occurred.

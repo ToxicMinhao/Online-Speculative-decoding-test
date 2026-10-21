@@ -8,7 +8,7 @@ from experiments.dflash_matched_prefix_diagnostic.experiment import run_campaign
 
 def plan_fixture(locations=1):
     return dict(groups=[dict(group_id=f'g{i}', domain='fixture', checkpoints={}, requests=[dict(
-        request_id=f'r{i}', population='heldout', anchors=[dict(anchor_id=f'g{i}:{j}')
+        request_id=f'r{i}', population='heldout', anchors=[dict(anchor_id=f'g{i}:{j}', reconstruction={'target_verification_count': j})
         for j in range(locations)])]) for i in range(6)])
 
 
@@ -24,8 +24,17 @@ class Backend:
     def probe(self, anchor, arm):
         self.log.append(('probe', anchor['anchor_id'], arm))
         row = dict(status='passed', arm=arm, anchor_id=anchor['anchor_id'], draft_block_evaluations=1,
-                   target_verifications=0, regenerated_response_tokens=0, training_steps=0,
+                   target_verifications=anchor['reconstruction']['target_verification_count'],
+                   reconstruction_target_verifications=anchor['reconstruction']['target_verification_count'],
+                   reconstruction_target_verify_attempts=anchor['reconstruction']['target_verification_count'],
+                   scored_target_verifications=0, regenerated_response_tokens=0, training_steps=0,
                    valid=True, prefix_gain=-1)
+        if self.mode == ('reconstruction_partial', arm):
+            row.update(draft_block_evaluations=0, reconstruction_target_verifications=1,
+                       reconstruction_target_verify_attempts=1, target_verifications=1)
+            error = ValueError('saved verification reconstruction failed')
+            error.diagnostic_partial = dict(row, status='failed', valid=False)
+            raise error
         if self.mode == ('invalid', arm):
             row['valid'] = False
         if self.mode == ('partial', arm):
@@ -138,6 +147,29 @@ class ControllerTests(unittest.TestCase):
         self.assertEqual(result['planned_arm_evaluations'], 720)
         self.assertEqual(result['actual_draft_block_evaluations'], 720)
         self.assertEqual(len([row for row in log if row[0] == 'probe']), 720)
+
+    def test_extra_reconstruction_work_is_not_draft_work(self):
+        result, _, _, _ = self.execute(plan=plan_fixture(3))
+        self.assertEqual(result['actual_draft_block_evaluations'], 54)
+        self.assertEqual(result['planned_reconstruction_target_verifications'], 54)
+        self.assertEqual(result['reconstruction_target_verifications'], 54)
+        self.assertEqual(result['reconstruction_target_verify_attempts'], 54)
+        self.assertEqual(result['target_verifications'], 54)
+        self.assertEqual(result['scored_target_verifications'], 0)
+        self.assertEqual(result['unknown_reconstruction_work_receipts'], 0)
+
+    def test_failed_reconstruction_retains_actual_forward_before_measured_block(self):
+        plan = plan_fixture()
+        plan['groups'][0]['requests'][0]['anchors'][0]['reconstruction']['target_verification_count'] = 2
+        result, _, _, events = self.execute({'g0': ('reconstruction_partial', 'F')}, plan=plan)
+        self.assertEqual(result['status'], 'incomplete')
+        self.assertEqual(result['actual_draft_block_evaluations'], 0)
+        self.assertEqual(result['reconstruction_target_verifications'], 1)
+        self.assertEqual(result['target_verifications'], 1)
+        self.assertEqual(result['planned_reconstruction_target_verifications'], 6)
+        self.assertEqual(result['unattempted_reconstruction_target_verifications'], 4)
+        self.assertEqual(result['valid_pair_comparisons'], 0)
+        self.assertTrue(any(kind == 'probe_raw' for kind, _ in events))
 
     def test_over_budget_plan_fails_before_worker(self):
         log = []

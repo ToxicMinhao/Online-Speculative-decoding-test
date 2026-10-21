@@ -1,8 +1,59 @@
 # Implementation validation
 
-Status: **CPU checks passed; the first native qualification attempt failed the
-all-nine frozen-proposal reconstruction gate.** No adaptation comparison is
-available. The CPU-only preparation described below preceded this native run.
+Status: **schedule-replay repair implemented and CPU-checked; awaiting review
+before GPU qualification.** The original cold-prefix attempt failed the all-nine
+reconstruction gate and remains unchanged evidence. No adaptation comparison is
+available.
+
+## Repair validation
+
+The repair prefills only the original prompt, replays saved verification inputs
+through the native target verifier/cache commit path, and then evaluates the
+selected draft block. It verifies fresh target predictions and commits; saved
+acceptance lengths are checks, never forced outputs. The original all-nine F
+proposal equality gate remains intact.
+
+**466 CPU tests pass**: 222 in this diagnostic and 244 inherited PR9/10/11 tests.
+The wrapper fixtures cover the original failed cache sequence (87 prompt tokens
+plus commits 7/1/1/5), all three checkpoints, chunked original prompts with int32
+cache tables/int64 copied indices, target/commit/cache mismatch stops, durable
+partial-work counters, unchanged measured-block limits and wrapper restoration.
+
+A source audit also identified an inherited observer incompatibility: D202's
+whole-response trace hooks reject verification without an active trace. The
+diagnostic now runs D202's source guard and starts its preserved D181 scheduler
+without those observation hooks. Native verification/acceptance and D181 weight
+publication/cache transactions remain unchanged. Four CPU checks cover this
+entry point and its rejection paths. `REPLAY_OBSERVER_COMPATIBILITY.json` records
+this adaptation at startup.
+
+An independent **7,610-check** retained-artifact audit confirms every old anchor
+field, selected request, checkpoint and evidence binding is unchanged. The v2
+plan contains 30 requests, 240 locations, 720 measured draft blocks and **25,854
+historical target-verification forwards** for reconstruction. Those additional
+forwards are explicitly budgeted and timed; scored-block verifications remain
+zero. Per-group reconstruction counts in manifest order are 2,100 / 2,088 /
+3,948 / 4,773 / 4,977 / 7,968. No GPU work ran for this repair.
+
+The revised private Fenrir plan hash is:
+
+`ac7d979df1156e4605b7eb1748ceafa9ab03b0a1ec38ea109d06c051666e9777`
+
+The repaired scientific-source digest is:
+
+`25b1e024cea49958356f47a29a182cf28b6395feb36f61decfb013d0dd2cd6d9`
+
+Storage preflight now allows 192 MiB per group plus 1 GiB retrieval staging,
+**2.125 GiB planned writes plus the unchanged 8 GiB reserve**. The larger budget
+covers duplicated schedules/receipts in plans, events, results and reports and
+does not rely on compressed staging. Fresh server space must still qualify.
+
+These tests validate implementation contracts using CPU tensors and stubs. They
+do not establish native GPU equivalence or prove why the original token changed.
+The first complete group must still pass before further execution; an all-nine
+mismatch must stop rather than be waived.
+
+## Preserved original-attempt evidence
 
 ## Native qualification attempt
 
@@ -33,7 +84,7 @@ at the failed probe was 69,924,793,344 bytes. All 77 retrieved compact files wer
 hash-verified privately. Responses, raw tokens and runtime artifacts remain
 outside Git. No automatic restart is authorized by this failure report.
 
-## Local checks
+## Original implementation CPU checks
 
 **413 tests passed** across this module and the inherited PR9/PR10/PR11
 packages (169 new diagnostic tests and 244 inherited tests). Local test runtime:
@@ -63,7 +114,7 @@ They verify integration contracts, not actual CUDA kernel correctness or output
 preservation on A800. State guards use parameter/buffer identities and PyTorch
 mutation versions, explicitly not full tensor-value hashes.
 
-## Retained evidence and private plan
+## Original retained evidence and private plan
 
 CPU-only admission of the original PR9/PR10/PR11 compact artifacts passed. The
 selected plan contains all **30 requests, 240 locations and 720 planned native
@@ -91,13 +142,14 @@ execution authorization. It will not silently reselect or rerun a failed probe.
 
 The first complete group must establish target-seed reconstruction, all-nine
 frozen proposal equality, per-arm geometry/cache correctness, native argmax
-inspection, immutable weights and actual counters. Cold-prefill versus original
-incremental-cache numerics remain an explicit uncertainty. Missing artifacts or
+inspection, immutable weights and actual counters. The repaired original-schedule replay must establish native equality; the old
+cold-prefix result does not satisfy this requirement. Missing artifacts or
 correctness failures must be retained, not replaced with regenerated evidence.
 Valid unfavorable adaptation results do not prevent the remaining groups.
 
-Storage preflight budgets 448 MiB of compact records/staging plus the unchanged
-8 GiB reserve, without checkpoint copies, optimizers or feature tensor exports.
+The original preflight budget was 448 MiB plus reserve. The revised budget is
+2.125 GiB plus the unchanged 8 GiB reserve, without checkpoint copies, optimizers
+or feature tensor exports.
 Fresh remote free space, device availability and checkpoint/runtime hashes must
 be checked at execution. No current A800 readiness or scientific result is
 claimed by these CPU checks.

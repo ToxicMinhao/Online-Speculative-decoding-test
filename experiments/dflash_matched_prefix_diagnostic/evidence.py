@@ -24,6 +24,7 @@ LOWER_LR_COMMIT = '673e75efb72595f718b41c03fb2c7aa0e71fc40d'
 SELECTION = dict(source='F length ascending; original manifest order tiebreak; second of four',
                  rounds='floor(i*(n-1)/(min(n,8)-1)); all when n<=1',
                  max_locations_per_request=8, outcome_dependent=False)
+RECONSTRUCTION_MODE = 'recorded_target_verification_schedule'
 
 
 def _json(path):
@@ -63,6 +64,21 @@ def _termination(row, eos_ids, output_cap):
                 response_boundary=boundary, output_cap=output_cap, output_tokens=len(output))
 
 
+def frozen_prefill(document, row):
+    """Bind the original prompt and its first output, not a cold saved prefix."""
+    events = [event for event in document['events'] if event['kind'] == 'target_prefill']
+    require(len(events) == 1 and document['events'][0] == events[0],
+            'Exactly one original target-prefill emission must precede verification')
+    event = events[0]
+    require(row['initial_output_tokens'] == 1 and event['output_offset'] == 0 and
+            event['position'] == len(row['input_ids']) and
+            event['committed_token_ids'] == row['output_ids'][:1] and
+            event['committed_provenance'] == ['target_prefill'],
+            'Original prefill prompt/seed identity differs')
+    return dict(input_ids_sha256=digest(row['input_ids']), prompt_tokens=len(row['input_ids']),
+                seed_token_id=row['output_ids'][0], event_sha256=digest(event))
+
+
 def frozen_rounds(document, row):
     """Require complete raw nine-proposal records, including clipped terminal rounds."""
     from experiments.dflash_baseline_learning_curve.native import normalize_rounds
@@ -70,10 +86,11 @@ def frozen_rounds(document, row):
     require(normalized == row['rounds'] and initial == row['initial_output_tokens'],
             'Normalized frozen rounds changed')
     require(document['finish_reason'] == row['finish_reason'], 'Raw trace termination differs')
+    frozen_prefill(document, row)
     events = [event for event in document['events'] if event['kind'] == 'verification']
     require(len(events) == len(normalized), 'Missing raw frozen proposal records')
     starts = []
-    for event in events:
+    for index, event in enumerate(events):
         start, proposals = event['output_offset'], event['draft_proposed_token_ids']
         require(type(start) is int and 1 <= start < len(row['output_ids']), 'Invalid frozen output offset')
         require(isinstance(proposals, list) and len(proposals) == 9 and
@@ -89,6 +106,23 @@ def frozen_rounds(document, row):
                 event['context']['committed_output_prefix_length'] == start and
                 event['context']['verification_input_start_position'] == absolute-1,
                 'Raw frozen canonical context differs')
+        require(event['round_index'] == index, 'Raw frozen round order differs')
+        predictions = event['target_predicted_token_ids']
+        require(isinstance(predictions, list) and len(predictions) == BLOCK_SIZE and
+                all(type(token) is int and token >= 0 for token in predictions) and
+                event['target_prediction_positions'] == list(range(absolute, absolute+BLOCK_SIZE)),
+                'Complete original target prediction IDs/positions required')
+        accepted = next((i for i, (proposal, target) in enumerate(zip(proposals, predictions))
+                         if proposal != target), 9)
+        require(event['native_acceptance_length_before_stop'] == accepted and
+                event['rejection_boundary_proposal_index'] == (None if accepted == 9 else accepted),
+                'Original acceptance differs from recorded target predictions')
+        require(type(event['stop_clipped']) is bool and type(event['finished']) is bool,
+                'Original verification stop state missing')
+        if index < len(events)-1:
+            require(event['stop_clipped'] is False and event['finished'] is False and
+                    event['committed_token_ids'] == proposals[:accepted] + [predictions[accepted]],
+                    'Intermediate original verification must commit its full accepted prefix and next seed')
         starts.append(start)
     require(len(starts) == len(set(starts)), 'Duplicate frozen block starts')
     return sorted(copy.deepcopy(events), key=lambda event: event['output_offset'])
@@ -173,7 +207,8 @@ def load_evidence(baseline_root, diagnostic_root, lower_lr_root):
                 traces.append(binding)
                 frozen, frozen_binding = remap_trace(baseline_root, baseline_pins['original_root'], pair['F']['native'])
                 group['frozen_trajectories'][pair['request_id']] = dict(
-                    events=frozen_rounds(frozen, pair['F']['native']), binding=frozen_binding)
+                    events=frozen_rounds(frozen, pair['F']['native']),
+                    prefill=frozen_prefill(frozen, pair['F']['native']), binding=frozen_binding)
             group['reference_pairs'][population] = copy.deepcopy(pairs)
     bundle['native_runtime'], bundle['runtime_config'] = copy.deepcopy(runtime), config
     bundle['bindings']['lower_lr'] = dict(files=files, trajectories=traces, lower_lr_commit=LOWER_LR_COMMIT,
@@ -205,6 +240,76 @@ def retained_measurements(pair):
                      checkpoint_identity_sha256=pair['checkpoint_bindings'][arm]) for arm in ARMS}
 
 
+def reconstruction_digest(reconstruction):
+    return digest({key: value for key, value in reconstruction.items() if key != 'schedule_sha256'})
+
+
+def validate_reconstruction(anchor):
+    """Validate every cache-building round before the selected measured block.
+
+    The original target forward schedule is fixed by the hashed native trace.
+    Its saved proposals are replay inputs, never newly generated draft blocks.
+    """
+    reconstruction = anchor['reconstruction']
+    require(reconstruction['mode'] == RECONSTRUCTION_MODE and
+            reconstruction['schedule_sha256'] == reconstruction_digest(reconstruction),
+            'Reconstruction mode/schedule identity differs')
+    ids, output = anchor['input_ids'], anchor['output_ids']
+    prefill, rounds = reconstruction['prefill'], reconstruction['rounds']
+    require(prefill['input_ids_sha256'] == digest(ids) and prefill['prompt_tokens'] == len(ids) and
+            prefill['seed_token_id'] == output[0] and isinstance(prefill['event_sha256'], str) and
+            len(prefill['event_sha256']) == 64, 'Original prompt-prefill identity differs')
+    require(isinstance(rounds, list) and reconstruction['target_verification_count'] == len(rounds) ==
+            anchor['retained_round_index'], 'Reconstruction target-work count/selected round differs')
+    cursor = 1
+    for index, event in enumerate(rounds):
+        proposals, predictions = event['draft_proposed_token_ids'], event['target_predicted_token_ids']
+        require(event['round_index'] == index and event['output_offset'] == cursor,
+                'Reconstruction rounds are not original and contiguous')
+        require(isinstance(proposals, list) and len(proposals) == 9 and
+                isinstance(predictions, list) and len(predictions) == BLOCK_SIZE and
+                all(type(token) is int and token >= 0 for token in proposals+predictions),
+                'Reconstruction requires all original proposals and target predictions')
+        absolute = len(ids)+cursor
+        require(event['verification_input_token_ids'] == [output[cursor-1]]+proposals and
+                event['verification_input_positions'] == list(range(absolute-1, absolute+9)) and
+                event['target_prediction_positions'] == list(range(absolute, absolute+BLOCK_SIZE)),
+                'Reconstruction seed/input/absolute positions differ')
+        accepted = next((i for i, (proposal, target) in enumerate(zip(proposals, predictions))
+                         if proposal != target), 9)
+        committed = proposals[:accepted]+[predictions[accepted]]
+        require(type(event['commit_length']) is int and event['commit_length'] == len(committed) and
+                event['committed_token_ids'] == committed == output[cursor:cursor+len(committed)] and
+                event['next_seed_token_id'] == committed[-1] and
+                event['native_acceptance_length_before_stop'] == accepted,
+                'Reconstruction commit length/tokens/next seed differ')
+        require(event['stop_clipped'] is False and event['finished'] is False and
+                isinstance(event['raw_event_sha256'], str) and len(event['raw_event_sha256']) == 64,
+                'Reconstruction must use complete nonfinal retained rounds')
+        cursor += len(committed)
+        require(cursor <= anchor['block_output_start'], 'Reconstruction includes the measured block or later feedback')
+    require(cursor == anchor['block_output_start'] and output[cursor-1] == anchor['seed_token_id'],
+            'Reconstruction does not reach the selected canonical prefix/seed exactly')
+    return reconstruction
+
+
+def _reconstruction(trajectory, selected_index):
+    rounds = []
+    for event in trajectory['events'][:selected_index]:
+        record = {key: copy.deepcopy(event[key]) for key in
+                  ('round_index', 'output_offset', 'verification_input_token_ids',
+                   'verification_input_positions', 'draft_proposed_token_ids', 'target_predicted_token_ids',
+                   'target_prediction_positions', 'committed_token_ids',
+                   'native_acceptance_length_before_stop', 'stop_clipped', 'finished')}
+        record.update(commit_length=len(event['committed_token_ids']),
+                      next_seed_token_id=event['committed_token_ids'][-1], raw_event_sha256=digest(event))
+        rounds.append(record)
+    reconstruction = dict(mode=RECONSTRUCTION_MODE, prefill=copy.deepcopy(trajectory['prefill']),
+                          rounds=rounds, target_verification_count=len(rounds))
+    reconstruction['schedule_sha256'] = reconstruction_digest(reconstruction)
+    return reconstruction
+
+
 def validate_anchor(anchor):
     ids, output, start = anchor['input_ids'], anchor['output_ids'], anchor['block_output_start']
     require(isinstance(ids, list) and ids and isinstance(output, list) and output and
@@ -231,6 +336,7 @@ def validate_anchor(anchor):
     require(anchor['reaches_response_boundary'] == (start+len(anchor['canonical_next_ids']) == len(output)) and
             anchor['censored_suffix_positions'] == 9-len(anchor['canonical_next_ids']) and
             anchor['suffix_censored'] == (len(anchor['canonical_next_ids']) < 9), 'Censoring metadata differs')
+    validate_reconstruction(anchor)
     return dict(status='passed', errors=[])
 
 
@@ -247,6 +353,7 @@ def _make_anchor(group, pair, event, trajectory):
                   canonical_next_ids=output[start:start+9], expected_absolute_positions=list(event['draft_proposed_positions']),
                   eos_ids=list(group['eos_ids']), checkpoints=copy.deepcopy(group['checkpoints']),
                   retained_round_index=event['round_index'], frozen_raw_event_sha256=digest(event),
+                  reconstruction=_reconstruction(trajectory, event['round_index']),
                   frozen_trajectory=copy.deepcopy(trajectory['binding']),
                   reaches_response_boundary=start+min(9, len(output)-start) == len(output),
                   censored_suffix_positions=max(0, 9-(len(output)-start)), suffix_censored=len(output)-start < 9,
@@ -260,7 +367,8 @@ def plan_digest(plan):
 
 
 def build_plan(bundle):
-    plan = dict(schema_version=1, scope='read_only_matched_prefix', arms=list(ARMS), groups=[],
+    plan = dict(schema_version=2, scope='read_only_matched_prefix', arms=list(ARMS), groups=[],
+                reconstruction_mode=RECONSTRUCTION_MODE,
                 evaluation_order='group_checkpoint_then_location', arm_order=list(ARMS),
                 sample_manifest_sha256=SAMPLE_MANIFEST_SHA256, lower_lr_commit=LOWER_LR_COMMIT,
                 evidence_bindings=copy.deepcopy(bundle['bindings']),
@@ -293,19 +401,25 @@ def build_plan(bundle):
                            output_ids_sha256=digest(pair['F']['native']['output_ids']),
                            available_round_count=len(events), selected_round_indices=indices,
                            selected_location_count=len(anchors), no_rounds=len(events) == 0,
+                           planned_reconstruction_target_verifications=3*sum(
+                               a['reconstruction']['target_verification_count'] for a in anchors),
                            anchors=anchors, retained_measurements=retained_measurements(pair),
                            **_termination(pair['F']['native'], group['eos_ids'], 1024))
             current['requests'].append(request)
             current['anchors'].extend(anchors)
         current['selected_location_count'] = len(current['anchors'])
         current['planned_block_evaluations'] = 3*len(current['anchors'])
+        current['planned_reconstruction_target_verifications'] = sum(
+            r['planned_reconstruction_target_verifications'] for r in current['requests'])
         plan['groups'].append(current)
     requests = [request for group in plan['groups'] for request in group['requests']]
     plan.update(selected_request_count=len(requests), heldout_request_count=sum(r['population'] == 'heldout' for r in requests),
                 source_control_request_count=sum(r['population'] == 'source' for r in requests),
                 zero_round_requests=[r['request_id'] for r in requests if r['no_rounds']],
                 selected_location_count=sum(g['selected_location_count'] for g in plan['groups']),
-                planned_block_evaluations=sum(g['planned_block_evaluations'] for g in plan['groups']))
+                planned_block_evaluations=sum(g['planned_block_evaluations'] for g in plan['groups']),
+                planned_reconstruction_target_verifications=sum(
+                    g['planned_reconstruction_target_verifications'] for g in plan['groups']))
     plan['plan_sha256'] = plan_digest(plan)
     validate_plan(plan)
     return plan
@@ -314,7 +428,8 @@ def build_plan(bundle):
 def validate_plan(plan, bundle=None):
     """Validate a sealed plan; optionally require exact regeneration from evidence."""
     require(plan['plan_sha256'] == plan_digest(plan), 'Sealed plan digest changed')
-    require(plan['schema_version'] == 1 and plan['scope'] == 'read_only_matched_prefix' and
+    require(plan['schema_version'] == 2 and plan['scope'] == 'read_only_matched_prefix' and
+            plan['reconstruction_mode'] == RECONSTRUCTION_MODE and
             plan['arms'] == list(ARMS) and plan['sample_manifest_sha256'] == SAMPLE_MANIFEST_SHA256 and
             plan['lower_lr_commit'] == LOWER_LR_COMMIT, 'Plan identity/arms differ')
     require(plan['evaluation_order'] == 'group_checkpoint_then_location' and plan['arm_order'] == list(ARMS),
@@ -345,6 +460,9 @@ def validate_plan(plan, bundle=None):
                     len(indices) == len(request['anchors']) and request['no_rounds'] == (len(indices) == 0),
                     'Deterministic round selection/count changed')
             require(request['source_control'] == (request['population'] == 'source'), 'Source population label differs')
+            require(request['planned_reconstruction_target_verifications'] == 3*sum(
+                    a['reconstruction']['target_verification_count'] for a in request['anchors']),
+                    'Request reconstruction target-work budget differs')
             offsets = []
             for selected_index, anchor in zip(indices, request['anchors']):
                 validate_anchor(anchor)
@@ -360,13 +478,21 @@ def validate_plan(plan, bundle=None):
             flat.extend(request['anchors'])
         require(group['anchors'] == flat and group['selected_location_count'] == len(flat) and
                 group['planned_block_evaluations'] == 3*len(flat), 'Group flat anchors/work count differs')
+        require(group['planned_reconstruction_target_verifications'] == sum(
+                r['planned_reconstruction_target_verifications'] for r in current_requests),
+                'Group reconstruction target-work budget differs')
         requests.extend(current_requests); anchors.extend(flat)
     require(len({r['request_id'] for r in requests}) == len(requests) == plan['selected_request_count'] == 30 and
             plan['heldout_request_count'] == 24 and plan['source_control_request_count'] == 6, 'Selected population differs')
     require(len({a['anchor_id'] for a in anchors}) == len(anchors) == plan['selected_location_count'] <= MAX_LOCATIONS and
             plan['planned_block_evaluations'] == 3*len(anchors) <= MAX_BLOCKS and
             plan['zero_round_requests'] == [r['request_id'] for r in requests if r['no_rounds']], 'Plan budget/count differs')
+    require(plan['planned_reconstruction_target_verifications'] == sum(
+            g['planned_reconstruction_target_verifications'] for g in plan['groups']),
+            'Total reconstruction target-work budget differs')
     if bundle is not None:
         require(plan == build_plan(bundle), 'Sealed plan differs from original evidence/deterministic selection')
     return dict(status='passed', errors=[], selected_requests=len(requests), selected_locations=len(anchors),
-                planned_block_evaluations=3*len(anchors), plan_sha256=plan['plan_sha256'])
+                planned_block_evaluations=3*len(anchors),
+                planned_reconstruction_target_verifications=plan['planned_reconstruction_target_verifications'],
+                plan_sha256=plan['plan_sha256'])

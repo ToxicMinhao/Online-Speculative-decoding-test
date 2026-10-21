@@ -127,7 +127,7 @@ def test_original_runtime_binding_must_match_registry(monkeypatch,tmp_path):
 
 
 def test_storage_includes_compact_all_groups_staging_and_reserve(monkeypatch,tmp_path):
-    required=6*64*2**20+64*2**20+8*2**30
+    required=6*192*2**20+1024*2**20+8*2**30
     monkeypatch.setattr(n.shutil,'disk_usage',lambda _:SimpleNamespace(free=required))
     row=n.storage_preflight(dict(output_root=str(tmp_path/'new')))
     assert row['required_bytes']==required and row['checkpoint_copies']==row['optimizer_states']==0

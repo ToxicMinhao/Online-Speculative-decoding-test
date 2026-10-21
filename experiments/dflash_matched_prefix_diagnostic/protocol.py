@@ -1,6 +1,7 @@
 """Pure CPU scoring and shared validity gates for matched canonical starts.
 
 These are local draft observations, never counterfactual target verification.
+Historical target verifications reconstruct retained cache execution only.
 No model, tensor framework, optimizer, or experiment is started on import.
 """
 from __future__ import annotations
@@ -19,7 +20,7 @@ PROPOSAL_COUNT = 9
 MAX_ANCHORS_PER_REQUEST = 8
 MAX_LOCATIONS = 240
 MAX_BLOCK_EVALUATIONS = 720
-SCHEMA = "dflash_matched_prefix_diagnostic_v1"
+SCHEMA = "dflash_matched_prefix_diagnostic_v2"
 
 
 def require(condition, message):
@@ -144,7 +145,7 @@ def _validate_row(anchor, arm, row):
                   "anchor_boundary_geometry")
         check(row.get("canonical_prefix_ids") == prefix, "exact_prefix_mismatch")
         check(row.get("canonical_prefix_sha256") == digest(prefix), "row_prefix_hash")
-        check(row.get("prefix_input_ids_sha256") == digest(prefix[:-1]), "cold_prefill_prefix_hash")
+        check(row.get("prefix_input_ids_sha256") == digest(inputs), "original_prompt_prefill_hash")
         check(row.get("seed_token_id") == output[start - 1], "seed_mismatch")
         check(row.get("reconstructed_target_seed_id") == output[start - 1], "reconstructed_target_seed_mismatch")
         check(row.get("native_absolute_proposal_positions") == positions, "native_absolute_positions")
@@ -166,7 +167,7 @@ def _validate_row(anchor, arm, row):
         check(row.get(flag) is True, "failed_or_missing:" + flag)
     for key in ("native_draft_block_evaluations", "draft_block_evaluations", "native_head_calls"):
         check(type(row.get(key)) is int and row[key] == 1, "not_exactly_one:" + key)
-    for key in ("target_verifications", "regenerated_response_tokens", "training_steps",
+    for key in ("scored_target_verifications", "regenerated_response_tokens", "training_steps",
                 "optimizer_creations", "optimizer_loads", "nonfinite_logit_count"):
         check(type(row.get(key)) is int and row[key] == 0, "nonzero_or_missing:" + key)
     for key, expected in (("native_feature_dtype", "torch.bfloat16"), ("native_logits_dtype", "torch.bfloat16"),
@@ -175,8 +176,48 @@ def _validate_row(anchor, arm, row):
     chunks = row.get("target_prefill_chunks")
     check(isinstance(chunks, list) and bool(chunks) and
           all(type(n) is int and n > 0 for n in chunks), "invalid_prefill_chunks")
-    if isinstance(chunks, list) and all(type(n) is int for n in chunks) and _tokens(anchor.get("canonical_prefix_ids")):
-        check(sum(chunks) == len(anchor["canonical_prefix_ids"]) - 1, "prefill_geometry_mismatch")
+    if isinstance(chunks, list) and all(type(n) is int for n in chunks) and _tokens(anchor.get("input_ids")):
+        check(sum(chunks) == len(anchor["input_ids"]), "original_prompt_prefill_geometry_mismatch")
+    # The saved trajectory determines the extra reconstruction work. It is
+    # counted separately from the exactly one measured draft block and never
+    # constitutes new scored verification or regenerated history.
+    try:
+        from .evidence import validate_reconstruction
+        reconstruction = validate_reconstruction(anchor)
+        rounds = reconstruction["rounds"]
+        check(type(row.get("reconstructed_prefill_seed_id")) is int and
+              row["reconstructed_prefill_seed_id"] == reconstruction["prefill"]["seed_token_id"],
+              "reconstructed_prefill_seed_mismatch")
+        check(row.get("reconstruction_schedule_sha256") == reconstruction["schedule_sha256"],
+              "reconstruction_schedule_hash_mismatch")
+        for key in ("reconstruction_target_verifications", "reconstruction_target_verify_attempts", "target_verifications"):
+            check(type(row.get(key)) is int and row[key] == len(rounds), "reconstruction_count_mismatch:" + key)
+        receipts = row.get("reconstruction_rounds")
+        check(isinstance(receipts, list) and len(receipts) == len(rounds), "reconstruction_receipt_count_mismatch")
+        if isinstance(receipts, list):
+            for index, (expected, receipt) in enumerate(zip(rounds, receipts)):
+                if not isinstance(receipt, dict):
+                    errors.append(f"reconstruction_round_{index}:malformed_receipt")
+                    continue
+                check(receipt.get("status") == "passed", f"reconstruction_round_{index}:not_passed")
+                for key in ("round_index", "output_offset", "commit_length", "next_seed_token_id"):
+                    check(type(receipt.get(key)) is int and receipt[key] == expected[key],
+                          f"reconstruction_round_{index}:" + key)
+                for flag in ("target_predictions_match", "committed_tokens_match", "cache_advance_matches"):
+                    check(receipt.get(flag) is True, f"reconstruction_round_{index}:" + flag)
+                check(type(receipt.get("target_call_attempts")) is int and receipt["target_call_attempts"] == 1,
+                      f"reconstruction_round_{index}:target_call_attempts")
+                check(receipt.get("fresh_target_predicted_token_ids") == expected["target_predicted_token_ids"],
+                      f"reconstruction_round_{index}:target_prediction_ids")
+                check(receipt.get("fresh_committed_token_ids") == expected["committed_token_ids"],
+                      f"reconstruction_round_{index}:committed_token_ids")
+                before_len = len(anchor["input_ids"]) + expected["output_offset"] - 1
+                for key, expected_value in (("seq_lens_before", before_len),
+                                            ("seq_lens_after", before_len + expected["commit_length"])):
+                    check(type(receipt.get(key)) is int and receipt[key] == expected_value,
+                          f"reconstruction_round_{index}:" + key)
+    except (KeyError, TypeError, ValueError, IndexError) as error:
+        errors.append("malformed_reconstruction:" + str(error))
     check(row.get("state_hash_kind") == "parameter_and_buffer_identity_version_signature", "state_hash_kind")
     for model in ("target", "draft"):
         before, after = row.get(model + "_state_before_sha256"), row.get(model + "_state_after_sha256")
