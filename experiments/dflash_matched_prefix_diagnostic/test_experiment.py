@@ -35,6 +35,16 @@ class Backend:
             error = ValueError('saved verification reconstruction failed')
             error.diagnostic_partial = dict(row, status='failed', valid=False)
             raise error
+        if self.mode in (('activation_failure', arm), ('unknown_reconstruction', arm),
+                         ('missing_reconstruction_counter', arm)):
+            count = 0 if self.mode[0] == 'activation_failure' else None
+            row.update(draft_block_evaluations=count, reconstruction_target_verifications=count,
+                       reconstruction_target_verify_attempts=count, target_verifications=count)
+            if self.mode[0] == 'missing_reconstruction_counter':
+                del row['reconstruction_target_verifications']
+            error = RuntimeError(self.mode[0])
+            error.diagnostic_partial = dict(row, status='failed', valid=False)
+            raise error
         if self.mode == ('invalid', arm):
             row['valid'] = False
         if self.mode == ('partial', arm):
@@ -157,6 +167,7 @@ class ControllerTests(unittest.TestCase):
         self.assertEqual(result['target_verifications'], 54)
         self.assertEqual(result['scored_target_verifications'], 0)
         self.assertEqual(result['unknown_reconstruction_work_receipts'], 0)
+        self.assertEqual(result['unattempted_reconstruction_target_verifications'], 0)
 
     def test_failed_reconstruction_retains_actual_forward_before_measured_block(self):
         plan = plan_fixture()
@@ -167,9 +178,33 @@ class ControllerTests(unittest.TestCase):
         self.assertEqual(result['reconstruction_target_verifications'], 1)
         self.assertEqual(result['target_verifications'], 1)
         self.assertEqual(result['planned_reconstruction_target_verifications'], 6)
-        self.assertEqual(result['unattempted_reconstruction_target_verifications'], 4)
+        self.assertEqual(result['unknown_reconstruction_work_receipts'], 0)
+        self.assertEqual(result['unattempted_reconstruction_target_verifications'], 5)
         self.assertEqual(result['valid_pair_comparisons'], 0)
         self.assertTrue(any(kind == 'probe_raw' for kind, _ in events))
+
+    def test_activation_failure_has_known_zero_reconstruction_work(self):
+        plan = plan_fixture()
+        plan['groups'][0]['requests'][0]['anchors'][0]['reconstruction']['target_verification_count'] = 2
+        result, _, _, _ = self.execute({'g0': ('activation_failure', 'F')}, plan=plan)
+        self.assertEqual(result['status'], 'incomplete')
+        self.assertEqual(result['planned_reconstruction_target_verifications'], 6)
+        self.assertEqual(result['reconstruction_target_verifications'], 0)
+        self.assertEqual(result['unknown_reconstruction_work_receipts'], 0)
+        self.assertEqual(result['unattempted_reconstruction_target_verifications'], 6)
+
+    def test_unknown_reconstruction_does_not_become_known_unattempted_work(self):
+        for mode in ('unreceipted', 'unknown_reconstruction', 'missing_reconstruction_counter'):
+            with self.subTest(mode=mode):
+                plan = plan_fixture()
+                plan['groups'][0]['requests'][0]['anchors'][0]['reconstruction']['target_verification_count'] = 2
+                result, _, _, _ = self.execute({'g0': (mode, 'F')}, plan=plan)
+                self.assertEqual(result['status'], 'incomplete')
+                self.assertEqual(result['planned_reconstruction_target_verifications'], 6)
+                self.assertEqual(result['reconstruction_target_verifications'], 0)
+                self.assertEqual(result['unknown_reconstruction_work_receipts'], 1)
+                # Only the two wholly unattempted arms have known remaining work.
+                self.assertEqual(result['unattempted_reconstruction_target_verifications'], 4)
 
     def test_over_budget_plan_fails_before_worker(self):
         log = []

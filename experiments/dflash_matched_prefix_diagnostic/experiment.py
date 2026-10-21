@@ -35,6 +35,14 @@ def _count(result):
     result['unattempted_reconstruction_target_verifications'] = sum(
         len(set(ARMS) - set(loc['attempted_arms'])) * loc['anchor']['reconstruction']['target_verification_count']
         for loc in locations)
+    # A failed probe can stop partway through its saved verification schedule.
+    # Count its known remaining rounds as well as wholly unattempted arms. A
+    # missing/unknown receipt cannot establish which rounds remain unattempted.
+    result['unattempted_reconstruction_target_verifications'] += sum(
+        max(0, loc['anchor']['reconstruction']['target_verification_count'] - count)
+        for loc in locations for arm in loc['attempted_arms']
+        for count in [loc['rows'].get(arm, {}).get('reconstruction_target_verifications')]
+        if type(count) is int and count >= 0)
 
     require(result['attempted_arm_evaluations'] <= result['planned_arm_evaluations'] <= MAX_BLOCK_EVALUATIONS,
             'Sealed diagnostic budget exceeded')

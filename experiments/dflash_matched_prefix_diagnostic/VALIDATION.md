@@ -13,11 +13,18 @@ selected draft block. It verifies fresh target predictions and commits; saved
 acceptance lengths are checks, never forced outputs. The original all-nine F
 proposal equality gate remains intact.
 
-**466 CPU tests pass**: 222 in this diagnostic and 244 inherited PR9/10/11 tests.
+**468 CPU tests pass**: 224 in this diagnostic and 244 inherited PR9/10/11 tests.
 The wrapper fixtures cover the original failed cache sequence (87 prompt tokens
 plus commits 7/1/1/5), all three checkpoints, chunked original prompts with int32
 cache tables/int64 copied indices, target/commit/cache mismatch stops, durable
 partial-work counters, unchanged measured-block limits and wrapper restoration.
+
+The incomplete-run counter now includes remaining reconstruction rounds inside
+an attempted arm with a known count: 6 planned, 1 executed, 0 unknown means
+5 unattempted. Missing rows, missing counters and `None` remain unknown; they
+are not converted to zero executed or known remaining work. Regression coverage
+also checks a known-zero activation failure and completed-run zero remainder.
+This accounting repair changes no reconstruction or scoring behavior.
 
 A source audit also identified an inherited observer incompatibility: D202's
 whole-response trace hooks reject verification without an active trace. The
@@ -41,7 +48,7 @@ The revised private Fenrir plan hash is:
 
 The repaired scientific-source digest is:
 
-`25b1e024cea49958356f47a29a182cf28b6395feb36f61decfb013d0dd2cd6d9`
+`6e0ad836d48f9ce9f9ad86ee442e6426cdcfad51f845b1b6690e453fdc7f94b4`
 
 Storage preflight now allows 192 MiB per group plus 1 GiB retrieval staging,
 **2.125 GiB planned writes plus the unchanged 8 GiB reserve**. The larger budget
