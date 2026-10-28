@@ -1,0 +1,50 @@
+# Full-size real-model infrastructure check, not a scientific learning recipe.
+model:
+  target_model_path: /home/minhao2/.cache/huggingface/hub/models--Qwen--Qwen3-8B/snapshots/b968826d9c46dd6066d109eabc6255188de91218
+  draft_model_config: /home/minhao2/.cache/huggingface/hub/models--z-lab--Qwen3-8B-DFlash-b16/snapshots/9b41424b7109f9c5413454f481b09a82b85333f4
+  draft_checkpoint_path: /home/minhao2/.cache/huggingface/hub/models--z-lab--Qwen3-8B-DFlash-b16/snapshots/9b41424b7109f9c5413454f481b09a82b85333f4
+  target_backend: sglang
+  embedding_key: model.embed_tokens.weight
+  lm_head_key: lm_head.weight
+  torch_dtype: bfloat16
+  use_liger_kernel: false
+
+data:
+  hidden_states_path: /home/minhao2/DFlash-Research-artifacts/online_feedback/features
+  max_length: 2048
+  chat_template: qwen
+  dataloader_num_workers: 0
+  cache_dir: /home/minhao2/DFlash-Research-artifacts/cache/online_feedback
+
+training:
+  strategy: dflash
+  num_epochs: 1
+  max_steps: 4
+  batch_size: 1
+  accumulation_steps: 2
+  fsdp_sharding: NO_SHARD
+  optimizer_cpu_offload: true
+  learning_rate: 0.0006
+  lr_scheduler: cosine
+  warmup_ratio: 0.04
+  max_grad_norm: 1.0
+  attention_backend: eager
+  num_anchors: 64
+  objective_chunk_blocks: 8
+  loss_type: dflash
+  lk_loss_type: null
+  loss_decay_gamma: 7.0
+  log_interval: 1
+  dist_timeout: 30
+  seed: 17
+
+tracking:
+  report_to: none
+run_id: online-feedback-infrastructure-qualification
+output_dir: /home/minhao2/DFlash-Research-artifacts/online_feedback
+
+deployment:
+  mode: local_colocated
+  trainer:
+    nnodes: 1
+    nproc_per_node: 1

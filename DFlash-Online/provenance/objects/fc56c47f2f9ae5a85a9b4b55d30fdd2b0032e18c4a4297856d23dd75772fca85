@@ -1,0 +1,226 @@
+"""CPU-only qualification boundary checks; no model imports or real run writes."""
+from pathlib import Path
+import ast
+import copy
+import gc
+import hashlib
+import json
+import os
+import shutil
+import sys
+import tempfile
+import time
+import traceback
+import types
+import unittest
+from unittest.mock import patch
+
+
+SOURCE = Path(__file__).resolve().parents[1] / 'online_feedback' / 'qualify.py'
+tree = ast.parse(SOURCE.read_text())
+selected = [node for node in tree.body if
+    (isinstance(node, ast.Assign) and any(isinstance(target, ast.Name) and
+     target.id in ('PROMPTS', '_QUALIFICATION_PLAN') for target in node.targets)) or
+    (isinstance(node, ast.FunctionDef) and node.name in ('recovery_inputs', 'run'))]
+namespace = dict(Path=Path, json=json, hashlib=hashlib, gc=gc, os=os,
+                 shutil=shutil, time=time, traceback=traceback)
+exec(compile(ast.Module(body=selected, type_ignores=[]), str(SOURCE), 'exec'), namespace)
+recovery_inputs = namespace['recovery_inputs']
+
+
+class QualificationRecoveryTests(unittest.TestCase):
+    def setUp(self):
+        self.temp = tempfile.TemporaryDirectory(prefix='qualification_recovery_test_')
+        self.base = Path(self.temp.name)
+        self.prior = self.base / 'qualification_003'
+        self.config = self.base / 'qualification.yaml'
+        self.config.write_text('training: unchanged\n')
+        self.inputs = [[100 + index, 7] for index in range(5)]
+        self.records = [{'record_id': f'qualification_{i}', 'session_id': 'foundation',
+            'request_index': i, 'purpose': 'serving', 'max_new_tokens': 128,
+            'prompt_ids': self.inputs[i-1], 'response_ids': [31, 2]}
+            for i in (1, 2)]
+        self.plan = copy.deepcopy(namespace['_QUALIFICATION_PLAN'])
+        self.plan['source_sha256'] = {str(self.config): hashlib.sha256(self.config.read_bytes()).hexdigest()}
+        self.result = {'status': 'failed', 'error': {'type': 'ValueError',
+            'message': 'published draft changes semantic model configuration'},
+            'serving': self.records, 'events': [], 'replays': []}
+        self.event = {'event_id': 'event_1', 'status': 'completed', 'start_step': 0,
+            'end_step': 2, 'optimizer_steps': 2, 'passes': 2,
+            'response_presentations': 4, 'reduction': 'response_mean',
+            'counters': {'global_step': 2, 'presentations': 4, 'completed_events': 1}}
+        self.write('PLAN.json', self.plan)
+        self.write('RESULT.json', self.result)
+        self.write('INPUTS.json', {'prompts': namespace['PROMPTS'], 'input_ids': self.inputs})
+        self.write('trainer/events/event_1/RESULT.json', self.event)
+        self.write('trainer/training_state.pt', {'retained': 'checkpoint fixture'})
+        for i, record in enumerate(self.records, 1):
+            self.write(f'loop/serving/qualification_{i}.json', record)
+            self.write(f'loop/serving/qualification_{i}.costs.json', {'preserve': True})
+
+    def tearDown(self):
+        self.temp.cleanup()
+
+    def write(self, relative, value):
+        path = self.prior / relative
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps(value))
+
+    def hashes(self):
+        return {str(path.relative_to(self.prior)): hashlib.sha256(path.read_bytes()).hexdigest()
+                for path in self.prior.rglob('*') if path.is_file()}
+
+    def check(self):
+        return recovery_inputs(self.prior, self.config)
+
+    def test_exact_boundary_is_read_only(self):
+        before = self.hashes()
+        self.assertEqual(self.check(), self.records)
+        self.assertEqual(self.hashes(), before)
+
+    def test_wrong_failure_or_prior_progress_is_rejected(self):
+        for key, value in [('status', 'qualified'), ('events', [{}]), ('replays', [{}]),
+                           ('serving', self.records[:1]), ('events', None)]:
+            invalid = copy.deepcopy(self.result); invalid[key] = value
+            self.write('RESULT.json', invalid)
+            with self.subTest(key=key), self.assertRaises(ValueError): self.check()
+        for key, value in [('type', 'RuntimeError'), ('message', 'some other failure')]:
+            invalid = copy.deepcopy(self.result); invalid['error'][key] = value
+            self.write('RESULT.json', invalid)
+            with self.subTest(key=key), self.assertRaises(ValueError): self.check()
+
+    def test_every_plan_contract_is_checked(self):
+        for key, value in namespace['_QUALIFICATION_PLAN'].items():
+            invalid = copy.deepcopy(self.plan)
+            invalid[key] = not value if type(value) is bool else value + 1 if type(value) is int else [] if isinstance(value, list) else value + ' changed'
+            self.write('PLAN.json', invalid)
+            with self.subTest(key=key), self.assertRaises(ValueError): self.check()
+
+    def test_config_bytes_and_original_pin_are_required(self):
+        self.config.write_text('training: changed\n')
+        with self.assertRaises(ValueError): self.check()
+        self.config.write_text('training: unchanged\n')
+        invalid = copy.deepcopy(self.plan); invalid['source_sha256'] = {}
+        self.write('PLAN.json', invalid)
+        with self.assertRaises(ValueError): self.check()
+
+    def test_every_event_boundary_field_is_checked(self):
+        for key in ('event_id', 'status', 'start_step', 'end_step', 'optimizer_steps',
+                    'passes', 'response_presentations', 'reduction'):
+            invalid = copy.deepcopy(self.event)
+            value = invalid[key]; invalid[key] = value + 1 if type(value) is int else value + ' changed'
+            self.write('trainer/events/event_1/RESULT.json', invalid)
+            with self.subTest(key=key), self.assertRaises(ValueError): self.check()
+
+    def test_counters_and_numeric_types_are_exact(self):
+        for key in self.event['counters']:
+            invalid = copy.deepcopy(self.event); invalid['counters'][key] += 1
+            self.write('trainer/events/event_1/RESULT.json', invalid)
+            with self.subTest(key=key), self.assertRaises(ValueError): self.check()
+        invalid = copy.deepcopy(self.event); invalid['end_step'] = 2.0
+        self.write('trainer/events/event_1/RESULT.json', invalid)
+        with self.assertRaises(ValueError): self.check()
+
+    def test_serving_file_must_match_failed_report(self):
+        invalid = copy.deepcopy(self.records[0]); invalid['response_ids'] = [32, 2]
+        self.write('loop/serving/qualification_1.json', invalid)
+        with self.assertRaises(ValueError): self.check()
+
+    def test_serving_identity_and_prompt_must_match_canonical_inputs(self):
+        for key, value in [('record_id', 'other'), ('session_id', 'other'),
+            ('request_index', 2), ('purpose', 'evaluation'), ('max_new_tokens', 256),
+            ('prompt_ids', [999])]:
+            invalid = copy.deepcopy(self.result); invalid['serving'][0][key] = value
+            self.write('RESULT.json', invalid)
+            self.write('loop/serving/qualification_1.json', invalid['serving'][0])
+            with self.subTest(key=key), self.assertRaises(ValueError): self.check()
+
+    def test_changed_or_malformed_canonical_inputs_are_rejected(self):
+        for rows in (self.inputs[:4], [[True]] + self.inputs[1:], [[]] + self.inputs[1:],
+                     [[999]] + self.inputs[1:]):
+            self.write('INPUTS.json', {'prompts': namespace['PROMPTS'], 'input_ids': rows})
+            with self.subTest(rows=rows), self.assertRaises(ValueError): self.check()
+
+    def test_later_serving_event_and_evaluation_artifacts_are_rejected(self):
+        for relative in ('loop/serving/qualification_3.json', 'loop/serving/qualification_4.costs.json',
+            'trainer/events/event_2/PLAN.json', 'loop/events/event_1.json',
+            'loop/evaluation/heldout_updated.json', 'trainer/events/event_1/FAILED.json',
+            'trainer/training_state.pending.pt'):
+            path = self.prior / relative
+            self.write(relative, {'retained': 'incomplete/later work'})
+            before = self.hashes()
+            with self.subTest(relative=relative), self.assertRaises(ValueError): self.check()
+            self.assertEqual(before, self.hashes())
+            path.unlink()
+            if relative.startswith('trainer/events/event_2/'): path.parent.rmdir()
+
+    def test_recovery_flow_does_only_remaining_generations_and_event(self):
+        calls = []
+        source = self.base / 'fake_source'
+        (source/'online_feedback').mkdir(parents=True)
+        (source/'inference/dflash').mkdir(parents=True)
+        (source/'inference/dflash/model.py').write_text('# source fixture\n')
+        fake_file = source/'online_feedback/qualify.py'; fake_file.write_text('# source fixture\n')
+        state = {'global_step': 2, 'presentations': 4}
+        test = self
+        class Trainer:
+            def __init__(self, config, root, resume_state, reduction):
+                test.assertEqual(resume_state, test.prior/'trainer/training_state.pt')
+                calls.append(('restore', str(resume_state)))
+            def status(self): return dict(state)
+            def close(self): calls.append(('close',))
+        class Backend:
+            checkpoint_id = 'updated'
+            def __init__(self, *args, **kwargs): self.index = 0
+            def render(self, messages):
+                row = test.inputs[self.index]; self.index += 1; return row
+            def generate(self, ids, **kwargs):
+                calls.append(('generate', kwargs['request_id'], kwargs['purpose']))
+                return {'response_ids': [31, 2], 'metadata': {'verification_calls': 5}}
+            def publish(self, path): calls.append(('publish', str(path))); return {}
+        class Controller:
+            def __init__(self, backend, trainer, root, buffer_capacity):
+                self.backend, self.trainer = backend, trainer
+                self.buffer = types.SimpleNamespace(pending=lambda: [])
+            def recover_publication(self, event_id):
+                calls.append(('recover', event_id))
+                return {'event_id': event_id, 'training': {'checkpoint_path': 'export1'}}
+            def serve(self, ids, **kwargs):
+                calls.append(('serve', kwargs['request_id']))
+                return {'record_id': kwargs['request_id']}
+            def update(self, event_id, count, passes):
+                calls.append(('update', event_id, count, passes))
+                state.update(global_step=4, presentations=8)
+                return {'event_id': event_id, 'training': {'checkpoint_path': 'export2'}}
+            def evaluate(self, ids, **kwargs):
+                calls.append(('evaluate', kwargs['label']))
+                return {'record': {'metadata': {'verification_calls': 5}}}
+        def atomic_json(path, value):
+            path.parent.mkdir(parents=True, exist_ok=True); path.write_text(json.dumps(value))
+        fake_torch = types.ModuleType('torch')
+        fake_torch.cuda = types.SimpleNamespace(reset_peak_memory_stats=lambda: None,
+            max_memory_allocated=lambda: 0, max_memory_reserved=lambda: 0)
+        fake_accelerate = types.ModuleType('accelerate')
+        fake_utils = types.ModuleType('accelerate.utils'); fake_utils.set_seed = lambda seed: None
+        args = types.SimpleNamespace(output=str(self.base/'recovery'), recover_publication_from=str(self.prior),
+            config=str(self.config), target='target', draft='released')
+        before = self.hashes()
+        replacements = dict(__file__=str(fake_file), NativeDFlashBackend=Backend,
+            SpecForgeEventTrainer=Trainer, OnlineController=Controller, atomic_json=atomic_json,
+            check_publication=lambda *args: None, check_restart=lambda trainer, *args: trainer)
+        with patch.dict(namespace, replacements), patch.dict(sys.modules,
+                {'torch': fake_torch, 'accelerate': fake_accelerate, 'accelerate.utils': fake_utils}), \
+                patch.object(shutil, 'disk_usage', return_value=types.SimpleNamespace(free=100*2**30)):
+            namespace['run'](args)
+        self.assertEqual([c for c in calls if c[0]=='serve'],
+                         [('serve', 'qualification_3'), ('serve', 'qualification_4')])
+        self.assertEqual([c for c in calls if c[0]=='update'], [('update', 'event_2', 2, 2)])
+        self.assertEqual([c for c in calls if c[0]=='recover'], [('recover', 'event_1')])
+        self.assertEqual(sum(c[0] in ('serve', 'generate', 'evaluate') for c in calls), 5)
+        self.assertEqual(self.hashes(), before)
+        final = json.loads((Path(args.output)/'RESULT.json').read_text())
+        self.assertEqual(final['status'], 'qualified')
+        self.assertEqual(final['recovery']['new_optimizer_steps'], 2)
+
+
+if __name__ == '__main__': unittest.main()

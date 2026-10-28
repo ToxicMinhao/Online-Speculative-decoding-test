@@ -1,0 +1,187 @@
+"""Read source/identity/completion fields only; do not select a new panel."""
+import hashlib
+import json
+from pathlib import Path
+import unicodedata
+
+import pyarrow.parquet as pq
+
+ROOT = Path('/home/minhao2/EAGLE_SPEC')
+RESEARCH = ROOT / 'research'
+OUT = Path(__file__).resolve().parent
+REV = '740312add88f781978c0658806c59bc2815b9866'
+
+
+def sha(path):
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def norm(text):
+    return ' '.join(unicodedata.normalize('NFKC', text).split())
+
+
+def load(path):
+    return json.loads(path.read_text())
+
+
+def lines(path):
+    with path.open() as stream:
+        for line in stream:
+            if line.strip():
+                yield json.loads(line)
+
+
+def main():
+    sources = load(RESEARCH / 'projected_target_feasibility_20261022/data/approved/manifest.json')['sources']
+    mappings, questions, evidence = {}, {}, []
+    for split in ('train', 'test'):
+        source = sources[f'gsm8k_{split}']
+        path = Path(source['local_path'])
+        assert source['revision'] == REV and sha(path) == source['sha256']
+        # Never read benchmark answer columns.
+        rows = pq.read_table(path, columns=['question']).to_pylist()
+        lookup = {norm(row['question']): i for i, row in enumerate(rows)}
+        assert len(lookup) == len(rows) == source['rows']
+        questions[split] = [row['question'] for row in rows]
+        native = RESEARCH / f'dflash_paid_learning_20261004/data_audit_sources/gsm8k_{split}.jsonl'
+        mapping = {}
+        for row in lines(native):
+            user = [m['content'] for m in row['conversations'] if m['role'] == 'user']
+            assert len(user) == 1
+            mapping[row['id']] = lookup[norm(user[0])]
+        assert len(mapping) == len(rows) and set(mapping.values()) == set(range(len(rows)))
+        mappings[split] = mapping
+        evidence.extend([path, native])
+
+    first = RESEARCH / 'adaflash_reproduction_20260930/runs/serving_c1_reference_001/gpu0_ar'
+    second = RESEARCH / 'dflash_objective_check_20261005/retrieved_001/run_001/evaluation/code_s0_buffered_gsm8k'
+    used, primary = set(), []
+    for directory, rows_name in ((first, 'REQUESTS.jsonl'), (second, 'EVALUATION.jsonl')):
+        manifest_path, result_path, rows_path = directory / 'REQUEST_MANIFEST.json', directory / 'RESULT.json', directory / rows_name
+        manifest, result = load(manifest_path), load(result_path)
+        assert result['status'] == 'passed'
+        if rows_name == 'REQUESTS.jsonl':
+            assert result['benchmark_returncode'] == 0
+            expected_ids = {r['dataset_id'] for r in manifest['requests'] if r['kind'] == 'timed'}
+            actual = [r['dataset_id'] for r in lines(rows_path) if r['kind'] == 'timed']
+            assert len(actual) == len(expected_ids) == 1024
+        else:
+            assert result['count'] == result['completed'] == 276
+            assert sha(rows_path) == result['output_sha256']
+            expected_ids = set(manifest['ids'])
+            actual = [r['dataset_id'] for r in lines(rows_path)]
+            assert len(actual) == len(expected_ids) == 276
+        assert set(actual) == expected_ids
+        indices = {mappings['test'][source_id] for source_id in actual}
+        primary.append({'directory': str(directory), 'completed_unique_test_questions': len(indices), 'additional_unique_test_questions': len(indices - used), 'source_rows': sorted(indices)})
+        used.update(indices)
+        evidence.extend([manifest_path, result_path, rows_path])
+    assert len(used) == 1300
+    primary_remaining = sorted(set(range(1319)) - used)
+
+    old_audit_path = RESEARCH / 'projected_target_feasibility_20261022/data/prior_exclusion_audit.json'
+    old_audit = load(old_audit_path)
+    allocated = {r['source_index'] for r in old_audit['excluded_source_rows'] if r['source_key'] == 'gsm8k_test'}
+    assert len(allocated) == 1304 and used <= allocated
+    extra = [r for r in old_audit['excluded_source_rows'] if r['source_key'] == 'gsm8k_test' and r['source_index'] not in used]
+
+    oct22 = RESEARCH / 'projected_target_feasibility_20261022/data/approved/manifest.json'
+    oct22_manifest = load(oct22)
+    oct22_rows = [r for g in oct22_manifest['groups'] for r in g['requests'] if r['source_key'] == 'gsm8k_test']
+    assert len(oct22_rows) == 8
+    added = []
+    for row in oct22_rows:
+        record_path = RESEARCH / f"projected_target_feasibility_20261022/retrieved/final_recovery/campaign_002/gsm8k/F/records/{row['request_id']}.json"
+        record = load(record_path)
+        assert record['record_id'] == row['request_id'] and record['prompt_ids'] == row['prompt_ids']
+        # Existence of a nonempty returned response establishes use, independent
+        # of its token content, correctness, latency or speculative counters.
+        assert isinstance(record['response_ids'], list) and record['response_ids']
+        assert record['finish_reason']
+        assert norm(row['text']) == norm(questions['test'][row['source_index']])
+        added.append(row['source_index'])
+        evidence.append(record_path)
+    assert len(set(added)) == 8 and not (set(added) & used)
+    used_with_oct22 = used | set(added)
+
+    async_dir = RESEARCH / 'dflash_async_passes_20261006/recovery_001/retrieved_001/run_001/final_one_pass'
+    async_result, async_completed = load(async_dir / 'RESULT.json'), load(async_dir / 'inference.completed.json')
+    assert async_result['status'] == 'passed' and async_completed['status'] == 'completed' and async_completed['completed'] == 256
+    async_expected = {r['source_record_id'] for r in lines(async_dir / 'request_manifest.jsonl')}
+    async_actual = [r['source_record_id'] for r in lines(async_dir / 'responses.jsonl')]
+    assert len(async_actual) == len(async_expected) == 256 and set(async_actual) == async_expected
+    async_used = {mappings['test'][source_id] for source_id in async_actual}
+    async_added = async_used - used_with_oct22
+    verified_used = used_with_oct22 | async_used
+    evidence.extend(async_dir / name for name in ('RESULT.json', 'inference.completed.json', 'request_manifest.jsonl', 'responses.jsonl'))
+
+    current_path = RESEARCH / 'dflash_osd_one_event_20261025/sealed/MANIFEST.json'
+    current = load(current_path)
+    current_scope = {'scope': 'One-event O/U/P/R/C/K/A shared feedback and development inventories; not an all-history exclusion list', 'train': [], 'test': []}
+    for split, key, expected in [('train', 'train_requests', 128), ('test', 'eval_requests', 64)]:
+        rows = current[key]
+        assert len(rows) == expected
+        for row in rows:
+            index = mappings[split][row['dataset_id']]
+            current_scope[split].append({'request_id': row['request_id'], 'opaque_dataset_id': row['dataset_id'], 'source_id': f'gsm8k:main:{split}:{index}', 'source_row': index, 'question_sha256': hashlib.sha256(questions[split][index].encode()).hexdigest(), 'prompt_ids_sha256': hashlib.sha256(json.dumps(row['prompt_ids'], separators=(',', ':')).encode()).hexdigest()})
+        assert len({r['source_row'] for r in current_scope[split]}) == expected
+    assert {r['source_row'] for r in current_scope['test']} <= used
+    current_run = RESEARCH / 'dflash_first_error_execution_20261026/raw/campaign_001'
+    campaign_manifest_path = current_run / 'MANIFEST.json'
+    campaign_manifest = load(campaign_manifest_path)
+    for key in ('train_requests', 'eval_requests'):
+        assert campaign_manifest[key] == current[key]
+    qualification_path = current_run / 'qualification/RESULT.json'
+    qualification = load(qualification_path)
+    assert qualification['status'] == 'passed' and qualification['generations'] == 0
+    training_ids = {r['request_id'] for r in current['train_requests']}
+    qualification_ids = {r['record_id'] for trial in qualification['trials'] for r in trial['records']}
+    assert qualification_ids <= training_ids
+    training_receipts = []
+    for arm in ('C', 'K', 'A'):
+        path = current_run / arm / 'events/event_001/RESULT.json'
+        result = load(path)
+        assert result['status'] == 'completed' and len(result['records']) == 256
+        assert {r['record_id'] for r in result['records']} == training_ids
+        training_receipts.append(path)
+    current_scope['qualification_scope'] = 'Training qualification uses retained feedback presentations; generation qualification is the first eight of the same 64 development requests. No extra official-test prompt was introduced by those qualifications.'
+    current_scope['training_qualification_request_ids'] = sorted(qualification_ids)
+    current_scope['training_qualification_generations'] = 0
+    current_scope['generation_qualification_request_ids'] = [r['request_id'] for r in current_scope['test'][:8]]
+    current_scope['source_manifest_sha256'] = sha(current_path)
+    current_scope['executed_scope_receipts_sha256'] = {str(p): sha(p) for p in [campaign_manifest_path, qualification_path, *training_receipts]}
+    (OUT / 'CURRENT_STUDY_SOURCE_IDS.json').write_text(json.dumps(current_scope, indent=2) + '\n')
+
+    evidence.extend([old_audit_path, oct22, current_path, campaign_manifest_path, qualification_path, *training_receipts])
+    result = {
+        'schema': 'first_error_fresh_confirmation_inventory_v1',
+        'status': 'strict_global_freshness_insufficient',
+        'new_panel_selected': False,
+        'requested_test_questions': 64,
+        'requested_selection_seed': 20261027,
+        'dataset': {'repository': 'openai/gsm8k', 'revision': REV, 'configuration': 'main', 'test_rows': 1319, 'test_file_sha256': sources['gsm8k_test']['sha256'], 'train_rows': 7473},
+        'mapping': 'Exact unique NFKC/whitespace-normalized source questions; native opaque IDs map bijectively to pinned source rows; benchmark answer columns never loaded',
+        'primary_completed_execution_sets': primary,
+        'primary_union_completed_test_questions': len(used),
+        'primary_remaining_upper_bound': len(primary_remaining),
+        'primary_remaining_source_rows_not_certified_fresh': primary_remaining,
+        'oct22_additional_completed_source_rows': sorted(added),
+        'verified_completed_union_with_oct22': len(used_with_oct22),
+        'remaining_upper_bound_after_verified_oct22_execution': 1319 - len(used_with_oct22),
+        'remaining_source_rows_after_verified_oct22_not_certified_fresh': sorted(set(range(1319)) - used_with_oct22),
+        'async_final_completed_test_questions': len(async_used),
+        'async_final_additional_completed_source_rows': sorted(async_added),
+        'verified_completed_test_questions_total': len(verified_used),
+        'remaining_after_verified_completed_executions_upper_bound': 1319 - len(verified_used),
+        'remaining_source_rows_not_certified_fresh': sorted(set(range(1319)) - verified_used),
+        'conservative_old_allocated_audit': {'history_files': len(old_audit['history_files']), 'unique_contents': len({r['sha256'] for r in old_audit['history_files']}), 'excluded_test_rows': len(allocated), 'extra_beyond_primary_completed_sets': extra, 'remaining_after_oct22_upper_bound': 1319 - len(allocated | set(added)), 'warning': 'Includes allocated/reserved records. Not all counted exclusions are asserted executed; kept separate from completed-use evidence.'},
+        'limitations': ['This bounded proof suffices to rule out 64 globally unused test questions; remaining IDs are not certified globally fresh.', 'No new panel selected and no seed-driven substitution applied.', 'No model quality or timing results were used to select or rank questions.', 'The historical broad statement that all 1319 test questions had appeared is not independently established by this bounded proof and is not relied upon.', 'Inaccessible/uninventoried history and semantic paraphrases may further reduce remaining candidates.'],
+        'evidence_sha256': {str(p): sha(p) for p in evidence},
+    }
+    (OUT / 'INVENTORY_AUDIT.json').write_text(json.dumps(result, indent=2) + '\n')
+    print(json.dumps({k: result[k] for k in ['status', 'primary_union_completed_test_questions', 'primary_remaining_upper_bound', 'oct22_additional_completed_source_rows', 'verified_completed_union_with_oct22', 'async_final_additional_completed_source_rows', 'verified_completed_test_questions_total', 'remaining_after_verified_completed_executions_upper_bound', 'remaining_source_rows_not_certified_fresh']}, indent=2))
+    print(json.dumps({'extra_historical_allocations': extra}, indent=2))
+
+
+if __name__ == '__main__':
+    main()

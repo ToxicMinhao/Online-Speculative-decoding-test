@@ -1,0 +1,207 @@
+"""CPU lifecycle tests; fake models never allocate CUDA or load weights."""
+from contextlib import contextmanager
+from pathlib import Path
+import copy
+import json
+import random
+import tempfile
+import types
+import unittest
+from unittest.mock import patch
+
+from online_feedback import phase
+
+
+@contextmanager
+def preserve_python_rng():
+    before = random.getstate()
+    try:
+        yield
+    finally:
+        random.setstate(before)
+
+
+class PhasedTrainerTests(unittest.TestCase):
+    def setUp(self):
+        self.temp = tempfile.TemporaryDirectory(prefix='phase_contract_')
+        self.root = Path(self.temp.name)/'trainer'
+        self.calls, self.samples, self.instances = [], [], []
+        self.saved = None
+        self.raise_build = self.raise_train = self.raise_close = False
+        self.restore_wrong_cursor = False
+        test = self
+        class Model:
+            def __init__(self, name): self.name, self.device, self.fail_device = name, 'cuda:0', None
+            def to(self, device):
+                test.calls.append(('move', self.name, device))
+                if device == self.fail_device: raise RuntimeError('transfer failed')
+                random.random()  # The adapter must preserve RNG around transfers.
+                self.device = device
+                return self
+        self.native = types.SimpleNamespace(target=Model('target'), draft=Model('draft'), device='cuda:0',
+            assert_target_unchanged=lambda: self.calls.append(('frozen_check',)),
+            torch=types.SimpleNamespace(cuda=types.SimpleNamespace(
+                synchronize=lambda device: None, empty_cache=lambda: self.calls.append(('empty_cache',)))))
+        class Trainer:
+            def __init__(self, config, root, resume_state=None, reduction='response_mean'):
+                test.calls.append(('construct', resume_state))
+                test.assertEqual(test.native.target.device, 'cpu')
+                test.assertEqual(test.native.draft.device, 'cpu')
+                if test.raise_build: raise RuntimeError('construction failed')
+                self.root, self.closed = Path(root), False
+                random.seed(17)
+                if resume_state is None:
+                    self.state = dict(global_step=0, presentations=0, completed_events=[],
+                        accumulation_remainder=0, reduction=reduction, closed=False, failed=False)
+                else:
+                    test.assertEqual(Path(resume_state), self.root/'training_state.pt')
+                    self.state = copy.deepcopy(test.saved['state'])
+                    random.setstate(test.saved['rng'])
+                if test.restore_wrong_cursor: self.state['global_step'] -= 1
+                test.instances.append(self)
+            def status(self): return copy.deepcopy({**self.state, 'closed': self.closed})
+            def train_event(self, event_id, paths, passes):
+                test.calls.append(('train', event_id, list(paths), passes))
+                if test.raise_train: raise RuntimeError('training failed')
+                test.samples.append(random.random())
+                self.state['global_step'] += 2
+                self.state['presentations'] += 4
+                self.state['completed_events'].append(event_id)
+                self.root.mkdir(parents=True, exist_ok=True)
+                (self.root/'training_state.pt').write_bytes(b'complete checkpoint')
+                receipt = {'event_id': event_id, 'checkpoint_path': str(self.root/event_id/'export')}
+                path = self.root/'events'/event_id/'RESULT.json'
+                path.parent.mkdir(parents=True); path.write_text(json.dumps(receipt))
+                test.saved = {'state': copy.deepcopy(self.state), 'rng': random.getstate()}
+                return receipt
+            def close(self):
+                test.calls.append(('close_trainer',))
+                if test.raise_close: raise RuntimeError('close failed')
+                self.closed = True
+        self.patches = [patch.object(phase, 'SpecForgeEventTrainer', Trainer),
+                        patch.object(phase, 'preserve_rng', preserve_python_rng),
+                        patch.object(phase.gc, 'collect', return_value=0)]
+        for item in self.patches: item.start()
+        self.proxy = phase.PhasedEventTrainer(Path(self.temp.name)/'config.yaml', self.root, self.native)
+
+    def tearDown(self):
+        for item in reversed(self.patches): item.stop()
+        self.temp.cleanup()
+
+    def run_event(self, name='event_1'):
+        return self.proxy.train_event(name, [Path('a.pt'), Path('b.pt')], passes=2)
+
+    def test_initial_state_is_lazy_zero_and_defensive(self):
+        status = self.proxy.status()
+        self.assertEqual((status['global_step'], status['presentations'], status['completed_events']), (0, 0, []))
+        self.assertFalse(status['failed']); self.assertFalse(status['closed'])
+        status['completed_events'].append('invented')
+        self.assertEqual(self.proxy.status()['completed_events'], [])
+        self.assertFalse(self.root.exists()); self.assertEqual(self.calls, [])
+
+    def test_two_events_restore_full_state_without_reset_and_close_before_serving(self):
+        first = self.run_event()
+        first_result = self.root/'events/event_1/RESULT.json'
+        before = first_result.read_bytes()
+        second = self.run_event('event_2')
+        self.assertFalse(first['phase_costs']['resumed_full_state'])
+        self.assertTrue(second['phase_costs']['resumed_full_state'])
+        self.assertEqual([c for c in self.calls if c[0]=='construct'],
+            [('construct', None), ('construct', self.root/'training_state.pt')])
+        self.assertEqual(self.proxy.status()['global_step'], 4)
+        self.assertEqual(self.proxy.status()['presentations'], 8)
+        self.assertEqual(self.proxy.status()['completed_events'], ['event_1', 'event_2'])
+        self.assertTrue(all(instance.closed for instance in self.instances))
+        timeline = [c for c in self.calls if c[0] in ('move','construct','close_trainer')]
+        expected = [('move','target','cpu'), ('move','draft','cpu'), ('construct',None),
+            ('close_trainer',), ('move','target','cuda:0'), ('move','draft','cuda:0')]
+        self.assertEqual(timeline[:6], expected)
+        self.assertEqual(self.native.target.device, 'cuda:0')
+        self.assertEqual(first_result.read_bytes(), before)
+        self.assertNotIn('phase_costs', json.loads(before))
+
+    def test_transfer_rng_is_preserved_and_training_rng_continues(self):
+        self.run_event(); self.run_event('event_2')
+        expected = random.Random(17)
+        self.assertEqual(self.samples, [expected.random(), expected.random()])
+        self.assertEqual(random.getstate(), expected.getstate())
+
+    def test_training_failure_keeps_native_parked_and_blocks_reuse(self):
+        self.raise_train = True
+        with self.assertRaisesRegex(RuntimeError, 'training failed'): self.run_event()
+        self.assertEqual(self.native.target.device, 'cpu')
+        self.assertEqual(self.native.draft.device, 'cpu')
+        self.assertTrue(self.proxy.status()['failed'])
+        self.assertTrue(self.instances[0].closed)
+        before = list(self.calls)
+        with self.assertRaises(ValueError): self.run_event()
+        self.assertEqual(self.calls, before)
+
+    def test_constructor_failure_does_not_restore_native_gpu(self):
+        self.raise_build = True
+        with self.assertRaisesRegex(RuntimeError, 'construction failed'): self.run_event()
+        self.assertEqual(self.native.target.device, 'cpu')
+        self.assertTrue(self.proxy.status()['failed'])
+        self.assertEqual(self.instances, [])
+
+    def test_close_failure_does_not_restore_native_gpu(self):
+        self.raise_close = True
+        with self.assertRaisesRegex(RuntimeError, 'close failed'): self.run_event()
+        self.assertEqual(self.native.target.device, 'cpu')
+        self.assertTrue(self.proxy.status()['failed'])
+        self.assertTrue(self.proxy.latest.exists())
+        self.assertEqual(self.proxy.status()['global_step'], 2)
+
+    def test_partial_park_failure_never_starts_training(self):
+        self.native.draft.fail_device = 'cpu'
+        with self.assertRaisesRegex(RuntimeError, 'transfer failed'): self.run_event()
+        self.assertFalse(any(c[0]=='construct' for c in self.calls))
+        self.assertTrue(self.proxy.status()['failed'])
+
+    def test_native_restore_failure_is_terminal_without_extra_restore(self):
+        self.native.target.fail_device = 'cuda:0'
+        with self.assertRaisesRegex(RuntimeError, 'transfer failed'): self.run_event()
+        self.assertEqual(self.calls.count(('move','target','cuda:0')), 1)
+        self.assertTrue(self.proxy.status()['failed'])
+        self.assertTrue(self.instances[0].closed)
+
+    def test_missing_state_after_success_cannot_restart_optimizer(self):
+        self.run_event(); self.proxy.latest.unlink()
+        before = len(self.instances)
+        with self.assertRaisesRegex(ValueError, 'disappeared'): self.run_event('event_2')
+        self.assertEqual(len(self.instances), before)
+        self.assertTrue(self.proxy.status()['failed'])
+
+    def test_unexpected_state_before_first_event_is_rejected(self):
+        self.root.mkdir(); self.proxy.latest.write_bytes(b'unexpected checkpoint')
+        with self.assertRaisesRegex(ValueError, 'appeared'): self.run_event()
+        self.assertEqual(self.instances, [])
+        self.assertTrue(self.proxy.status()['failed'])
+
+    def test_old_state_or_partial_work_requires_explicit_recovery(self):
+        for relative in ('training_state.pt', 'training_state.pending.pt', 'events/event_1/PENDING.json'):
+            with self.subTest(relative=relative):
+                other = Path(self.temp.name)/relative.replace('/', '_')
+                path = other/relative; path.parent.mkdir(parents=True); path.write_bytes(b'evidence')
+                with self.assertRaisesRegex(ValueError, 'explicit recovery'):
+                    phase.PhasedEventTrainer('config.yaml', other, self.native)
+                self.assertEqual(path.read_bytes(), b'evidence')
+
+    def test_restored_cursor_mismatch_fails_before_training(self):
+        self.run_event(); self.restore_wrong_cursor = True
+        with self.assertRaisesRegex(ValueError, 'cursor differs'): self.run_event('event_2')
+        self.assertEqual(sum(c[0]=='train' for c in self.calls), 1)
+        self.assertEqual(self.native.target.device, 'cpu')
+        self.assertTrue(self.proxy.status()['failed'])
+
+    def test_evaluation_status_is_stable_and_close_is_idempotent(self):
+        self.run_event()
+        before = self.proxy.status()
+        self.assertEqual(before, self.proxy.status())
+        self.proxy.close(); self.proxy.close()
+        self.assertTrue(self.proxy.status()['closed'])
+        self.assertEqual(self.proxy.status()['global_step'], 2)
+        with self.assertRaises(ValueError): self.run_event('event_2')
+
+
+if __name__ == '__main__': unittest.main()

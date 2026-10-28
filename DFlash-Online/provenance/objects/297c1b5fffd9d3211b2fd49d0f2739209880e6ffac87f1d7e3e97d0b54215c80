@@ -1,0 +1,270 @@
+"""Read-only resume gates for the fixed O/K events 2--4 continuation.
+
+No seed reset, model construction, forward, backward or optimizer step occurs
+here. Torch is imported only when a gate is called. Keep source restart files
+immutable; release the returned CPU snapshot after the live-state gate.
+"""
+
+from pathlib import Path
+import time
+
+OBJECTIVES = {'O': 'osd', 'K': 'osd_first_error'}
+HORIZON = 7424
+STEPS = 128
+PRESENTATIONS = 256
+SCHEMA = 'specforge_event_trainer_v2'
+CHUNK = 1 << 20
+
+
+def _require(condition, message):
+    if not condition:
+        raise ValueError(message)
+
+
+def _finite(value, name):
+    import torch
+    flat = value.detach().reshape(-1)
+    for offset in range(0, flat.numel(), CHUNK):
+        _require(bool(torch.isfinite(flat[offset:offset + CHUNK]).all()), 'Nonfinite ' + name)
+
+
+def _tensor_equal(left, right):
+    import torch
+    if not isinstance(right, torch.Tensor) or left.dtype != right.dtype or left.shape != right.shape:
+        return False
+    a, b = left.detach().reshape(-1), right.detach().reshape(-1)
+    for offset in range(0, a.numel(), CHUNK):
+        aa = a[offset:offset + CHUNK].cpu().contiguous().view(torch.uint8)
+        bb = b[offset:offset + CHUNK].cpu().contiguous().view(torch.uint8)
+        if not torch.equal(aa, bb):
+            return False
+    return True
+
+
+def differences(left, right, prefix='state'):
+    """Return compact differing paths; compare tensors at native bit precision."""
+    import numpy as np
+    import torch
+    if isinstance(left, torch.Tensor):
+        return [] if _tensor_equal(left, right) else [prefix]
+    if isinstance(left, np.ndarray):
+        equal = (isinstance(right, np.ndarray) and left.dtype == right.dtype
+                 and left.shape == right.shape and left.tobytes() == right.tobytes())
+        return [] if equal else [prefix]
+    if type(left) is not type(right):
+        return [prefix]
+    if isinstance(left, dict):
+        if left.keys() != right.keys():
+            return [prefix + '.keys']
+        return [path for key in left for path in differences(left[key], right[key], prefix + '.' + str(key))]
+    if isinstance(left, (list, tuple)):
+        if len(left) != len(right):
+            return [prefix + '.length']
+        return [path for i, (a, b) in enumerate(zip(left, right))
+                for path in differences(a, b, prefix + '.' + str(i))]
+    return [] if left == right else [prefix]
+
+
+def validate_event_receipt(receipt, *, event_number, objective, reference_schedule=None,
+                           trainer_status=None, require_completed=True):
+    """Check each new event and optionally its normal draws against O's event."""
+    _require(type(event_number) is int and 1 <= event_number <= 4, 'Event must be 1..4')
+    _require(objective in OBJECTIVES.values(), 'Only retained O/K objectives are allowed')
+    expected = dict(event_id=f'event_{event_number:03d}', objective=objective, passes=2,
+                    response_presentations=PRESENTATIONS, optimizer_steps=STEPS,
+                    start_step=(event_number - 1) * STEPS, end_step=event_number * STEPS,
+                    reduction='response_mean')
+    _require(all(receipt.get(key) == value for key, value in expected.items()),
+             'Event identity, objective or step/presentation budget differs')
+    if require_completed:
+        _require(receipt.get('status') == 'completed', 'Event is not completed')
+    features, records = receipt['features'], receipt['records']
+    ids = [feature['record_id'] for feature in features]
+    _require(len(ids) == STEPS and len(set(ids)) == STEPS and len(records) == PRESENTATIONS,
+             'Require 128 distinct features and 256 presentations')
+    for pass_index in range(2):
+        rows = records[pass_index * STEPS:(pass_index + 1) * STEPS]
+        _require(sorted(row['record_id'] for row in rows) == sorted(ids)
+                 and all(row['pass'] == pass_index for row in rows), 'Response pass is not a full permutation')
+    for index, row in enumerate(records):
+        _require(type(row['optimizer_stepped']) is bool
+                 and row['optimizer_stepped'] == ((index + 1) % 2 == 0)
+                 and row['optimizer_step_after'] == expected['start_step'] + (index + 1) // 2,
+                 'Optimizer boundary/cumulative counter differs')
+        _require(len(row['sampled_anchors']) == 1, 'Require one recorded anchor draw per presentation')
+        draw = row['sampled_anchors'][0]
+        positions, masks = draw['positions'], draw['keep_mask']
+        _require(isinstance(positions, list) and isinstance(masks, list)
+                 and len(positions) == len(masks) == 1 and len(positions[0]) > 0
+                 and len(positions[0]) == len(masks[0])
+                 and all(type(value) is int and value >= 0 for value in positions[0])
+                 and all(type(value) is bool for value in masks[0]), 'Malformed anchor observation')
+    if reference_schedule is not None:
+        _require(event_number >= 2, 'Continuation cannot replay event 1')
+        validate_event_receipt(reference_schedule, event_number=event_number, objective='osd')
+        _require(not differences(features, reference_schedule['features'], 'features'),
+                 'O/K feature paths or metadata differ')
+        for row, reference in zip(records, reference_schedule['records']):
+            _require(all(row[key] == reference[key] for key in ('record_id', 'pass', 'sampled_anchors')),
+                     'O/K normal response ordering or anchors differ')
+    if trainer_status is not None:
+        expected_status = dict(global_step=event_number * STEPS, presentations=event_number * PRESENTATIONS,
+                               completed_events=[f'event_{i:03d}' for i in range(1, event_number + 1)],
+                               accumulation_remainder=0, objective=objective, horizon=HORIZON)
+        _require(all(trainer_status.get(key) == value for key, value in expected_status.items()),
+                 'Post-event trainer status differs')
+    return dict(status='passed', **expected, schedule_matched=reference_schedule is not None,
+                anchor_draws_checked=len(records), scientific_extra_steps=0)
+
+
+def validate_snapshot(state, *, objective, config_text, completed_event, horizon=HORIZON,
+                      expected_cuda_rng_states=1):
+    """Require the complete fixed 58-parameter BF16 AdamW restart payload."""
+    import random
+    import numpy as np
+    import torch
+    from experiments.osd_components.checkpoints import EXPECTED_KEYS
+
+    _require(type(completed_event) is int and 1 <= completed_event <= 4, 'Completed event must be 1..4')
+    _require(objective in OBJECTIVES.values() and horizon == HORIZON, 'Preserve O/K and inherited7424 horizon')
+    step = completed_event * STEPS
+    required = {'event_schema', 'draft_state_dict', 'backend', 'rng', 'global_step', 'presentations',
+                'events', 'strategy', 'run_id', 'world_size', 'config_text', 'algorithm_contract',
+                'reduction', 'accumulation_steps', 'horizon'}
+    _require(required <= set(state), 'Incomplete trainer snapshot schema')
+    _require(state['event_schema'] == SCHEMA and state['strategy'] == 'dflash' and state['world_size'] == 1,
+             'Trainer schema, family or world size differs')
+    _require(state['config_text'] == config_text and state['reduction'] == 'response_mean'
+             and state['horizon'] == horizon and state['accumulation_steps'] == 2,
+             'Saved config/reduction/horizon/accumulation differs')
+    _require(type(state['global_step']) is int and state['global_step'] == step
+             and type(state['presentations']) is int and state['presentations'] == completed_event * PRESENTATIONS,
+             'Snapshot counters are not the required completed event boundary')
+    _require(state['algorithm_contract']['online_target_objective']['name'] == objective,
+             'Snapshot objective differs')
+    _require(len(state['events']) == completed_event, 'Completed-event history differs')
+    for number, event in enumerate(state['events'], 1):
+        validate_event_receipt(event, event_number=number, objective=objective, require_completed=False)
+    weights = state['draft_state_dict']
+    _require(set(weights) == EXPECTED_KEYS, 'Require exactly the 58 qualified draft tensors')
+    for name, value in weights.items():
+        _require(isinstance(value, torch.Tensor) and value.dtype == torch.bfloat16 and value.numel() > 0,
+                 'Draft must contain nonempty BF16 tensors: ' + name)
+        _finite(value, 'draft.' + name)
+    _require(set(state['backend']) == {'optimizer'}, 'Unexpected or missing backend optimizer payload')
+    optimizer = state['backend']['optimizer']
+    recipe, saved = optimizer['recipe'], optimizer['optimizer_state_dict']
+    _require(recipe['type'] == 'direct_bf16_adamw' and recipe['version'] == 1
+             and recipe['max_grad_norm'] == 1.0, 'Direct BF16 AdamW recipe differs')
+    parameters = recipe['parameters']
+    names = [row[0] for row in parameters]
+    _require(len(names) == 58 and set(names) == set(weights), 'Optimizer parameter membership differs')
+    _require(len(saved['param_groups']) == 1, 'Require the original single Adam group')
+    group = saved['param_groups'][0]
+    ids = group['params']
+    _require(len(ids) == 58 and len(set(ids)) == 58 and set(saved['state']) == set(ids),
+             'Require nonempty Adam state for all 58 parameters')
+    options = {key: value for key, value in group.items() if key != 'params'}
+    _require(not differences(options, recipe['optimizer_options'], 'options'), 'Adam options/recipe differ')
+    _require(options['lr'] == 3e-4 and options['weight_decay'] == .01 and options['betas'] == (.9, .999)
+             and options['eps'] == 1e-8 and options['amsgrad'] is False,
+             'Qualified Adam hyperparameters differ')
+    for (name, shape, dtype), parameter_id in zip(parameters, ids):
+        weight = weights[name]
+        _require(tuple(shape) == tuple(weight.shape) and dtype == str(weight.dtype),
+                 'Adam parameter shape/dtype binding differs: ' + name)
+        moment = saved['state'][parameter_id]
+        _require(set(moment) == {'step', 'exp_avg', 'exp_avg_sq'}, 'Incomplete Adam moments: ' + name)
+        count = moment['step']
+        _require(isinstance(count, torch.Tensor) and count.numel() == 1
+                 and bool(torch.isfinite(count).all()) and count.item() == step,
+                 'Adam step counter differs: ' + name)
+        for key in ('exp_avg', 'exp_avg_sq'):
+            value = moment[key]
+            _require(isinstance(value, torch.Tensor) and value.dtype == torch.bfloat16
+                     and value.shape == weight.shape, 'Adam moment shape/dtype differs: ' + name)
+            _finite(value, 'Adam.' + name + '.' + key)
+    rng = state['rng']
+    _require(set(rng) == {'python', 'numpy', 'torch', 'cuda'}, 'Require all four RNG components')
+    _require(isinstance(rng['python'], tuple) and len(rng['python']) == 3
+             and isinstance(rng['numpy'], tuple) and len(rng['numpy']) == 5
+             and isinstance(rng['numpy'][1], np.ndarray), 'Malformed Python/NumPy RNG state')
+    _require(type(expected_cuda_rng_states) is int and expected_cuda_rng_states in (0, 1),
+             'Require one production CUDA RNG stream, or zero for a CPU fixture')
+    _require(isinstance(rng['cuda'], list) and len(rng['cuda']) == expected_cuda_rng_states,
+             'CUDA RNG state count differs')
+    for value in [rng['torch'], *rng['cuda']]:
+        _require(isinstance(value, torch.Tensor) and value.dtype == torch.uint8
+                 and value.ndim == 1 and value.numel() > 0, 'Malformed Torch RNG state')
+    try:
+        # Isolated generators validate payloads without changing any global RNG.
+        random.Random(0).setstate(rng['python'])
+        np.random.RandomState(0).set_state(rng['numpy'])
+        torch.Generator(device='cpu').set_state(rng['torch'])
+    except (TypeError, ValueError, RuntimeError) as error:
+        raise ValueError('Invalid saved RNG payload') from error
+    return dict(status='passed', completed_event=completed_event, objective=objective,
+                global_step=step, presentations=state['presentations'], horizon=horizon,
+                draft_tensors=58, optimizer_parameters=58, adam_step=step,
+                cuda_rng_states=len(rng['cuda']), scientific_extra_steps=0)
+
+
+def load_snapshot(path, export_path, *, objective, config_text, completed_event, horizon=HORIZON,
+                  expected_cuda_rng_states=1):
+    """CPU load and exact export binding; no memory map can outlive replacement."""
+    import torch
+    from safetensors import safe_open
+
+    started = time.perf_counter()
+    state = torch.load(path, map_location='cpu', weights_only=False)
+    receipt = validate_snapshot(state, objective=objective, config_text=config_text,
+                                completed_event=completed_event, horizon=horizon,
+                                expected_cuda_rng_states=expected_cuda_rng_states)
+    seen = set()
+    for file in sorted(Path(export_path).glob('*.safetensors')):
+        with safe_open(file, framework='pt', device='cpu') as source:
+            for name in source.keys():
+                _require(name not in seen and name in state['draft_state_dict'], 'Unexpected/duplicate export key: ' + name)
+                _require(_tensor_equal(source.get_tensor(name), state['draft_state_dict'][name]),
+                         'Saved export differs from restart draft: ' + name)
+                seen.add(name)
+    _require(seen == set(state['draft_state_dict']), 'Saved export tensor membership differs')
+    receipt.update(state_path=str(path), export_path=str(export_path), export_exact=True,
+                   wall_s=time.perf_counter() - started)
+    return state, receipt
+
+
+def verify_live_resume(trainer, state, *, receipt_path=None):
+    """Verify a just-restored runtime; this function never restores/reseeds it."""
+    from online_feedback.rng import capture_rng
+    from online_feedback.storage import write_json
+
+    started = time.perf_counter()
+    # The qualified checkpoint filter emits a plain dict, whereas Module emits
+    # OrderedDict. Mapping container order is not part of the weight contract;
+    # parameter ordering remains checked in the optimizer recipe separately.
+    actual = dict(draft=dict(trainer.bundle.draft_model.state_dict()), optimizer=trainer.backend.optimizer.state_dict(),
+                  rng=capture_rng(), global_step=trainer.global_step, presentations=trainer.presentations,
+                  events=trainer.events, config_text=trainer.config_text, contract=trainer.contract,
+                  horizon=trainer.horizon, accumulation=trainer.accumulation, reduction=trainer.reduction)
+    expected = dict(draft=state['draft_state_dict'], optimizer=state['backend']['optimizer'], rng=state['rng'],
+                    global_step=state['global_step'], presentations=state['presentations'], events=state['events'],
+                    config_text=state['config_text'], contract=state['algorithm_contract'], horizon=state['horizon'],
+                    accumulation=state['accumulation_steps'], reduction=state['reduction'])
+    mismatches = differences(actual, expected)
+    clean = (not trainer.closed and not trainer.failed and trainer.core._micro == state['presentations']
+             and trainer.core.accumulation_remainder == 0 and not trainer.core._ratio_totals
+             and not trainer.core._sum_totals and not trainer._anchor_observations
+             and trainer._presentation_schedule is None and trainer.bundle.model.training
+             and trainer.bundle.model.reference is None and not trainer.bundle.model.ranking_enabled
+             and all(parameter.grad is None for parameter in trainer.bundle.draft_model.parameters()))
+    if not clean:
+        mismatches.append('runtime_nonempty_accumulation_or_reference_or_gradients_or_mode')
+    receipt = dict(status='passed' if not mismatches else 'failed', exact_resume=not mismatches,
+                   mismatches=mismatches[:32], mismatch_count=len(mismatches),
+                   global_step=trainer.global_step, presentations=trainer.presentations,
+                   no_rng_reset=True, scientific_extra_steps=0, wall_s=time.perf_counter() - started)
+    if receipt_path is not None:
+        write_json(Path(receipt_path), receipt)
+    _require(not mismatches, 'Live resume differs from saved state: ' + str(mismatches[:8]))
+    return receipt

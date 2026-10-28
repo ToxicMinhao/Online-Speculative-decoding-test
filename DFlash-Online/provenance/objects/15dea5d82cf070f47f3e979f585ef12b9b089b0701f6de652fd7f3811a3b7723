@@ -1,0 +1,21 @@
+from pathlib import Path
+import json,os,hashlib,time,concurrent.futures
+from huggingface_hub import hf_hub_download
+root=Path('/data/sources/minhao/models/qwen3_dflash_foundation_20261022');out=Path('/data/sources/minhao/runs/dflash_online_foundation_20261022')
+assert os.environ['HF_ENDPOINT']=='https://hf-mirror.com'
+manifest=json.loads((out/'MODEL_TRANSFER_MANIFEST.json').read_text());repos={'target':('Qwen/Qwen3-8B','b968826d9c46dd6066d109eabc6255188de91218'),'draft':('z-lab/Qwen3-8B-DFlash-b16','9b41424b7109f9c5413454f481b09a82b85333f4')}
+def sha(p):
+ h=hashlib.sha256()
+ with p.open('rb') as f:
+  for b in iter(lambda:f.read(8*2**20),b''):h.update(b)
+ return h.hexdigest()
+def one(job):
+ kind,name,spec=job;dest=root/kind/name;repo,revision=repos[kind]
+ if dest.exists() and (dest.stat().st_size!=spec['bytes'] or sha(dest)!=spec['sha256']):
+  assert root in dest.parents and not dest.is_symlink();print('retire incomplete new transfer',str(dest),dest.stat().st_size,flush=True);dest.unlink()
+ if not dest.exists():hf_hub_download(repo,name,revision=revision,local_dir=str(root/kind),endpoint=os.environ['HF_ENDPOINT'])
+ assert dest.stat().st_size==spec['bytes'] and sha(dest)==spec['sha256'],f'Corrupt download {dest}'
+ print('verified',kind,name,spec['bytes'],flush=True);return {'kind':kind,'name':name,**spec}
+start=time.perf_counter();jobs=[(k,n,s)for k,v in manifest.items()for n,s in v['files'].items()]
+with concurrent.futures.ThreadPoolExecutor(max_workers=5) as ex:receipts=list(ex.map(one,jobs))
+(out/'MODEL_TRANSFER_VERIFIED.json').write_text(json.dumps({'files':receipts,'endpoint':os.environ['HF_ENDPOINT'],'elapsed_s':time.perf_counter()-start},indent=2));print('complete',time.perf_counter()-start,flush=True)

@@ -1,0 +1,92 @@
+"""Seal the continuation inputs, complete parent states, runtime and unchanged code."""
+import hashlib
+import json
+from pathlib import Path
+import shutil
+import time
+
+
+def identity(path):
+    with path.open('rb') as stream:
+        value=hashlib.file_digest(stream,'sha256').hexdigest()
+    return dict(bytes=path.stat().st_size,sha256=value)
+
+
+def seal(root):
+    root=Path(root); sealed=root/'sealed'; sealed.mkdir(exist_ok=False)
+    code=Path('/data/sources/minhao/DFlash-Online')
+    one=Path('/data/sources/minhao/runs/dflash_osd_one_event_20261025')
+    ocka=Path('/data/sources/minhao/runs/dflash_first_error_execution_20261026')
+    fresh=Path('/data/sources/minhao/runs/dflash_first_error_fresh_confirmation_20261027')
+    old_seal=json.loads((fresh/'sealed/SEAL.json').read_text())
+    paths=set()
+    # Recheck every source/model/export from the last completed comparison.
+    for name,expected in old_seal['files'].items():
+        if name.startswith(str(code)+'/') or '/models/' in name or '/export/' in name:
+            p=Path(name)
+            if identity(p)!=expected: raise ValueError('Retained dependency changed: '+name)
+            paths.add(p)
+    original=json.loads((one/'sealed/MANIFEST.json').read_text())
+    windows=json.loads((root/'data_preparation/WINDOWS.json').read_text())
+    audit=json.loads((root/'data_preparation/SELECTION_AUDIT.json').read_text())
+    if not audit['selection_complete'] or audit['selected_count']!=384:
+        raise ValueError('Continuation selection is incomplete')
+    for name,expected in audit['output_sha256'].items():
+        if identity(root/'data_preparation'/name)['sha256']!=expected:
+            raise ValueError('Prepared output differs from selection audit: '+name)
+    flat=[r for window in windows for r in window['requests']]
+    if [r['request_id'] for r in flat]!=audit['selected_request_ids']:
+        raise ValueError('Window order differs from approved selection')
+    retained=json.loads((ocka/'RETAINED_ARTIFACTS.json').read_text())
+    initial={}
+    for arm,folder in {'O':one/'campaign_001/trainer','K':ocka/'campaign_001/K'}.items():
+        rpath=folder/'events/event_001/RESULT.json'
+        if identity(rpath)!=old_seal['files'][str(rpath)]:
+            raise ValueError('Parent event receipt changed: '+str(rpath))
+        r=json.loads(rpath.read_text())
+        if r['status']!='completed' or r['end_step']!=128: raise ValueError('Incomplete parent')
+        if arm=='O':
+            old=retained[r['full_state_path']]
+            if identity(Path(r['full_state_path']))!={k:old[k] for k in ('bytes','sha256')}:
+                raise ValueError('Original O restart state changed')
+        initial[arm]=dict(state=r['full_state_path'],export=r['export_path'],receipt=str(rpath))
+        paths.update([Path(r['full_state_path']),rpath])
+    cfg=sealed/'config.yaml'; shutil.copy2(one/'sealed/config.yaml',cfg)
+    shutil.copy2(one/'sealed/RUNTIME_PIN.json',sealed/'RUNTIME_PIN.json')
+    measurements=one/'campaign_001/evaluation/MEASUREMENTS.jsonl'
+    rows=[json.loads(s) for s in measurements.read_text().splitlines() if s]
+    frozen={r['request_id']:r['verification_calls'] for r in rows if r['method']=='F' and r['repeat']==0}
+    if len(frozen)!=64: raise ValueError('Require64 retained frozen counts')
+    models=Path('/data/sources/minhao/models/qwen3_dflash_foundation_20261022')
+    plan=dict(config=str(cfg),windows=windows,eval_requests=original['eval_requests'],
+              frozen_counts=frozen,initial=initial,target=str(models/'target'),draft=str(models/'draft'),
+              worker_python='/data/conda_envs/minhao/adaflash_author/bin/python',
+              stop_step=512,inherited_horizon=7424,
+              new_budget=dict(feedback=384,evaluation=768,generations=1152,presentations=1536,optimizer_steps=768),
+              serving=dict(block=16,output_cap=2048,context=4096,greedy=True,concurrency=1),
+              parent_identity_provenance={'O':'Original retained complete-state digest matched.',
+                  'K':'Fresh digest of original completed K restart; exact exported weights, objective, counters, Adam and RNG payload checked before use. No prior full-state digest claimed.'},
+              evaluation_events=[2,4],shared_feedback_source='O pre-update checkpoint',
+              fresh_F_latency=False,additional_optimizer_qualification_steps=0,generation_warmups=0)
+    from campaign import validate_plan
+    validate_plan(plan)
+    (sealed/'PLAN.json').write_text(json.dumps(plan,indent=2)+'\n')
+    paths.update([one/'sealed/MANIFEST.json',measurements,ocka/'RETAINED_ARTIFACTS.json',
+                  ocka/'campaign_001/evaluation/MEASUREMENTS.jsonl',
+                  fresh/'inventory_audit/NEW_PANEL.json'])
+    for folder in (sealed,root/'data_preparation',code/'experiments/ok_continuation'):
+        paths.update(p for p in folder.rglob('*') if p.is_file() and '__pycache__' not in p.parts)
+    paths.update(root/name for name in ('campaign.py','preflight.py','seal_remote.py','test_campaign.py',
+                                       'run_campaign.sh','supervise.sh','AUTHORIZATION.md'))
+    seal=dict(sealed_utc=time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime()),
+              files={str(p):identity(p) for p in sorted(paths)},
+              exact_file_sets=old_seal['exact_file_sets'],
+              storage=dict(reserve_bytes=8*2**30,phase_admission=True,
+                           note='Capture cap and actual prepared lengths are separately admitted before each phase. No old artifact deletion is assumed.'))
+    (sealed/'SEAL.json').write_text(json.dumps(seal,indent=2)+'\n')
+    print(json.dumps(dict(status='sealed',files=len(paths),feedback_requests=384)))
+
+
+if __name__=='__main__':
+    import sys
+    seal(sys.argv[1])

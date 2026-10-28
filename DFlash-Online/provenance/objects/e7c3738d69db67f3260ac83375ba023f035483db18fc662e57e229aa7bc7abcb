@@ -1,0 +1,289 @@
+"""Official DFlash generation, canonical target replay and checkpoint activation.
+
+The target is fixed. Every generation creates fresh author caches. No decoded
+text is used to reconstruct feedback. Teacher replay is charged separately.
+"""
+from __future__ import annotations
+import contextlib
+import hashlib
+import json
+import os
+from pathlib import Path
+import random
+import time
+from typing import Any
+
+
+from .buffer import _atomic_json, _fsync_dir, _mkdir_durable, token_sha256
+
+
+def file_sha256(path: Path) -> str:
+    h = hashlib.sha256()
+    with path.open('rb') as f:
+        for chunk in iter(lambda: f.read(8 * 1024 * 1024), b''):
+            h.update(chunk)
+    return h.hexdigest()
+
+
+def atomic_json(path: Path, value: Any) -> None:
+    path = Path(path)
+    _mkdir_durable(path.parent)
+    _atomic_json(path, value)
+
+
+_PUBLICATION_METADATA_KEYS = {
+    '_name_or_path', '_commit_hash', 'transformers_version', 'architectures',
+    'dtype', 'torch_dtype',
+}
+
+
+def _publication_config(model) -> dict:
+    # Artifact provenance may change at export; all forward-relevant config
+    # remains exact. Actual tensor dtypes are checked separately below.
+    config = model.config.to_dict()
+    # SpecForge resolve_draft_config materializes an omitted draft_vocab_size
+    # as vocab_size (training/model_loading.py). Normalize that one default for
+    # the supported Qwen3 DFlash family; explicit values remain exact, including
+    # invalid/null values. No other missing semantic fields are filled or dropped.
+    if (config.get('model_type') == 'qwen3'
+            and isinstance(config.get('dflash_config'), dict)
+            and type(config.get('vocab_size')) is int
+            and config['vocab_size'] > 0
+            and 'draft_vocab_size' not in config):
+        config['draft_vocab_size'] = config['vocab_size']
+    return {key: value for key, value in config.items()
+            if key not in _PUBLICATION_METADATA_KEYS}
+
+
+def validate_publication(candidate, current, loading_info: dict, *, tensor_isfinite) -> dict:
+    """Validate all load/config/state contracts before changing active serving state.
+
+    tensor_isfinite is supplied by the runtime, allowing CPU-only contract tests
+    without importing model libraries. This verifies compatibility and finite
+    values, not equivalence of target output trajectories.
+    """
+    if not isinstance(loading_info, dict):
+        raise ValueError('checkpoint loader did not return loading diagnostics')
+    for field in ('missing_keys', 'unexpected_keys', 'mismatched_keys', 'error_msgs'):
+        if field not in loading_info or loading_info[field]:
+            raise ValueError('strict checkpoint loading failed: ' + field)
+    for field in ('block_size', 'mask_token_id'):
+        if getattr(candidate, field) != getattr(current, field):
+            raise ValueError('published draft changes ' + field)
+    if list(candidate.target_layer_ids) != list(current.target_layer_ids):
+        raise ValueError('published draft changes target-layer feature contract')
+    new_config, old_config = _publication_config(candidate), _publication_config(current)
+    encoded = json.dumps(new_config, sort_keys=True, separators=(',', ':'), allow_nan=False)
+    if encoded != json.dumps(old_config, sort_keys=True, separators=(',', ':'), allow_nan=False):
+        raise ValueError('published draft changes semantic model configuration')
+    new_state, old_state = candidate.state_dict(), current.state_dict()
+    if not new_state or set(new_state) != set(old_state):
+        raise ValueError('published draft changes state keys')
+    for name, tensor in new_state.items():
+        expected = old_state[name]
+        if tuple(tensor.shape) != tuple(expected.shape) or tensor.dtype != expected.dtype:
+            raise ValueError('published draft changes tensor shape/dtype: ' + name)
+        if not tensor_isfinite(tensor):
+            raise FloatingPointError('nonfinite published tensor: ' + name)
+    return {'strict_loading': True, 'tensor_count': len(new_state),
+            'shape_dtype_match': True, 'all_tensors_finite': True,
+            'semantic_config_sha256': hashlib.sha256(encoded.encode()).hexdigest()}
+
+
+@contextlib.contextmanager
+def preserve_rng():
+    import numpy as np
+    import torch
+    python = random.getstate(); numpy = np.random.get_state()
+    cpu = torch.get_rng_state(); cuda = torch.cuda.get_rng_state_all()
+    try: yield
+    finally:
+        random.setstate(python); np.random.set_state(numpy)
+        torch.set_rng_state(cpu); torch.cuda.set_rng_state_all(cuda)
+
+
+class NativeDFlashBackend:
+    def __init__(self, target_path: str, draft_path: str, *, device='cuda:0',
+                 context_limit=2048, block_size=16, reasoning='off'):
+        import torch
+        from dflash.benchmark import load_transformers_models, stop_token_ids
+        self.torch = torch; self.device = torch.device(device)
+        self.context_limit = int(context_limit); self.block_size = int(block_size)
+        self.reasoning = reasoning; self.released_path = Path(draft_path)
+        started = time.perf_counter()
+        with preserve_rng():
+            self.target, self.draft, self.tokenizer = load_transformers_models(
+                target_path, draft_path, self.device)
+        self.target.requires_grad_(False); self.draft.requires_grad_(False)
+        self.stop_tokens = stop_token_ids(self.target, self.tokenizer)
+        if self.draft.block_size != self.block_size:
+            raise ValueError('configured block size differs from released DFlash')
+        self.target_versions = tuple((name, p._version) for name, p in self.target.named_parameters())
+        self.checkpoint_id = self._checkpoint_identity(self.released_path)
+        torch.cuda.synchronize(self.device)
+        self.loading_s = time.perf_counter() - started
+
+    def _checkpoint_identity(self, path: Path) -> str:
+        files = sorted([*path.glob('*.safetensors'), *path.glob('*.bin')])
+        if not files or not (path/'config.json').is_file():
+            raise ValueError(f'incomplete inference checkpoint: {path}')
+        bindings = {p.name: file_sha256(p) for p in [path/'config.json', *files]}
+        return hashlib.sha256(json.dumps(bindings, sort_keys=True).encode()).hexdigest()
+
+    def assert_target_unchanged(self):
+        versions = tuple((name, p._version) for name, p in self.target.named_parameters())
+        if versions != self.target_versions or any(p.requires_grad or p.grad is not None for p in self.target.parameters()):
+            raise RuntimeError('frozen target mutated or acquired gradients')
+
+    def render(self, messages: list[dict]) -> list[int]:
+        # Tokenize the rendered prompt once; its exact ids become canonical.
+        from dflash.benchmark import apply_chat_template
+        text = apply_chat_template(self.tokenizer, messages, self.reasoning)
+        return self.tokenizer.encode(text, add_special_tokens=False)
+
+    def generate(self, prompt_ids: list[int], *, max_new_tokens: int,
+                 request_id: str, session_id: str, request_index: int,
+                 purpose='serving', save_to: Path | None = None) -> dict:
+        from dflash.model import dflash_generate
+        torch = self.torch
+        if purpose not in {'serving', 'evaluation'}:
+            raise ValueError('purpose must explicitly isolate serving and evaluation')
+        if not prompt_ids or max_new_tokens < 1 or len(prompt_ids)+max_new_tokens > self.context_limit:
+            raise ValueError('request violates explicit full-context budget')
+        if any(type(x) is not int or x < 0 or x >= self.target.config.vocab_size for x in prompt_ids):
+            raise ValueError('invalid canonical prompt token')
+        self.assert_target_unchanged(); trace = []
+        ids = torch.tensor([prompt_ids], dtype=torch.long, device=self.device)
+        self.draft.eval(); self.target.eval(); torch.cuda.synchronize(self.device)
+        start = time.perf_counter()
+        with preserve_rng():
+            result = dflash_generate(self.draft, self.target, ids, max_new_tokens,
+                self.stop_tokens, temperature=0, block_size=self.block_size,
+                return_stats=True, trace_callback=trace.append)
+        torch.cuda.synchronize(self.device)
+        latency = time.perf_counter()-start
+        combined = result.output_ids[0].tolist()
+        if combined[:len(prompt_ids)] != prompt_ids:
+            raise RuntimeError('generation changed canonical prompt')
+        response = combined[len(prompt_ids):]
+        if not response or len(response)>max_new_tokens:
+            raise RuntimeError('invalid generated response length')
+        eos = response[-1] in self.stop_tokens
+        if any(x in self.stop_tokens for x in response[:-1]):
+            raise RuntimeError('generation continued after first EOS')
+        if not eos and len(response) != max_new_tokens:
+            raise RuntimeError('generation ended before EOS or cap')
+        if sum(t['committed_progress'] for t in trace) != len(response)-1:
+            raise RuntimeError('verification progress does not reconstruct answer')
+        offset = 0
+        for block in trace:
+            if block['output_start'] != offset or block['anchor_token'] != response[offset]:
+                raise RuntimeError('block start/anchor mismatch')
+            n = block['committed_progress']
+            if block['committed_tokens'] != response[offset+1:offset+1+n]:
+                raise RuntimeError('committed tokens differ from canonical response')
+            offset += n
+        calls = len(trace)
+        accepted = sum(x['accepted_draft_tokens'] for x in trace)
+        record = dict(record_id=request_id, session_id=session_id,
+            request_index=request_index, checkpoint_id=self.checkpoint_id,
+            purpose=purpose, prompt_ids=prompt_ids, response_ids=response,
+            finish_reason='eos' if eos else 'length', stop_token_ids=self.stop_tokens,
+            max_new_tokens=max_new_tokens,
+            metadata=dict(request_latency_s=latency, verification_calls=calls,
+                accepted_draft_tokens=accepted, committed_progress=len(response)-1,
+                committed_progress_per_call=(len(response)-1)/calls if calls else None,
+                calls_per_1000_output_tokens=1000*calls/len(response),
+                time_to_first_token_s=result.time_to_first_token,
+                block_size=self.block_size, context_limit=self.context_limit,
+                prompt_sha256=token_sha256(prompt_ids),
+                input_sha256=token_sha256(combined),
+                response_sha256=token_sha256(response),
+                trace=trace, cache_policy='new_target_and_draft_caches_per_request',
+                feedback_capture_in_timed_request=False,
+                trace_instrumentation_in_timed_request=True))
+        self.assert_target_unchanged()
+        if save_to is not None: atomic_json(Path(save_to), record)
+        return record
+
+    def prepare_feedback(self, record: dict, path: Path) -> dict:
+        # Replay exactly the committed response, never rejected proposals.
+        from dflash.model import extract_context_feature
+        torch = self.torch; path = Path(path)
+        if record['purpose'] != 'serving':
+            raise ValueError('benchmark replays cannot supply training feedback')
+        prompt = record['prompt_ids']; response = record['response_ids']
+        if len(response)<2:
+            return {'status':'ineligible_short_response','record_id':record['record_id'],
+                    'supervised_positions':len(response),'teacher_preparation_s':0.0}
+        combined = prompt+response
+        if len(combined)>self.context_limit: raise ValueError('full feedback exceeds context limit')
+        if path.exists(): raise FileExistsError('immutable feedback features already exist')
+        self.assert_target_unchanged(); torch.cuda.synchronize(self.device)
+        start = time.perf_counter()
+        ids = torch.tensor([combined], dtype=torch.long, device=self.device)
+        with preserve_rng(), torch.inference_mode():
+            outputs = self.target.model(input_ids=ids, use_cache=False,
+                                        output_hidden_states=True, return_dict=True)
+            features = extract_context_feature(outputs.hidden_states, self.draft.target_layer_ids)
+            last_hidden = outputs.last_hidden_state
+            teacher_ids = []
+            for begin in range(len(prompt)-1, len(combined)-1, 64):
+                end = min(begin+64, len(combined)-1)
+                teacher_ids.extend(self.target.lm_head(last_hidden[:,begin:end]).argmax(-1)[0].tolist())
+            mismatch = [i for i,(a,b) in enumerate(zip(teacher_ids,response)) if a!=b]
+            receipt = {'record_id':record['record_id'], 'prompt_length':len(prompt),
+                'response_length':len(response),'input_sha256':token_sha256(combined),
+                'response_sha256':token_sha256(response), 'target_argmax_ids':teacher_ids,
+                'label_mismatches':mismatch, 'target_layer_ids':list(self.draft.target_layer_ids),
+                'feature_shape':list(features.shape), 'capture_backend':'same_frozen_HF_target_canonical_replay',
+                'response_only_loss':True}
+            if len(teacher_ids)!=len(response) or mismatch:
+                atomic_json(path.with_suffix('.alignment_failure.json'), receipt)
+                raise RuntimeError('canonical target replay disagrees with served labels; evidence saved')
+            if not torch.isfinite(features).all(): raise FloatingPointError('nonfinite target features')
+            mask = torch.zeros_like(ids,dtype=torch.float32); mask[:,len(prompt):]=1
+            payload = dict(input_ids=ids.cpu(),loss_mask=mask.cpu(),hidden_states=features.cpu(),
+                target_last_hidden_states=last_hidden.cpu(),record_id=record['record_id'],
+                prompt_length=len(prompt),input_sha256=token_sha256(combined),
+                response_sha256=token_sha256(response),label_binding=receipt)
+            del outputs,features,last_hidden
+        torch.cuda.synchronize(self.device); prepare_s=time.perf_counter()-start
+        _mkdir_durable(path.parent)
+        started=time.perf_counter(); temp=path.with_suffix('.pending')
+        torch.save(payload,temp)
+        with temp.open('rb') as f: os.fsync(f.fileno())
+        os.replace(temp,path); _fsync_dir(path.parent)
+        receipt.update(status='prepared',feature_path=str(path),feature_sha256=file_sha256(path),
+            teacher_preparation_s=prepare_s,feature_persistence_s=time.perf_counter()-started,
+            supervised_positions=len(response))
+        atomic_json(path.with_suffix('.json'),receipt); self.assert_target_unchanged()
+        return receipt
+
+    def publish(self, checkpoint_path: str | Path) -> dict:
+        from dflash.model import DFlashDraftModel
+        torch=self.torch; path=Path(checkpoint_path); start=time.perf_counter()
+        identity=self._checkpoint_identity(path)
+        native_start=time.perf_counter()
+        with preserve_rng():
+            new, loading_info = DFlashDraftModel.from_pretrained(
+                str(path), dtype=torch.bfloat16, attn_implementation='sdpa',
+                output_loading_info=True)
+            new = new.to(self.device).eval()
+        new.requires_grad_(False)
+        validation = validate_publication(
+            new, self.draft, loading_info,
+            tensor_isfinite=lambda tensor: bool(torch.isfinite(tensor).all()))
+        if self._checkpoint_identity(path) != identity:
+            raise RuntimeError('checkpoint changed during publication')
+        # Failure above or in synchronization/target checks leaves the previous
+        # draft and checkpoint identity active.
+        torch.cuda.synchronize(self.device)
+        self.assert_target_unchanged()
+        native_s=time.perf_counter()-native_start
+        self.draft=new; self.checkpoint_id=identity
+        return {'checkpoint_id':identity,'checkpoint_path':str(path),
+                'activation_s':time.perf_counter()-start,'native_activation_s':native_s,
+                'publication_validation':validation,'checkpoint_rehashed_after_load':True,
+                'cache_maintenance_s':0.0,'cache_policy':'caches_are_request_local_not_reused_after_publication'}
+

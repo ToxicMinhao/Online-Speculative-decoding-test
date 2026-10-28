@@ -1,0 +1,45 @@
+model:
+  target_model_path: /data/sources/minhao/models/qwen3_dflash_foundation_20261022/target
+  draft_model_config: /data/sources/minhao/models/qwen3_dflash_foundation_20261022/draft
+  draft_checkpoint_path: /data/sources/minhao/models/qwen3_dflash_foundation_20261022/draft
+  target_backend: sglang
+  embedding_key: model.embed_tokens.weight
+  lm_head_key: lm_head.weight
+  torch_dtype: bfloat16
+  use_liger_kernel: false
+data:
+  hidden_states_path: /data/sources/minhao/runs/projected_target_feasibility_20261022/recovery_001/campaign_002/sharegpt/F/features
+  max_length: 2048
+  chat_template: qwen
+  dataloader_num_workers: 0
+  cache_dir: /data/sources/minhao/.cache/dflash_online_foundation
+training:
+  strategy: dflash
+  num_epochs: 1
+  max_steps: 8
+  batch_size: 1
+  accumulation_steps: 2
+  fsdp_sharding: NO_SHARD
+  optimizer_cpu_offload: true
+  learning_rate: 0.0006
+  lr_scheduler: cosine
+  warmup_ratio: 0.04
+  max_grad_norm: 1.0
+  attention_backend: eager
+  num_anchors: 64
+  objective_chunk_blocks: 8
+  loss_type: dflash
+  lk_loss_type: null
+  loss_decay_gamma: 7.0
+  log_interval: 1
+  dist_timeout: 30
+  seed: 17
+tracking:
+  report_to: none
+run_id: projected-target-sharegpt-O
+output_dir: /data/sources/minhao/runs/dflash_online_osd_20261023/execution_001/campaign/sharegpt/O/trainer
+deployment:
+  mode: local_colocated
+  trainer:
+    nnodes: 1
+    nproc_per_node: 1

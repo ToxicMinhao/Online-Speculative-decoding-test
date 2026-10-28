@@ -1,0 +1,204 @@
+"""Bounded integration check of real models, not a scientific efficacy screen.
+
+Seven native requests, two two-response events, four optimizer steps. Source
+prompts are declared engineering fixtures, unrelated to evaluation datasets.
+"""
+from pathlib import Path
+import argparse,gc,json,os,shutil,time,traceback,hashlib
+from .controller import OnlineController
+from .native import NativeDFlashBackend,atomic_json
+from .training import SpecForgeEventTrainer
+
+PROMPTS = [
+ 'Write a Python function that returns the sum of the even integers in a list. Include one short example.',
+ 'Explain why this Python function is incorrect, and provide a corrected version:\n\ndef double_all(xs):\n    for x in xs:\n        x = 2 * x\n    return xs\n',
+ 'A box contains 18 red and 12 blue marbles. Five red marbles are removed. How many marbles remain? Explain briefly.',
+ 'Write a Python function that counts each character in a string. Include a short example with repeated characters.',
+ 'Write a Python function that returns all positive even integers from a list while preserving their order. Include one example.',
+]
+
+_QUALIFICATION_PLAN = {
+    'kind': 'infrastructure qualification only', 'serving_generations': 4,
+    'evaluation_generations': 3, 'optimizer_steps': 4, 'events': 2,
+    'response_presentations': 8, 'max_new_tokens': 128, 'block_size': 16,
+    'context_limit': 2048, 'seed': 17, 'prompts': PROMPTS,
+    'training_loss': 'upstream DFlash hard-token CE with response-mean accumulation',
+    'native_backend': 'official DFlash Transformers SDPA, same frozen target for replay',
+    'projected_target_implemented': False, 'automatic_scientific_campaign': False,
+}
+
+
+def recovery_inputs(prior, config_path):
+    """Only resume the documented publication boundary, never guess partial work."""
+    prior = Path(prior).absolute()
+    result = json.loads((prior/'RESULT.json').read_text())
+    plan = json.loads((prior/'PLAN.json').read_text())
+    inputs = json.loads((prior/'INPUTS.json').read_text())
+    records = result.get('serving', [])
+    event = json.loads((prior/'trainer/events/event_1/RESULT.json').read_text())
+    if (result.get('status') != 'failed' or
+            result.get('error', {}).get('type') != 'ValueError' or
+            result.get('error', {}).get('message') != 'published draft changes semantic model configuration' or
+            not isinstance(records, list) or len(records) != 2 or
+            result.get('events') != [] or result.get('replays') != []):
+        raise ValueError('Not the qualified recoverable first-publication boundary')
+    for key, expected in _QUALIFICATION_PLAN.items():
+        if type(plan.get(key)) is not type(expected) or plan.get(key) != expected:
+            raise ValueError('Recovery qualification plan differs: ' + key)
+    config_path = Path(config_path).absolute()
+    expected_config_hash = plan.get('source_sha256', {}).get(str(config_path))
+    if expected_config_hash != hashlib.sha256(config_path.read_bytes()).hexdigest():
+        raise ValueError('Recovery configuration bytes differ from the failed run')
+    expected_event = {'event_id': 'event_1', 'status': 'completed', 'start_step': 0,
+        'end_step': 2, 'optimizer_steps': 2, 'passes': 2,
+        'response_presentations': 4, 'reduction': 'response_mean'}
+    for key, expected in expected_event.items():
+        if type(event.get(key)) is not type(expected) or event.get(key) != expected:
+            raise ValueError('Recovery first-event boundary differs: ' + key)
+    counters = event.get('counters', {})
+    for key, expected in {'global_step': 2, 'presentations': 4, 'completed_events': 1}.items():
+        if type(counters.get(key)) is not int or counters.get(key) != expected:
+            raise ValueError('Recovery trainer counters differ: ' + key)
+    ids = inputs.get('input_ids')
+    if (inputs.get('prompts') != PROMPTS or not isinstance(ids, list) or len(ids) != len(PROMPTS)
+            or any(not isinstance(row, list) or not row or
+                   any(type(token) is not int or token < 0 for token in row) for row in ids)):
+        raise ValueError('Recovery canonical prompt inputs differ')
+    for i, record in enumerate(records, 1):
+        path = prior/'loop/serving'/f'qualification_{i}.json'
+        if record != json.loads(path.read_text()):
+            raise ValueError('Saved serving record differs from original failure evidence')
+        expected_record = {'record_id': f'qualification_{i}', 'session_id': 'foundation',
+            'request_index': i, 'purpose': 'serving', 'max_new_tokens': 128,
+            'prompt_ids': ids[i-1]}
+        for key, expected in expected_record.items():
+            if type(record.get(key)) is not type(expected) or record.get(key) != expected:
+                raise ValueError('Recovery serving identity/input differs: ' + key)
+    expected_serving = {f'qualification_{i}{suffix}.json'
+        for i in (1, 2) for suffix in ('', '.costs')}
+    if any(path.name not in expected_serving for path in (prior/'loop/serving').iterdir()):
+        raise ValueError('Recovery would duplicate later serving work')
+    if ({path.name for path in (prior/'trainer/events').iterdir()} != {'event_1'} or
+            (prior/'trainer/events/event_1/FAILED.json').exists() or
+            (prior/'trainer/training_state.pending.pt').exists() or
+            any((prior/folder).exists() and any((prior/folder).iterdir())
+                for folder in ('loop/events', 'loop/evaluation'))):
+        raise ValueError('Recovery found partial or later event/evaluation work')
+    return records
+
+
+def check_publication(backend, trainer, summary, event):
+    import torch
+    actual=backend.draft.state_dict(); expected=trainer.bundle.draft_model.state_dict()
+    assert actual.keys()==expected.keys() and all(torch.equal(actual[k],expected[k].to(actual[k].device)) for k in actual), 'Exported/published parameters differ from trained draft'
+    summary.setdefault('publication_tensor_checks',[]).append({'event':event['event_id'],'tensors':len(actual),'all_equal':True})
+
+
+def check_restart(trainer, ctl, args, trainer_root, root):
+    import torch
+    before=trainer.state_fingerprint();atomic_json(root/'RESUME_BEFORE.json',before)
+    trainer.close();ctl.trainer=None;gc.collect();torch.cuda.empty_cache()
+    restored=SpecForgeEventTrainer(args.config,trainer_root,resume_state=trainer_root/'training_state.pt',reduction='response_mean')
+    try:
+        after=restored.state_fingerprint();atomic_json(root/'RESUME_AFTER.json',after)
+        if before['hashes']!=after['hashes']:raise ValueError('Full model/optimizer/RNG state changed across restart')
+    except BaseException:
+        restored.close()
+        raise
+    ctl.trainer=restored
+    return restored
+
+
+def run(args):
+    import torch
+    from accelerate.utils import set_seed
+    root=Path(args.output).absolute()
+    if root.exists(): raise ValueError('Qualification output must be new; preserve earlier attempts')
+    prior = Path(args.recover_publication_from).absolute() if args.recover_publication_from else None
+    retained = recovery_inputs(prior, args.config) if prior else []
+    root.mkdir(parents=True)
+    trainer_root = (prior or root)/'trainer'
+    loop_root = (prior or root)/'loop'
+    # Actual peak allocation: new+old full states, two HF exports, feedback and
+    # logs, plus 8 GiB reserve. Dependencies/models are admitted beforehand.
+    # The retained event1 state/export already occupy disk during recovery.
+    required=(1 if prior else 2)*14681000000+(1 if prior else 2)*2100000000+2*2**30+8*2**30
+    free=shutil.disk_usage(root).free
+    atomic_json(root/'STORAGE_ADMISSION.json',{'free_bytes':free,'required_bytes':required,'reserve_bytes':8*2**30})
+    if free<required: raise ValueError('Insufficient storage for atomic checkpoint overlap and reserve')
+    set_seed(17);torch.cuda.reset_peak_memory_stats()
+    planned=dict(_QUALIFICATION_PLAN)
+    source=Path(__file__).resolve().parent.parent
+    pinned_files=[*source.joinpath('online_feedback').glob('*.py'),source/'inference/dflash/model.py',Path(args.config)]
+    planned['source_sha256']={str(p):hashlib.sha256(p.read_bytes()).hexdigest() for p in pinned_files}
+    if prior:
+        planned['recovery']={'prior_run':str(prior),'reused_generations':2,'reused_optimizer_steps':2,
+            'new_generations':5,'new_optimizer_steps':2,'no_feedback_regeneration_or_retraining':True,
+            'prior_result_sha256':hashlib.sha256((prior/'RESULT.json').read_bytes()).hexdigest(),
+            'prior_plan_sha256':hashlib.sha256((prior/'PLAN.json').read_bytes()).hexdigest(),
+            'trainer_and_buffer_roots':str(prior)}
+    atomic_json(root/'PLAN.json',planned)
+    started=time.perf_counter();backend=None;trainer=None;summary={'status':'running','events':[],'replays':[],'serving':[]}
+    try:
+        backend=NativeDFlashBackend(args.target,args.draft,context_limit=2048,block_size=16)
+        # No re-rendering of generated answers: these five qualification cases
+        # are explicitly independent requests, not a multi-turn efficacy study.
+        inputs=[backend.render([{'role':'user','content':text}]) for text in PROMPTS]
+        atomic_json(root/'INPUTS.json',{'prompts':PROMPTS,'input_ids':inputs})
+        if prior and json.loads((prior/'INPUTS.json').read_text())['input_ids'] != inputs:
+            raise ValueError('Recovery prompt token IDs differ')
+        trainer=SpecForgeEventTrainer(args.config,trainer_root,
+            resume_state=trainer_root/'training_state.pt' if prior else None,reduction='response_mean')
+        ctl=OnlineController(backend,trainer,loop_root,buffer_capacity=2)
+        if prior:
+            summary['serving']=retained
+            event=ctl.recover_publication('event_1');summary['events'].append(event)
+            check_publication(backend,trainer,summary,event)
+            trainer=check_restart(trainer,ctl,args,trainer_root,root)
+            summary['resume_exact']=True
+            summary['recovery']=planned['recovery']
+            atomic_json(root/'PROGRESS.json',summary)
+        for t in range(2 if prior else 0,4):
+            record=ctl.serve(inputs[t],request_id=f'qualification_{t+1}',session_id='foundation',request_index=t+1,max_new_tokens=128)
+            summary['serving'].append(record)
+            if t%2==1:
+                event=ctl.update(f'event_{t//2+1}',2,passes=2);summary['events'].append(event)
+                check_publication(backend,trainer,summary,event)
+                atomic_json(root/'PROGRESS.json',summary)
+                if t==1:
+                    trainer=check_restart(trainer,ctl,args,trainer_root,root)
+                    summary['resume_exact']=True
+        # Updated generation provides a canonical reference, but is NOT feedback.
+        ref=backend.generate(inputs[4],max_new_tokens=128,request_id='heldout_updated',session_id='evaluation',request_index=1,purpose='evaluation',save_to=root/'loop'/'evaluation'/'heldout_updated.json')
+        summary['replays'].append({'label':'updated','record':ref,'output_equal':True})
+        summary['frozen_activation']=backend.publish(args.draft)
+        summary['replays'].append(ctl.evaluate(inputs[4],canonical_response_ids=ref['response_ids'],label='heldout_frozen',max_new_tokens=128))
+        summary['updated_activation']=backend.publish(summary['events'][-1]['training']['checkpoint_path'])
+        summary['replays'].append(ctl.evaluate(inputs[4],canonical_response_ids=ref['response_ids'],label='heldout_reloaded',max_new_tokens=128))
+        assert summary['replays'][-1]['record']['metadata']['verification_calls']==ref['metadata']['verification_calls'],'Reloaded draft did not reproduce verification counts'
+        assert trainer.status()['global_step']==4 and trainer.status()['presentations']==8
+        assert not ctl.buffer.pending()
+        assert len(summary['serving'])+len(summary['replays'])==7
+        summary['status']='qualified';summary['trainer_status']=trainer.status()
+        summary['limitations']=['Not an efficacy comparison or projected-target implementation.',
+          'Canonical teacher-feature replay adds measured preparation cost; this is not in-verifier feature reuse.',
+          'Single-process synchronous updates; serving caches are rebuilt per request.',
+          'No automatic scientific campaign, async serving, historical AdaFlash recipe, or multi-turn claim.']
+    except BaseException as error:
+        summary['status']='failed';summary['error']={'type':type(error).__name__,'message':str(error),'traceback':traceback.format_exc()}
+        raise
+    finally:
+        summary['wall_s']=time.perf_counter()-started
+        summary['peak_cuda_allocated_bytes']=torch.cuda.max_memory_allocated()
+        summary['peak_cuda_reserved_bytes']=torch.cuda.max_memory_reserved()
+        summary['free_bytes_after']=shutil.disk_usage(root).free
+        atomic_json(root/'RESULT.json',summary)
+        if trainer is not None: trainer.close()
+        print(json.dumps({'status':summary['status'],'wall_s':summary['wall_s'],'output':str(root)}),flush=True)
+
+
+def main():
+    p=argparse.ArgumentParser();p.add_argument('--target',required=True);p.add_argument('--draft',required=True)
+    p.add_argument('--recover-publication-from',help='Retained first-event publication failure; no response regeneration or retraining')
+    p.add_argument('--config',required=True);p.add_argument('--output',required=True);run(p.parse_args())
+if __name__=='__main__':main()

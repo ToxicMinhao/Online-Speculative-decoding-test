@@ -1,0 +1,361 @@
+"""CPU orchestration tests: native/model dependencies are replaced before import.
+
+These tests exercise the campaign driver, real file identities, storage guards,
+partial-work reconciliation and cleanup. They make no scientific API changes.
+"""
+from contextlib import contextmanager
+import copy
+import importlib.util
+import json
+from pathlib import Path
+import sys
+import tempfile
+from types import ModuleType, SimpleNamespace
+import unittest
+from unittest.mock import patch
+
+
+HERE = Path(__file__).resolve().parent
+
+
+def read(path):
+    return json.loads(Path(path).read_text())
+
+
+def write(path, value):
+    path = Path(path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(value, indent=2) + '\n')
+
+
+def module(name, **values):
+    result = ModuleType(name)
+    result.__dict__.update(values)
+    return result
+
+
+class Harness:
+    def __init__(self, root):
+        self.root, self.calls, self.trainers = Path(root), [], []
+        self.fail_feedback = None
+        self.fail_training = None
+        self.fail_evaluation = False
+        self.fail_backend_close = False
+        self.fail_trainer_close = False
+        self.tamper_pool = False
+        self.fail_preparation = False
+        self.fail_publication = False
+        self.backend = None
+        self.plan = dict(new_budget=dict(feedback=384, evaluation=768, generations=1152,
+            presentations=1536, optimizer_steps=768), stop_step=512, inherited_horizon=7424,
+            config=str(self.root/'config.yaml'), target='target', draft='released', worker_python='python',
+            eval_requests=[dict(request_id=f'eval_{i}', prompt_ids=[9000+i], panel_ordinal=i) for i in range(64)],
+            frozen_counts={f'eval_{i}': 1 for i in range(64)}, initial={}, windows=[])
+        (self.root/'config.yaml').write_text('unchanged qualified config\n')
+        for arm in ('O', 'K'):
+            state = self.root/'initial'/arm/'state.pt'
+            export = state.parent/'export'
+            export.mkdir(parents=True)
+            write(state, dict(arm=arm, step=128, presentations=256, events=[1]))
+            self.plan['initial'][arm] = dict(state=str(state), export=str(export))
+        for n in (2, 3, 4):
+            self.plan['windows'].append(dict(event_index=n, event_id=f'event_{n:03d}', requests=[
+                dict(request_id=f'train_{i:05d}', request_index=i+1, prompt_ids=[i+1], max_new_tokens=2048)
+                for i in range((n-1)*128, n*128)]))
+        write(self.root/'sealed/PLAN.json', self.plan)
+
+    def backend_class(self):
+        harness = self
+        class Backend:
+            def __init__(self, target, draft, **kwargs):
+                assert (target, draft) == ('target', 'released')
+                assert kwargs['context_limit'] == 4096 and kwargs['block_size'] == 16
+                assert kwargs['serving_gpu'] == '0'
+                self.loading_s, self.checkpoint_id, self.closed, self.feedback_count = .1, None, False, 0
+                harness.backend = self
+                harness.calls.append(('backend',))
+            def publish(self, checkpoint):
+                self.checkpoint_id = checkpoint
+                harness.calls.append(('publish', checkpoint))
+                return dict(errors=['bad publication'] if harness.fail_publication else [])
+            def check_weights(self, checkpoint):
+                harness.calls.append(('weights', checkpoint))
+                return dict(errors=[])
+            def generate(self, prompt, **kwargs):
+                harness.calls.append(('generate', kwargs['purpose'], kwargs['session_id'], self.checkpoint_id, kwargs['request_id']))
+                if kwargs['purpose'] == 'serving':
+                    self.feedback_count += 1
+                    if self.feedback_count == harness.fail_feedback:
+                        raise RuntimeError('native interrupted')
+                record = dict(record_id=kwargs['request_id'], prompt_ids=prompt, response_ids=[11, 99],
+                    checkpoint_id=self.checkpoint_id, purpose=kwargs['purpose'],
+                    metadata=dict(request_latency_s=.1, capture=dict(capture_host_s=.01,
+                        feature_persistence_s=.01, cache_maintenance_s=.001)))
+                write(kwargs['save_to'], record)
+                return record
+            def prepare_feedback(self, record, path):
+                harness.calls.append(('prepare', record['record_id'], self.checkpoint_id))
+                if harness.fail_preparation:
+                    return dict(status='ineligible_short_response')
+                path.write_bytes(record['record_id'].encode())
+                return dict(status='prepared', feature_path=str(path), teacher_preparation_s=.1, feature_persistence_s=.01)
+            def close(self):
+                self.closed = True
+                harness.calls.append(('backend_close',))
+                if harness.fail_backend_close:
+                    raise RuntimeError('backend cleanup failed')
+        return Backend
+
+    def trainer_class(self):
+        harness = self
+        class Trainer:
+            def __init__(self, config, output, *, resume_state, objective, reduction, ranking_lambda):
+                assert config == harness.plan['config'] and reduction == 'response_mean' and ranking_lambda == 0
+                self.state, self.output = read(resume_state), Path(output)
+                self.arm = {'osd': 'O', 'osd_first_error': 'K'}[objective]
+                assert self.state['arm'] == self.arm
+                self.n = self.state['events'][-1] + 1
+                self.output.mkdir(exist_ok=True)
+                self.closed = False
+                harness.trainers.append(self)
+                harness.calls.append(('resume', self.arm, self.n, self.state['step'], str(resume_state)))
+            def status(self):
+                return dict(global_step=self.state['step'], presentations=self.state['presentations'], closed=self.closed)
+            def train_event(self, event_id, features, *, passes, presentation_schedule):
+                assert passes == 2 and event_id == f'event_{self.n:03d}' and len(features) == 128
+                harness.calls.append(('train', self.arm, self.n, tuple(features), presentation_schedule))
+                if harness.fail_training == (self.arm, self.n):
+                    self.state['step'] += 3
+                    self.state['presentations'] += 7
+                    raise RuntimeError('training interrupted')
+                start = self.state['step']
+                self.state['step'] += 128
+                self.state['presentations'] += 256
+                self.state['events'].append(self.n)
+                state, export = self.output/'training_state.pt', self.output/'events'/event_id/'export'
+                export.mkdir(parents=True)
+                write(state, self.state)
+                result = dict(status='completed', event_id=event_id, objective={'O':'osd', 'K':'osd_first_error'}[self.arm],
+                    start_step=start, end_step=self.state['step'], optimizer_steps=128, response_presentations=256,
+                    full_state_path=str(state), export_path=str(export), features=list(features),
+                    records=[dict(record_id=Path(features[i%128]).stem, pass_index=i//128) for i in range(256)],
+                    costs=dict(training_s=.2), objective_work=dict(current_forward=256))
+                write(self.output/'events'/event_id/'RESULT.json', result)
+                if harness.tamper_pool and self.arm == 'O':
+                    Path(features[0]).write_bytes(b'changed')
+                return result
+            def close(self):
+                self.closed = True
+                harness.calls.append(('trainer_close', self.arm, self.n))
+                if harness.fail_trainer_close:
+                    raise RuntimeError('trainer cleanup failed')
+        return Trainer
+
+    def load_snapshot(self, state, export, *, objective, config_text, completed_event):
+        result = read(state)
+        assert result['arm'] == {'osd':'O', 'osd_first_error':'K'}[objective]
+        assert result['step'] == completed_event*128 and result['events'] == list(range(1, completed_event+1))
+        assert Path(export).is_dir() and config_text == 'unchanged qualified config\n'
+        return result, dict(status='passed')
+
+    def verify_live(self, trainer, state, *, receipt_path):
+        assert trainer.state == state
+        result = dict(status='passed')
+        write(receipt_path, result)
+        return result
+
+    def validate_receipt(self, result, *, event_number, objective, reference_schedule, trainer_status):
+        assert result['start_step'] == (event_number-1)*128 and result['end_step'] == event_number*128
+        assert result['objective'] == objective and trainer_status['global_step'] == event_number*128
+        if objective == 'osd_first_error':
+            assert reference_schedule is not None and result['features'] == reference_schedule['features']
+            assert result['records'] == reference_schedule['records']
+        else:
+            assert reference_schedule is None
+        return dict(status='passed')
+
+    def evaluate(self, backend, requests, checkpoints, root, *, frozen_counts):
+        assert all(t.closed for t in self.trainers)
+        root.mkdir()
+        n = int(root.name[-3:])
+        self.calls.append(('evaluate', n, copy.deepcopy(checkpoints)))
+        assert n in (2, 4) and set(checkpoints) == {'O', 'K'} and requests == self.plan['eval_requests']
+        count = 17 if self.fail_evaluation else 384
+        status = dict(status='failed' if self.fail_evaluation else 'completed', returned_generations=count,
+                      attempted_generations=count+int(self.fail_evaluation), unknown_generation_attempts=int(self.fail_evaluation))
+        for index in range(count):
+            arm = ('O','K')[index%2]
+            backend.checkpoint_id = checkpoints[arm]
+            backend.generate([9000+index//6], max_new_tokens=2048, request_id=str(index),
+                session_id='evaluation', request_index=index, purpose='evaluation', save_to=root/f'{index}.json')
+        write(root/'STATUS.json', status)
+        if self.fail_evaluation:
+            raise RuntimeError('evaluation interrupted')
+        return status
+
+    @contextmanager
+    def imported(self):
+        modules = {
+            'online_feedback.storage': module('online_feedback.storage', write_json=write),
+            'experiments.osd_components.protocol': module('experiments.osd_components.protocol',
+                publication_errors=lambda receipt, checkpoint: receipt['errors'],
+                weight_check_errors=lambda receipt, checkpoint: receipt['errors']),
+            'experiments.ok_continuation.evaluate': module('experiments.ok_continuation.evaluate', evaluate=self.evaluate),
+            'experiments.ok_continuation.resume': module('experiments.ok_continuation.resume', load_snapshot=self.load_snapshot,
+                verify_live_resume=self.verify_live, validate_event_receipt=self.validate_receipt),
+            'online_feedback.sglang_backend': module('online_feedback.sglang_backend', SGLangDFlashBackend=self.backend_class()),
+            'online_feedback.qualify_sglang': module('online_feedback.qualify_sglang', check_recipe=lambda config: self.calls.append(('recipe',config))),
+            'online_feedback.training': module('online_feedback.training', SpecForgeEventTrainer=self.trainer_class()),
+            'torch': module('torch', cuda=SimpleNamespace(reset_peak_memory_stats=lambda:None,
+                max_memory_allocated=lambda:0, max_memory_reserved=lambda:0)),
+        }
+        with patch.dict(sys.modules, modules):
+            spec = importlib.util.spec_from_file_location('continuation_campaign_tested', HERE/'campaign.py')
+            driver = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(driver)
+            with patch.object(driver.shutil, 'disk_usage', return_value=SimpleNamespace(free=10**12)):
+                yield driver
+
+
+class CampaignTests(unittest.TestCase):
+    def setUp(self):
+        self.temp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.temp.cleanup)
+        self.h = Harness(self.temp.name)
+
+    def status(self):
+        return read(self.h.root/'campaign_001/STATUS.json')
+
+    def test_full_budget_causal_pool_own_state_and_matched_schedule(self):
+        initial = {a:Path(r['state']).read_bytes() for a,r in self.h.plan['initial'].items()}
+        with self.h.imported() as driver:
+            driver.run(self.h.root)
+        status = self.status()
+        self.assertEqual((status['feedback_returned'],status['evaluation_returned'],status['optimizer_steps'],status['presentations']), (384,768,768,1536))
+        self.assertEqual(status['arm_counters'], {'O':512,'K':512})
+        self.assertEqual(status['events_completed'], [2,3,4])
+        self.assertEqual(status['status'], 'completed')
+        self.assertEqual([x[1] for x in self.h.calls if x[0]=='evaluate'], [2,4])
+        self.assertEqual(sum(x[0]=='generate' for x in self.h.calls), 1152)
+        training = [x for x in self.h.calls if x[0]=='train']
+        for n in (2,3,4):
+            ot, kt = [x for x in training if x[2]==n]
+            self.assertEqual((ot[1],kt[1]), ('O','K'))
+            self.assertEqual(ot[3],kt[3])
+            self.assertIsNone(ot[4])
+            self.assertEqual(kt[4]['objective'], 'osd')
+            collection = [x for x in self.h.calls if x[:3]==('generate','serving',f'event_{n:03d}')]
+            self.assertEqual(len(collection),128)
+            expected = self.h.plan['initial']['O']['export'] if n==2 else str(self.h.root/f'campaign_001/O/events/event_{n-1:03d}/export')
+            self.assertEqual({x[3] for x in collection},{expected})
+            self.assertLess(self.h.calls.index(collection[-1]),self.h.calls.index(ot))
+            if n>2:
+                previous_k_close = ('trainer_close','K',n-1)
+                self.assertLess(self.h.calls.index(previous_k_close),self.h.calls.index(collection[0]))
+        self.assertEqual([(x[1],x[2],x[3]) for x in self.h.calls if x[0]=='resume'],
+                         [(a,n,(n-1)*128) for n in (2,3,4) for a in ('O','K')])
+        for arm,row in self.h.plan['initial'].items():
+            self.assertEqual(Path(row['state']).read_bytes(),initial[arm])
+        self.assertTrue(self.h.backend.closed)
+        self.assertTrue(all(t.closed for t in self.h.trainers))
+
+    def test_existing_campaign_rejected_without_overwriting(self):
+        old=self.h.root/'campaign_001'; old.mkdir(); (old/'STATUS.json').write_text('retained')
+        with self.h.imported() as driver, self.assertRaises(FileExistsError): driver.run(self.h.root)
+        self.assertEqual((old/'STATUS.json').read_text(),'retained')
+        self.assertIsNone(self.h.backend)
+
+    def test_plan_rejects_event_one_repeat_duplicate_or_horizon_change(self):
+        with self.h.imported() as driver:
+            for mutation in ('event','duplicate','horizon'):
+                plan=copy.deepcopy(self.h.plan)
+                if mutation=='event': plan['windows'][0]['event_index']=1
+                elif mutation=='duplicate': plan['windows'][1]['requests'][0]=plan['windows'][0]['requests'][0]
+                else: plan['inherited_horizon']=512
+                with self.assertRaises(ValueError): driver.validate_plan(plan)
+
+    def test_feedback_interruption_visible_without_retry(self):
+        self.h.fail_feedback=3
+        with self.h.imported() as driver, self.assertRaisesRegex(RuntimeError,'native interrupted'): driver.run(self.h.root)
+        s=self.status()
+        self.assertEqual((s['feedback_attempted'],s['feedback_returned'],s['feedback_unknown'],s['feedback_unattempted']),(3,2,1,381))
+        self.assertEqual(s['optimizer_steps'],0)
+        self.assertFalse(self.h.trainers)
+        self.assertTrue(self.h.backend.closed)
+
+    def test_partial_training_steps_and_presentations_are_reconciled(self):
+        self.h.fail_training=('O',2)
+        with self.h.imported() as driver, self.assertRaisesRegex(RuntimeError,'training interrupted'): driver.run(self.h.root)
+        s=self.status()
+        self.assertEqual((s['optimizer_steps'],s['presentations']),(3,7))
+        self.assertEqual(s['arm_counters'],{'O':131,'K':128})
+        self.assertTrue(s['training_interrupted'])
+        self.assertEqual(len(self.h.trainers),1)
+        self.assertTrue(self.h.trainers[0].closed)
+
+    def test_partial_evaluation_counts_are_reconciled(self):
+        self.h.fail_evaluation=True
+        with self.h.imported() as driver, self.assertRaisesRegex(RuntimeError,'evaluation interrupted'): driver.run(self.h.root)
+        s=self.status()
+        self.assertEqual((s['evaluation_returned'],s['evaluation_attempted'],s['evaluation_unknown'],s['evaluation_unattempted']),(17,18,1,750))
+        self.assertEqual(s['events_completed'],[2])
+        self.assertEqual(s['feedback_returned'],128)
+        self.assertEqual(s['optimizer_steps'],256)
+
+    def test_training_failure_preserved_when_trainer_cleanup_also_fails(self):
+        self.h.fail_training=('O',2); self.h.fail_trainer_close=True
+        with self.h.imported() as driver, self.assertRaisesRegex(RuntimeError,'training interrupted'): driver.run(self.h.root)
+        root=self.h.root/'campaign_001/resume_002_O'
+        self.assertTrue((root/'FAILED.json').exists() and (root/'CLEANUP_ERROR.json').exists() and (root/'CLOSED.json').exists())
+        self.assertIn('training interrupted',self.status()['error'])
+        self.assertEqual(self.status()['optimizer_steps'],3)
+
+    def test_backend_cleanup_failure_preserves_primary_error(self):
+        self.h.fail_feedback=1; self.h.fail_backend_close=True
+        with self.h.imported() as driver, self.assertRaisesRegex(RuntimeError,'native interrupted'): driver.run(self.h.root)
+        self.assertIn('native interrupted',self.status()['error'])
+        self.assertIn('backend cleanup failed',self.status()['cleanup_error'])
+
+    def test_cleanup_failure_after_success_marks_campaign_failed(self):
+        self.h.fail_backend_close=True
+        with self.h.imported() as driver, self.assertRaisesRegex(RuntimeError,'backend cleanup failed'): driver.run(self.h.root)
+        self.assertEqual(self.status()['status'],'failed')
+        self.assertEqual(self.status()['evaluation_returned'],768)
+
+    def test_changed_shared_pool_stops_before_k_and_counts_o(self):
+        self.h.tamper_pool=True
+        with self.h.imported() as driver, self.assertRaisesRegex(ValueError,'Shared feedback pool changed'): driver.run(self.h.root)
+        self.assertEqual(len(self.h.trainers),1)
+        self.assertEqual(self.status()['optimizer_steps'],128)
+        self.assertEqual(self.status()['evaluation_returned'],0)
+
+    def test_ineligible_feedback_never_substituted_or_trained(self):
+        self.h.fail_preparation=True
+        with self.h.imported() as driver, self.assertRaisesRegex(ValueError,'Feedback ineligible'): driver.run(self.h.root)
+        self.assertEqual(self.status()['feedback_returned'],128)
+        self.assertEqual(len(self.h.trainers),0)
+        self.assertEqual(sum(x[0]=='prepare' for x in self.h.calls),1)
+
+    def test_bad_publication_prevents_any_feedback_generation(self):
+        self.h.fail_publication=True
+        with self.h.imported() as driver, self.assertRaisesRegex(RuntimeError,'publication failed'): driver.run(self.h.root)
+        self.assertEqual(self.status()['feedback_attempted'],0)
+        self.assertFalse(any(x[0]=='generate' for x in self.h.calls))
+
+    def test_storage_exact_admission_boundary_and_failure_receipt(self):
+        with self.h.imported() as driver:
+            p=self.h.root/'phase';p.mkdir()
+            result=driver.admit_phase(p,'first',rows=100,new_states=2,exports=2,overlap_states=1)
+            expected=100*(4096*6*2+12)+(3*3+2)*2097259104
+            self.assertEqual(result['tensor_bytes'],expected)
+            self.assertEqual(result['required_bytes'],int(expected*1.10)+12*2**30)
+            with patch.object(driver.shutil,'disk_usage',return_value=SimpleNamespace(free=result['required_bytes'])):
+                self.assertTrue(driver.admit_phase(p,'exact',rows=100,new_states=2,exports=2,overlap_states=1)['admitted'])
+            with patch.object(driver.shutil,'disk_usage',return_value=SimpleNamespace(free=result['required_bytes']-1)):
+                with self.assertRaisesRegex(RuntimeError,'Insufficient peak storage'):
+                    driver.admit_phase(p,'short',rows=100,new_states=2,exports=2,overlap_states=1)
+            self.assertFalse(read(p/'short_STORAGE.json')['admitted'])
+
+
+if __name__=='__main__':
+    unittest.main()

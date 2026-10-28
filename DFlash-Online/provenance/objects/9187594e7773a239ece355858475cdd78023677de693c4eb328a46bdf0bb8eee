@@ -1,0 +1,112 @@
+"""F5 walkthrough: two served responses, one real update, one updated response.
+
+Uses the same serving/buffer/trainer/controller as A800. Only GPU residency is
+phased for the 24 GiB Fenrir GPU. This is an engineering walkthrough, not a
+performance comparison. Requests are the first three independent qualification
+fixtures; they do not use a dataset's assistant answers.
+"""
+from pathlib import Path
+import argparse
+from datetime import datetime
+import json
+import shutil
+import time
+import traceback
+
+
+def preflight(config_path, output_root):
+    import yaml
+    config_path = Path(config_path).resolve()
+    cfg = yaml.safe_load(config_path.read_text())
+    target = Path(cfg['model']['target_model_path'])
+    draft = Path(cfg['model']['draft_checkpoint_path'])
+    for model in (target, draft):
+        if not (model/'config.json').is_file() or not list(model.glob('*.safetensors')):
+            raise ValueError(f'Missing local model files: {model}')
+    if cfg['training']['max_steps'] != 4 or cfg['training']['accumulation_steps'] != 2:
+        raise ValueError('Walkthrough keeps the qualified four-step horizon and accumulation two')
+    output_root = Path(output_root).absolute()
+    existing = output_root
+    while not existing.exists():
+        existing = existing.parent
+    # One committed state/export; no second update or checkpoint overlap here.
+    required = 14681000000 + 2100000000 + 2*2**30 + 8*2**30
+    free = shutil.disk_usage(existing).free
+    if free < required:
+        raise ValueError(f'Need {required} free bytes including 8 GiB reserve; have {free}')
+    return {'config': str(config_path), 'target': str(target), 'draft': str(draft),
+            'output_root': str(output_root), 'free_bytes': free,
+            'required_bytes': required, 'reserve_bytes': 8*2**30,
+            'native_requests': 3, 'updates': 1, 'optimizer_steps': 2,
+            'response_presentations': 4, 'full_schedule_steps': 4,
+            'max_new_tokens': 128, 'block_size': 16, 'context_limit': 2048,
+            'local_native_gpu_qualification': 'not yet performed'}
+
+
+def run(args):
+    plan = preflight(args.config, args.output_root)
+    if args.check_only:
+        print(json.dumps(plan, indent=2))
+        return
+    import torch
+    from accelerate.utils import set_seed
+    from .native import NativeDFlashBackend, atomic_json
+    from .controller import OnlineController
+    from .phase import PhasedEventTrainer
+    from .qualify import PROMPTS
+
+    if not torch.cuda.is_available():
+        raise RuntimeError('This walkthrough needs a free CUDA GPU')
+    free_gpu, _ = torch.cuda.mem_get_info()
+    if free_gpu < 22*2**30:
+        raise RuntimeError('Need at least 22 GiB free GPU memory; stop other training first')
+    root = Path(plan['output_root'])/datetime.now().strftime('%Y%m%d_%H%M%S_%f')
+    root.mkdir(parents=True, exist_ok=False)
+    atomic_json(root/'PLAN.json', plan)
+    set_seed(17)
+    started = time.perf_counter()
+    trainer = None
+    result = {'status': 'running', 'serving': [], 'updates': []}
+    try:
+        # First model-preparation breakpoint: inspect paths and loaded models.
+        backend = NativeDFlashBackend(plan['target'], plan['draft'],
+                                     context_limit=2048, block_size=16)
+        # This proxy constructs the trainer only after parking native models.
+        trainer = PhasedEventTrainer(args.config, root/'trainer', backend)
+        controller = OnlineController(backend, trainer, root/'loop', buffer_capacity=2)
+        for index, prompt in enumerate(PROMPTS[:3], 1):
+            input_ids = backend.render([{'role': 'user', 'content': prompt}])
+            record = controller.serve(input_ids, request_id=f'request_{index}',
+                session_id='f5_walkthrough', request_index=index, max_new_tokens=128,
+                collect_feedback=index <= 2)
+            result['serving'].append(record)
+            if index == 2:
+                # Two real generated responses; two passes, two optimizer steps.
+                result['updates'].append(controller.update('update_1', 2, passes=2))
+            atomic_json(root/'PROGRESS.json', result)
+        result['status'] = 'completed'
+        result['trainer'] = trainer.status()
+    except BaseException as error:
+        result['status'] = 'interrupted' if isinstance(error, KeyboardInterrupt) else 'failed'
+        result['error'] = {'type': type(error).__name__, 'message': str(error),
+                           'traceback': traceback.format_exc()}
+        raise
+    finally:
+        if trainer is not None:
+            trainer.close()
+        result['wall_s'] = time.perf_counter() - started
+        atomic_json(root/'RESULT.json', result)
+        print(f"{result['status']}: {root}", flush=True)
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--config', required=True)
+    parser.add_argument('--output-root', required=True)
+    parser.add_argument('--check-only', action='store_true')
+    args = parser.parse_args()
+    run(args)
+
+
+if __name__ == '__main__':
+    main()

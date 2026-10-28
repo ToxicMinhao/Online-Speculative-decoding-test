@@ -1,0 +1,217 @@
+"""Read-only compact-evidence audit; no Torch, remote access or model execution.
+
+Reuse the independently tested native trace and K-objective exposure checks from
+our completed continuation audit. G still uses the unchanged K objective.
+"""
+import importlib.util
+import json
+import math
+from pathlib import Path
+import re
+import sys
+
+HERE = Path(__file__).resolve().parent
+RESEARCH = HERE.parents[1]
+SOURCE = RESEARCH / 'dflash_ok_continuation_20261027/audit_results.py'
+SPEC = importlib.util.spec_from_file_location('retained_trace_audit', SOURCE)
+TRACE = importlib.util.module_from_spec(SPEC)
+SPEC.loader.exec_module(TRACE)
+load, lines, check, compare, near = TRACE.load, TRACE.lines, TRACE.check, TRACE.compare, TRACE.near
+ARMS = ('K', 'G')
+
+
+def training(evidence):
+    root = evidence.raw / 'campaign_001'
+    event = evidence.read(root / 'G/events/event_001/RESULT.json')
+    ordinary = load(RESEARCH / 'dflash_osd_one_event_20261025/final_review/raw/campaign_001/trainer/events/event_001/RESULT.json')
+    if event is None:
+        return {'status': 'unavailable'}
+    result = TRACE.training_exposure(event, 1, 'K', evidence.issues, ordinary)
+    result['arm'] = 'G (unchanged K objective)'
+    guard = evidence.read(root / 'GUARD_EVIDENCE.json')
+    if guard is None:
+        return result
+    check(event['prefix_guard'] == guard, evidence.issues, 'Persisted event/guard evidence identical')
+    work = guard['work']
+    compare(work, dict(current_response_forwards=256, h_backward_calls=256, k_backward_calls=256,
+        h_backward_attempted=256, h_backward_completed=256, h_backward_failed=0,
+        k_backward_attempted=256, k_backward_completed=256, k_backward_failed=0,
+        probe_response_forwards=18), evidence.issues, 'Exact guard main work')
+    steps = guard['steps']
+    check([s['optimizer_step'] for s in steps] == list(range(1,129)), evidence.issues, '128 global decisions')
+    for row in steps:
+        label = f"guard step {row['optimizer_step']}"
+        check(all(not isinstance(v,float) or math.isfinite(v) for v in row.values()), evidence.issues, label + ' finite')
+        active = row['native_directional_derivative'] > 0 and row['h_norm'] > 0
+        check(row['active'] == active, evidence.issues, label + ' activation branch')
+        coefficient = row['native_directional_derivative'] / row['h_norm']**2 if active else 0
+        check(near(row['projection_coefficient'],coefficient), evidence.issues, label + ' global coefficient')
+        check(row['rounding_violates_halfspace'] == (row['realized_directional_derivative'] > 0),
+              evidence.issues, label + ' rounded diagnostic')
+        if not active:
+            check(row['native_update_norm'] == row['projected_fp32_update_norm'] == row['realized_update_norm']
+                  and row['ideal_correction_norm'] == row['realized_correction_norm'] == 0,
+                  evidence.issues, label + ' inactive displacement untouched')
+    responses = guard['responses']
+    check([r['presentation'] for r in responses] == list(range(1,257)), evidence.issues, '256 H response records')
+    for row in responses:
+        denominator = math.log(2) * max(row['h_weight_sum'],1)
+        check(near(row['h_before'],row['h_numerator']/denominator,rel=2e-6,absolute=1e-8),
+              evidence.issues, 'Response-wide H normalization')
+    probes = guard['probes']
+    expected = {(s,c) for s in (1,64,128) for c in ('ordinary_K','projected_G','norm_scaled_K')}
+    check(len(probes)==9 and {(p['optimizer_step'],p['candidate']) for p in probes}==expected,
+          evidence.issues,'Exact three-step/three-candidate probe matrix')
+    for probe in probes:
+        check(len(probe['responses'])==2,evidence.issues,'Two response probes per candidate')
+        for offset,row in enumerate(probe['responses']):
+            index=(probe['optimizer_step']-1)*2+offset
+            check(row['h_before']==responses[index]['h_before'],evidence.issues,'Reuse pre-update H')
+            check(row['net_matching_prefix_change']==row['new_matching_prefix_tokens']-row['old_matching_prefix_tokens'],
+                  evidence.issues,'Probe prefix arithmetic')
+            check(0<=row['first_errors_repaired_with_prefix_intact']<=row['old_first_errors']<=row['blocks']
+                  and 0<=row['new_earlier_errors']<=row['blocks'],evidence.issues,'Probe counts/denominators')
+            check(all(not isinstance(v,float) or math.isfinite(v) for v in row.values()), evidence.issues,'Finite probe')
+    active = [s for s in steps if s['active']]
+    result['guard'] = dict(steps=len(steps),active=len(active),responses=len(responses),probe_responses=sum(len(p['responses']) for p in probes),
+        realized_positive_derivative=sum(s['realized_directional_derivative']>0 for s in active),
+        work=work,costs=guard['costs'])
+    result['costs'] = event['costs']
+    return result
+
+
+def evaluation(evidence):
+    root = evidence.raw / 'campaign_001/evaluation'
+    requests = evidence.read(root / 'REQUESTS.json')
+    protocol = evidence.read(root / 'PROTOCOL.json')
+    if requests is None or protocol is None:
+        return {'status':'unavailable'}
+    original=load(RESEARCH/'dflash_osd_one_event_20261025/sealed/MANIFEST.json')['eval_requests']
+    check(requests == [dict(r,panel_ordinal=r.get('panel_ordinal',i)) for i,r in enumerate(original)],evidence.issues,'Exact original64 requests/canonicalF')
+    checkpoints=protocol['checkpoints']
+    retained_k=load(RESEARCH/'dflash_first_error_execution_20261026/raw/campaign_001/K/events/event_001/RESULT.json')
+    trained_g=evidence.read(evidence.raw/'campaign_001/G/events/event_001/RESULT.json')
+    if trained_g:
+        check(checkpoints=={'K':retained_k['checkpoint_path'],'G':trained_g['checkpoint_path']},
+              evidence.issues,'Exact retained K1/new G export identities')
+    expected=[(r,n,a) for r in requests for n in range(3)
+              for a in (ARMS if (r['panel_ordinal']+n)%2==0 else ARMS[::-1])]
+    rows=lines(root/'MEASUREMENTS.jsonl')
+    check(len(rows)==384 and [(r['request_id'],r['repeat'],r['method']) for r in rows] ==
+          [(r['request_id'],n,a) for r,n,a in expected],evidence.issues,'Exact384 alternating slots')
+    valid_rows=[]
+    for serial,(row,(request,repeat,arm)) in enumerate(zip(rows,expected),1):
+        label=f"{request['panel_ordinal']:04d}_r{repeat}_{arm}"
+        record=evidence.read(root/(label+'.json'))
+        if record is None:continue
+        before=len(evidence.issues)
+        counts=TRACE.native_record(record,request,checkpoints[arm],capture=False,
+            session='prefix_guard_evaluation',label=label,index=request['panel_ordinal'],issues=evidence.issues)
+        TRACE.bind_native(evidence,record,serial)
+        compare(row,dict(**counts,label=label,validation_status='valid',valid_measurement=True,
+                         structural_errors=[],errors=[],finish_reason=request['finish_reason']),evidence.issues,label+' row')
+        for name in ('request_latency_s','native_generate_s'):
+            check(row[name]==record['metadata'][name],evidence.issues,label+' '+name)
+        if len(evidence.issues)==before:valid_rows.append(row)
+    summary=evidence.read(root/'report/SUMMARY.json')
+    cohort=[]
+    for request in requests:
+        own=[r for r in valid_rows if r['request_id']==request['request_id']]
+        complete=len(own)==6 and {(r['method'],r['repeat']) for r in own}=={(a,n) for a in ARMS for n in range(3)}
+        consistent=all(len({tuple(r[k] for k in TRACE.COUNTS) for r in own if r['method']==a})<=1 for a in ARMS)
+        check(consistent,evidence.issues,request['request_id']+' repeat counts')
+        if complete and consistent:cohort.extend(own)
+    totals={}
+    for arm in ARMS:
+        own=[r for r in cohort if r['method']==arm]
+        totals[arm]={k:sum(r[k] for r in own if r['repeat']==0) for k in TRACE.COUNTS}
+        totals[arm]['summed_mean_request_latency_s']=sum(r['request_latency_s'] for r in own)/3
+        if summary:
+            for name,value in totals[arm].items():check(near(value,summary[arm][name]),evidence.issues,'Pooled '+arm+'/'+name)
+    pairs=[(next(r for r in cohort if r['request_id']==req['request_id'] and r['method']=='K' and r['repeat']==0),
+            next(r for r in cohort if r['request_id']==req['request_id'] and r['method']=='G' and r['repeat']==0))
+           for req in requests if sum(r['request_id']==req['request_id'] for r in cohort)==6]
+    directions={name:sum((k['verification_calls']>g['verification_calls'] if name=='improved' else
+                         k['verification_calls']<g['verification_calls'] if name=='regressed' else
+                         k['verification_calls']==g['verification_calls']) for k,g in pairs)
+                for name in ('improved','regressed','tied')}
+    ratios={name:100*(1-totals['G'][key]/totals['K'][key]) if totals['K'][key] else None
+            for name,key in [('call_reduction_pct','verification_calls'),('request_time_reduction_pct','summed_mean_request_latency_s')]}
+    if summary:
+        for name,value in ratios.items():check(near(value,summary['comparisons']['G_vs_K'][name]),evidence.issues,'Pooled ratio '+name)
+        check(directions==summary['comparisons']['G_vs_K']['call_request_directions'],evidence.issues,'Request directions')
+    activations = lines(root / 'ACTIVATIONS.jsonl')
+    last = None
+    expected_activation = []
+    for request,repeat,arm in expected:
+        if arm != last:
+            expected_activation.append((request['panel_ordinal'], repeat, arm))
+            last = arm
+    check([(r['panel_ordinal'],r['repeat'],r['method']) for r in activations]==expected_activation,evidence.issues,'Publication schedule')
+    for row in activations:
+        check(not row['errors'],evidence.issues,'Publication errors')
+        TRACE.publication(row,checkpoints[row['method']],evidence.issues,'Publication')
+    for arm in ARMS:
+        record=evidence.read(root/f'WEIGHTS_{arm}.json')
+        if record:TRACE.tensor_equality(record['native_reply'],checkpoints[arm],evidence.issues,arm+' weights')
+    status=evidence.read(root/'STATUS.json')
+    if status:
+        compare(status,dict(status='completed',planned_generations=384,attempted_generations=384,
+            returned_generations=384,completed_valid_generations=384,invalid_generations=0,
+            unknown_generation_attempts=0,unattempted_generations=0,optimizer_steps=0,feedback_collections=0),evidence.issues,'Evaluation accounting')
+        check(near(status['activation_s'],sum(r['activation_s'] for r in activations)),evidence.issues,'Activation cost once')
+    return dict(valid_requests=len(pairs),returned=len(rows),native_blocks=evidence.native_blocks,
+                totals=totals,comparisons=ratios,directions=directions,publications=len(activations),execution=status)
+
+
+def audit(root=HERE):
+    root = Path(root)
+    raw = root / 'raw'
+    evidence = TRACE.Evidence(raw)
+    retrieval=evidence.read(raw/'RETRIEVAL_MANIFEST.json')
+    if retrieval:
+        for name,expected in retrieval.items():
+            if not (raw/name).is_file():
+                evidence.missing.append(str(raw / name))
+                continue
+            actual=TRACE.identity(raw/name)
+            check(actual['bytes']==expected.get('bytes',expected.get('size')) and actual['sha256']==expected['sha256'],evidence.issues,'Retrieval '+name)
+    seal=evidence.read(raw/'sealed/SEAL.json')
+    plan=evidence.read(raw/'sealed/PLAN.json')
+    if seal and plan:
+        bindings={plan['ordinary_receipt']: RESEARCH/'dflash_osd_one_event_20261025/final_review/raw/campaign_001/trainer/events/event_001/RESULT.json',
+                  plan['manifest']: RESEARCH/'dflash_osd_one_event_20261025/sealed/MANIFEST.json',
+                  plan['k_receipt']: RESEARCH/'dflash_first_error_execution_20261026/raw/campaign_001/K/events/event_001/RESULT.json'}
+        for remote,local in bindings.items():
+            check(TRACE.identity(local)==seal['files'][remote],evidence.issues,'Original input binding '+remote)
+    for name in ('PREFLIGHT.json','POSTFLIGHT.json'):
+        receipt=evidence.read(raw/name)
+        if receipt and seal:check(receipt['status']=='passed' and receipt['files_checked']==len(seal['files']),evidence.issues,name+' source integrity')
+    status=evidence.read(raw/'campaign_001/STATUS.json')
+    costs=evidence.read(raw/'campaign_001/COSTS.json')
+    if status:
+        compare(status,dict(status='completed',main_optimizer_steps=128,main_presentations=256,
+            new_qualification_optimizer_steps=0,new_qualification_presentations=0,new_feedback_generations=0),evidence.issues,'Main budget')
+    if costs:
+        check(costs['new_qualification_optimizer_steps']==0,evidence.issues,'No new temporary steps')
+        compare(costs['startup'],dict(status='passed',optimizer_steps=0,response_evaluations=2,backwards=2,
+            exact_initial_state_restored=True),evidence.issues,'New zero-step startup')
+        check(costs['reused_qualification']['historical_only'] and not costs['reused_qualification']['included_in_current_campaign_wall'],evidence.issues,'Historical qualification separate')
+    train=evidence.section('Training',lambda:training(evidence))
+    serving=evidence.section('Evaluation',lambda:evaluation(evidence))
+    if costs and train.get('costs'):
+        check(train['costs']==costs['event'],evidence.issues,'Event cost receipt')
+        check(costs['guard']['costs']['probes_s'] <= costs['event']['training_s'] <= costs['event_wall_s'] <= costs['actual_campaign_wall_s'],evidence.issues,'Nested timers not additive')
+    result=dict(status='passed' if not evidence.issues and not evidence.missing else 'failed_or_incomplete',
+        issues=evidence.issues,missing=evidence.missing,verified_retrieved_files=len(retrieval or {}),
+        training=train,evaluation=serving,costs=costs,
+        scope='Read-only compact evidence; no tensor reload or new experiment. Active rounded violations are reported, not rejected.',
+        historical_temporary_steps=5,new_temporary_steps=0)
+    (root/'FINAL_AUDIT.json').write_text(json.dumps(result,indent=2,allow_nan=False)+'\n')
+    return result
+
+
+if __name__=='__main__':
+    result=audit(sys.argv[1] if len(sys.argv)>1 else HERE)
+    print(json.dumps({k:v for k,v in result.items() if k not in ('training','evaluation','costs')},indent=2))
+    sys.exit(0 if result['status']=='passed' else 1)

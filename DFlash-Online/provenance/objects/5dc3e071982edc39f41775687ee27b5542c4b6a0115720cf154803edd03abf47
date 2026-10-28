@@ -1,0 +1,126 @@
+"""Two saved target paths, one unchanged model, no new answers or training."""
+import copy
+import json
+from pathlib import Path
+import time
+
+import torch
+import transformers
+from transformers import AutoConfig, AutoModelForCausalLM, AutoTokenizer
+from dflash.model import _make_cache, _crop_to
+from online_feedback.native_replay import replay_frozen_target
+
+ROOT = Path(__file__).parent
+RUN = ROOT.parent / 'recovery_001/campaign_002/sharegpt'
+MODELS = Path('/data/sources/minhao/models/qwen3_dflash_foundation_20261022')
+START = time.perf_counter()
+
+
+def write(name, value):
+    (ROOT / name).write_text(json.dumps(value, indent=2, allow_nan=False) + '\n')
+
+
+def versions(model):
+    return {name: (id(value), value._version, value.requires_grad)
+            for name, value in model.named_parameters()}
+
+
+class CaptureFinal:
+    """Observe the final verification call without changing its model arguments."""
+
+    def __init__(self, model, record):
+        self.model = model
+        self.config = model.config
+        self.calls = 0
+        self.last_call = 1 + len(record['metadata']['trace'])
+        self.final = record['metadata']['trace'][-1]
+        self.prompt_length = len(record['prompt_ids'])
+        self.row = len(record['response_ids']) - 2 - self.final['output_start']
+
+    def __call__(self, *args, **kwargs):
+        output = self.model(*args, **kwargs)
+        self.calls += 1
+        if self.calls == self.last_call:
+            self.logits = output.logits[0, self.row].detach().cpu()
+            # Existing prefix entries are unchanged by append; crop a copy back
+            # to the state before this final block for one identical-call repeat.
+            self.cache_before = copy.deepcopy(kwargs['past_key_values'])
+            _crop_to(self.cache_before, self.prompt_length + self.final['output_start'])
+        return output
+
+
+def describe(logits, tokenizer):
+    scores = logits.float()
+    top = scores.topk(8)
+    maximum = scores.max()
+    tied = (scores == maximum).nonzero().flatten().tolist()
+    return {
+        'native_dtype': str(logits.dtype), 'argmax': int(scores.argmax()),
+        'top': [{'id': int(i), 'text': tokenizer.decode([int(i)]), 'logit': float(v)}
+                for i, v in zip(top.indices, top.values)],
+        'maximum_tied_ids': tied,
+        'tags_logit': float(scores[9492]), 'users_logit': float(scores[3847]),
+        'tags_minus_users': float(scores[9492] - scores[3847]),
+        'top_two_gap': float(top.values[0] - top.values[1]),
+        'finite': bool(torch.isfinite(scores).all()),
+    }
+
+
+result = {'status': 'running', 'arms': {}, 'torch': torch.__version__,
+          'transformers': transformers.__version__, 'new_generated_answers': 0,
+          'training_steps': 0, 'precision_changed': False}
+write('RESULT.json', result)
+try:
+    torch.manual_seed(17)
+    torch.cuda.set_device(0)
+    target = AutoModelForCausalLM.from_pretrained(
+        MODELS / 'target', attn_implementation='sdpa', dtype=torch.bfloat16,
+        local_files_only=True).to('cuda:0').eval().requires_grad_(False)
+    tokenizer = AutoTokenizer.from_pretrained(MODELS / 'target', local_files_only=True)
+    layers = AutoConfig.from_pretrained(MODELS / 'draft', local_files_only=True).dflash_config['target_layer_ids']
+    state_before = versions(target)
+    result['load_s'] = time.perf_counter() - START
+    vectors = {}
+    with torch.no_grad():
+        for arm in ('F', 'P'):
+            record = json.loads((RUN / arm / 'records/sharegpt_A_07.json').read_text())
+            capture = CaptureFinal(target, record)
+            features, last_hidden, labels, evidence = replay_frozen_target(
+                capture, layers, record, torch.device('cuda:0'), ROOT / (arm + '_FAILURE.json'))
+            del features, last_hidden
+            assert labels == record['response_ids']
+            final = capture.final
+            tokens = [final['anchor_token']] + final['draft_tokens']
+            start = capture.prompt_length + final['output_start']
+            repeated = target(torch.tensor([tokens],device='cuda:0'),
+                              position_ids=torch.arange(start,start+len(tokens),device='cuda:0').unsqueeze(0),
+                              past_key_values=capture.cache_before,use_cache=True,
+                              output_hidden_states=len(tokens)>1)
+            repeated_logits = repeated.logits[0,capture.row].detach().cpu()
+            vectors[arm] = capture.logits
+            result['arms'][arm] = {
+                'replay': evidence, 'saved_final_token': record['response_ids'][-1],
+                'final': describe(capture.logits,tokenizer),
+                'identical_call_repeat': describe(repeated_logits,tokenizer),
+                'repeat_logits_bitwise_equal': torch.equal(capture.logits,repeated_logits),
+                'target_forwards': capture.calls + 1,
+                'parameter_identity_version_unchanged': versions(target) == state_before,
+            }
+            write('RESULT.json', result)
+            print(arm, json.dumps(result['arms'][arm]),flush=True)
+            del repeated, capture
+    delta=vectors['F'].float()-vectors['P'].float()
+    result['difference']={'max_absolute_logit_difference':float(delta.abs().max()),
+                          'rms_logit_difference':float(delta.square().mean().sqrt()),
+                          'nonidentical_logits':int((delta!=0).sum())}
+    torch.save(vectors,ROOT/'final_native_logits.pt')
+    result['target_forwards']=sum(x['target_forwards'] for x in result['arms'].values())
+    assert result['target_forwards']==443
+    result['status']='completed'
+except BaseException as error:
+    result.update(status='failed',error_type=type(error).__name__,error=str(error))
+    raise
+finally:
+    result['wall_s']=time.perf_counter()-START
+    result['peak_allocated_bytes']=torch.cuda.max_memory_allocated()
+    write('RESULT.json',result)

@@ -1,0 +1,136 @@
+"""Capture-disabled four-arm replays after all training has stopped."""
+
+from pathlib import Path
+import time
+
+from online_feedback.storage import write_json
+from experiments.osd_components.run import append_json
+from experiments.osd_persistent.run import score_record
+from .protocol import (
+    ARMS, COMPARISONS, REPEATS, QUALIFICATION_REQUESTS, method_order, validate_inputs,
+    publication_errors, weight_check_errors, record_errors, measurement_errors,
+    repeat_errors,
+)
+from .report import write_results
+
+
+def evaluate(backend, requests, checkpoints, root, *, ordinary_counts,
+             qualification_requests=QUALIFICATION_REQUESTS, arms=ARMS, comparisons=COMPARISONS):
+    """No trainer, buffer or feedback path is accessible to benchmark replays."""
+    validate_inputs(requests, checkpoints, ordinary_counts, arms=arms)
+    if not comparisons or any(candidate not in arms or reference not in arms or candidate == reference
+                              for candidate, reference in comparisons):
+        raise ValueError('Comparison pairs must name different evaluated arms')
+    checkpoints = {method: str(path) for method, path in checkpoints.items()}
+    root = Path(root)
+    root.mkdir(parents=True, exist_ok=False)
+    rows, checked_arms = [], set()
+    published = False
+    active_attempt = None
+    started = time.perf_counter()
+    progress = {
+        'status': 'running', 'planned_generations': len(requests) * len(arms) * REPEATS,
+        'attempted_generations': 0, 'returned_generations': 0,
+        'unknown_generation_attempts': 0, 'qualification': 'pending',
+        'qualification_requests': qualification_requests,
+        'activation_s': 0.0, 'weight_validation_s': 0.0,
+        'optimizer_steps': 0, 'feedback_collections': 0,
+    }
+    write_json(root / 'PROTOCOL.json', {
+        'arms': list(arms), 'comparisons': [list(pair) for pair in comparisons],
+        'repeats': REPEATS, 'checkpoints': checkpoints,
+        'ordinary_counts': ordinary_counts, 'rotation': '(panel_ordinal + repeat) % 4',
+        'count_trajectory_repeat': 0, 'capture': False,
+    })
+    try:
+        for request in requests:
+            ordinal = request['panel_ordinal']
+            request_rows = []
+            for repeat in range(REPEATS):
+                for method in method_order(ordinal, repeat, arms=arms):
+                    checkpoint = checkpoints[method]
+                    if not published or backend.checkpoint_id != checkpoint:
+                        receipt = backend.publish(checkpoint)
+                        errors = publication_errors(receipt, checkpoint)
+                        append_json(root / 'ACTIVATIONS.jsonl', {
+                            'panel_ordinal': ordinal, 'repeat': repeat, 'method': method,
+                            **receipt, 'errors': errors,
+                        })
+                        progress['activation_s'] += receipt['activation_s']
+                        if errors:
+                            raise RuntimeError('Native publication failed: ' + str(errors))
+                        published = True
+                    if method not in checked_arms:
+                        validation_start = time.perf_counter()
+                        equality = backend.check_weights(checkpoint)
+                        elapsed = time.perf_counter() - validation_start
+                        errors = weight_check_errors(equality, checkpoint)
+                        write_json(root / f'WEIGHTS_{method}.json', {
+                            'native_reply': equality, 'errors': errors, 'validation_s': elapsed,
+                        })
+                        progress['weight_validation_s'] += elapsed
+                        if errors:
+                            raise RuntimeError('Native tensor equality failed: ' + str(errors))
+                        checked_arms.add(method)
+                    label = f'{ordinal:04d}_r{repeat}_{method}'
+                    active_attempt = {'label': label, 'request_id': request['request_id']}
+                    progress['attempted_generations'] += 1
+                    write_json(root / 'STATUS.json', {**progress, 'active_attempt': active_attempt})
+                    record_path = root / f'{label}.json'
+                    record = backend.generate(
+                        request['prompt_ids'], max_new_tokens=request['max_new_tokens'],
+                        request_id=label, session_id='prefix_ranking_evaluation',
+                        request_index=ordinal, purpose='evaluation', save_to=record_path,
+                    )
+                    progress['returned_generations'] += 1
+                    active_attempt = None
+                    # Keep the backend's complete native trace before validating or scoring it.
+                    write_json(record_path, record)
+                    try:
+                        errors = record_errors(record, request, method, checkpoint, ordinary_counts)
+                        row = score_record(record, request_id=request['request_id'], repeat=repeat, method=method)
+                        row.update(finish_reason=record['finish_reason'],
+                                   cache_maintenance_s=record['metadata']['capture']['cache_maintenance_s'])
+                    except (KeyError, TypeError, ValueError, IndexError) as error:
+                        errors = ['malformed_native_record: ' + str(error)]
+                        row = {'request_id': request['request_id'], 'repeat': repeat,
+                               'method': method, 'checkpoint_id': checkpoint}
+                    row.update(panel_ordinal=ordinal, original_index=request['original_index'],
+                               record_path=str(record_path))
+                    errors.extend(measurement_errors(row, request, checkpoint))
+                    errors.extend(repeat_errors([*request_rows, row], method))
+                    errors = sorted(set(errors))
+                    row.update(valid_measurement=not errors, errors=errors)
+                    append_json(root / 'MEASUREMENTS.jsonl', row)
+                    rows.append(row)
+                    request_rows.append(row)
+                    write_json(root / f'{label}_VALIDATION.json', {
+                        'request_id': request['request_id'], 'method': method, 'repeat': repeat,
+                        'valid': not errors, 'errors': errors,
+                    })
+                    if errors:
+                        raise RuntimeError('Evaluation correctness failed: ' + str(errors))
+            if ordinal + 1 == qualification_requests:
+                progress['qualification'] = 'passed'
+                write_json(root / 'QUALIFICATION.json', {
+                    'status': 'passed', 'requests': qualification_requests,
+                    'generations': progress['returned_generations'],
+                    'arms_with_native_equality': sorted(checked_arms), 'performance_win_required': False,
+                })
+            write_json(root / 'STATUS.json', progress)
+        progress['status'] = 'completed'
+    except BaseException as error:
+        progress.update(status='failed', error_type=type(error).__name__, error=str(error))
+        if progress['qualification'] == 'pending':
+            progress['qualification'] = 'incomplete'
+        progress['unknown_generation_attempts'] = int(active_attempt is not None)
+        raise
+    finally:
+        progress['unattempted_generations'] = progress['planned_generations'] - progress['attempted_generations']
+        progress['interrupted_attempt'] = active_attempt
+        progress['evaluation_wall_s'] = time.perf_counter() - started
+        write_json(root / 'STATUS.json', progress)
+        write_results(rows, requests, root / 'report', checkpoints=checkpoints,
+                      ordinary_counts=ordinary_counts, execution=progress,
+                      arms=arms, comparisons=comparisons)
+    return progress

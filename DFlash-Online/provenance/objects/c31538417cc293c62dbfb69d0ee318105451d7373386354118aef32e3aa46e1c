@@ -1,0 +1,94 @@
+"""CPU-only comparison of archived O, current O, and disabled U/P objectives.
+
+Uses tiny synthetic DFlash fixtures; does not load released weights or GPU state.
+The actual qualified GPU runtime remains a separate unresolved gate.
+"""
+import copy
+import hashlib
+import importlib.util
+import json
+from pathlib import Path
+from unittest.mock import patch
+
+import torch
+
+from online_feedback.objective import TargetObjectiveModel
+from online_feedback.optimizer import DirectBF16AdamW
+from online_feedback.qualify import assert_state_equal
+from online_feedback.rng import capture_rng, restore_rng
+from test_objective_integration import tiny_author, parameter_gradients
+from test_osd_objective import osd_batch
+
+
+ROOT = Path(__file__).resolve().parents[1]
+BEFORE = ROOT.parent / 'dflash_prefix_ranking_implementation_20261025/before/online_feedback/objective.py'
+
+
+def main():
+    torch.set_num_threads(1)
+    spec = importlib.util.spec_from_file_location('online_feedback._archived_objective', BEFORE)
+    previous = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(previous)
+    author = tiny_author(dtype=torch.bfloat16)
+    batch = osd_batch(author)
+    torch.manual_seed(17)
+    rng = capture_rng()
+    expected = None
+    checks = []
+    for label, cls, objective in (
+        ('archived_O', previous.TargetObjectiveModel, 'osd'),
+        ('current_O', TargetObjectiveModel, 'osd'),
+        ('current_U_lambda0', TargetObjectiveModel, 'osd_uniform'),
+        ('current_P_lambda0', TargetObjectiveModel, 'osd_prefix'),
+    ):
+        options = {} if label == 'archived_O' else {'ranking_lambda': 0.0, 'eos_token_ids': (28,)}
+        model = cls(copy.deepcopy(author), objective, loss_precision='bfloat16', **options)
+        optimizer = DirectBF16AdamW(model.draft_model)
+        restore_rng(rng)
+        model.begin_event()
+        assert model.reference is None
+        draws, losses = [], []
+        sampler = model._sample_anchor_positions
+
+        def observed_sampler(*args, **kwargs):
+            result = sampler(*args, **kwargs)
+            draws.append(tuple(t.clone() for t in result))
+            return result
+
+        with patch.object(model, '_sample_anchor_positions', side_effect=observed_sampler):
+            for _ in range(2):
+                loss, accuracy, metrics = model(**batch)
+                losses.append((loss.detach(), accuracy.detach(), metrics['loss_terms'][1]))
+                (loss / 2).backward()
+        gradients = parameter_gradients(model)
+        norm = optimizer.step()
+        state = {
+            'losses': losses, 'anchors': draws, 'gradients': gradients,
+            'parameters': copy.deepcopy(model.draft_model.state_dict()),
+            'adam': copy.deepcopy(optimizer.state_dict()), 'rng': capture_rng(), 'norm': norm,
+        }
+        if expected is None:
+            expected = state
+        else:
+            assert_state_equal(state, expected, label)
+        checks.append({'label': label, 'exactly_matches_archived_O': True,
+                       'sample_draws': len(draws), 'reference_created': model.reference is not None,
+                       'ranking_enabled': getattr(model, 'ranking_enabled', False),
+                       'loss_dtype': str(model.loss_dtype), 'gradient_tensors': len(gradients)})
+        model.end_event()
+
+    seal = json.loads((ROOT / 'SEAL.json').read_text())['source_sha256']
+    matches = {name: hashlib.sha256((ROOT / 'worktree' / name).read_bytes()).hexdigest() == digest
+               for name, digest in seal.items()}
+    assert all(matches.values())
+    assert not torch.cuda.is_initialized()
+    result = {'status': 'passed', 'scope': 'CPU tiny eager-attention fixture; not GPU qualification',
+              'comparisons': checks, 'failed_run_source_snapshot_matches': len(matches),
+              'cuda_initialized': False, 'production_modified': False,
+              'qualification_restarted': False, 'comparison': 'exact equality; no tolerance change'}
+    (ROOT / 'code_recheck/CPU_SHARED_PATH.json').write_text(json.dumps(result, indent=2) + '\n')
+    print(json.dumps(result, indent=2))
+
+
+if __name__ == '__main__':
+    main()
