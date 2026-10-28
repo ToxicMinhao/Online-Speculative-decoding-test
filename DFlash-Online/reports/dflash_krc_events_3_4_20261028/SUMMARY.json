@@ -1,0 +1,1471 @@
+{
+  "status": {
+    "status": "completed",
+    "phase": "finished",
+    "global_optimizer_step": 512,
+    "new_optimizer_steps": 256,
+    "new_presentations": 512,
+    "new_feedback_generations": 0,
+    "new_qualification_optimizer_steps": 0,
+    "automatic_retry": false,
+    "events": {
+      "event_003": {
+        "status": "completed",
+        "checkpoint": "/data/sources/minhao/runs/dflash_krc_events_3_4_20261028/campaign_001/KRC/events/event_003/export",
+        "full_state_path": "/data/sources/minhao/runs/dflash_krc_events_3_4_20261028/campaign_001/KRC/events/event_003/training_state.pt",
+        "global_step": 384
+      },
+      "event_004": {
+        "status": "completed",
+        "checkpoint": "/data/sources/minhao/runs/dflash_krc_events_3_4_20261028/campaign_001/KRC/events/event_004/export",
+        "full_state_path": "/data/sources/minhao/runs/dflash_krc_events_3_4_20261028/campaign_001/KRC/events/event_004/training_state.pt",
+        "global_step": 512
+      }
+    },
+    "panels": {
+      "development": {
+        "status": "completed",
+        "planned_generations": 576,
+        "attempted_generations": 576,
+        "returned_generations": 576,
+        "qualification": "passed",
+        "qualification_requests": 8,
+        "activation_s": 954.5587491244078,
+        "weight_validation_s": 11.152085369452834,
+        "optimizer_steps": 0,
+        "feedback_collections": 0,
+        "automatic_retry": false,
+        "completed_valid_generations": 576,
+        "invalid_generations": 0,
+        "pending_canonical_generations": 0,
+        "unknown_generation_attempts": 0,
+        "unattempted_generations": 0,
+        "interrupted_attempt": null,
+        "evaluation_wall_s": 1434.8023591600358
+      },
+      "additional": {
+        "status": "completed",
+        "planned_generations": 576,
+        "attempted_generations": 576,
+        "returned_generations": 576,
+        "qualification": "not_required_prior_panel_gate",
+        "qualification_requests": 0,
+        "activation_s": 963.3853192757815,
+        "weight_validation_s": 11.341706017032266,
+        "optimizer_steps": 0,
+        "feedback_collections": 0,
+        "automatic_retry": false,
+        "completed_valid_generations": 576,
+        "invalid_generations": 0,
+        "pending_canonical_generations": 0,
+        "unknown_generation_attempts": 0,
+        "unattempted_generations": 0,
+        "interrupted_attempt": null,
+        "evaluation_wall_s": 1460.4717540126294
+      }
+    },
+    "execution_source": {
+      "execution_git_commit": "11b7718a04416a89025a6df69c0c33e558e5fe1b",
+      "repository": "https://github.com/ToxicMinhao/Online-Speculative-decoding-test",
+      "branch": "codex/krc-events-3-4-20261028",
+      "dirty_files": [],
+      "working_source": "/data/sources/minhao/DFlash-Online",
+      "source_subdirectory": "DFlash-Online",
+      "additions": {
+        "experiments/krc_events_3_4/README.md": {
+          "bytes": 2454,
+          "sha256": "14ad4f48deb9b5db0faf65b7ceeeb25bed6f713d39eeb8f5abdf7b5249c50cfb"
+        },
+        "experiments/krc_events_3_4/__init__.py": {
+          "bytes": 75,
+          "sha256": "e579252ec43588e261566f612069ddf44622ad215e5b23fc170ec27bf260ca4c"
+        },
+        "experiments/krc_events_3_4/campaign.py": {
+          "bytes": 16564,
+          "sha256": "7cbcbfcc2696459d5b2d6093e9609536d83f3a8447d90b47a750d9ba6db47922"
+        },
+        "experiments/krc_events_3_4/evaluate.py": {
+          "bytes": 24370,
+          "sha256": "5ecf7f5ed66c5411d69b1d229c605b79120b95bb85a5fe10d907e93cf7b1b00d"
+        },
+        "experiments/krc_events_3_4/evaluation_protocol.py": {
+          "bytes": 6097,
+          "sha256": "68ae90097fee1298547d1301e9b64afaf97961fcac3d3d0e3bd26c3e4cb0aa39"
+        },
+        "experiments/krc_events_3_4/protocol.py": {
+          "bytes": 4221,
+          "sha256": "3911fbe548a05a3bcc6da054540ac9b1ef23e810ab9a8abc78eb19c4c45d95df"
+        },
+        "experiments/krc_events_3_4/test_campaign.py": {
+          "bytes": 21684,
+          "sha256": "f4abfaac11a3bca2621b621ec2f71e2c1e717099dd7d6e3a350e77300f520f54"
+        },
+        "experiments/krc_events_3_4/test_evaluate.py": {
+          "bytes": 15780,
+          "sha256": "9b9746c42f96439366ab92f8d0c2743d6a15b97c8306e8f72b4ce9e218f9d6f9"
+        },
+        "online_feedback/krc_late_continuation.py": {
+          "bytes": 14733,
+          "sha256": "76f3b4886567b557076e111a3dce145cc13a731b8fe4f214445a339308d442ea"
+        },
+        "provenance/run_tools/dflash_krc_events_3_4_20261028/audit_results.py": {
+          "bytes": 48158,
+          "sha256": "406721909066597591b21a450dc019684b64e45fd922cf32240361b157902b4f"
+        },
+        "provenance/run_tools/dflash_krc_events_3_4_20261028/deduplicate_storage.py": {
+          "bytes": 2847,
+          "sha256": "323478e1a021416b919708bf5978bb97fa8832e09b68570bf4babaf889c0e755"
+        },
+        "provenance/run_tools/dflash_krc_events_3_4_20261028/preflight.py": {
+          "bytes": 4066,
+          "sha256": "50a20654222004f6144388e2c91d0fbd9a6b12f76afe8bf18eec7314e2beb5a8"
+        },
+        "provenance/run_tools/dflash_krc_events_3_4_20261028/prepare_remote.py": {
+          "bytes": 16472,
+          "sha256": "2020bf7abd696ca8b884679058870e155fe0d3838d017ab7860ba6caab774f93"
+        },
+        "provenance/run_tools/dflash_krc_events_3_4_20261028/run_campaign.sh": {
+          "bytes": 1921,
+          "sha256": "006956c934008ecbe3d8ca583dd491d665411a3d64f0b5b731089742fc6e09c6"
+        },
+        "provenance/run_tools/dflash_krc_events_3_4_20261028/supervise.sh": {
+          "bytes": 411,
+          "sha256": "f3c0df46246ecdb389adddd0a06a14a9d5e274a219056a472b3dcb08fa17850e"
+        },
+        "provenance/run_tools/dflash_krc_events_3_4_20261028/test_audit_results.py": {
+          "bytes": 7314,
+          "sha256": "2eb07adb68902f4247ec1a425b8825e8ea02578863501767fda630897840db4b"
+        },
+        "provenance/run_tools/dflash_krc_events_3_4_20261028/tests_prepare.py": {
+          "bytes": 16589,
+          "sha256": "4758525a4d00dcbec908fc6cb888b3d23532d9e4978ae37222ac8a5009aabe6a"
+        },
+        "tests/test_krc_late_continuation.py": {
+          "bytes": 18071,
+          "sha256": "01bf305d8aca1f1cac67a2031c9fa92839530c327ae5fa7f9bab09677c8cce62"
+        }
+      }
+    },
+    "evaluation_totals": {
+      "planned_generations": 1152,
+      "attempted_generations": 1152,
+      "returned_generations": 1152,
+      "completed_valid_generations": 1152,
+      "invalid_generations": 0,
+      "unknown_generation_attempts": 0,
+      "unattempted_generations": 0
+    },
+    "actual_new_Adam_steps_completed": 256,
+    "actual_global_Adam_step": 512,
+    "actual_K_presentations_completed": 512
+  },
+  "completed_audited_endpoint": true,
+  "panels": {
+    "development": {
+      "planned_requests": 64,
+      "valid_requests": 64,
+      "invalid_or_incomplete_requests": 0,
+      "returned_measurements": 576,
+      "valid_timed_generations": 576,
+      "primary_comparison": "KRC4_vs_O4",
+      "timing_repeats_per_method_request": 3,
+      "cohort": "One common cohort of complete valid O4/K4/KRC4 requests; panels remain separate.",
+      "count_scope": "One validated repeat-0 trajectory per method/request; repeats are not independent examples.",
+      "latency_scope": "Complete capture-disabled request; loading, activation, export and training excluded.",
+      "comparisons": {
+        "KRC4_vs_O4": {
+          "candidate": "KRC4",
+          "reference": "O4",
+          "call_reduction_pct": 1.4696058784235189,
+          "request_time_reduction_pct": 1.5959023173210962,
+          "call_request_directions": {
+            "improved": 35,
+            "regressed": 21,
+            "tied": 8
+          },
+          "call_gross_saved": 85,
+          "call_gross_extra": 41,
+          "call_net_saved": 44,
+          "latency_request_directions": {
+            "improved": 39,
+            "regressed": 25,
+            "tied": 0
+          },
+          "latency_gross_saved": 1.4965132232755423,
+          "latency_gross_extra": 0.6679804834226767,
+          "latency_net_saved": 0.8285327398528655
+        },
+        "K4_vs_O4": {
+          "candidate": "K4",
+          "reference": "O4",
+          "call_reduction_pct": 1.736806947227787,
+          "request_time_reduction_pct": 1.9262662114342022,
+          "call_request_directions": {
+            "improved": 34,
+            "regressed": 20,
+            "tied": 10
+          },
+          "call_gross_saved": 94,
+          "call_gross_extra": 42,
+          "call_net_saved": 52,
+          "latency_request_directions": {
+            "improved": 39,
+            "regressed": 25,
+            "tied": 0
+          },
+          "latency_gross_saved": 1.6859297833094997,
+          "latency_gross_extra": 0.6858844769497714,
+          "latency_net_saved": 1.0000453063597283
+        },
+        "KRC4_vs_K4": {
+          "candidate": "KRC4",
+          "reference": "K4",
+          "call_reduction_pct": -0.2719238613188235,
+          "request_time_reduction_pct": -0.33685257137789915,
+          "call_request_directions": {
+            "improved": 24,
+            "regressed": 28,
+            "tied": 12
+          },
+          "call_gross_saved": 46,
+          "call_gross_extra": 54,
+          "call_net_saved": -8,
+          "latency_request_directions": {
+            "improved": 29,
+            "regressed": 35,
+            "tied": 0
+          },
+          "latency_gross_saved": 0.7546710179497798,
+          "latency_gross_extra": 0.9261835844566426,
+          "latency_net_saved": -0.17151256650686275
+        }
+      },
+      "O4": {
+        "verification_calls": 2994,
+        "accepted_draft_tokens": 16546,
+        "committed_progress": 19483,
+        "output_tokens": 19547,
+        "summed_mean_request_latency_s": 51.91625645632545,
+        "all_repeats_request_latency_s": 155.74876936897635,
+        "summed_mean_native_generate_s": 50.70582171343267,
+        "all_repeats_native_generate_s": 152.117465140298,
+        "summed_mean_cache_maintenance_s": 0.0312971044331789,
+        "all_repeats_cache_maintenance_s": 0.0938913132995367,
+        "calls_per_1000_output_tokens": 153.16928428914923,
+        "accepted_draft_tokens_per_call": 5.5263861055444226,
+        "committed_progress_per_call": 6.5073480293921175
+      },
+      "K4": {
+        "verification_calls": 2942,
+        "accepted_draft_tokens": 16601,
+        "committed_progress": 19483,
+        "output_tokens": 19547,
+        "summed_mean_request_latency_s": 50.916211149965726,
+        "all_repeats_request_latency_s": 152.74863344989717,
+        "summed_mean_native_generate_s": 49.827974331875645,
+        "all_repeats_native_generate_s": 149.48392299562693,
+        "summed_mean_cache_maintenance_s": 0.031645270685354866,
+        "all_repeats_cache_maintenance_s": 0.0949358120560646,
+        "calls_per_1000_output_tokens": 150.5090295185962,
+        "accepted_draft_tokens_per_call": 5.642760027192386,
+        "committed_progress_per_call": 6.622365737593474
+      },
+      "KRC4": {
+        "verification_calls": 2950,
+        "accepted_draft_tokens": 16594,
+        "committed_progress": 19483,
+        "output_tokens": 19547,
+        "summed_mean_request_latency_s": 51.08772371647259,
+        "all_repeats_request_latency_s": 153.26317114941776,
+        "summed_mean_native_generate_s": 49.95403236833712,
+        "all_repeats_native_generate_s": 149.86209710501134,
+        "summed_mean_cache_maintenance_s": 0.03137774268786112,
+        "all_repeats_cache_maintenance_s": 0.09413322806358337,
+        "calls_per_1000_output_tokens": 150.91829948329666,
+        "accepted_draft_tokens_per_call": 5.625084745762712,
+        "committed_progress_per_call": 6.604406779661017
+      },
+      "historical_counts": {
+        "K1": {
+          "verification_calls": 3027,
+          "requests": 64,
+          "measurement": "historical counts; no latency comparison"
+        },
+        "KRC1": {
+          "verification_calls": 3005,
+          "requests": 64,
+          "measurement": "historical counts; no latency comparison"
+        },
+        "K2": {
+          "verification_calls": 2973,
+          "requests": 64,
+          "measurement": "historical counts; no latency comparison"
+        },
+        "KRC2": {
+          "verification_calls": 2967,
+          "requests": 64,
+          "measurement": "historical counts; no latency comparison"
+        },
+        "O1": {
+          "verification_calls": 3075,
+          "requests": 64,
+          "measurement": "historical counts; no latency comparison"
+        },
+        "O2": {
+          "verification_calls": 3059,
+          "requests": 64,
+          "measurement": "historical counts; no latency comparison"
+        }
+      },
+      "event_count_curve": [
+        {
+          "event": 1,
+          "measurement": "historical",
+          "O": 3075,
+          "K": 3027,
+          "KRC": 3005
+        },
+        {
+          "event": 2,
+          "measurement": "historical",
+          "O": 3059,
+          "K": 2973,
+          "KRC": 2967
+        },
+        {
+          "event": 4,
+          "measurement": "fresh",
+          "O": 2994,
+          "K": 2942,
+          "KRC": 2950
+        }
+      ],
+      "count_learning_curve": {
+        "O2_vs_O1": {
+          "candidate_calls": 3059,
+          "reference_calls": 3075,
+          "call_reduction_pct": 0.5203252032520367,
+          "request_directions": {
+            "improved": 25,
+            "regressed": 26,
+            "tied": 13
+          },
+          "gross_saved": 75,
+          "gross_extra": 59,
+          "net_saved": 16
+        },
+        "O4_vs_O2": {
+          "candidate_calls": 2994,
+          "reference_calls": 3059,
+          "call_reduction_pct": 2.124877410918602,
+          "request_directions": {
+            "improved": 38,
+            "regressed": 22,
+            "tied": 4
+          },
+          "gross_saved": 116,
+          "gross_extra": 51,
+          "net_saved": 65
+        },
+        "O4_vs_O1": {
+          "candidate_calls": 2994,
+          "reference_calls": 3075,
+          "call_reduction_pct": 2.634146341463417,
+          "request_directions": {
+            "improved": 36,
+            "regressed": 17,
+            "tied": 11
+          },
+          "gross_saved": 131,
+          "gross_extra": 50,
+          "net_saved": 81
+        },
+        "K2_vs_K1": {
+          "candidate_calls": 2973,
+          "reference_calls": 3027,
+          "call_reduction_pct": 1.783944499504464,
+          "request_directions": {
+            "improved": 35,
+            "regressed": 21,
+            "tied": 8
+          },
+          "gross_saved": 103,
+          "gross_extra": 49,
+          "net_saved": 54
+        },
+        "K4_vs_K2": {
+          "candidate_calls": 2942,
+          "reference_calls": 2973,
+          "call_reduction_pct": 1.0427177934746013,
+          "request_directions": {
+            "improved": 31,
+            "regressed": 26,
+            "tied": 7
+          },
+          "gross_saved": 94,
+          "gross_extra": 63,
+          "net_saved": 31
+        },
+        "K4_vs_K1": {
+          "candidate_calls": 2942,
+          "reference_calls": 3027,
+          "call_reduction_pct": 2.808060786257016,
+          "request_directions": {
+            "improved": 39,
+            "regressed": 18,
+            "tied": 7
+          },
+          "gross_saved": 124,
+          "gross_extra": 39,
+          "net_saved": 85
+        },
+        "KRC2_vs_KRC1": {
+          "candidate_calls": 2967,
+          "reference_calls": 3005,
+          "call_reduction_pct": 1.2645590682196395,
+          "request_directions": {
+            "improved": 30,
+            "regressed": 25,
+            "tied": 9
+          },
+          "gross_saved": 88,
+          "gross_extra": 50,
+          "net_saved": 38
+        },
+        "KRC4_vs_KRC2": {
+          "candidate_calls": 2950,
+          "reference_calls": 2967,
+          "call_reduction_pct": 0.5729693292888416,
+          "request_directions": {
+            "improved": 30,
+            "regressed": 27,
+            "tied": 7
+          },
+          "gross_saved": 86,
+          "gross_extra": 69,
+          "net_saved": 17
+        },
+        "KRC4_vs_KRC1": {
+          "candidate_calls": 2950,
+          "reference_calls": 3005,
+          "call_reduction_pct": 1.830282861896837,
+          "request_directions": {
+            "improved": 31,
+            "regressed": 20,
+            "tied": 13
+          },
+          "gross_saved": 92,
+          "gross_extra": 37,
+          "net_saved": 55
+        },
+        "KRC1_vs_O1": {
+          "candidate_calls": 3005,
+          "reference_calls": 3075,
+          "call_reduction_pct": 2.276422764227637,
+          "request_directions": {
+            "improved": 36,
+            "regressed": 17,
+            "tied": 11
+          },
+          "gross_saved": 106,
+          "gross_extra": 36,
+          "net_saved": 70
+        },
+        "K1_vs_O1": {
+          "candidate_calls": 3027,
+          "reference_calls": 3075,
+          "call_reduction_pct": 1.560975609756099,
+          "request_directions": {
+            "improved": 33,
+            "regressed": 21,
+            "tied": 10
+          },
+          "gross_saved": 92,
+          "gross_extra": 44,
+          "net_saved": 48
+        },
+        "KRC1_vs_K1": {
+          "candidate_calls": 3005,
+          "reference_calls": 3027,
+          "call_reduction_pct": 0.7267922035018137,
+          "request_directions": {
+            "improved": 31,
+            "regressed": 15,
+            "tied": 18
+          },
+          "gross_saved": 44,
+          "gross_extra": 22,
+          "net_saved": 22
+        },
+        "KRC2_vs_O2": {
+          "candidate_calls": 2967,
+          "reference_calls": 3059,
+          "call_reduction_pct": 3.007518796992481,
+          "request_directions": {
+            "improved": 42,
+            "regressed": 10,
+            "tied": 12
+          },
+          "gross_saved": 112,
+          "gross_extra": 20,
+          "net_saved": 92
+        },
+        "K2_vs_O2": {
+          "candidate_calls": 2973,
+          "reference_calls": 3059,
+          "call_reduction_pct": 2.81137626675384,
+          "request_directions": {
+            "improved": 37,
+            "regressed": 12,
+            "tied": 15
+          },
+          "gross_saved": 113,
+          "gross_extra": 27,
+          "net_saved": 86
+        },
+        "KRC2_vs_K2": {
+          "candidate_calls": 2967,
+          "reference_calls": 2973,
+          "call_reduction_pct": 0.20181634712411745,
+          "request_directions": {
+            "improved": 25,
+            "regressed": 19,
+            "tied": 20
+          },
+          "gross_saved": 43,
+          "gross_extra": 37,
+          "net_saved": 6
+        }
+      },
+      "relative_advantage_change_percentage_points": {
+        "KRC_vs_O_event1_to4": -0.806816885804118,
+        "KRC_vs_O_event2_to4": -1.5379129185689622,
+        "KRC_vs_K_event1_to4": -0.9987160648206372,
+        "KRC_vs_K_event2_to4": -0.47374020844294096,
+        "K_vs_O_event1_to4": 0.175831337471688,
+        "K_vs_O_event2_to4": -1.074569319526053
+      },
+      "canonical_outputs": {
+        "requests": 64,
+        "output_tokens": 19547,
+        "minimum_length": 146,
+        "maximum_length": 515,
+        "mean_length": 305.421875,
+        "median_length": 307.5,
+        "eos_requests": 64,
+        "length_terminated_requests": 0,
+        "output_cap_hits": 0
+      },
+      "execution": {
+        "status": "completed",
+        "planned_generations": 576,
+        "attempted_generations": 576,
+        "returned_generations": 576,
+        "qualification": "passed",
+        "qualification_requests": 8,
+        "activation_s": 954.5587491244078,
+        "weight_validation_s": 11.152085369452834,
+        "optimizer_steps": 0,
+        "feedback_collections": 0,
+        "automatic_retry": false,
+        "completed_valid_generations": 576,
+        "invalid_generations": 0,
+        "pending_canonical_generations": 0,
+        "unknown_generation_attempts": 0,
+        "unattempted_generations": 0,
+        "interrupted_attempt": null,
+        "evaluation_wall_s": 1434.8023591600358
+      },
+      "timer_nesting": "Native generation and cache maintenance are inside complete request latency; do not add them again.",
+      "missing_report_files": [],
+      "repeats": [
+        {
+          "repeat": "0",
+          "method": "O4",
+          "requests": "64",
+          "verification_calls": "2994",
+          "request_latency_s": "51.93922242708504",
+          "native_generate_s": "50.73367438651621",
+          "cache_maintenance_s": "0.02863982506096363"
+        },
+        {
+          "repeat": "0",
+          "method": "K4",
+          "requests": "64",
+          "verification_calls": "2942",
+          "request_latency_s": "50.883026998490095",
+          "native_generate_s": "49.79804778471589",
+          "cache_maintenance_s": "0.029491189867258072"
+        },
+        {
+          "repeat": "0",
+          "method": "KRC4",
+          "requests": "64",
+          "verification_calls": "2950",
+          "request_latency_s": "51.043193869292736",
+          "native_generate_s": "49.92043260484934",
+          "cache_maintenance_s": "0.029074950143694878"
+        },
+        {
+          "repeat": "1",
+          "method": "O4",
+          "requests": "64",
+          "verification_calls": "2994",
+          "request_latency_s": "51.909881027415395",
+          "native_generate_s": "50.696115566417575",
+          "cache_maintenance_s": "0.03268829360604286"
+        },
+        {
+          "repeat": "1",
+          "method": "K4",
+          "requests": "64",
+          "verification_calls": "2942",
+          "request_latency_s": "50.93310144171119",
+          "native_generate_s": "49.84254748001695",
+          "cache_maintenance_s": "0.032854270190000534"
+        },
+        {
+          "repeat": "1",
+          "method": "KRC4",
+          "requests": "64",
+          "verification_calls": "2950",
+          "request_latency_s": "51.116484047845006",
+          "native_generate_s": "49.97461906634271",
+          "cache_maintenance_s": "0.03266379237174988"
+        },
+        {
+          "repeat": "2",
+          "method": "O4",
+          "requests": "64",
+          "verification_calls": "2994",
+          "request_latency_s": "51.89966591447592",
+          "native_generate_s": "50.68767518736422",
+          "cache_maintenance_s": "0.03256319463253021"
+        },
+        {
+          "repeat": "2",
+          "method": "K4",
+          "requests": "64",
+          "verification_calls": "2942",
+          "request_latency_s": "50.93250500969589",
+          "native_generate_s": "49.84332773089409",
+          "cache_maintenance_s": "0.032590351998806"
+        },
+        {
+          "repeat": "2",
+          "method": "KRC4",
+          "requests": "64",
+          "verification_calls": "2950",
+          "request_latency_s": "51.103493232280016",
+          "native_generate_s": "49.967045433819294",
+          "cache_maintenance_s": "0.03239448554813862"
+        }
+      ]
+    },
+    "additional": {
+      "planned_requests": 64,
+      "valid_requests": 64,
+      "invalid_or_incomplete_requests": 0,
+      "returned_measurements": 576,
+      "valid_timed_generations": 576,
+      "primary_comparison": "KRC4_vs_O4",
+      "timing_repeats_per_method_request": 3,
+      "cohort": "One common cohort of complete valid O4/K4/KRC4 requests; panels remain separate.",
+      "count_scope": "One validated repeat-0 trajectory per method/request; repeats are not independent examples.",
+      "latency_scope": "Complete capture-disabled request; loading, activation, export and training excluded.",
+      "comparisons": {
+        "KRC4_vs_O4": {
+          "candidate": "KRC4",
+          "reference": "O4",
+          "call_reduction_pct": 1.8849840255591,
+          "request_time_reduction_pct": 1.813461221834789,
+          "call_request_directions": {
+            "improved": 36,
+            "regressed": 20,
+            "tied": 8
+          },
+          "call_gross_saved": 100,
+          "call_gross_extra": 41,
+          "call_net_saved": 59,
+          "latency_request_directions": {
+            "improved": 42,
+            "regressed": 22,
+            "tied": 0
+          },
+          "latency_gross_saved": 1.6888244990259407,
+          "latency_gross_extra": 0.7113217879086731,
+          "latency_net_saved": 0.9775027111172676
+        },
+        "K4_vs_O4": {
+          "candidate": "K4",
+          "reference": "O4",
+          "call_reduction_pct": 2.3003194888178924,
+          "request_time_reduction_pct": 2.362478819986402,
+          "call_request_directions": {
+            "improved": 33,
+            "regressed": 18,
+            "tied": 13
+          },
+          "call_gross_saved": 100,
+          "call_gross_extra": 28,
+          "call_net_saved": 72,
+          "latency_request_directions": {
+            "improved": 39,
+            "regressed": 25,
+            "tied": 0
+          },
+          "latency_gross_saved": 1.7297878302633756,
+          "latency_gross_extra": 0.4563503706206877,
+          "latency_net_saved": 1.2734374596426878
+        },
+        "KRC4_vs_K4": {
+          "candidate": "KRC4",
+          "reference": "K4",
+          "call_reduction_pct": -0.42511445389143976,
+          "request_time_reduction_pct": -0.5623018605105612,
+          "call_request_directions": {
+            "improved": 22,
+            "regressed": 26,
+            "tied": 16
+          },
+          "call_gross_saved": 37,
+          "call_gross_extra": 50,
+          "call_net_saved": -13,
+          "latency_request_directions": {
+            "improved": 27,
+            "regressed": 37,
+            "tied": 0
+          },
+          "latency_gross_saved": 0.614371979609132,
+          "latency_gross_extra": 0.9103067281345523,
+          "latency_net_saved": -0.29593474852542023
+        }
+      },
+      "O4": {
+        "verification_calls": 3130,
+        "accepted_draft_tokens": 16796,
+        "committed_progress": 19864,
+        "output_tokens": 19928,
+        "summed_mean_request_latency_s": 53.90259793524941,
+        "all_repeats_request_latency_s": 161.70779380574822,
+        "summed_mean_native_generate_s": 52.97179354106387,
+        "all_repeats_native_generate_s": 158.9153806231916,
+        "summed_mean_cache_maintenance_s": 0.030819447711110115,
+        "all_repeats_cache_maintenance_s": 0.09245834313333035,
+        "calls_per_1000_output_tokens": 157.06543556804496,
+        "accepted_draft_tokens_per_call": 5.3661341853035145,
+        "committed_progress_per_call": 6.346325878594249
+      },
+      "K4": {
+        "verification_calls": 3058,
+        "accepted_draft_tokens": 16868,
+        "committed_progress": 19864,
+        "output_tokens": 19928,
+        "summed_mean_request_latency_s": 52.62916047560672,
+        "all_repeats_request_latency_s": 157.88748142682016,
+        "summed_mean_native_generate_s": 51.77917713547746,
+        "all_repeats_native_generate_s": 155.3375314064324,
+        "summed_mean_cache_maintenance_s": 0.03079043949643771,
+        "all_repeats_cache_maintenance_s": 0.09237131848931313,
+        "calls_per_1000_output_tokens": 153.4524287434765,
+        "accepted_draft_tokens_per_call": 5.5160235448005235,
+        "committed_progress_per_call": 6.495748855461086
+      },
+      "KRC4": {
+        "verification_calls": 3071,
+        "accepted_draft_tokens": 16856,
+        "committed_progress": 19864,
+        "output_tokens": 19928,
+        "summed_mean_request_latency_s": 52.92509522413214,
+        "all_repeats_request_latency_s": 158.77528567239642,
+        "summed_mean_native_generate_s": 51.996986012905836,
+        "all_repeats_native_generate_s": 155.9909580387175,
+        "summed_mean_cache_maintenance_s": 0.03091306860248248,
+        "all_repeats_cache_maintenance_s": 0.09273920580744743,
+        "calls_per_1000_output_tokens": 154.10477719791248,
+        "accepted_draft_tokens_per_call": 5.488765874308043,
+        "committed_progress_per_call": 6.468251383914034
+      },
+      "historical_counts": {
+        "K1": {
+          "verification_calls": 3150,
+          "requests": 64,
+          "measurement": "historical counts; no latency comparison"
+        },
+        "KRC1": {
+          "verification_calls": 3125,
+          "requests": 64,
+          "measurement": "historical counts; no latency comparison"
+        },
+        "K2": {
+          "verification_calls": 3136,
+          "requests": 64,
+          "measurement": "historical counts; no latency comparison"
+        },
+        "KRC2": {
+          "verification_calls": 3116,
+          "requests": 64,
+          "measurement": "historical counts; no latency comparison"
+        }
+      },
+      "event_count_curve": [
+        {
+          "event": 1,
+          "measurement": "historical",
+          "O": null,
+          "K": 3150,
+          "KRC": 3125
+        },
+        {
+          "event": 2,
+          "measurement": "historical",
+          "O": null,
+          "K": 3136,
+          "KRC": 3116
+        },
+        {
+          "event": 4,
+          "measurement": "fresh",
+          "O": 3130,
+          "K": 3058,
+          "KRC": 3071
+        }
+      ],
+      "count_learning_curve": {
+        "K2_vs_K1": {
+          "candidate_calls": 3136,
+          "reference_calls": 3150,
+          "call_reduction_pct": 0.4444444444444473,
+          "request_directions": {
+            "improved": 28,
+            "regressed": 25,
+            "tied": 11
+          },
+          "gross_saved": 61,
+          "gross_extra": 47,
+          "net_saved": 14
+        },
+        "K4_vs_K2": {
+          "candidate_calls": 3058,
+          "reference_calls": 3136,
+          "call_reduction_pct": 2.4872448979591844,
+          "request_directions": {
+            "improved": 35,
+            "regressed": 21,
+            "tied": 8
+          },
+          "gross_saved": 126,
+          "gross_extra": 48,
+          "net_saved": 78
+        },
+        "K4_vs_K1": {
+          "candidate_calls": 3058,
+          "reference_calls": 3150,
+          "call_reduction_pct": 2.9206349206349236,
+          "request_directions": {
+            "improved": 34,
+            "regressed": 19,
+            "tied": 11
+          },
+          "gross_saved": 128,
+          "gross_extra": 36,
+          "net_saved": 92
+        },
+        "KRC2_vs_KRC1": {
+          "candidate_calls": 3116,
+          "reference_calls": 3125,
+          "call_reduction_pct": 0.28799999999999937,
+          "request_directions": {
+            "improved": 28,
+            "regressed": 27,
+            "tied": 9
+          },
+          "gross_saved": 69,
+          "gross_extra": 60,
+          "net_saved": 9
+        },
+        "KRC4_vs_KRC2": {
+          "candidate_calls": 3071,
+          "reference_calls": 3116,
+          "call_reduction_pct": 1.4441591784338903,
+          "request_directions": {
+            "improved": 35,
+            "regressed": 22,
+            "tied": 7
+          },
+          "gross_saved": 105,
+          "gross_extra": 60,
+          "net_saved": 45
+        },
+        "KRC4_vs_KRC1": {
+          "candidate_calls": 3071,
+          "reference_calls": 3125,
+          "call_reduction_pct": 1.7279999999999962,
+          "request_directions": {
+            "improved": 35,
+            "regressed": 20,
+            "tied": 9
+          },
+          "gross_saved": 105,
+          "gross_extra": 51,
+          "net_saved": 54
+        },
+        "KRC1_vs_K1": {
+          "candidate_calls": 3125,
+          "reference_calls": 3150,
+          "call_reduction_pct": 0.7936507936507908,
+          "request_directions": {
+            "improved": 25,
+            "regressed": 14,
+            "tied": 25
+          },
+          "gross_saved": 42,
+          "gross_extra": 17,
+          "net_saved": 25
+        },
+        "KRC2_vs_K2": {
+          "candidate_calls": 3116,
+          "reference_calls": 3136,
+          "call_reduction_pct": 0.6377551020408156,
+          "request_directions": {
+            "improved": 31,
+            "regressed": 20,
+            "tied": 13
+          },
+          "gross_saved": 56,
+          "gross_extra": 36,
+          "net_saved": 20
+        }
+      },
+      "relative_advantage_change_percentage_points": {
+        "KRC_vs_O_event1_to4": null,
+        "KRC_vs_O_event2_to4": null,
+        "KRC_vs_K_event1_to4": -1.2187652475422306,
+        "KRC_vs_K_event2_to4": -1.0628695559322554,
+        "K_vs_O_event1_to4": null,
+        "K_vs_O_event2_to4": null
+      },
+      "canonical_outputs": {
+        "requests": 64,
+        "output_tokens": 19928,
+        "minimum_length": 122,
+        "maximum_length": 872,
+        "mean_length": 311.375,
+        "median_length": 276.0,
+        "eos_requests": 64,
+        "length_terminated_requests": 0,
+        "output_cap_hits": 0
+      },
+      "execution": {
+        "status": "completed",
+        "planned_generations": 576,
+        "attempted_generations": 576,
+        "returned_generations": 576,
+        "qualification": "not_required_prior_panel_gate",
+        "qualification_requests": 0,
+        "activation_s": 963.3853192757815,
+        "weight_validation_s": 11.341706017032266,
+        "optimizer_steps": 0,
+        "feedback_collections": 0,
+        "automatic_retry": false,
+        "completed_valid_generations": 576,
+        "invalid_generations": 0,
+        "pending_canonical_generations": 0,
+        "unknown_generation_attempts": 0,
+        "unattempted_generations": 0,
+        "interrupted_attempt": null,
+        "evaluation_wall_s": 1460.4717540126294
+      },
+      "timer_nesting": "Native generation and cache maintenance are inside complete request latency; do not add them again.",
+      "missing_report_files": [],
+      "repeats": [
+        {
+          "repeat": "0",
+          "method": "O4",
+          "requests": "64",
+          "verification_calls": "3130",
+          "request_latency_s": "53.86613707430661",
+          "native_generate_s": "52.94277428276837",
+          "cache_maintenance_s": "0.027227947488427162"
+        },
+        {
+          "repeat": "0",
+          "method": "K4",
+          "requests": "64",
+          "verification_calls": "3058",
+          "request_latency_s": "52.58907931484282",
+          "native_generate_s": "51.74776675365865",
+          "cache_maintenance_s": "0.02708185836672783"
+        },
+        {
+          "repeat": "0",
+          "method": "KRC4",
+          "requests": "64",
+          "verification_calls": "3071",
+          "request_latency_s": "52.88470652140677",
+          "native_generate_s": "51.96307056583464",
+          "cache_maintenance_s": "0.02781154029071331"
+        },
+        {
+          "repeat": "1",
+          "method": "O4",
+          "requests": "64",
+          "verification_calls": "3130",
+          "request_latency_s": "53.91890982724726",
+          "native_generate_s": "52.98308398202062",
+          "cache_maintenance_s": "0.032691119238734245"
+        },
+        {
+          "repeat": "1",
+          "method": "K4",
+          "requests": "64",
+          "verification_calls": "3058",
+          "request_latency_s": "52.65389481373131",
+          "native_generate_s": "51.79983270727098",
+          "cache_maintenance_s": "0.03263415768742561"
+        },
+        {
+          "repeat": "1",
+          "method": "KRC4",
+          "requests": "64",
+          "verification_calls": "3071",
+          "request_latency_s": "52.94824920594692",
+          "native_generate_s": "52.01482719741762",
+          "cache_maintenance_s": "0.03247163072228432"
+        },
+        {
+          "repeat": "2",
+          "method": "O4",
+          "requests": "64",
+          "verification_calls": "3130",
+          "request_latency_s": "53.922746904194355",
+          "native_generate_s": "52.98952235840261",
+          "cache_maintenance_s": "0.03253927640616894"
+        },
+        {
+          "repeat": "2",
+          "method": "K4",
+          "requests": "64",
+          "verification_calls": "3058",
+          "request_latency_s": "52.644507298246026",
+          "native_generate_s": "51.78993194550276",
+          "cache_maintenance_s": "0.03265530243515968"
+        },
+        {
+          "repeat": "2",
+          "method": "KRC4",
+          "requests": "64",
+          "verification_calls": "3071",
+          "request_latency_s": "52.94232994504273",
+          "native_generate_s": "52.01306027546525",
+          "cache_maintenance_s": "0.032456034794449806"
+        }
+      ]
+    }
+  },
+  "training": [
+    {
+      "event": 3,
+      "status": "completed",
+      "start_step": 256,
+      "end_step": 384,
+      "Adam_steps": 128,
+      "ordinary_presentations": 256,
+      "ordinary_forwards": 256,
+      "ordinary_backwards": 256,
+      "ordinary_anchors": 66818,
+      "ordinary_available_occurrences": 975476,
+      "ordinary_selected_occurrences": 566927.0,
+      "reference_capture_forwards": 256,
+      "reference_replay_forwards": 256,
+      "reference_backwards": 224,
+      "reference_presentations": 256,
+      "reference_anchors": 66818,
+      "reference_available_occurrences": 975476,
+      "reference_protected_occurrences": 516445,
+      "BF16_nonzero_corrections": 127,
+      "correction_branches": "{\"applied\": 127, \"zero_violation\": 1}",
+      "event_wall_s": 693.5288815163076,
+      "training_windows_inclusive_s": 653.5778165049851,
+      "intrinsic_reference_correction_s": 296.0454528722912,
+      "integrity_checks_s": 6.703605180606246,
+      "ordinary_K_and_other_overhead_residual_s": 350.82875845208764,
+      "checkpoint_save_s": 21.10071248188615,
+      "export_s": 15.296278916299343,
+      "state_retention_s": 6.98380172252655e-05,
+      "saved_state_validation_s": 6.364926936104894,
+      "artifact_identity_s": 7.821046954020858,
+      "peak_allocated_bytes": 38230993920,
+      "peak_reserved_bytes": 40623931392,
+      "full_state_path": "/data/sources/minhao/runs/dflash_krc_events_3_4_20261028/campaign_001/KRC/events/event_003/training_state.pt",
+      "export_path": "/data/sources/minhao/runs/dflash_krc_events_3_4_20261028/campaign_001/KRC/events/event_003/export"
+    },
+    {
+      "event": 4,
+      "status": "completed",
+      "start_step": 384,
+      "end_step": 512,
+      "Adam_steps": 128,
+      "ordinary_presentations": 256,
+      "ordinary_forwards": 256,
+      "ordinary_backwards": 256,
+      "ordinary_anchors": 65996,
+      "ordinary_available_occurrences": 963417,
+      "ordinary_selected_occurrences": 554534.0,
+      "reference_capture_forwards": 256,
+      "reference_replay_forwards": 256,
+      "reference_backwards": 220,
+      "reference_presentations": 256,
+      "reference_anchors": 65996,
+      "reference_available_occurrences": 963417,
+      "reference_protected_occurrences": 504525,
+      "BF16_nonzero_corrections": 125,
+      "correction_branches": "{\"applied\": 125, \"zero_violation\": 3}",
+      "event_wall_s": 681.5681728981435,
+      "training_windows_inclusive_s": 642.8009344786406,
+      "intrinsic_reference_correction_s": 288.80577773042023,
+      "integrity_checks_s": 6.6650401167571545,
+      "ordinary_K_and_other_overhead_residual_s": 347.33011663146317,
+      "checkpoint_save_s": 20.284025294706225,
+      "export_s": 15.472578363493085,
+      "state_retention_s": 7.378309965133667e-05,
+      "saved_state_validation_s": 6.4011045806109905,
+      "artifact_identity_s": 7.846072839573026,
+      "peak_allocated_bytes": 39854878720,
+      "peak_reserved_bytes": 42488299520,
+      "full_state_path": "/data/sources/minhao/runs/dflash_krc_events_3_4_20261028/campaign_001/KRC/events/event_004/training_state.pt",
+      "export_path": "/data/sources/minhao/runs/dflash_krc_events_3_4_20261028/campaign_001/KRC/events/event_004/export"
+    }
+  ],
+  "costs": {
+    "new_qualification_optimizer_steps": 0,
+    "execution_source": {
+      "execution_git_commit": "11b7718a04416a89025a6df69c0c33e558e5fe1b",
+      "repository": "https://github.com/ToxicMinhao/Online-Speculative-decoding-test",
+      "branch": "codex/krc-events-3-4-20261028",
+      "dirty_files": [],
+      "working_source": "/data/sources/minhao/DFlash-Online",
+      "source_subdirectory": "DFlash-Online",
+      "additions": {
+        "experiments/krc_events_3_4/README.md": {
+          "bytes": 2454,
+          "sha256": "14ad4f48deb9b5db0faf65b7ceeeb25bed6f713d39eeb8f5abdf7b5249c50cfb"
+        },
+        "experiments/krc_events_3_4/__init__.py": {
+          "bytes": 75,
+          "sha256": "e579252ec43588e261566f612069ddf44622ad215e5b23fc170ec27bf260ca4c"
+        },
+        "experiments/krc_events_3_4/campaign.py": {
+          "bytes": 16564,
+          "sha256": "7cbcbfcc2696459d5b2d6093e9609536d83f3a8447d90b47a750d9ba6db47922"
+        },
+        "experiments/krc_events_3_4/evaluate.py": {
+          "bytes": 24370,
+          "sha256": "5ecf7f5ed66c5411d69b1d229c605b79120b95bb85a5fe10d907e93cf7b1b00d"
+        },
+        "experiments/krc_events_3_4/evaluation_protocol.py": {
+          "bytes": 6097,
+          "sha256": "68ae90097fee1298547d1301e9b64afaf97961fcac3d3d0e3bd26c3e4cb0aa39"
+        },
+        "experiments/krc_events_3_4/protocol.py": {
+          "bytes": 4221,
+          "sha256": "3911fbe548a05a3bcc6da054540ac9b1ef23e810ab9a8abc78eb19c4c45d95df"
+        },
+        "experiments/krc_events_3_4/test_campaign.py": {
+          "bytes": 21684,
+          "sha256": "f4abfaac11a3bca2621b621ec2f71e2c1e717099dd7d6e3a350e77300f520f54"
+        },
+        "experiments/krc_events_3_4/test_evaluate.py": {
+          "bytes": 15780,
+          "sha256": "9b9746c42f96439366ab92f8d0c2743d6a15b97c8306e8f72b4ce9e218f9d6f9"
+        },
+        "online_feedback/krc_late_continuation.py": {
+          "bytes": 14733,
+          "sha256": "76f3b4886567b557076e111a3dce145cc13a731b8fe4f214445a339308d442ea"
+        },
+        "provenance/run_tools/dflash_krc_events_3_4_20261028/audit_results.py": {
+          "bytes": 48158,
+          "sha256": "406721909066597591b21a450dc019684b64e45fd922cf32240361b157902b4f"
+        },
+        "provenance/run_tools/dflash_krc_events_3_4_20261028/deduplicate_storage.py": {
+          "bytes": 2847,
+          "sha256": "323478e1a021416b919708bf5978bb97fa8832e09b68570bf4babaf889c0e755"
+        },
+        "provenance/run_tools/dflash_krc_events_3_4_20261028/preflight.py": {
+          "bytes": 4066,
+          "sha256": "50a20654222004f6144388e2c91d0fbd9a6b12f76afe8bf18eec7314e2beb5a8"
+        },
+        "provenance/run_tools/dflash_krc_events_3_4_20261028/prepare_remote.py": {
+          "bytes": 16472,
+          "sha256": "2020bf7abd696ca8b884679058870e155fe0d3838d017ab7860ba6caab774f93"
+        },
+        "provenance/run_tools/dflash_krc_events_3_4_20261028/run_campaign.sh": {
+          "bytes": 1921,
+          "sha256": "006956c934008ecbe3d8ca583dd491d665411a3d64f0b5b731089742fc6e09c6"
+        },
+        "provenance/run_tools/dflash_krc_events_3_4_20261028/supervise.sh": {
+          "bytes": 411,
+          "sha256": "f3c0df46246ecdb389adddd0a06a14a9d5e274a219056a472b3dcb08fa17850e"
+        },
+        "provenance/run_tools/dflash_krc_events_3_4_20261028/test_audit_results.py": {
+          "bytes": 7314,
+          "sha256": "2eb07adb68902f4247ec1a425b8825e8ea02578863501767fda630897840db4b"
+        },
+        "provenance/run_tools/dflash_krc_events_3_4_20261028/tests_prepare.py": {
+          "bytes": 16589,
+          "sha256": "4758525a4d00dcbec908fc6cb888b3d23532d9e4978ae37222ac8a5009aabe6a"
+        },
+        "tests/test_krc_late_continuation.py": {
+          "bytes": 18071,
+          "sha256": "01bf305d8aca1f1cac67a2031c9fa92839530c327ae5fa7f9bab09677c8cce62"
+        }
+      }
+    },
+    "runtime_compatibility": {
+      "setting": "torch._functorch.config.donated_buffer",
+      "before": true,
+      "requested": false,
+      "effective": false,
+      "torch_version": "2.13.0+cu130",
+      "applied_before": "startup and all three fresh trainer constructions",
+      "scope": "process-wide startup, K, G_disabled and G_enabled",
+      "algorithm_or_tolerance_change": false
+    },
+    "snapshot_validation_s": 6.349555486813188,
+    "startup": {
+      "status": "passed",
+      "loading_s": 23.35354275070131,
+      "response_evaluations": 2,
+      "backwards": 2,
+      "optimizer_steps": 0,
+      "work_counts": {
+        "startup_response_evaluation_attempted": 2,
+        "response_model_forwards": 2,
+        "draft_forwards": 2,
+        "layer_forwards_including_recompute": 10,
+        "head_forwards_including_recompute": 392,
+        "startup_backward_attempted": 2,
+        "startup_backward_completed": 2,
+        "startup_response_evaluation_completed": 2
+      },
+      "peak_cuda_allocated_bytes": 16491343360,
+      "peak_cuda_reserved_bytes": 18845007872,
+      "separate_disposable_runtime": true,
+      "exact_initial_state_restored": true,
+      "wall_s": 42.81947931088507,
+      "runtime_closed_before_K_construction": true
+    },
+    "loading_and_live_resume_s": 27.06405745446682,
+    "final_state_retention_validation_s": 22.454258523881435,
+    "backend_loading_s": 22.00719065219164,
+    "startup_work_counts": {
+      "startup_response_evaluation_attempted": 2,
+      "response_model_forwards": 2,
+      "draft_forwards": 2,
+      "layer_forwards_including_recompute": 10,
+      "head_forwards_including_recompute": 392,
+      "startup_backward_attempted": 2,
+      "startup_backward_completed": 2,
+      "startup_response_evaluation_completed": 2
+    },
+    "actual_campaign_wall_s": 4428.999274544418,
+    "accounting": "Only unchanged KRC events3/4 are trained from complete KRC2 own state. 512 ordinary presentations,256 Adam steps,1536 core forwards and at most1024 backwards; optional probes disabled. Startup separate:2 disposable forward/backwards,zero Adam. States and exports retained at384 and512. Fresh three-arm serving begins after trainer closure. Native/cache timers nest within request time. Historical O/K training and serving times are not fresh matched costs or a latency learning curve. Additional reference work is not compute matched."
+  },
+  "source": {
+    "execution_git_commit": "11b7718a04416a89025a6df69c0c33e558e5fe1b",
+    "repository": "https://github.com/ToxicMinhao/Online-Speculative-decoding-test",
+    "branch": "codex/krc-events-3-4-20261028",
+    "dirty_files": [],
+    "working_source": "/data/sources/minhao/DFlash-Online",
+    "source_subdirectory": "DFlash-Online",
+    "additions": {
+      "experiments/krc_events_3_4/README.md": {
+        "bytes": 2454,
+        "sha256": "14ad4f48deb9b5db0faf65b7ceeeb25bed6f713d39eeb8f5abdf7b5249c50cfb"
+      },
+      "experiments/krc_events_3_4/__init__.py": {
+        "bytes": 75,
+        "sha256": "e579252ec43588e261566f612069ddf44622ad215e5b23fc170ec27bf260ca4c"
+      },
+      "experiments/krc_events_3_4/campaign.py": {
+        "bytes": 16564,
+        "sha256": "7cbcbfcc2696459d5b2d6093e9609536d83f3a8447d90b47a750d9ba6db47922"
+      },
+      "experiments/krc_events_3_4/evaluate.py": {
+        "bytes": 24370,
+        "sha256": "5ecf7f5ed66c5411d69b1d229c605b79120b95bb85a5fe10d907e93cf7b1b00d"
+      },
+      "experiments/krc_events_3_4/evaluation_protocol.py": {
+        "bytes": 6097,
+        "sha256": "68ae90097fee1298547d1301e9b64afaf97961fcac3d3d0e3bd26c3e4cb0aa39"
+      },
+      "experiments/krc_events_3_4/protocol.py": {
+        "bytes": 4221,
+        "sha256": "3911fbe548a05a3bcc6da054540ac9b1ef23e810ab9a8abc78eb19c4c45d95df"
+      },
+      "experiments/krc_events_3_4/test_campaign.py": {
+        "bytes": 21684,
+        "sha256": "f4abfaac11a3bca2621b621ec2f71e2c1e717099dd7d6e3a350e77300f520f54"
+      },
+      "experiments/krc_events_3_4/test_evaluate.py": {
+        "bytes": 15780,
+        "sha256": "9b9746c42f96439366ab92f8d0c2743d6a15b97c8306e8f72b4ce9e218f9d6f9"
+      },
+      "online_feedback/krc_late_continuation.py": {
+        "bytes": 14733,
+        "sha256": "76f3b4886567b557076e111a3dce145cc13a731b8fe4f214445a339308d442ea"
+      },
+      "provenance/run_tools/dflash_krc_events_3_4_20261028/audit_results.py": {
+        "bytes": 48158,
+        "sha256": "406721909066597591b21a450dc019684b64e45fd922cf32240361b157902b4f"
+      },
+      "provenance/run_tools/dflash_krc_events_3_4_20261028/deduplicate_storage.py": {
+        "bytes": 2847,
+        "sha256": "323478e1a021416b919708bf5978bb97fa8832e09b68570bf4babaf889c0e755"
+      },
+      "provenance/run_tools/dflash_krc_events_3_4_20261028/preflight.py": {
+        "bytes": 4066,
+        "sha256": "50a20654222004f6144388e2c91d0fbd9a6b12f76afe8bf18eec7314e2beb5a8"
+      },
+      "provenance/run_tools/dflash_krc_events_3_4_20261028/prepare_remote.py": {
+        "bytes": 16472,
+        "sha256": "2020bf7abd696ca8b884679058870e155fe0d3838d017ab7860ba6caab774f93"
+      },
+      "provenance/run_tools/dflash_krc_events_3_4_20261028/run_campaign.sh": {
+        "bytes": 1921,
+        "sha256": "006956c934008ecbe3d8ca583dd491d665411a3d64f0b5b731089742fc6e09c6"
+      },
+      "provenance/run_tools/dflash_krc_events_3_4_20261028/supervise.sh": {
+        "bytes": 411,
+        "sha256": "f3c0df46246ecdb389adddd0a06a14a9d5e274a219056a472b3dcb08fa17850e"
+      },
+      "provenance/run_tools/dflash_krc_events_3_4_20261028/test_audit_results.py": {
+        "bytes": 7314,
+        "sha256": "2eb07adb68902f4247ec1a425b8825e8ea02578863501767fda630897840db4b"
+      },
+      "provenance/run_tools/dflash_krc_events_3_4_20261028/tests_prepare.py": {
+        "bytes": 16589,
+        "sha256": "4758525a4d00dcbec908fc6cb888b3d23532d9e4978ae37222ac8a5009aabe6a"
+      },
+      "tests/test_krc_late_continuation.py": {
+        "bytes": 18071,
+        "sha256": "01bf305d8aca1f1cac67a2031c9fa92839530c327ae5fa7f9bab09677c8cce62"
+      }
+    }
+  },
+  "postprocessing": {
+    "git_commit": "ea4f289c6e18383b7560c8c4103a9d91ca3943bf",
+    "script_sha256": "3c8e8462a15b7490bc074732a69b13216816d156977f5116d7c62b5e3d20a454"
+  },
+  "resume": {
+    "status": "passed",
+    "exact_resume": true,
+    "mismatches": [],
+    "mismatch_count": 0,
+    "global_step": 256,
+    "presentations": 512,
+    "no_rng_reset": true,
+    "scientific_extra_steps": 0,
+    "wall_s": 2.6897678934037685
+  },
+  "retention": {
+    "status": "passed",
+    "before": {
+      "event_003": [
+        {
+          "path": "/data/sources/minhao/runs/dflash_krc_events_3_4_20261028/campaign_001/KRC/events/event_003/training_state.pt",
+          "bytes": 6293206683,
+          "sha256": "66033b346717c66df8a78c8206beb8f5278b507153ad5adb3e3d0f234c453808"
+        },
+        {
+          "path": "/data/sources/minhao/runs/dflash_krc_events_3_4_20261028/campaign_001/KRC/events/event_003/export/config.json",
+          "bytes": 1211,
+          "sha256": "5749d96966f9ce7e6a9662c9f482b8aa0d461845fb6b9ce09ac2c08311fab2aa"
+        },
+        {
+          "path": "/data/sources/minhao/runs/dflash_krc_events_3_4_20261028/campaign_001/KRC/events/event_003/export/model.safetensors",
+          "bytes": 2097259104,
+          "sha256": "33374ac11f5f11eb7d4c52511503c3b88164bcf68bf1927676bdcc3f03c90bb7"
+        }
+      ],
+      "event_004": [
+        {
+          "path": "/data/sources/minhao/runs/dflash_krc_events_3_4_20261028/campaign_001/KRC/events/event_004/training_state.pt",
+          "bytes": 6293654683,
+          "sha256": "1934f9b7b162a77ef4b2333a10cbb8e92a471a9347e78b49317ee1c90becba95"
+        },
+        {
+          "path": "/data/sources/minhao/runs/dflash_krc_events_3_4_20261028/campaign_001/KRC/events/event_004/export/config.json",
+          "bytes": 1211,
+          "sha256": "5749d96966f9ce7e6a9662c9f482b8aa0d461845fb6b9ce09ac2c08311fab2aa"
+        },
+        {
+          "path": "/data/sources/minhao/runs/dflash_krc_events_3_4_20261028/campaign_001/KRC/events/event_004/export/model.safetensors",
+          "bytes": 2097259104,
+          "sha256": "3166559e3599fbb254363bef950bb40012c0675c01ed0bc057a43961a5511f8d"
+        }
+      ]
+    },
+    "after": {
+      "event_003": [
+        {
+          "path": "/data/sources/minhao/runs/dflash_krc_events_3_4_20261028/campaign_001/KRC/events/event_003/training_state.pt",
+          "bytes": 6293206683,
+          "sha256": "66033b346717c66df8a78c8206beb8f5278b507153ad5adb3e3d0f234c453808"
+        },
+        {
+          "path": "/data/sources/minhao/runs/dflash_krc_events_3_4_20261028/campaign_001/KRC/events/event_003/export/config.json",
+          "bytes": 1211,
+          "sha256": "5749d96966f9ce7e6a9662c9f482b8aa0d461845fb6b9ce09ac2c08311fab2aa"
+        },
+        {
+          "path": "/data/sources/minhao/runs/dflash_krc_events_3_4_20261028/campaign_001/KRC/events/event_003/export/model.safetensors",
+          "bytes": 2097259104,
+          "sha256": "33374ac11f5f11eb7d4c52511503c3b88164bcf68bf1927676bdcc3f03c90bb7"
+        }
+      ],
+      "event_004": [
+        {
+          "path": "/data/sources/minhao/runs/dflash_krc_events_3_4_20261028/campaign_001/KRC/events/event_004/training_state.pt",
+          "bytes": 6293654683,
+          "sha256": "1934f9b7b162a77ef4b2333a10cbb8e92a471a9347e78b49317ee1c90becba95"
+        },
+        {
+          "path": "/data/sources/minhao/runs/dflash_krc_events_3_4_20261028/campaign_001/KRC/events/event_004/export/config.json",
+          "bytes": 1211,
+          "sha256": "5749d96966f9ce7e6a9662c9f482b8aa0d461845fb6b9ce09ac2c08311fab2aa"
+        },
+        {
+          "path": "/data/sources/minhao/runs/dflash_krc_events_3_4_20261028/campaign_001/KRC/events/event_004/export/model.safetensors",
+          "bytes": 2097259104,
+          "sha256": "3166559e3599fbb254363bef950bb40012c0675c01ed0bc057a43961a5511f8d"
+        }
+      ]
+    },
+    "preserved_both_complete_states": true
+  },
+  "storage": {
+    "draft_bytes": 2097259104,
+    "tensor_peak_bytes": 20762865129,
+    "compiler_staging_logs_bytes": 4294967296,
+    "reserve_bytes": 8589934592,
+    "free_bytes": 49230708736,
+    "required_bytes": 33647767017,
+    "basis": "two immutable states6W + two exports2W + exporter temporaryW;10% slack;compact-only retrieval",
+    "admitted": true,
+    "host_available_bytes": 136252313600,
+    "host_required_bytes": 77309411328
+  },
+  "audit": {
+    "status": "passed",
+    "issues": [],
+    "provenance": "Independent same-team retained-data/source audit, not blinded external review or rerun.",
+    "native_blocks": 54435
+  },
+  "audit_integrity_counts": {
+    "sealed_files": 1659,
+    "local_files_rehashed": 1053,
+    "remote_only_files": 606,
+    "retrieved_files_rehashed": 3845
+  }
+}
