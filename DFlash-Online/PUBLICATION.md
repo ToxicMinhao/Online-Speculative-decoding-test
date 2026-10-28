@@ -7,7 +7,7 @@ The experimental source is published at commit [`52e5a8a870f4691a44caf1428e21110
 - Full A800 DFlash-Online source, including upstream DFlash/SpecForge, exact compatibility patches, shared online-feedback code and bounded experiment runners.
 - 855 captured non-documentation entries verified byte-for-byte; the three edited root documents have exact originals in `provenance/live_capture/`. No scientific Python file was changed.
 - 969 archived source variants, 7,482 verified source-pin occurrences, 182 readable launch/analysis scripts and 85 configuration/pin copies.
-- 177 report copies across 38 study/preparation groups. Maintained local reports received provenance appendices; 37 immutable raw copies received sidecars without changing their bytes. Original report hashes remain in the index.
+- 177 report copies from 37 groups, with 38 study/preparation groups inventoried. Maintained local reports received provenance appendices; 37 immutable raw copies received sidecars without changing their bytes. Original report hashes remain in the index.
 
 ## Checks
 
