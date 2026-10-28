@@ -1,0 +1,54 @@
+"""Bind the main run to the passed compiler repair and immutable original inputs."""
+import hashlib
+import json
+from pathlib import Path
+import shutil
+import sys
+
+
+def identity(path):
+    path = Path(path)
+    with path.open('rb') as stream:
+        digest = hashlib.file_digest(stream, 'sha256').hexdigest()
+    return dict(bytes=path.stat().st_size, sha256=digest)
+
+
+def prepare(root):
+    root = Path(root)
+    prior = root.parent / 'repair_002'
+    seal = json.loads((prior / 'sealed/SEAL.json').read_text())
+    for path, expected in seal['files'].items():
+        if identity(path) != expected:
+            raise ValueError('Qualified source or retained input changed: ' + path)
+    qualification = prior / 'execution_001/qualification'
+    result = json.loads((qualification / 'RESULT.json').read_text())
+    if result['status'] != 'passed':
+        raise ValueError('Reuse requires a completed passed qualification')
+    sealed = root / 'sealed'
+    sealed.mkdir(exist_ok=False)
+    for name in ('config.yaml', 'MODEL_PIN.json', 'RUNTIME_PIN.json', 'TRAINING_PIN.json'):
+        shutil.copy2(prior / 'sealed' / name, sealed / name)
+    plan = json.loads((prior / 'sealed/PLAN.json').read_text())
+    plan.update(config=str(sealed / 'config.yaml'), scope='main one-event G and retained K1 evaluation',
+                main=dict(optimizer_steps=128, presentations=256),
+                probes=dict(response_evaluations=18, steps=[1,64,128]),
+                evaluation=dict(generations=384, arms=['K','G'], requests=64, repeats=3),
+                qualification_reused_from=str(qualification),
+                qualification=dict(temporary_optimizer_steps=0, response_presentations=0),
+                startup=dict(draft_response_evaluations=2, optimizer_steps=0),
+                prior_completed_temporary_steps=5)
+    (sealed / 'PLAN.json').write_text(json.dumps(plan, indent=2) + '\n')
+    paths = list(sealed.iterdir())
+    paths += [p for p in root.iterdir() if p.is_file() and p.suffix in ('.py','.sh','.json')]
+    paths += [p for p in qualification.rglob('*') if p.is_file()]
+    paths += [prior/'sealed/SEAL.json', prior/'POSTFLIGHT.json', prior/'EXIT_CODE']
+    for path in paths:
+        seal['files'][str(path)] = identity(path)
+    seal['parent_seal'] = str(prior / 'sealed/SEAL.json')
+    seal['scope'] = 'main G only; reused passed repair qualification; previous artifacts unchanged'
+    (sealed / 'SEAL.json').write_text(json.dumps(seal, indent=2) + '\n')
+    print(json.dumps(dict(status='sealed', source_changes=0, files=len(seal['files']))))
+
+
+if __name__ == '__main__':
+    prepare(sys.argv[1])

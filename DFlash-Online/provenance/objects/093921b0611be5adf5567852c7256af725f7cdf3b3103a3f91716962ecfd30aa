@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+set -u
+source /data/sources/minhao/EAGLE_SPEC/setup/a800/a800_env.sh || exit 1
+cd /data/sources/minhao/DFlash-Online || exit 1
+component_run=/data/sources/minhao/runs/osd_checkpoint_components_20261024
+printf '%s\n' "$$" > "$component_run/execution_001/SUPERVISOR.pid"
+date -u +'%Y-%m-%dT%H:%M:%SZ' > "$component_run/execution_001/STARTED.utc"
+bash experiments/osd_components/run_campaign.sh \
+    "$component_run/prepared" "$component_run/campaign_001"
+component_exit=$?
+printf '%s\n' "$component_exit" > "$component_run/execution_001/EXIT_CODE"
+date -u +'%Y-%m-%dT%H:%M:%SZ' > "$component_run/execution_001/FINISHED.utc"
+exit "$component_exit"

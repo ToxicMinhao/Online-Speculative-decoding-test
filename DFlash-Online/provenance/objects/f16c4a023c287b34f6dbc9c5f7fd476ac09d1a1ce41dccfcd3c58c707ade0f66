@@ -1,0 +1,380 @@
+"""Local audit tests. Relabelled records below are temporary TEST FIXTURES only."""
+import copy
+import csv
+import importlib.util
+import json
+import math
+from pathlib import Path
+import subprocess
+import sys
+import tempfile
+from types import SimpleNamespace
+import unittest
+
+SCRIPT = Path(__file__).resolve().parents[1] / 'audit_results.py'
+spec = importlib.util.spec_from_file_location('first_error_audit', SCRIPT)
+audit = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(audit)
+RESEARCH = SCRIPT.parent.parent
+ORDINARY = RESEARCH / 'dflash_osd_one_event_20261025/final_review/raw/campaign_001/trainer/events/event_001/RESULT.json'
+OLD = RESEARCH / 'dflash_reference_margin_execution_20261026/raw/campaign_001'
+
+
+def write(path, value):
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(value) + '\n')
+
+
+def write_lines(path, rows):
+    path.write_text(''.join(json.dumps(row) + '\n' for row in rows))
+
+
+def write_csv(path, rows):
+    with path.open('w', newline='') as stream:
+        output = csv.DictWriter(stream, fieldnames=list(rows[0]))
+        output.writeheader()
+        output.writerows(rows)
+
+
+def fake_evaluation(root, requests, ordinary):
+    """A complete null-call/mixed-time panel constructed only for auditor tests."""
+    directory = root / 'evaluation'
+    (directory / 'report').mkdir(parents=True)
+    checkpoints = {'O': ordinary['checkpoint_path'], **{a: 'TEST_ONLY_' + a for a in audit.OBJECTIVES}}
+    previous = audit.lines(OLD / 'evaluation/MEASUREMENTS.jsonl')
+    retained, rows, activations = {}, [], []
+    previous_arm = None
+    for request in requests:
+        rid, ordinal = request['request_id'], request['panel_ordinal']
+        retained[rid] = {a: next(r['verification_calls'] for r in previous if r['request_id'] == rid and r['method'] == a) for a in ('F', 'O')}
+        for repeat in range(3):
+            original = next(r for r in previous if r['request_id'] == rid and r['method'] == 'O' and r['repeat'] == repeat)
+            original_record = audit.read(OLD / 'evaluation' / f'{ordinal:04d}_r{repeat}_O.json')
+            shift = (ordinal + repeat) % 4
+            for arm in audit.ARMS[shift:] + audit.ARMS[:shift]:
+                label = f'{ordinal:04d}_r{repeat}_{arm}'
+                row, record = copy.deepcopy(original), copy.deepcopy(original_record)
+                row.update(method=arm, checkpoint_id=checkpoints[arm], record_path='/TEST_FIXTURE/campaign_001/evaluation/' + label + '.json')
+                record.update(record_id=label, checkpoint_id=checkpoints[arm])
+                scale = {'O': 1., 'C': 1.2, 'K': .9, 'A': 1.3}[arm]
+                row['request_latency_s'] *= scale
+                record['metadata']['request_latency_s'] = row['request_latency_s']
+                write(directory / (label + '.json'), record)
+                rows.append(row)
+                if arm != previous_arm:
+                    activation = copy.deepcopy(audit.lines(OLD / 'evaluation/ACTIVATIONS.jsonl')[0])
+                    activation.update(method=arm, panel_ordinal=ordinal, repeat=repeat, checkpoint_id=checkpoints[arm], activation_s=.01)
+                    activation['native_status']['publication']['checkpoint_path'] = checkpoints[arm]
+                    activations.append(activation)
+                    previous_arm = arm
+    for arm in audit.OBJECTIVES:
+        write(root / arm / 'events/event_001/RESULT.json', dict(checkpoint_path=checkpoints[arm]))
+    weights = []
+    for arm in audit.ARMS:
+        weight = copy.deepcopy(audit.read(OLD / 'evaluation/WEIGHTS_O.json'))
+        weight['native_reply']['checkpoint_path'] = checkpoints[arm]
+        weight['validation_s'] = .01
+        write(directory / ('WEIGHTS_' + arm + '.json'), weight)
+        weights.append(weight)
+    status = dict(status='completed', planned_generations=768, attempted_generations=768, returned_generations=768,
+        unknown_generation_attempts=0, unattempted_generations=0, qualification='passed', qualification_requests=8,
+        optimizer_steps=0, feedback_collections=0, activation_s=sum(r['activation_s'] for r in activations),
+        weight_validation_s=.04, evaluation_wall_s=1000.)
+    protocol = dict(arms=list(audit.ARMS), comparisons=[list(p) for p in audit.PAIRS], required_arms=['O'],
+        repeats=3, capture=False, count_trajectory_repeat=0, checkpoints=checkpoints, ordinary_counts=retained)
+    ids = [r['request_id'] for r in requests]
+    totals, comparisons = audit.independent_totals(rows, ids)
+    summary = dict(planned_requests=64, valid_requests=64, invalid_or_incomplete_requests=0,
+        returned_measurements=768, valid_timed_generations=768, timing_repeats_per_method_request=3,
+        comparison_axes=dict(position_selection=['K_vs_O', 'A_vs_C'], loss_choice=['C_vs_O', 'A_vs_K']),
+        **totals, comparisons=comparisons, execution=status)
+    write(directory / 'PROTOCOL.json', protocol)
+    write(directory / 'STATUS.json', status)
+    write(directory / 'QUALIFICATION.json', dict(status='passed', requests=8, generations=96,
+        arms_with_native_equality=sorted(audit.ARMS), performance_win_required=False))
+    write(directory / 'report/SUMMARY.json', summary)
+    write(directory / 'report/HISTORICAL_F_COUNTS.json', dict(source='retained first-event F measurements; not fresh latency',
+        valid_requests=64, verification_calls=sum(r['F'] for r in retained.values()), per_request={r: retained[r]['F'] for r in ids}))
+    write_lines(directory / 'MEASUREMENTS.jsonl', rows)
+    write_lines(directory / 'ACTIVATIONS.jsonl', activations)
+    per_request = []
+    for request in requests:
+        rid = request['request_id']
+        result = dict(request_id=rid, complete=True, valid=True, errors='')
+        for arm in audit.ARMS:
+            group = [r for r in rows if r['request_id'] == rid and r['method'] == arm]
+            primary = next(r for r in group if r['repeat'] == 0)
+            for name in audit.COUNTS:
+                result[arm + '_' + name] = primary[name]
+            result[arm + '_mean_request_latency_s'] = sum(r['request_latency_s'] for r in group)/3
+            result[arm + '_calls_per_1000_output_tokens'] = 1000*primary['verification_calls']/primary['output_tokens']
+            result[arm + '_accepted_draft_tokens_per_call'] = primary['accepted_draft_tokens']/primary['verification_calls']
+            result[arm + '_committed_progress_per_call'] = primary['committed_progress']/primary['verification_calls']
+        for candidate, reference in audit.PAIRS:
+            label = candidate + '_vs_' + reference
+            for metric, key, reduction in (('call', 'verification_calls', 'call_reduction_pct'), ('latency', 'mean_request_latency_s', 'request_time_reduction_pct')):
+                before, after = result[reference + '_' + key], result[candidate + '_' + key]
+                result[label + '_' + reduction] = 100*(1-after/before)
+                result[label + '_' + metric + '_direction'] = 'improved' if after < before else 'regressed' if after > before else 'tied'
+        per_request.append(result)
+    write_csv(directory / 'report/PER_REQUEST.csv', per_request)
+    write_csv(directory / 'report/ALL_REPEATS.csv', [{**r, 'report_valid': True, 'report_errors': []} for r in rows])
+    write_csv(directory / 'report/REPEAT_TOTALS.csv', [dict(repeat=i, method=a, requests=64,
+        verification_calls=sum(r['verification_calls'] for r in rows if r['repeat'] == i and r['method'] == a),
+        request_latency_s=sum(r['request_latency_s'] for r in rows if r['repeat'] == i and r['method'] == a))
+        for i in range(3) for a in audit.ARMS])
+    ordinary_rows = [r for r in previous if r['method'] in ('F', 'O')]
+    return ordinary_rows
+
+
+def fake_training(root, ordinary):
+    features = {r['record_id']: r for r in ordinary['features']}
+    for arm, objective in audit.OBJECTIVES.items():
+        rows, pending = [], []
+        for original in ordinary['records']:
+            row = copy.deepcopy(original)
+            feature = features[row['record_id']]
+            slots = anchors = positions = 0
+            weight = 0.
+            for draw in row['sampled_anchors']:
+                for sampled, keep in zip(draw['positions'], draw['keep_mask']):
+                    slots += len(sampled)
+                    for anchor, active in zip(sampled, keep):
+                        if active:
+                            anchors += 1
+                            offsets = [j for j in range(1, 16) if anchor+j < feature['length']]
+                            positions += len(offsets)
+                            weight += sum(math.exp(-(j-1)/7) for j in offsets)
+            pending.append((slots, anchors, positions, weight))
+            nslots, nanchors, npositions, nweight = [sum(v[j] for v in pending) for j in range(4)]
+            selected, selected_weight = (npositions, nweight) if arm == 'C' else (nanchors, nanchors)
+            denominator = selected_weight + len(pending)*1e-6
+            m = dict(available_position_occurrences=npositions, selected_position_occurrences=selected,
+                available_position_weight=nweight, selected_position_weight=selected_weight,
+                no_error_blocks=nanchors if arm == 'C' else 0, empty_blocks=nslots-nanchors,
+                main_loss_numerator=2*denominator, loss_denominator=denominator,
+                response_presentations=len(pending), supervised_position_exposure=selected,
+                objective_loss=2., **{name: nanchors if arm != 'C' and i == 0 else 0 for i, name in enumerate(audit.HISTOGRAM)})
+            m['canonical_ce' if arm in ('C', 'A') else 'forward_kl'] = 2.
+            row.update(metrics=m, metrics_scope='accumulation_window' if row['optimizer_stepped'] else 'presentation', training_s=.1)
+            rows.append(row)
+            if row['optimizer_stepped']:
+                pending = []
+        work = dict(reference_setup_s=0., reference_forward_s=0., reference_head_s=0., projection_s=0.,
+                    teacher_head_s=0. if arm in ('C', 'A') else 1., selection_s=1.)
+        event = dict(status='completed', objective=objective, reduction='response_mean', passes=2, optimizer_steps=128,
+            response_presentations=256, start_step=0, end_step=128,
+            selection_totals_source='optimizer_boundary_accumulation_windows_once', gradient_denominator='responses per accumulation window',
+            records=rows, features=ordinary['features'], selection_totals=audit.diagnostic_totals(rows)['sums'], objective_work=work,
+            costs=dict(training_s=sum(r['training_s'] for r in rows), checkpoint_save_s=1., export_s=1.))
+        write(root / arm / 'events/event_001/RESULT.json', event)
+        initialization = dict(exact_pinned_initial_state=True, full_rng_restored_after_construction=True,
+                              inherited_warmup_state=False, reference_created=False, wall_s=1.)
+        write(root / (arm + '_INITIAL.json'), dict(global_step=0, presentations=0, accumulation_remainder=0,
+            completed_events=[], closed=False, failed=False, objective=objective, reduction='response_mean', controlled_initialization=initialization))
+        write(root / (arm + '_CLOSED.json'), dict(global_step=128, presentations=256, accumulation_remainder=0,
+            completed_events=['event_001'], closed=True, failed=False))
+        write(root / arm / 'initialization/initial_vs_pinned.json', dict(exact_equal=True,
+            missing_left=[], missing_right=[], metadata_differences=[], tensor_differences=[]))
+
+
+class AuditEvidenceTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.temporary = tempfile.TemporaryDirectory()
+        cls.root = Path(cls.temporary.name)
+        cls.ordinary = audit.read(ORDINARY)
+        cls.requests = audit.read(OLD / 'MANIFEST.json')['eval_requests']
+        cls.trace = audit.load_trace_auditor(audit.DEFAULT_TRACE_AUDITOR)
+        cls.ordinary_rows = fake_evaluation(cls.root / 'panel', cls.requests, cls.ordinary)
+        fake_training(cls.root / 'training', cls.ordinary)
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.temporary.cleanup()
+
+    def test_complete_768_panel_null_calls_and_harmful_time_pass(self):
+        issues = []
+        result = audit.evaluation(self.root / 'panel', self.requests, self.ordinary_rows, self.ordinary, self.trace, issues)
+        self.assertEqual(issues, [])
+        self.assertEqual(result['raw_measurements'], 768)
+        self.assertEqual(result['historical_F_calls'], 3140)
+        self.assertEqual(set(result['comparisons']), {'K_vs_O', 'A_vs_C', 'C_vs_O', 'A_vs_K'})
+        self.assertEqual(result['comparisons']['C_vs_O']['call_reduction_pct'], 0)
+        self.assertLess(result['comparisons']['C_vs_O']['request_time_reduction_pct'], 0)
+
+    def test_canonical_trace_corruption_rejected(self):
+        path = self.root / 'panel/evaluation/0000_r0_K.json'
+        original = path.read_text()
+        record = json.loads(original)
+        record['response_ids'][2] += 1
+        try:
+            write(path, record)
+            issues = []
+            audit.evaluation(self.root / 'panel', self.requests, self.ordinary_rows, self.ordinary, self.trace, issues)
+            self.assertTrue(any('canonical response_ids' in issue for issue in issues))
+        finally:
+            path.write_text(original)
+
+    def test_missing_duplicate_or_fresh_F_slot_rejected(self):
+        rows = audit.lines(self.root / 'panel/evaluation/MEASUREMENTS.jsonl')
+        for corrupt in (rows[:-1], rows[:-1] + [rows[0]], [{**rows[0], 'method': 'F'}, *rows[1:]]):
+            issues = []
+            audit.validate_slots(corrupt, self.requests, issues)
+            self.assertTrue(issues)
+
+    def test_boundary_only_training_accounting_and_changed_anchor(self):
+        issues = []
+        result = audit.training(self.root / 'training', self.ordinary, issues)
+        self.assertEqual(issues, [])
+        self.assertEqual(result['C']['diagnostics']['sums']['response_presentations'], 256)
+        self.assertEqual(result['C']['diagnostics']['occurrence_selection_rate'], 1)
+        self.assertLess(result['K']['diagnostics']['occurrence_selection_rate'], 1)
+        path = self.root / 'training/K/events/event_001/RESULT.json'
+        original = path.read_text()
+        event = json.loads(original)
+        event['records'][0]['sampled_anchors'][0]['positions'][0][0] += 1
+        try:
+            write(path, event)
+            issues = []
+            audit.training(self.root / 'training', self.ordinary, issues)
+            self.assertTrue(any('schedule/LR' in issue for issue in issues))
+        finally:
+            path.write_text(original)
+
+    def test_double_counted_totals_and_missing_first_error_fail(self):
+        path = self.root / 'training/A/events/event_001/RESULT.json'
+        original = path.read_text()
+        event = json.loads(original)
+        event['selection_totals'] = {key: sum(r['metrics'][key] for r in event['records']) for key in audit.SUMS}
+        event['records'][0]['metrics']['selected_position_occurrences'] = 0
+        try:
+            write(path, event)
+            issues = []
+            audit.training(self.root / 'training', self.ordinary, issues)
+            self.assertTrue(any('boundary-only' in issue for issue in issues))
+            self.assertTrue(any('include-first-error' in issue for issue in issues))
+        finally:
+            path.write_text(original)
+
+    def test_input_scope_rejects_duplicate_response(self):
+        manifest = audit.read(OLD / 'MANIFEST.json')
+        issues = []
+        audit.validate_scope(manifest, self.ordinary, issues)
+        self.assertEqual(issues, [])
+        ordinary = copy.deepcopy(self.ordinary)
+        ordinary['records'][1]['record_id'] = ordinary['records'][0]['record_id']
+        issues = []
+        audit.validate_scope(manifest, ordinary, issues)
+        self.assertTrue(any('full feedback pass' in issue for issue in issues))
+
+    def test_pooled_ratios_use_repeat_zero_counts_and_all_four_axes(self):
+        rows = []
+        values = {'O': (1, 9), 'C': (2, 10), 'K': (1, 3), 'A': (3, 5)}
+        for rid in range(2):
+            for arm in audit.ARMS:
+                for repeat, scale in enumerate((.5, 1., 1.5)):
+                    calls = values[arm][rid]
+                    rows.append(dict(request_id=str(rid), method=arm, repeat=repeat,
+                        verification_calls=calls, accepted_draft_tokens=80, committed_progress=99,
+                        output_tokens=100, request_latency_s=scale*calls))
+        totals, comparisons = audit.independent_totals(rows, ['0', '1'])
+        self.assertEqual(totals['O']['verification_calls'], 10)
+        self.assertEqual(totals['O']['all_repeats_request_latency_s'], 30)
+        self.assertEqual(comparisons['K_vs_O']['call_reduction_pct'], 60)
+        self.assertAlmostEqual(comparisons['A_vs_C']['call_reduction_pct'], 100/3)
+        self.assertAlmostEqual(comparisons['C_vs_O']['call_reduction_pct'], -20)
+        self.assertEqual(comparisons['A_vs_K']['call_reduction_pct'], -100)
+
+    def test_costs_nested_timers_and_qualification_counted_once(self):
+        root = self.root / 'training'
+        values = dict(qualification_wall_s=50., qualification_driver_wall_s=40.,
+                      backend_loading_s=10., actual_campaign_wall_s=200.)
+        write(root / 'qualification/RESULT.json', dict(wall_s=40.))
+        write(root / 'evaluation/STATUS.json', dict(evaluation_wall_s=20.))
+        for arm in audit.OBJECTIVES:
+            event = audit.read(root / arm / 'events/event_001/RESULT.json')
+            value = dict(loading_s=2., initialization_s=1., event_wall_s=30., **event['costs'],
+                objective_work=event['objective_work'], selection_totals=event['selection_totals'],
+                new_feedback_generations=0, new_teacher_preparation_s=0.)
+            write(root / (arm + '_COSTS.json'), value)
+            values[arm] = value
+        write(root / 'COSTS.json', values)
+        issues = []
+        result = audit.costs(root, issues)
+        self.assertEqual(issues, [])
+        self.assertEqual(result['nonoverlapping_phase_sum_s'], 179.)
+        values['actual_campaign_wall_s'] = 178.
+        write(root / 'COSTS.json', values)
+        issues = []
+        audit.costs(root, issues)
+        self.assertTrue(any('Disjoint phase' in issue for issue in issues))
+
+    def test_preservation_pass_does_not_hide_nonzero_supervisor_exit(self):
+        root = self.root / 'provenance'
+        root.mkdir()
+        (root / 'config.yaml').write_text('TEST_ONLY_CONFIG\n')
+        remote_o, remote_config = '/TEST_ONLY/retained/RESULT.json', '/TEST_ONLY/config.yaml'
+        q = dict(ordinary_receipt=remote_o, config=remote_config,
+                 input_sha256={remote_o: audit.digest(ORDINARY), remote_config: audit.digest(root / 'config.yaml')})
+        write(root / 'qualification/RESULT.json', q)
+        seal = dict(source_sha256={'source.py': 'abc'}, execution_sha256={'run.py': 'def'}, dependency_sha256={})
+        postflight = dict(status='passed', errors=[], supervisor_exit_code=9,
+            checked=dict(source_sha256=1, execution_sha256=1, dependency_sha256=0, retained_artifacts=1))
+        write(root / 'SEAL.json', seal)
+        write(root / 'POSTFLIGHT.json', postflight)
+        write(root / 'PREFLIGHT.json', dict(status='passed', original_inputs_unchanged=True,
+            storage=dict(admitted=True), retained_artifacts=1))
+        write(root / 'RETAINED_ARTIFACTS.json', {remote_o: dict(sha256=audit.digest(ORDINARY))})
+        args = SimpleNamespace(ordinary_receipt=ORDINARY, seal=root / 'SEAL.json', postflight=root / 'POSTFLIGHT.json')
+        issues = []
+        audit.provenance(root, args, issues)
+        self.assertEqual(issues, ['Postflight preservation AND supervisor completion'])
+        postflight['supervisor_exit_code'] = 0
+        write(root / 'POSTFLIGHT.json', postflight)
+        issues = []
+        audit.provenance(root, args, issues)
+        self.assertEqual(issues, [])
+
+    def test_missing_inputs_exit_nonzero_with_failed_receipt(self):
+        output = self.root / 'missing_audit.json'
+        command = [sys.executable, str(SCRIPT)]
+        for name in ('campaign', 'manifest', 'ordinary-receipt', 'ordinary-measurements', 'seal', 'postflight'):
+            command += ['--' + name, str(self.root / 'missing')]
+        command += ['--output', str(output)]
+        result = subprocess.run(command, capture_output=True, text=True)
+        self.assertEqual(result.returncode, 1)
+        self.assertEqual(audit.read(output)['status'], 'failed')
+
+
+class QualificationAuditTests(unittest.TestCase):
+    def test_real_tiny_seven_window_receipts_and_relabelled_work(self):
+        # The audit itself imports no torch. This fixture is explicitly CPU only.
+        import torch
+        import test_qualification as native_tests
+        fixture = native_tests.FullQualifierCPUIntegrationTests()
+        fixture.setUpClass()
+        fixture.setUp()
+        try:
+            _, controlled, diagnostic, pin, ordinary_path = fixture.retained_fixture()
+            native_tests.Q.run_qualification(fixture.config, ordinary_path, pin, fixture.root / 'qualification',
+                                             controlled_runner=controlled, diagnostic_runner=diagnostic)
+            issues = []
+            result = audit.qualification(fixture.root, audit.read(ordinary_path), issues)
+            self.assertEqual(issues, [])
+            self.assertEqual(len(result['exact_gates']), 22)
+            path = fixture.root / 'qualification/WORK.jsonl'
+            rows = audit.lines(path)
+            next(r for r in rows if r['kind'] == 'detached_logit_gradient' and r['status'] == 'completed')['trial'] = 'O'
+            write_lines(path, rows)
+            issues = []
+            audit.qualification(fixture.root, audit.read(ordinary_path), issues)
+            self.assertTrue(any('work/presentation binding' in issue for issue in issues))
+            self.assertFalse(torch.cuda.is_initialized())
+        finally:
+            fixture.doCleanups()
+            fixture.tearDownClass()
+
+
+if __name__ == '__main__':
+    unittest.main(verbosity=2)

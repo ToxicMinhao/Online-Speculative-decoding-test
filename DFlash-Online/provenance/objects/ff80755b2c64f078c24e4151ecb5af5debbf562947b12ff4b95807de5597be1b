@@ -1,0 +1,687 @@
+"""Persistent SpecForge training over completed responses.
+
+Each event presents the selected responses twice by default. The same upstream
+TrainerCore and selected optimizer survive across events.
+This adapter chooses the response reduction, records training work, and publishes
+an export only after complete optimizer windows. The optional target objective
+changes the loss while reusing author sampling, conditioning and optimization.
+"""
+from __future__ import annotations
+
+from dataclasses import replace
+from pathlib import Path
+import gc
+import json
+import math
+import os
+import re
+import time
+
+from .rng import capture_rng, preserve_rng, restore_rng
+from .recipe import OnlineRecipe, load_event_config
+from .storage import save_torch, write_json
+
+SCHEMA = "specforge_event_trainer_v2"
+REDUCTIONS = {"response_mean", "upstream_weight_mean"}
+RANKING_OBJECTIVES = {"osd_uniform", "osd_prefix", "osd_reference_margin"}
+OSD_OBJECTIVES = {"osd", *RANKING_OBJECTIVES}
+
+
+def ranking_eos_token_ids(target_path):
+    """Use the pinned serving EOS metadata without loading another target model."""
+    from transformers import AutoTokenizer
+
+    target_path = Path(target_path)
+    config = json.loads((target_path / "config.json").read_text())
+    generation_path = target_path / "generation_config.json"
+    generation = json.loads(generation_path.read_text()) if generation_path.exists() else {}
+    eos = generation.get("eos_token_id") or config["eos_token_id"]
+    ids = list(eos) if isinstance(eos, list) else [eos]
+    tokenizer = AutoTokenizer.from_pretrained(target_path, local_files_only=True)
+    if tokenizer.eos_token_id is not None and tokenizer.eos_token_id not in ids:
+        ids.append(tokenizer.eos_token_id)
+    return tuple(ids)
+
+
+def validate_target_binding(raw):
+    """Require labels checked by the frozen target on the actual canonical prefix."""
+    binding = raw.get("label_binding", {})
+    response = raw["input_ids"][0, raw["prompt_length"]:].tolist()
+    backend = binding.get("capture_backend")
+    verified_backend = backend == "same_frozen_HF_target_canonical_replay"
+    if backend == "same_frozen_HF_target_saved_native_block_replay":
+        replay = binding.get("native_replay", {})
+        verified_backend = (
+            replay.get("full_posterior_match") is True
+            and replay.get("label_binding_scope") == "exact_saved_native_prefill_and_verification_blocks"
+            and replay.get("final_feature_logits_used_for_labels") is False
+        )
+    elif backend == "same_frozen_SGLang_native_capture":
+        # These rows came from the actual serving forwards, not an HF replay.
+        # The final token's extra feature completes the tensor but supplies no
+        # teacher label. Bind the whole prefix as well as the response so a
+        # capture cannot be reassigned to different prompt tokens.
+        captured_ids = binding.get("input_ids")
+        target_ids = binding.get("target_argmax_ids")
+        verified_backend = (
+            binding.get("native_capture_validated") is True
+            and binding.get("label_binding_scope") == "native_prefill_and_committed_verification"
+            and binding.get("final_feature_logits_used_for_labels") is False
+            and isinstance(captured_ids, list)
+            and all(type(token) is int for token in captured_ids)
+            and captured_ids == raw["input_ids"][0].tolist()
+            and isinstance(target_ids, list)
+            and all(type(token) is int for token in target_ids)
+        )
+    if (
+        not verified_backend
+        or binding.get("target_argmax_ids") != response
+        or binding.get("prompt_length") != raw["prompt_length"]
+        or binding.get("record_id") != raw["record_id"]
+        or binding.get("label_mismatches") != []
+    ):
+        raise ValueError("Target objective requires verified canonical target-greedy labels")
+
+
+def validate_feature(raw, *, max_length, hidden_width=None, vocab_size=None):
+    """Check a complete response before upstream normalization can truncate it."""
+    import torch
+
+    ids = raw["input_ids"]
+    mask = raw["loss_mask"]
+    hidden = raw["hidden_states"]
+    prompt_length = raw["prompt_length"]
+
+    if ids.ndim != 2 or ids.shape[0] != 1 or ids.dtype != torch.int64:
+        raise ValueError("input_ids must be int64 [1,L]")
+    length = ids.shape[1]
+    if not 0 < length <= max_length:
+        raise ValueError("Whole feature sequence exceeds cap; truncation is forbidden")
+    if mask.shape != (1, length):
+        raise ValueError("loss_mask must be [1,L]")
+    if not 1 <= prompt_length <= length - 2:
+        raise ValueError("Need a prompt and at least two adjacent response tokens")
+    if not ((mask[:, :prompt_length] == 0).all() and (mask[:, prompt_length:] == 1).all()):
+        raise ValueError("Mask must be prompt-zero and complete-response-one")
+    if hidden.ndim != 3 or hidden.shape[:2] != (1, length) or not hidden.is_floating_point():
+        raise ValueError("hidden_states must be floating [1,L,H]")
+    if hidden_width is not None and hidden.shape[2] != hidden_width:
+        raise ValueError("Target feature width differs from draft contract")
+    if not torch.isfinite(hidden).all():
+        raise ValueError("Target features contain nonfinite values")
+    if (ids < 0).any() or (vocab_size is not None and (ids >= vocab_size).any()):
+        raise ValueError("Token outside vocabulary")
+    if not raw["record_id"]:
+        raise ValueError("Nonempty record identity required")
+
+    last_hidden = raw.get("target_last_hidden_states")
+    if last_hidden is not None:
+        if (
+            last_hidden.ndim != 3
+            or last_hidden.shape[:2] != (1, length)
+            or not last_hidden.is_floating_point()
+            or not torch.isfinite(last_hidden).all()
+        ):
+            raise ValueError("Final target features must be finite floating [1,L,H]")
+
+    return {
+        "record_id": raw["record_id"],
+        "length": length,
+        "prompt_length": prompt_length,
+        "response_tokens": length - prompt_length,
+        "adjacent_response_positions": length - prompt_length - 1,
+    }
+
+
+class ReductionAdapter:
+    """Use one author forward and choose its denominator across responses.
+
+    response_mean gives every response equal weight. upstream_weight_mean keeps
+    the author's ratio of summed weighted losses to sampled-position weights.
+    TrainerCore accumulates these terms and applies the resulting denominator.
+    """
+
+    def __init__(self, strategy, reduction):
+        if reduction not in REDUCTIONS:
+            raise ValueError(f"Unknown loss reduction: {reduction}")
+        self.strategy = strategy
+        self.reduction = reduction
+
+    def __getattr__(self, name):
+        return getattr(self.strategy, name)
+
+    def forward_loss(self, batch, ctx=None):
+        output = self.strategy.forward_loss(batch, ctx)
+        author_terms = output.loss_terms
+        if author_terms is None:
+            raise ValueError("Author additive objective terms unavailable")
+        one_response = output.loss.detach().new_ones(())
+        if self.reduction == "response_mean":
+            loss_terms = (output.loss, one_response)
+        else:
+            loss_terms = author_terms
+        return replace(
+            output,
+            loss_terms=loss_terms,
+            ratio_metrics={**output.ratio_metrics, "author_weighted_objective": author_terms},
+            sum_metrics={**output.sum_metrics, "response_presentations": one_response},
+        )
+
+
+class SpecForgeEventTrainer:
+    """Own one training runtime and save resumable state after each event."""
+
+    def __init__(self, config_path, output_root, resume_state=None, reduction="response_mean",
+                 objective="upstream", ranking_lambda=1.0):
+        if reduction not in REDUCTIONS:
+            raise ValueError(f"Unknown loss reduction: {reduction}")
+        if objective not in {"upstream", "hard_ce", "projected"} | OSD_OBJECTIVES:
+            raise ValueError(f"Unknown target objective: {objective}")
+        if objective in RANKING_OBJECTIVES and (not math.isfinite(ranking_lambda) or ranking_lambda < 0):
+            raise ValueError("Ranking lambda must be finite and nonnegative")
+        self.config_path = Path(config_path).absolute()
+        self.config_text = self.config_path.read_text()
+        self.output_root = Path(output_root).absolute()
+        self.reduction = reduction
+        self.objective = objective
+        self.ranking_lambda = ranking_lambda
+        self.recipe = OnlineRecipe()
+        self.events = []
+        self.global_step = 0
+        self.presentations = 0
+        self.closed = False
+        self.failed = False
+        self._owns_distributed = False
+        self._original_sampler = None
+        self._anchor_observations = []
+        self._presentation_schedule = None
+
+        self.output_root.mkdir(parents=True, exist_ok=True)
+        self.latest = self.output_root / "training_state.pt"
+        self.pending_state = self.output_root / "training_state.pending.pt"
+        self.events_root = self.output_root / "events"
+        self.events_root.mkdir(exist_ok=True)
+        if self.pending_state.exists():
+            raise ValueError("Uncommitted checkpoint exists; resume committed state in a fresh output directory")
+        if self.latest.exists() and resume_state is None:
+            raise ValueError("Existing trainer state requires explicit resume")
+
+        self._build_runtime()
+        if resume_state is not None:
+            self._restore(resume_state)
+        committed_ids = {event["event_id"] for event in self.events}
+        if any(path.name not in committed_ids for path in self.events_root.iterdir()):
+            raise ValueError("Uncommitted event exists; resume committed state in a fresh output directory")
+
+    def _build_runtime(self):
+        """Assemble upstream DFlash and TrainerCore with the selected OSD recipe."""
+        from accelerate.utils import set_seed
+        from specforge.application import resolve_run
+        from specforge.training.assembly import build_model_bundle, _optimizer_factory
+        from specforge.training.backend import FSDPTrainingBackend, ParallelConfig
+        from specforge.training.controller import TrainerCore
+
+        self.cfg, self.recipe = load_event_config(self.config_path)
+        cfg = self.cfg
+        self._validate_config()
+        set_seed(cfg.training.seed)
+        self._initialize_distributed()
+
+        resolved = resolve_run(cfg)
+        self.bundle = build_model_bundle(cfg, algorithm=resolved.algorithm)
+        if self.objective != "upstream":
+            from .objective import TargetObjectiveModel
+            ranking_options = {}
+            if self.objective in RANKING_OBJECTIVES:
+                with preserve_rng():
+                    self.eos_token_ids = ranking_eos_token_ids(cfg.model.target_model_path)
+                ranking_options = {
+                    "ranking_lambda": self.ranking_lambda,
+                    "eos_token_ids": self.eos_token_ids,
+                }
+            self.bundle.model = TargetObjectiveModel(
+                self.bundle.model, self.objective, loss_precision=self.recipe.kl_precision,
+                **ranking_options,
+            )
+        if self.recipe.optimizer == "bf16_adamw":
+            from .optimizer import DirectBF16AdamW
+            def optimizer_factory(model):
+                return DirectBF16AdamW(
+                    model, learning_rate=cfg.training.learning_rate,
+                    weight_decay=self.recipe.weight_decay,
+                    max_grad_norm=cfg.training.max_grad_norm,
+                )
+        else:
+            optimizer_factory = _optimizer_factory(cfg)
+            optimizer_factory.configure_total_steps(self.horizon)
+        parallel = ParallelConfig.from_distributed(
+            tp_size=1,
+            sp_ulysses_size=1,
+            sp_ring_size=1,
+            sharding_strategy=cfg.training.fsdp_sharding,
+        )
+        self.backend = FSDPTrainingBackend(parallel, optimizer_factory=optimizer_factory)
+        wrapped_model = self.backend.prepare_model(
+            self.bundle.model, optimizer_target=self.bundle.model.draft_model
+        )
+        if self.objective in OSD_OBJECTIVES:
+            from .objective import OSDTrainStrategy
+            self.author_strategy = OSDTrainStrategy(wrapped_model)
+        else:
+            self.author_strategy = resolved.algorithm.providers.step.build(
+                wrapped_model,
+                target_head=self.bundle.target_head,
+                **self.bundle.strategy_kwargs,
+            )
+        self.strategy = ReductionAdapter(self.author_strategy, self.reduction)
+        self.core = TrainerCore(self.strategy, self.backend, accumulation_steps=self.accumulation)
+        self.hidden_width = self.bundle.target_hidden_size * len(self.bundle.draft_model.target_layer_ids)
+        self.vocab_size = self.bundle.target_vocab_size
+        self.contract = dict(self.bundle.strategy_kwargs.resume_contract)
+        if self.objective in OSD_OBJECTIVES:
+            self.contract["online_target_objective"] = {
+                "name": "osd", "version": 1, "loss_precision": self.recipe.kl_precision,
+                "teacher": "frozen_target_predecessor_hidden",
+                "temperature": 1.0, "hard_label_mix": 0.0,
+                "denominator_epsilon": 1e-6,
+            }
+            if self.objective in RANKING_OBJECTIVES:
+                self.contract["online_target_objective"].update({
+                    "name": self.objective,
+                    "ranking_lambda": self.ranking_lambda,
+                    "ranking_difference_precision": "float32",
+                    "reference": "fixed_pre_event_independent_draft_eval",
+                    "prefix_rule": "consecutive_canonical_matches_excluding_seed_through_eos",
+                    "eos_token_ids": list(self.eos_token_ids),
+                })
+                if self.objective == "osd_reference_margin":
+                    self.contract["online_target_objective"].update({
+                        "auxiliary_penalty": "relu_current_minus_detached_reference_rival_softplus",
+                        "rival_rule": "each_model_strongest_noncanonical",
+                        "relu_scope": "per_position_before_weighted_reduction",
+                        "equality_derivative": 0.0,
+                    })
+        elif self.objective != "upstream":
+            self.contract["online_target_objective"] = {
+                "name": self.objective, "version": 1, "loss_precision": "float32",
+                "reference": "fixed_pre_event", "margin_ratio": 1.1,
+            }
+        if self.recipe != OnlineRecipe():
+            self.contract["online_training_recipe"] = self.recipe.model_dump()
+        self._original_sampler = self.bundle.model._sample_anchor_positions
+        self.bundle.model._sample_anchor_positions = self._sample_and_record_anchors
+        self.bundle.model.train()
+
+    def _validate_config(self):
+        training = self.cfg.training
+        if self.recipe != OnlineRecipe() and self.objective not in OSD_OBJECTIVES:
+            raise ValueError("The online recipe options currently apply only to OSD")
+        if self.recipe.optimizer == "bf16_adamw":
+            if (self.cfg.model.torch_dtype != "bfloat16"
+                    or training.lr_scheduler != "constant" or training.warmup_ratio != 0
+                    or training.optimizer_cpu_offload):
+                raise ValueError("Direct BF16 AdamW requires BF16, constant LR, zero warmup and no offload")
+        elif self.recipe.weight_decay != 0:
+            raise ValueError("The historical FP32-master optimizer fixes weight decay at zero")
+        if training.strategy != "dflash" or training.batch_size != 1:
+            raise ValueError("Only DFlash batch-one event training is qualified")
+        if training.fsdp_sharding != "NO_SHARD" or (
+            training.tp_size, training.sp_ulysses_size, training.sp_ring_size
+        ) != (1, 1, 1):
+            raise ValueError("Event training requires one process and NO_SHARD")
+        if training.loss_type != "dflash" or training.lk_loss_type is not None:
+            raise ValueError("Event training requires the standard DFlash base loss")
+        self.horizon = training.total_steps or training.max_steps
+        if self.horizon is None or self.horizon <= 0:
+            raise ValueError("Pin a positive optimizer horizon independent of buffer size")
+        if training.max_steps is not None and training.max_steps != self.horizon:
+            raise ValueError("Event horizon and max_steps differ")
+        self.accumulation = training.accumulation_steps
+        if self.accumulation <= 0:
+            raise ValueError("Positive accumulation required")
+        self.max_length = self.cfg.data.max_length
+
+    def _initialize_distributed(self):
+        import torch.distributed as dist
+        from specforge.cli import _bootstrap_single_process_env
+        from specforge.distributed import init_distributed
+
+        os.environ["FSDP_SHARDING"] = self.cfg.training.fsdp_sharding
+        if not dist.is_initialized():
+            _bootstrap_single_process_env()
+            if int(os.environ["WORLD_SIZE"]) != 1:
+                raise ValueError("Single-process event adapter only")
+            init_distributed(
+                timeout=self.cfg.training.dist_timeout,
+                tp_size=1,
+                sp_ulysses_size=1,
+                sp_ring_size=1,
+            )
+            self._owns_distributed = True
+        if dist.get_world_size() != 1:
+            raise ValueError("Single-process event adapter only")
+
+    def _sample_and_record_anchors(self, *args, **kwargs):
+        """Observe the author's draw without making an additional random draw."""
+        anchors, keep_mask = self._original_sampler(*args, **kwargs)
+        observation = {
+            "positions": anchors.detach().cpu().tolist(),
+            "keep_mask": keep_mask.detach().cpu().tolist(),
+        }
+        if self._presentation_schedule is not None:
+            self._presentation_schedule.check_anchors(observation)
+        self._anchor_observations.append(observation)
+        return anchors, keep_mask
+
+    def _restore(self, path):
+        import torch
+
+        # Do not mmap: CPU Adam retains loaded moments while latest is replaced.
+        state = torch.load(path, map_location="cpu", weights_only=False)
+        if state.get("event_schema") != SCHEMA:
+            raise ValueError("Unsupported trainer state schema; use the archived code for old state files")
+        if state["config_text"] != self.config_text or state["reduction"] != self.reduction:
+            raise ValueError("Resume configuration or reduction differs")
+        if (
+            state["algorithm_contract"] != self.contract
+            or state["horizon"] != self.horizon
+            or state["accumulation_steps"] != self.accumulation
+        ):
+            raise ValueError("Resume algorithm or schedule differs")
+        if state["presentations"] != state["global_step"] * self.accumulation:
+            raise ValueError("Resume counters do not form complete optimizer windows")
+
+        self.bundle.draft_model.load_state_dict(state["draft_state_dict"], strict=True)
+        self.backend.load_state_dict(state["backend"])
+        restore_rng(state["rng"])
+        self.global_step = state["global_step"]
+        self.presentations = state["presentations"]
+        self.events = state["events"]
+        self.core._micro = self.presentations
+
+    def status(self):
+        remainder = self._closed_remainder if self.closed else self.core.accumulation_remainder
+        return {
+            "schema_version": SCHEMA,
+            "closed": self.closed,
+            "failed": self.failed,
+            "global_step": self.global_step,
+            "presentations": self.presentations,
+            "completed_events": [event["event_id"] for event in self.events],
+            "reduction": self.reduction,
+            "objective": self.objective,
+            "accumulation_remainder": remainder,
+            "horizon": self.horizon,
+            "full_state_path": str(self.latest) if self.latest.exists() else None,
+        }
+
+    def _prepare_event(self, event_id, feature_paths, passes):
+        """Validate an event before any forward or optimizer update happens."""
+        import torch
+
+        if self.closed or self.failed:
+            raise ValueError("Trainer is closed or failed; restore committed state")
+        if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_.-]*", event_id):
+            raise ValueError("Safe nonempty event ID required")
+        if event_id in {event["event_id"] for event in self.events}:
+            raise ValueError("Duplicate event refused")
+        if not feature_paths or type(passes) is not int or passes < 1:
+            raise ValueError("Nonempty feedback and positive passes required")
+        count = len(feature_paths) * passes
+        if self.core.accumulation_remainder or count % self.accumulation:
+            raise ValueError("Event would leave an accumulation remainder; no silent drop or flush")
+        if self.global_step + count // self.accumulation > self.horizon:
+            raise ValueError("Event exceeds fixed optimizer horizon")
+
+        features = []
+        for path in feature_paths:
+            path = Path(path).absolute()
+            raw = torch.load(path, map_location="cpu", weights_only=True)
+            metadata = validate_feature(
+                raw,
+                max_length=self.max_length,
+                hidden_width=self.hidden_width,
+                vocab_size=self.vocab_size,
+            )
+            if self.objective != "upstream":
+                validate_target_binding(raw)
+            if self.objective in OSD_OBJECTIVES:
+                teacher = raw.get("target_last_hidden_states")
+                if teacher is None or teacher.shape[-1] != self.bundle.target_hidden_size:
+                    raise ValueError("OSD requires final teacher features matching the target head")
+            features.append({**metadata, "path": str(path)})
+        if len({feature["record_id"] for feature in features}) != len(features):
+            raise ValueError("Duplicate response records within event")
+        return features
+
+    def _batch(self, raw):
+        from specforge.algorithms.common.hidden_states_data import normalize_offline_sample
+        from specforge.runtime.contracts import TrainBatch
+
+        # Length/mask checks already ran at the feature boundary. Normalization
+        # supplies the batch dimensions expected by the upstream DFlash strategy.
+        sample = {**raw, "input_ids": raw["input_ids"][0], "loss_mask": raw["loss_mask"][0]}
+        tensors = normalize_offline_sample(sample, self.max_length)
+        if "target_last_hidden_states" in raw:
+            tensors["target_last_hidden_states"] = raw["target_last_hidden_states"]
+        return TrainBatch(
+            sample_ids=[raw["record_id"]],
+            strategy="dflash",
+            tensors=tensors,
+            metadata={"label_binding": raw.get("label_binding")},
+        )
+
+    def _train_passes(self, features, passes):
+        import torch
+        from specforge.training.strategies.base import StepContext
+
+        rows = []
+        for pass_index in range(passes):
+            # This RNG is saved with the optimizer; source chronology stays intact.
+            order = (torch.randperm(len(features)).tolist()
+                     if self.recipe.shuffle_responses else range(len(features)))
+            for index in order:
+                feature = features[index]
+                if self._presentation_schedule is not None:
+                    self._presentation_schedule.begin_presentation(pass_index, feature["record_id"])
+                # Stream one response at a time instead of retaining all features.
+                raw = torch.load(feature["path"], map_location="cpu", weights_only=True)
+                self._anchor_observations.clear()
+                started = time.perf_counter()
+                learning_rate = self.backend.optimizer.get_learning_rate()
+                result = self.core.train_step(
+                    self._batch(raw),
+                    StepContext(
+                        global_step=self.global_step,
+                        total_steps=self.horizon,
+                        collect_detailed_metrics=True,
+                    ),
+                )
+                if self._presentation_schedule is not None:
+                    self._presentation_schedule.finish_presentation()
+                metrics = result.materialize_metrics()  # Synchronizes the measured boundary.
+                elapsed = time.perf_counter() - started
+                self.presentations += 1
+                if result.optimizer_stepped:
+                    self.global_step += 1
+                if not all(math.isfinite(float(value)) for value in metrics.values()):
+                    raise ValueError("Nonfinite training metric")
+                rows.append({
+                    "record_id": feature["record_id"],
+                    "pass": pass_index,
+                    "optimizer_step_after": self.global_step,
+                    "optimizer_stepped": result.optimizer_stepped,
+                    "learning_rate": learning_rate if result.optimizer_stepped else None,
+                    "metrics": metrics,
+                    "training_s": elapsed,
+                    "sampled_anchors": list(self._anchor_observations),
+                })
+        return rows
+
+    def _checkpoint_state(self, event):
+        """Keep the upstream optimizer payload and exporter-compatible weights."""
+        full_state = self.backend.state_dict()
+        return {
+            "event_schema": SCHEMA,
+            "draft_state_dict": self.strategy.checkpoint_state_filter(full_state["model"]),
+            "backend": {"optimizer": full_state["optimizer"]},
+            "rng": capture_rng(),
+            "global_step": self.global_step,
+            "presentations": self.presentations,
+            "events": self.events + [event],
+            "strategy": "dflash",
+            "run_id": self.cfg.run_id,
+            "world_size": 1,
+            "config_text": self.config_text,
+            "algorithm_contract": self.contract,
+            "reduction": self.reduction,
+            "accumulation_steps": self.accumulation,
+            "horizon": self.horizon,
+        }
+
+    def _export(self, export_path):
+        from specforge.export.to_hf import export_to_hf
+
+        config_path = Path(self.cfg.model.draft_model_config)
+        if config_path.is_dir():
+            config_path /= "config.json"
+        # Model construction in the exporter must not change the next anchor draw.
+        with preserve_rng():
+            export_to_hf(
+                str(self.pending_state),
+                str(config_path),
+                str(export_path),
+                embedding_source=self.cfg.model.target_model_path,
+                embedding_key=self.cfg.model.embedding_key,
+            )
+
+    def train_event(self, event_id: str, feature_paths: list[Path], passes: int = 2,
+                    *, reference_check=None, presentation_schedule=None):
+        """Train and export one event; an optional qualification check observes the reference.
+
+        reference_check(model, phase) runs before/after training while the frozen
+        reference is alive. Normal serving leaves this unset. Checks must not
+        change model or RNG state.
+
+        presentation_schedule accepts a retained completed RESULT.json path or
+        receipt. Normal draws must match it; it never substitutes new anchors.
+        """
+        wall_start = time.perf_counter()
+        features = self._prepare_event(event_id, feature_paths, passes)
+        if presentation_schedule is not None:
+            from .presentation_schedule import PresentationSchedule
+            self._presentation_schedule = PresentationSchedule(
+                presentation_schedule, [feature["record_id"] for feature in features], passes,
+                features=features,
+            )
+        event_dir = self.events_root / event_id
+        event_dir.mkdir()
+        start_step = self.global_step
+        write_json(event_dir / "PENDING.json", {
+            "event_id": event_id,
+            "features": features,
+            "passes": passes,
+            "start_step": start_step,
+        })
+
+        try:
+            objective_costs = {}
+            if self.objective != "upstream":
+                self.bundle.model.begin_event()
+            try:
+                if reference_check is not None:
+                    reference_check(self.bundle.model, "before")
+                rows = self._train_passes(features, passes)
+                if reference_check is not None:
+                    reference_check(self.bundle.model, "after")
+            finally:
+                # All backwards finish before the immutable reference is released.
+                if self.objective != "upstream":
+                    objective_costs = self.bundle.model.end_event()
+            if self.core.accumulation_remainder:
+                raise RuntimeError("Cannot publish incomplete optimizer window")
+            event = {
+                "event_id": event_id,
+                "features": features,
+                "passes": passes,
+                "response_presentations": len(rows),
+                "start_step": start_step,
+                "end_step": self.global_step,
+                "optimizer_steps": self.global_step - start_step,
+                "reduction": self.reduction,
+                "objective": self.objective,
+                "objective_work": objective_costs,
+                "gradient_denominator": (
+                    "responses per accumulation window"
+                    if self.reduction == "response_mean"
+                    else "sum of author sampled-position weights"
+                ),
+                "records": rows,
+            }
+
+            save_start = time.perf_counter()
+            save_torch(self.pending_state, self._checkpoint_state(event))
+            save_seconds = time.perf_counter() - save_start
+            export_path = event_dir / "export"
+            export_start = time.perf_counter()
+            self._export(export_path)
+            export_seconds = time.perf_counter() - export_start
+            receipt = {
+                **event,
+                "status": "completed",
+                "checkpoint_path": str(export_path),
+                "export_path": str(export_path),
+                "full_state_path": str(self.latest),
+                "costs": {
+                    "training_s": sum(row["training_s"] for row in rows),
+                    "checkpoint_save_s": save_seconds,
+                    "export_s": export_seconds,
+                    "event_wall_s_before_commit": time.perf_counter() - wall_start,
+                },
+                "counters": {
+                    "global_step": self.global_step,
+                    "presentations": self.presentations,
+                    "completed_events": len(self.events) + 1,
+                },
+            }
+            write_json(event_dir / "RESULT.json", receipt)
+            os.replace(self.pending_state, self.latest)
+            self.events.append(event)
+            return receipt
+        except BaseException as error:
+            # The optimizer may have advanced. Never reuse this live runtime.
+            self.failed = True
+            try:
+                write_json(event_dir / "FAILED.json", {
+                    "error_type": type(error).__name__,
+                    "message": str(error),
+                    "global_step": self.global_step,
+                    "presentations": self.presentations,
+                    "automatic_retry": False,
+                })
+            except Exception as receipt_error:
+                error.add_note(f"Could not write failure record: {receipt_error}")
+            raise
+        finally:
+            self._presentation_schedule = None
+
+    def close(self):
+        """Release this runtime; a closed instance still exposes its status."""
+        import torch
+
+        if self.closed:
+            return
+        if self.core.accumulation_remainder and not self.failed:
+            raise ValueError("Cannot silently close partial accumulated gradients")
+        if self._original_sampler is not None:
+            self.bundle.model._sample_anchor_positions = self._original_sampler
+        self._closed_remainder = self.core.accumulation_remainder
+        self.closed = True
+        if self._owns_distributed:
+            from specforge.distributed import destroy_distributed
+            destroy_distributed(abort=self.failed)
+        del self.core, self.strategy, self.author_strategy, self.backend, self.bundle
+        self._original_sampler = None
+        gc.collect()
+        if torch.cuda.is_initialized():
+            torch.cuda.empty_cache()

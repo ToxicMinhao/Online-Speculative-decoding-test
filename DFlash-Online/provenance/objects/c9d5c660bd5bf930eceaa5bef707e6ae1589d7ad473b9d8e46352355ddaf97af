@@ -1,0 +1,118 @@
+import copy
+import importlib.util
+from pathlib import Path
+import unittest
+import tempfile
+import shutil
+import json
+
+SCRIPT = Path(__file__).resolve().parents[1] / 'audit_results.py'
+spec = importlib.util.spec_from_file_location('margin_audit', SCRIPT)
+audit = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(audit)
+
+class AuditEvidenceTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.trace = audit.load_trace_auditor(audit.DEFAULT_TRACE_AUDITOR)
+        root = SCRIPT.parent.parent / 'dflash_prefix_ranking_execution_20261026/raw/campaign_001'
+        cls.requests = audit.read(root/'MANIFEST.json')['eval_requests']
+        cls.record = audit.read(root/'evaluation/0000_r0_F.json')
+        cls.row = audit.lines(root/'evaluation/MEASUREMENTS.jsonl')[0]
+
+    def test_real_eos_scientific_counter_differs_from_native(self):
+        record = copy.deepcopy(self.record)
+        terminal = record['metadata']['trace'][-1]
+        self.assertEqual((terminal['raw_accepted_draft_tokens_before_stop'],
+                          terminal['accepted_draft_tokens'], terminal['native_accepted_draft_tokens']), (9,8,7))
+        issues = []
+        self.trace.trace_record(record,self.requests[0],self.row['checkpoint_id'],issues,'eos')
+        audit.trace_extras(record,self.requests[0],self.row,issues)
+        self.assertEqual(issues, [])
+
+    def test_hidden_longest_prefix_corruption_is_rejected(self):
+        record = copy.deepcopy(self.record)
+        for field in (record['metadata']['trace'],record['metadata']['capture']['blocks']):
+            terminal = field[-1]
+            terminal['draft_tokens'][9] = terminal['target_argmax'][9]
+        issues = []
+        self.trace.trace_record(record,self.requests[0],self.row['checkpoint_id'],issues,'corrupt')
+        self.assertTrue(any('raw accepted' in item for item in issues))
+        self.assertFalse(any('canonical commit' in item for item in issues))
+        self.assertEqual(record['response_ids'], self.record['response_ids'])
+
+    def test_raw_identity_corruption_is_rejected(self):
+        record = copy.deepcopy(self.record)
+        record['request_index'] = 1000
+        issues = []
+        audit.trace_extras(record,self.requests[0],self.row,issues)
+        self.assertTrue(any('raw identity/path' in item for item in issues))
+
+    def test_pooled_ratios_and_repeat_scope(self):
+        rows = []
+        for index, ordinary in enumerate((1,9)):
+            for arm in audit.ARMS:
+                calls = (1,3)[index] if arm == 'R' else ordinary
+                for repeat,multiplier in enumerate((0.5,1,1.5)):
+                    rows.append(dict(request_id=str(index),method=arm,repeat=repeat,
+                        verification_calls=calls,output_tokens=100,committed_progress=99,
+                        accepted_draft_tokens=80,request_latency_s=multiplier*calls))
+        totals, comparisons = audit.independent_totals(rows,['0','1'])
+        self.assertEqual(totals['O']['verification_calls'],10)
+        self.assertEqual(totals['R']['verification_calls'],4)
+        self.assertEqual(totals['R']['summed_mean_request_latency_s'],4)
+        self.assertEqual(comparisons['R_vs_O']['call_reduction_pct'],60)
+        self.assertEqual(comparisons['R_vs_O']['request_time_reduction_pct'],60)
+        self.assertEqual(comparisons['R_vs_O']['call_request_directions'],dict(improved=1,regressed=0,tied=1))
+
+    def test_complete_slots_and_missing_or_duplicate_rejected(self):
+        rows = []
+        for request in self.requests:
+            for repeat in range(3):
+                shift = (request['panel_ordinal'] + repeat) % 4
+                for arm in audit.ARMS[shift:] + audit.ARMS[:shift]:
+                    rows.append(dict(request_id=request['request_id'],method=arm,repeat=repeat))
+        issues = []
+        audit.validate_slots(rows,self.requests,issues)
+        self.assertEqual(issues, [])
+        for corrupt in (rows[:-1],rows[:-1]+[rows[0]]):
+            issues = []
+            audit.validate_slots(corrupt,self.requests,issues)
+            self.assertEqual(len(issues),1)
+
+    def test_boundary_diagnostics_do_not_double_count(self):
+        values = [(1,0,2,1,2,3,0),(3,1,6,2,5,7,1),(4,2,8,3,6,8,2),(12,4,20,5,12,15,3)]
+        rows = [dict(optimizer_stepped=(i%2==1),metrics=dict(zip(audit.SUMS,v))) for i,v in enumerate(values)]
+        actual = audit.diagnostic_totals(rows)
+        self.assertEqual(actual['boundary_rows'],2)
+        self.assertEqual(tuple(actual['sums'].values()),(15,5,26,7,17,22,4))
+        self.assertEqual(actual['ratios'],dict(pooled_weighted_forward_kl=15/26,
+            pooled_weighted_auxiliary_loss=5/26,protected_activation_rate=7/17,
+            reference_correct_to_incorrect_rate=4/22))
+
+    def test_retained_R_qualification_and_relabelled_work(self):
+        campaign = SCRIPT.parent / 'raw/campaign_001'
+        ordinary_path = SCRIPT.parent.parent / 'dflash_osd_one_event_20261025/final_review/raw/campaign_001/trainer/events/event_001/RESULT.json'
+        ordinary = audit.read(ordinary_path)
+        issues = []
+        result = audit.qualification(campaign,ordinary,issues)
+        self.assertEqual(issues,[])
+        self.assertEqual(result['presentation_count'],10)
+        self.assertEqual(len(result['exact_gates']),11)
+        with tempfile.TemporaryDirectory() as temporary:
+            temporary = Path(temporary)
+            shutil.copytree(campaign / 'qualification',temporary / 'qualification')
+            work = audit.lines(temporary / 'qualification/WORK.jsonl')
+            row = next(r for r in work if r['kind']=='reference_training_forward' and r['status']=='completed')
+            row['trial'] = 'R0'
+            (temporary / 'qualification/WORK.jsonl').write_text('\n'.join(json.dumps(r) for r in work)+'\n')
+            issues = []
+            audit.qualification(temporary,ordinary,issues)
+            self.assertTrue(any('work/presentation binding reference_training_forward' in issue for issue in issues))
+
+    def test_empty_diagnostic_denominators_preserve_none(self):
+        actual = audit.diagnostic_totals([])
+        self.assertTrue(all(value is None for value in actual['ratios'].values()))
+
+if __name__ == '__main__':
+    unittest.main(verbosity=2)

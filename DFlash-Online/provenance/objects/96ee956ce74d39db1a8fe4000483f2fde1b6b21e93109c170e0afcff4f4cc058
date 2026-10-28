@@ -1,0 +1,378 @@
+"""Three disposable K/disabled-G/enabled-G steps with exact native controls.
+
+The reference tensors stay in host memory while compact, exact comparisons are
+written before any failure is raised. Two declared startup forward/backward
+evaluations initialize compiled kernels without calling an optimizer. Nothing
+from qualification is exported as a serving checkpoint.
+"""
+from contextlib import contextmanager, nullcontext
+import gc
+import json
+import math
+from pathlib import Path
+import time
+import traceback
+
+import numpy as np
+import torch
+
+from experiments.prefix_ranking.qualify import WorkLog, cpu_copy, override, run_window
+from online_feedback.presentation_schedule import PresentationSchedule
+from online_feedback.rng import capture_rng, restore_rng
+from online_feedback.storage import write_json
+from online_feedback.training import SpecForgeEventTrainer
+
+
+TRIALS = (("K", None), ("G_disabled", False), ("G_enabled", True))
+PLAN = dict(temporary_optimizer_steps=3, response_presentations=6,
+            startup_response_evaluations=2, startup_backwards=2,
+            qualification_k_backwards=6, qualification_h_backwards=2,
+            startup_optimizer_steps=0, generations=0, teacher_model_forwards=0,
+            main_optimizer_steps=0, numerical_control="exact native tensor equality")
+
+
+def named_gradients(trainer):
+    return {name: None if value.grad is None else value.grad.detach().cpu().clone()
+            for name, value in trainer.bundle.draft_model.named_parameters()}
+
+
+def scientific_state(trainer):
+    return cpu_copy(dict(
+        draft=trainer.bundle.draft_model.state_dict(),
+        optimizer=trainer.backend.optimizer.state_dict(), rng=capture_rng(),
+        global_step=trainer.global_step, presentations=trainer.presentations,
+        accumulation_remainder=trainer.core.accumulation_remainder,
+        training_modes={name: module.training for name, module in trainer.bundle.model.named_modules()},
+    ))
+
+
+def _number(value):
+    number = float(value)
+    return number if math.isfinite(number) else str(number)
+
+
+def tensor_comparison(left, right, sample_limit=8):
+    """Bounded FP64 discrepancy statistics, never a relaxed acceptance test."""
+    row = dict(left_shape=list(left.shape), right_shape=list(right.shape),
+               left_dtype=str(left.dtype), right_dtype=str(right.dtype))
+    if left.shape != right.shape or left.dtype != right.dtype:
+        return dict(row, exact_equal=False, reason="shape_or_dtype")
+    a, b = left.detach().cpu().reshape(-1), right.detach().cpu().reshape(-1)
+    bad = nonfinite = 0
+    squared = max_error = 0.
+    samples = []
+    # Chunking also keeps mismatch reporting bounded for model-sized tensors.
+    for start in range(0, a.numel(), 262144):
+        x, y = a[start:start + 262144], b[start:start + 262144]
+        finite = torch.isfinite(x) & torch.isfinite(y)
+        different = (x != y) | ~finite
+        nonfinite += int((~finite).sum())
+        bad += int(different.sum())
+        if different.any():
+            error = x.double() - y.double()
+            finite_error = error[finite]
+            squared += float(finite_error.square().sum())
+            if finite_error.numel():
+                max_error = max(max_error, float(finite_error.abs().max()))
+            for index in different.nonzero().flatten()[:sample_limit - len(samples)].tolist():
+                samples.append(dict(index=start + index, left=_number(x[index]),
+                                    right=_number(y[index]), error=_number(error[index])))
+    return dict(row, exact_equal=bad == 0, coordinates=a.numel(),
+                differing_coordinates=bad, nonfinite_coordinates=nonfinite,
+                finite_max_absolute_error=max_error, finite_discrepancy_l2=math.sqrt(squared),
+                samples=samples)
+
+
+def compare_states(left, right):
+    """Compare nested native states, including RNG container and dtype identity."""
+    tensors, metadata = [], []
+
+    def visit(a, b, path):
+        if isinstance(a, torch.Tensor) and isinstance(b, torch.Tensor):
+            tensors.append(dict(path=path, **tensor_comparison(a, b)))
+        elif isinstance(a, np.ndarray) and isinstance(b, np.ndarray):
+            visit(torch.from_numpy(a.copy()), torch.from_numpy(b.copy()), path)
+        elif type(a) is not type(b):
+            metadata.append(dict(path=path, left=repr(a), right=repr(b), reason="type"))
+        elif isinstance(a, dict):
+            if a.keys() != b.keys():
+                metadata.append(dict(path=path, left_keys=[repr(k) for k in a], right_keys=[repr(k) for k in b]))
+            for key in a.keys() & b.keys():
+                visit(a[key], b[key], f"{path}.{key}")
+        elif isinstance(a, (tuple, list)):
+            if len(a) != len(b):
+                metadata.append(dict(path=path, left_length=len(a), right_length=len(b)))
+            for index, (x, y) in enumerate(zip(a, b)):
+                visit(x, y, f"{path}[{index}]")
+        elif a != b or isinstance(a, float) and not math.isfinite(a):
+            metadata.append(dict(path=path, left=repr(a), right=repr(b)))
+
+    visit(left, right, "state")
+    failures = [row for row in tensors if not row["exact_equal"]]
+    return dict(exact_equal=not failures and not metadata,
+                compared_tensors=len(tensors), compared_coordinates=sum(row.get("coordinates", 0) for row in tensors),
+                tensor_layouts=[{key: row[key] for key in ("path", "left_shape", "left_dtype")} for row in tensors],
+                tensor_differences=failures, metadata_differences=metadata)
+
+
+def persist_comparison(path, actual, expected):
+    report = compare_states(actual, expected)
+    write_json(path, report)
+    if not report["exact_equal"]:
+        raise AssertionError(f"Exact qualification gate failed; evidence: {path}")
+    return report
+
+
+def prepare_main(trainer, pinned_initial, output_root):
+    """Restore only the approved full RNG; require fresh released model/Adam."""
+    root = Path(output_root)
+    root.mkdir(parents=True, exist_ok=True)
+    pinned = (torch.load(pinned_initial, map_location="cpu", weights_only=False, mmap=True)
+              if isinstance(pinned_initial, (str, Path)) else pinned_initial)
+    restore_rng(pinned["rng"])
+    current = scientific_state(trainer)
+    persist_comparison(root / "INITIAL_VS_PIN.json", current, pinned)
+    persist_comparison(root / "FRESH_CORE.json", dict(
+        micro=trainer.core._micro, ratio=trainer.core._ratio_totals, sums=trainer.core._sum_totals,
+        events=trainer.events, gradients=named_gradients(trainer),
+        schedule=trainer._presentation_schedule, anchors=trainer._anchor_observations,
+    ), dict(micro=0, ratio={}, sums={}, events=[],
+            gradients={name: None for name, _ in trainer.bundle.draft_model.named_parameters()},
+            schedule=None, anchors=[]))
+    return dict(exact_pinned_initial_state=True, full_rng_restored_after_construction=True,
+                fresh_optimizer=True, inherited_qualification_learning=False)
+
+
+@contextmanager
+def observe_forwards(trainer, log):
+    """Count original forwards and checkpoint recomputations separately."""
+    model = trainer.bundle.model
+    handles = [model.register_forward_pre_hook(lambda *args: log.counts.update(["response_model_forwards"])),
+               model.draft_model.register_forward_pre_hook(lambda *args: log.counts.update(["draft_forwards"])),
+               model.lm_head.register_forward_pre_hook(lambda *args: log.counts.update(["head_forwards_including_recompute"]))]
+    for layer in model.draft_model.layers:
+        handles.append(layer.register_forward_pre_hook(lambda *args: log.counts.update(["layer_forwards_including_recompute"])))
+    try:
+        yield
+    finally:
+        for handle in handles:
+            handle.remove()
+
+
+def warm_without_optimizer(trainer, ordinary, pinned, log, root):
+    """Exactly two original K forwards/backwards; no TrainerCore/Adam step."""
+    from specforge.training.strategies.base import StepContext
+
+    features = trainer._prepare_event("startup_no_step", [f["path"] for f in ordinary["features"]], 2)
+    schedule = PresentationSchedule(ordinary, [f["record_id"] for f in features], 2, features=features)
+    trainer._presentation_schedule = schedule
+    order = torch.randperm(len(features)).tolist()
+    original_modes = {name: module.training for name, module in trainer.bundle.model.named_modules()}
+    try:
+        for index, source in enumerate(order[:2]):
+            feature = features[source]
+            log.presentation = index
+            schedule.begin_presentation(0, feature["record_id"])
+            raw = torch.load(feature["path"], map_location="cpu", weights_only=True)
+            trainer._anchor_observations.clear()
+            with log.work("startup_response_evaluation"):
+                output = trainer.strategy.forward_loss(trainer._batch(raw), StepContext(
+                    global_step=0, total_steps=trainer.horizon, collect_detailed_metrics=True))
+                numerator = output.loss if output.loss_terms is None else output.loss_terms[0]
+                with log.work("startup_backward"):
+                    trainer.backend.backward(numerator / trainer.accumulation, is_boundary=index == 1)
+                schedule.finish_presentation()
+                log.record("startup_anchors", record_id=feature["record_id"], anchors=trainer._anchor_observations)
+            del output, numerator, raw
+    finally:
+        trainer.backend.optimizer.zero_grad()
+        trainer._presentation_schedule = None
+        trainer._anchor_observations.clear()
+        for name, module in trainer.bundle.model.named_modules():
+            module.training = original_modes[name]
+        restore_rng(pinned["rng"])
+    prepare_main(trainer, pinned, Path(root) / "restored")
+    write_json(Path(root) / "RESTORATION.json", dict(
+        exact_initial_state_restored=True, startup_optimizer_steps=0,
+        response_evaluations=2, backwards=2, compiled_caches_retained=True))
+
+
+def run_startup(config, ordinary, pinned, log, root):
+    """Warm process caches in a disposable runtime, never in the K comparator.
+
+    The first-use DDP reducer/bucket state is discarded with this trainer. All
+    three measured trials consequently receive newly constructed runtimes.
+    """
+    root = Path(root)
+    started = time.perf_counter()
+    trainer = SpecForgeEventTrainer(config, root / "trainer", objective="osd_first_error")
+    loading_s = time.perf_counter() - started
+    counts_before = dict(log.counts)
+    try:
+        prepare_main(trainer, pinned, root / "initial")
+        trainer.bundle.model.begin_event()
+        with observe_forwards(trainer, log):
+            warm_without_optimizer(trainer, ordinary, pinned, log, root)
+        receipt = dict(status="passed", loading_s=loading_s,
+                       response_evaluations=2, backwards=2, optimizer_steps=0,
+                       work_counts={key: value - counts_before.get(key, 0) for key, value in log.counts.items()},
+                       peak_cuda_allocated_bytes=torch.cuda.max_memory_allocated() if torch.cuda.is_initialized() else 0,
+                       peak_cuda_reserved_bytes=torch.cuda.max_memory_reserved() if torch.cuda.is_initialized() else 0,
+                       separate_disposable_runtime=True, exact_initial_state_restored=True)
+    except BaseException:
+        trainer.failed = True
+        raise
+    finally:
+        trainer.close()
+    del trainer
+    gc.collect()
+    receipt.update(wall_s=time.perf_counter() - started, runtime_closed_before_K_construction=True)
+    write_json(root / "STARTUP.json", receipt)
+    return receipt
+
+
+class ExactObserver:
+    """Keep K tensors in RAM and compare each corresponding G boundary."""
+    def __init__(self, trainer, root, log, baseline=None):
+        self.trainer, self.root, self.log = trainer, Path(root), log
+        self.baseline = baseline
+        self.saved = {} if baseline is None else None
+        self.backward_index = 0
+
+    def capture(self, phase, value):
+        value = cpu_copy(value)
+        if self.baseline is None:
+            self.saved[phase] = value
+            # Self-comparison also rejects NaN/Inf before this becomes a control.
+            persist_comparison(self.root / f"{phase}.json", value, value)
+        else:
+            persist_comparison(self.root / f"{phase}.json", value, self.baseline[phase])
+        self.log.record("exact_boundary", phase=phase, passed=True)
+
+    def gradients(self):
+        return dict(gradients=named_gradients(self.trainer), rng=capture_rng())
+
+    @contextmanager
+    def installed(self):
+        trainer = self.trainer
+        adapter = trainer.backend.optimizer
+        native = adapter.optimizer
+        old_backward, old_step, old_native_step = trainer.backend.backward, adapter.step, native.step
+
+        def backward(*args, **kwargs):
+            with self.log.work("qualification_k_backward"):
+                result = old_backward(*args, **kwargs)
+            self.capture(f"after_k_backward_{self.backward_index}", self.gradients())
+            self.backward_index += 1
+            return result
+
+        def native_step(*args, **kwargs):
+            self.capture("post_clip_gradients", self.gradients())
+            with self.log.work("temporary_optimizer_step"):
+                result = old_native_step(*args, **kwargs)
+            self.capture("native_post_adam", scientific_state(trainer))
+            return result
+
+        def step(*args, **kwargs):
+            self.capture("pre_clip_gradients", self.gradients())
+            return old_step(*args, **kwargs)
+
+        with override(trainer.backend, "backward", backward), override(adapter, "step", step), \
+                override(native, "step", native_step):
+            yield self
+
+
+def run_qualification(config, ordinary_receipt_path, pinned_initial_path, output_root):
+    """Stop on the first failed exact gate, with its bounded evidence retained."""
+    from online_feedback.prefix_guard import install_guard
+
+    root = Path(output_root)
+    root.mkdir(parents=True, exist_ok=False)
+    ordinary = json.loads(Path(ordinary_receipt_path).read_text())
+    if len(ordinary["features"]) != 128 or len(ordinary["records"]) != 256:
+        raise ValueError("Qualification requires the complete retained event-1 receipt")
+    pinned = torch.load(pinned_initial_path, map_location="cpu", weights_only=False, mmap=True)
+    log = WorkLog(root)
+    summary = dict(status="running", plan=PLAN, trials=[], config=str(config),
+                   ordinary_receipt=str(ordinary_receipt_path), pinned_initial=str(pinned_initial_path),
+                   comparison_storage="ordinary K CPU tensors retained in RAM; bounded exact receipts on disk")
+    write_json(root / "PLAN.json", summary)
+    trainer, baseline = None, None
+    started = time.perf_counter()
+    try:
+        log.trial, log.presentation = "startup", None
+        summary["startup"] = run_startup(config, ordinary, pinned, log, root / "startup")
+        write_json(root / "PROGRESS.json", summary)
+        for label, enabled in TRIALS:
+            log.trial, log.presentation = label, None
+            trial_root = root / label
+            trial_root.mkdir()
+            trial = dict(label=label, status="running", records=[])
+            summary["trials"].append(trial)
+            write_json(root / "PROGRESS.json", summary)
+            load_started = time.perf_counter()
+            trainer = SpecForgeEventTrainer(config, trial_root / "trainer", objective="osd_first_error")
+            trial["loading_s"] = time.perf_counter() - load_started
+            prepare_main(trainer, pinned, trial_root / "initial")
+            if torch.cuda.is_initialized():
+                torch.cuda.reset_peak_memory_stats()
+            with observe_forwards(trainer, log):
+                model = trainer.bundle.model
+                model.begin_event()
+                if model.reference is not None:
+                    raise AssertionError("Guard qualification must not construct a reference model")
+                guard_context = (nullcontext(None) if enabled is None else
+                                 install_guard(trainer, enabled=enabled, probe_steps=(), output_dir=trial_root / "guard"))
+                observer = ExactObserver(trainer, trial_root, log, baseline)
+                with guard_context as guard, observer.installed():
+                    for row in run_window(trainer, ordinary, log):
+                        trial["records"].append(row)
+                        write_json(root / "PROGRESS.json", summary)
+                final = scientific_state(trainer)
+                if label == "K":
+                    observer.capture("final", final)
+                    baseline = observer.saved
+                elif not enabled:
+                    observer.capture("final", final)
+                else:
+                    # Adam/RNG/counters/modes must still match; only final weights may differ.
+                    observer.capture("final_nonweights", {k: v for k, v in final.items() if k != "draft"})
+                    persist_comparison(trial_root / "FINAL_FINITE.json", final["draft"], final["draft"])
+                    write_json(trial_root / "FINAL_WEIGHT_CHANGE.json", compare_states(final["draft"], baseline["final"]["draft"]))
+                if label == "K":
+                    baseline["final_nonweights"] = {k: v for k, v in final.items() if k != "draft"}
+                if guard is not None:
+                    trial["guard_work"] = dict(guard.work)
+                    trial["guard_forward_calls"] = dict(guard.forward_calls)
+                    trial["guard_costs"] = dict(guard.costs)
+                    trial["guard_steps"] = guard.step_records
+                    trial["guard_responses"] = guard.response_records
+                    persist_comparison(trial_root / "GUARD_WORK.json", {
+                        key: guard.work[key] for key in (
+                            "h_backward_calls", "k_backward_calls", "probe_response_forwards")
+                    }, dict(h_backward_calls=2 if enabled else 0,
+                            k_backward_calls=2, probe_response_forwards=0))
+                trial["peak_cuda_allocated_bytes"] = torch.cuda.max_memory_allocated() if torch.cuda.is_initialized() else 0
+                trial["peak_cuda_reserved_bytes"] = torch.cuda.max_memory_reserved() if torch.cuda.is_initialized() else 0
+                trial["status"] = "passed"
+                write_json(trial_root / "TRIAL.json", trial)
+            trainer.close()
+            trainer = None
+            del final, observer, guard, guard_context, model
+            gc.collect()
+        expected = dict(temporary_optimizer_step_completed=3, response_presentations=6,
+                        qualification_k_backward_completed=6, startup_response_evaluation_completed=2,
+                        startup_backward_completed=2)
+        persist_comparison(root / "BUDGET.json", {key: log.counts[key] for key in expected}, expected)
+        summary["status"] = "passed"
+    except BaseException as error:
+        summary.update(status="failed", error_type=type(error).__name__, error=str(error), traceback=traceback.format_exc())
+        if trainer is not None:
+            trainer.failed = True
+        raise
+    finally:
+        summary.update(counts=dict(log.counts), work_counts=dict(log.counts), wall_s=time.perf_counter() - started)
+        write_json(root / "RESULT.json", summary)
+        if trainer is not None:
+            trainer.close()
+    return summary

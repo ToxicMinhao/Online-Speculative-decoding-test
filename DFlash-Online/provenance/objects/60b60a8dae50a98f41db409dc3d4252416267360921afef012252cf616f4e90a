@@ -1,0 +1,64 @@
+"""One-time pre-launch provenance check; never runs inside serving or training."""
+from pathlib import Path
+import hashlib
+import json
+import platform
+import subprocess
+import time
+import zipfile
+
+import torch
+import transformers
+import yaml
+
+ROOT = Path('/data/sources/minhao/runs/projected_target_feasibility_20261022')
+CODE = Path('/data/sources/minhao/EAGLE_SPEC/research/projected_target_feasibility_20261022')
+ONLINE = Path('/data/sources/minhao/DFlash-Online')
+MODELS = Path('/data/sources/minhao/models/qwen3_dflash_foundation_20261022')
+
+
+def digest(path):
+    with path.open('rb') as handle:
+        return hashlib.file_digest(handle, 'sha256').hexdigest()
+
+
+started = time.perf_counter()
+expected = json.loads((CODE / 'MODEL_MANIFEST.json').read_text())
+models = []
+for kind, metadata in expected.items():
+    for name, identity in metadata['files'].items():
+        path = MODELS / kind / name
+        assert path.stat().st_size == identity['bytes'], str(path)
+        assert digest(path) == identity['sha256'], str(path)
+        models.append({'path': str(path), **identity})
+
+sources = []
+with zipfile.ZipFile(ROOT / 'executed_source.zip', 'w', zipfile.ZIP_DEFLATED) as archive:
+    for name in ('online_feedback', 'training', 'inference', 'configs'):
+        for path in sorted((ONLINE / name).resolve().rglob('*')):
+            if path.is_file() and path.suffix in ('.py', '.yaml', '.json', '.toml') and '.git' not in path.parts:
+                relative = str(Path(name) / path.relative_to((ONLINE / name).resolve()))
+                archive.write(path, relative)
+                sources.append({'path': str(path), 'archive_path': relative, 'sha256': digest(path)})
+    for name in ('runner.py', 'report.py', 'run_campaign.sh', 'execution_config.yaml', 'manifest.json'):
+        path = CODE / name
+        archive.write(path, 'campaign/' + name)
+        sources.append({'path': str(path), 'archive_path': 'campaign/' + name, 'sha256': digest(path)})
+
+from runner import validate_plan, EXPECTED_LRS
+manifest = json.loads((CODE / 'manifest.json').read_text())
+config = yaml.safe_load((CODE / 'execution_config.yaml').read_text())
+validate_plan(manifest, config, str(MODELS / 'target'), str(MODELS / 'draft'))
+source_heads = {name: subprocess.check_output(['git', '-c', 'safe.directory=' + str((ONLINE / name).resolve()),
+                 '-C', str(ONLINE / name), 'rev-parse', 'HEAD'], text=True).strip()
+                for name in ('training', 'inference')}
+assert source_heads == {'training': '1839aae30003e3573d00979eb1edd57347b3578c',
+                        'inference': '07ebd93db9f472af339b644bb70221ad8428328a'}
+receipt = {'status': 'verified_before_generation', 'models': models, 'sources': sources,
+           'upstream_heads': source_heads, 'python': platform.python_version(),
+           'torch': torch.__version__, 'transformers': transformers.__version__,
+           'expected_learning_rates': EXPECTED_LRS, 'source_archive': str(ROOT / 'executed_source.zip'),
+           'config': config, 'wall_s': time.perf_counter() - started}
+(ROOT / 'BINDINGS.json').write_text(json.dumps(receipt, indent=2) + '\n')
+print(json.dumps({'status': receipt['status'], 'model_files': len(models),
+                  'source_files': len(sources), 'upstream_heads': source_heads, 'wall_s': receipt['wall_s']}))

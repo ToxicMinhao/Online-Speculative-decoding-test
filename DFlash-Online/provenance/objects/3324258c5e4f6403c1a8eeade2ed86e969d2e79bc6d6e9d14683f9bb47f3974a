@@ -1,0 +1,199 @@
+"""Independent retained-record audit; no model loading or runtime execution."""
+import argparse
+import csv
+import json
+import math
+from pathlib import Path
+
+import numpy as np
+import torch
+
+
+def run(root, original, destination, groups):
+    errors, checks, blocks, proposal_positions = [], 0, 0, 0
+
+    def check(condition, label):
+        nonlocal checks
+        checks += 1
+        if not condition:
+            errors.append(label)
+
+    def read(path):
+        return json.loads(path.read_text())
+
+    def equal(left, right, label):
+        if isinstance(left, torch.Tensor):
+            check(isinstance(right, torch.Tensor) and left.dtype == right.dtype and
+                  left.shape == right.shape and torch.equal(left, right), label)
+        elif isinstance(left, np.ndarray):
+            check(isinstance(right, np.ndarray) and np.array_equal(left, right), label)
+        elif isinstance(left, dict):
+            check(isinstance(right, dict) and left.keys() == right.keys(), label + ':keys')
+            for key in left.keys() & right.keys():
+                equal(left[key], right[key], label + ':' + str(key))
+        elif isinstance(left, (list, tuple)):
+            check(type(left) is type(right) and len(left) == len(right), label + ':length')
+            for index, (a, b) in enumerate(zip(left, right)):
+                equal(a, b, label + ':' + str(index))
+        else:
+            check(left == right, label)
+
+    def trajectory(record, label):
+        nonlocal blocks, proposal_positions
+        ids, metadata = record['response_ids'], record['metadata']
+        stops, cap = record['stop_token_ids'], record['max_new_tokens']
+        check(len(ids) <= cap and bool(ids), label + ':length')
+        check(record['finish_reason'] == ('eos' if ids[-1] in stops else 'length'), label + ':termination')
+        check(not any(token in stops for token in ids[:-1]), label + ':no_early_eos')
+        if record['finish_reason'] == 'length':
+            check(len(ids) == cap, label + ':cap')
+        offset, accepted_total = 0, 0
+        for index, block in enumerate(metadata['trace']):
+            key = label + ':block' + str(index)
+            draft, target = block['draft_tokens'], block['target_argmax']
+            blocks += 1
+            proposal_positions += len(draft)
+            check(len(target) == block['verify_size'] == len(draft) + 1, key + ':geometry')
+            check(block['output_start'] == offset and block['anchor_token'] == ids[offset], key + ':start')
+            matched = next((i for i, token in enumerate(draft) if token != target[i]), len(draft))
+            check(matched == block['matched_draft_count'], key + ':matched')
+            check(block['first_rejection_offset'] == (matched if matched < len(draft) else None), key + ':rejection')
+            committed = (draft[:matched] + [target[matched]])[:cap - 1 - offset]
+            eos = next((i for i, token in enumerate(committed) if token in stops), None)
+            if eos is not None:
+                committed = committed[:eos + 1]
+            check(committed == block['committed_tokens'], key + ':native_commit')
+            check(committed == ids[offset + 1:offset + 1 + len(committed)], key + ':output_commit')
+            check(block['committed_progress'] == len(committed), key + ':progress')
+            accepted = min(matched, len(committed))
+            check(block['accepted_draft_tokens'] == accepted, key + ':accepted')
+            accepted_total += accepted
+            offset += len(committed)
+        check(offset == len(ids) - 1 == metadata['committed_progress'], label + ':total_progress')
+        check(len(metadata['trace']) == metadata['verification_calls'], label + ':calls')
+        check(accepted_total == metadata['accepted_draft_tokens'], label + ':accepted_total')
+        check(math.isclose(metadata['committed_progress_per_call'], offset / len(metadata['trace'])), label + ':progress_rate')
+        check(math.isclose(metadata['calls_per_1000_output_tokens'], 1000 * len(metadata['trace']) / len(ids)), label + ':call_rate')
+        check(metadata['block_size'] == 16 and metadata['context_limit'] == 2048 and cap == 512, label + ':configuration')
+        check(metadata['feedback_capture_in_timed_request'] is False, label + ':no_capture')
+        check(metadata['cache_policy'] == 'new_target_and_draft_caches_per_request', label + ':caches')
+
+    manifest, summary, costs = (read(root / name) for name in ('manifest.json', 'SUMMARY.json', 'COSTS.json'))
+    with (root / 'PER_REQUEST.csv').open() as handle:
+        csv_rows = {(r['group'], r['request_id'], r['arm']): r for r in csv.DictReader(handle)}
+    result_groups = {}
+    for group in groups:
+        requests = next(g['requests'] for g in manifest['groups'] if g['name'] == group)
+        records = {}
+        for request in requests:
+            rid = request['request_id']
+            prior = read(original / group / 'F/records' / (rid + '.json'))
+            for arm in ('F', 'O'):
+                record = read(root / group / arm / 'records' / (rid + '.json'))
+                records[(rid, arm)] = record
+                check(record['prompt_ids'] == request['prompt_ids'], rid + arm + ':prompt')
+                for field in ('prompt_ids', 'response_ids', 'finish_reason', 'stop_token_ids', 'max_new_tokens'):
+                    check(record[field] == prior[field], rid + arm + ':' + field)
+                trajectory(record, rid + arm)
+                csv_row = csv_rows[(group, rid, arm)]
+                check(csv_row['comparison_valid'] == 'True', rid + arm + ':csv_valid')
+                for field in ('verification_calls', 'accepted_draft_tokens', 'committed_progress', 'request_latency_s'):
+                    check(math.isclose(float(csv_row[field]), record['metadata'][field], rel_tol=1e-12), rid + arm + ':csv_' + field)
+                check(int(csv_row['response_tokens']) == len(record['response_ids']), rid + arm + ':csv_output_length')
+                if arm == 'F':
+                    for field in ('verification_calls', 'accepted_draft_tokens', 'committed_progress', 'trace'):
+                        check(record['metadata'][field] == prior['metadata'][field], rid + ':frozen_' + field)
+        training = read(root / group / 'O/TRAINING.json')
+        old_training = read(original / group / 'C/TRAINING.json')
+        check(training['optimizer_steps'] == 8 and training['response_presentations'] == 16, group + ':training_counts')
+        check(training['objective'] == 'osd' and training['reduction'] == 'response_mean', group + ':objective')
+        check(training['passes'] == 2 and training['start_step'] == 0 and training['end_step'] == 8, group + ':passes_steps')
+        expected_order = [(r['request_id'], p) for p in range(2) for r in requests if r['role'] == 'A']
+        check([(r['record_id'], r['pass']) for r in training['records']] == expected_order, group + ':presentation_order')
+        check([r['optimizer_stepped'] for r in training['records']] == [False, True] * 8, group + ':accumulation')
+        positions, weight = 0, 0.0
+        for index, row in enumerate(training['records']):
+            check(row['sampled_anchors'] == old_training['records'][index]['sampled_anchors'], group + ':anchors' + str(index))
+            record = records[(row['record_id'], 'F')]
+            length, prompt = len(record['prompt_ids']) + len(record['response_ids']), len(record['prompt_ids'])
+            count, total = 0, 0.0
+            for sampled in row['sampled_anchors']:
+                for anchor, keep in zip(sampled['positions'][0], sampled['keep_mask'][0]):
+                    if keep:
+                        check(anchor >= prompt, group + ':response_anchor')
+                        for offset in range(1, 16):
+                            if anchor + offset < length:
+                                count += 1
+                                total += math.exp(-(offset - 1) / 7)
+            observed = training['exposure']['rows'][index]
+            check(count == observed['positions'] and math.isclose(total, observed['weight'], rel_tol=1e-12), group + ':exposure' + str(index))
+            positions += count
+            weight += total
+        check(positions == training['exposure']['total_supervised_positions'], group + ':total_positions')
+        check(math.isclose(weight, training['exposure']['total_weight'], rel_tol=1e-12), group + ':total_weight')
+        check(training['exposure'] == old_training['exposure'], group + ':matched_exposure')
+        check(training['actual_learning_rates'] == old_training['actual_learning_rates'], group + ':learning_rates')
+        for filename in ('initial_rng.pt', 'final_rng.pt'):
+            new_rng = torch.load(root / group / 'O' / filename, map_location='cpu', weights_only=False)
+            old_rng = torch.load(original / group / 'C' / filename, map_location='cpu', weights_only=False)
+            equal(new_rng, old_rng, group + ':' + filename)
+        qualified = read(root / group / 'QUALIFICATION.json')
+        check(qualified['status'] == 'passed', group + ':qualification')
+        for key in ('frozen_reproduction', 'target_frozen', 'matched_anchors', 'matched_exposure', 'matched_initial_rng', 'matched_final_rng'):
+            check(qualified[key] is True, group + ':' + key)
+        result_groups[group] = {'supervised_positions': positions, 'training_costs': training['costs'],
+                                'nested_teacher_head_s': training['objective_work']['teacher_head_s'], 'roles': {}}
+        for role in ('A', 'B'):
+            selected = [r for r in requests if r['role'] == role]
+            comparison = next(r for r in summary['comparisons'] if r['group'] == group and r['role'] == role)
+            check(comparison['valid_pairs'] == comparison['planned_pairs'] == len(selected), group + role + ':pair_count')
+            observed = {}
+            for arm in ('F', 'O'):
+                arm_records = [records[(r['request_id'], arm)] for r in selected]
+                metrics = {'verification_calls': sum(r['metadata']['verification_calls'] for r in arm_records),
+                           'accepted_draft_tokens': sum(r['metadata']['accepted_draft_tokens'] for r in arm_records),
+                           'committed_progress': sum(r['metadata']['committed_progress'] for r in arm_records),
+                           'response_tokens': sum(len(r['response_ids']) for r in arm_records),
+                           'request_latency_s': sum(r['metadata']['request_latency_s'] for r in arm_records)}
+                for key, value in metrics.items():
+                    check(math.isclose(value, comparison[f'{arm}_{key}_sum'], rel_tol=1e-12), group + role + arm + ':' + key)
+                observed[arm] = metrics
+            change = 100 * (observed['O']['verification_calls'] / observed['F']['verification_calls'] - 1)
+            check(math.isclose(change, comparison['call_change_pct'], abs_tol=1e-12), group + role + ':ratio')
+            time_change = 100 * (observed['O']['request_latency_s'] / observed['F']['request_latency_s'] - 1)
+            check(math.isclose(time_change, comparison['request_time_change_pct'], abs_tol=1e-12), group + role + ':time_ratio')
+            deltas = [records[(r['request_id'], 'O')]['metadata']['verification_calls'] -
+                      records[(r['request_id'], 'F')]['metadata']['verification_calls'] for r in selected]
+            for field, count in (('gains', sum(x < 0 for x in deltas)), ('regressions', sum(x > 0 for x in deltas)),
+                                 ('ties', sum(x == 0 for x in deltas))):
+                check(comparison[field] == count, group + role + ':' + field)
+            observed['call_change_pct'] = change
+            result_groups[group]['roles'][role] = observed
+        group_costs = costs['groups'][group]
+        check(group_costs['training'] == training['costs'], group + ':costs')
+        check(group_costs['nested_objective_work'] == training['objective_work'], group + ':nested_costs')
+        check(group_costs['teacher_preparation']['fresh_teacher_preparation_s'] == 0, group + ':reused_preparation')
+        check(training['objective_work']['teacher_head_s'] <= training['costs']['training_s'], group + ':teacher_inside_training')
+        check(sum(training['costs'][k] for k in ('training_s', 'checkpoint_save_s', 'export_s')) <=
+              training['costs']['event_wall_s_before_commit'], group + ':event_boundary')
+        check(group_costs['activation'] == read(root / group / 'O/ACTIVATION.json'), group + ':activation')
+    destination.mkdir(parents=True, exist_ok=True)
+    result = {'status': 'passed' if not errors else 'failed', 'checks': checks,
+              'native_blocks': blocks, 'draft_proposal_positions': proposal_positions,
+              'groups': result_groups, 'errors': errors,
+              'scope': 'Independent raw records, traces, training anchors/exposure and exact RNG audit; no model execution.',
+              'limits': 'Changing-anchor training logs do not establish fixed-example loss improvement. Single timings are descriptive. '
+                        'Frozen target/publication tensor checks are recorded execution receipts, not independently repeated weight scans.'}
+    (destination / 'AUDIT.json').write_text(json.dumps(result, indent=2) + '\n')
+    print(json.dumps({'status': result['status'], 'checks': checks, 'native_blocks': blocks, 'errors': errors}))
+    return bool(errors)
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('root', type=Path)
+    parser.add_argument('original', type=Path)
+    parser.add_argument('destination', type=Path)
+    parser.add_argument('--groups', nargs='+', default=['gsm8k'])
+    args = parser.parse_args()
+    raise SystemExit(run(args.root, args.original, args.destination, args.groups))

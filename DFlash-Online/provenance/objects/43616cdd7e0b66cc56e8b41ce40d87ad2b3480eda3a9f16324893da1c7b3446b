@@ -1,0 +1,96 @@
+"""Bounded integration check of real models, not a scientific efficacy screen.
+
+Seven native requests, two two-response events, four optimizer steps. Source
+prompts are declared engineering fixtures, unrelated to evaluation datasets.
+"""
+from pathlib import Path
+import argparse,gc,json,os,shutil,time,traceback
+from .controller import OnlineController
+from .native import NativeDFlashBackend,atomic_json
+from .training import SpecForgeEventTrainer
+
+PROMPTS = [
+ 'Write a Python function that returns the sum of the even integers in a list. Include one short example.',
+ 'Explain why this Python function is incorrect, and provide a corrected version:\n\ndef double_all(xs):\n    for x in xs:\n        x = 2 * x\n    return xs\n',
+ 'A box contains 18 red and 12 blue marbles. Five red marbles are removed. How many marbles remain? Explain briefly.',
+ 'Write a Python function that counts each character in a string. Include a short example with repeated characters.',
+ 'Write a Python function that returns all positive even integers from a list while preserving their order. Include one example.',
+]
+
+
+def run(args):
+    import torch
+    from accelerate.utils import set_seed
+    root=Path(args.output).absolute()
+    if root.exists(): raise ValueError('Qualification output must be new; preserve earlier attempts')
+    root.mkdir(parents=True)
+    # Actual peak allocation: new+old full states, two HF exports, feedback and
+    # logs, plus 8 GiB reserve. Dependencies/models are admitted beforehand.
+    required=2*14681000000+2*2100000000+2*2**30+8*2**30
+    free=shutil.disk_usage(root).free
+    atomic_json(root/'STORAGE_ADMISSION.json',{'free_bytes':free,'required_bytes':required,'reserve_bytes':8*2**30})
+    if free<required: raise ValueError('Insufficient storage for atomic checkpoint overlap and reserve')
+    set_seed(17);torch.cuda.reset_peak_memory_stats()
+    planned={'kind':'infrastructure qualification only','serving_generations':4,'evaluation_generations':3,
+             'optimizer_steps':4,'events':2,'response_presentations':8,'max_new_tokens':128,
+             'block_size':16,'context_limit':2048,'seed':17,'prompts':PROMPTS,
+             'training_loss':'upstream DFlash hard-token CE with response-mean accumulation',
+             'native_backend':'official DFlash Transformers SDPA, same frozen target for replay',
+             'projected_target_implemented':False,'automatic_scientific_campaign':False}
+    atomic_json(root/'PLAN.json',planned)
+    started=time.perf_counter();backend=None;trainer=None;summary={'status':'running','events':[],'replays':[],'serving':[]}
+    try:
+        backend=NativeDFlashBackend(args.target,args.draft,context_limit=2048,block_size=16)
+        # No re-rendering of generated answers: these five qualification cases
+        # are explicitly independent requests, not a multi-turn efficacy study.
+        inputs=[backend.render([{'role':'user','content':text}]) for text in PROMPTS]
+        atomic_json(root/'INPUTS.json',{'prompts':PROMPTS,'input_ids':inputs})
+        trainer=SpecForgeEventTrainer(args.config,root/'trainer',reduction='response_mean')
+        ctl=OnlineController(backend,trainer,root/'loop',buffer_capacity=2)
+        for t in range(4):
+            record=ctl.serve(inputs[t],request_id=f'qualification_{t+1}',session_id='foundation',request_index=t+1,max_new_tokens=128)
+            summary['serving'].append(record)
+            if t%2==1:
+                event=ctl.update(f'event_{t//2+1}',2,passes=2);summary['events'].append(event)
+                atomic_json(root/'PROGRESS.json',summary)
+                if t==1:
+                    before=trainer.state_fingerprint();atomic_json(root/'RESUME_BEFORE.json',before)
+                    trainer.close();del trainer;ctl.trainer=None;gc.collect();torch.cuda.empty_cache()
+                    trainer=SpecForgeEventTrainer(args.config,root/'trainer',resume_state=root/'trainer'/'training_state.pt',reduction='response_mean')
+                    after=trainer.state_fingerprint();atomic_json(root/'RESUME_AFTER.json',after)
+                    if before['hashes']!=after['hashes']:raise ValueError('Full model/optimizer/RNG state changed across restart')
+                    ctl.trainer=trainer
+                    summary['resume_exact']=True
+        # Updated generation provides a canonical reference, but is NOT feedback.
+        ref=backend.generate(inputs[4],max_new_tokens=128,request_id='heldout_updated',session_id='evaluation',request_index=1,purpose='evaluation',save_to=root/'loop'/'evaluation'/'heldout_updated.json')
+        summary['replays'].append({'label':'updated','record':ref,'output_equal':True})
+        summary['frozen_activation']=backend.publish(args.draft)
+        summary['replays'].append(ctl.evaluate(inputs[4],canonical_response_ids=ref['response_ids'],label='heldout_frozen',max_new_tokens=128))
+        summary['updated_activation']=backend.publish(summary['events'][-1]['training']['checkpoint_path'])
+        summary['replays'].append(ctl.evaluate(inputs[4],canonical_response_ids=ref['response_ids'],label='heldout_reloaded',max_new_tokens=128))
+        assert summary['replays'][-1]['record']['metadata']['verification_calls']==ref['metadata']['verification_calls'],'Reloaded draft did not reproduce verification counts'
+        assert trainer.status()['global_step']==4 and trainer.status()['presentations']==8
+        assert not ctl.buffer.pending()
+        assert len(summary['serving'])+len(summary['replays'])==7
+        summary['status']='qualified';summary['trainer_status']=trainer.status()
+        summary['limitations']=['Not an efficacy comparison or projected-target implementation.',
+          'Canonical teacher-feature replay adds measured preparation cost; this is not in-verifier feature reuse.',
+          'Single-process synchronous updates; serving caches are rebuilt per request.',
+          'No automatic scientific campaign, async serving, historical AdaFlash recipe, or multi-turn claim.']
+    except BaseException as error:
+        summary['status']='failed';summary['error']={'type':type(error).__name__,'message':str(error),'traceback':traceback.format_exc()}
+        raise
+    finally:
+        summary['wall_s']=time.perf_counter()-started
+        summary['peak_cuda_allocated_bytes']=torch.cuda.max_memory_allocated()
+        summary['peak_cuda_reserved_bytes']=torch.cuda.max_memory_reserved()
+        summary['free_bytes_after']=shutil.disk_usage(root).free
+        atomic_json(root/'RESULT.json',summary)
+        if trainer is not None: trainer.close()
+        print(json.dumps({'status':summary['status'],'wall_s':summary['wall_s'],'output':str(root)}),flush=True)
+
+
+def main():
+    p=argparse.ArgumentParser();p.add_argument('--target',required=True);p.add_argument('--draft',required=True)
+    p.add_argument('--config',required=True);p.add_argument('--output',required=True);run(p.parse_args())
+if __name__=='__main__':main()

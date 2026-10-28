@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+set -eu
+source /data/sources/minhao/EAGLE_SPEC/setup/a800/a800_env.sh
+cd /data/sources/minhao/DFlash-Online
+export PYTHONPATH="$PWD:$PWD/training:$PWD/inference"
+export CUDA_VISIBLE_DEVICES=0
+export HF_HUB_OFFLINE=1
+export TRANSFORMERS_OFFLINE=1
+experiment_root=/data/sources/minhao/runs/projected_target_feasibility_20261022
+python_bin=/data/conda_envs/minhao/dflash_specforge_20261022/bin/python
+"$python_bin" -m unittest discover -s experiments/projected_target -p 'test_fit*.py' -v
+set +e
+"$python_bin" -u -m experiments.projected_target.fit_check \
+  --campaign "$experiment_root/recovery_001/campaign_002" \
+  --config experiments/projected_target/config.yaml \
+  --output "$experiment_root/fit_check_001"
+result=$?
+printf '%s\n' "$result" > "$experiment_root/FIT_CHECK_001_EXIT_CODE"
+exit "$result"

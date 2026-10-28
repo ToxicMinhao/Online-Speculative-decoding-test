@@ -1,0 +1,163 @@
+"""Select and render the fixed K1/KRC panel using question-only retained data."""
+import ast
+import hashlib
+import importlib.metadata
+import json
+from pathlib import Path
+import random
+
+from audit_inventory import OUT, PREVIOUS, RESEARCH, REV, load, norm, save, sha
+
+SEED = 20261028
+COUNT = 64
+SUFFIX = '\nPlease reason step by step, and put your final answer within \\boxed{}.'
+
+
+def select_questions(questions, *, excluded_test_ids, excluded_normalized, seed=SEED, count=COUNT):
+    """Selection accepts question text and exclusion identities, never outcomes."""
+    eligible, excluded, seen = [], [], set()
+    for index, text in enumerate(questions):
+        normalized=norm(text)
+        reasons=[]
+        if index in excluded_test_ids:
+            reasons.append('current_study_test_source_id')
+        reasons.extend('normalized_question_matches_'+role for role in sorted(excluded_normalized.get(normalized,[])))
+        if normalized in seen:
+            reasons.append('duplicate_normalized_test_question')
+        seen.add(normalized)
+        if reasons:
+            excluded.append(dict(source_row=index,reasons=reasons))
+        else:
+            eligible.append(index)
+    if len(eligible)<count:
+        raise ValueError('Not enough eligible test questions; do not shrink or substitute the panel')
+    shuffled=list(eligible)
+    random.Random(seed).shuffle(shuffled)
+    return shuffled[:count],excluded,eligible
+
+
+def digest(value):
+    return hashlib.sha256(json.dumps(value,separators=(',',':'),ensure_ascii=False).encode()).hexdigest()
+
+
+def main():
+    import pyarrow.parquet as pq
+    from transformers import AutoTokenizer
+
+    inventory_path=OUT/'CURRENT_STUDY_INVENTORY.json'
+    inventory=load(inventory_path)
+    pins=load(PREVIOUS/'SELECTION_AUDIT.json')
+    questions={};sources={}
+    for split,source in pins['source']['files'].items():
+        path=Path(source['path'])
+        if sha(path)!=source['sha256']:
+            raise ValueError('Pinned GSM8K source changed: '+split)
+        questions[split]=[row['question'] for row in pq.read_table(path,columns=['question']).to_pylist()]
+        if len(questions[split])!=source['rows']:
+            raise ValueError('Pinned dataset length changed')
+        sources[split]=source
+    if pins['source']['revision']!=REV:
+        raise ValueError('Use the existing pinned GSM8K revision')
+    groups=inventory['groups']
+    excluded_ids={row['source_row'] for rows in groups.values() for row in rows if row['split']=='test'}
+    excluded_text={}
+    for role,rows in groups.items():
+        for row in rows:
+            text=questions[row['split']][row['source_row']]
+            excluded_text.setdefault(norm(text),set()).add(role)
+    selected,excluded,eligible=select_questions(questions['test'],
+        excluded_test_ids=excluded_ids,excluded_normalized=excluded_text)
+
+    tokenizer_pin=pins['tokenizer'];tokenizer_path=Path(tokenizer_pin['path'])
+    for name,expected in tokenizer_pin['file_sha256'].items():
+        if sha(tokenizer_path/name)!=expected:
+            raise ValueError('Pinned tokenizer artifact changed: '+name)
+    template_source=Path(pins['preprocessing']['template_helper_path'])
+    if sha(template_source)!=pins['preprocessing']['template_helper_sha256']:
+        raise ValueError('Author preprocessing helper changed')
+    syntax=ast.parse(template_source.read_text())
+    helpers=ast.Module(body=[node for node in syntax.body if isinstance(node,ast.FunctionDef)
+        and node.name in {'_reasoning_kwargs','apply_chat_template'}],type_ignores=[])
+    namespace={};exec(compile(helpers,str(template_source),'exec'),namespace)
+    render=namespace['apply_chat_template']
+    tokenizer=AutoTokenizer.from_pretrained(tokenizer_path,local_files_only=True)
+    stop_ids=load(tokenizer_path/'generation_config.json')['eos_token_id']
+    if stop_ids!=[151645,151643]:
+        raise ValueError('Pinned EOS identities changed')
+
+    def rendered(split,index,suffix):
+        text=render(tokenizer,[dict(role='user',content=questions[split][index]+suffix)],'off')
+        return tokenizer.encode(text,add_special_tokens=False),text
+
+    original=load(RESEARCH/'dflash_osd_one_event_20261025/sealed/MANIFEST.json')
+    continuation=load(RESEARCH/'dflash_ok_continuation_20261027/data_preparation/CONTINUATION_REQUESTS.json')
+    previous=load(PREVIOUS/'NEW_PANEL.json')
+    retained_by_role=dict(original_feedback=original['train_requests'],development=original['eval_requests'],
+                          continuation_feedback=continuation,prior_confirmation=previous)
+    matched={}
+    for role,metadata in groups.items():
+        matched[role]=0
+        for source,retained in zip(metadata,retained_by_role[role],strict=True):
+            if source['request_id']!=retained['request_id']:
+                raise ValueError('Retained request order/identity differs: '+role)
+            ids,_=rendered(source['split'],source['source_row'],'' if source['split']=='train' else SUFFIX)
+            if ids!=retained['prompt_ids']:
+                raise ValueError('Retained prompt token reconstruction differs: '+source['request_id'])
+            matched[role]+=1
+
+    # Annotation follows selection and never affects eligibility or order.
+    older=load(PREVIOUS/'INVENTORY_AUDIT.json');prior={}
+    for source in older['primary_completed_execution_sets']:
+        for index in source['source_rows']:prior.setdefault(index,source['directory'])
+    for index in older['oct22_additional_completed_source_rows']:
+        prior.setdefault(index,'research/projected_target_feasibility_20261022/retrieved/final_recovery/campaign_002/gsm8k/F/records/')
+    for index in older['async_final_additional_completed_source_rows']:
+        prior.setdefault(index,'research/dflash_async_passes_20261006/recovery_001/retrieved_001/run_001/final_one_pass/responses.jsonl')
+    requests,preview=[],[]
+    for ordinal,index in enumerate(selected):
+        ids,text=rendered('test',index,SUFFIX)
+        if not ids or len(ids)+2048+16>4096:
+            raise ValueError('Selected prompt fails unchanged context eligibility; stop without replacement')
+        row=dict(request_id=f'krc_fresh_eval_{ordinal:05d}',panel_ordinal=ordinal,
+            original_index=index,dataset_id=f'gsm8k:main:test:{index}',prompt_ids=ids,
+            stop_token_ids=stop_ids,max_new_tokens=2048,source_revision=REV,source_split='test',
+            question_sha256=hashlib.sha256(questions['test'][index].encode()).hexdigest(),
+            normalized_question_sha256=hashlib.sha256(norm(questions['test'][index]).encode()).hexdigest(),
+            prompt_ids_sha256=digest(ids),older_project_execution_verified=index in prior,
+            older_project_execution_evidence=prior.get(index))
+        requests.append(row)
+        preview.append(dict(request_id=row['request_id'],source_row=index,
+                            question=questions['test'][index],rendered_prompt=text))
+    panel_path=OUT/'NEW_PANEL.json';save(panel_path,requests);save(OUT/'SELECTED_QUESTIONS.json',preview)
+    audit=dict(schema='krc_current_study_new_confirmation_v1',selection_complete=True,
+        selection_seed=SEED,selected_count=COUNT,scientific_generations=0,model_forwards=0,
+        freshness_scope='New to the current O/K/KC/KRC study; older unrelated project exposure is permitted and disclosed.',
+        global_freshness=False,selection_algorithm=('Ascending pinned GSM8K test rows; exclude current-study IDs and '
+            'NFKC/whitespace-normalized feedback/development/prior-confirmation/probe questions; deduplicate normalized '
+            'test prompts; random.Random(20261028).shuffle(eligible); first64. No answers, generated outputs, '
+            'response lengths, call counts, latency or correctness outcomes influence selection.'),
+        current_training_source_count=512,current_test_source_count=128,
+        eligible_count=len(eligible),excluded_count=len(excluded),excluded_rows=excluded,
+        eligible_source_rows=eligible,selected_source_rows_in_order=selected,
+        matched_retained_prompt_ids=matched,
+        qualification_and_probe_scope=inventory['qualification_scope'],missing_evidence=inventory['missing_evidence'],
+        source=dict(dataset='openai/gsm8k',revision=REV,configuration='main',split='test',files=sources),
+        preprocessing={**pins['preprocessing'],'source_answers_loaded':False},
+        tokenizer={**tokenizer_pin,'transformers_version':importlib.metadata.version('transformers'),
+                   'tokenizers_version':importlib.metadata.version('tokenizers')},
+        generation_contract=dict(max_new_tokens=2048,stop_token_ids=stop_ids,context_limit=4096,block_size=16,
+            concurrency=1,capture=False,prompt_min_tokens=min(len(r['prompt_ids']) for r in requests),
+            prompt_max_tokens=max(len(r['prompt_ids']) for r in requests),truncation=False,resampling_after_output=False),
+        selection_older_executed_count=sum(r['older_project_execution_verified'] for r in requests),
+        selection_older_execution_not_established_count=sum(not r['older_project_execution_verified'] for r in requests),
+        bindings={str(path):sha(path) for path in [inventory_path,Path(__file__),OUT/'audit_inventory.py',
+            PREVIOUS/'SELECTION_AUDIT.json',PREVIOUS/'INVENTORY_AUDIT.json']},
+        panel_sha256=sha(panel_path),selected_questions_sha256=sha(OUT/'SELECTED_QUESTIONS.json'),
+        checkpoint_binding='Executor adds unchanged K1/KRC checkpoint identities before generation.')
+    save(OUT/'SELECTION_AUDIT.json',audit)
+    print(json.dumps({key:audit[key] for key in ('selection_seed','eligible_count','excluded_count','selected_count',
+        'matched_retained_prompt_ids','selection_older_executed_count','selection_older_execution_not_established_count',
+        'generation_contract','panel_sha256')},indent=2))
+
+
+if __name__=='__main__':main()

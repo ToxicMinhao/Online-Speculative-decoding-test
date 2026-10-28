@@ -1,0 +1,145 @@
+"""Inventory current-study input identities only; never rank model outcomes."""
+import hashlib
+import json
+from pathlib import Path
+import unicodedata
+
+ROOT = Path('/home/minhao2/EAGLE_SPEC')
+RESEARCH = ROOT/'research'
+OUT = Path(__file__).resolve().parent
+PREVIOUS = RESEARCH/'dflash_first_error_fresh_confirmation_20261027/inventory_audit'
+REV = '740312add88f781978c0658806c59bc2815b9866'
+
+
+def sha(path):
+    with Path(path).open('rb') as stream:
+        return hashlib.file_digest(stream,'sha256').hexdigest()
+
+
+def load(path):
+    return json.loads(Path(path).read_text())
+
+
+def save(path,value):
+    Path(path).write_text(json.dumps(value,indent=2,ensure_ascii=False)+'\n')
+
+
+def norm(text):
+    return ' '.join(unicodedata.normalize('NFKC',text).split())
+
+
+def record_ids(value):
+    """Extract only identity fields; ignore numerical outcomes and token arrays."""
+    found=set()
+    if isinstance(value,dict):
+        for key,item in value.items():
+            if key=='record_id' and isinstance(item,str):
+                found.add(item)
+            elif key.endswith('record_ids') and isinstance(item,list):
+                found.update(x for x in item if isinstance(x,str))
+            elif key not in {'input_ids','prompt_ids','response_ids','loss_mask','labels','anchors',
+                             'sampled_anchors','protected_weights','proposals','original_proposals',
+                             'protected_margins','matching_prefix_lengths','metrics','forward_calls'}:
+                found.update(record_ids(item))
+    elif isinstance(value,list):
+        for item in value:
+            if isinstance(item,(dict,list)):
+                found.update(record_ids(item))
+    return found
+
+
+def main():
+    current_path=PREVIOUS/'CURRENT_STUDY_SOURCE_IDS.json'
+    current=load(current_path)
+    old_path=RESEARCH/'dflash_osd_one_event_20261025/sealed/MANIFEST.json'
+    old=load(old_path)
+    if sha(old_path)!=current['source_manifest_sha256']:
+        raise ValueError('Original current-study manifest changed')
+    previous_path=PREVIOUS/'NEW_PANEL.json'
+    previous=load(previous_path)
+    previous_audit=load(PREVIOUS/'SELECTION_AUDIT.json')
+    if sha(previous_path)!=previous_audit['panel_sha256']:
+        raise ValueError('Previous O/K confirmation panel changed')
+    continuation_path=RESEARCH/'dflash_ok_continuation_20261027/data_preparation/CONTINUATION_REQUESTS.json'
+    continuation=load(continuation_path)
+    retained_continuation=load(RESEARCH/'dflash_ok_continuation_20261027/raw/data_preparation/CONTINUATION_REQUESTS.json')
+    if continuation!=retained_continuation or len(continuation)!=384:
+        raise ValueError('Continuation request inventory is incomplete or changed')
+    groups={
+        'original_feedback':[dict(row,role='original_feedback',split='train') for row in current['train']],
+        'development':[dict(row,role='development',split='test') for row in current['test']],
+        'continuation_feedback':[dict(request_id=row['request_id'],source_id=row['source_id'],
+            source_row=int(row['source_id'].rsplit(':',1)[1]),split='train',role='continuation_feedback')
+            for row in continuation],
+        'prior_confirmation':[dict(request_id=row['request_id'],source_id=row['dataset_id'],
+            source_row=row['original_index'],split='test',role='prior_confirmation') for row in previous],
+    }
+    if [len(groups[key]) for key in groups]!=[128,64,384,64]:
+        raise ValueError('Current-study inventory sizes changed')
+    training_ids={row['request_id'] for key in ('original_feedback','continuation_feedback') for row in groups[key]}
+    if len(training_ids)!=512 or len({row['source_row'] for key in ('development','prior_confirmation') for row in groups[key]})!=128:
+        raise ValueError('Inventoried studies overlap unexpectedly')
+
+    # Training/qualification/probe receipts establish that those paths introduce
+    # no further feedback identity beyond the two declared feedback inventories.
+    relative=[
+        'dflash_osd_one_event_20261025/final_review/raw/campaign_001/trainer/events/event_001/RESULT.json',
+        'dflash_prefix_ranking_one_event_20261025/raw/campaign_001/qualification/RESULT.json',
+        'dflash_prefix_ranking_gpu_diagnostic_20261026/raw/main/trials/RESULT.json',
+        'dflash_prefix_ranking_controlled_qualification_20261026/raw/qualification/RESULT.json',
+        'dflash_reference_margin_execution_20261026/raw/campaign_001/qualification/RESULT.json',
+        'dflash_first_error_execution_20261026/raw/campaign_001/qualification/RESULT.json',
+        'dflash_prefix_preservation_guard_20261027/raw/campaign_001/qualification/RESULT.json',
+        'dflash_prefix_preservation_guard_20261027/repair_002/raw/execution_001/qualification/RESULT.json',
+        'dflash_prefix_correction_step_20261027/raw/execution_001/RESULT.json',
+        'dflash_kc_event_20261027/raw/campaign_001/CORRECTION_EVIDENCE.json',
+        'dflash_krc_event_20261027/raw/campaign_001/CORRECTION_EVIDENCE.json',
+    ]
+    for root,arms in [('dflash_prefix_ranking_execution_20261026',('U','P')),
+                      ('dflash_reference_margin_execution_20261026',('R',)),
+                      ('dflash_first_error_execution_20261026',('C','K','A')),
+                      ('dflash_prefix_preservation_guard_20261027/main_003',('G',)),
+                      ('dflash_kc_event_20261027',('KC',)),('dflash_krc_event_20261027',('KRC',))]:
+        relative.extend(f'{root}/raw/campaign_001/{arm}/events/event_001/RESULT.json' for arm in arms)
+    paths=[RESEARCH/name for name in relative]
+    paths.extend(sorted((RESEARCH/'dflash_prefix_preservation_guard_20261027/main_003/raw/campaign_001/guard').glob('probe_*.json')))
+    continuation_root=RESEARCH/'dflash_ok_continuation_20261027/raw/campaign_001'
+    paths.extend(sorted(path for path in continuation_root.rglob('RESULT.json') if 'events' in path.parts))
+    receipt_checks=[]
+    for path in paths:
+        ids=record_ids(load(path))
+        unknown=ids-training_ids
+        if unknown:
+            raise ValueError(f'Unmapped current-study qualification/probe identity in {path}: {sorted(unknown)}')
+        receipt_checks.append(dict(path=str(path),sha256=sha(path),record_ids=sorted(ids),
+                                   all_ids_within_declared_training_pool=True))
+    # The early startup diagnostic made four additional native-input probes.
+    # Bind their exact saved prompt IDs to the already excluded development set.
+    development_prompts={tuple(row['prompt_ids']) for row in old['eval_requests']}
+    native_probe_checks=[]
+    for ordinal in range(4):
+        path=RESEARCH/f'dflash_prefix_ranking_gpu_diagnostic_20261026/raw/main/evaluation/F_{ordinal:02d}.json'
+        record=load(path)
+        if tuple(record['prompt_ids']) not in development_prompts:
+            raise ValueError('Early native probe introduces an uninventoried prompt')
+        native_probe_checks.append(dict(path=str(path),sha256=sha(path),development_prompt_match=True))
+    evidence=[current_path,old_path,previous_path,PREVIOUS/'SELECTION_AUDIT.json',
+        continuation_path,RESEARCH/'dflash_ok_continuation_20261027/raw/data_preparation/CONTINUATION_REQUESTS.json',
+        RESEARCH/'dflash_ok_continuation_20261027/data_preparation/SELECTED_IDENTITIES.json',
+        RESEARCH/'dflash_ok_continuation_20261027/data_preparation/SELECTION_AUDIT.json',
+        PREVIOUS/'INVENTORY_AUDIT.json']
+    result=dict(schema='krc_confirmation_inventory_v1',selection_seed=20261028,groups=groups,
+        current_training_unique=512,current_test_unique=128,
+        training_qualification_and_probe_checks=receipt_checks,
+        early_native_probe_checks=native_probe_checks,
+        qualification_scope=('Training qualification and later source/reference probes use the declared feedback pools. '
+            'The early native startup diagnostic uses four original development prompts. '
+            'Generation gates are included within the original development or prior-confirmation panels.'),
+        older_project_exposure_policy='Allowed, annotated after deterministic selection; not used to select.',
+        evidence_sha256={str(path):sha(path) for path in evidence},missing_evidence=[])
+    save(OUT/'CURRENT_STUDY_INVENTORY.json',result)
+    print(json.dumps(dict(current_training_unique=512,current_test_unique=128,
+        training_receipts_checked=len(receipt_checks),native_probe_inputs_checked=4,missing_evidence=[])))
+
+
+if __name__=='__main__':main()

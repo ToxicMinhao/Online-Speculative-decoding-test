@@ -1,0 +1,25 @@
+"""Online-only recipe choices, separate from the unchanged SpecForge config."""
+import json
+from pathlib import Path
+from typing import Literal
+
+from pydantic import BaseModel, ConfigDict, Field
+import yaml
+
+class OnlineRecipe(BaseModel):
+    # Defaults preserve the historical configs that predate this recipe.
+    model_config = ConfigDict(extra="forbid")
+    optimizer: Literal["fp32_master", "bf16_adamw"] = "fp32_master"
+    weight_decay: float = Field(default=0.0, ge=0, allow_inf_nan=False)
+    shuffle_responses: bool = False
+    kl_precision: Literal["float32", "bfloat16"] = "float32"
+
+
+def load_event_config(path):
+    """Remove only our options, then use the author's migration and validation."""
+    from specforge.config import Config, migrate_legacy_config
+
+    path = Path(path)
+    raw = json.loads(path.read_text()) if path.suffix == ".json" else yaml.safe_load(path.read_text())
+    recipe = OnlineRecipe.model_validate(raw.pop("online_feedback", {}))
+    return Config.model_validate(migrate_legacy_config(raw)), recipe

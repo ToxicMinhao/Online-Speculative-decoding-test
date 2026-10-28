@@ -1,0 +1,166 @@
+"""Matched hard-CE and projected-target objectives on author DFlash blocks.
+
+Sampling, conditioning and the trainable backbone remain in SpecForge. Only the
+labels supplied to the weighted vocabulary loss change between the two arms.
+"""
+import copy
+import time
+
+import torch
+import torch.nn.functional as F
+
+from specforge.algorithms.common.dflash_family_model import OnlineDFlashModel
+from specforge.core.chunking import checkpointed_chunk_reduce
+
+from .projected_target import projected_targets
+from .rng import preserve_rng
+
+
+def _model_options(model):
+    return {
+        'target_lm_head': model.lm_head,
+        'target_embed_tokens': model.embed_tokens,
+        'mask_token_id': model.mask_token_id,
+        'block_size': model.block_size,
+        'attention_backend': model.attention_backend,
+        'num_anchors': model.num_anchors,
+        'loss_decay_gamma': model.loss_decay_gamma,
+        'objective_chunk_blocks': model.objective_chunk_blocks,
+        'teacher_metrics': False,
+    }
+
+
+def _synchronize(tensor):
+    if tensor.is_cuda:
+        torch.cuda.synchronize(tensor.device)
+
+
+class _ReferenceBlocks(OnlineDFlashModel):
+    """Use the current forward's anchors, without another random draw."""
+
+    def _sample_anchor_positions(self, seq_len, loss_mask, device, max_valid_anchors=None):
+        return self.fixed_anchors
+
+
+class FrozenReference:
+    """Event-local reference, deliberately outside the registered module tree."""
+
+    def __init__(self, current):
+        with preserve_rng():
+            draft = copy.deepcopy(current.draft_model).eval().requires_grad_(False)
+            self.model = _ReferenceBlocks(draft_model=draft, **_model_options(current))
+            self.model.eval()
+
+    def hidden(self, input_ids, hidden_states, loss_mask, anchors, keep):
+        self.model.fixed_anchors = (anchors, keep)
+        with preserve_rng(), torch.no_grad():
+            return self.model._forward_draft_blocks(input_ids, hidden_states, loss_mask)[2]
+
+
+class TargetObjectiveModel(OnlineDFlashModel):
+    """The shared forward for the handoff's C and P arms; no optimizer changes."""
+
+    def __init__(self, author_model, objective):
+        if objective not in {'hard_ce', 'projected'}:
+            raise ValueError('Choose hard_ce or projected')
+        if (author_model.loss_type != 'dflash' or author_model.lk_loss_type is not None
+                or getattr(author_model.draft_model, 'candidate_selector', None) is not None):
+            raise ValueError('Target objectives require the standard DFlash CE backbone')
+        if any(parameter.requires_grad for module in (author_model.lm_head, author_model.embed_tokens)
+               for parameter in module.parameters()):
+            raise ValueError('Target embedding and vocabulary head must remain frozen')
+        if author_model.objective_chunk_blocks <= 0:
+            raise ValueError('Pin positive objective_chunk_blocks to bound vocabulary memory')
+        super().__init__(draft_model=author_model.draft_model, **_model_options(author_model))
+        self.objective = objective
+        self.reference = None
+        self.costs = {}
+
+    def begin_event(self):
+        """One reference for every response, pass and optimizer step in this event."""
+        self.costs = {
+            'reference_setup_s': 0.0, 'reference_forward_s': 0.0,
+            'reference_head_s': 0.0, 'projection_s': 0.0,
+        }
+        if self.objective == 'projected':
+            weight = next(self.draft_model.parameters())
+            _synchronize(weight)
+            started = time.perf_counter()
+            self.reference = FrozenReference(self)
+            _synchronize(weight)
+            self.costs['reference_setup_s'] = time.perf_counter() - started
+
+    def end_event(self):
+        self.reference = None
+        return dict(self.costs)
+
+    def _chunk_loss(self, hidden, reference_hidden, labels, weights):
+        logits = self.lm_head(hidden).float()
+        if self.objective == 'projected':
+            with torch.no_grad():
+                _synchronize(reference_hidden)
+                started = time.perf_counter()
+                reference_logits = self.lm_head(reference_hidden)
+                _synchronize(reference_logits)
+                self.costs['reference_head_s'] += time.perf_counter() - started
+                started = time.perf_counter()
+                targets = projected_targets(reference_logits, labels)
+                _synchronize(reference_logits)
+                self.costs['projection_s'] += time.perf_counter() - started
+            token_loss = -(targets * F.log_softmax(logits, dim=-1)).sum(dim=-1)
+        else:
+            token_loss = F.cross_entropy(
+                logits.reshape(-1, logits.shape[-1]), labels.reshape(-1), reduction='none',
+            ).reshape_as(labels)
+        loss_sum = (token_loss * weights).sum()
+        with torch.no_grad():
+            eligible = weights > 0
+            correct = ((logits.argmax(-1) == labels) * eligible).sum().float()
+        return loss_sum, weights.sum(), correct, eligible.sum().float()
+
+    def forward(self, input_ids, hidden_states, loss_mask, target_last_hidden_states=None,
+                max_valid_anchors=None, selector_loss_alpha=None, collect_detailed_metrics=True):
+        # Target labels were verified against canonical frozen-target replay at
+        # the feature boundary. The head/reference use exactly these same blocks.
+        if self.objective == 'projected' and self.reference is None:
+            raise RuntimeError('Begin the event before using projected targets')
+        anchors, keep, output_hidden = self._forward_draft_blocks(
+            input_ids, hidden_states, loss_mask, max_valid_anchors,
+        )
+        reference_hidden = None
+        if self.reference is not None:
+            _synchronize(output_hidden)
+            started = time.perf_counter()
+            reference_hidden = self.reference.hidden(input_ids, hidden_states, loss_mask, anchors, keep)
+            _synchronize(output_hidden)
+            self.costs['reference_forward_s'] += time.perf_counter() - started
+
+        # Same-position labels and mask follow the pinned author's standard CE
+        # path: exclude anchor slot zero, out-of-range slots and prompt tokens.
+        offsets = torch.arange(self.block_size, device=input_ids.device).view(1, 1, -1)
+        indices = anchors.unsqueeze(-1) + offsets
+        in_bounds = indices < input_ids.shape[1]
+        safe_indices = indices.clamp(max=input_ids.shape[1] - 1)
+        labels = input_ids.unsqueeze(1).expand(-1, anchors.shape[1], -1).gather(2, safe_indices)
+        response_mask = loss_mask.unsqueeze(1).expand(-1, anchors.shape[1], -1).gather(2, safe_indices)
+        weights = keep.unsqueeze(-1).float() * in_bounds.float() * (offsets > 0).float() * response_mask
+        if self.loss_decay_gamma is not None and self.loss_decay_gamma > 0:
+            weights = weights * torch.exp(-(offsets - 1).clamp(min=0).float() / self.loss_decay_gamma)
+
+        block_shape = (input_ids.shape[0], anchors.shape[1], self.block_size, -1)
+        output_hidden = output_hidden.reshape(block_shape)
+        if reference_hidden is not None:
+            reference_hidden = reference_hidden.reshape(block_shape)
+        loss_sum, denominator, correct, positions = checkpointed_chunk_reduce(
+            self._chunk_loss, output_hidden, reference_hidden, labels, weights,
+            chunk_size=self.objective_chunk_blocks, dim=1, checkpoint=True,
+        )
+        loss = loss_sum / denominator.clamp_min(torch.finfo(torch.float32).tiny)
+        accuracy = correct / positions.clamp_min(1)
+        metrics = {
+            'loss_terms': (loss_sum, denominator.detach()),
+            'accuracy_denom': positions.detach(),
+            'ratio_metrics': {'objective_loss': (loss_sum.detach(), denominator.detach())},
+            'sum_metrics': {'supervised_position_exposure': positions.detach()},
+        }
+        return loss, accuracy, metrics

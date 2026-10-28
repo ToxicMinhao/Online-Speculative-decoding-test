@@ -1,0 +1,209 @@
+"""Tiny CPU fixtures for complete O/K restart gates; no scientific steps."""
+
+from copy import deepcopy
+import json
+import os
+from pathlib import Path
+import subprocess
+import sys
+import tempfile
+from types import SimpleNamespace
+import unittest
+
+import torch
+from safetensors.torch import save_file
+
+from experiments.osd_components.checkpoints import EXPECTED_KEYS
+from online_feedback.optimizer import DirectBF16AdamW
+from online_feedback.rng import capture_rng, restore_rng
+from online_feedback.training import SpecForgeEventTrainer
+from .resume import differences, load_snapshot, validate_event_receipt, validate_snapshot, verify_live_resume
+
+
+def event(number=1, objective='osd'):
+    features = [dict(record_id=f'r{i:03d}', path=f'/shared/event{number}/r{i:03d}.pt') for i in range(128)]
+    records = []
+    for index in range(256):
+        records.append(dict(record_id=features[index % 128]['record_id'], pass_=index // 128,
+                            optimizer_stepped=(index + 1) % 2 == 0,
+                            optimizer_step_after=(number - 1) * 128 + (index + 1) // 2,
+                            sampled_anchors=[dict(positions=[[1, 3]], keep_mask=[[True, True]])]))
+        records[-1]['pass'] = records[-1].pop('pass_')
+    return dict(event_id=f'event_{number:03d}', objective=objective, passes=2,
+                response_presentations=256, optimizer_steps=128, start_step=(number - 1) * 128,
+                end_step=number * 128, reduction='response_mean', features=features,
+                records=records, status='completed')
+
+
+def draft():
+    model = torch.nn.Module()
+    for index, name in enumerate(sorted(EXPECTED_KEYS)):
+        parent = model
+        parts = name.split('.')
+        for part in parts[:-1]:
+            if part not in parent._modules:
+                parent.add_module(part, torch.nn.Module())
+            parent = parent._modules[part]
+        parent.register_parameter(parts[-1], torch.nn.Parameter(torch.full((2, 2), index / 64, dtype=torch.bfloat16)))
+    return model
+
+
+def fixture(objective='osd', number=1):
+    model = draft()
+    optimizer = DirectBF16AdamW(model)
+    for parameter in model.parameters():
+        optimizer.optimizer.state[parameter] = dict(step=torch.tensor(float(number * 128)),
+            exp_avg=torch.full_like(parameter, .125), exp_avg_sq=torch.full_like(parameter, .25))
+    state = dict(event_schema='specforge_event_trainer_v2', draft_state_dict=deepcopy(model.state_dict()),
+                 backend={'optimizer': deepcopy(optimizer.state_dict())}, rng=capture_rng(),
+                 global_step=number * 128, presentations=number * 256,
+                 events=[event(i, objective) for i in range(1, number + 1)], strategy='dflash',
+                 run_id='fixture', world_size=1, config_text='exact original configuration\n',
+                 algorithm_contract={'online_target_objective': {'name': objective}},
+                 reduction='response_mean', accumulation_steps=2, horizon=7424)
+    return state
+
+
+def runtime(state):
+    """Exercise the actual _restore function with a tiny real BF16 optimizer."""
+    trainer = object.__new__(SpecForgeEventTrainer)
+    model = draft()
+    optimizer = DirectBF16AdamW(model)
+    trainer.bundle = SimpleNamespace(draft_model=model,
+        model=SimpleNamespace(training=True, reference=None, ranking_enabled=False))
+    trainer.backend = SimpleNamespace(optimizer=optimizer,
+        load_state_dict=lambda payload: optimizer.load_state_dict(payload['optimizer']))
+    trainer.config_text = state['config_text']
+    trainer.contract = deepcopy(state['algorithm_contract'])
+    trainer.horizon = 7424
+    trainer.accumulation = 2
+    trainer.reduction = 'response_mean'
+    trainer.core = SimpleNamespace(_micro=0, accumulation_remainder=0, _ratio_totals={}, _sum_totals={})
+    trainer.closed = trainer.failed = False
+    trainer._anchor_observations = []
+    trainer._presentation_schedule = None
+    trainer.global_step = trainer.presentations = 0
+    trainer.events = []
+    return trainer
+
+
+class ResumeTests(unittest.TestCase):
+    def setUp(self):
+        directory = tempfile.TemporaryDirectory()
+        self.addCleanup(directory.cleanup)
+        self.root = Path(directory.name)
+        self.rng = capture_rng()
+        self.addCleanup(lambda: restore_rng(self.rng))
+
+    def validate(self, state, objective='osd', number=1):
+        return validate_snapshot(state, objective=objective, config_text='exact original configuration\n',
+                                 completed_event=number, expected_cuda_rng_states=0)
+
+    def test_real_restore_preserves_both_arms_full_state_and_export_without_steps(self):
+        for objective in ('osd', 'osd_first_error'):
+            with self.subTest(objective=objective):
+                state = fixture(objective)
+                path = self.root / (objective + '.pt')
+                torch.save(state, path)
+                export = self.root / objective
+                export.mkdir()
+                save_file(state['draft_state_dict'], export / 'model.safetensors')
+                loaded, receipt = load_snapshot(path, export, objective=objective,
+                    config_text=state['config_text'], completed_event=1, expected_cuda_rng_states=0)
+                self.assertTrue(receipt['export_exact'])
+                trainer = runtime(state)
+                trainer._restore(path)
+                gate = verify_live_resume(trainer, loaded, receipt_path=self.root / 'gate.json')
+                self.assertTrue(gate['exact_resume'])
+                self.assertEqual(gate['scientific_extra_steps'], 0)
+                self.assertEqual(trainer.core._micro, 256)
+                self.assertFalse(differences(state['rng'], capture_rng()))
+
+    def test_incomplete_or_wrong_snapshot_is_rejected(self):
+        original = fixture()
+        first_name = next(iter(original['draft_state_dict']))
+        first_id = next(iter(original['backend']['optimizer']['optimizer_state_dict']['state']))
+        mutations = {
+            'missing_weight': lambda s: s['draft_state_dict'].pop(first_name),
+            'extra_weight': lambda s: s['draft_state_dict'].update({'lm_head.weight': torch.ones(1, dtype=torch.bfloat16)}),
+            'missing_adam': lambda s: s['backend']['optimizer']['optimizer_state_dict']['state'].pop(first_id),
+            'wrong_step': lambda s: s['backend']['optimizer']['optimizer_state_dict']['state'][first_id].update(step=torch.tensor(0.)),
+            'wrong_moment': lambda s: s['backend']['optimizer']['optimizer_state_dict']['state'][first_id].update(exp_avg=torch.ones(2, 2)),
+            'missing_moment': lambda s: s['backend']['optimizer']['optimizer_state_dict']['state'][first_id].pop('exp_avg_sq'),
+            'wrong_config': lambda s: s.update(config_text='new'),
+            'wrong_horizon': lambda s: s.update(horizon=512),
+            'wrong_counters': lambda s: s.update(presentations=255),
+            'missing_rng': lambda s: s['rng'].pop('python'),
+            'malformed_rng': lambda s: s['rng'].update(torch=torch.ones(4, dtype=torch.uint8)),
+            'nonfinite_weight': lambda s: s['draft_state_dict'][first_name].fill_(float('nan')),
+        }
+        for label, mutate in mutations.items():
+            with self.subTest(label=label):
+                state = deepcopy(original)
+                mutate(state)
+                with self.assertRaises(ValueError):
+                    self.validate(state)
+        with self.assertRaisesRegex(ValueError, 'objective'):
+            self.validate(original, objective='osd_first_error')
+
+    def test_changed_export_rejected(self):
+        state = fixture()
+        path = self.root / 'state.pt'
+        torch.save(state, path)
+        export = self.root / 'export'
+        export.mkdir()
+        changed = deepcopy(state['draft_state_dict'])
+        changed[next(iter(changed))].add_(1)
+        save_file(changed, export / 'model.safetensors')
+        with self.assertRaisesRegex(ValueError, 'export differs'):
+            load_snapshot(path, export, objective='osd', config_text=state['config_text'], completed_event=1,
+                          expected_cuda_rng_states=0)
+
+    def test_live_difference_has_durable_failed_gate_and_never_repairs_rng(self):
+        state = fixture()
+        path = self.root / 'state.pt'
+        torch.save(state, path)
+        trainer = runtime(state)
+        trainer._restore(path)
+        torch.rand(1)
+        before = capture_rng()
+        gate = self.root / 'gate.json'
+        with self.assertRaisesRegex(ValueError, 'Live resume'):
+            verify_live_resume(trainer, state, receipt_path=gate)
+        self.assertEqual(json.loads(gate.read_text())['status'], 'failed')
+        self.assertFalse(differences(before, capture_rng()))
+        restore_rng(state['rng'])
+        next(trainer.bundle.draft_model.parameters()).grad = torch.zeros((2, 2), dtype=torch.bfloat16)
+        with self.assertRaisesRegex(ValueError, 'Live resume'):
+            verify_live_resume(trainer, state)
+
+    def test_events_2_through_4_are_incremental_and_match_normal_O_draws(self):
+        for number in (2, 3, 4):
+            ordinary, candidate = event(number), event(number, 'osd_first_error')
+            receipt = validate_event_receipt(candidate, event_number=number,
+                objective='osd_first_error', reference_schedule=ordinary)
+            self.assertEqual(receipt['end_step'], number * 128)
+            self.assertTrue(receipt['schedule_matched'])
+            self.validate(fixture('osd_first_error', number), 'osd_first_error', number)
+        for mutation in ('counter', 'anchor', 'order', 'step'):
+            ordinary, candidate = event(2), event(2, 'osd_first_error')
+            if mutation == 'counter': candidate['end_step'] = 128
+            if mutation == 'anchor': candidate['records'][0]['sampled_anchors'][0]['positions'][0][0] += 1
+            if mutation == 'order': candidate['records'][0]['record_id'] = 'other'
+            if mutation == 'step': candidate['records'][0]['optimizer_stepped'] = True
+            with self.subTest(mutation=mutation), self.assertRaises(ValueError):
+                validate_event_receipt(candidate, event_number=2, objective='osd_first_error', reference_schedule=ordinary)
+        with self.assertRaisesRegex(ValueError, 'replay event 1'):
+            validate_event_receipt(event(1, 'osd_first_error'), event_number=1,
+                objective='osd_first_error', reference_schedule=event(1))
+
+    def test_exact_bits_and_import_has_no_torch_side_effect(self):
+        self.assertTrue(differences(torch.tensor([0.]), torch.tensor([-0.])))
+        process = subprocess.run([sys.executable, '-c',
+            "import sys; import experiments.ok_continuation.resume; assert 'torch' not in sys.modules"],
+            env={**os.environ, 'CUDA_VISIBLE_DEVICES': ''}, capture_output=True, text=True)
+        self.assertEqual(process.returncode, 0, process.stderr)
+
+
+if __name__ == '__main__':
+    unittest.main(verbosity=2)
