@@ -690,7 +690,7 @@ def render_report(summary, roles, predictions, oracles, costs, windows):
         'The gamma_n response-reduction bound is an analysis consistency check, not a relaxed scientific replay or restoration tolerance. WINDOW_SUMMARY.csv retains each role’s observed reconstruction discrepancy and bound; CANDIDATE_ROLE.csv retains their maxima. D gradient/no-grad scalar, margin and prediction differences are descriptive and do not add a D equality gate.', '',
         '## Limits and interpretation', '']
     lines += ['- ' + item for item in LIMITS]
-    lines += ['', 'Earlier non-monotonicity source: [KRC1 report, local probes](../../reports/dflash_krc_event_20261027/REPORT.md).', '',
+    lines += ['', 'Earlier non-monotonicity source: [KRC1 report, local probes](../../dflash_krc_event_20261027/REPORT.md).', '',
         '## Statistical fallacy scan', '', '11/11 reviewed as descriptive design/claim checks; this is not a statistical certification.', '']
     lines += ['- ' + row['type'] + ': ' + row['assessment'] for row in summary['fallacy_scan']]
     lines += ['', '## Material Passport', '',

@@ -1,0 +1,115 @@
+{
+  "execution_git_commit": "c9461345189b91d241ff21590027500e6ac7dab4",
+  "campaign_status": "completed",
+  "expected_candidate_slots": 80,
+  "included_candidate_slots": 80,
+  "excluded_candidate_slots": 0,
+  "episodes": [
+    {
+      "event": 2,
+      "included": true,
+      "exclusions": [],
+      "identities": {
+        "parent_state": {
+          "bytes": 6292303131,
+          "sha256": "8f5d1a94aea5e2905047a3dec8840f41de015f2871a529dbbab7df58b451504a"
+        },
+        "endpoint_state": {
+          "bytes": 6292755483,
+          "sha256": "ac6861a87f51e0607f6dabaa262b8eb84ff2195036f8bc341b1161891c4d25d6"
+        }
+      },
+      "metadata_difference_count": 258,
+      "comparison": "decoded scientific state, not serialized file-hash equality"
+    },
+    {
+      "event": 4,
+      "included": true,
+      "exclusions": [],
+      "identities": {
+        "parent_state": {
+          "bytes": 6293206683,
+          "sha256": "66033b346717c66df8a78c8206beb8f5278b507153ad5adb3e3d0f234c453808"
+        },
+        "endpoint_state": {
+          "bytes": 6293654683,
+          "sha256": "1934f9b7b162a77ef4b2333a10cbb8e92a471a9347e78b49317ee1c90becba95"
+        }
+      },
+      "metadata_difference_count": 258,
+      "comparison": "decoded scientific state, not serialized file-hash equality"
+    }
+  ],
+  "recommendation": {
+    "status": "inconclusive",
+    "intervention": null,
+    "reason": "Machine summaries are descriptive. A final recommendation requires explicit interpretation of all branches of the original handoff decision map; no new numeric decision threshold is imposed.",
+    "complete_handoff_interpretation_required": true,
+    "quantified_half_noop_windows": 0,
+    "oracle_first_gain": 1154,
+    "oracle_all_gain": 1184
+  },
+  "fallacy_scan": [
+    {
+      "type": "Simpson paradox",
+      "assessment": "Mixed phase directions: D_FULL/A, D_FULL/D, D_FULL/R, R_FULL/A, R_FULL/D, R_FULL/R, R_HALF/A, R_HALF/D, R_HALF/R"
+    },
+    {
+      "type": "Ecological fallacy",
+      "assessment": "Block occurrences and window summaries are not generalized to requests, seeds or users."
+    },
+    {
+      "type": "Berkson paradox",
+      "assessment": "Fixed training-buffer sample, not a population sample; sampling/selection limits remain."
+    },
+    {
+      "type": "Collider bias",
+      "assessment": "No post-outcome covariate adjustment or favorable-window selection."
+    },
+    {
+      "type": "Base rate neglect",
+      "assessment": "Fixed valid-block denominators, zero opportunities and gross losses retained."
+    },
+    {
+      "type": "Regression to the mean",
+      "assessment": "Windows fixed before outcomes; no extreme-state selection."
+    },
+    {
+      "type": "Survivorship bias",
+      "assessment": "0 excluded candidate slots remain visible with reasons; no silent survivor-only coverage claim."
+    },
+    {
+      "type": "Look-elsewhere effect",
+      "assessment": "All fixed candidates/roles/windows reported; no significance testing."
+    },
+    {
+      "type": "Garden of forking paths",
+      "assessment": "Fixed sampling/doses/reference offsets; no outcome-driven tuning or replacement windows."
+    },
+    {
+      "type": "Correlation versus causation",
+      "assessment": "Same-state interventions support local contrasts only; endpoint/age/serving mechanisms remain unisolated."
+    },
+    {
+      "type": "Reverse causality",
+      "assessment": "Pre-K membership precedes K/candidates; no observational temporal-causality claim."
+    }
+  ],
+  "limitations": [
+    "Windows and overlapping anchors share trajectories; they are not independent training replications.",
+    "D is buffered training data, not unseen or statistically independent data; D is fitted data for D_FULL.",
+    "Changing R to D changes both direction and natural step length; this is not a norm-matched direction test.",
+    "Different parent states and feedback prevent an isolated training-age interpretation of event 2 versus event 4.",
+    "Token-replacement oracles describe local opportunity; they do not bound total algorithm or serving improvement.",
+    "Actual-minus-linearized residuals combine possible nonsmooth/nonlinear and finite-precision effects; causes are not uniquely identified.",
+    "No significance tests, serving-speed claims, optimal-dose claims or training-inclusive acceleration claims are made.",
+    "Earlier KRC1 probes already showed local non-monotonicity, including increased R hinge at window 64."
+  ],
+  "scalar_reductions": "FP64 reporting; native token decisions and original update arithmetic unchanged",
+  "native_pair_validation": "Exact binary32 response-contribution addition and final division; no FP64 tolerance gate on native pair arithmetic",
+  "response_hinge_validation": "Analysis consistency only, not a scientific replay/restoration tolerance: fixed pre-result bound gamma_(2N+4)*abs(FP64 numerator)+(2N+4)*2^-126, N=stored response positions; exact zero when reconstructed numerator is zero",
+  "D_gradient_no_grad_comparison": "Descriptive scalar/margin/prediction discrepancies; no exact D forward-equality gate; predictions use actual D gradient-source V",
+  "prediction_validation": "Exact source V, fitted role, fixed dose, alias/norm, coefficient and recorded algebra checks",
+  "denominators": "prefix sums / fixed valid block occurrences; hinge numerator sums / frozen protected weight sums",
+  "public_outputs_exclude_raw_arrays": true
+}
