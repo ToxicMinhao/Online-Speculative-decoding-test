@@ -231,20 +231,22 @@ def write_results(rows, requests, root, *, checkpoints, canonicals, execution, e
     return summary
 
 
-def curve_direction(initial, final, *, complete):
-    if not complete or initial is None or final is None:
+def curve_direction(initial, final, *, middle, complete):
+    if not complete or initial is None or middle is None or final is None:
         return 'inconclusive: incomplete comparable panel'
     if final < 0:
         return 'reverses: K has more calls than O at event 8'
     if final == 0:
         return 'parity at event 8'
+    net = ('grows' if final > initial else 'shrinks' if final < initial else 'is unchanged')
+    net_description = f'event-4 to event-8 net call reduction {net}; no monotonicity claim'
+    if middle < 0:
+        return 'recovers a positive advantage at event 8 after an event-6 reversal; ' + net_description
+    if middle == 0:
+        return 'returns to a positive advantage at event 8 after event-6 parity; ' + net_description
     if initial <= 0:
-        return 'K has a positive event-8 advantage'
-    if final > initial:
-        return 'persists and grows from event 4 to event 8'
-    if final < initial:
-        return 'persists but shrinks from event 4 to event 8'
-    return 'persists with the same aggregate call reduction'
+        return 'K has a positive event-8 advantage; ' + net_description
+    return 'persists at all three measured endpoints; ' + net_description
 
 
 def _load(path, default=None):
@@ -399,7 +401,9 @@ def write_campaign_report(root, output, *, execution_commit):
                 complete_comparable_panel=current['complete_valid_panel']))
         final = summaries['8_'+name]
         complete = summaries['6_'+name]['complete_valid_panel'] and final['complete_valid_panel']
-        interpretation[name] = curve_direction(initial, final['comparisons']['K_vs_O']['call_reduction_pct'], complete=complete)
+        middle = summaries['6_'+name]['comparisons']['K_vs_O']['call_reduction_pct']
+        interpretation[name] = curve_direction(initial, final['comparisons']['K_vs_O']['call_reduction_pct'],
+                                                middle=middle, complete=complete)
     fresh = summaries['8_fresh']
     fresh_value = fresh['comparisons']['K_vs_O']['call_reduction_pct']
     interpretation['fresh'] = ('inconclusive: incomplete fresh panel' if not fresh['complete_valid_panel'] else

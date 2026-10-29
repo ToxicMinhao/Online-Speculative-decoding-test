@@ -271,11 +271,26 @@ class EvaluationTests(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stderr)
 
     def test_call_curve_classification_does_not_treat_incomplete_or_zero_as_advantage(self):
-        self.assertIn('shrinks', curve_direction(3, 1, complete=True))
-        self.assertIn('grows', curve_direction(1, 3, complete=True))
-        self.assertIn('reverses', curve_direction(1, -1, complete=True))
-        self.assertIn('parity', curve_direction(1, 0, complete=True))
-        self.assertIn('inconclusive', curve_direction(1, 3, complete=False))
+        self.assertIn('shrinks', curve_direction(3, 1, middle=2, complete=True))
+        self.assertIn('grows', curve_direction(1, 3, middle=2, complete=True))
+        self.assertIn('reverses', curve_direction(1, -1, middle=2, complete=True))
+        self.assertIn('parity', curve_direction(1, 0, middle=2, complete=True))
+        self.assertIn('inconclusive', curve_direction(1, 3, middle=2, complete=False))
+        self.assertIn('inconclusive', curve_direction(1, 3, middle=None, complete=True))
+
+    def test_call_curve_labels_event6_reversal_as_recovery_and_net_change_only(self):
+        recovered = curve_direction(2, 3, middle=-1, complete=True)
+        self.assertIn('recovers', recovered)
+        self.assertIn('event-6 reversal', recovered)
+        self.assertNotIn('persists', recovered)
+        self.assertIn('net call reduction grows', recovered)
+        self.assertIn('no monotonicity claim', recovered)
+        parity = curve_direction(2, 1, middle=0, complete=True)
+        self.assertIn('event-6 parity', parity)
+        self.assertNotIn('persists', parity)
+        nonmonotone = curve_direction(2, 3, middle=5, complete=True)
+        self.assertIn('persists at all three measured endpoints', nonmonotone)
+        self.assertIn('no monotonicity claim', nonmonotone)
 
 
 if __name__ == '__main__':
