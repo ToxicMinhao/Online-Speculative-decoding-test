@@ -1,0 +1,2203 @@
+{
+  "status": "passed",
+  "issues": [],
+  "scope": "Independent anchor-derived available-position recount and optimizer-boundary selected metric aggregation.",
+  "summarizer_code_review": "summarize_exposure.py aggregates only optimizer-stepped rows, which already contain both accumulated responses; no double counting.",
+  "analysis_correction": "The earlier naive all-record sum was caught before reporting; this review checks the corrected analysis. Experimental source/results are unchanged.",
+  "material_passport": {
+    "workflow": "ARS experiment-agent validate",
+    "data": "Private retained compact execution receipts",
+    "verification": "ANALYZED; no experimental rerun"
+  },
+  "checks": [
+    {
+      "event": 5,
+      "matched_anchors": 63036,
+      "available_position_occurrences": 918693,
+      "selected_K_position_occurrences": 539665.0,
+      "feedback": {
+        "responses": 128,
+        "prompt_tokens": 9166,
+        "response_tokens": 31751,
+        "maximum_response_tokens": 605,
+        "outputs_at_2048_tokens": 0,
+        "length_terminations": 0,
+        "eos_terminations": 128,
+        "other_terminations": 0,
+        "terminal_teacher_preparations": 128
+      }
+    },
+    {
+      "event": 6,
+      "matched_anchors": 59898,
+      "available_position_occurrences": 871671,
+      "selected_K_position_occurrences": 521002.0,
+      "feedback": {
+        "responses": 128,
+        "prompt_tokens": 8605,
+        "response_tokens": 30299,
+        "maximum_response_tokens": 722,
+        "outputs_at_2048_tokens": 0,
+        "length_terminations": 0,
+        "eos_terminations": 128,
+        "other_terminations": 0,
+        "terminal_teacher_preparations": 128
+      }
+    },
+    {
+      "event": 7,
+      "matched_anchors": 64564,
+      "available_position_occurrences": 941612,
+      "selected_K_position_occurrences": 555274.0,
+      "feedback": {
+        "responses": 128,
+        "prompt_tokens": 9238,
+        "response_tokens": 32491,
+        "maximum_response_tokens": 556,
+        "outputs_at_2048_tokens": 0,
+        "length_terminations": 0,
+        "eos_terminations": 128,
+        "other_terminations": 0,
+        "terminal_teacher_preparations": 128
+      }
+    },
+    {
+      "event": 8,
+      "matched_anchors": 60910,
+      "available_position_occurrences": 886796,
+      "selected_K_position_occurrences": 530696.0,
+      "feedback": {
+        "responses": 128,
+        "prompt_tokens": 8600,
+        "response_tokens": 30648,
+        "maximum_response_tokens": 578,
+        "outputs_at_2048_tokens": 0,
+        "length_terminations": 0,
+        "eos_terminations": 128,
+        "other_terminations": 0,
+        "terminal_teacher_preparations": 128
+      }
+    }
+  ],
+  "input_identities": {
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/analysis/TRAINING_EXPOSURE.csv": {
+      "bytes": 942,
+      "sha256": "74fb0eabe6fce9fee5b6749d9c5d34ef491eaaddce42470d6b924f29ea322f43"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/analysis/FEEDBACK_LENGTHS.csv": {
+      "bytes": 324,
+      "sha256": "88fae32deacca86035d3fea93f73ede7acb7520e0494057c5af06c591b50099b"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/summarize_exposure.py": {
+      "bytes": 4422,
+      "sha256": "e75498916a93ece734290cbd8884ebd248e5dc015c2810f930c6cef7da798f0e"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/O/events/event_005/RESULT.json": {
+      "bytes": 2664900,
+      "sha256": "957cfb3a546eb1a36445b54fa20d1651476012f1200b1f8c4a56365b706a6a8d"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/K/events/event_005/RESULT.json": {
+      "bytes": 2948549,
+      "sha256": "65a84a50a6290de9f3bdcdc5a949a7b0799d7ba0d3764cb3a167d6a0ff4c37c7"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/POOL.json": {
+      "bytes": 45843,
+      "sha256": "ddea833490b242a797636dbe8abc69c4c5eb03d897ad3b976f63c04a5d0f5b8c"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00512.json": {
+      "bytes": 67184,
+      "sha256": "c288524592adb304a68e2b35c1f610f37218527c178f47d925b7a1885a1fb31e"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00513.json": {
+      "bytes": 111303,
+      "sha256": "90a5a930535f22b53bb4abf19c3672612be125e17ecf9b36eed266158cf8343c"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00514.json": {
+      "bytes": 61615,
+      "sha256": "afe7b76c659c30cd2e657c94a3782ea5e87e5d7ed3cf4dba737c38c40ce20511"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00515.json": {
+      "bytes": 225097,
+      "sha256": "10fa3bbb0bf9e2df933223fa4d361f52342431f0de15319ce495311c2d60c7d1"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00516.json": {
+      "bytes": 141398,
+      "sha256": "bd91475d115094434b22c7d69a7cd9f16c1caccdf16c11c4275b9d7ee51f6fab"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00517.json": {
+      "bytes": 45735,
+      "sha256": "54ab551121912cc1c40e8f9123c435b087267e354dbbfac53201097709c3003c"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00518.json": {
+      "bytes": 107903,
+      "sha256": "c0e840c7a8567d6eb3d52f7d1dea65849c6ef90c43f49925a61253eb55461b04"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00519.json": {
+      "bytes": 91825,
+      "sha256": "af68108a46f41d928f3df940924b2eb7f67a5f2250bf48e7a7b68f438a160b33"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00520.json": {
+      "bytes": 258523,
+      "sha256": "ebb80aab87775b291f4f97d060d5287ccc7c37e63a29e2dee827d58de80ccebc"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00521.json": {
+      "bytes": 49768,
+      "sha256": "c88d456063bf248eb1c88a7cf851b1c17556b7b7a7e07df0f5e396d0f9885e65"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00522.json": {
+      "bytes": 106850,
+      "sha256": "224b5a42a37d9d85bd58a4419375cf9ee997c5931dc6ab29aa9e280fe93d6492"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00523.json": {
+      "bytes": 138996,
+      "sha256": "fb99af15e2cb460ab490c3804a1c39beaafd5af1b120559ec32c79412f8e98e4"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00524.json": {
+      "bytes": 57463,
+      "sha256": "af2a5367b7447a8b5fd9591ad292b75ae6aeefbf8a21a5d9066641290d31805e"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00525.json": {
+      "bytes": 210835,
+      "sha256": "10092b64173777f825a2326806e41f5aedde1433582210aacebdc8880d219159"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00526.json": {
+      "bytes": 88337,
+      "sha256": "488738f8cb8f53bd68597e9851441f98737533d2c6cb3291c5faef6039a93c5c"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00527.json": {
+      "bytes": 77538,
+      "sha256": "fc4ca20c9111f17495feb886a77a320da2427f37be94986c4ab0b2c446ec220a"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00528.json": {
+      "bytes": 117518,
+      "sha256": "639ab8d1a6a674e4dd3c26cff8c7a92aae29e1bbda785e6e4ecff22e3a1c0666"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00529.json": {
+      "bytes": 177440,
+      "sha256": "908b9d6b2b8c262662199855176f7a329cbe4a123240822f33458fa250034405"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00530.json": {
+      "bytes": 86362,
+      "sha256": "927590519ecf824e3195636b79177e9e52e7048b3ab3f01f841522d5b7df4a68"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00531.json": {
+      "bytes": 60099,
+      "sha256": "5c73df6826abb251ece8abb7b16ae333d2820ca658229f1a83fc06aaa706934b"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00532.json": {
+      "bytes": 104239,
+      "sha256": "0b59e3732ac603144b73f6f9198da92842b36d1d70eaff9ce794a91fe3104fdb"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00533.json": {
+      "bytes": 100815,
+      "sha256": "602371ec2f7706a49202217cd711a60b70f94782f9db112b59f46fb55eb6052a"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00534.json": {
+      "bytes": 62949,
+      "sha256": "2b5f853b6c87b5c3df2e9baa8b9ffdb397f9d808183d02b9950bfbaa57db41d9"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00535.json": {
+      "bytes": 49625,
+      "sha256": "4f151635ba4b4782da878644af968dac9807ff0006029b2eff01543d1fa94277"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00536.json": {
+      "bytes": 112943,
+      "sha256": "eae519cf778dd1b90714c0d1c7d4fcc1c4e77862265f793231409559ea22a6a4"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00537.json": {
+      "bytes": 193401,
+      "sha256": "233cd27fd9e80f0ddb3b18b5275bec88761e9225ce23cd226573d15a943eff1e"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00538.json": {
+      "bytes": 90479,
+      "sha256": "ece1fd3a6c0a7d4211814cb0a6fe8ae8336e23ad53aaeb4268431b914d802083"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00539.json": {
+      "bytes": 118000,
+      "sha256": "cb3a6142bfd74d1fc23028bd54343b373e4c6a7bee43599d84e215572ea57843"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00540.json": {
+      "bytes": 99483,
+      "sha256": "803e93001a5563202a11e702b205996b46f006295f0016931c6e8d171c21be69"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00541.json": {
+      "bytes": 110272,
+      "sha256": "a26b3adbc0bf4965abd8a0e01ccc5e1e3df7f2b3742149599ee7adfcd5276f48"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00542.json": {
+      "bytes": 99948,
+      "sha256": "4777ce006e92aeff533af0e08760fdc39b93e993e82efb778af4355dc1edac96"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00543.json": {
+      "bytes": 128237,
+      "sha256": "9694efe16ca49ddde60aba1d40ecc96fdb8b1e8553e19e006bbf877715d0aa95"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00544.json": {
+      "bytes": 131813,
+      "sha256": "34764f9b9006ac9dda932c46ddba6af4482a426d6de15d9f8d7fe0133e1edc3d"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00545.json": {
+      "bytes": 111670,
+      "sha256": "0e1deacc267dcafb0d9a1f5568b59e16b3dbac9117a1c23c69f96ab0840dd051"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00546.json": {
+      "bytes": 72111,
+      "sha256": "d2bd0234ad16ace7c008a46db4d26455643f9a6488b21f26fcae9f8d9ae34cdc"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00547.json": {
+      "bytes": 139282,
+      "sha256": "664570252d4c256bf3bbc214f2b929d5397b90993d7892482fa5176e345a30f1"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00548.json": {
+      "bytes": 118471,
+      "sha256": "f84b7cf4879d69cf5a947e9bdba24981fede27a21ed12c6a23476277e4a003a8"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00549.json": {
+      "bytes": 164366,
+      "sha256": "9b6784b458f1dc7e4b8e86d75ea182c3d52c082a83ff66dba6a27d1b3f7ece43"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00550.json": {
+      "bytes": 70751,
+      "sha256": "d269de0d7d7467a5d0d67225769ccb9e66e2717e0b03d343c92501cdb2a4b38e"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00551.json": {
+      "bytes": 55642,
+      "sha256": "7e3088050dd4660abc211be60535acc5f525c44e9038262bd81ad1bd9aae580f"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00552.json": {
+      "bytes": 107588,
+      "sha256": "52b07899c08944707216c9b52b691c3869e4035c203d76464521247253f9a08f"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00553.json": {
+      "bytes": 98812,
+      "sha256": "54df7b449e43958146dc6d31e617fc5e3c739ef3d17f1ac16208f3a7a6b8528d"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00554.json": {
+      "bytes": 126891,
+      "sha256": "4730e3cfb906cea5d68c7137022e535c4c112f7fb1e29591e9fbbfed0c47fba8"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00555.json": {
+      "bytes": 108687,
+      "sha256": "118af6b682ffb1ca7508ba77834ea3f0d2b596e840eccbf0207ad8571476e8ff"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00556.json": {
+      "bytes": 113642,
+      "sha256": "dcd5684e171dfd1a93bcd44b646c53f10e0bd4c41c0e7e821c8f0415b7db82c5"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00557.json": {
+      "bytes": 133725,
+      "sha256": "ef5f4a4308009e6b3723d010c1bf9c00cc3e39ee717c7573d29ce3657db4b656"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00558.json": {
+      "bytes": 182263,
+      "sha256": "0fd47c68c85a77c6adb4f6a4f171986404d3c9b1b8bf5100bc9302a512be63e2"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00559.json": {
+      "bytes": 161839,
+      "sha256": "1549d4682d06441255414532869d386def3c6d54b755b7438d41663f3efaecea"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00560.json": {
+      "bytes": 86426,
+      "sha256": "1241f5df45ce749eee9050767223e9b70a9724b32a3567f0902c5c0380527259"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00561.json": {
+      "bytes": 98466,
+      "sha256": "758c379f97a7d8b9665bd93a5d74659b5420e4480702c86f35c9e2676b90a001"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00562.json": {
+      "bytes": 154980,
+      "sha256": "38d995fb77bfa342eafe31ccfc08ed453a3f4454b9094d193212506a76d42f3c"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00563.json": {
+      "bytes": 103462,
+      "sha256": "b06b88a2aee3b26013a73f504f05ba4eb263c705a329cb2a3b906c61c97a79d6"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00564.json": {
+      "bytes": 80823,
+      "sha256": "d0238ce2934a12c4368713f481ed44ee7632cefced0719c01b1725409101dc82"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00565.json": {
+      "bytes": 175709,
+      "sha256": "fd51f8ab0d0bc4b9cf90b2dec2a9778a8bb228ecae75ea572a501c17981f00af"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00566.json": {
+      "bytes": 89383,
+      "sha256": "182e019530e1eaf505d19bb4ab1b97ff6d063f3c2bb5ae07f79e114e7c647b94"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00567.json": {
+      "bytes": 236156,
+      "sha256": "fbdfec837b569adbcf1376a455f7b003bb370ba3b306064b22c23909a38a152a"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00568.json": {
+      "bytes": 220689,
+      "sha256": "0d95116b990416409cf88a5f460c9efa6eae1ad2943d6d8f2d3a649356a8c6b0"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00569.json": {
+      "bytes": 90784,
+      "sha256": "eb3fcc243b6e649d9288921b5b14654b3960f6eaca484f1327385ec168a36b13"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00570.json": {
+      "bytes": 126906,
+      "sha256": "ed1a1e7eaebdacf3a8c9611c355b0a3393179a9fd76255827745d6cd24a7ac7c"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00571.json": {
+      "bytes": 159139,
+      "sha256": "1c37cd431d44c4f5db8de97ce21a08083a0e9666fafdd6edbf3e225ec964308f"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00572.json": {
+      "bytes": 181550,
+      "sha256": "8565f7f7978435dcc8c2e25c8d6edc0b49b155312eb7b10360ad29989147c10a"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00573.json": {
+      "bytes": 92591,
+      "sha256": "7463f393ed577835e0e47ee6c5ac2809a360aee189e917b7cbb5609aa65f7eda"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00574.json": {
+      "bytes": 73208,
+      "sha256": "ee3713e5a68bfe8739ae5cef963823de8eaf533f084c4f956ae1be87ce40c017"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00575.json": {
+      "bytes": 64731,
+      "sha256": "f4544e7043b37eb1ecf23d2efe72a22bdf36f3c750366d332b73478bcdf6bc8f"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00576.json": {
+      "bytes": 52048,
+      "sha256": "2840f18b6382926108c41d0f286b30e2aa1bd4f121a8005c7f46acfd1d0227d6"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00577.json": {
+      "bytes": 141135,
+      "sha256": "e3e8b922bd265b5f22ce715dd523ac57282f75c05a1304668e2aee36ae298aa8"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00578.json": {
+      "bytes": 193165,
+      "sha256": "506cf19c5e4dce7b0dc69a43b195e1a8cb31d20954c7713339165be5787a2252"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00579.json": {
+      "bytes": 73527,
+      "sha256": "6f235082088e926ae581d1944392f0bcdec4069459e151a160d8ec3f13dd5ffa"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00580.json": {
+      "bytes": 143265,
+      "sha256": "4165d0fc53401056f1f56894baa5a6f571025c10b9f7823a46aaa48a49c73e27"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00581.json": {
+      "bytes": 168072,
+      "sha256": "a9efe06909610299e06af696a3d50cacfbda9a47f6a55bd2aea0f1c0e757b57f"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00582.json": {
+      "bytes": 95448,
+      "sha256": "5d7f95621342b10c4112412a9cff00a4d1053a5008421fca3b7dedee8bf18a01"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00583.json": {
+      "bytes": 161725,
+      "sha256": "b4f05b453c02f888b1c4b4398617eb5bc6ea0fc75a03dcfa70ffec03892eca56"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00584.json": {
+      "bytes": 47828,
+      "sha256": "61b79e3d131b3751dcef7e44f96f2685b872612fc52f69006fa4ea85ed0f2bf6"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00585.json": {
+      "bytes": 85046,
+      "sha256": "58fcf3eb2c8f867bdad4bf6b31f17e4e6e4a3005bc2f555eeba5bc2a9527cc51"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00586.json": {
+      "bytes": 48223,
+      "sha256": "70dec188adafd17a3244d01e14072a16e73be7f8ffdb901a3c3b7fda554ec773"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00587.json": {
+      "bytes": 296727,
+      "sha256": "5b3fc07e297fa2a430cacc3659c05e067b75ef935b09a5d476c82029d3a0031f"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00588.json": {
+      "bytes": 87651,
+      "sha256": "cd76ea281dc1821a51e2f79c6bd4d4ce9fa06f496f45d5283736655e837828ed"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00589.json": {
+      "bytes": 104096,
+      "sha256": "67f12331cd6027268768006ffde03a7b22580d24f29e6b936d810b8c24e39c58"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00590.json": {
+      "bytes": 83328,
+      "sha256": "425cf44a06df35d5e2676d31f860fafb485144864dacef950a7c60290fabe854"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00591.json": {
+      "bytes": 110916,
+      "sha256": "c798fce1d1361899edf74aa41784a295467124f6cc73b25476ef544a19243493"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00592.json": {
+      "bytes": 89839,
+      "sha256": "8815ea1ca27b9f964a0ad19c02ee7f952a6b0ebecbfa0180d049885f1b7d93f0"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00593.json": {
+      "bytes": 181994,
+      "sha256": "9f1339be2c01e8eb3bf124965634a952ae57b520c4989645dabf33a4f94aaa6e"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00594.json": {
+      "bytes": 108006,
+      "sha256": "3cf69b592ab616bacaa09e5ec04e76a845ef223f302696dac75c1abd524fba61"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00595.json": {
+      "bytes": 129193,
+      "sha256": "f7bdd95cc3a0eb417dc76d57139a5ab76a88eb9eb3d30805e6bf7c90fd0dae98"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00596.json": {
+      "bytes": 118316,
+      "sha256": "61e5c26985858c7e20581f3867832316db4ccec7a121c5bac74a68c4f81f132d"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00597.json": {
+      "bytes": 101385,
+      "sha256": "563a3d04640fa1473f63850a9d2b3f8c0c13b5adc9f9ff24ecaca8f9cbf96ef0"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00598.json": {
+      "bytes": 217583,
+      "sha256": "0349630311ce8c3b67ef84d9f2d2f79602cc7edc9c1e5149c9c2a6a43310b038"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00599.json": {
+      "bytes": 119003,
+      "sha256": "bc7368ccecc9a38ce37ca8d28688fb117c49c3457174059281dfec5c7fd16cf9"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00600.json": {
+      "bytes": 80089,
+      "sha256": "ebeb7e3d2c76d2352f4640cc4b84f873ec0ef3b161f8cbf9f90b80cb7245dede"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00601.json": {
+      "bytes": 170028,
+      "sha256": "3b7c74eb58277472bd6b00f12540a872af902e306367988db08dd34e96ea3abb"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00602.json": {
+      "bytes": 142784,
+      "sha256": "b0a31a2f83fbeb836151c898b60b8a14ff6987ca5437876540acd7dc9d22fed3"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00603.json": {
+      "bytes": 73119,
+      "sha256": "2f80291a44c497d34481be534e5771106092759e526966b9f2935b43e8d91da1"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00604.json": {
+      "bytes": 294643,
+      "sha256": "5acfa1be5377e1d6863942e98a21d0db3b0ffb3ede0eb6b5c0acefc2b6f6f2ea"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00605.json": {
+      "bytes": 44173,
+      "sha256": "47d062035af340b52896975fb237c3c916b308841f6e9e9d8d677355574277ae"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00606.json": {
+      "bytes": 162517,
+      "sha256": "5b5ac33e63a5eb97c1976a1c79ece9b772d8e143ddaa1bd456d322f4908d78aa"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00607.json": {
+      "bytes": 132879,
+      "sha256": "07e241a8ffb24fee0e3ba9a1b2e8939ee97f4ad6fe467d4c4f10989c0dced5cb"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00608.json": {
+      "bytes": 75987,
+      "sha256": "2ce852a272226c568d59479c29ddfefb43deab3587f0040265ac91fd002a45c0"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00609.json": {
+      "bytes": 191084,
+      "sha256": "70eb88e781e5f145c2c29800946b377f505343390ac513f96e3fd90d50a4fa84"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00610.json": {
+      "bytes": 76714,
+      "sha256": "602b4519c00d5eec55bb720fd215f2e835e6ff892d1058cbf971e4339eee990f"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00611.json": {
+      "bytes": 178564,
+      "sha256": "9182385851d84db784c8018f58334a893ae0cb0c1f22564d8bbf626dcd0fcb8f"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00612.json": {
+      "bytes": 88095,
+      "sha256": "2612b8e95c5ec8265bddb893d107b5c8e96f468cf9af64dec2f994ca52433835"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00613.json": {
+      "bytes": 77568,
+      "sha256": "3d283da4b5e24e9645230f2686f0727cbc53572b8b9e432a1353dc9d033aeba5"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00614.json": {
+      "bytes": 99306,
+      "sha256": "635ccc156d39508542158993f182ebaad8f6aa491f0821d340d32a59f28417b2"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00615.json": {
+      "bytes": 128992,
+      "sha256": "373257a70c854026d0fcc26bf11964b0deed094f12273c7b09622e0577aa6ebf"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00616.json": {
+      "bytes": 197494,
+      "sha256": "6696c44a6cec95b5ac91ebaca982e80629d4df2aa1a516a0aabc21b8772c7f33"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00617.json": {
+      "bytes": 199166,
+      "sha256": "ea4c9868da95f6817381fd54c7dc161160478c73ebcdc95bb57b58e07d9d8610"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00618.json": {
+      "bytes": 346477,
+      "sha256": "733dab7f2b377b30343a33822241207c9dcb2e3b6b702791122c12ebe18c1ed1"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00619.json": {
+      "bytes": 108195,
+      "sha256": "ef4527d0bc466a09b518465e999ccbdc05ab1402d7852fc752a13bfb07744e28"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00620.json": {
+      "bytes": 89918,
+      "sha256": "67cf68a46ba50af753a812f198cc12ecd310b8fb903a8810b93026c6716ee56c"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00621.json": {
+      "bytes": 119946,
+      "sha256": "064951b2e2d959956f3ce9927e2ebb88125573ff5ba56a23ae00776ef4873455"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00622.json": {
+      "bytes": 62166,
+      "sha256": "084eb1a1e42142499a4103a3a2e3ce9a0b6a395a6ed13fbbd93c6f8f144cfaff"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00623.json": {
+      "bytes": 173087,
+      "sha256": "35fda40d514a10c2900db14f156143793e6d76a7dee71b5a29b3e2009e81b20d"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00624.json": {
+      "bytes": 52771,
+      "sha256": "23a1270a58d939101c07a477c94bcf6ed302759685221e8b7e18b109c3543a8a"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00625.json": {
+      "bytes": 64666,
+      "sha256": "088b73ca6eba47a5f098155dc4b8207b9c6b77965f9993245c84b40eb3f3b991"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00626.json": {
+      "bytes": 188408,
+      "sha256": "3781af553a45a27bd5eea26f85875d102e09071800ece33c7ed0039cbde6f94c"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00627.json": {
+      "bytes": 77118,
+      "sha256": "514fcfe834cb1108e6488c1dde304c821d7c43a624289d48c88cf4b088f6c932"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00628.json": {
+      "bytes": 82906,
+      "sha256": "0a97f529aff75bf0766cb909310c3ff6b06a9d1f641e6fafd06f0ed04320e997"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00629.json": {
+      "bytes": 88290,
+      "sha256": "c41864c2d9caf025a21a2e47547b7870ce4b073e2a40dfabd2183c04df699b38"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00630.json": {
+      "bytes": 101473,
+      "sha256": "820d5ed733a527260677b5a29d7a80263fa7073c3b65b172bda73c5646343c0d"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00631.json": {
+      "bytes": 130779,
+      "sha256": "77278ed974136ee9600471553f3da997b06b981b24b6245ee313418805a86e83"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00632.json": {
+      "bytes": 88450,
+      "sha256": "5d98c6c28e7882fb5955fea602d80f330f5ffea7d8df427499feedffae3e25bb"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00633.json": {
+      "bytes": 37253,
+      "sha256": "0547d34a9fc3a1ecbd39406e4b575443e0b055188def8e82323808cd3b9dc8f6"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00634.json": {
+      "bytes": 99230,
+      "sha256": "10ca2c2519f40452bfd6284849a9286e0383967bde3341dcb979b72799cbf336"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00635.json": {
+      "bytes": 85614,
+      "sha256": "e1aa84af44e32999d96d4a42564adba1f847625f05d4d212d481e246672fc8dc"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00636.json": {
+      "bytes": 124801,
+      "sha256": "91c3f44e9cd659fdc9cbea9ce4de563d709f27ac6921ba5876421085982a6cee"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00637.json": {
+      "bytes": 60678,
+      "sha256": "c20dc664aa2e81ac148738cc4642ece7401e173a83a07376a1160cb5935dc56b"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00638.json": {
+      "bytes": 202966,
+      "sha256": "80dd17c5e77de11e7cd53de52bbf5157a13670e0b7a86ec1aa73143133442aca"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_005/responses/train_00639.json": {
+      "bytes": 157096,
+      "sha256": "c5cc78c392f10a6ecda3b454aa6a078c59e23f97ac1b46fc25082b796b8c336e"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/O/events/event_006/RESULT.json": {
+      "bytes": 2541936,
+      "sha256": "4ce99c764187684edfdb52d8c9ba08a6d7762038de4097609deab28d92d75b7c"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/K/events/event_006/RESULT.json": {
+      "bytes": 2825578,
+      "sha256": "c48fe965b86e991958c382277bd48cf4061ce18b3497c5254d2b13c79ee305eb"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/POOL.json": {
+      "bytes": 45843,
+      "sha256": "1decc94f78d580d356976cccb377c1d22d2170f92a585fdd93ef016eae522725"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00640.json": {
+      "bytes": 81417,
+      "sha256": "2b24506a9aad128767aa2dee69b01b78973bccbccc319b6dc198cc5e280c6426"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00641.json": {
+      "bytes": 95224,
+      "sha256": "f43a5405b399f30ace20c6830353ff957a5bcda1c652c688576acc44ed425c2c"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00642.json": {
+      "bytes": 97602,
+      "sha256": "f238ce598f51cd60ec2633673398ec8341a9ccb0f7bb6d2decfe4e4be64924cd"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00643.json": {
+      "bytes": 111764,
+      "sha256": "b3caba3f83e2f8c401a8d9a04e59cd5496f5a6637a245778d0f6b9406f1b06c8"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00644.json": {
+      "bytes": 121649,
+      "sha256": "95df0fa97267646b149ef0f58278c3f162322f8a57e7cacdfa6dd3bdeafd8a37"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00645.json": {
+      "bytes": 138571,
+      "sha256": "f2c805b7b231854bc7bb9a2a26cbf1f3400634425421f2a6cecb33148b60d6f9"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00646.json": {
+      "bytes": 82734,
+      "sha256": "fcdc349c103a107e4e66ba2b87dc1e3b59a7d968bb81d33cb5c1af684468575e"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00647.json": {
+      "bytes": 126743,
+      "sha256": "7581e9c38ca74cd39c21316583c21e5cc4ec0074419e2edcb5683b8ead99ec15"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00648.json": {
+      "bytes": 129545,
+      "sha256": "61ea35b07b2359534007f30870ec637a86f2a77d0b9f2a4588612eb787b13ebc"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00649.json": {
+      "bytes": 72196,
+      "sha256": "1ae43fedb254f8f009e594d967542f7de606bd4364a8b3ef7646afc4ede8d6ca"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00650.json": {
+      "bytes": 88651,
+      "sha256": "444b03341dbec7e6d70437c96ea270656406f84776408e3155f3e0c0c346abaf"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00651.json": {
+      "bytes": 59463,
+      "sha256": "59ebf76cc2000855ebcdda25bd209055c0ca2a4a8d59263a05b37d5b5b32bb8d"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00652.json": {
+      "bytes": 74770,
+      "sha256": "bf938ac1e01f9db10de82d0c68b92658a5195a69012be755ef034fe6e35b9b12"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00653.json": {
+      "bytes": 136053,
+      "sha256": "01d10d727026aba47a449655df5375d9b75dce593a9e4e82c077e39a55392cb9"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00654.json": {
+      "bytes": 77368,
+      "sha256": "41d49f0d9d16728770f079cbe0dad02db8698f14ac53a6122bb297d04dcfa910"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00655.json": {
+      "bytes": 61338,
+      "sha256": "87ff810a8d756dc856e440d4765159bddf232be9a28339048914b8ccd9344b78"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00656.json": {
+      "bytes": 87944,
+      "sha256": "95bacff78e0f3163cc3c9d337ac1f23b90c4a28239a81cb1bf74c748dcd031dd"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00657.json": {
+      "bytes": 140074,
+      "sha256": "68a47f2f6b04ca14d8f5de3a21cd22b99d0bd3df834a290eec74eebb5c76904a"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00658.json": {
+      "bytes": 102494,
+      "sha256": "f9ad403bb61dd19fb3581e2125bd5edb4e41e381b74721b2a5b7de75dd5e78c1"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00659.json": {
+      "bytes": 140103,
+      "sha256": "72b3afde26c7a8d3bd58a87ca35514eb5c8adf57233e4d3adc198847d632f1d2"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00660.json": {
+      "bytes": 89417,
+      "sha256": "ef269cb261d3fb10fcd48d2e5588c66e3eac086db5c7f56dc84ffba89b144e0b"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00661.json": {
+      "bytes": 65807,
+      "sha256": "000982913519e0c12cbff8eabfacb1c4e8fa5123e1260684cf1d0c8aab423c1a"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00662.json": {
+      "bytes": 68845,
+      "sha256": "136f3341794635cac1bfea1f814c74d7c35f905dc525c59d3eb245485cc8e3ee"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00663.json": {
+      "bytes": 101861,
+      "sha256": "0fc94cc035d069fede7d58f9a96aff86d27d2b7091ddb9e088e44fdc90cfdf31"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00664.json": {
+      "bytes": 69805,
+      "sha256": "1334bd05c742cb4610de5508ed5ad29372a7bcf6bbdb532c64c3a9b6104599c4"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00665.json": {
+      "bytes": 116474,
+      "sha256": "50de369e1ded3d5f504c0cc22a1d67e1da31c36a7a69ee098171b707d201eada"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00666.json": {
+      "bytes": 59380,
+      "sha256": "df13408055c785f1801934bf04c6e8a8ab739cb741aeb56d0dfa49ee920f59d7"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00667.json": {
+      "bytes": 121358,
+      "sha256": "284f3b37e0fe55ce567b7f02bbf66075415fbe0681d9a1b7a08f9d8e8fa4675a"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00668.json": {
+      "bytes": 175604,
+      "sha256": "96e34dacac4daa0c6856f612de7b35835a32dd847cbd071d253df2420df1c67f"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00669.json": {
+      "bytes": 198551,
+      "sha256": "cb9e599fe1ec285ae11a4f3ae8038852210a5dff66947c86f3ddf9dc29039549"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00670.json": {
+      "bytes": 67841,
+      "sha256": "a36327f32b3c8ab3bf27a8ae675128faa7c4cb8ee6168628cbe2e85023cc661e"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00671.json": {
+      "bytes": 78703,
+      "sha256": "0b7a721e5dd86876c69b7616e7fa9c35a73f1d61a08794d651f10289391d9274"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00672.json": {
+      "bytes": 155328,
+      "sha256": "957f09cf0e73441432655dcf46e5e394f3429cd13a21a02ba296b4d6773dc321"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00673.json": {
+      "bytes": 79147,
+      "sha256": "bbdfafd490d03f4d3e3f0155952767cbb9f10ee5469c8c3bae242cfe885dfacc"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00674.json": {
+      "bytes": 168896,
+      "sha256": "0b0f95103c47e87e27e1dfdde054623d494270c70eb037ce6fba6802f7eb8583"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00675.json": {
+      "bytes": 265028,
+      "sha256": "78f05419b18995da53a2fe95607689c799217ff275a921ccbe3dfd2cdc42d4ff"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00676.json": {
+      "bytes": 104808,
+      "sha256": "1bc68cd67da14de6286e78a63fd59d911a76c34ce49c6e1e0a7cd902c493a8d4"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00677.json": {
+      "bytes": 114132,
+      "sha256": "83d0e324ecbabb170f2ef11fd0cb9cdda84375d34f9df003bfc9155c0fa874fe"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00678.json": {
+      "bytes": 145494,
+      "sha256": "7c199408c4adfca6fe0f5ac05ed2d8282c70e294ac8ab27f67ed4e18cc0e3624"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00679.json": {
+      "bytes": 92355,
+      "sha256": "0fd244a53b2626e24776a49c011cc4305a50fe7b48fc36a26bbcddb1b5c9e134"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00680.json": {
+      "bytes": 117591,
+      "sha256": "c18182a6faa335cc5c7c04eceb4f819d49a9ea7d801920d79d0d15f051abdcee"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00681.json": {
+      "bytes": 80613,
+      "sha256": "4945824a56e4fbf64303abf978de8a019304ea9f0d20fe96ad87e2a8448937eb"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00682.json": {
+      "bytes": 111218,
+      "sha256": "2aa8f3347d34e7c67fe470cd5ededb3c27c879173c141fe6a95e963f4eb2c870"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00683.json": {
+      "bytes": 84999,
+      "sha256": "08447817ad3ff3860a6bbae91fa575376f71491ef811f419e989951bae784aaf"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00684.json": {
+      "bytes": 94695,
+      "sha256": "613ba0c65a24fc8aca71dedaa4722333fe723c2e41b37d757afb0f9610f02cce"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00685.json": {
+      "bytes": 171722,
+      "sha256": "791dcfdef81e3489f75d43d0896ffbcbf1aa266027fee3ca1c64c36a0dfc2fc0"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00686.json": {
+      "bytes": 64339,
+      "sha256": "ebad3417b446db3f3080b3b78a1487a555ccdbd99ddb84f91acd18e0df4ce277"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00687.json": {
+      "bytes": 125572,
+      "sha256": "190f6433aa352012f755cc6a344f56b602908aa5603f6194aa7703a15103f35e"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00688.json": {
+      "bytes": 69891,
+      "sha256": "8a8f5f2e0f5e71918a292a59f859092778efcd120482790e423e2e1063911d9d"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00689.json": {
+      "bytes": 155500,
+      "sha256": "32f331e75064c5b23f24eb6f13b50d6c264ac9bbba28c21b3edebaa23b3269af"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00690.json": {
+      "bytes": 125880,
+      "sha256": "2229464c82b2d9de3fb9eb6a7cf6934d0d81ed30b47f050e2c0169bc80795a86"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00691.json": {
+      "bytes": 359258,
+      "sha256": "34d859da66f827f1d9b1f2c96c225158b655fb398a19da61d0d360d44a9b4402"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00692.json": {
+      "bytes": 100367,
+      "sha256": "5e47e3af96e9bcc65e2d39ebf7cf5025e7d185ac26e9baba23a829308859f329"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00693.json": {
+      "bytes": 49609,
+      "sha256": "ac46eed3f424e65344f5a4ce8caaa9b9abd21d0a375258915b52889fb6320b94"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00694.json": {
+      "bytes": 62301,
+      "sha256": "f33ee077e36b6c1fdb224fc3b646c3e9687137203922e05cd63ac5cd33e9523b"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00695.json": {
+      "bytes": 73800,
+      "sha256": "9e860e23bbf6e412998ffa4b1bf39a52dab80c2853bbb6510b3a62893e2fbaba"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00696.json": {
+      "bytes": 105612,
+      "sha256": "8b68cfca85a771457b9333abc0eef7991d869922b928c878051203505123bc45"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00697.json": {
+      "bytes": 123254,
+      "sha256": "7d971478477bcc43e0682e6e6a7f883b48d03b534ac1dc3d7ff8e2e60b6cff67"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00698.json": {
+      "bytes": 75782,
+      "sha256": "1e9e6a81a9d0f6b86b713d3098f1047144ef9cc4b6534a358897622a6d8a98d4"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00699.json": {
+      "bytes": 132757,
+      "sha256": "5352b50bceab7f35e5d461c8c7e306160bca152f0e2bc8e4d7a57cd5fd479fde"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00700.json": {
+      "bytes": 88054,
+      "sha256": "1fb45704f42393d7682be2ef70796ceca701525418d8db539c5730b5423e9098"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00701.json": {
+      "bytes": 97033,
+      "sha256": "e14c185773839ae61af86226c45a4087488b02f350125b5e1c1720f0f3e3e8fe"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00702.json": {
+      "bytes": 69636,
+      "sha256": "ff25470219f8678349373d54f3a54c81dfe629a5c53740003a437e0d9fcb0e1e"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00703.json": {
+      "bytes": 69505,
+      "sha256": "c4e18b3d1ca12e3531d8c53620399c94b64b152dd2cbdc9193395b5377902630"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00704.json": {
+      "bytes": 123423,
+      "sha256": "b3912e30e973e962618f890196860e8487a8ab2ddd174298590d63f7ad36ce72"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00705.json": {
+      "bytes": 162246,
+      "sha256": "e27d81d10dc62983e30c3b201e97a074dac4d83e7653d627c87c4ca060ac503d"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00706.json": {
+      "bytes": 57207,
+      "sha256": "64aaca48db5eebb2f86c2dafa648a995cc087cbd957b4eb0ddeba9a2051aa206"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00707.json": {
+      "bytes": 111124,
+      "sha256": "78b8a0aef34ca5b10507a9ab28efce8cb68c1ae16aeaa1692240730706363ee1"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00708.json": {
+      "bytes": 479530,
+      "sha256": "ad21255a43190180370287013984eb82b07ea03d0d4efb0686b58120015d1273"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00709.json": {
+      "bytes": 109635,
+      "sha256": "8e109a0082aa32c54f5e0cce027f4ac62eaff26757f2448dc20b08cab6e9447f"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00710.json": {
+      "bytes": 68004,
+      "sha256": "2df6d51779e8318efaedae81c4a5b205c2faa09f8447bc70ec68b13e5bbaa6d5"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00711.json": {
+      "bytes": 73001,
+      "sha256": "1216863e17cdf5a64adb39793e59e68cfe893796a3709cdd0cafdb97ea956ed1"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00712.json": {
+      "bytes": 89792,
+      "sha256": "cfdd8a6453bc4ca4dab8fbe6acd7722600a9113ff726ce7c54a5b32f51de265f"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00713.json": {
+      "bytes": 76682,
+      "sha256": "553221851f579af21dc222493c97a30ac61f85f67451bf48da5b3b735ace9822"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00714.json": {
+      "bytes": 90190,
+      "sha256": "8023bacdb2237da641671990842fd7b1c777f92b832cbc56737874b5b7708cb0"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00715.json": {
+      "bytes": 116109,
+      "sha256": "414c8fbca2d6a4d9a5404413ede1e320f279f373faa9bbe5778c9548c7a8488c"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00716.json": {
+      "bytes": 117507,
+      "sha256": "b4c4f3be8cf33c80e891e93c63d71334fe7f7b055bcabc0c986c7d6481127c14"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00717.json": {
+      "bytes": 106622,
+      "sha256": "0bc0e89cb668c2e5a9b4838fdee5497d9e86f0b4da6e763f0be916fc42e29bac"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00718.json": {
+      "bytes": 84081,
+      "sha256": "596d70940845b532c0329c752f935c409a5cebadabcc38ceaf418f458a5ade2f"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00719.json": {
+      "bytes": 123151,
+      "sha256": "26f0b3dcf38bd6203b934daac36828628ae6204751c63d86eed9f93596e21f41"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00720.json": {
+      "bytes": 218749,
+      "sha256": "7d36792c8d95b98fa22d162f14fbd08e1ee4cd18aaa60357574bde6b91085f7d"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00721.json": {
+      "bytes": 94274,
+      "sha256": "f555a5329cf30cf020ddc269b33dda22c1f0c1b8f0ffa04c5f7b5dc6cd3c68a5"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00722.json": {
+      "bytes": 130723,
+      "sha256": "32a68675310247534c0ad12a05891f5f72b0357ccbf7ef62a0a4322029deace1"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00723.json": {
+      "bytes": 57091,
+      "sha256": "c0a804ef09c4d0b8f2c088310d5a146a3a6efc4960300c61bb9dea2ba6a2337b"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00724.json": {
+      "bytes": 101970,
+      "sha256": "d057778254df31b13255ad824be21f19fd3ecd5177b7414a5eb65ad74efd7d05"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00725.json": {
+      "bytes": 48411,
+      "sha256": "2ceae9f1fd3c1752ab94cf354da1ef3b142911486ed4c291c3c92040e992c7bf"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00726.json": {
+      "bytes": 83361,
+      "sha256": "9c9a8cdde364dcd2cde67248fe62016e1c2540d27d8642bf8d1611017e5c5de0"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00727.json": {
+      "bytes": 90789,
+      "sha256": "2f5a136f0756751bf5e41b7d8225b45956f1b26fdea90c7fd34e826229d93c41"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00728.json": {
+      "bytes": 122294,
+      "sha256": "dc04b087086abd98e3d4fe6161e44c91ca5586dd1e0eded403d1d3cd959ee179"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00729.json": {
+      "bytes": 108233,
+      "sha256": "93fcdd06017243cb88d1669ef3381082b1d2645b25620cb3f21d4a92a355817c"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00730.json": {
+      "bytes": 123480,
+      "sha256": "52cd819c1d6f528fba4ee4bb24e9c21911a3e6f67434172b1eff73048f46fbc5"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00731.json": {
+      "bytes": 117987,
+      "sha256": "160475f45fc2ff52ce3e1eabeae037bab62a73744dc88fcb88598cd355982324"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00732.json": {
+      "bytes": 118644,
+      "sha256": "f39e20968a6a9a388668207f1280da95c4ba75e83cca1a8ce352ce3ed663a1df"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00733.json": {
+      "bytes": 142917,
+      "sha256": "1c7a8fad35a292f52484963182eb4bae7b86c955542b0b58d1a62c06b45b2729"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00734.json": {
+      "bytes": 124220,
+      "sha256": "b9f5957c75b23c29c73a16826631849646334eb7897b9e0bcbde852db40497b4"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00735.json": {
+      "bytes": 103552,
+      "sha256": "d49d7deef31895828a16e245e9047c633593e50cf57634a5c78091a53ca7b190"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00736.json": {
+      "bytes": 111741,
+      "sha256": "6ce69ea9ce649ed3667ab3b480eca0238de1ad06840d159bd42cea98a0cce3fc"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00737.json": {
+      "bytes": 62589,
+      "sha256": "fe89c12a94486dce8a766cde7e89d5c80696ab3f4ae6e9f6868847372e99d8cf"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00738.json": {
+      "bytes": 144834,
+      "sha256": "278040677318d7a4cf51bbf0a8fe278d3c028f8d0c00e322d81df9fd6844701c"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00739.json": {
+      "bytes": 118497,
+      "sha256": "6aeade1769a308e35b8975d06958cae33b8d07d97a6229603acb2333403555af"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00740.json": {
+      "bytes": 63714,
+      "sha256": "072d997e160eb0b4bd91c4cd148f03f712ef51d63dc185238970ec9fda52fbae"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00741.json": {
+      "bytes": 87590,
+      "sha256": "9eef0c59617ac5dce8d061f1560c35bd80fec19beb6d2ccea8a750cd71c36796"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00742.json": {
+      "bytes": 131370,
+      "sha256": "bf26a6fd4913adc7084aef9f44a50b9483b45453f05aea5b3b2ee14ca1cf8332"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00743.json": {
+      "bytes": 217992,
+      "sha256": "dff13b6f5c0b0c9f068282b50c47c8f3407aada93dc6573efe3f5de0b11a6f0a"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00744.json": {
+      "bytes": 265141,
+      "sha256": "47272164f7eb6a6a0d52298bcd2ad0b930e589d33a293aac93824a69add06c84"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00745.json": {
+      "bytes": 91925,
+      "sha256": "11c4d77f1349e13942f7884d1131b60a97a8f3407a4e686e32a1e547c9f7f195"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00746.json": {
+      "bytes": 102091,
+      "sha256": "f19d24ca9f7cef4cd038eeb4e16e1c1075244c85bb82eb6dab15eb933f4f5648"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00747.json": {
+      "bytes": 57484,
+      "sha256": "eb6dc76d01339dc5c81f8a6cad519432987e255db587bdcd1246bc70eedd9eef"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00748.json": {
+      "bytes": 50856,
+      "sha256": "e4eb55f3e652fb5b2c3b52aaa8feabdc4420286c32c90f2161ea5e533d77861f"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00749.json": {
+      "bytes": 64022,
+      "sha256": "0607332a9ee3a2e6800dd5da074d4709cc01fd18fb61ebee5393b908e08bd17d"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00750.json": {
+      "bytes": 90058,
+      "sha256": "9114708955716ee6030dc649f25ab28ba1b8e037159e848b9a170bae957a14e1"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00751.json": {
+      "bytes": 148936,
+      "sha256": "854ae28738dd1ae886a4242b6d4239ec7689e5dd88264e4c688f968434fb0092"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00752.json": {
+      "bytes": 90457,
+      "sha256": "e987d42dd24790671edab5b0cd5c526e308f23fe04514da07ef38979517c2942"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00753.json": {
+      "bytes": 76851,
+      "sha256": "51e941a7c69d1fdabef6928ba534464fa08d909bec95e49ced6e79518d0d33a3"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00754.json": {
+      "bytes": 107057,
+      "sha256": "b2277940d57d14796282e5af890b936a1e5222b4b1457baccd8d77defe538d15"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00755.json": {
+      "bytes": 149522,
+      "sha256": "63c9284bfea4265506a74dae73d2616faefef379a9ff91c823ea20598cc617fc"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00756.json": {
+      "bytes": 142518,
+      "sha256": "b2aed0f50415b459106471a9af2930ede6e27c9e83676452b9b026c78d83ed1a"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00757.json": {
+      "bytes": 153938,
+      "sha256": "541fa1946ecc1147e995cb418551d15ae70b44dd8f8b33cd09a28322a363579c"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00758.json": {
+      "bytes": 89492,
+      "sha256": "486c3746fbfcdbcb187f172aeb146141cd354f3e5d6b345ded01c74eccf3ba89"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00759.json": {
+      "bytes": 162893,
+      "sha256": "6077bc7f70763ca865368031cceea0eb7ff7233bf03012285fe6649084f3a2fc"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00760.json": {
+      "bytes": 181878,
+      "sha256": "80d089b0b2402a53d8159c8a5eb1b1a151af99df9ceaf8231e1ade493d33dacf"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00761.json": {
+      "bytes": 141813,
+      "sha256": "da6ccf7518139b8073e6cea261511638fd7aec01bfbd83063508c913b7ed21b9"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00762.json": {
+      "bytes": 129215,
+      "sha256": "773c4832fe18438b0d83ec4514baf4e7ec2bb4e3335c60278a1b248c4afb8795"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00763.json": {
+      "bytes": 75499,
+      "sha256": "42db35b0a8e722c9a311977502f9ff9c30757b55f260d115aae34bdcf76bfb93"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00764.json": {
+      "bytes": 92986,
+      "sha256": "500136bf189e9ee2af1bdf99b9326fa1c499f05eaf9ab10da4c3df331f118191"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00765.json": {
+      "bytes": 78554,
+      "sha256": "0932e501d9470fd9a125388c3e5df97c1836f16b20a06d5a033b4b135139429d"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00766.json": {
+      "bytes": 169945,
+      "sha256": "1d97c0deaa3040b868fdbc8e6fdf66831526243989b36d494f7aa1f505a98e64"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_006/responses/train_00767.json": {
+      "bytes": 60143,
+      "sha256": "245627c83d2673ef577fb6b0e6fe8dfcaef56bf54a6c85ef38ee1619d9bbf526"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/O/events/event_007/RESULT.json": {
+      "bytes": 2724779,
+      "sha256": "16b4214f1311d2732f8f20d5ee218aa3556e18dba4fbb522cdcf6b851c880c21"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/K/events/event_007/RESULT.json": {
+      "bytes": 3008532,
+      "sha256": "bca8a5fa49999d044c8215604f80e44317e6c41d83429dc2dffd261346aa3afb"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/POOL.json": {
+      "bytes": 45853,
+      "sha256": "876334f9e04beed45d88810837880b4553ab95d0580343cf312f4c59adb41e91"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00768.json": {
+      "bytes": 165062,
+      "sha256": "b089b57c46d2bc5cd99a938c9eaa2cdc9773bdce09fde7c15b74e6b1da4149ce"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00769.json": {
+      "bytes": 63710,
+      "sha256": "ec7d619900749b625ebc00586a9911adb15b0603c79be088791c8b310fe55d8d"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00770.json": {
+      "bytes": 96612,
+      "sha256": "10ebdc057cfb67349cc1d6ddf79732398f8c3cc30a47479049375a54df05f25f"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00771.json": {
+      "bytes": 83654,
+      "sha256": "492fb26c4e2e5ddba2969ee2ef37754562f5e107eb29a6f63126fec2aa9518da"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00772.json": {
+      "bytes": 70917,
+      "sha256": "1e2a5db4525f8fc6f050a5aae442bddb9b7d84e6c0533c9af311961aaf9185b7"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00773.json": {
+      "bytes": 104018,
+      "sha256": "230632a8a2a967b10011d6286001f7df4ed48474c36a440472c79b38245d7164"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00774.json": {
+      "bytes": 232534,
+      "sha256": "4962035b7e189acde867799124fcf955e09528ec76dbfc614c9922eb4db45cf4"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00775.json": {
+      "bytes": 77737,
+      "sha256": "9f70c6822c08f5d80d30ce69603f55b653b217c26499215b3ba8863b65306260"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00776.json": {
+      "bytes": 65140,
+      "sha256": "edd62dc193bd427dfc9654135be1584c22b5d8f4641bc77f8ef6f1b2053cc8a0"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00777.json": {
+      "bytes": 137565,
+      "sha256": "dab207b32cb3689b0306302c55b80a66cea947390cc3eff640d23e2bd8ad24d1"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00778.json": {
+      "bytes": 200878,
+      "sha256": "c00141d7533e83e65c6eb92b4b2d38559f85762940a2279ff30caf5d0589d1df"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00779.json": {
+      "bytes": 111472,
+      "sha256": "db6f2964ef32419d8d5e2f13fff46ccde2bcba2e237baf24aa61fc1517d5128e"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00780.json": {
+      "bytes": 119095,
+      "sha256": "7f6dad62c4884bb7d66ff4c2e0be70a8ee07fe4d49af5f59e470c1af9ce848f3"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00781.json": {
+      "bytes": 80971,
+      "sha256": "37a136c5faa522f7862848af462da327e035985d5a436b5e4eaee25223290341"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00782.json": {
+      "bytes": 65741,
+      "sha256": "d14c671a7b794c17852eb171ab7306403519e8819d3408fc50ae215ee5868e8b"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00783.json": {
+      "bytes": 139148,
+      "sha256": "8f8403c6234dd08808c8ec30252784d7acec316d0bad1be628d187d8ac8ec4ba"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00784.json": {
+      "bytes": 88042,
+      "sha256": "93ab2aa0cdf294ffe84273d88258690c32b604c611f430b08869849b21354a63"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00785.json": {
+      "bytes": 63069,
+      "sha256": "1a8a0a3b8fcc58b8493227e4cc0bd8776fa270724a4630b395b7d5092e96d22f"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00786.json": {
+      "bytes": 254462,
+      "sha256": "4a0c5b10b4059694a05b9b3ca3e7d749ba33c53f54a525d00ed9f476c30564ae"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00787.json": {
+      "bytes": 78284,
+      "sha256": "aa3951e2ec9c8fa83949931691f3d181add2029caddef0b7ddd8b2a5e11ac099"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00788.json": {
+      "bytes": 75223,
+      "sha256": "e555f5638a5e2ea76177732b8698c66bddf9174a1ef144d33edcd40e8b684b89"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00789.json": {
+      "bytes": 208363,
+      "sha256": "9063a4ad426f508b38c2f56a04c03065bcebcde66036a63ed43c6538107374bc"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00790.json": {
+      "bytes": 237354,
+      "sha256": "c377b9d13021419bdc66c783f9253211e9818cf4a6378fe7e39aca250ff58e34"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00791.json": {
+      "bytes": 108685,
+      "sha256": "41830c561cf6e7ded9f4a1e661cbc8281fbeee4c6b2bd7b72ec191328fdad658"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00792.json": {
+      "bytes": 74097,
+      "sha256": "7e59a3d75a324ee82a1d8abc06f33cfaf02799b157152f385073b2d0adbfbaee"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00793.json": {
+      "bytes": 111230,
+      "sha256": "edd26c1442bd060902a33bce4848e531d22c7a66a400fccccc5bb007853fcb38"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00794.json": {
+      "bytes": 171817,
+      "sha256": "654c4d12b0fe6822c53593335a870f44acd0e6f344aa2002137f99b12f526fff"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00795.json": {
+      "bytes": 100363,
+      "sha256": "5a1b8ba372289e457260dc9c384534b4d4c88298f19ab81ec052fb701ca5fe07"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00796.json": {
+      "bytes": 142393,
+      "sha256": "856274c6cabfc9cc8bccb7f66e00d63adc997bd92b9d9ba77fc0de7207a8ebec"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00797.json": {
+      "bytes": 82145,
+      "sha256": "618864d26bdf78f30e4169dc1db1f89a611a204d1671a68c9cbd0ead3d6d878e"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00798.json": {
+      "bytes": 128827,
+      "sha256": "479f639e37ca5f62accbc721bd329ac54a7f1e8585f5c09bb48501d07844788a"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00799.json": {
+      "bytes": 93620,
+      "sha256": "39f761765e1e1eb0c934dd4cb02c580fb9dc7c499ec8cedbc8bd119e43340a12"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00800.json": {
+      "bytes": 109254,
+      "sha256": "3a2b9d2ca53f840d8196f1998b4ee025cf4d99b1a872c4c58fb80637dba9ec09"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00801.json": {
+      "bytes": 108180,
+      "sha256": "906f099f5afb8e40581497026968dc5cc5496eab791e716348d9c7e32fe49c22"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00802.json": {
+      "bytes": 149922,
+      "sha256": "8d2daef04dd3a2a89a074bae43849902eaddf9b08141ada19b1d55db992a5f5b"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00803.json": {
+      "bytes": 295349,
+      "sha256": "ec42a35ad443ce7b656498fcac107ea9ab7b5dcf1bdcce49021d9c45d6eb6890"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00804.json": {
+      "bytes": 92922,
+      "sha256": "63effdb62fa1cfd947ab55e15dfc7271e5f951c7e4901b0b8bd22033c62008e4"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00805.json": {
+      "bytes": 105621,
+      "sha256": "1a1c5985c5ca4014bd43523bd0c4acb357bbbb814644c50c2245a8b30917664f"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00806.json": {
+      "bytes": 130195,
+      "sha256": "9c6d83f09239eebb5e87128d0acccdb157faa1a693880079402d9ac67579dfaa"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00807.json": {
+      "bytes": 78658,
+      "sha256": "48373edc5aad7f65cfba6c123803dbc326496de99d5a266479a9fa0fe7b72031"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00808.json": {
+      "bytes": 184542,
+      "sha256": "fb7e37b7ca7aab4c4d0c1e1e567b35e21e90707d46290a4d510dd23ba5b0f32f"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00809.json": {
+      "bytes": 47124,
+      "sha256": "a8e4d3be7db2db1b883d638e6b0b19e9c260f411f6c84f695a56137cd3adc248"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00810.json": {
+      "bytes": 64892,
+      "sha256": "e41cd25ae4cb2ad93f8f9a62606d457529a54547f7047c7b7b4e1afa06f3e2b3"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00811.json": {
+      "bytes": 107018,
+      "sha256": "6fbefa1bbfef64e105940e394d56373643ce5628867dc44bdff9d17e5659cf47"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00812.json": {
+      "bytes": 117382,
+      "sha256": "43202254f00c90188ded6d962595d237b27403cc471d6b44a9645e3fe092d4d6"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00813.json": {
+      "bytes": 143440,
+      "sha256": "5b1fce38251282658379e01fed2b67e50a8cb44ef9bbb60f966655efd6e26e5e"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00814.json": {
+      "bytes": 120163,
+      "sha256": "942a8b54158af095e28c739ae587c9c3f90cecd88efe16349c6b6450d1d53119"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00815.json": {
+      "bytes": 123687,
+      "sha256": "9be427f03e8d6fd9f037ffb32adfe55a8e8a0307e96715c217e99ce6a0b2f0e5"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00816.json": {
+      "bytes": 158422,
+      "sha256": "afb32ae68072dbe58f4a7d429335a5bdbf2936a898e91fbf0fab817422aa97d4"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00817.json": {
+      "bytes": 211582,
+      "sha256": "850e41b6216bcd98d1d10408e351644c79689e8bf795a58b31eabbaa4fe15916"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00818.json": {
+      "bytes": 79973,
+      "sha256": "d21c2aad94e71b03ff69dae5f53baaddd9c7ac4196473d81574f7e5bc9a0d584"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00819.json": {
+      "bytes": 181447,
+      "sha256": "01edfb9b9540a703739854137838518d006c8948eafecd4cdd635497d4b66e0f"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00820.json": {
+      "bytes": 159033,
+      "sha256": "985342114db747778d83f6172a3279737490c994868dd96fc8bbfae11b188d52"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00821.json": {
+      "bytes": 91728,
+      "sha256": "31ea42a4fd439eebe64b59d7e63c5e1edfe7e5a695f0d4ecaad39edf28026bfd"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00822.json": {
+      "bytes": 120629,
+      "sha256": "5f8c73b3adba798add4b42d6cecaa12d52dc2421520515d8dc9690dea5de1ba2"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00823.json": {
+      "bytes": 82887,
+      "sha256": "9fa835db921f8d2c947e7ffb0ef2d6314ac5cd2ae09e86bcc8349249273e6df9"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00824.json": {
+      "bytes": 133109,
+      "sha256": "1ee45d384bbdbf535c32d245d5cd7ec797515be61a5577c9f392a5a77de979fe"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00825.json": {
+      "bytes": 73590,
+      "sha256": "3fba823d12e98e02c866a7d6c9cccfeadd08a9c1dc708fbe303ae1828b4c7af1"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00826.json": {
+      "bytes": 47702,
+      "sha256": "ccd4dcbcb682884c47d6e1b540c2b7e9c3442cdb72547a022004b171860cd12f"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00827.json": {
+      "bytes": 66844,
+      "sha256": "b866ccfd0fa405b1eb3a6bd05c7aa44c70789aeb6a416abf4b803fd9f38bd6e6"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00828.json": {
+      "bytes": 88338,
+      "sha256": "5ec7957d38e16d7ebc338e62e7a9e34ab4214d63f183b492089df464fb992d91"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00829.json": {
+      "bytes": 88462,
+      "sha256": "66cd99bec79d4a97b4ad35d2ce4207e2022daaa3dfa8caf82bd921d5c4402d39"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00830.json": {
+      "bytes": 116157,
+      "sha256": "086652c5ec12e374e0fb328af34fd7fb87c5ebef710ac7b5f0d160aa2b7cc264"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00831.json": {
+      "bytes": 99411,
+      "sha256": "574db8b3c993bf3d82c23cebc134ce0717e4fe05959d4ade995bcda805841786"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00832.json": {
+      "bytes": 87692,
+      "sha256": "f8c13208353799568427530bd169f678bd184ba6841d5a79dc4a27bb82c61e20"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00833.json": {
+      "bytes": 55203,
+      "sha256": "83ef700f1edce4c5a46d7bfcde650fc435bc75fc0dcd05d7b908435f4c4bdec0"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00834.json": {
+      "bytes": 41618,
+      "sha256": "ab844f92904defa35e1103d6ef75615c859d02d829094999ae5372addbde3970"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00835.json": {
+      "bytes": 156287,
+      "sha256": "26a1b01eccf833762bd8217f2de03128ad1a33d003aa8c32eac1c45b059e8798"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00836.json": {
+      "bytes": 76347,
+      "sha256": "1e9ba731446a41c7e6158831ce06582be1f98220cf82512d2fa0b519fb0715af"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00837.json": {
+      "bytes": 199226,
+      "sha256": "9e90ddb25bb43acfc4dcc740aae3ca179db89baae0b362fbc1eaf10a69c4aa6d"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00838.json": {
+      "bytes": 128860,
+      "sha256": "2833e2d339cb5e84d2d55fdd2027ab3a912452f706c2f684e1aa7b2b4481893f"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00839.json": {
+      "bytes": 190749,
+      "sha256": "752494e30812ee36e0401f8e23c5ad913a490ec8714c81b08014536cadcc6f1f"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00840.json": {
+      "bytes": 224892,
+      "sha256": "5930b3d264dc12d91331c41455874b83c65d205760a59c65aad2acc4e66985af"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00841.json": {
+      "bytes": 165921,
+      "sha256": "a8e35d58d0bf2175801dfb2ea7d927044c5c684111f957b5b2e27ec5c0143436"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00842.json": {
+      "bytes": 107021,
+      "sha256": "7e843ad9100a1989155f5960ba8b232c262d865ecd44939c5f2944c64d0f7b43"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00843.json": {
+      "bytes": 77697,
+      "sha256": "612244d68c7e9a146fd57a0d40cdd2e7264ba07a80cfcaf6c93c4c79ddaf2156"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00844.json": {
+      "bytes": 115286,
+      "sha256": "5f96517e909b45bebcbc20a9e19c715a726fb884c40986905ac953e469591640"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00845.json": {
+      "bytes": 301881,
+      "sha256": "ee2415fa45a8c0521698a7b3dacd67f9fd07df7763caa418478e6421bfabc0a3"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00846.json": {
+      "bytes": 95151,
+      "sha256": "af5a6a074211ee1b67d781314d4bcf51919fdc49b67fb7a38f3c678346feea68"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00847.json": {
+      "bytes": 135361,
+      "sha256": "4e7576f79e637c3420e585ac633309423a3e1e715db751725438a46e179a11bf"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00848.json": {
+      "bytes": 135642,
+      "sha256": "3c29c27d1e7036beb0e1ef620d0910f30701f9d04fd9d33870933f7a315e92b3"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00849.json": {
+      "bytes": 152050,
+      "sha256": "9ea59cda39e92d33ee392510c27ea5404d0ab3dd275b559c79b5bc46e74c258e"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00850.json": {
+      "bytes": 183536,
+      "sha256": "3c5b2c775fa7023908b91b77b9e6debf274f0d1589a698d3ac1eb17b729838cc"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00851.json": {
+      "bytes": 195813,
+      "sha256": "e9e5cd296f6f0fcd3bab456669416436702db589c5300322811d5a62de51ed45"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00852.json": {
+      "bytes": 90017,
+      "sha256": "07b8a4e191a21bdd01b8685ee490284ffef7eb8fb02b9511fbc6eb7eb9c1b1f4"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00853.json": {
+      "bytes": 101097,
+      "sha256": "c114632b97582917e803c2b902f8893983933d8ef259cb796073dbd60dc5b5d2"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00854.json": {
+      "bytes": 120842,
+      "sha256": "8d6ab8a24321c18f5fa81e1e1e76451b33310f93913c0ef58ce6018567590902"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00855.json": {
+      "bytes": 116667,
+      "sha256": "f174cb5c935bcf393cd1906c6b8c5c3f5e4b54e6789345d6aef897b367f6f7a7"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00856.json": {
+      "bytes": 143940,
+      "sha256": "4a532997c3549144a915083c9e089a0a1074cce25bdc6b77f5a5c5271fc0a012"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00857.json": {
+      "bytes": 109451,
+      "sha256": "2b43eab1c4f94efc01958758c8570bb446d1e9103ac1267c3973652eb3eb2a2c"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00858.json": {
+      "bytes": 176170,
+      "sha256": "fa4d487903cf074bc81cab35e1e79e05f7731591c8078c250584997de818db61"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00859.json": {
+      "bytes": 78780,
+      "sha256": "2f88858e3e998a8c75d49070b36d7d2a5f7d64e466cbf623d0be691584d3af17"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00860.json": {
+      "bytes": 270040,
+      "sha256": "ef73e9385205b22957fa058e19e3bccc3e5f3030d1c1d0cee56ddaf0f52dc34d"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00861.json": {
+      "bytes": 131080,
+      "sha256": "09f0b8eeb971d2b749eda48d7abe3ffb8d30938d71233cde6e230fd255538fc5"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00862.json": {
+      "bytes": 80491,
+      "sha256": "80a32f64114981a94fb87d18dc209f5e13950a9d8980c53cbe355b87cf6b10f5"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00863.json": {
+      "bytes": 113857,
+      "sha256": "dd43f03c2ef404e1b8948acb384277e62f92f023de75ec1ab1fcf8ab6a38ac90"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00864.json": {
+      "bytes": 154672,
+      "sha256": "85182c5069b2816a27864ef1ea1a7ed5f62e691d80f5e85bfc3e2bdea58b64be"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00865.json": {
+      "bytes": 56802,
+      "sha256": "f9aa10f843e03c32759e494dc65a71ae42e71fe322e182eaf029c61891f86258"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00866.json": {
+      "bytes": 173652,
+      "sha256": "d689b5227a8e936691cba0872c846b626988e7a67d2711d023f48cca606ea164"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00867.json": {
+      "bytes": 126663,
+      "sha256": "8622e5146562debe9f4c4fa58c76ff01f98ce1d9f17280b6cbe7b7699aabeaaf"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00868.json": {
+      "bytes": 263212,
+      "sha256": "e150d37a761eed9b43d100b31f15bd2d6e2aa62c40e0c9ac731ff59ce86280e4"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00869.json": {
+      "bytes": 132733,
+      "sha256": "32f75036ab290d090991cd2cb73170d35795bfe7a5ec4e6cd9214bbf3fd14623"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00870.json": {
+      "bytes": 112196,
+      "sha256": "a680bff4073979e17ae3f053c4c95df32690ed28ef98947cf301e52dacab1517"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00871.json": {
+      "bytes": 104738,
+      "sha256": "457c91f8900c068c92060fee0be291655a8fac9eafdb6186122a549dbdfc704a"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00872.json": {
+      "bytes": 70650,
+      "sha256": "cbedb6df5e1d09350d4e0effe41940ee82812260151d626dd2a3339f18db9042"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00873.json": {
+      "bytes": 109572,
+      "sha256": "08024e1a1741ce613fcf69dbd48350fa724bcbf8220d79ec5e113d13fcf9ded5"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00874.json": {
+      "bytes": 90935,
+      "sha256": "6d110b78838a93d56437fc3cc42bfcd73bfeda54de0a8c3d3cadde496fa609f5"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00875.json": {
+      "bytes": 63063,
+      "sha256": "f866cb33ac199d68a77cceaf767875ea9de6d3b1ef545b39830192bfdc30d4a6"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00876.json": {
+      "bytes": 243603,
+      "sha256": "f13342fcc43b4dc92842bfbd05e5ea181c561768fa46223b073cdf1aa2a3c595"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00877.json": {
+      "bytes": 153405,
+      "sha256": "96fe9a586b8d871e9e54bcbbead1f1338ffe41b1cb5fe70635b5452889f5dbd5"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00878.json": {
+      "bytes": 62179,
+      "sha256": "cb527ff1f094cb9079d05ceb39d5c88aa5e606d4b9b7c7f4b8b6a4dab06e64f8"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00879.json": {
+      "bytes": 107891,
+      "sha256": "e4ecfc8870aa2db7155469ffb4194c63fc88c9d633dcd4f8b6d4ec6bc58a5121"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00880.json": {
+      "bytes": 77256,
+      "sha256": "fd112486b03453046db968eb7a76038784d94fa6db01455e60abb873b9aedc3b"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00881.json": {
+      "bytes": 133621,
+      "sha256": "6ac8c87145e7af827eb1f07a52bd00cdeab67731a5cb7077fbaface6280cb3df"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00882.json": {
+      "bytes": 43935,
+      "sha256": "d19869f9f66a3a13b132aa88aa2e412e5a2416d4bdd3b927cb31227bee438fe4"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00883.json": {
+      "bytes": 146206,
+      "sha256": "d18e4bb1bb599b1f5cd96cc94a307d23e3edc70e2a1f89588e63995f0fff0055"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00884.json": {
+      "bytes": 105828,
+      "sha256": "0507bbf8088799c6a070339441e51d2ec468863cef5f18181031431843dfd1d8"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00885.json": {
+      "bytes": 114231,
+      "sha256": "0b87ee12aa4e956b1b5cf091afdde549e1a6a37fd91c88af7375323807c03818"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00886.json": {
+      "bytes": 159905,
+      "sha256": "26d767a2ac45d1dafe2b487545c89b8f98fcb47467312df58773c8d201003cfc"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00887.json": {
+      "bytes": 92391,
+      "sha256": "20e405cc8b9ac182abf34bd7af9e476848975a576486d3c8d7f5135f1beb0f78"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00888.json": {
+      "bytes": 142470,
+      "sha256": "09173569b69f5ae9629e67e5134ddbb2d85ef082854c006a53f1c89ac694a0ac"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00889.json": {
+      "bytes": 126323,
+      "sha256": "bce3bc94ef9d8cfeeef99f5d333a4e43ac8cea3be96fbce902d44a9d55e45daa"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00890.json": {
+      "bytes": 127726,
+      "sha256": "d94d66206cce9e0134953d01c25ebbe89bacc470ba0cf4d58fba78aea2ce4bb7"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00891.json": {
+      "bytes": 94570,
+      "sha256": "a99e179fabe24faa1b0481e03e9c4c08746841ed44a985430d8d0d18465fe33a"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00892.json": {
+      "bytes": 91985,
+      "sha256": "bee21e2a07bb7038228f09d49796fc2288d71cbdd3811411a493269bea79bfde"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00893.json": {
+      "bytes": 112329,
+      "sha256": "b0b93a6ab2868577bdcbe3f6e56c4338cc1c54393880f616fc62eec205573df1"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00894.json": {
+      "bytes": 67104,
+      "sha256": "5c7533fd2137af2b126da4ba4e596e7745f02c5ec8a8c607f57495f1b15bb426"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_007/responses/train_00895.json": {
+      "bytes": 115426,
+      "sha256": "797e1be4111cc5705a61385e2ba468dfb826ac06bab50f43fbc4a3c5ebb665a5"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/O/events/event_008/RESULT.json": {
+      "bytes": 2581646,
+      "sha256": "d7fdb46414fa4cbf632add4a48268ff9fe7c19d0cf1dfef5132504930ec89c46"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/K/events/event_008/RESULT.json": {
+      "bytes": 2865163,
+      "sha256": "fc3508b69e1bcbb5a7d8699cbfe940e425dc8a0fa4a73ad9d53a4329b95b3783"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/POOL.json": {
+      "bytes": 45848,
+      "sha256": "20c9eb45fd7c5e9dd40b08d7959382e30f285a174feea915a3ca7bd649faccd7"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00896.json": {
+      "bytes": 100251,
+      "sha256": "4c9b47ece5ab9f69fa2d52d346cfd99e2f3ba3f3f170929ec6d1b1bbbffb1379"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00897.json": {
+      "bytes": 109941,
+      "sha256": "9dc838deb9dfbefb28fa8447aeafce01fa3daa6521b51b8095eb15f872de3797"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00898.json": {
+      "bytes": 168372,
+      "sha256": "d0655e36507c959340b18174c26369b8ec19929817bcb1350331c23c6421acbd"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00899.json": {
+      "bytes": 93922,
+      "sha256": "aeafcc54b080649a8e56464ac70cca4be44e1edfde1d949cf63cd68b95c32295"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00900.json": {
+      "bytes": 86221,
+      "sha256": "a1d136e50bbc04f5c6eb095454e5be78d77427320cdae9937c2334ac897ef004"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00901.json": {
+      "bytes": 106518,
+      "sha256": "5daf91191631e7ff6461f6ff4a3e822cf2c8ddca6b606a674aa905395220aa17"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00902.json": {
+      "bytes": 127303,
+      "sha256": "8c1c30fd81ce34bc01a6fe6d0e5c820eded259b9ac45f4690803a6175bf41948"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00903.json": {
+      "bytes": 77937,
+      "sha256": "00d8e7f106380890e230f222de3d0fc82417dc55b90895ca4744994440758502"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00904.json": {
+      "bytes": 125563,
+      "sha256": "295279061e5a1a3f9d3f6ea2ac41c5d664f1804a51e07d6d082d5d4a66092e8b"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00905.json": {
+      "bytes": 88825,
+      "sha256": "d85961e661105418cce8ee261167642cc8056728c7caabdbd401a3657ec46132"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00906.json": {
+      "bytes": 78216,
+      "sha256": "1a795ce68506f67f3d0dff1f937f108799658a4f9d3c1310f937acb78da8a9df"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00907.json": {
+      "bytes": 107717,
+      "sha256": "5e6f3d77118727f765ad1c1ff563c77db2e8f9ef3600cf272be100daa6ce9390"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00908.json": {
+      "bytes": 140682,
+      "sha256": "8fb5b03d1a5ddb108d39b58b301d7f0e534e178e2e6169c6e96778e28dba0604"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00909.json": {
+      "bytes": 158933,
+      "sha256": "163a83d73bac7c5dc93d440405461582cb3cc8c4920fe9d29bb62b3f54ae10b0"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00910.json": {
+      "bytes": 84255,
+      "sha256": "4514560fd9d213789142d03580f9b6c4d58cafa151a96dd05d31af7b908f53c1"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00911.json": {
+      "bytes": 167779,
+      "sha256": "56294fdaa66e26b195022fbfbcda4666a87c1f91855f9ac66d31f3cfb52db5c5"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00912.json": {
+      "bytes": 127337,
+      "sha256": "f4efa01de73de243fa79c411ac4a25f61fdc24c39fb718544fef2d892acbf0b5"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00913.json": {
+      "bytes": 106646,
+      "sha256": "20642be4ce01d816a79f34cf0697401fd59ef0d64f86688e3d1c0ea02857786f"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00914.json": {
+      "bytes": 206011,
+      "sha256": "0edb6c9bbc768e56cc85561bb1563be988f814cc8b730b462a0e8610059933ac"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00915.json": {
+      "bytes": 169702,
+      "sha256": "6b499f98a6270a2d870b81b5489e7a729447ac914a22f532c54d2b4879f35b6a"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00916.json": {
+      "bytes": 157408,
+      "sha256": "291d905a94a5ed5a89ab61fe89af4a235a4ae3467c51522092b9b026ebcca501"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00917.json": {
+      "bytes": 102695,
+      "sha256": "d595c3d6264b7144a3c768ce08ee1e289f976ac62f00d8b54c5a48af8c7bc027"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00918.json": {
+      "bytes": 127566,
+      "sha256": "9b5b1036a810810bdfb4210f344dfa3130d66a508a9603f202cb44210da08a6b"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00919.json": {
+      "bytes": 86512,
+      "sha256": "1eee8c71a95bb90c51c30440002120f0a69d96f82c69010c9136f3934d52a7b2"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00920.json": {
+      "bytes": 101437,
+      "sha256": "5f3f0c9e66220690e21fdac55c028603159e4e93d163e286d6dfa168897a5fe1"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00921.json": {
+      "bytes": 160624,
+      "sha256": "1e692acb19650355644fcda79178c351fbe60a28141b52fa711156693e065bc4"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00922.json": {
+      "bytes": 201238,
+      "sha256": "bfe3e2eff23189699579d1f18365f595deb229db5d7acf6f6ef787a5ae6bce2b"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00923.json": {
+      "bytes": 81590,
+      "sha256": "f68aa343ac9ed34cc9c800ee7b962a872645b935e167d0f5307946b587377c4b"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00924.json": {
+      "bytes": 118116,
+      "sha256": "06fef5df1e264de5f877801dd6e544dce17291176238c739d75a717088ecbe73"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00925.json": {
+      "bytes": 108933,
+      "sha256": "a1155b9fd945ae5123f1e5f8fce052ed9535912836ec997215aaa5cba61276be"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00926.json": {
+      "bytes": 122132,
+      "sha256": "991871863b6e18186603cebf0981c1bf1a0143cf67d1665d48de6f313ef7ca5b"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00927.json": {
+      "bytes": 253488,
+      "sha256": "5016c9461ff59bb59bddb4fed06beb9c082ab817691d1f7cf50098dd4a1939d1"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00928.json": {
+      "bytes": 69805,
+      "sha256": "55fd03711d6020fe88667c1aa3aaa6d68b417a19683170144de41c1fa4f113e5"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00929.json": {
+      "bytes": 161947,
+      "sha256": "c152e67cb23fa22798b32ff080237a378b61ab8df25ca4901ab3e5d14ddc1c4f"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00930.json": {
+      "bytes": 106475,
+      "sha256": "5d6aca781576bc77e628c281fa1e690e98b87063f12bf8381339c69c0077e42d"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00931.json": {
+      "bytes": 56149,
+      "sha256": "4740c157923cbe322977fd20d91f6f6a3144a0a1bbeeffe23fc09de8c5a4f3c8"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00932.json": {
+      "bytes": 64889,
+      "sha256": "ce896668033ca2c378604f36f1e7c86c7d11b36cb70df28d1ae3d2ad7172fd8c"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00933.json": {
+      "bytes": 85764,
+      "sha256": "2539e695894dd3ae0cb5a4f4a76c702e4a8c831538c1285cc00ba4dbfdca0123"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00934.json": {
+      "bytes": 51578,
+      "sha256": "aad738637be21df2602a7e5ca7eee35541a6c67f4e2f525d4671a91eb74fd290"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00935.json": {
+      "bytes": 82212,
+      "sha256": "f2c3d33d6e6e7b474ca7905afa4c14eb12350bda5f86419980480cc8a4418758"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00936.json": {
+      "bytes": 69972,
+      "sha256": "2cd9bc0340debcf3069a2f58b9f3be5bb59b61334b504b64965b20ccca639d95"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00937.json": {
+      "bytes": 50905,
+      "sha256": "68c343ce5e33439457d7ec1d448975365237039ae728eec4cf2ac93316ad29ba"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00938.json": {
+      "bytes": 105986,
+      "sha256": "e49ed8ae2311c5e18a01424be430e41e7a65d2e305a52b032360fbfc35c290e0"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00939.json": {
+      "bytes": 125202,
+      "sha256": "d554abcd859ef04bd41e196d8a7b057148a0526a3ffa130f63bcfc2817ef81bd"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00940.json": {
+      "bytes": 119160,
+      "sha256": "f3884cbf3ab9cfc47a9281c891f71ec64b0d7cd3f3a1463850f660a8ed6dd4ab"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00941.json": {
+      "bytes": 69184,
+      "sha256": "d79a8358c6ba54096531d751d8a2e1256354f32b666d6af3271dc0d2f7970da2"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00942.json": {
+      "bytes": 98125,
+      "sha256": "a8aa5ce9049032fe6798ea21b5f65a7137e557885ebb8807c7a39bcf69115358"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00943.json": {
+      "bytes": 160721,
+      "sha256": "57c13dff7e6f249c80a5a3502672b3bc31ab3022c54b65ab08c1026a2fcd7767"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00944.json": {
+      "bytes": 81329,
+      "sha256": "59a2d5a0f6159fd659848d51aceca8c140d368819dc480aa00fb4d1f3ad1f79f"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00945.json": {
+      "bytes": 54253,
+      "sha256": "f978509efa8985bf2808143ce4878d48219950bdd5f65a56cee527234fc87558"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00946.json": {
+      "bytes": 172390,
+      "sha256": "ba0f7a6a1ff2a67970be3ab93d7b830ae389a26ea80a295c0f961cbda4ce0682"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00947.json": {
+      "bytes": 342355,
+      "sha256": "e2c0238e9bf996fbc3cbb34d42d35dcec4fba82b98146bf55833dcb6f8041bbe"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00948.json": {
+      "bytes": 80377,
+      "sha256": "ec031e0826d038cbf53ecc8a3f4f88b1d6e140139b86dd105213a3d84b7af8ff"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00949.json": {
+      "bytes": 109391,
+      "sha256": "a1e4441e3b4e8939501cd5cc8024f0474b1f826acde44d34d7ce09776583c4f2"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00950.json": {
+      "bytes": 137224,
+      "sha256": "9ecf57d753d7037c707f6e128a4ad9dbdec4a2aa7054fe8f9043cedd9b9fdc22"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00951.json": {
+      "bytes": 136097,
+      "sha256": "823fecf9a7f77a5206ae3d6217aca95066ee50971bb20f4a8e839c5a0d283a0d"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00952.json": {
+      "bytes": 56127,
+      "sha256": "3305f72a85c19308be98fe36c7b1f3af3edffddff476a4f034a1fb99939fc89e"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00953.json": {
+      "bytes": 114165,
+      "sha256": "fecc68d4e9d9c1b201883f9b4fb560e441b4ca8e60c6bf3db190d01483411cf4"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00954.json": {
+      "bytes": 84190,
+      "sha256": "85862f6cee70a105c8bf43ffb2dffbf1e209d2b274abe608bd47e94de6f08ee7"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00955.json": {
+      "bytes": 79204,
+      "sha256": "41bbdc60e5c1667c55849cc7296dffd49a9931e35d921b46235267a3db2442b4"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00956.json": {
+      "bytes": 55341,
+      "sha256": "06bf46fbea69cc2cf5c95547ac0d52411ae8fd57ffdcb2cfa8a206105687669a"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00957.json": {
+      "bytes": 127360,
+      "sha256": "828dccbff62078b377f7441f69704a5744dbe79d2854f0049cf67af8df4b2461"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00958.json": {
+      "bytes": 126137,
+      "sha256": "01fee36ec889b9eeac1e6d77afb899dd33a4800c0dbeabde0d133abcc2c92677"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00959.json": {
+      "bytes": 83768,
+      "sha256": "f1ee5a6e25e0409932759c5e000a7f2548f8696eab1b8b9efff3fdc65b27f4b1"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00960.json": {
+      "bytes": 48034,
+      "sha256": "4ce0201a209fdbc18ffd735c3b8b8e04fdac474ea0649a61f8cb01f62394dbcb"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00961.json": {
+      "bytes": 117848,
+      "sha256": "93a08ff3b95941c3417796d3eda1afa5ea4c91a64ca657f527ed1eb667689be2"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00962.json": {
+      "bytes": 146681,
+      "sha256": "a7c26626553c1c8840ee8bb8880c86bf962f37da098d30912184cf7547737b04"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00963.json": {
+      "bytes": 81409,
+      "sha256": "5b11069a781b8104426fe63194b0d0f6cb0ac2c9570d3315badf44cfa8efa59d"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00964.json": {
+      "bytes": 154463,
+      "sha256": "915ad4d24121f5908700eb0b81aea92d13a0c9ddc3611c8be406103f24b5321b"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00965.json": {
+      "bytes": 58006,
+      "sha256": "efa3118e1310ac136c746aaa81295b65b658b87553fc8dc2f5d4b35b2064857a"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00966.json": {
+      "bytes": 75215,
+      "sha256": "eec1e865393fb1ba4e5252e71b22bbf2929ec06ba809d1a445b101b92ac9afd0"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00967.json": {
+      "bytes": 82249,
+      "sha256": "c130b372f75fb85dcb8114eec0bb6aba25c7f5c01d9455fe1bd00f976abab3c9"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00968.json": {
+      "bytes": 113084,
+      "sha256": "b18f3f03c20fa34df0db7242b7642b4f3262c1674c40b5e9b6b51de624c2d4f1"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00969.json": {
+      "bytes": 77663,
+      "sha256": "80b18238e50223b7201b108133807b09bd2a67db1a2ede3b6e0c5b093b8259e9"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00970.json": {
+      "bytes": 100491,
+      "sha256": "e8b4d19405ee6470add65b80e6027e0023ed1e02fee031c4067d89d76738d5c3"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00971.json": {
+      "bytes": 61042,
+      "sha256": "79546f030566a54cbc79b92e3a49776609e538bf8da7202e325bbfe98e4144ce"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00972.json": {
+      "bytes": 64266,
+      "sha256": "adbb0cc5714fbf21f87c3cd9ffb210d9a1682683427bf6e3de1472a444ece3cb"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00973.json": {
+      "bytes": 73181,
+      "sha256": "9d192587eef53285bbfadc4d3bc812c2a021d123c1564e3647a728cf455a0832"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00974.json": {
+      "bytes": 74631,
+      "sha256": "5783b6434ed3fb70ecdfc7de535f5dff72233944603fa8c2d2bdcbffb4b82957"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00975.json": {
+      "bytes": 124778,
+      "sha256": "e05bdd89c46683d284f54c2ddc3b4294490763d397dcde5689620aacd6b7fe3e"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00976.json": {
+      "bytes": 116316,
+      "sha256": "f534394fa94f609c11bc8648f208f22c6539c4666c8ccfdd8fa9a6083530182f"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00977.json": {
+      "bytes": 90298,
+      "sha256": "4d5cb17f5d7f891bef953be1d6e27094885a596370d6ebba16ed6cc85aad6a9a"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00978.json": {
+      "bytes": 75010,
+      "sha256": "52e46dee866763a2cf0d82d51ec62c37e0196c4b2d27854c2afa7734534e1537"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00979.json": {
+      "bytes": 108468,
+      "sha256": "daf9bbc05c9900dac8e42de74d09ca9c2b940ccbee337b21bfa6a9aeddd20d7d"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00980.json": {
+      "bytes": 66195,
+      "sha256": "da7b65ca349f804293464969c1543b5e8419a589d12011849e3770ed0dd44c53"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00981.json": {
+      "bytes": 149340,
+      "sha256": "f9926fe90fd2a5914ebe7bb5372298f8ba4dab4c6f987fb6488f67c2fa482ee8"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00982.json": {
+      "bytes": 135533,
+      "sha256": "ef9eafd9c76a9ad2e2be0dc1dfce3dd501bdc91dc49c444050e3da8ad63e58ed"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00983.json": {
+      "bytes": 95230,
+      "sha256": "e74401d215812d1899613fd058ff05df1278c428ed80c5e5c1a3aecfd8fc80c1"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00984.json": {
+      "bytes": 76666,
+      "sha256": "bac242a62ac219b4b803b7433176ab814253fdbdaba98e5cb1276d0edbd65c00"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00985.json": {
+      "bytes": 203681,
+      "sha256": "57faa2026de1b55310d4f0d2ef2856d63db3c8e908dad89c01d528b8a14983e1"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00986.json": {
+      "bytes": 97627,
+      "sha256": "4e0779d9f99fcb6d04391c1a489f0e25516abd96be3366e8772564ceaff6dcc4"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00987.json": {
+      "bytes": 127310,
+      "sha256": "e7620dff81d7313e81ba017b073a05b3e4e04e89b6fc6ba283578502e26ef525"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00988.json": {
+      "bytes": 133844,
+      "sha256": "6442bb07ae7da696645bdf6cb4c18e68284fa36c123f98387bae69d2dead7e66"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00989.json": {
+      "bytes": 74951,
+      "sha256": "01c91dfd943ad470429985a9196689181ca25b53cc6c3edb3d9d75e8f1fe02c1"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00990.json": {
+      "bytes": 96911,
+      "sha256": "5c44d27672c23f30f20e4cd59ec94e7cdac045e03393900c62cd2c5514d36f86"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00991.json": {
+      "bytes": 177189,
+      "sha256": "7a2b72163653d2075a606659805a438c24c1b3646287e8a0ecba539eee596d59"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00992.json": {
+      "bytes": 90593,
+      "sha256": "53fde1d8ab42025340fb885969e790d0643846a2adb8d345f45e4a14869b20ea"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00993.json": {
+      "bytes": 184340,
+      "sha256": "9b9219845d80dde075ecb76c5ee853c24fcf88b1f226291f475822426b20f6c1"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00994.json": {
+      "bytes": 153214,
+      "sha256": "8b3e54cf7531ed74d2bd54aa156a6dc7ef05fed29d42df669e19ba3eea532efd"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00995.json": {
+      "bytes": 195392,
+      "sha256": "dd44fbdefff01d01dafbf3a26a565caddd8ba2fca710d4356e8cc5fae9423d04"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00996.json": {
+      "bytes": 188743,
+      "sha256": "382fd3ff1b354d062e304b5cead9d8808a68763923b5023f71cdf64e0fa8d688"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00997.json": {
+      "bytes": 215435,
+      "sha256": "a05cab052074c7ee6c861f84df2ded0268e5cae381565923c2507c01729e352b"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00998.json": {
+      "bytes": 119222,
+      "sha256": "c49769f2c2e62695748697fb9ab63400a4d43a0f93a16a6884c935b65dbf189c"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_00999.json": {
+      "bytes": 118984,
+      "sha256": "3720e6d3e2d04cfaf590a2614d21462618f7ae8059b473d9843cc52734c19c56"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_01000.json": {
+      "bytes": 72186,
+      "sha256": "fdb81490bda97ae4c2eae17d45827eb59640311ff390d540e3ae44420d255700"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_01001.json": {
+      "bytes": 122874,
+      "sha256": "ef419316c096018637b1eda71b3cb220171fbec0ff79571c767659d8eaee4d45"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_01002.json": {
+      "bytes": 140221,
+      "sha256": "29d1957d27a89ddb91b96e21d70437ba40b00eb1d5ba4132527deef15438fedf"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_01003.json": {
+      "bytes": 116504,
+      "sha256": "db35f345799ca5df0aa549ea50e571153597e694de15beec7414149e64ca7557"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_01004.json": {
+      "bytes": 108119,
+      "sha256": "6520d47b77407a5dadeb256c432729cccdb877b131f8478e3eb80b9d3aa72b4b"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_01005.json": {
+      "bytes": 59873,
+      "sha256": "11f676fd02fe1ac326cc075a0ed1bd14045246567dbb418602787834423b7a2d"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_01006.json": {
+      "bytes": 95393,
+      "sha256": "0594d11a4d584dae461d39985f3823582632e1ef34a1f929983196b1b14d6d9d"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_01007.json": {
+      "bytes": 125731,
+      "sha256": "d4b915488db1f8d496074b46e1c5d3f155278fe7f91526045cc7dc5fd8f20c48"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_01008.json": {
+      "bytes": 72425,
+      "sha256": "750f50abc194d76b5cffad0992d25f20ebffc1bb4f02cc476e725c3e9d239b43"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_01009.json": {
+      "bytes": 162041,
+      "sha256": "21a496ab440d7636d44dcc6dd9129a31ff10bd4cf655918cc786f94a8f49ee48"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_01010.json": {
+      "bytes": 119569,
+      "sha256": "e54419ed312e0db8008024d7997f03cd319a12daac567771a060d2f149fe1ffd"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_01011.json": {
+      "bytes": 117105,
+      "sha256": "4fa01e8e3e6337efe08fc3f512747a8f57524523330ae1431bd9cb734f8d1a8a"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_01012.json": {
+      "bytes": 91858,
+      "sha256": "0c776c843ebfb8e5bc84697bb44ce4c6fc06f66870d46d37f1b2701198ff8ea9"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_01013.json": {
+      "bytes": 88490,
+      "sha256": "a10f6e5643ae06914ff01510e00ef3ebe49b2bbf6b037a0d10258077034102cf"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_01014.json": {
+      "bytes": 39508,
+      "sha256": "fd5da9bdf9412a6629baf2d7d56bd44cb6679a29988ed3b7b7b3de15323aa31c"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_01015.json": {
+      "bytes": 98063,
+      "sha256": "1bfbe851732ed9bd23cc1a109b0a78a399d480cf64ce28b7e30ec2b01b973973"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_01016.json": {
+      "bytes": 66381,
+      "sha256": "986231d105fa9c70b7a8cf1c97dcdfe0081c70a1d34e6e837ae5ffe6630510e3"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_01017.json": {
+      "bytes": 72471,
+      "sha256": "afd2157c3d2ed75e05c79ed5f896daf89a0a608bd83020e91381ba6d9c29af80"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_01018.json": {
+      "bytes": 215511,
+      "sha256": "91e129048324ea75c93df9fbb74a8d2c51ba002ce0d2f6b5b34c9c095ebf135d"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_01019.json": {
+      "bytes": 118226,
+      "sha256": "989cc08171008433ea5f873c869fb8000d523206029bbf4319ca22cca6f4bd83"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_01020.json": {
+      "bytes": 95953,
+      "sha256": "f0a1681313eedfbe49c905a9a32ac82d453c4b5737dd2334b4bfefb17e7735ed"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_01021.json": {
+      "bytes": 84893,
+      "sha256": "dcfa17f5bb2fd18102cea64add7893193957fc2f58ce203e138df4a713765802"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_01022.json": {
+      "bytes": 63084,
+      "sha256": "793db060f924ed95ad3b7fec98364960486eb3c35bfbdb6e0788faee94767050"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_ok_events_5_8_20261029/raw/campaign_001/event_008/responses/train_01023.json": {
+      "bytes": 118139,
+      "sha256": "f1fc84e4f12006e15ec3d3234e9d38a513800e8448660b7c799830e815e9947a"
+    }
+  },
+  "script_identity": {
+    "bytes": 6091,
+    "sha256": "0b5ca569b86c59f183a71b9280a02c38cb9d494743312823dec1b134aa1e6deb"
+  },
+  "optimizer_boundary_windows_checked": 512,
+  "presentation_metric_scopes_checked": 1024,
+  "remote_actions": false,
+  "model_passes": 0,
+  "optimizer_steps": 0,
+  "generations": 0,
+  "limitation": "Selected positions are verified from emitted accumulation-window metrics; logits or model tensors were not recomputed."
+}

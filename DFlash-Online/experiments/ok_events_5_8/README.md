@@ -63,3 +63,9 @@ Run paths, commands, model/runtime/configuration identities and the actual sourc
 commit are sealed per execution outside Git. Private prompts, outputs, model
 tensors and raw runtime artifacts are not published. The run stops after event 8
 and its report: no KRC arm, precision variant, tuning or extra mechanism probe.
+
+## Completed run
+
+[The October 29 report](results_20261029/REPORT.md) records the complete 512-feedback / 1,024-new-Adam / 1,920-evaluation execution. All evaluations passed native validity. K retained a positive but nonmonotonic call-count advantage, with a smaller event-8 than event-4 gap on both existing panels. Numeric request/repeat tables, costs and separate analysis review accompany the report. No additional event is queued.
+
+`python -m experiments.ok_events_5_8.summarize_exposure --root PRIVATE_RETRIEVED_ROOT --output ANALYSIS_DIR` reconstructs exposure and feedback-length tables without model execution. It counts each accumulation boundary once because that row covers both response presentations. The published inherited configuration retains its original historical path/default fields; the sealed campaign and explicit continuation boundaries supply actual output paths and stop at event 8.
