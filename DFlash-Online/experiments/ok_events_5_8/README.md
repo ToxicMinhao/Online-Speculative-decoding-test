@@ -47,6 +47,18 @@ states and parent exports remain available until their dependent training ends.
 Transfers never overlap timed serving. Checkpoint loading, publication, training,
 capture/preparation, persistence and offload costs remain separate.
 
+The deployed run completed event 5, then encountered insufficient offload
+throughput. `manual_recovery.py` admits only that explicitly stopped idle
+boundary and continues events 6–8 from the exact saved own-arm states. It reuses
+the original scientific functions and sealed plan, adds no generations or
+optimizer steps, and retains all new artifacts locally. The original stop and
+transfer records remain intact. The recovery code is sealed separately from
+scientific execution revision `04fac901f7af5478b62ff730833c026637ddd2cd`.
+Storage is admitted before every phase with the same reserve; completing every
+remaining response at its maximum cap is not assumed to fit simultaneously.
+Reports distinguish both process segments and their source revisions. This
+explicit operational recovery is not an automatic scientific retry.
+
 Run paths, commands, model/runtime/configuration identities and the actual source
 commit are sealed per execution outside Git. Private prompts, outputs, model
 tensors and raw runtime artifacts are not published. The run stops after event 8

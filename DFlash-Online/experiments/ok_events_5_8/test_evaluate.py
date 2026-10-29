@@ -13,7 +13,7 @@ from test_osd_one_event import request as original_request
 from test_prefix_ranking_evaluation import harmful
 from .evaluate import evaluate
 from .evaluation_protocol import method_order, validate_panels, TOTAL_GENERATIONS
-from .report import summarize, write_campaign_report, curve_direction, validate_execution_source
+from .report import summarize, write_campaign_report, curve_direction, validate_execution_source, execution_history
 
 
 def requests(panel='development', count=3):
@@ -162,6 +162,66 @@ class EvaluationTests(unittest.TestCase):
                 validate_execution_source(source, commit)
         with self.assertRaises(ValueError):
             validate_execution_source(dict(commit=commit, dirty=False), commit[:8])
+
+    def recovery_fixture(self):
+        recovery = self.root/'recovery_001'
+        recovery.mkdir()
+        metadata = dict(scientific_execution_commit='a'*40, recovery_execution_commit='b'*40,
+            start_event=6, end_event=8, prior_status_path='recovery_001/PRIOR_STATUS.json',
+            prior_costs_path='recovery_001/PRIOR_COSTS.json', native_output='campaign_001/native_recovery_001')
+        (recovery/'RECOVERY.json').write_text(json.dumps(metadata))
+        (recovery/'PRIOR_STATUS.json').write_text(json.dumps(dict(status='failed', optimizer_steps=256)))
+        (recovery/'PRIOR_COSTS.json').write_text(json.dumps(dict(campaign_wall_s=7)))
+        segments = [dict(execution_commit='a'*40, phase='original_through_event5', wall_s=7., backend_loading_s=2.),
+                    dict(execution_commit='b'*40, phase='manual_events6_8', wall_s=11., backend_loading_s=3.)]
+        return dict(execution_segments=segments, campaign_wall_s=18., backend_loading_s=2.)
+
+    def test_report_preserves_recovery_sources_segment_costs_and_local_retention(self):
+        costs = self.recovery_fixture()
+        (self.root/'sealed').mkdir()
+        (self.root/'sealed/PLAN.json').write_text(json.dumps(dict(panels=panels(),
+            execution_source=dict(commit='a'*40, dirty=False))))
+        campaign = self.root/'campaign_001'
+        (campaign/'retention').mkdir(parents=True)
+        (campaign/'COSTS.json').write_text(json.dumps(costs))
+        (campaign/'STATUS.json').write_text(json.dumps(dict(status='completed', feedback_returned=512,
+            optimizer_steps=1024, presentations=2048, evaluation_returned=1920)))
+        (campaign/'retention/FINAL.json').write_text(json.dumps(dict(status='passed', mode='retained_locally',
+            required_events=[6,8], destination='/A800/campaign_001', verified_files={'O/state': {}, 'K/state': {}})))
+        report = write_campaign_report(self.root, self.root/'analysis', execution_commit='a'*40)
+        history = report['execution_history']
+        self.assertEqual(report['execution_git_commit'], 'a'*40)
+        self.assertEqual(history['operational_recoveries'][0]['recovery_execution_commit'], 'b'*40)
+        self.assertEqual(history['summed_segment_wall_s'], 18)
+        self.assertEqual(history['summed_segment_backend_loading_s'], 5)
+        self.assertTrue(history['campaign_wall_matches_segment_sum'])
+        self.assertEqual(report['actual_work']['optimizer_steps'], 1024)
+        self.assertEqual(report['endpoint_retention']['mode'], 'retained_locally')
+        cost_report = self.read('analysis/COSTS.json')
+        self.assertEqual(cost_report['execution_history']['execution_segments'], costs['execution_segments'])
+        self.assertTrue((self.root/'analysis/EXECUTION_SEGMENTS.csv').exists())
+        paths = {row['path'] for row in self.read('analysis/PROVENANCE.json')['receipts']}
+        self.assertIn('recovery_001/RECOVERY.json', paths)
+        self.assertIn('recovery_001/PRIOR_STATUS.json', paths)
+        self.assertEqual(self.read('recovery_001/PRIOR_STATUS.json')['optimizer_steps'], 256)
+
+    def test_recovery_history_rejects_source_or_scope_substitution_and_reports_cost_difference(self):
+        costs = self.recovery_fixture()
+        costs['campaign_wall_s'] = 19.
+        history = execution_history(self.root, costs, 'a'*40)
+        self.assertFalse(history['campaign_wall_matches_segment_sum'])
+        path = self.root/'recovery_001/RECOVERY.json'
+        original = json.loads(path.read_text())
+        for key, value in (('scientific_execution_commit', 'c'*40), ('recovery_execution_commit', None),
+                           ('start_event', 5), ('end_event', 9)):
+            with self.subTest(key=key):
+                path.write_text(json.dumps(dict(original, **{key:value})))
+                with self.assertRaises(ValueError):
+                    execution_history(self.root, costs, 'a'*40)
+        path.write_text(json.dumps(original))
+        costs['execution_segments'][1]['execution_commit'] = 'd'*40
+        with self.assertRaisesRegex(ValueError, 'not bound'):
+            execution_history(self.root, costs, 'a'*40)
 
     def test_retained_token_failure_stops_and_keeps_first_raw_record(self):
         def changed(record, options):

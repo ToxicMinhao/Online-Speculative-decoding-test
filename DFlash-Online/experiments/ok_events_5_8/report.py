@@ -3,6 +3,7 @@
 import csv
 import hashlib
 import json
+import math
 from pathlib import Path
 import re
 
@@ -269,6 +270,7 @@ def receipt_index(root):
     campaign = root / 'campaign_001'
     paths += list(campaign.glob('*.json')) + list(campaign.glob('resume_*/*.json'))
     paths += list(campaign.glob('retention/*.json'))
+    paths += list(root.glob('recovery_*/*.json'))
     paths += list(campaign.glob('[OK]/events/event_*/RESULT.json'))
     return [{'path': str(path.relative_to(root)), 'bytes': path.stat().st_size,
              'sha256': hashlib.sha256(path.read_bytes()).hexdigest()}
@@ -296,6 +298,43 @@ def validate_execution_source(source, execution_commit):
     return formats
 
 
+def execution_history(root, costs, execution_commit):
+    """Keep unchanged scientific source separate from explicit recovery orchestration."""
+    recoveries = []
+    for path in sorted(root.glob('recovery_*/RECOVERY.json')):
+        raw = _load(path)
+        revision = raw.get('recovery_execution_commit')
+        if (raw.get('scientific_execution_commit') != execution_commit
+                or not isinstance(revision, str) or re.fullmatch('[0-9a-f]{40}', revision) is None
+                or raw.get('start_event') != 6 or raw.get('end_event') != 8):
+            raise ValueError('Manual recovery source or event scope differs from the preserved scientific execution')
+        keys = ('scientific_execution_commit', 'recovery_execution_commit', 'start_event', 'end_event',
+                'prior_status', 'prior_costs', 'prior_status_path', 'prior_costs_path', 'native_output')
+        recoveries.append(dict(receipt=str(path.relative_to(root)),
+            **{key: raw[key] for key in keys if key in raw}))
+    segments = costs.get('execution_segments', [])
+    if not isinstance(segments, list):
+        raise ValueError('Execution segments must be an explicit list of process timings')
+    admitted_commits = {execution_commit, *(row['recovery_execution_commit'] for row in recoveries)}
+    checked = []
+    for row in segments:
+        if (not isinstance(row, dict) or row.get('execution_commit') not in admitted_commits
+                or not isinstance(row.get('phase'), str) or not row['phase']):
+            raise ValueError('Execution segment is not bound to original or recorded recovery source')
+        for key in ('wall_s', 'backend_loading_s'):
+            if type(row.get(key)) not in (int, float) or not math.isfinite(row[key]) or row[key] < 0:
+                raise ValueError('Execution segment timing is unavailable or invalid: ' + key)
+        checked.append({key: row[key] for key in ('execution_commit', 'phase', 'wall_s', 'backend_loading_s')})
+    total = sum(row['wall_s'] for row in checked) if checked else None
+    return dict(scientific_execution_commit=execution_commit, operational_recoveries=recoveries,
+        execution_segments=checked, summed_segment_wall_s=total,
+        summed_segment_backend_loading_s=sum(row['backend_loading_s'] for row in checked) if checked else None,
+        recorded_campaign_wall_s=costs.get('campaign_wall_s'),
+        campaign_wall_matches_segment_sum=(total == costs['campaign_wall_s']
+            if total is not None and costs.get('campaign_wall_s') is not None else None),
+        timing_scope='Sum of recorded campaign process segments, including their idle waits; gaps between stopped and restarted processes are excluded. Segment timers overlap their contained phase timers and must not be added to them.')
+
+
 def write_campaign_report(root, output, *, execution_commit):
     """Reaudit all raw tables and keep endpoint/panel units separate."""
     from .evaluation_protocol import validate_panels
@@ -307,6 +346,7 @@ def write_campaign_report(root, output, *, execution_commit):
     campaign = root / 'campaign_001'
     status = _load(campaign / 'STATUS.json', {})
     costs = _load(campaign / 'COSTS.json', {})
+    history = execution_history(root, costs, execution_commit)
     output.mkdir(parents=True, exist_ok=True)
     panel_rows, request_rows, repeat_rows, audit_rows, curve = [], [], [], [], []
     summaries = {}
@@ -420,10 +460,13 @@ def write_campaign_report(root, output, *, execution_commit):
         'evaluation_valid', 'optimizer_steps', 'presentations', 'arm_counters', 'arm_presentations',
         'extra_optimizer_steps', 'extra_generations', 'events_completed')}
     cost_summary['actual_work'] = actual_work
+    cost_summary['execution_history'] = history
     retention = _load(campaign / 'retention/FINAL.json', {})
     retention_summary = dict(status=retention.get('status', 'unavailable'),
+        mode=retention.get('mode', 'unspecified'),
         required_events=retention.get('required_events'), destination=retention.get('destination'),
-        verified_file_count=len(retention.get('verified_files', {})))
+        verified_file_count=len(retention.get('verified_files', {})),
+        evidence_scope='Compact retained-file hash receipt; report does not independently reload or rehash bulk states.')
     campaign_summary = dict(execution_git_commit=execution_commit, execution_source=source,
         execution_source_receipt_formats=source_formats,
         campaign_status=status.get('status'), planned_main_generations=1920,
@@ -431,19 +474,25 @@ def write_campaign_report(root, output, *, execution_commit):
         reaudit_valid_timed_generations=sum(value['valid_timed_generations'] for value in summaries.values()),
         complete_valid_panels=sum(value['complete_valid_panel'] for value in summaries.values()),
         interpretation=interpretation, panels=summaries, actual_work=actual_work,
-        endpoint_retention=retention_summary,
+        endpoint_retention=retention_summary, execution_history=history,
         historical_curve_scope='Only event-4 call counts; no historical timing enters a latency learning curve.',
         no_seed_replication=True, no_integrated_asynchronous_speedup_claim=True,
         raw_table_reaudit='Every returned record is read again; invalid/incomplete request and generation rows remain visible.')
-    provenance = dict(execution_git_commit=execution_commit, receipts=receipt_index(root),
+    provenance = dict(execution_git_commit=execution_commit, execution_history=history, receipts=receipt_index(root),
         scope='Byte identities of retained source/input/launch/state/work receipts. Receipt contents and execution commands remain in the named artifacts; this index does not duplicate private arrays or independently rerun state restoration.')
     write_json(output / 'SUMMARY.json', campaign_summary)
     write_json(output / 'COSTS.json', cost_summary)
     write_json(output / 'PROVENANCE.json', provenance)
     for name, rows in (('EVENT_PANEL', panel_rows), ('PER_REQUEST', request_rows), ('ALL_REPEATS', audit_rows),
-                       ('REPEAT_TOTALS', repeat_rows), ('CALL_CURVE', curve)):
+                       ('REPEAT_TOTALS', repeat_rows), ('CALL_CURVE', curve),
+                       ('EXECUTION_SEGMENTS', history['execution_segments'])):
         write_csv(output / (name + '.csv'), rows)
-    lines = ['# OSD/K continuation through event 8', '', f'Execution revision: `{execution_commit}`.', '',
+    lines = ['# OSD/K continuation through event 8', '', f'Preserved scientific source and original execution revision: `{execution_commit}`.', '']
+    for recovery in history['operational_recoveries']:
+        lines += [f"Manual operational continuation revision: `{recovery['recovery_execution_commit']}`; "
+            f"recorded scope events {recovery['start_event']}–{recovery['end_event']}, receipt `{recovery['receipt']}`. "
+            'Prior stopped-segment evidence is retained separately.', '']
+    lines += [
         ' '.join(name.capitalize() + ': ' + text + '.' for name, text in interpretation.items()), '',
         '| Event | Panel | Valid requests | O calls | K calls | K call reduction | Wins/losses/ties | Request-time reduction | Native-time reduction |',
         '|---:|---|---:|---:|---:|---:|---:|---:|---:|']
@@ -465,11 +514,21 @@ def write_campaign_report(root, output, *, execution_commit):
                 ' | ' + number(item.get('peak_allocated_bytes'), 2**30) + ' |')
     lines += ['', 'Training, state save and export are components of event wall time; they are not added to it. '
         'Loading/resume checks and their memory peaks remain separate in COSTS.json. '
-        f"Campaign wall time: {number(costs.get('campaign_wall_s'))} s; backend loading: {number(costs.get('backend_loading_s'))} s."]
+        f"Recorded campaign process wall time: {number(costs.get('campaign_wall_s'))} s; "
+        f"backend loading: {number(history['summed_segment_backend_loading_s'] if history['execution_segments'] else costs.get('backend_loading_s'))} s."]
+    if history['execution_segments']:
+        lines += ['', '| Execution segment | Revision | Process wall (s) | Backend loading (s) |',
+                  '|---|---|---:|---:|']
+        for segment in history['execution_segments']:
+            lines.append(f"| {segment['phase']} | `{segment['execution_commit']}` | "
+                         f"{number(segment['wall_s'])} | {number(segment['backend_loading_s'])} |")
+        lines += ['', history['timing_scope'],
+                  f"Recorded campaign total equals summed segment walls: {history['campaign_wall_matches_segment_sum']}."]
     lines += ['', f"Recorded work: {actual_work['feedback_returned']} returned feedback responses, "
         f"{actual_work['optimizer_steps']} added optimizer steps, {actual_work['presentations']} added presentations, "
         f"{actual_work['evaluation_returned']} returned evaluation generations. "
-        f"Required event-6/8 retention receipt: {retention_summary['status']}. "
+        f"Required event-6/8 retention receipt: {retention_summary['status']}; mode `{retention_summary['mode']}`. "
+        'Local retention refers to the campaign destination recorded in the receipt. '
         'These are recorded execution counters; null denotes unavailable evidence.']
     lines += ['', 'Primary reduction is 100 × (sum O calls − sum K calls) / sum O calls, using one validated repeat-0 trajectory per request. Three timing repeats are repeated measurements, not independent examples. Panels are never pooled.', '',
         'CALL_CURVE.csv retains event-4 historical O4/K4 counts beside fresh events 6 and 8. Historical times are excluded. Each timing comparison uses O/K measured together at the same fresh endpoint; native generation and request-cache time are nested in complete request time.', '',
