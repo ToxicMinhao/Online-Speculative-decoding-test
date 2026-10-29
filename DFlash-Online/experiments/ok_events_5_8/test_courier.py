@@ -5,6 +5,8 @@ from pathlib import Path
 import shutil
 import subprocess
 import tempfile
+import threading
+import time
 from types import SimpleNamespace
 import unittest
 from unittest.mock import patch
@@ -191,6 +193,151 @@ class CourierTests(unittest.TestCase):
         self.assertIn('set -C; cat >', arguments[-1])
         self.assertIn('mv --', arguments[-1])
         self.assertGreaterEqual(options['timeout'], 45)
+
+    def test_balanced_groups_are_disjoint_and_put_large_states_on_separate_workers(self):
+        files = {name: dict(bytes=size) for name, size in
+                 [('O_state', 63), ('K_state', 63), ('O_export', 21), ('K_export', 21),
+                  *[(f'f{i}', 7) for i in range(12)]]}
+        groups = courier.balanced_groups(files, list(files), 4)
+        flattened = [name for group in groups for name in group]
+        self.assertCountEqual(flattened, files)
+        self.assertEqual(len(flattened), len(set(flattened)))
+        self.assertFalse(any('O_state' in group and 'K_state' in group for group in groups))
+        self.assertEqual(max(sum(files[name]['bytes'] for name in group) for group in groups), 63)
+        with self.assertRaises(ValueError):
+            courier.balanced_groups(files, list(files), 8)
+
+    def test_parallel_workers_use_separate_connections_and_cancel_peers_on_failure(self):
+        request = self.request()
+        request['files'] = {f'file{i}': next(iter(request['files'].values())) for i in range(4)}
+        ready = threading.Barrier(4)
+        cancelled = []
+        def failing(campaign, destination, group, control, event, **options):
+            self.assertTrue(options['separate_connection'])
+            ready.wait(timeout=2)
+            if group == ['file0']:
+                raise RuntimeError('worker failed')
+            deadline = time.monotonic()+2
+            while not options['cancel'].is_set() and time.monotonic() < deadline:
+                time.sleep(.01)
+            cancelled.append(options['cancel'].is_set())
+        with patch.object(courier, 'transfer_files', side_effect=failing), \
+                patch.object(courier, 'publish_ack') as ack:
+            with self.assertRaisesRegex(RuntimeError, 'worker failed'):
+                courier.copy_event(request, self.destination, self.control, workers=4)
+        self.assertEqual(cancelled, [True]*3)
+        ack.assert_not_called()
+        self.assertEqual(len(list((self.control/'event_005_workers').iterdir())), 4)
+
+    def test_parallel_real_local_tar_streams_keep_exact_disjoint_files(self):
+        request = self.request()
+        for index in range(1, 12):
+            name = f'nested shared/f{index}.pt'
+            source = self.source/name
+            source.parent.mkdir(exist_ok=True)
+            source.write_bytes(bytes([index])*index*64)
+            request['files'][name] = identity(source)
+        request['campaign_root'] = str(self.source)
+        real_popen, commands = subprocess.Popen, []
+        def local_ssh(arguments, **kwargs):
+            commands.append(arguments)
+            if arguments[0] == 'ssh':
+                arguments = ['sh', '-c', arguments[-1]]
+            return real_popen(arguments, **kwargs)
+        with patch.object(courier.subprocess, 'Popen', side_effect=local_ssh), \
+                patch.object(courier, 'publish_ack'):
+            result = courier.copy_event(request, self.destination, self.control, workers=4)
+        ssh_commands = [command for command in commands if command[0] == 'ssh']
+        self.assertEqual(len(ssh_commands), 4)
+        self.assertTrue(all('ControlMaster=no' in command and 'ControlPath=none' in command for command in ssh_commands))
+        self.assertEqual(result['workers'], 4)
+        for name, expected in request['files'].items():
+            self.assertEqual(identity(self.destination/name), expected)
+
+    def original_control(self, request):
+        old = self.destination/'_courier'
+        old.mkdir()
+        (old/'STATUS.json').write_text(json.dumps(dict(status='running', campaign_root=self.campaign,
+                                                       destination=str(self.destination))))
+        (old/'event_005_REQUEST.json').write_text(json.dumps(request))
+        (old/'old.stderr').write_text('original preserved diagnostic\n')
+        return old
+
+    def test_manual_resume_binds_original_request_and_preserves_partial_then_retires(self):
+        request = self.request()
+        old = self.original_control(request)
+        frozen = {str(path): path.read_bytes() for path in old.iterdir()}
+        partial = self.destination/next(iter(request['files']))
+        partial.parent.mkdir(parents=True)
+        partial.write_bytes(b'partial bytes')
+        partial_identity = identity(partial)
+        control, previous = courier.create_control(self.destination, self.campaign,
+            resume_manual=True, courier_execution_commit='b'*40)
+        self.assertEqual(control.name, '_courier_recovery_001')
+        with patch.object(courier, 'read_remote_json', side_effect=[None, dict(status='running', event=5, phase='retention_005')]):
+            acknowledged, allowed = courier.manual_event_state(request, self.destination, previous, control)
+        self.assertEqual((acknowledged, allowed), (False, True))
+        def check_preserved(*args, **kwargs):
+            receipt = json.loads((control/'event_005_QUARANTINE.json').read_text())
+            self.assertEqual(receipt['files'][0]['identity'], partial_identity)
+            self.assertEqual(Path(receipt['files'][0]['quarantine_path']).read_bytes(), b'partial bytes')
+            self.transfer(*args, **kwargs)
+        with patch.object(courier, 'transfer_files', side_effect=check_preserved), patch.object(courier, 'publish_ack'):
+            courier.copy_event(request, self.destination, control, allow_quarantine=allowed)
+        self.assertEqual({str(path): path.read_bytes() for path in old.iterdir()}, frozen)
+        self.assertEqual(identity(partial), next(iter(request['files'].values())))
+        retired = json.loads((control/'event_005_PARTIAL_RETIREMENT.json').read_text())
+        self.assertEqual(retired['files'][0]['retired_identity'], partial_identity)
+        self.assertEqual(retired['files'][0]['status'], 'retired')
+        self.assertFalse(Path(retired['files'][0]['retired_path']).exists())
+
+    def test_manual_resume_rejects_changed_request_and_nonidle_boundary(self):
+        request = self.request()
+        old = self.original_control(request)
+        changed = copy.deepcopy(request)
+        changed['files'][next(iter(changed['files']))]['bytes'] += 1
+        with self.assertRaisesRegex(ValueError, 'differs from preserved'):
+            courier.bind_previous_requests(changed, [old])
+        with patch.object(courier, 'read_remote_json', side_effect=[None, dict(status='running', event=5, phase='training_K')]):
+            with self.assertRaisesRegex(ValueError, 'not paused'):
+                courier.manual_event_state(request, self.destination, [old], self.control)
+        with self.assertRaisesRegex(ValueError, 'complete Git revision'):
+            courier.create_control(self.destination, self.campaign, resume_manual=True, courier_execution_commit=None)
+
+    def test_prior_ack_requires_complete_local_hash_and_is_not_uploaded_again(self):
+        request = self.request()
+        old = self.original_control(request)
+        self.transfer(self.campaign, self.destination, request['files'], self.control, 5)
+        ack = dict(request, status='verified')
+        with patch.object(courier, 'read_remote_json', return_value=ack) as read, \
+                patch.object(courier, 'publish_ack') as publish:
+            result = courier.manual_event_state(request, self.destination, [old], self.control)
+        self.assertEqual(result, (True, False))
+        read.assert_called_once()
+        publish.assert_not_called()
+        (self.destination/next(iter(request['files']))).write_bytes(b'changed')
+        with patch.object(courier, 'read_remote_json', return_value=ack):
+            with self.assertRaisesRegex(ValueError, 'Existing local file differs'):
+                courier.manual_event_state(request, self.destination, [old], self.control)
+
+    def test_resume_budget_only_charges_missing_full_payload_and_failed_partials_remain(self):
+        request = self.request()
+        complete = self.destination/next(iter(request['files']))
+        complete.parent.mkdir(parents=True)
+        complete.write_bytes((self.source/next(iter(request['files']))).read_bytes())
+        with patch.object(courier.shutil, 'disk_usage', return_value=SimpleNamespace(free=9*GIB)), \
+                patch.object(courier, 'publish_ack'):
+            courier.copy_event(request, self.destination, self.control)
+        space = json.loads((self.control/'event_005_SPACE.json').read_text())
+        self.assertEqual(space['remaining_payload_bytes'], 0)
+        complete.write_bytes(b'partial')
+        with patch.object(courier, 'transfer_files', side_effect=RuntimeError('network lost')), \
+                patch.object(courier, 'publish_ack') as ack:
+            with self.assertRaisesRegex(RuntimeError, 'network lost'):
+                courier.copy_event(request, self.destination, self.control, allow_quarantine=True)
+        preserved = json.loads((self.control/'event_005_QUARANTINE.json').read_text())
+        self.assertEqual(Path(preserved['files'][0]['quarantine_path']).read_bytes(), b'partial')
+        ack.assert_not_called()
 
 
 if __name__ == '__main__':
