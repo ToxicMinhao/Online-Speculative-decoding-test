@@ -49,4 +49,3 @@ class KRCMechanismEvent4Base(KRCLateContinuationEvent):
         _validate_history(trainer, 3)
         super().__init__(trainer, schedule=schedule, feature_paths=feature_paths,
                          output_dir=output_dir)
-
