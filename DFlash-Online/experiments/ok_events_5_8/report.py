@@ -273,16 +273,34 @@ def receipt_index(root):
             for path in sorted(set(paths)) if path.is_file()]
 
 
+def validate_execution_source(source, execution_commit):
+    """Admit either explicit clean-source receipt, rejecting incomplete aliases."""
+    if not isinstance(execution_commit, str) or not re.fullmatch('[0-9a-f]{40}', execution_commit):
+        raise ValueError('Require the actual complete execution Git revision')
+    if not isinstance(source, dict):
+        raise ValueError('Require an explicit execution source receipt')
+    formats = []
+    if 'execution_git_commit' in source or 'dirty_files' in source:
+        if (source.get('execution_git_commit') != execution_commit
+                or type(source.get('dirty_files')) is not list or source['dirty_files'] != []):
+            raise ValueError('Execution source receipt differs from the requested clean revision')
+        formats.append('execution_git_commit/dirty_files')
+    if 'commit' in source or 'dirty' in source:
+        if source.get('commit') != execution_commit or source.get('dirty') is not False:
+            raise ValueError('Execution source receipt differs from the requested clean revision')
+        formats.append('commit/dirty')
+    if not formats:
+        raise ValueError('Execution source receipt has no supported explicit revision/cleanliness fields')
+    return formats
+
+
 def write_campaign_report(root, output, *, execution_commit):
     """Reaudit all raw tables and keep endpoint/panel units separate."""
     from .evaluation_protocol import validate_panels
     root, output = Path(root), Path(output)
     plan = _load(root / 'sealed/PLAN.json')
-    if not re.fullmatch('[0-9a-f]{40}', execution_commit):
-        raise ValueError('Require the actual complete execution Git revision')
     source = plan['execution_source']
-    if source.get('execution_git_commit') != execution_commit or source.get('dirty_files') != []:
-        raise ValueError('Execution source receipt differs from the requested clean revision')
+    source_formats = validate_execution_source(source, execution_commit)
     validate_panels(plan['panels'])
     campaign = root / 'campaign_001'
     status = _load(campaign / 'STATUS.json', {})
@@ -403,6 +421,7 @@ def write_campaign_report(root, output, *, execution_commit):
         required_events=retention.get('required_events'), destination=retention.get('destination'),
         verified_file_count=len(retention.get('verified_files', {})))
     campaign_summary = dict(execution_git_commit=execution_commit, execution_source=source,
+        execution_source_receipt_formats=source_formats,
         campaign_status=status.get('status'), planned_main_generations=1920,
         reaudit_returned_measurements=len(audit_rows),
         reaudit_valid_timed_generations=sum(value['valid_timed_generations'] for value in summaries.values()),

@@ -13,7 +13,7 @@ from test_osd_one_event import request as original_request
 from test_prefix_ranking_evaluation import harmful
 from .evaluate import evaluate
 from .evaluation_protocol import method_order, validate_panels, TOTAL_GENERATIONS
-from .report import summarize, write_campaign_report, curve_direction
+from .report import summarize, write_campaign_report, curve_direction, validate_execution_source
 
 
 def requests(panel='development', count=3):
@@ -133,6 +133,35 @@ class EvaluationTests(unittest.TestCase):
         self.assertEqual(report['reaudit_returned_measurements'], 0)
         self.assertTrue(all(value.startswith('inconclusive:') for value in report['interpretation'].values()))
         self.assertTrue(all(value['invalid_or_incomplete_requests'] == 64 for value in report['panels'].values()))
+
+    def test_execution_source_accepts_both_explicit_clean_receipt_formats(self):
+        commit = '04fac901f7af5478b62ff730833c026637ddd2cd'
+        first = dict(execution_git_commit=commit, dirty_files=[])
+        sealed = dict(repository='repository', commit=commit, branch='codex/branch', pr=18, dirty=False)
+        self.assertEqual(validate_execution_source(first, commit), ['execution_git_commit/dirty_files'])
+        self.assertEqual(validate_execution_source(sealed, commit), ['commit/dirty'])
+        self.assertEqual(len(validate_execution_source({**first, **sealed}, commit)), 2)
+        (self.root/'sealed').mkdir()
+        (self.root/'sealed/PLAN.json').write_text(json.dumps(dict(panels=panels(), execution_source=sealed)))
+        report = write_campaign_report(self.root, self.root/'analysis', execution_commit=commit)
+        self.assertEqual(report['execution_source'], sealed)
+        self.assertEqual(report['execution_source_receipt_formats'], ['commit/dirty'])
+
+    def test_execution_source_rejects_missing_dirty_malformed_and_conflicting_aliases(self):
+        commit = 'a'*40
+        invalid = [{}, dict(commit=commit), dict(dirty=False), dict(execution_git_commit=commit),
+            dict(dirty_files=[]), dict(commit=commit, dirty=0), dict(commit=commit, dirty=None),
+            dict(commit=commit, dirty=True), dict(execution_git_commit=commit, dirty_files=None),
+            dict(execution_git_commit=commit, dirty_files=['changed.py']),
+            dict(commit='b'*40, dirty=False),
+            dict(commit=commit, dirty=False, execution_git_commit='b'*40, dirty_files=[]),
+            dict(commit=commit, dirty=False, dirty_files=[]),
+            dict(execution_git_commit=commit, dirty_files=[], dirty=False)]
+        for source in invalid:
+            with self.subTest(source=source), self.assertRaises(ValueError):
+                validate_execution_source(source, commit)
+        with self.assertRaises(ValueError):
+            validate_execution_source(dict(commit=commit, dirty=False), commit[:8])
 
     def test_retained_token_failure_stops_and_keeps_first_raw_record(self):
         def changed(record, options):
