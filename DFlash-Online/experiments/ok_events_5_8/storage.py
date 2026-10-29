@@ -70,11 +70,41 @@ class StorageLifecycle:
             rows * FEATURE_ROW_BYTES, 'Prepared feature copies; captured originals already occupy disk')
 
     def admit_training(self, arm, event, pool, parents):
+        # After O finishes a new event, its previous export is no longer a
+        # dependency. Retire that verified remote copy before admitting K's
+        # pending checkpoint; K's own parent export remains protected.
+        self.retire_obsolete_exports(parents)
         # training.py writes one 3W pending state, then exports W, then atomically
         # replaces latest. Add another W for export temporaries. Failure does
         # not write another model snapshot. Existing parents are already charged.
         return self.admit(f'event_{event:03d}_{arm}_training', 5 * WEIGHTS,
                          '3W pending Adam state + W export + W export workspace; original parents retained')
+
+    def retire_obsolete_exports(self, parents):
+        before_free_bytes = shutil.disk_usage(self.output).free
+        protected = {Path(parent['export']).resolve() for parent in parents.values()}
+        removed = []
+        for arm in ('O', 'K'):
+            for export in (self.output / arm / 'events').glob('event_*/export'):
+                if export.resolve() in protected:
+                    continue
+                for path in export.iterdir():
+                    if not path.is_file():
+                        continue
+                    relative = str(path.relative_to(self.output))
+                    if relative not in self.archived:
+                        continue
+                    if path.is_symlink() or identity(path) != self.archived[relative]:
+                        raise ValueError('Obsolete export changed after verified offload: ' + str(path))
+                    path.unlink(); removed.append(str(path))
+        if removed:
+            ledger = self.root / 'OBSOLETE_EXPORTS.json'
+            prior = json.loads(ledger.read_text()) if ledger.exists() else []
+            write_json(ledger, prior + [dict(removed_local_copies=removed,
+                reason='No active parent requires these byte-verified Fenrir copies',
+                protected_exports=sorted(str(path) for path in protected),
+                before_free_bytes=before_free_bytes,
+                free_bytes=shutil.disk_usage(self.output).free)])
 
     def after_event(self, event, parents, pool, *, evaluated):
         if evaluated != (event in (6, 8)):

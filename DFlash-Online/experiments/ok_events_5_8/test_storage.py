@@ -5,7 +5,7 @@ import tempfile
 import unittest
 from unittest.mock import patch
 
-from .storage import StorageLifecycle, GIB, required_bytes, validate_ack
+from .storage import StorageLifecycle, GIB, required_bytes, validate_ack, identity
 
 
 class StorageTests(unittest.TestCase):
@@ -83,6 +83,21 @@ class StorageTests(unittest.TestCase):
             row=json.loads((lifecycle.root/'event_005_O_training_STORAGE.json').read_text())
             self.assertEqual(row['reserve_bytes'],8*GIB)
             self.assertFalse(row['admitted'])
+
+    def test_retire_previous_O_export_only_after_O_advanced_and_copy_verified(self):
+        with tempfile.TemporaryDirectory() as directory:
+            output,lifecycle=self.setup_run(Path(directory))
+            parents,_,_,_=self.artifacts(output,5)
+            old_O=Path(parents['O']['export'])/'model.safetensors'
+            old_K=Path(parents['K']['export'])/'model.safetensors'
+            for path in (old_O,old_K):
+                lifecycle.archived[str(path.relative_to(output))]=identity(path)
+            lifecycle.retire_obsolete_exports(parents)
+            self.assertTrue(old_O.exists()); self.assertTrue(old_K.exists())
+            new_export=output/'O/events/event_006/export';new_export.mkdir(parents=True)
+            parents['O']['export']=str(new_export)
+            lifecycle.retire_obsolete_exports(parents)
+            self.assertFalse(old_O.exists()); self.assertTrue(old_K.exists())
 
 
 if __name__ == '__main__':

@@ -148,6 +148,19 @@ class CourierTests(unittest.TestCase):
                 courier.run('/data/sources/minhao/runs/fixture', other)
         transfer.assert_not_called()
 
+    def test_ack_transport_failure_is_uncertain_and_never_retried(self):
+        request = self.request()
+        with patch.object(courier, 'read_remote_json', return_value=request), \
+                patch.object(courier, 'transfer_files', side_effect=self.transfer), \
+                patch.object(courier, 'publish_ack', side_effect=TimeoutError('ACK reply lost')) as ack:
+            with self.assertRaisesRegex(TimeoutError, 'ACK reply lost'):
+                courier.run('/data/sources/minhao/runs/fixture', self.destination)
+        ack.assert_called_once()
+        failure = json.loads((self.destination/'_courier/FAILED.json').read_text())
+        self.assertTrue(failure['ack_delivery_uncertain'])
+        self.assertTrue((self.destination/'_courier/event_005_VERIFIED.json').exists())
+        self.assertFalse((self.destination/'_courier/event_005_ACK_SENT.json').exists())
+
     def test_tar_stream_uses_exact_null_list_without_archive_or_remote_rsync(self):
         request = self.request()
         (self.source/'unlisted').write_bytes(b'not requested')
