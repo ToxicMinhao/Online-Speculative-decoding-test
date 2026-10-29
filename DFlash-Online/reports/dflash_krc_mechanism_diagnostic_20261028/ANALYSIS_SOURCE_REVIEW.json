@@ -1,0 +1,91 @@
+{
+  "material_passport": {
+    "workflow": "ARS experiment-agent validate",
+    "verification_status": "ANALYZED",
+    "reviewer": "/root/mechanism_audit",
+    "scope": "analysis-only source review; no production/GPU execution",
+    "reviewed_utc": "2026-10-29T00:49:54.947940+00:00"
+  },
+  "status": "passed_analysis_source_review_no_remaining_blocker",
+  "execution_commit": "c9461345189b91d241ff21590027500e6ac7dab4",
+  "initial_analysis_commit": "7fa73fc",
+  "independent_tests": {
+    "final_analysis_unit_tests": 16,
+    "result": "passed",
+    "command": "CUDA_VISIBLE_DEVICES='' PYTHONPATH=.:training:tests /home/minhao2/.venvs/dflash-specforge/bin/python -m unittest discover -s tests -p test_krc_mechanism_analysis.py -v",
+    "prior8and14testpasses": "overlapping earlier revisions; do not sum as independent replications"
+  },
+  "adversarial_check": {
+    "mutation": "R_FULL prediction.actual_minus_realized_linearized set to 123456 in one synthetic window",
+    "observed": "Prior builder still included80/80slots; confirms missing prediction-algebra validation",
+    "after_fix": "same corrupted residual now excluded only affected candidate:79includedslots; before80"
+  },
+  "sound_components": [
+    "independent scalar prefix/oracle reconstruction",
+    "fixedvalidblock denominators",
+    "pooled frozen-weight hinge denominator",
+    "K_ONLY-only oracle aggregation avoids quadruple counting",
+    "event/pass/window/candidate/role separation",
+    "failed endpoint/window/candidate exclusions retained",
+    "actual measured work retained independently from scientific inclusion",
+    "nonlinear/nonsmooth versus finite-precision residual nonuniqueness retained",
+    "no significance or serving-speed inference"
+  ],
+  "requested_changes": [
+    {
+      "finding": "Prediction and native pair scalar fields copied without sufficient internal consistency checks",
+      "resolution": "Metrics agent authorized to add fixed candidate/dose/fitted-role, recordedV bindings, algebra, nonfinite/nonnegative and native FP32-aware checks; no scientific tolerance change."
+    },
+    {
+      "finding": "Protectedweights checked membership only",
+      "resolution": "Check exact descending triangular magnitudes."
+    },
+    {
+      "finding": "Candidate alias flags trusted instead of derived from state identities",
+      "resolution": "Recompute aliases and check zero realized displacement consistency."
+    },
+    {
+      "finding": "Recorded blocks not cross-bound to sealed role/anchor plan",
+      "resolution": "Bind raw record IDs/anchors/keep flags and window plan, or require independent actual audit with limited builder claim."
+    },
+    {
+      "finding": "Automated recommendation introduced all20damped criterion and omitted other declared decision rules",
+      "resolution": "Remove new threshold; generated recommendation stays descriptive pending root manual application of entire predeclared decision map."
+    }
+  ],
+  "limits": [
+    "Native FP32 pooled V must not be forced to equal independently FP64-reduced blockhinge; any difference remains a measured precision distinction.",
+    "Formal/linearized prediction algebra can be validated from recorded scalars; gradient vectors and candidate tensors are not retained for a fresh gradient recomputation.",
+    "Execution source remains unchanged; analysis fixes do not authorize another model pass."
+  ],
+  "pending": [
+    "Actual compact evidence reconstruction after completed endpointgates and retrieval",
+    "Manual interpretation of the complete handoff decision map from paired actual results; no recommendation from partial episodes"
+  ],
+  "final_review_utc": "2026-10-29T01:01:01.704999+00:00",
+  "final_resolutions": [
+    "Recorded prediction algebra, fixedalpha/fittedrole, sourceV and actualV identities validated; coefficients/norms checked, including valid applied -0.0 coefficient underflow.",
+    "Native pair additions/division independently reconstructed at IEEEbinary32 from recorded response contributions; FP64 response reconstruction difference and a fixed analytical gamma bound retained at window/aggregate levels. This is an analysis consistency check, not a relaxed scientific replay tolerance.",
+    "D source role IDs/weights/denominator remain immutable input bindings. D gradient/no-grad V/numerator/margin/prediction differences are descriptive and do not introduce an extra exact historical gate; R physical witness remains exact.",
+    "Raw blocks checked against sealed response/anchor/keep bindings and exact triangularweights; aliases recomputed from candidatehashes.",
+    "Machine recommendation imposes no new all20threshold and requires manual application of the complete original decision map."
+  ],
+  "source_sha256": {
+    "experiments/krc_mechanism_diagnostic/build_report.py": "bc6b448ff0e6f19cb3388519f726103dea2e6444ff11e6bfbcd39d6d18f61392",
+    "tests/test_krc_mechanism_analysis.py": "ed3efb80ce45242fce861576f0efbd1a014d95e1bfa92dd73b8f24c51901c101"
+  },
+  "independent_compact_checker": {
+    "path": "/home/minhao2/EAGLE_SPEC/research/dflash_krc_mechanism_diagnostic_20261028/audit_compact_independent.py",
+    "sha256": "a64c8d10da45588703839762a651be7d6422fad5bee6f35a34fc12ddd171a4e5",
+    "synthetic_check": {
+      "status": "passed",
+      "windows": 20,
+      "candidate_slots": 80,
+      "block_rows": 480,
+      "first_oracle_total": 240,
+      "all_oracle_total": 360
+    },
+    "production_imports": false,
+    "production_result": "pending"
+  }
+}

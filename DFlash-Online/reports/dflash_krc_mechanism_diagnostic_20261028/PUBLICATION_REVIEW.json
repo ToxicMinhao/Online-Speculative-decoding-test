@@ -1,0 +1,228 @@
+{
+  "material_passport": {
+    "workflow": "ARS experiment-agent validate",
+    "verification_status": "ANALYZED",
+    "reviewer": "/root/mechanism_replay",
+    "reviewed_utc": "2026-10-29T02:05:27.404359+00:00",
+    "scope": "Local read-only privacy/provenance/publication review; no GPU/SSH, Git mutation, or result recomputation"
+  },
+  "status": "passed",
+  "issues": [],
+  "public_package": "/home/minhao2/EAGLE_SPEC/research/dflash_online_publication_20261028/github_checkout/DFlash-Online/reports/dflash_krc_mechanism_diagnostic_20261028",
+  "reviewed_files": 39,
+  "reviewed_bytes": 558821,
+  "privacy": {
+    "JSON_files": 27,
+    "CSV_files": 4,
+    "CSV_rows": 308,
+    "Markdown_files": 5,
+    "source_scripts": 2,
+    "no_raw_prompt_or_response_token_fields": true,
+    "no_native_prediction_margin_anchor_arrays": true,
+    "no_feature_model_optimizer_tensors": true,
+    "no_long_numeric_arrays": true,
+    "allowed_non_scalar_metadata": "Candidate-name lists; file/hash manifests; model/runtime/configuration identities; two-value statistical ranges. Scripts reference private arrays but do not embed them.",
+    "window_plan_scope": "20 fixed windows with request IDs and anchor-binding hashes only"
+  },
+  "provenance": {
+    "execution_git_commit": "c9461345189b91d241ff21590027500e6ac7dab4",
+    "execution_additions_verified_against_commit_blobs": 15,
+    "main_numeric_analysis_commit": "220c62e2c52489cf114125b679ae7188eea09218",
+    "supplement_source_hash_verified": true,
+    "independent_audit_source_hash_verified": true,
+    "subsequent_analysis_code_change": "Verified one documentation-only relative-link repair; no numerical/scientific source change",
+    "public_numerical_tables_equal_local": true,
+    "root_and_public_report_equal": true,
+    "report_sha256": "7e627ca361557099265303fd5cd673da555828d5822ee626ef892683dcc00c6f",
+    "final_audit_report_sha256": "7e627ca361557099265303fd5cd673da555828d5822ee626ef892683dcc00c6f",
+    "final_audit_receipt_status": "passed"
+  },
+  "links": {
+    "relative_Markdown_links_checked": 19,
+    "broken_relative_links": 0
+  },
+  "current_status": {
+    "completed_and_stopped": true,
+    "serving_and_feedback_generations": 0,
+    "historical_pending_fields_explicitly_labeled": true,
+    "workflow_experience_A800_rule_summaries_current": true,
+    "stage_or_project_advance": false
+  },
+  "resolved_findings": [
+    {
+      "finding": "Nested analysis report KRC1 relative link resolved to reports/reports",
+      "resolution": "Corrected link target; all final relative Markdown links resolve"
+    },
+    {
+      "finding": "Historical source-review snapshots retained pending fields",
+      "resolution": "Package README explicitly labels them historical and superseded by final audit/completion"
+    },
+    {
+      "finding": "Final report differed from the initially reviewed report hash",
+      "resolution": "Independent reviewer rechecked final draft; refreshed report_review hash equals public report; prior hash preserved in audit history"
+    }
+  ],
+  "limits": [
+    "Privacy/provenance review does not constitute an independent GPU replication or a new scientific result audit.",
+    "Private raw data are required to reproduce analysis; public file identities are not substitutes for omitted tensors or native arrays.",
+    "Inventory covers the 39-file package before adding this review or a final publication manifest."
+  ],
+  "file_identities": {
+    "ANALYSIS_SOURCE_REVIEW.json": {
+      "bytes": 5506,
+      "sha256": "2256a3a3b8437cb5b9c88f221567a5bfc5cce4212c23ec7c9d7d627d9ab4a7b1"
+    },
+    "COMPLETION.json": {
+      "bytes": 1797,
+      "sha256": "2dad37656f91f8c6955b1c359132caed145270ae52a118fed1f0745118520d73"
+    },
+    "EXECUTION_SOURCE.json": {
+      "bytes": 3209,
+      "sha256": "8e2e2f5bdd0d7b2280b0ebc67e051728de5ffda03a42402ff757b789cd827eea"
+    },
+    "INDEPENDENT_CODE_REVIEW.json": {
+      "bytes": 8465,
+      "sha256": "45fa91a86221a48f4de6084e9ce64bf8238ce8b85cd215b40b7d00c702e59c23"
+    },
+    "INDEPENDENT_FINAL_AUDIT.json": {
+      "bytes": 16771,
+      "sha256": "d80126737a615591a34e8b6a38ae8170510e832a60b03d6034023a9b3a0e11ba"
+    },
+    "INDEPENDENT_FINAL_AUDIT.md": {
+      "bytes": 9699,
+      "sha256": "fdcee8926a277721a0618f462faf9082e85089ec037eebcb3d98d39c07421109"
+    },
+    "INTERPRETATION.json": {
+      "bytes": 991,
+      "sha256": "72a7826712bc49f3fa90319fdf68e6ba08ea14ee385daa225d0b4609af358acd"
+    },
+    "POSTRUN_STORAGE.json": {
+      "bytes": 1575,
+      "sha256": "8ccc924c8b17828dbb4a9939b8f26dadcd189dcbc9e18e707ad98104167db76e"
+    },
+    "README.md": {
+      "bytes": 2505,
+      "sha256": "5019446ac2701a0d568914a556a0ae3cfea9e6d1c0556f1ef2d83d12d0a1b130"
+    },
+    "REPORT.md": {
+      "bytes": 18897,
+      "sha256": "7e627ca361557099265303fd5cd673da555828d5822ee626ef892683dcc00c6f"
+    },
+    "REPORT_PROVENANCE.json": {
+      "bytes": 1040,
+      "sha256": "b602b009ada334ce3706f5f13fc7a87d30a42e26c9ff9a34a309e6cfba9e2cf8"
+    },
+    "RETRIEVAL_VERIFIED.json": {
+      "bytes": 129,
+      "sha256": "4b5482d1d844b1a863ed4c0f2844a56aac0f118b9eda4454a471c48db9401120"
+    },
+    "WINDOW_PLAN_PUBLIC.json": {
+      "bytes": 31307,
+      "sha256": "e654a0f80bd1a5b6cf94d8c81e877e200ae88847595421eface174108599c32e"
+    },
+    "analysis/CANDIDATE_ROLE.csv": {
+      "bytes": 13250,
+      "sha256": "1724c21fb090a79aba2b895bb3c902872ec0669b6c704212d29044460676be91"
+    },
+    "analysis/COSTS_WORK.json": {
+      "bytes": 68447,
+      "sha256": "82176a797ff94d8d7343d301fe508a0f92b9b4f292ab17e044e497c9db381925"
+    },
+    "analysis/NUMERICAL_COST_DETAIL.json": {
+      "bytes": 221258,
+      "sha256": "e566fa23b0d1d1dee9b34a26f705c2ded9c74273972ecadd95dcd7f2c450d7c4"
+    },
+    "analysis/NUMERICAL_COST_DETAIL.md": {
+      "bytes": 10443,
+      "sha256": "a265b478fcbfeaafc01497c306b5cfa5f3db65d1c51929a8169bb514fe405c68"
+    },
+    "analysis/ORACLES.csv": {
+      "bytes": 9508,
+      "sha256": "12be9eb5343825e7fec11645b75d59c4e8b280e8220d5527039c1a38ba9ecbcf"
+    },
+    "analysis/PREDICTIONS.csv": {
+      "bytes": 21054,
+      "sha256": "aa1a1ee552e0fc194b6449cbfeaa92ec7856611ef6940eebcfc0679338eb4423"
+    },
+    "analysis/REPORT.md": {
+      "bytes": 10364,
+      "sha256": "d4b10607d80b704b651a9638f3a16e7dee4729d39f226f2cb54eb9ea01d8d148"
+    },
+    "analysis/SUMMARY.json": {
+      "bytes": 5439,
+      "sha256": "46e18267e79607138f0aefd14634d7ba16fc92198ada6246a8154c107362bf95"
+    },
+    "analysis/WINDOW_SUMMARY.csv": {
+      "bytes": 23054,
+      "sha256": "eb73782fb40e42c8a1aaea52002ff2f2f17330e862de8c4668dedf8b98bb1785"
+    },
+    "audit_compact_independent.py": {
+      "bytes": 10119,
+      "sha256": "a64c8d10da45588703839762a651be7d6422fad5bee6f35a34fc12ddd171a4e5"
+    },
+    "build_numerical_cost_detail.py": {
+      "bytes": 27069,
+      "sha256": "ecb35002b8694ab695c725f7715523b71e1e7a36a0b4c427e2031f3f2a3d435a"
+    },
+    "pins/MODEL_PIN.json": {
+      "bytes": 3397,
+      "sha256": "197e71a9be3bf5410d76de09eb53135e7c446b37e2530fb81d106e15bbdb9a05"
+    },
+    "pins/RUNTIME_PIN.json": {
+      "bytes": 2792,
+      "sha256": "53c15d9d0770a000ce7f510c84c7fa83c564d6fa36903163c485041bc03b97ec"
+    },
+    "pins/TRAINING_PIN.json": {
+      "bytes": 246,
+      "sha256": "7526acdf471c0867267c6de09e60a6a1c2474b35a26f3fa376af84d2b7e0f512"
+    },
+    "pins/config.yaml": {
+      "bytes": 1517,
+      "sha256": "f71fb286701392e0c80af0915be406c3ccf71b2c15b612f9757357bea7fcf081"
+    },
+    "validity/POSTFLIGHT.json": {
+      "bytes": 1465,
+      "sha256": "e7684459fd1a69199af176bb172c9719d57a0d0ed35930173ac771b3cd39e529"
+    },
+    "validity/STORAGE_ADMISSION.json": {
+      "bytes": 464,
+      "sha256": "529ceab718e45ecf0cc24bc2c3efb83d55c11f41874ab5ac79a6ed55e412de85"
+    },
+    "validity/event_002/ENDPOINT_EQUALITY.json": {
+      "bytes": 10909,
+      "sha256": "be7d9b074773d03dfa319e9f405f7d7e8e1cd017e3dcfef82337d65c018c35cf"
+    },
+    "validity/event_002/MECHANISM_WORK_CHECK.json": {
+      "bytes": 211,
+      "sha256": "9dceb8763a9ae4dffe2ffd895a93b5bfd11a5018b891400d8231f8f88d168b41"
+    },
+    "validity/event_002/ORIGINAL_WORK_CHECK.json": {
+      "bytes": 188,
+      "sha256": "55f7b527bdae46a44931fee335ae3218123d42c5cb8078ca0feb864e7b24cdd8"
+    },
+    "validity/event_002/PARENT_STATE_CHECK.json": {
+      "bytes": 550,
+      "sha256": "56724d3dbe230ce57a948b8350bf32fb75eaf882295e3376ed8d01f8a439b923"
+    },
+    "validity/event_002/REPLAY_RETENTION.json": {
+      "bytes": 3304,
+      "sha256": "0de1219186cafbceb0a29d3f1b58f0adeaa399c523aa57e1aa10519543004999"
+    },
+    "validity/event_004/ENDPOINT_EQUALITY.json": {
+      "bytes": 10906,
+      "sha256": "2977b952d97091a81cf64dfa90dc414f55f99e1b5a6e7282fd9e6667921166d1"
+    },
+    "validity/event_004/MECHANISM_WORK_CHECK.json": {
+      "bytes": 211,
+      "sha256": "c35788e09306b5ee9068864c19098695f503c492ca1b627221c282120c36a348"
+    },
+    "validity/event_004/ORIGINAL_WORK_CHECK.json": {
+      "bytes": 188,
+      "sha256": "26e869c7cfda7ad90df88f22dd021d440e8ac2fd9f37b36926d5699a0812401e"
+    },
+    "validity/event_004/PARENT_STATE_CHECK.json": {
+      "bytes": 577,
+      "sha256": "3c0ed81829e1b369b57600a9ed1cf8d3315e3f6c44fc3d282c4f03fa1d0eb2ed"
+    }
+  }
+}

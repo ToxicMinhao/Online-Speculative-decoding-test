@@ -1,0 +1,140 @@
+{
+  "material_passport": {
+    "workflow": "ARS experiment-agent validate; separate same-team source review",
+    "verification_status": "ANALYZED",
+    "scope": "Read-only scientific source/protocol review and independent CPU fixtures; not production GPU replication",
+    "reviewer": "/root/mechanism_audit",
+    "created_utc": "2026-10-29T00:38:54.660458+00:00"
+  },
+  "status": "passed_no_remaining_source_review_blocker",
+  "source_sha256": {
+    "online_feedback/krc_mechanism.py": "214f649496a9c9dc8d9828a0201de4067d1cfe38527d245844d05b3bd34df5be",
+    "online_feedback/krc_mechanism_metrics.py": "5f5aa49a051fb92f5bc13b3e36764a0cd6febb1c0437f0053416e07b49ec3333",
+    "online_feedback/krc_mechanism_replay.py": "5f2ca31774b88544fdbd1ab316433894384913864aeb60d43baf48e8b7e23281",
+    "experiments/krc_mechanism_diagnostic/protocol.py": "ad0aff36aa253a99e022dfd2411f7eb329afb065aaeb179ee68e9227751a6484",
+    "experiments/krc_mechanism_diagnostic/state.py": "79c5caf2ede55055d775b1cf0e5aa3bdc1c678edd5f6f835f935184be09a0fa2",
+    "experiments/krc_mechanism_diagnostic/campaign.py": "6cd05e28c6decec7efb081a5c157ee9174f54570cb39b4e9540ae94edfd51079",
+    "experiments/krc_mechanism_diagnostic/preflight.py": "31151e7c6550b0f1a126ff76e9a7886314e7774403c819fc28d24891eee0547f",
+    "experiments/krc_mechanism_diagnostic/prepare.py": "7a6858c61ab01b15b15898fe95f24c0eab6e9b1c742b52f3d3053fca269e4faf",
+    "tests/test_krc_mechanism.py": "895157a78373b7587e6742809b91003a80457109b5156560f7dbf6aa1a89b2dd",
+    "tests/test_krc_mechanism_metrics.py": "b2297a3e1ce589c8b842d55aaa11a215aed977c080196520cf726898d7e867c8",
+    "experiments/krc_mechanism_diagnostic/run_campaign.sh": "2681152705ed794c9bd3516ff2239314c5d06dbfc02d8fa57893d436507b9a65",
+    "experiments/krc_mechanism_diagnostic/test_replay.py": "ed8b5743c4e6fe00e348503ca8388b29982218f47a8119f5c46854494f60a2db",
+    "experiments/krc_mechanism_diagnostic/test_campaign.py": "352af242dad2cf7d7c4bfce3c98c281af78c3b89b60071293450ce58b927c9ad"
+  },
+  "reviewed_contract": {
+    "episodes": [
+      2,
+      4
+    ],
+    "sampled_windows_per_event": [
+      1,
+      16,
+      32,
+      48,
+      64,
+      65,
+      80,
+      96,
+      112,
+      128
+    ],
+    "candidates": [
+      "R_FULL",
+      "R_HALF",
+      "D_FULL",
+      "K_ONLY"
+    ],
+    "original_continuation": "R_FULL only",
+    "core_forwards_fully_valid": 2136,
+    "maximum_backwards": 1064,
+    "ordinary_Adam_steps": 256,
+    "serving_generations": 0
+  },
+  "resolved_findings": [
+    {
+      "issue": "Inherited integrity checks omitted model buffer values and full ordinary accumulation",
+      "resolution": "ContinuationSnapshot adds buffer values, gradients, Adam, RNG, modes, caches, accumulation totals, anchor observations and sampler binding; CPU fixture checks buffer/cache/RNG restoration."
+    },
+    {
+      "issue": "Temporary writes increment PyTorch parameter versions even when original R is a no-op",
+      "resolution": "Narrow sampled correction integrity override requires exact continuation restoration witness, retaining all other inherited checks; two-window fixture passes an empty-protection window."
+    },
+    {
+      "issue": "Invalid temporary numerical candidate originally aborted valid historical continuation",
+      "resolution": "Narrow Nonfinite ValueError handling preserves invalid slot, verifies full restoration and continues original; K_ONLY/state/conditioning failures remain fatal. Budget permits incomplete scoring only with explicit invalid slots."
+    },
+    {
+      "issue": "Initial disk budget assumed event2 replay retirement absent from campaign",
+      "resolution": "Event2 regenerated tensors now retire only after decoded exact equality, compact metadata retention and sealed original-state/export re-verification; campaign invokes retirement before event4."
+    },
+    {
+      "issue": "Per-block identity lacked explicit local/global step",
+      "resolution": "Records now include event_local_step and global_step_after_native_Adam."
+    }
+  ],
+  "independent_checks": [
+    {
+      "check": "metrics unittest suite",
+      "result": "13 passed",
+      "command": "PYTHONPATH=.:training:tests /home/minhao2/.venvs/dflash-specforge/bin/python -m unittest discover -s tests -p test_krc_mechanism_metrics.py -v"
+    },
+    {
+      "check": "core unittest suite",
+      "result": "6 passed",
+      "command": "CUDA_VISIBLE_DEVICES='' PYTHONPATH=.:training:tests /home/minhao2/.venvs/dflash-specforge/bin/python -m unittest discover -s tests -p test_krc_mechanism.py -v"
+    },
+    {
+      "check": "independent original-versus-diagnostic one-window BF16 fixture",
+      "result": "exact model state, Adam state and complete RNG; active D uses 2 backwards; diagnostic 4+24+2 forwards; final physical K_ONLY witness passed"
+    },
+    {
+      "check": "independent empty-R/active-D fixture",
+      "result": "R_FULL and R_HALF alias K_ONLY; D_FULL active and nonzero with 2 backwards; final K_ONLY witness passed"
+    },
+    {
+      "check": "initial core-suite harness run with visible CUDA",
+      "result": "all substantive assertions passed; four teardown failures because CUDA became initialized; rerun with inherited CPU visibility policy passed; original failure disclosed"
+    },
+    {
+      "check": "replay/protocol/state/retention/campaign unittest suite",
+      "result": "13 passed",
+      "command": "CUDA_VISIBLE_DEVICES='' PYTHONPATH=.:training:tests /home/minhao2/.venvs/dflash-specforge/bin/python -m unittest experiments.krc_mechanism_diagnostic.test_replay experiments.krc_mechanism_diagnostic.test_campaign -v"
+    }
+  ],
+  "source_observations": [
+    "Pinned DFlash _forward_draft_blocks builds a fresh anchor-dependent attention mask; three inherited cache attributes are initialized None and otherwise unused in this source. General mutable BlockMask preservation is not claimed.",
+    "Every temporary candidate is constructed from the same saved actual post-K parameters; original full correction snapshot is always restored in finally.",
+    "A and D pre-K captures use the same qualified evaluation/RNG/anchor machinery as R, not ordinary training logits.",
+    "Final K_ONLY R replay compares native decisions, all canonical margins, prefix rows, pooled numerator/denominator and violation exactly against original post-K reference evidence.",
+    "Endpoint comparator uses native decoded tensor bytes, optimizer state, RNG, settings, ordinary records and counters, with metadata differences reported separately.",
+    "The original KRC2-only continuation constructor remains unchanged; additive event4-only wrapper admits KRC3 384/768 and full three-event history."
+  ],
+  "analysis_limits": [
+    "Earlier KRC1 step64 reference V and old-prefix damage increased; local non-monotonicity is already known.",
+    "D is buffered training data, not held-out or independent; reference swaps change direction and step norm.",
+    "Window/block occurrences overlap and are not independent training replications; no significance or speedup claim.",
+    "Actual-minus-linearized residual combines nonsmooth/nonlinear behavior with finite-precision gradient/forward effects.",
+    "Oracle fields are repeated under each candidate; aggregate once per event/window/role, retaining zero opportunity.",
+    "First sampled window in each production episode must expose actual D backward count; a natural no-op cannot justify forcing extra work."
+  ],
+  "operations": {
+    "scientific_source_edits": 0,
+    "git_operations": 0,
+    "A800_operations": 0,
+    "production_experiments": 0,
+    "audit_artifacts_only": true
+  },
+  "pending": [
+    "Actual A800 live storage/input admission, first-window state witnesses and original endpoint equality are execution gates, not established by this review",
+    "Independent compact-result reconstruction after execution; no GPU replication claimed"
+  ],
+  "final_review_utc": "2026-10-29T00:39:40.562752+00:00",
+  "independent_test_count": 32,
+  "count_scope": "32 independently repeated focused test methods plus two manual fixtures; overlaps implementer runs, not additional independent experiment replications",
+  "read_implementer_test_receipt": {
+    "path": "/home/minhao2/EAGLE_SPEC/research/dflash_krc_mechanism_diagnostic_20261028/REPLAY_CPU_TESTS.log",
+    "tests_passed": 26,
+    "scope": "13 new replay/campaign tests plus 13 inherited continuation tests; this reviewer independently repeated the new 13"
+  }
+}
