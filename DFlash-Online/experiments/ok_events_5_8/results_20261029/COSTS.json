@@ -1,0 +1,410 @@
+{
+  "execution_source": {
+    "dirty": false
+  },
+  "backend_loading_s": 47.77214403450489,
+  "event_005_feedback": {
+    "publication": {
+      "activation": {
+        "native_activation_s": 0.46808369271457195,
+        "native_status": {
+          "capture_pending": false,
+          "publication": {
+            "activation_s": 0.3512837886810303,
+            "native_load_s": 0.3383601512759924,
+            "helper_refresh_s": 0.01227443665266037,
+            "cache_maintenance_s": 0.0005797948688268661,
+            "cache_after_tokens": 0,
+            "helper_matches_current_layers": true,
+            "helper_norm_matches_current_layers": true,
+            "fused_enabled": true
+          },
+          "cache_tokens": 0,
+          "block_size": 16
+        },
+        "checkpoint_structure_valid": true,
+        "activation_s": 1.650457626208663
+      },
+      "equality": {
+        "all_equal": true,
+        "tensors": 58,
+        "source_tensor_count": 58,
+        "native_tensor_count": 43,
+        "helper_matches_current_layers": true,
+        "helper_norm_matches_current_layers": true,
+        "fused_enabled": true
+      },
+      "weight_validation_s": 2.040073310956359,
+      "publication_and_validation_s": 3.6905473805963993
+    },
+    "collection_wall_s": 100.02835438773036,
+    "request_latency_s": 99.49019141681492,
+    "capture_nested": {
+      "capture_host_s": 69.9114125482738,
+      "feature_persistence_s": 5.5765273198485374,
+      "cache_maintenance_s": 5.380364967510104
+    },
+    "preparation_wall_s": 17.175930486992,
+    "teacher_preparation_s": 8.959975216537714,
+    "feature_persistence_s": 5.633699519559741
+  },
+  "event_005_O": {
+    "loading_and_resume_validation_s": 39.637872245162725,
+    "event_wall_s": 352.35227006301284,
+    "training_s": 312.612998008728,
+    "checkpoint_save_s": 21.400994297116995,
+    "export_s": 15.278010718524456,
+    "event_wall_s_before_commit": 352.29920833557844,
+    "objective_work": {
+      "reference_setup_s": 0.0,
+      "reference_forward_s": 0.0,
+      "reference_head_s": 0.0,
+      "projection_s": 0.0,
+      "teacher_head_s": 100.87263281084597
+    },
+    "loading_peak_allocated_bytes": 10880436736,
+    "loading_peak_reserved_bytes": 10926161920,
+    "peak_allocated_bytes": 20558755328,
+    "peak_reserved_bytes": 25906118656,
+    "saved_state_validation_s": 6.325511626899242
+  },
+  "event_005_K": {
+    "loading_and_resume_validation_s": 38.28836197592318,
+    "event_wall_s": 356.195230640471,
+    "training_s": 317.08775305375457,
+    "checkpoint_save_s": 20.812762528657913,
+    "export_s": 15.27391941845417,
+    "event_wall_s_before_commit": 356.12941594980657,
+    "objective_work": {
+      "reference_setup_s": 0.0,
+      "reference_forward_s": 0.0,
+      "reference_head_s": 0.0,
+      "projection_s": 0.0,
+      "teacher_head_s": 100.21502473950386,
+      "selection_s": 14.05777402035892
+    },
+    "loading_peak_allocated_bytes": 17584609280,
+    "loading_peak_reserved_bytes": 17754488832,
+    "peak_allocated_bytes": 27171832320,
+    "peak_reserved_bytes": 32560381952,
+    "saved_state_validation_s": 6.273574871942401
+  },
+  "campaign_wall_s": 8995.58778159134,
+  "operational_recovery": {},
+  "event_006_feedback": {
+    "publication": {
+      "activation": {
+        "native_activation_s": 0.5508522018790245,
+        "native_status": {
+          "capture_pending": false,
+          "publication": {
+            "activation_s": 0.42861926928162575,
+            "native_load_s": 0.4130383525043726,
+            "helper_refresh_s": 0.014618201181292534,
+            "cache_maintenance_s": 0.0008658077567815781,
+            "cache_after_tokens": 0,
+            "helper_matches_current_layers": true,
+            "helper_norm_matches_current_layers": true,
+            "fused_enabled": true
+          },
+          "cache_tokens": 0,
+          "block_size": 16
+        },
+        "checkpoint_structure_valid": true,
+        "activation_s": 2.16274288110435
+      },
+      "equality": {
+        "all_equal": true,
+        "tensors": 58,
+        "source_tensor_count": 58,
+        "native_tensor_count": 43,
+        "helper_matches_current_layers": true,
+        "helper_norm_matches_current_layers": true,
+        "fused_enabled": true
+      },
+      "weight_validation_s": 3.771752154454589,
+      "publication_and_validation_s": 5.934524117037654
+    },
+    "collection_wall_s": 95.69417896308005,
+    "request_latency_s": 94.8010799176991,
+    "capture_nested": {
+      "capture_host_s": 65.94004948996007,
+      "feature_persistence_s": 5.570779122412205,
+      "cache_maintenance_s": 5.422382714226842
+    },
+    "preparation_wall_s": 17.49387825280428,
+    "teacher_preparation_s": 9.279148420318961,
+    "feature_persistence_s": 5.647380672395229
+  },
+  "event_006_O": {
+    "loading_and_resume_validation_s": 48.26765110529959,
+    "event_wall_s": 334.8577382322401,
+    "training_s": 297.59261239133775,
+    "checkpoint_save_s": 19.08911630511284,
+    "export_s": 15.302896147593856,
+    "event_wall_s_before_commit": 334.554708506912,
+    "objective_work": {
+      "reference_setup_s": 0.0,
+      "reference_forward_s": 0.0,
+      "reference_head_s": 0.0,
+      "projection_s": 0.0,
+      "teacher_head_s": 95.74728823639452
+    },
+    "loading_peak_allocated_bytes": 10880436736,
+    "loading_peak_reserved_bytes": 10926161920,
+    "peak_allocated_bytes": 20615641600,
+    "peak_reserved_bytes": 27290238976,
+    "saved_state_validation_s": 6.049751967191696
+  },
+  "event_006_K": {
+    "loading_and_resume_validation_s": 48.567902747541666,
+    "event_wall_s": 341.02424021065235,
+    "training_s": 301.4132232218981,
+    "checkpoint_save_s": 19.987007208168507,
+    "export_s": 15.396430123597383,
+    "event_wall_s_before_commit": 340.588276790455,
+    "objective_work": {
+      "reference_setup_s": 0.0,
+      "reference_forward_s": 0.0,
+      "reference_head_s": 0.0,
+      "projection_s": 0.0,
+      "teacher_head_s": 95.33761566132307,
+      "selection_s": 12.946352971717715
+    },
+    "loading_peak_allocated_bytes": 17583600640,
+    "loading_peak_reserved_bytes": 17727225856,
+    "peak_allocated_bytes": 27184512512,
+    "peak_reserved_bytes": 33978056704,
+    "saved_state_validation_s": 6.087535612285137
+  },
+  "event_007_feedback": {
+    "publication": {
+      "activation": {
+        "native_activation_s": 0.42051886953413486,
+        "native_status": {
+          "capture_pending": false,
+          "publication": {
+            "activation_s": 0.41931936144828796,
+            "native_load_s": 0.4167470671236515,
+            "helper_refresh_s": 0.0014297887682914734,
+            "cache_maintenance_s": 0.0009671803563833237,
+            "cache_after_tokens": 0,
+            "helper_matches_current_layers": true,
+            "helper_norm_matches_current_layers": true,
+            "fused_enabled": true
+          },
+          "cache_tokens": 0,
+          "block_size": 16
+        },
+        "checkpoint_structure_valid": true,
+        "activation_s": 1.5122763719409704
+      },
+      "equality": {
+        "all_equal": true,
+        "tensors": 58,
+        "source_tensor_count": 58,
+        "native_tensor_count": 43,
+        "helper_matches_current_layers": true,
+        "helper_norm_matches_current_layers": true,
+        "fused_enabled": true
+      },
+      "weight_validation_s": 2.704392869025469,
+      "publication_and_validation_s": 4.216686550527811
+    },
+    "collection_wall_s": 97.68886770121753,
+    "request_latency_s": 97.10651385039091,
+    "capture_nested": {
+      "capture_host_s": 71.68506653234363,
+      "feature_persistence_s": 6.358002599328756,
+      "cache_maintenance_s": 0.07925643026828766
+    },
+    "preparation_wall_s": 14.038360891863704,
+    "teacher_preparation_s": 5.049927532672882,
+    "feature_persistence_s": 6.144014362245798
+  },
+  "event_007_O": {
+    "loading_and_resume_validation_s": 40.62966991961002,
+    "event_wall_s": 342.7181389089674,
+    "training_s": 307.0804889462888,
+    "checkpoint_save_s": 17.414462868124247,
+    "export_s": 15.355349101126194,
+    "event_wall_s_before_commit": 342.6702060047537,
+    "objective_work": {
+      "reference_setup_s": 0.0,
+      "reference_forward_s": 0.0,
+      "reference_head_s": 0.0,
+      "projection_s": 0.0,
+      "teacher_head_s": 103.21699480339885
+    },
+    "loading_peak_allocated_bytes": 17583600640,
+    "loading_peak_reserved_bytes": 17727225856,
+    "peak_allocated_bytes": 27163983872,
+    "peak_reserved_bytes": 31960596480,
+    "saved_state_validation_s": 6.417491395026445
+  },
+  "event_007_K": {
+    "loading_and_resume_validation_s": 39.0327683519572,
+    "event_wall_s": 359.8931859061122,
+    "training_s": 324.24339108914137,
+    "checkpoint_save_s": 17.55274897813797,
+    "export_s": 15.239650942385197,
+    "event_wall_s_before_commit": 359.83148426003754,
+    "objective_work": {
+      "reference_setup_s": 0.0,
+      "reference_forward_s": 0.0,
+      "reference_head_s": 0.0,
+      "projection_s": 0.0,
+      "teacher_head_s": 102.74813995324075,
+      "selection_s": 14.129712272435427
+    },
+    "loading_peak_allocated_bytes": 17583600640,
+    "loading_peak_reserved_bytes": 17727225856,
+    "peak_allocated_bytes": 27163997184,
+    "peak_reserved_bytes": 31960596480,
+    "saved_state_validation_s": 6.375831976532936
+  },
+  "event_008_feedback": {
+    "publication": {
+      "activation": {
+        "native_activation_s": 0.400110375136137,
+        "native_status": {
+          "capture_pending": false,
+          "publication": {
+            "activation_s": 0.39901538379490376,
+            "native_load_s": 0.3956194333732128,
+            "helper_refresh_s": 0.0015964433550834656,
+            "cache_maintenance_s": 0.0015590619295835495,
+            "cache_after_tokens": 0,
+            "helper_matches_current_layers": true,
+            "helper_norm_matches_current_layers": true,
+            "fused_enabled": true
+          },
+          "cache_tokens": 0,
+          "block_size": 16
+        },
+        "checkpoint_structure_valid": true,
+        "activation_s": 1.490512615069747
+      },
+      "equality": {
+        "all_equal": true,
+        "tensors": 58,
+        "source_tensor_count": 58,
+        "native_tensor_count": 43,
+        "helper_matches_current_layers": true,
+        "helper_norm_matches_current_layers": true,
+        "fused_enabled": true
+      },
+      "weight_validation_s": 2.879746427759528,
+      "publication_and_validation_s": 4.370272401720285
+    },
+    "collection_wall_s": 88.40492651797831,
+    "request_latency_s": 87.85203321091831,
+    "capture_nested": {
+      "capture_host_s": 64.62807956151664,
+      "feature_persistence_s": 5.898857247084379,
+      "cache_maintenance_s": 0.06461451016366482
+    },
+    "preparation_wall_s": 12.811224224045873,
+    "teacher_preparation_s": 4.879561336711049,
+    "feature_persistence_s": 5.358495837077498
+  },
+  "event_008_O": {
+    "loading_and_resume_validation_s": 38.37858688272536,
+    "event_wall_s": 325.49286109767854,
+    "training_s": 289.9557190015912,
+    "checkpoint_save_s": 17.384487718343735,
+    "export_s": 15.1209015250206,
+    "event_wall_s_before_commit": 325.015695951879,
+    "objective_work": {
+      "reference_setup_s": 0.0,
+      "reference_forward_s": 0.0,
+      "reference_head_s": 0.0,
+      "projection_s": 0.0,
+      "teacher_head_s": 97.17346562817693
+    },
+    "loading_peak_allocated_bytes": 17583600640,
+    "loading_peak_reserved_bytes": 17727225856,
+    "peak_allocated_bytes": 27163296256,
+    "peak_reserved_bytes": 37417385984,
+    "saved_state_validation_s": 6.284223401919007
+  },
+  "event_008_K": {
+    "loading_and_resume_validation_s": 39.81870422139764,
+    "event_wall_s": 342.71515059284866,
+    "training_s": 306.41056880168617,
+    "checkpoint_save_s": 17.62891348451376,
+    "export_s": 15.342165686190128,
+    "event_wall_s_before_commit": 342.22374228201807,
+    "objective_work": {
+      "reference_setup_s": 0.0,
+      "reference_forward_s": 0.0,
+      "reference_head_s": 0.0,
+      "projection_s": 0.0,
+      "teacher_head_s": 97.20384335517883,
+      "selection_s": 13.231163077056408
+    },
+    "loading_peak_allocated_bytes": 17583600640,
+    "loading_peak_reserved_bytes": 17727225856,
+    "peak_allocated_bytes": 27163309568,
+    "peak_reserved_bytes": 37417385984,
+    "saved_state_validation_s": 6.250681594014168
+  },
+  "scope": "Training/save/export/loading costs are separate from serving latency; native generation and cache times are nested in complete request time.",
+  "actual_work": {
+    "feedback_attempted": 512,
+    "feedback_returned": 512,
+    "evaluation_attempted": 1920,
+    "evaluation_returned": 1920,
+    "evaluation_valid": 1920,
+    "optimizer_steps": 1024,
+    "presentations": 2048,
+    "arm_counters": {
+      "O": 1024,
+      "K": 1024
+    },
+    "arm_presentations": {
+      "O": 2048,
+      "K": 2048
+    },
+    "extra_optimizer_steps": 0,
+    "extra_generations": 0,
+    "events_completed": [
+      5,
+      6,
+      7,
+      8
+    ]
+  },
+  "execution_history": {
+    "scientific_execution_commit": "04fac901f7af5478b62ff730833c026637ddd2cd",
+    "operational_recoveries": [
+      {
+        "receipt": "recovery_001/RECOVERY.json",
+        "scientific_execution_commit": "04fac901f7af5478b62ff730833c026637ddd2cd",
+        "recovery_execution_commit": "1cfb44fa3989e5ed2c5e13805007bb20f22189f8",
+        "start_event": 6,
+        "end_event": 8,
+        "native_output": "/data/sources/minhao/runs/dflash_ok_events_5_8_20261029/campaign_001/native_recovery_001"
+      }
+    ],
+    "execution_segments": [
+      {
+        "execution_commit": "04fac901f7af5478b62ff730833c026637ddd2cd",
+        "phase": "original_through_idle_event5",
+        "wall_s": 2750.2765267845243,
+        "backend_loading_s": 21.757294053211808
+      },
+      {
+        "execution_commit": "1cfb44fa3989e5ed2c5e13805007bb20f22189f8",
+        "phase": "manual_event5_boundary_resume6_through8",
+        "wall_s": 6245.311254806817,
+        "backend_loading_s": 26.014849981293082
+      }
+    ],
+    "summed_segment_wall_s": 8995.58778159134,
+    "summed_segment_backend_loading_s": 47.77214403450489,
+    "recorded_campaign_wall_s": 8995.58778159134,
+    "campaign_wall_matches_segment_sum": true,
+    "timing_scope": "Sum of recorded campaign process segments, including their idle waits; gaps between stopped and restarted processes are excluded. Segment timers overlap their contained phase timers and must not be added to them."
+  }
+}
