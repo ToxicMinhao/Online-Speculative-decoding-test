@@ -73,7 +73,8 @@ def make_window(event, step):
             entry['roles'][role] = dict(V=float(torch.tensor(summary['candidate_hinge_fp64'])),
                 numerator=summary['candidate_hinge_numerator_fp64'], denominator=summary['protected_weight'],
                 metrics=metrics, responses=[dict(record_id=f'{role}_{index}', protected_weight=6.,
-                    violation_numerator=result['summary']['candidate_hinge_numerator_fp64'])
+                    violation_numerator=result['summary']['candidate_hinge_numerator_fp64'],
+                    all_margins=margins.tolist(), proposals=predictions[candidate].tolist())
                     for index, result in enumerate(results)])
         if candidate != 'K_ONLY':
             entry['fitted_role'] = 'D' if candidate == 'D_FULL' else 'R'
@@ -150,6 +151,11 @@ class AnalysisTests(unittest.TestCase):
                     if row['candidate'] == 'R_FULL' and row['role'] == 'R')
         self.assertEqual(int(role['valid_blocks']), 10)
         self.assertEqual(float(role['prefix_change_mean']), 2.)
+        self.assertIn('response_max_reconstruction_error', role)
+        self.assertIn('response_max_rounding_bound', role)
+        window = csv_rows(self.output / 'WINDOW_SUMMARY.csv')[0]
+        self.assertIn('R_response_max_reconstruction_error', window)
+        self.assertIn('R_response_max_rounding_bound', window)
         public = '\n'.join(path.read_text() for path in self.output.iterdir())
         for private in ('canonical_tokens', 'K_ONLY_predictions', 'PRIVATE_CANARY'):
             self.assertNotIn(private, public)
@@ -256,6 +262,35 @@ class AnalysisTests(unittest.TestCase):
         record, groups = self.observed()
         del record['D_post_K']
         with self.assertRaises(KeyError):
+            validate_candidate(record['candidates']['D_FULL'], 'D_FULL', record, groups)
+
+    def test_D_forward_numerical_differences_are_descriptive_not_an_exact_gate(self):
+        path = self.root / 'campaign_001/event_002/mechanism/window_001.json'
+        record = json.loads(path.read_text())
+        original = record['D_post_K']
+        for row in original['responses']:
+            row['violation_numerator'] = 2.
+            row['all_margins'][0][0][3] = -2.
+            row['proposals'][0][0][1] = 8
+        original.update(numerator=4., V=float(torch.tensor(1/3)))
+        entry = record['candidates']['D_FULL']
+        entry['branch']['coefficient_fp32'] = -original['V']
+        entry['prediction'] = fitted_objective_predictions(original['V'], 1., 'applied',
+            entry['direction']['proposed_dot'], entry['direction']['realized_dot'], entry['roles']['D']['V'])
+        write(path, record)
+        summary = self.build()
+        self.assertEqual(summary['included_candidate_slots'], 80)
+        window = next(row for row in csv_rows(self.output / 'WINDOW_SUMMARY.csv')
+                      if row['candidate'] == 'D_FULL' and row['event'] == '2' and row['local_step'] == '1')
+        self.assertGreater(float(window['D_gradient_minus_no_grad_V']), 0)
+        self.assertEqual(float(window['D_gradient_minus_no_grad_denominator']), 0)
+        self.assertEqual(float(window['D_gradient_no_grad_margin_max_absolute_difference']), 1)
+        self.assertEqual(int(window['D_gradient_no_grad_prediction_changed_positions']), 2)
+
+    def test_D_immutable_source_bindings_remain_required(self):
+        record, groups = self.observed()
+        record['D_post_K']['responses'][0]['record_id'] = 'foreign_response'
+        with self.assertRaisesRegex(ValueError, 'response identities'):
             validate_candidate(record['candidates']['D_FULL'], 'D_FULL', record, groups)
 
     def test_native_pair_arithmetic_is_fp32_exact_with_separate_response_bound(self):

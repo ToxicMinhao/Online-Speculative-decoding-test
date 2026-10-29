@@ -245,18 +245,23 @@ def inspect_blocks(path, event, step, plan):
     return groups
 
 
-def validate_native_pair(raw, group):
-    """Check original FP32 pair arithmetic and bounded response reductions."""
+def validate_native_pair(raw, group=None, *, check_response_hinge=True):
+    """Check FP32 pair arithmetic; optionally check its own scored margins.
+
+    The optional bound is an analysis consistency check, never a scientific
+    replay/restoration tolerance. A D gradient replay is not reconstructed from
+    a different, no-grad forward's margins.
+    """
     rows = raw['responses']
     if len(rows) != 2 or len({row['record_id'] for row in rows}) != 2:
         raise ValueError('Native pair must contain two distinct response contributions')
-    if {row['record_id'] for row in rows} != set(group['responses']):
+    if group is not None and {row['record_id'] for row in rows} != set(group['responses']):
         raise ValueError('Native pair response identities differ from block evidence')
     numerator = denominator = 0.0
     max_error = max_bound = 0.0
     for row in rows:
-        reconstructed = group['responses'][row['record_id']]
-        weight = reconstructed['protected_weight']
+        reconstructed = group['responses'][row['record_id']] if group is not None else None
+        weight = reconstructed['protected_weight'] if reconstructed is not None else row['protected_weight']
         # Integer triangular weights in the fixed bounded block layout are
         # exactly representable, including their complete response sum.
         if weight > 2**24 or int(weight) != weight:
@@ -266,18 +271,52 @@ def validate_native_pair(raw, group):
         exact(contribution, fp32(contribution), 'response FP32 numerator representation')
         if contribution < 0:
             raise ValueError('Negative native hinge numerator')
-        reference = reconstructed['numerator_fp64']
-        error = abs(contribution-reference)
-        bound = reduction_bound(reference, reconstructed['positions'])
-        if (reference == 0 and contribution != 0) or error > bound:
-            raise ValueError('Response hinge differs beyond the declared FP32 reduction bound')
-        max_error, max_bound = max(max_error, error), max(max_bound, bound)
+        if reconstructed is not None and check_response_hinge:
+            reference = reconstructed['numerator_fp64']
+            error = abs(contribution-reference)
+            bound = reduction_bound(reference, reconstructed['positions'])
+            if (reference == 0 and contribution != 0) or error > bound:
+                raise ValueError('Response hinge differs beyond the declared FP32 reduction bound')
+            max_error, max_bound = max(max_error, error), max(max_bound, bound)
         numerator = fp32(numerator + contribution)
         denominator = fp32(denominator + row['protected_weight'])
     exact(raw['numerator'], numerator, 'native pair numerator')
     exact(raw['denominator'], denominator, 'native pair denominator')
     exact(raw['V'], fp32(numerator/denominator) if denominator else numerator, 'native pair V')
-    return dict(response_max_reconstruction_error=max_error, response_max_rounding_bound=max_bound)
+    reconstructed_hinge = group is not None and check_response_hinge
+    return dict(response_max_reconstruction_error=max_error if reconstructed_hinge else None,
+                response_max_rounding_bound=max_bound if reconstructed_hinge else None)
+
+
+def d_forward_discrepancy(gradient, no_grad):
+    """Describe D forward differences; they are not an added historical gate."""
+    result = {'gradient_minus_no_grad_' + key: gradient[key] - no_grad[key]
+              for key in ('V', 'numerator', 'denominator')}
+    original = {row['record_id']: row for row in gradient['responses']}
+    baseline = {row['record_id']: row for row in no_grad['responses']}
+    result['gradient_no_grad_same_response_ids'] = original.keys() == baseline.keys()
+    def flatten(value):
+        if isinstance(value, list):
+            return [item for child in value for item in flatten(child)]
+        return [value]
+    for field, label in (('all_margins', 'margin'), ('proposals', 'prediction')):
+        comparable = (original.keys() == baseline.keys() and
+                      all(field in original[key] and field in baseline[key] for key in original))
+        pairs = []
+        if comparable:
+            for key in original:
+                left, right = flatten(original[key][field]), flatten(baseline[key][field])
+                if len(left) != len(right):
+                    comparable = False
+                    break
+                pairs.extend(zip(left, right))
+        result[f'gradient_no_grad_{label}_comparable'] = comparable
+        result[f'gradient_no_grad_{label}_changed_positions'] = (
+            sum(left != right for left, right in pairs) if comparable else None)
+        if field == 'all_margins':
+            result['gradient_no_grad_margin_max_absolute_difference'] = (
+                max((abs(left-right) for left, right in pairs), default=0.) if comparable else None)
+    return result
 
 
 def validate_candidate(entry, candidate, evidence, groups):
@@ -296,10 +335,18 @@ def validate_candidate(entry, candidate, evidence, groups):
     fitted_role = 'D' if candidate == 'D_FULL' else 'R'
     exact(entry['fitted_role'], fitted_role, 'fitted role')
     original = evidence['D_post_K' if fitted_role == 'D' else 'original_R_post_K']
-    validate_native_pair(original, groups['K_ONLY', fitted_role])
     baseline = evidence['candidates']['K_ONLY']['roles'][fitted_role]
-    for key in ('V', 'numerator', 'denominator'):
-        exact(original[key], baseline[key], 'original versus K_ONLY ' + key)
+    if fitted_role == 'R':
+        validate_native_pair(original, groups['K_ONLY', fitted_role])
+        for key in ('V', 'numerator', 'denominator'):
+            exact(original[key], baseline[key], 'original versus K_ONLY ' + key)
+    else:
+        # D's fitted direction and predictions retain its actual grad-enabled
+        # source V. The handoff requires the exact physical R witness only.
+        # Immutable response IDs/weights are source bindings, not numerical
+        # forward-equality criteria. Check those without comparing logits.
+        validate_native_pair(original, groups['K_ONLY', fitted_role], check_response_hinge=False)
+        native_checks['D'].update(d_forward_discrepancy(original, baseline))
     branch, direction, prediction = entry['branch'], entry['direction'], entry['prediction']
     status = branch['status']
     if status not in ('applied', 'empty_protection', 'zero_violation', 'unresolved_zero_gradient'):
@@ -313,7 +360,7 @@ def validate_candidate(entry, candidate, evidence, groups):
         raise ValueError('Nonfinite or negative fitted gradient norm')
     active = status == 'applied'
     if active:
-        if original['V'] <= 0 or squared <= 0 or coefficient is None or not math.isfinite(coefficient) or coefficient >= 0:
+        if original['V'] <= 0 or squared <= 0 or coefficient is None or not math.isfinite(coefficient) or coefficient > 0:
             raise ValueError('Active fitted correction has invalid V/norm/coefficient')
         exact(coefficient, fp32(-original['V']/squared), 'qualified FP32 coefficient')
     else:
@@ -464,6 +511,8 @@ def gather_episode(folder, event, endpoint, sealed_windows):
                     window[f'{role}_gross_loss'] = totals['gross_prefix_losses']
                     window[f'{role}_K_gain_lost'] = totals['K_prefix_gain_lost']
                     window[f'{role}_protected_errors_repaired'] = totals['protected_errors_repaired']
+                    for key, value in native_checks[role].items():
+                        window[f'{role}_{key}'] = value
                     if candidate == 'K_ONLY':
                         oracles.extend(oracle_rows(group, dict(**identity, role=role)))
                 if candidate != 'K_ONLY':
@@ -493,6 +542,8 @@ def aggregate_roles(rows):
             candidate_hinge_fp64=ratio(sums['candidate_hinge_numerator_fp64'], sums['protected_weight']),
             native_pair_pooled_V=ratio(native_numerator, native_denominator),
             native_pair_numerator=native_numerator, native_pair_denominator=native_denominator,
+            response_max_reconstruction_error=max(row['response_max_reconstruction_error'] for row in selected),
+            response_max_rounding_bound=max(row['response_max_rounding_bound'] for row in selected),
             window_change_min=min(changes), window_change_median=statistics.median(changes),
             window_change_max=max(changes), improved_windows=sum(value > 0 for value in changes),
             regressed_windows=sum(value < 0 for value in changes), tied_windows=sum(value == 0 for value in changes)))
@@ -635,7 +686,8 @@ def render_report(summary, roles, predictions, oracles, costs, windows):
         f"{formatted(ledger.get('core_response_forwards'))}/{formatted(ledger.get('core_response_backwards'))}; ordinary Adam updates: "
         f"{formatted(ledger.get('ordinary_Adam_steps'))}. Separate startup forwards/backwards/Adam: "
         f"{formatted(ledger.get('startup_response_forwards'))}/{formatted(ledger.get('startup_response_backwards'))}/{formatted(ledger.get('startup_Adam_steps'))}.",
-        'Nested timing components must not be added to campaign/event time. COSTS_WORK.json preserves numeric phase costs and internal-work accounting. Missing evidence is not replaced by a budget-derived measurement.', '',
+        'Nested timing components must not be added to campaign/event time. COSTS_WORK.json preserves numeric phase costs and internal-work accounting. Missing evidence is not replaced by a budget-derived measurement.',
+        'The gamma_n response-reduction bound is an analysis consistency check, not a relaxed scientific replay or restoration tolerance. WINDOW_SUMMARY.csv retains each role’s observed reconstruction discrepancy and bound; CANDIDATE_ROLE.csv retains their maxima. D gradient/no-grad scalar, margin and prediction differences are descriptive and do not add a D equality gate.', '',
         '## Limits and interpretation', '']
     lines += ['- ' + item for item in LIMITS]
     lines += ['', 'Earlier non-monotonicity source: [KRC1 report, local probes](../../reports/dflash_krc_event_20261027/REPORT.md).', '',
@@ -683,7 +735,8 @@ def build_report(root, output, *, execution_commit):
         fallacy_scan=fallacy_scan(roles, 80-included), limitations=list(LIMITS),
         scalar_reductions='FP64 reporting; native token decisions and original update arithmetic unchanged',
         native_pair_validation='Exact binary32 response-contribution addition and final division; no FP64 tolerance gate on native pair arithmetic',
-        response_hinge_validation='Fixed pre-result bound gamma_(2N+4)*abs(FP64 numerator)+(2N+4)*2^-126, N=stored response positions; exact zero when reconstructed numerator is zero',
+        response_hinge_validation='Analysis consistency only, not a scientific replay/restoration tolerance: fixed pre-result bound gamma_(2N+4)*abs(FP64 numerator)+(2N+4)*2^-126, N=stored response positions; exact zero when reconstructed numerator is zero',
+        D_gradient_no_grad_comparison='Descriptive scalar/margin/prediction discrepancies; no exact D forward-equality gate; predictions use actual D gradient-source V',
         prediction_validation='Exact source V, fitted role, fixed dose, alias/norm, coefficient and recorded algebra checks',
         denominators='prefix sums / fixed valid block occurrences; hinge numerator sums / frozen protected weight sums',
         public_outputs_exclude_raw_arrays=True)
