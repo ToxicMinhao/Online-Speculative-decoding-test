@@ -1,6 +1,7 @@
 """Synthetic, CPU-only reconstruction and publication-boundary tests."""
 from copy import deepcopy
 import csv
+import hashlib
 import json
 from pathlib import Path
 import tempfile
@@ -9,7 +10,8 @@ import unittest
 import torch
 
 from experiments.krc_mechanism_diagnostic.build_report import (
-    CANDIDATES, ROLES, WINDOWS, aggregate_roles, build_report, reconstruct_block,
+    CANDIDATES, ROLES, WINDOWS, build_report, fp32, inspect_blocks, reconstruct_block,
+    reduction_bound, validate_candidate, validate_native_pair,
 )
 from online_feedback.krc_mechanism_metrics import (
     fitted_objective_predictions, pooled_summary, response_metrics,
@@ -39,15 +41,19 @@ def make_window(event, step):
         restoration_passed=True, k_only_witness_passed=True, candidates={},
         gradient_alignment=dict(g_R_dot_g_D=.1, cosine=.2),
         costs=dict(pre_capture_s=.1, candidate_sequence_s=.4))
+    record['plan'] = dict(step=step, event_number=event, pass_index=(step-1)//64,
+        **{role: [dict(record_id=f'{role}_{index}', sampled_anchors=[
+            dict(positions=[[7*index]], keep_mask=[[True]])]) for index in range(2)] for role in ROLES})
     blocks = []
     for candidate in CANDIDATES:
         margins = torch.where(predictions[candidate] == labels, 1., -1.)
         if candidate in ('K_ONLY', 'R_HALF', 'D_FULL'):
             margins[..., 1] = 0
-        entry = dict(status='valid', state_identity=candidate,
+        state_name = 'K_ONLY' if candidate == 'R_HALF' else candidate
+        entry = dict(status='valid', state_identity=hashlib.sha256(state_name.encode()).hexdigest(),
             aliases=['K_ONLY'] if candidate == 'R_HALF' else ['R_HALF'] if candidate == 'K_ONLY' else [],
             branch=dict(status='unchanged_post_K' if candidate == 'K_ONLY' else 'applied',
-                        coefficient_fp32=None if candidate == 'K_ONLY' else -.1,
+                        coefficient_fp32=None if candidate == 'K_ONLY' else -float(torch.tensor(1/6)),
                         gradient_norm_squared_fp32=1.),
             alpha=0 if candidate == 'K_ONLY' else .5 if candidate == 'R_HALF' else 1., roles={})
         for role in ROLES:
@@ -64,23 +70,28 @@ def make_window(event, step):
                 blocks.extend(result['blocks'])
             metrics = pooled_summary(results)
             summary = metrics['summary']
-            entry['roles'][role] = dict(V=summary['candidate_hinge_fp64'],
+            entry['roles'][role] = dict(V=float(torch.tensor(summary['candidate_hinge_fp64'])),
                 numerator=summary['candidate_hinge_numerator_fp64'], denominator=summary['protected_weight'],
-                metrics=metrics)
+                metrics=metrics, responses=[dict(record_id=f'{role}_{index}', protected_weight=6.,
+                    violation_numerator=result['summary']['candidate_hinge_numerator_fp64'])
+                    for index, result in enumerate(results)])
         if candidate != 'K_ONLY':
             entry['fitted_role'] = 'D' if candidate == 'D_FULL' else 'R'
             entry['direction'] = dict(proposed_norm=.1, realized_norm=0 if candidate == 'R_HALF' else .1,
                                       proposed_dot=-.05, realized_dot=0 if candidate == 'R_HALF' else -.05)
-            entry['prediction'] = fitted_objective_predictions(1/6, entry['alpha'], 'applied', -.05,
+            entry['prediction'] = fitted_objective_predictions(float(torch.tensor(1/6)), entry['alpha'], 'applied', -.05,
                 entry['direction']['realized_dot'], entry['roles'][entry['fitted_role']]['V'])
         record['candidates'][candidate] = entry
+    record['original_R_post_K'] = deepcopy(record['candidates']['K_ONLY']['roles']['R'])
+    record['D_post_K'] = deepcopy(record['candidates']['K_ONLY']['roles']['D'])
     return record, blocks
 
 
 def create_run(root):
     source = dict(execution_git_commit=COMMIT, dirty_files=[])
     episodes = [dict(event_number=event, parent_state=f'/retained/KRC{event-1}.pt',
-                     endpoint_state=f'/retained/KRC{event}.pt') for event in (2, 4)]
+                     endpoint_state=f'/retained/KRC{event}.pt',
+                     window_plan=f'/sealed/WINDOW_PLAN_{event:03d}.json') for event in (2, 4)]
     write(root / 'sealed/PLAN.json', dict(episodes=episodes, execution_source=source))
     files = {item[key]: dict(bytes=123, sha256=str(item['event_number'])*64)
              for item in episodes for key in ('parent_state', 'endpoint_state')}
@@ -98,15 +109,18 @@ def create_run(root):
         write(root / (name + '.json'), dict(status='passed'))
     for event in (2, 4):
         folder = root / 'campaign_001' / f'event_{event:03d}'
+        plans = []
         for name in ('ORIGINAL_ENDPOINT_CHECK', 'LIVE_ENDPOINT', 'LIVE_RESUME'):
             write(folder / (name + '.json'), dict(status='passed'))
         write(folder / 'ENDPOINT_EQUALITY.json', dict(status='passed', event_number=event,
             exact_decoded_scientific_state=True, scientific_mismatch_count=0, metadata_difference_count=3))
         for step in WINDOWS:
             record, blocks = make_window(event, step)
+            plans.append(record['plan'])
             write(folder / 'mechanism' / f'window_{step:03d}.json', record)
             (folder / 'mechanism' / f'window_{step:03d}_BLOCKS.jsonl').write_text(
                 ''.join(json.dumps(block) + '\n' for block in blocks))
+        write(root / 'sealed' / f'WINDOW_PLAN_{event:03d}.json', plans)
 
 
 class AnalysisTests(unittest.TestCase):
@@ -211,6 +225,82 @@ class AnalysisTests(unittest.TestCase):
         block['oracle_first_prefix_gain'] = 3
         with self.assertRaisesRegex(ValueError, 'oracle_first_prefix_gain'):
             reconstruct_block(block)
+
+    def observed(self):
+        path = self.root / 'campaign_001/event_002/mechanism/window_001.json'
+        record = json.loads(path.read_text())
+        groups = inspect_blocks(path.with_name('window_001_BLOCKS.jsonl'), 2, 1, record['plan'])
+        return record, groups
+
+    def test_prediction_dose_role_alias_and_algebra_corruption_are_rejected(self):
+        record, groups = self.observed()
+        patches = (
+            (('alpha',), .5), (('fitted_role',), 'D'),
+            (('prediction', 'actual_V'), 5.), (('prediction', 'V_before'), 0.),
+            (('prediction', 'formal_ideal'), .1), (('prediction', 'realized_linearized_V'), .3),
+            (('prediction', 'actual_minus_realized_linearized'), .5),
+            (('direction', 'realized_norm'), -1.), (('aliases',), ['K_ONLY']),
+            (('branch', 'coefficient_fp32'), -.1),
+        )
+        for path, value in patches:
+            with self.subTest(field=path):
+                entry = deepcopy(record['candidates']['R_FULL'])
+                target = entry
+                for key in path[:-1]:
+                    target = target[key]
+                target[path[-1]] = value
+                with self.assertRaises(ValueError):
+                    validate_candidate(entry, 'R_FULL', record, groups)
+
+    def test_original_fitted_value_has_no_silent_baseline_fallback(self):
+        record, groups = self.observed()
+        del record['D_post_K']
+        with self.assertRaises(KeyError):
+            validate_candidate(record['candidates']['D_FULL'], 'D_FULL', record, groups)
+
+    def test_native_pair_arithmetic_is_fp32_exact_with_separate_response_bound(self):
+        record, groups = self.observed()
+        raw = deepcopy(record['candidates']['K_ONLY']['roles']['R'])
+        group = groups['K_ONLY', 'R']
+        validate_native_pair(raw, group)
+        bad = deepcopy(raw)
+        bad['V'] = 1/6  # Correct real division, wrong recorded native FP32 result.
+        with self.assertRaisesRegex(ValueError, 'native pair V'):
+            validate_native_pair(bad, group)
+        bounded = deepcopy(raw)
+        bounded['responses'][0]['violation_numerator'] = fp32(1 + 2**-23)
+        bounded['numerator'] = fp32(bounded['responses'][0]['violation_numerator'] + 1.)
+        bounded['V'] = fp32(bounded['numerator']/12.)
+        receipt = validate_native_pair(bounded, group)
+        self.assertGreater(receipt['response_max_reconstruction_error'], 0)
+        self.assertLess(receipt['response_max_reconstruction_error'], receipt['response_max_rounding_bound'])
+        bad = deepcopy(raw)
+        bad['responses'][0]['violation_numerator'] = fp32(1.001)
+        with self.assertRaisesRegex(ValueError, 'FP32 reduction bound'):
+            validate_native_pair(bad, group)
+
+    def test_triangular_magnitudes_are_checked_beyond_membership(self):
+        _, blocks = make_window(2, 1)
+        blocks[0]['protected_weights'][1] = 4
+        with self.assertRaisesRegex(ValueError, 'triangular magnitudes'):
+            reconstruct_block(blocks[0])
+
+    def test_consistent_foreign_anchor_across_candidates_still_fails_sealed_binding(self):
+        path = self.root / 'campaign_001/event_002/mechanism/window_001_BLOCKS.jsonl'
+        blocks = [json.loads(line) for line in path.read_text().splitlines()]
+        for block in blocks:
+            block['anchor'] += 1
+        path.write_text(''.join(json.dumps(row) + '\n' for row in blocks))
+        summary = self.build()
+        self.assertEqual(summary['included_candidate_slots'], 76)
+        failures = [row for row in csv_rows(self.output / 'WINDOW_SUMMARY.csv') if row['included'] == 'False']
+        self.assertTrue(all('sealed plan' in row['exclusion'] for row in failures))
+
+    def test_scalar_binary32_reconstruction_matches_torch_cpu_operations(self):
+        for a, b in ((1., 3.), (2**24, 1.), (2**-126, 2.), (1.25, .5)):
+            self.assertEqual(fp32(fp32(a)+fp32(b)), float(torch.tensor(a)+torch.tensor(b)))
+            self.assertEqual(fp32(fp32(a)/fp32(b)), float(torch.tensor(a)/torch.tensor(b)))
+        self.assertGreater(reduction_bound(1., 100), reduction_bound(1., 10))
 
 
 if __name__ == '__main__':
