@@ -143,3 +143,13 @@ mixed. Correctness failure is invalid. A gain over O alone does not establish th
 new component. One trajectory/panel does not establish seed robustness, causal
 mechanism, deployed queue/lag benefits or a completed publication contribution.
 No tuning, fourth arm, event13, merge or deployment is authorized.
+
+## Execution outcome
+
+[The October29 qualification report](results_20261029/REPORT.md) records a concrete
+correctness blocker at the first neutral KW window: recorded forward metrics and
+anchors match K, but decoded weights and Adam state do not. Execution commit is
+`9fd9fe6f7db9796a49e2a6879b5a79e7f01fbd22`. Qualification consumed six response
+forwards/backwards and five disposable optimizer applications; no production or
+serving work ran. Original O8/K8 and input/source integrity passed postflight.
+No cause, efficacy result or automatic retry is claimed.
