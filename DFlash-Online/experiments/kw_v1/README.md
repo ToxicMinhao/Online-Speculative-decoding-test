@@ -170,3 +170,9 @@ limited to eight response forwards/backwards and sixteen disposable optimizer
 applications (fourteen expected), with zero serving generations and persistent
 updates. It ends at requalification; production is not resumed automatically.
 The plan and exact operational entrypoints are in `neutral_repair_20261029/`.
+
+The repaired native qualification passed on execution commit
+`708e974e06f5d9f4b186c32607c16b37cbd4b14f`: 31 exact checks, eight response
+forwards/backwards, fourteen disposable optimizer applications, zero generations
+or persistent updates. See [the repair report](neutral_repair_20261029/REPORT.md).
+The original failed qualification remains preserved; no production event followed.
