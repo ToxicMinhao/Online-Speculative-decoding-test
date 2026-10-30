@@ -1,0 +1,638 @@
+{
+  "status": "passed",
+  "scope": "Local compact-record audit, no tensor loading/model/remote work",
+  "execution_commit": "708e974e06f5d9f4b186c32607c16b37cbd4b14f",
+  "events": [
+    {
+      "event": 9,
+      "start_step": 1024,
+      "end_step": 1152,
+      "new_steps_all_arms": 384,
+      "new_presentations_all_arms": 768,
+      "matched_presentations_each_arm": 256,
+      "kw_previews": 256,
+      "kw_credits": 126,
+      "cumulative_credits": 126,
+      "kw_work_rows": 892
+    },
+    {
+      "event": 10,
+      "start_step": 1152,
+      "end_step": 1280,
+      "new_steps_all_arms": 384,
+      "new_presentations_all_arms": 768,
+      "matched_presentations_each_arm": 256,
+      "kw_previews": 256,
+      "kw_credits": 126,
+      "cumulative_credits": 252,
+      "kw_work_rows": 892
+    },
+    {
+      "event": 11,
+      "start_step": 1280,
+      "end_step": 1408,
+      "new_steps_all_arms": 384,
+      "new_presentations_all_arms": 768,
+      "matched_presentations_each_arm": 256,
+      "kw_previews": 256,
+      "kw_credits": 126,
+      "cumulative_credits": 378,
+      "kw_work_rows": 892
+    },
+    {
+      "event": 12,
+      "start_step": 1408,
+      "end_step": 1536,
+      "new_steps_all_arms": 384,
+      "new_presentations_all_arms": 768,
+      "matched_presentations_each_arm": 256,
+      "kw_previews": 256,
+      "kw_credits": 126,
+      "cumulative_credits": 504,
+      "kw_work_rows": 892
+    }
+  ],
+  "own_start_step": 1024,
+  "own_final_step": 1536,
+  "new_steps": 1536,
+  "new_presentations": 3072,
+  "final_presentations_each_arm": 3072,
+  "new_shared_feedback": 512,
+  "exact_resume_receipts": 12,
+  "exact_saved_endpoints": 12,
+  "exact_live_boundaries": 12,
+  "matched_record_anchor_comparisons_to_O": 2048,
+  "kept_anchor_occurrences_per_arm": {
+    "O": 255256,
+    "K": 255256,
+    "KW": 255256
+  },
+  "kw_windows": 512,
+  "kw_work_rows": 3568,
+  "kw_attempts": {
+    "previews": 1024,
+    "live_steps": 512,
+    "credits": 504
+  },
+  "kw_completions": {
+    "previews": 1024,
+    "live_steps": 512,
+    "credits": 504
+  },
+  "kw_pass_end_pending_discards": 8,
+  "kw_first_window_no_credit_boundaries": 8,
+  "retained_endpoint_files": 18,
+  "retained_endpoint_bytes": 50360652092,
+  "rolling_retired_files": 18,
+  "rolling_retired_bytes": 50358297980,
+  "original_state_postflight_checks": 2,
+  "original_artifacts_postflight_checked": 8,
+  "reused_qualification_byte_exact": true,
+  "new_qualification_work": 0,
+  "record_files_rehashed": 127,
+  "checked_record_identities": {
+    "sealed/PLAN.json": {
+      "bytes": 2722659,
+      "sha256": "ded1cf543b7817dcb5555322b4d2c635ab364e2f0de130f70a83b53d7e19dcbf"
+    },
+    "campaign_001/STATUS.json": {
+      "bytes": 7035,
+      "sha256": "ff7d52ff7223bde8f04717ddfae1a04ff300e448e33c78bc2548b1499fbfd23a"
+    },
+    "sealed/SEAL.json": {
+      "bytes": 595369,
+      "sha256": "f38a0f07b639b52d2325100c7d9d615d4c2c96cb5e677b9235021a004d421c07"
+    },
+    "campaign_001/event_009/POOL.json": {
+      "bytes": 168065,
+      "sha256": "c6ed41f28110561564128ea3dadcb90335bd7ab37679264fbc64ee3815261c9c"
+    },
+    "campaign_001/O/events/event_009/RESULT.json": {
+      "bytes": 2749303,
+      "sha256": "2732174f6e74b765500187f86a35c81e2fd235213795e8e5b9045833f424101b"
+    },
+    "campaign_001/resume_009_O/SAVED.json": {
+      "bytes": 695,
+      "sha256": "eea628a94d2e82f802533cbbc6820186946e07227bd1c527178cbf597ee5821c"
+    },
+    "campaign_001/resume_009_O/LIVE.json": {
+      "bytes": 227,
+      "sha256": "8201d10d3cd6ecb98ab604d66c4de3ef11ec6706ab3a97e2319552b70152359b"
+    },
+    "campaign_001/resume_009_O/SAVED_ENDPOINT.json": {
+      "bytes": 576,
+      "sha256": "13dd23c45d7edd55c4ee52ca5f8c91e5d2138b591446af3276c76f4f1af4aa9f"
+    },
+    "campaign_001/resume_009_O/LIVE_BOUNDARY.json": {
+      "bytes": 202,
+      "sha256": "b7c9537b80453094a8fe3d908f2667cd857f14c62c042c3b613022d627e9114e"
+    },
+    "campaign_001/resume_009_O/CLOSED.json": {
+      "bytes": 543,
+      "sha256": "2a269356aeef2046d670ebd82388932f4ac12b41099a453d87dda29b6a7554e8"
+    },
+    "campaign_001/resume_009_O/EVENT_CHECK.json": {
+      "bytes": 313,
+      "sha256": "17edf926ae812c6b6aa4153be56c5a208556dfc2442561e6ce423eeea37f8bdc"
+    },
+    "campaign_001/resume_009_O/STATE_IDENTITIES.json": {
+      "bytes": 698,
+      "sha256": "e1828036228412c7705146b7a73f888c1f3c3ebb4862fbf41a24767ad58902fc"
+    },
+    "campaign_001/K/events/event_009/RESULT.json": {
+      "bytes": 3033012,
+      "sha256": "7dcccef1e7263b4d67d99f93cffd239b2bf32a8e2006726b6dd1765bbb147a44"
+    },
+    "campaign_001/resume_009_K/SAVED.json": {
+      "bytes": 708,
+      "sha256": "2ad9f7fd4e46ad37e69c62ae87e0ebca7d559547430068a347cd6eb1eba0d8bd"
+    },
+    "campaign_001/resume_009_K/LIVE.json": {
+      "bytes": 226,
+      "sha256": "5ed96d31c2fcfabc875873cc1617dc9c8c9fdeecbb75d37e83196a27ec1a00f1"
+    },
+    "campaign_001/resume_009_K/SAVED_ENDPOINT.json": {
+      "bytes": 588,
+      "sha256": "67104475576c429e2d05d721e0cdd7327b717d653b78846ab426cf7ed59a0017"
+    },
+    "campaign_001/resume_009_K/LIVE_BOUNDARY.json": {
+      "bytes": 202,
+      "sha256": "b7c9537b80453094a8fe3d908f2667cd857f14c62c042c3b613022d627e9114e"
+    },
+    "campaign_001/resume_009_K/CLOSED.json": {
+      "bytes": 555,
+      "sha256": "3d477d4e4e53118c9fd85fe478ea53c3b624190cab1e3726ff38ddc359ea6dfb"
+    },
+    "campaign_001/resume_009_K/EVENT_CHECK.json": {
+      "bytes": 324,
+      "sha256": "9421e0cfebe4c8563ba7a6a59ea18ebba96e6397ed0f49bbfdfa3e30697454dc"
+    },
+    "campaign_001/resume_009_K/STATE_IDENTITIES.json": {
+      "bytes": 698,
+      "sha256": "1d405b8227c3339a1b30a8486d1973dbd8b54df614e7c52d0995b79c96f53815"
+    },
+    "campaign_001/KW/events/event_009/RESULT.json": {
+      "bytes": 3034335,
+      "sha256": "f78490d95bbc30dc8f9e0b7331291865110fef0588a8a5c9fcfd5a6b5c2790b8"
+    },
+    "campaign_001/resume_009_KW/SAVED.json": {
+      "bytes": 707,
+      "sha256": "861c5fda25242bcb46bb989df998245a0176dbe274f67c84608d5ab7a602533b"
+    },
+    "campaign_001/resume_009_KW/LIVE.json": {
+      "bytes": 309,
+      "sha256": "5b03d0086b4c1b02526da01d640d08a42b93ad185322b3c6aca7f80d886fa15f"
+    },
+    "campaign_001/resume_009_KW/SAVED_ENDPOINT.json": {
+      "bytes": 590,
+      "sha256": "bfba6c5710bf44e7dde549c4d908f7e8311b9932250ee633f1435561e31a18a1"
+    },
+    "campaign_001/resume_009_KW/LIVE_BOUNDARY.json": {
+      "bytes": 202,
+      "sha256": "b7c9537b80453094a8fe3d908f2667cd857f14c62c042c3b613022d627e9114e"
+    },
+    "campaign_001/resume_009_KW/CLOSED.json": {
+      "bytes": 673,
+      "sha256": "5f0f09da163ed39b55ff4b5abebdae9a237187676772bb00922164c2e5ef890f"
+    },
+    "campaign_001/resume_009_KW/EVENT_CHECK.json": {
+      "bytes": 324,
+      "sha256": "9421e0cfebe4c8563ba7a6a59ea18ebba96e6397ed0f49bbfdfa3e30697454dc"
+    },
+    "campaign_001/resume_009_KW/STATE_IDENTITIES.json": {
+      "bytes": 701,
+      "sha256": "3aa3aeb0307cee62a5538e51469da99faeee03570c0d8ad85cf5f43a56996c26"
+    },
+    "campaign_001/KW/events/event_009/KW_WINDOWS.jsonl": {
+      "bytes": 344763,
+      "sha256": "239d24e46958f36eea0c92b094f293f50d172496c26ebe420b6f7f86aef69b50"
+    },
+    "campaign_001/KW/events/event_009/KW_WORK.jsonl": {
+      "bytes": 229247,
+      "sha256": "45e8fbfb1623234bdf7c880c2637bee1c6b84b9c8775b2d5850f311cddf35fb4"
+    },
+    "campaign_001/retention/event_009_RETENTION.json": {
+      "bytes": 1515,
+      "sha256": "68efa9a57b876d676c8160c0e39c17b2ed2dd345c0e7d14776d978df10363e1a"
+    },
+    "campaign_001/event_010/POOL.json": {
+      "bytes": 168069,
+      "sha256": "7828ad427bd03ef4bf5a2c9c4766655cf2f1b0b2000e6fa2bb5ce3fa2c29e912"
+    },
+    "campaign_001/O/events/event_010/RESULT.json": {
+      "bytes": 2759849,
+      "sha256": "daaaf3dc97d1034cba3c9a502f6041389c7b838add28a557e4fd16bb2e679b0d"
+    },
+    "campaign_001/resume_010_O/SAVED.json": {
+      "bytes": 709,
+      "sha256": "0347623d322d688fbb437bb58eee5f93f6d15780cfefa8bc19ab84da38631088"
+    },
+    "campaign_001/resume_010_O/LIVE.json": {
+      "bytes": 227,
+      "sha256": "edce5e54f010db925339d53c08fe4e3164bf83a4a652cf0c9353819989148c65"
+    },
+    "campaign_001/resume_010_O/SAVED_ENDPOINT.json": {
+      "bytes": 577,
+      "sha256": "f116e66990b7b39f79a9510fb26e6537c065b8290537b85f0a113ee47e6eb62c"
+    },
+    "campaign_001/resume_010_O/LIVE_BOUNDARY.json": {
+      "bytes": 202,
+      "sha256": "2b0bd639247e8b64f6fcd7f43623d3476fb5963e3ace55d3bf4e2561d9164f8c"
+    },
+    "campaign_001/resume_010_O/CLOSED.json": {
+      "bytes": 560,
+      "sha256": "f1be0b9fe08991efd00b0a8822d077afaf6fb7d86f37a443fef6e995ad2504c6"
+    },
+    "campaign_001/resume_010_O/EVENT_CHECK.json": {
+      "bytes": 313,
+      "sha256": "0dfa0f3233116ecc92d8760c3c9187c72de2c5e4bed0ce41c1f4084bab30d577"
+    },
+    "campaign_001/resume_010_O/STATE_IDENTITIES.json": {
+      "bytes": 698,
+      "sha256": "2660e0bba4147e5a5eea5af802d8ebebe8946de181f77e7b636ceaa2314844b1"
+    },
+    "campaign_001/K/events/event_010/RESULT.json": {
+      "bytes": 3043400,
+      "sha256": "8f3d06587cd16bee895abf196a731d0b549fe5e5d484de8620e29d014da7f048"
+    },
+    "campaign_001/resume_010_K/SAVED.json": {
+      "bytes": 721,
+      "sha256": "21866d7a4e8c5d35a8d9889b523fd1709bdb0ea8f0ae182bb688fa18884e8810"
+    },
+    "campaign_001/resume_010_K/LIVE.json": {
+      "bytes": 227,
+      "sha256": "6b6f4d43f1be99116ef752322a07f61f4fa5335ca000f463bf6944aa855eb942"
+    },
+    "campaign_001/resume_010_K/SAVED_ENDPOINT.json": {
+      "bytes": 589,
+      "sha256": "9c12357de8940855440a0a9af3b1e9d30490d55ddf40b443c6fe25981a016031"
+    },
+    "campaign_001/resume_010_K/LIVE_BOUNDARY.json": {
+      "bytes": 202,
+      "sha256": "2b0bd639247e8b64f6fcd7f43623d3476fb5963e3ace55d3bf4e2561d9164f8c"
+    },
+    "campaign_001/resume_010_K/CLOSED.json": {
+      "bytes": 572,
+      "sha256": "ca49f7462366b14d9fb6171cdf48185cbb7c39cb23812845f2ac883bc7160e6b"
+    },
+    "campaign_001/resume_010_K/EVENT_CHECK.json": {
+      "bytes": 324,
+      "sha256": "e2b75771aebc3d31fe73faf50d32001ee9182f0b7fc26150b7e2dbb603a29775"
+    },
+    "campaign_001/resume_010_K/STATE_IDENTITIES.json": {
+      "bytes": 698,
+      "sha256": "c1ac2308818dd6c2b7d42ce5711c0c56e345ef1ac53923ff69658da155d6988a"
+    },
+    "campaign_001/KW/events/event_010/RESULT.json": {
+      "bytes": 3044834,
+      "sha256": "471f8c85830cfb360bbdb9a8fa8c2079c75f85e17f988fabdbba9cb0b42c4375"
+    },
+    "campaign_001/resume_010_KW/SAVED.json": {
+      "bytes": 723,
+      "sha256": "1dddb30af4ee7612b5e52e64192966a2e37da4006cb56ee9f807df18c1968bb4"
+    },
+    "campaign_001/resume_010_KW/LIVE.json": {
+      "bytes": 309,
+      "sha256": "9335faa5bc9e9d570046f581ec034c262cdb0f245ae63dba4963ddec3ea85b1d"
+    },
+    "campaign_001/resume_010_KW/SAVED_ENDPOINT.json": {
+      "bytes": 590,
+      "sha256": "127ca4fbd0449396eb8c4909b76a1ef38b3d18b9722d50dd24f1120f1b87597f"
+    },
+    "campaign_001/resume_010_KW/LIVE_BOUNDARY.json": {
+      "bytes": 202,
+      "sha256": "2b0bd639247e8b64f6fcd7f43623d3476fb5963e3ace55d3bf4e2561d9164f8c"
+    },
+    "campaign_001/resume_010_KW/CLOSED.json": {
+      "bytes": 690,
+      "sha256": "5fccf6994fa74f8da1668a91ccdcf507e8b8b01c02d069923f8a7dd773fadab9"
+    },
+    "campaign_001/resume_010_KW/EVENT_CHECK.json": {
+      "bytes": 324,
+      "sha256": "e2b75771aebc3d31fe73faf50d32001ee9182f0b7fc26150b7e2dbb603a29775"
+    },
+    "campaign_001/resume_010_KW/STATE_IDENTITIES.json": {
+      "bytes": 701,
+      "sha256": "dc1d1d6d24a89359f284504e67841fa23b38ba28af02695e721e73ec72c1cbbd"
+    },
+    "campaign_001/KW/events/event_010/KW_WINDOWS.jsonl": {
+      "bytes": 345555,
+      "sha256": "8b3c011ccdf97c4b7b0ec8cc631a5dffaa96b1664c30095e80de2d326887fab8"
+    },
+    "campaign_001/KW/events/event_010/KW_WORK.jsonl": {
+      "bytes": 230192,
+      "sha256": "664c662f307b629131f26ab91264151ba9f8326d81c07dd5a6d9befe29ac964f"
+    },
+    "campaign_001/retention/event_010_RETENTION.json": {
+      "bytes": 6947,
+      "sha256": "8f233f658d69546c26bd7a2b70b41100eac50eb1cf929b4ab250cbaf5fb4df2a"
+    },
+    "campaign_001/retention/event_010_RETIREMENT_INTENT.json": {
+      "bytes": 5519,
+      "sha256": "d03bcd3afe1d42eebc399ebe53a1099cc9bb32e9b65c3c092f16f7b7ec824192"
+    },
+    "campaign_001/retention/event_010_RETIREMENT_PROGRESS.json": {
+      "bytes": 5519,
+      "sha256": "8467a4ee9edf7af368d27fffef289e11d281dcc736b0a47ca2ac3c8139b12e23"
+    },
+    "campaign_001/event_011/POOL.json": {
+      "bytes": 168053,
+      "sha256": "f797f2a510c5c8f5365a177a29c5062c39e99ea9a6dbedb4781926298c67f9e0"
+    },
+    "campaign_001/O/events/event_011/RESULT.json": {
+      "bytes": 2646523,
+      "sha256": "d85a5c9f8ea2edbcc2bb87aaf6060c5263469cd59f8f82e3ab6c3ca9900cf8a5"
+    },
+    "campaign_001/resume_011_O/SAVED.json": {
+      "bytes": 710,
+      "sha256": "9620d68917b705b159a1310ee8eecc99ef26e2e75bdbcd01d6baf910df141654"
+    },
+    "campaign_001/resume_011_O/LIVE.json": {
+      "bytes": 227,
+      "sha256": "e76886c88be85926467270d14aa1ef7dd3ffafb4134b994aca34707e09293c3a"
+    },
+    "campaign_001/resume_011_O/SAVED_ENDPOINT.json": {
+      "bytes": 577,
+      "sha256": "776be37b2ddadc7396b6f9236a20c65222ed0b736b117ace53ee3f088f15f94a"
+    },
+    "campaign_001/resume_011_O/LIVE_BOUNDARY.json": {
+      "bytes": 202,
+      "sha256": "fd165b37e40348fc60481fb3b8d0fbbba428ba6eff69414cf34b7e0e6d7c4768"
+    },
+    "campaign_001/resume_011_O/CLOSED.json": {
+      "bytes": 577,
+      "sha256": "03fb787395d10d9f0d751440d40e3244fe0fdad9c42634fc64d177b8c73f5c80"
+    },
+    "campaign_001/resume_011_O/EVENT_CHECK.json": {
+      "bytes": 313,
+      "sha256": "713d2a88381d31809873be37ab4aef1439d215b2b18f8cb7e9a391fe5f9a73b0"
+    },
+    "campaign_001/resume_011_O/STATE_IDENTITIES.json": {
+      "bytes": 698,
+      "sha256": "3878d8ce28be38bc37be13a4d1fedd448ea42f2ef2a8fe138fd5f9e27333b0d6"
+    },
+    "campaign_001/K/events/event_011/RESULT.json": {
+      "bytes": 2930090,
+      "sha256": "f5091aa20b41990377d680243c8629c1f10f13a62fe295e518c54ca5c41836eb"
+    },
+    "campaign_001/resume_011_K/SAVED.json": {
+      "bytes": 723,
+      "sha256": "a0aef2a5922044f807e0c7e18b06a0ea1097bac5f2ccf26e49cd21a6f88f3420"
+    },
+    "campaign_001/resume_011_K/LIVE.json": {
+      "bytes": 226,
+      "sha256": "7087e53f96f60552c19bb8cb9e3247ca0180b43ad04c7ee20cebf135268afb34"
+    },
+    "campaign_001/resume_011_K/SAVED_ENDPOINT.json": {
+      "bytes": 589,
+      "sha256": "4e2aeddefad63ad52e52b09aac4e15ec9b3bea6d1b8d404a549d3a1174443dfe"
+    },
+    "campaign_001/resume_011_K/LIVE_BOUNDARY.json": {
+      "bytes": 202,
+      "sha256": "fd165b37e40348fc60481fb3b8d0fbbba428ba6eff69414cf34b7e0e6d7c4768"
+    },
+    "campaign_001/resume_011_K/CLOSED.json": {
+      "bytes": 589,
+      "sha256": "25e48ac8396767878e67963a6cfe0ed2db236cdc3b11d2f0faacdc4ff2ab699e"
+    },
+    "campaign_001/resume_011_K/EVENT_CHECK.json": {
+      "bytes": 324,
+      "sha256": "dcb89e5345e93db60c05c242b3f8ccde531ed57ac5f87192f0a3c465225ea671"
+    },
+    "campaign_001/resume_011_K/STATE_IDENTITIES.json": {
+      "bytes": 698,
+      "sha256": "1c5711d4cfccd48312ef05154023a0e316ed57a0fcba5a60c5e87294b52892ba"
+    },
+    "campaign_001/KW/events/event_011/RESULT.json": {
+      "bytes": 2931484,
+      "sha256": "7fc3976a0521ec958176a1b3f479fe468652c4e40a7ae3cf1187cf3609db33fa"
+    },
+    "campaign_001/resume_011_KW/SAVED.json": {
+      "bytes": 725,
+      "sha256": "0f1c75fcc4c0a93ff0e1509ec306e7e561430a9496cdefb367476e0c08b49f8e"
+    },
+    "campaign_001/resume_011_KW/LIVE.json": {
+      "bytes": 310,
+      "sha256": "09c0d9bb649e49907592eb3b7bf62b855bd977e385eaa1877f9ab6e45aa69a70"
+    },
+    "campaign_001/resume_011_KW/SAVED_ENDPOINT.json": {
+      "bytes": 592,
+      "sha256": "9104f11f09308e6e299f83dfb3eb19307b3c22f78f7439acf02599389e5c94f3"
+    },
+    "campaign_001/resume_011_KW/LIVE_BOUNDARY.json": {
+      "bytes": 202,
+      "sha256": "fd165b37e40348fc60481fb3b8d0fbbba428ba6eff69414cf34b7e0e6d7c4768"
+    },
+    "campaign_001/resume_011_KW/CLOSED.json": {
+      "bytes": 707,
+      "sha256": "78662c167b20962e210c38c32ce9e24cc13c5a97a1a0eb01082c27fafdd99204"
+    },
+    "campaign_001/resume_011_KW/EVENT_CHECK.json": {
+      "bytes": 324,
+      "sha256": "dcb89e5345e93db60c05c242b3f8ccde531ed57ac5f87192f0a3c465225ea671"
+    },
+    "campaign_001/resume_011_KW/STATE_IDENTITIES.json": {
+      "bytes": 701,
+      "sha256": "217db8436ac905ac2f2fe0eef9e274f51c04a9c4b9a9d8011766682a3c6887a6"
+    },
+    "campaign_001/KW/events/event_011/KW_WINDOWS.jsonl": {
+      "bytes": 345452,
+      "sha256": "a5901089f32b54daf759c237f9415e6fed24dc94aed9a722679a4375355bda5f"
+    },
+    "campaign_001/KW/events/event_011/KW_WORK.jsonl": {
+      "bytes": 230203,
+      "sha256": "e7c5f62ecb4e2f642c084724b6fc466319dd9ba82b1e2d8b5591e8d07084f4a7"
+    },
+    "campaign_001/retention/event_011_RETENTION.json": {
+      "bytes": 1517,
+      "sha256": "8d07081b5683ddb5d7e43e00c4cd84cdf0ba30fd5754ede4b88c48b59cfee9db"
+    },
+    "campaign_001/event_012/POOL.json": {
+      "bytes": 168064,
+      "sha256": "0d3bd9357bf4bfd525ac1c569ab7de25fd2b477f14f0f5eb58194e71d3453f56"
+    },
+    "campaign_001/O/events/event_012/RESULT.json": {
+      "bytes": 2631826,
+      "sha256": "f3bb55f1df5630fb2c0fabadeeac52cded05b428b51f52c4de7027a1e91e483f"
+    },
+    "campaign_001/resume_012_O/SAVED.json": {
+      "bytes": 710,
+      "sha256": "4bfb9730ad6d42c8074781b73c00faaf9eedd5c8395e5fd312d62e324322e9c5"
+    },
+    "campaign_001/resume_012_O/LIVE.json": {
+      "bytes": 227,
+      "sha256": "96a555e91f7d1ba2dfb746407aad2506026fef6eae232cc638b665bbe88049c7"
+    },
+    "campaign_001/resume_012_O/SAVED_ENDPOINT.json": {
+      "bytes": 577,
+      "sha256": "706b4d1da8ca595166113c88b9570c99a11ad7fd06a0d24d3bc740be9309ea7a"
+    },
+    "campaign_001/resume_012_O/LIVE_BOUNDARY.json": {
+      "bytes": 202,
+      "sha256": "bd61f12a0e45e9b74790b60b183ae9d66ae828bc120607a822b9942a15607279"
+    },
+    "campaign_001/resume_012_O/CLOSED.json": {
+      "bytes": 594,
+      "sha256": "17e1599a1fadf1b71645814390d76aa87d3d8f9190349293759ea508be7908d7"
+    },
+    "campaign_001/resume_012_O/EVENT_CHECK.json": {
+      "bytes": 313,
+      "sha256": "2910127e3e786e141f1d3e0afd3aa0e764b22c957a38bc65426ce8e2f54cb6d8"
+    },
+    "campaign_001/resume_012_O/STATE_IDENTITIES.json": {
+      "bytes": 698,
+      "sha256": "910105787300b3ac2edde8c6a9b6fef0c6d49d005e9131eadff17a6505dcd2c6"
+    },
+    "campaign_001/K/events/event_012/RESULT.json": {
+      "bytes": 2915580,
+      "sha256": "b0ffe7b409809dab110f86f127d0a00b20c67538d6ad3172da7ea817ac3f5e3f"
+    },
+    "campaign_001/resume_012_K/SAVED.json": {
+      "bytes": 722,
+      "sha256": "f4eb5df5bb925172daf871764c8792f4af7fdcaecd9fafd1634b49340895b384"
+    },
+    "campaign_001/resume_012_K/LIVE.json": {
+      "bytes": 227,
+      "sha256": "2c411e29d65052848a36800fe5b0aabac9982c7b8fa23006a6c3492540e7348a"
+    },
+    "campaign_001/resume_012_K/SAVED_ENDPOINT.json": {
+      "bytes": 589,
+      "sha256": "8c6ae2f7cfb8684e3177dc02b684f070753328e525a4519493a0ddc1cf3a903c"
+    },
+    "campaign_001/resume_012_K/LIVE_BOUNDARY.json": {
+      "bytes": 202,
+      "sha256": "bd61f12a0e45e9b74790b60b183ae9d66ae828bc120607a822b9942a15607279"
+    },
+    "campaign_001/resume_012_K/CLOSED.json": {
+      "bytes": 606,
+      "sha256": "8c47ab225cd92da9cc395061a4c8340f5d0d9e97a1032e750008bd91500bee97"
+    },
+    "campaign_001/resume_012_K/EVENT_CHECK.json": {
+      "bytes": 324,
+      "sha256": "d75b1bfd5a018c3995f3b87228b72bc90bdbbcbd1dc4dc3bf95215aa378e7ebb"
+    },
+    "campaign_001/resume_012_K/STATE_IDENTITIES.json": {
+      "bytes": 698,
+      "sha256": "c2f227c7ba38c1de2d6f17f14b032b48a88a1e36789246607fae2e9877be8c0e"
+    },
+    "campaign_001/KW/events/event_012/RESULT.json": {
+      "bytes": 2916720,
+      "sha256": "5516433074d284cb5bc4ae5e5d02ecf9fc1a11494da3a11b5e25bbf37a585550"
+    },
+    "campaign_001/resume_012_KW/SAVED.json": {
+      "bytes": 724,
+      "sha256": "c47dc9bafe2cee7e4c39ab68ea29603f2f0ac28c33057cb2278668ab45724013"
+    },
+    "campaign_001/resume_012_KW/LIVE.json": {
+      "bytes": 310,
+      "sha256": "6833e73b45d6fa80f11365e8b7fe396a1c32b1b7a362772a30fcb8803fa866f5"
+    },
+    "campaign_001/resume_012_KW/SAVED_ENDPOINT.json": {
+      "bytes": 591,
+      "sha256": "0264ea55c866ad72b5919d273d14f11dfb8ddfb370c95b6f08ef7be3a5031697"
+    },
+    "campaign_001/resume_012_KW/LIVE_BOUNDARY.json": {
+      "bytes": 202,
+      "sha256": "bd61f12a0e45e9b74790b60b183ae9d66ae828bc120607a822b9942a15607279"
+    },
+    "campaign_001/resume_012_KW/CLOSED.json": {
+      "bytes": 724,
+      "sha256": "e30057898d1ae00e559a63e62417383eb4edf5e8d65c86f4cbceb6241137f1c9"
+    },
+    "campaign_001/resume_012_KW/EVENT_CHECK.json": {
+      "bytes": 324,
+      "sha256": "d75b1bfd5a018c3995f3b87228b72bc90bdbbcbd1dc4dc3bf95215aa378e7ebb"
+    },
+    "campaign_001/resume_012_KW/STATE_IDENTITIES.json": {
+      "bytes": 701,
+      "sha256": "1745764bdad58e72ef1cdf6fd681b98f825490994f120ad4987452bd24ff79e8"
+    },
+    "campaign_001/KW/events/event_012/KW_WINDOWS.jsonl": {
+      "bytes": 345332,
+      "sha256": "714e447036b796f89083d58f8890fba6dc897db6859f74bca04e0f191b584b8f"
+    },
+    "campaign_001/KW/events/event_012/KW_WORK.jsonl": {
+      "bytes": 230197,
+      "sha256": "62648eed73318c6091f44bfdd10a451866ad6d2ab589d9c9a5b61194d2ef68b9"
+    },
+    "campaign_001/retention/event_012_RETENTION.json": {
+      "bytes": 6958,
+      "sha256": "76dc0010d1cec6b3ff3d3f5d32b12fa7d2a30a5c1d901e113d537177015500c2"
+    },
+    "campaign_001/retention/event_012_RETIREMENT_INTENT.json": {
+      "bytes": 5528,
+      "sha256": "a034bf408f200c73e88497ed4e2d83ad264760f38f54c8852809910749c44dad"
+    },
+    "campaign_001/retention/event_012_RETIREMENT_PROGRESS.json": {
+      "bytes": 5528,
+      "sha256": "fbc04ca4ba38bd774f37431e22e9b09eb9e16af6b0b16c79addbec870f032da2"
+    },
+    "campaign_001/retention/FINAL.json": {
+      "bytes": 4920,
+      "sha256": "ae01a7654a11937f4b6371d774f93331fde42ea541952ae63ba75824013f440a"
+    },
+    "campaign_001/CURRENT_PARENTS.json": {
+      "bytes": 1165,
+      "sha256": "efe48e3565d8343c0201e756b6a60e3b6fcf5f1981689d2565794731c510d904"
+    },
+    "POSTFLIGHT.json": {
+      "bytes": 6871,
+      "sha256": "c43f2cddef305db9519b426f5d35c8b54224320fe39690ea53a09beaa43ff55f"
+    },
+    "IMPLEMENTATION_QUALIFICATION.json": {
+      "bytes": 409073,
+      "sha256": "d731b3e5ca2bdf5ee1a9a53f80eae724ba9a3964ed508314981529b766e65beb"
+    },
+    "QUALIFICATION_REUSE.json": {
+      "bytes": 1202,
+      "sha256": "344df9a99ed425883e16872f67f10ec57fe55b77923fd7fbdf12bdedf3a4a645"
+    },
+    "EXIT_CODE": {
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    "CAMPAIGN_EXIT_CODE": {
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    "REPORT_EXIT_CODE": {
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    }
+  },
+  "inspected_scientific_sources_match_execution_seal": {
+    "experiments/kw_v1/campaign.py": {
+      "bytes": 23543,
+      "sha256": "22f26282e11a85e92dc0062f751dcde03b56602a8c691b89c6145ba73e6cca55"
+    },
+    "experiments/kw_v1/resume.py": {
+      "bytes": 19071,
+      "sha256": "b6fb1238a0a87b222b6b600c3c8c0a51d30117bac34b9f5a0ff0f189d2a6f3b9"
+    },
+    "experiments/kw_v1/storage.py": {
+      "bytes": 8557,
+      "sha256": "f2b9cb0ef16d5e3e1e469e1a156ec86544ed147086d18fd9f76c48073af0549a"
+    },
+    "online_feedback/training.py": {
+      "bytes": 35690,
+      "sha256": "315db6b9a494c3cebf1b8e3f23ff9193ffac15ad546399ced7644ffc20097c2b"
+    },
+    "online_feedback/kw_training.py": {
+      "bytes": 18622,
+      "sha256": "926a25d2426c10544af6ccc29ef9107983a89936c1b032825666d4427b26b74b"
+    },
+    "online_feedback/presentation_schedule.py": {
+      "bytes": 2750,
+      "sha256": "3caac4c8e00545f84bffaeb971b8d0c8c46efce0cbdd0e8f38d77636c06f1eda"
+    },
+    "online_feedback/response_weighting.py": {
+      "bytes": 22066,
+      "sha256": "863db4dbee0848107fefcf8b0057dabb75d39387b9a9a1768d13e642b2f679b8"
+    }
+  },
+  "limitations": [
+    "Reviewer authored campaign plumbing and repaired qualifier; same-team author audit.",
+    "Full checkpoints and feedback tensors remain remote; decoded equality and retention rely on preserved runtime audit receipts, not local tensor recomputation.",
+    "No evidence of retry/tuning in sealed source and complete records; absence of unrecorded activity cannot be established from these records alone."
+  ]
+}

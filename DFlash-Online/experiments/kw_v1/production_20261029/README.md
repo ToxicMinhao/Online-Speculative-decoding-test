@@ -9,3 +9,7 @@ Launch after current source/state/runtime/storage admission using the included w
 At preparation,218.016GB free exceeded the unchanged215.575GB full-campaign requirement including reserve. Seven disposable successful-qualification comparison tensors were deleted after compact evidence verification; their exact temporary tensor reinspection is lost, not archived. OriginalO8/K8 and failure evidence remain. Fresh admission remains mandatory.
 
 The campaign started on A800 at02:13:38UTC October30 after all2,670source/input and8original-artifact checks, actualstate/runtime/storage admission and57CPUtests passed. Controller1102768 began event9 feedback collection. See LAUNCH.json and STATUS.md; final results are pending.
+
+## Completed result
+
+The fixed campaign completed with all validity and accounting checks passing. KW added41.1% training time without an overall gain over K. The small positive primary and negative pooled final result yield the prespecified mixed/inconclusive outcome. See [the completed report and raw measurement tables](results/REPORT.md). No subsequent experiment was run.
