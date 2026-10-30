@@ -2,6 +2,10 @@
 set -u
 coding_root=${1:?An explicit sealed run root is required}
 coding_seconds=${2:?An explicit wall-time bound in seconds is required}
+if ! [[ "$coding_seconds" =~ ^[1-9][0-9]*$ ]]; then
+    echo 'The wall-time bound must be a positive integer number of seconds.' >&2
+    exit 1
+fi
 if [ -e "$coding_root/STARTED.utc" ]; then
     echo 'Preserve the existing attempt; use explicit verified-boundary recovery.' >&2
     exit 1
