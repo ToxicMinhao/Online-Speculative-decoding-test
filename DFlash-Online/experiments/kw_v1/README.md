@@ -153,3 +153,20 @@ anchors match K, but decoded weights and Adam state do not. Execution commit is
 forwards/backwards and five disposable optimizer applications; no production or
 serving work ran. Original O8/K8 and input/source integrity passed postflight.
 No cause, efficacy result or automatic retry is claimed.
+
+## Neutral-update qualification repair
+
+The original failed qualification remains in `results_20261029/`. The repaired
+qualification runs ordinary K and KW in two fresh interpreter processes, so KW
+does not inherit K's process-wide compiled attention history or retained optimizer
+storage. Both execute the same four sealed responses; there are no added warmup
+passes. Initial state, all backward boundaries, normalized gradients, preview
+isolation and two neutral endpoints are checked exactly. Mismatches retain every
+parameter path and bounded coordinate statistics. Optimizer-only restores clone
+the saved state so temporary steps cannot mutate its CPU Adam counters.
+
+This changes the test harness, not the KW algorithm or tolerances. The new run is
+limited to eight response forwards/backwards and sixteen disposable optimizer
+applications (fourteen expected), with zero serving generations and persistent
+updates. It ends at requalification; production is not resumed automatically.
+The plan and exact operational entrypoints are in `neutral_repair_20261029/`.

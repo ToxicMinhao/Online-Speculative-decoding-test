@@ -260,6 +260,7 @@ class KWContinuationTrainer(SpecForgeEventTrainer):
                                   on_optimizer_step=preview_attempt)
         self._work('previews', 'completed_pair', **row_id)
         preview_s = time.perf_counter() - preview_started
+        self._observe('post_previews', dict(identity=row_id, allocation=allocation))
         weighting_started = time.perf_counter()
         apply_weighted_gradients_(self.named_parameters, gradients, first, second, allocation.a)
         weighted_norm = gradient_norm([p.grad for _, p in self.named_parameters])

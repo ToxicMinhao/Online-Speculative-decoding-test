@@ -28,6 +28,13 @@ from online_feedback.rng import capture_rng
 from test_training_contract import trees_equal
 
 
+def inline_qualification_worker(arm, plan_path, root):
+    """Tiny CPU integration fixture; production always uses fresh EXEC children."""
+    from experiments.kw_v1 import qualify as Q
+    return Q.run_worker(json.loads(Path(plan_path).read_text()), root, arm,
+                        allow_cpu_fixture=True)
+
+
 class KWTrainingTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
@@ -174,7 +181,8 @@ class KWTrainingTests(unittest.TestCase):
             self.assertEqual(row["response_ids"],
                              [entry["record_id"] for entry in actual_rows[index * 2:index * 2 + 2]])
         self.assertIsNone(weighted.window_rows[0]["credit"])
-        self.assertEqual(weighted.window_rows[1]["credit"]["producing_identity"]["global_step"], 1025)
+        self.assertEqual(weighted.window_rows[1]["credit"]
+                         ["producing_identity"]["global_step"], 1025)
 
     def test_complete_event_clears_each_pass_and_controller_restores_exactly(self):
         paths = []
@@ -202,7 +210,8 @@ class KWTrainingTests(unittest.TestCase):
         self.assertEqual(receipt["kw"]["credit_opportunities"], 126)
         self.assertEqual(receipt["kw"]["previews"], 256)
         saved = torch.load(trainer.latest, weights_only=False)
-        self.assertEqual(validate_kw_snapshot_metadata(saved, completed_event=9)["status"], "passed")
+        self.assertEqual(validate_kw_snapshot_metadata(
+            saved, completed_event=9)["status"], "passed")
         expected_state = self.scientific_state(trainer)
         expected_controller = trainer.kw_checkpoint_state()
         restored = self.kw("restored", resume_state=trainer.latest, completed_event=9)
@@ -228,7 +237,8 @@ class KWTrainingTests(unittest.TestCase):
         contract = dict(trainer.contract)
         self.assertEqual(contract.pop(CONTRACT_KEY), KW_CONTRACT)
         self.assertEqual(contract, source["algorithm_contract"])
-        self.assertEqual((trainer.controller.n, trainer.controller.windows, trainer.controller.previews), (0, 0, 0))
+        self.assertEqual((trainer.controller.n, trainer.controller.windows,
+                          trainer.controller.previews), (0, 0, 0))
         self.assertTrue(torch.equal(trainer.controller.phi, torch.zeros(5, dtype=torch.float64)))
         self.assertEqual(trainer.kw_migration["global_step"], 1024)
         trainer.controller.phi[0] = 0.1
@@ -239,14 +249,29 @@ class KWTrainingTests(unittest.TestCase):
         trainer = self.kw("guards")
         original = self.scientific_state(trainer)
         for event_id, paths, passes in (("event_010", self.features * 16, 2),
-                                         ("event_009", self.features, 2),
-                                         ("event_009", self.features * 16, 1)):
+                                        ("event_009", self.features, 2),
+                                        ("event_009", self.features * 16, 1)):
             with self.subTest(event=event_id, count=len(paths), passes=passes):
                 with self.assertRaisesRegex(ValueError, "exactly its next"):
                     trainer._prepare_event(event_id, paths, passes)
         self.assertTrue(trees_equal(self.scientific_state(trainer), original))
         with self.assertRaisesRegex(ValueError, "incomplete event"):
             trainer._checkpoint_state({"event_id": "event_009"})
+
+    def test_disposable_native_steps_cannot_mutate_saved_optimizer_snapshot(self):
+        from experiments.kw_v1 import qualify as Q
+        trainer = self.kw("snapshot_immutability")
+        saved = Q.optimizer_state(trainer)
+        immutable = deepcopy(saved)
+        for variant in range(3):
+            Q.restore_optimizer_state(trainer, saved)
+            self.assertTrue(trees_equal(Q.optimizer_state(trainer), immutable))
+            for _, parameter in trainer.named_parameters:
+                parameter.grad = torch.full_like(parameter, (variant + 1) / 100)
+            trainer.backend.optimizer.native.step()
+            self.assertTrue(trees_equal(saved, immutable))
+        Q.restore_optimizer_state(trainer, saved)
+        self.assertTrue(trees_equal(Q.optimizer_state(trainer), immutable))
 
     def test_actual_qualification_flow_spends_eight_pairs_and_fourteen_applications(self):
         from experiments.kw_v1 import qualify as Q
@@ -282,8 +307,10 @@ class KWTrainingTests(unittest.TestCase):
                 mock.patch("torch.cuda.max_memory_allocated", return_value=0), \
                 mock.patch("torch.cuda.max_memory_reserved", return_value=0), \
                 mock.patch("torch.cuda.synchronize"):
-            result = Q.qualify(plan, root)
+            result = Q.qualify(plan, root, worker_executor=inline_qualification_worker)
         self.assertEqual(result["status"], "passed")
+        self.assertEqual(result["execution_mode"], "injected_CPU_fixture")
+        self.assertFalse(result["full_model_memory_checked"])
         self.assertEqual(result["work"], {
             "response_forwards": 8, "response_backwards": 8,
             "disposable_optimizer_applications": 14, "serving_generations": 0,
@@ -295,7 +322,7 @@ class KWTrainingTests(unittest.TestCase):
         self.assertEqual(len(ledger["attempts"]), 30)
         self.assertTrue(all(row["status"] == "completed" for row in ledger["attempts"]))
         with self.assertRaises(FileExistsError):
-            Q.qualify(plan, root)
+            Q.qualify(plan, root, worker_executor=inline_qualification_worker)
 
 
 class QualificationLedgerTests(unittest.TestCase):
@@ -307,7 +334,7 @@ class QualificationLedgerTests(unittest.TestCase):
         selection.write_text(json.dumps({
             "source_state": str(source),
             "source_state_identity": {"sha256": hashlib.sha256(source.read_bytes()).hexdigest()},
-            "rows": [],
+            "rows": [{"record_id": str(i), "path": "unused", "length": 1} for i in range(4)],
         }))
         return {"qualification": str(selection), "config": "fixture",
                 "execution_source": {"commit": "fixture"}}
@@ -334,6 +361,91 @@ class QualificationLedgerTests(unittest.TestCase):
                     ledger.start(prohibited)
             self.assertEqual(path.read_bytes(), before)
 
+    def test_second_worker_reopens_same_global_budget_without_reset(self):
+        from experiments.kw_v1.qualify import WorkLedger
+        with TemporaryDirectory() as directory:
+            path = Path(directory) / "WORK.json"
+            first = WorkLedger(path)
+            for _ in range(4):
+                first.complete(first.start("response_forwards", arm="K"))
+            second = WorkLedger(path, resume=True)
+            self.assertEqual(second.work["response_forwards"], 4)
+            for _ in range(4):
+                second.complete(second.start("response_forwards", arm="KW"))
+            with self.assertRaisesRegex(RuntimeError, "budget exhausted"):
+                second.start("response_forwards", arm="KW")
+            self.assertEqual(len(json.loads(path.read_text())["attempts"]), 8)
+
+    def test_default_dispatch_executes_separate_python_commands_without_retry(self):
+        from experiments.kw_v1 import qualify as Q
+        with TemporaryDirectory() as directory:
+            root = Path(directory)
+            output = root / "implementation_qualification"
+            output.mkdir()
+            plan = output / "WORKER_PLAN.json"
+            plan.write_text("{}")
+
+            def completed(command, **kwargs):
+                arm = command[command.index("--worker") + 1]
+                self.assertEqual(command[:4], [Q.sys.executable, "-u",
+                                               "-m", "experiments.kw_v1.qualify"])
+                self.assertFalse(kwargs["check"])
+                Q.write_json(output / (arm + "_WORKER_RESULT.json"), {"status": "passed"})
+                return SimpleNamespace(returncode=0)
+
+            with mock.patch.object(Q.subprocess, "run", side_effect=completed) as execute:
+                for arm in ("K", "KW"):
+                    self.assertEqual(Q.dispatch_worker(arm, plan, root)["status"], "passed")
+            self.assertEqual(execute.call_count, 2)
+            self.assertTrue((output / "K_WORKER.log").exists())
+            self.assertTrue((output / "KW_WORKER.log").exists())
+
+    def test_aborted_child_preserves_started_work_without_child_receipt(self):
+        from experiments.kw_v1 import qualify as Q
+        with TemporaryDirectory() as directory:
+            root = Path(directory)
+            plan = self.plan_fixture(root)
+
+            def aborted(arm, plan_path, run_root):
+                ledger = Q.WorkLedger(
+                    run_root / "implementation_qualification/WORK.json", resume=True)
+                ledger.start("response_forwards", arm=arm)
+                raise RuntimeError("child terminated before completion receipt")
+
+            with self.assertRaisesRegex(RuntimeError, "child terminated"):
+                Q.qualify(plan, root, worker_executor=aborted)
+            result = json.loads((root / "IMPLEMENTATION_QUALIFICATION.json").read_text())
+            self.assertEqual(result["status"], "failed")
+            self.assertEqual(result["work"]["response_forwards"], 1)
+            self.assertEqual(len(result["work_unknown"]), 1)
+            self.assertFalse(result["automatic_retry"])
+
+    def test_cleanup_only_failure_writes_failed_worker_before_propagation(self):
+        from experiments.kw_v1 import qualify as Q
+        with TemporaryDirectory() as directory:
+            root = Path(directory)
+            plan = self.plan_fixture(root)
+            failure = OSError("fixture close failed after successful body")
+            trainer = SimpleNamespace(
+                backend=SimpleNamespace(optimizer=SimpleNamespace(
+                    step=lambda: None, recipe={"parameters": []})),
+                bundle=SimpleNamespace(draft_model=SimpleNamespace(named_parameters=lambda: [])),
+                close=mock.Mock(side_effect=failure), failed=False,
+            )
+            with mock.patch.object(Q, "OKContinuationTrainer", return_value=trainer), \
+                    mock.patch.object(Q, "scientific_state", return_value={}), \
+                    mock.patch.object(Q, "run_two_windows", return_value={"responses": []}):
+                with self.assertRaises(OSError) as caught:
+                    Q.qualify(plan, root, worker_executor=inline_qualification_worker)
+            self.assertIs(caught.exception, failure)
+            worker = json.loads(
+                (root / "implementation_qualification/K_WORKER_RESULT.json").read_text())
+            self.assertEqual(worker["status"], "failed")
+            self.assertIn("fixture close failed", worker["error"])
+            self.assertIn("fixture close failed", str(worker["cleanup_errors"]))
+            result = json.loads((root / "IMPLEMENTATION_QUALIFICATION.json").read_text())
+            self.assertEqual(result["status"], "failed")
+
     def test_constructor_failure_keeps_original_error_and_zero_work_receipt(self):
         from experiments.kw_v1 import qualify as Q
         with TemporaryDirectory() as directory:
@@ -342,7 +454,7 @@ class QualificationLedgerTests(unittest.TestCase):
             failure = RuntimeError("fixture runtime construction failed")
             with mock.patch.object(Q, "OKContinuationTrainer", side_effect=failure):
                 with self.assertRaises(RuntimeError) as caught:
-                    Q.qualify(plan, root)
+                    Q.qualify(plan, root, worker_executor=inline_qualification_worker)
             self.assertIs(caught.exception, failure)
             result = json.loads((root / "IMPLEMENTATION_QUALIFICATION.json").read_text())
             self.assertEqual(result["status"], "failed")
@@ -357,7 +469,7 @@ class QualificationLedgerTests(unittest.TestCase):
             plan = self.plan_fixture(root)
             Path(plan["qualification"]).unlink()
             with self.assertRaises(FileNotFoundError):
-                Q.qualify(plan, root)
+                Q.qualify(plan, root, worker_executor=inline_qualification_worker)
             result = json.loads((root / "IMPLEMENTATION_QUALIFICATION.json").read_text())
             self.assertEqual(result["status"], "failed")
             self.assertTrue(all(count == 0 for count in result["work"].values()))
@@ -368,15 +480,18 @@ class QualificationLedgerTests(unittest.TestCase):
             root = Path(directory)
             plan = self.plan_fixture(root)
             trainer = SimpleNamespace(
-                backend=SimpleNamespace(optimizer=SimpleNamespace(step=lambda: None)),
+                backend=SimpleNamespace(optimizer=SimpleNamespace(
+                    step=lambda: None, recipe={"parameters": []})),
+                bundle=SimpleNamespace(draft_model=SimpleNamespace(named_parameters=lambda: [])),
                 close=mock.Mock(side_effect=OSError("fixture cleanup failed")), failed=False,
             )
             original = RuntimeError("fixture backward failed")
             with mock.patch.object(Q, "OKContinuationTrainer", return_value=trainer), \
                     mock.patch.object(Q, "run_two_windows", side_effect=original), \
+                    mock.patch.object(Q, "scientific_state", return_value={}), \
                     mock.patch("torch.cuda.reset_peak_memory_stats"):
                 with self.assertRaises(RuntimeError) as caught:
-                    Q.qualify(plan, root)
+                    Q.qualify(plan, root, worker_executor=inline_qualification_worker)
             self.assertIs(caught.exception, original)
             result = json.loads((root / "IMPLEMENTATION_QUALIFICATION.json").read_text())
             self.assertEqual(result["status"], "failed")
@@ -399,9 +514,10 @@ class QualificationLedgerTests(unittest.TestCase):
             with mock.patch.object(Q, "OKContinuationTrainer", side_effect=original), \
                     mock.patch.object(Q, "write_json", side_effect=fail_final_receipt):
                 with self.assertRaises(RuntimeError) as caught:
-                    Q.qualify(plan, root)
+                    Q.qualify(plan, root, worker_executor=inline_qualification_worker)
             self.assertIs(caught.exception, original)
-            self.assertIn("fixture final receipt unavailable", str(getattr(original, "__notes__", [])))
+            self.assertIn("fixture final receipt unavailable",
+                          str(getattr(original, "__notes__", [])))
             self.assertTrue((root / "implementation_qualification/WORK.json").is_file())
 
 
