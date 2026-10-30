@@ -24,9 +24,7 @@ export CC=/data/conda_envs/minhao/dflash_tree_qualification_v2/bin/x86_64-conda-
 export CXX=/data/conda_envs/minhao/dflash_tree_qualification_v2/bin/x86_64-conda-linux-gnu-g++
 export OMP_NUM_THREADS=4 MKL_NUM_THREADS=4 OPENBLAS_NUM_THREADS=4
 export HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 TOKENIZERS_PARALLELISM=false
-if [ -z "$coding_resume" ]; then
-    CUDA_VISIBLE_DEVICES='' python -m experiments.ok_coding.preflight "$coding_root"
-fi
+# campaign.run performs fresh/resume admission before any native attempt.
 CUDA_VISIBLE_DEVICES='' OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 python -m unittest \
     discover -s tests -p 'test_ok_coding_*.py' -v > "$coding_root/CPU_REMOTE.log" 2>&1
 # There is no model warmup/qualification stage. The actual first jobs and included

@@ -391,64 +391,21 @@ def completed_job(seed_root, arm, event):
                            reference_schedule=ordinary)
     saved = json.loads((audit / "SAVED_ENDPOINT.json").read_text())
     live = json.loads((audit / "LIVE_BOUNDARY.json").read_text())
-    if saved["status"] != "passed" or not saved["export_exact"] or not live["exact_boundary"]:
-        raise ValueError("Completed job lacks exact saved/live boundary evidence")
+    closed = json.loads((audit / "CLOSED.json").read_text())
+    execution = json.loads((audit / "EXEC.json").read_text())
+    if (saved["status"] != "passed" or not saved["export_exact"] or not live["exact_boundary"]
+            or saved["completed_event"] != event or saved["global_step"] != event * 128
+            or closed["global_step"] != event * 128 or closed["presentations"] != event * 256
+            or execution["returncode"] != 0):
+        raise ValueError("Completed job lacks exact saved/live/closed boundary evidence")
     return result, json.loads((audit / "COSTS.json").read_text())
 
 
-def admit_recovery(root, plan):
-    """Explicit recovery can reuse only complete science; partial work is preserved and blocks."""
-    from .report import audit_cell
+def admit_recovery(root, plan, *, write_receipt=True):
+    from .recovery import inspect_boundary, record_admission
 
-    output = root / "campaign_001"
-    old = json.loads((output / "STATUS.json").read_text())
-    if old["status"] == "completed":
-        raise ValueError("Campaign already completed; no resume is needed")
-    if json.loads((output / "PLAN_CHECK.json").read_text()) != validate_plan(plan):
-        raise ValueError("Recovery plan differs from the admitted original plan")
-    admitted = []
-    for seed in SEEDS:
-        seed_root = output / f"seed_{seed}"
-        for event in range(1, 5):
-            event_root = seed_root / f"event_{event:03d}"
-            work_path = seed_root / f"event_{event:03d}_WORK.jsonl"
-            if event_root.exists() or work_path.exists():
-                limits = {"feedback": 128, "terminal_teacher_forwards": 128}
-                require_complete_work(read_work(work_path, limits), limits)
-                pool = json.loads((event_root / "POOL.json").read_text())
-                verify_pool(pool)
-                admitted.append(str(event_root / "POOL.json"))
-            for arm in ARMS:
-                audit = seed_root / f"resume_{event:03d}_{arm}"
-                if audit.exists():
-                    completed_job(seed_root, arm, event)
-                    bindings = json.loads((audit / "STATE_IDENTITIES.json").read_text())
-                    for name, expected in bindings.items():
-                        if Path(name).exists():
-                            if identity(name) != expected:
-                                raise ValueError("Recovered endpoint changed: " + name)
-                        elif event in (2, 4):
-                            raise ValueError("Required endpoint is missing: " + name)
-                        else:
-                            retirement = seed_root / "retention" / f"event_{event + 1:03d}_RETENTION.json"
-                            retired = json.loads(retirement.read_text())["retired"]
-                            if not any(row["path"] == name and row["identity"] == expected for row in retired):
-                                raise ValueError("Missing boundary lacks verified successor retirement: " + name)
-                    admitted.append(str(audit / "WORKER.json"))
-            evaluation = event_root / "evaluation"
-            if evaluation.exists():
-                _, errors = audit_cell(root, plan, seed, event)
-                if errors:
-                    raise ValueError("Incomplete/invalid evaluation cannot be retried: " + str(errors))
-                admitted.append(str(evaluation / "STATUS.json"))
-    # Preserve the prior failure and its partial-work status before updating the live status.
-    folder = output / "recovery"
-    folder.mkdir(exist_ok=True)
-    index = len(list(folder.glob("admission_*.json"))) + 1
-    write_json(folder / f"admission_{index:03d}.json", {
-        "status": "passed", "previous_status": old, "reused_complete_artifacts": admitted,
-        "automatic_retry": False, "additional_scientific_work": 0})
-    return old
+    boundary = inspect_boundary(root, plan)
+    return record_admission(root, boundary) if write_receipt else boundary
 
 
 def run(root, *, resume=False):
@@ -460,10 +417,9 @@ def run(root, *, resume=False):
     plan = json.loads((root / "sealed" / "PLAN.json").read_text())
     checked_plan = validate_plan(plan)
     output = root / "campaign_001"
-    if resume:
-        from .preflight import verify
-        verify(root, resume=True)
-        admit_recovery(root, plan)
+    from .preflight import verify
+    from .attempts import reserve_directory
+    admission = verify(root, resume=resume)
     output.mkdir(exist_ok=resume)
     if not resume:
         write_json(output / "PLAN_CHECK.json", checked_plan)
@@ -480,10 +436,26 @@ def run(root, *, resume=False):
     def save():
         write_json(output / "STATUS.json", progress)
 
+    # Reconstruct counters before recording the new attempt; do not reset science.
+    reconcile_work(output, progress)
     save()
+    attempt = reserve_directory(output / "native_attempts")
+    native_path = attempt / "native"
+    attempt_status = {
+        "attempt_id": attempt.name, "native_path": str(native_path),
+        "mode": "resume" if resume else "fresh",
+        "execution_source": plan["execution_source"],
+        "admission_receipts": [admission["receipt_path"]],
+        "startup": {"status": "starting"}, "closure": {"status": "pending"},
+    }
+    if resume:
+        attempt_status["admission_receipts"].append(admission["recovery_boundary"]["receipt_path"])
+    write_json(attempt / "STATUS.json", attempt_status)
     try:
         backend = SGLangDFlashBackend(plan["target"], plan["draft"], worker_python=plan["worker_python"],
-            output_root=output / "native", serving_gpu="0", context_limit=4096, block_size=16)
+            output_root=native_path, serving_gpu="0", context_limit=4096, block_size=16)
+        attempt_status["startup"] = {"status": "passed", "loading_s": backend.loading_s}
+        write_json(attempt / "STATUS.json", attempt_status)
         costs.setdefault("backend_loading_attempts_s", []).append(backend.loading_s)
         costs["backend_loading_s"] = sum(costs["backend_loading_attempts_s"])
         for seed in SEEDS:
@@ -555,17 +527,24 @@ def run(root, *, resume=False):
         progress.update(status="completed", phase="finished")
     except BaseException as error:
         progress.update(status="failed", error=repr(error), traceback=traceback.format_exc())
+        attempt_status["failure"] = repr(error)
+        if backend is None:
+            attempt_status["startup"] = {"status": "failed", "error": repr(error)}
+        write_json(attempt / "STATUS.json", attempt_status)
         raise
     finally:
         cleanup_error = None
+        attempt_status["closure"] = {"status": "no_backend" if backend is None else "closed"}
         if backend is not None:
             try:
                 backend.close()
             except BaseException as error:
+                attempt_status["closure"] = {"status": "failed", "error": repr(error)}
                 progress["cleanup_error"] = repr(error)
                 if progress["status"] != "failed":
                     progress.update(status="failed", error=repr(error))
                     cleanup_error = error
+        write_json(attempt / "STATUS.json", attempt_status)
         reconcile_work(output, progress)
         costs["campaign_wall_s"] = costs.get("campaign_wall_s", 0.0) + time.perf_counter() - started
         costs["accounting"] = (
@@ -574,6 +553,8 @@ def run(root, *, resume=False):
             "are included in ordinary update time. Nested capture/preparation/persistence timers are not additive. "
             "Serving is sequential with training and retention; no training-inclusive deployment speedup is measured.")
         write_json(output / "COSTS.json", costs)
+        attempt_status["campaign_status"] = progress["status"]
+        write_json(attempt / "STATUS.json", attempt_status)
         save()
         if cleanup_error is not None:
             raise cleanup_error

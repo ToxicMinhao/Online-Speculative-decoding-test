@@ -96,16 +96,57 @@ environment followed by:
 
     CUDA_VISIBLE_DEVICES=1 python -u -m experiments.ok_coding.campaign /absolute/run/root --resume
 
-The campaign performs original seal/model/runtime/config, hardware and conservative
-full-capacity readmission before constructing a backend. Recovery validates
-complete immutable pools, closed ordinary jobs, endpoint identities and raw
-completed evaluation cells, then reuses those results. Partial feedback,
-preparation, training or evaluation work blocks rather than being regenerated.
-Missing rolling boundaries require completed successor-retirement receipts;
-missing required endpoints always block. Interrupted retirement with only intent
-or progress evidence also fails closed. This is complete-boundary recovery,
-not arbitrary interruption repair. Prior failure status and explicit admission
-remain under recovery/.
+Both fresh and resume entry points complete source/model/runtime/configuration
+and resource admission before allocating a native attempt or constructing its
+backend. Recovery first validates the chronological completed-work boundary:
+immutable prepared and native feedback, closed ordinary jobs, initialization and
+endpoint identities, latest state aliases, completed evaluations and retirement
+receipts. Partial or unknown science, changed/missing artifacts, unbound export
+files and unfinished retirement block startup. An intent/progress record without
+completion blocks even if no file has yet been deleted. Completed scientific
+work is reused; only the next unstarted action executes.
+
+Each admitted invocation exclusively reserves the next greatest numbered parent:
+
+    campaign_001/native_attempts/attempt_000001/native/
+
+Only the parent exists before startup; the unchanged backend creates `native/`
+with its existing exclusive-directory guard. Python/NumPy/Torch RNG is untouched
+by naming. Numbering gaps and reserved failed attempts are never reused. The
+parent's STATUS.json records mode, execution source, admission receipts, startup,
+failure and closure. Legacy `campaign_001/native` and earlier attempt paths stay
+intact, including all stored absolute references; native request serials can
+restart in a new child directory. Admission receipt numbers use the same
+exclusive, greatest-existing-number rule.
+
+Fresh storage admission is unchanged. Resume compares current free space with
+the **remaining peak allocation**, after validating the exact boundary. Existing
+retained files already occupy space and are not charged again or treated as free.
+Future captures retain the full2048-token bound; prepared copies, initialization,
+Adam states/exports, atomic-save/export overlap and the full16GiB compiler
+allowance remain budgeted. Ten-percent slack applies to new live allocations
+before subtracting proven reclamation; the4GiB compact/workspace allowance and
+8GiB reserve are unchanged.
+
+The read-only inventory counts physical blocks once per(device,inode), records
+logical sizes separately, and tracks hard-link aliases including latest. This
+implementation gives **zero retirement credit to every pre-existing allocation**:
+link/extent evidence alone cannot exclude open handles or mappings that delay
+physical release. Existing allocations therefore cancel against the current
+free-space baseline. New future rolling event1/3 payload still leaves the model
+only after verified successors and required evaluation. No other filesystem,
+unrelated file, assumed cache cleanup or hypothetical transfer supplies capacity.
+Admission deletes nothing. This conservative rule may reject a continuation that
+proven reclamation could admit; it never inflates current free space. This remains
+complete-boundary recovery, not arbitrary interruption repair.
+
+Every resume attempt retains its full admission outcome under
+`resume_admission/attempt_NNN.json`, including failures, boundary, inventory,
+phase maxima, credits, current free space and reserves. Successful boundary
+receipts also remain under `campaign_001/recovery/admission_NNN.json`. Resume
+never overwrites the original fresh admission reports. Operational source fixes
+require a new execution seal; the old seal does not cover modified code. The
+prepared data identities and scientific contract remain unchanged.
 
 ## CPU result reconstruction
 

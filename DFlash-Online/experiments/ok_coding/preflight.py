@@ -67,13 +67,17 @@ def check_configs(plan):
     return result
 
 
-def storage_admission(plan, free_bytes, available_host_bytes):
-    capacity = full_campaign_budget(plan)
+def storage_admission(plan, free_bytes, available_host_bytes, *, campaign_root=None, boundary=None):
+    fresh_capacity = full_campaign_budget(plan)
+    capacity = fresh_capacity
+    if boundary is not None:
+        from .resume_storage import remaining_campaign_budget
+        capacity = remaining_campaign_budget(plan, campaign_root, boundary)
     settings = plan["storage"]
     if (settings["reserve_bytes"] != 8 * GIB
             or settings["mode"] != "retain_local"
             or settings["offload_assumed"] is not False
-            or settings["campaign_capacity"] != capacity):
+            or settings["campaign_capacity"] != fresh_capacity):
         raise ValueError("Storage contract differs from full two-seed calculation")
     required = capacity["peak_required_bytes"]
     host_required = 80 * GIB
@@ -87,7 +91,10 @@ def storage_admission(plan, free_bytes, available_host_bytes):
 def verify(root, *, postflight=False, resume=False):
     root = Path(root).resolve()
     started = time.perf_counter()
-    result = {"status": "running", "model_forwards": 0, "backwards": 0,
+    from .attempts import reserve_receipt
+    receipt_path = (reserve_receipt(root / "resume_admission") if resume
+                    else root / ("POSTFLIGHT.json" if postflight else "PREFLIGHT.json"))
+    result = {"receipt_path": str(receipt_path), "status": "running", "model_forwards": 0, "backwards": 0,
               "optimizer_steps": 0, "generations": 0, "postflight": postflight,
               "explicit_resume": resume}
     try:
@@ -96,20 +103,24 @@ def verify(root, *, postflight=False, resume=False):
         from .contract import validate_plan
         result["plan"] = validate_plan(plan)
         result["configs"] = check_configs(plan)
+        boundary = None
+        if resume:
+            from .campaign import admit_recovery
+            boundary = admit_recovery(root, plan, write_receipt=False)
+            result["recovery_boundary"] = boundary
         if not postflight:
             if (root / "campaign_001").exists() and not resume:
                 raise ValueError("Fresh execution only; explicit boundary recovery required")
             result["hardware"] = hardware_admission()
             mem = dict(line.split(":", 1) for line in Path("/proc/meminfo").read_text().splitlines())
             result["storage"] = storage_admission(plan, shutil.disk_usage(root).free,
-                int(mem["MemAvailable"].split()[0]) * 1024)
-            if resume:
-                result["storage"]["resume_scope"] = (
-                    "Conservative original full-campaign requirement is retained. "
-                    "This gate does not infer savings from partial work or assume offload.")
-            write_json(root / "STORAGE_ADMISSION.json", result["storage"])
+                int(mem["MemAvailable"].split()[0]) * 1024,
+                campaign_root=root / "campaign_001", boundary=boundary)
+            if not resume:
+                write_json(root / "STORAGE_ADMISSION.json", result["storage"])
             if not result["storage"]["admitted"]:
-                raise RuntimeError("Full-campaign disk/host storage admission failed")
+                raise RuntimeError("Remaining-campaign disk/host storage admission failed" if resume
+                                   else "Full-campaign disk/host storage admission failed")
         pins = json.loads((root / "sealed" / "MODEL_PIN.json").read_text())
         for model in ("target", "draft"):
             verify_files(plan[model], pins[model]["files"], exact_files=True)
@@ -127,6 +138,9 @@ def verify(root, *, postflight=False, resume=False):
             "configuration": "Qualified O/K tensor shapes: <=2272 tokens, <=512 anchors, projection chunks8",
             "devices": "One otherwise idle80GiB A800 per native process; same frozen target/draft pins",
             "limit": "Metadata/capacity admission is not a new coding-specific peak measurement. Actual ordinary jobs record peaks and stop on OOM; no extra qualification forwards."}
+        if resume:
+            from .recovery import record_admission
+            result["recovery_boundary"] = record_admission(root, boundary)
         result["status"] = "passed"
         return result
     except BaseException as error:
@@ -134,13 +148,7 @@ def verify(root, *, postflight=False, resume=False):
         raise
     finally:
         result["wall_s"] = time.perf_counter() - started
-        if resume:
-            folder = root / "resume_admission"
-            folder.mkdir(exist_ok=True)
-            name = f"attempt_{len(list(folder.glob('attempt_*.json'))) + 1:03d}.json"
-            write_json(folder / name, result)
-        else:
-            write_json(root / ("POSTFLIGHT.json" if postflight else "PREFLIGHT.json"), result)
+        write_json(receipt_path, result)
 
 
 if __name__ == "__main__":
