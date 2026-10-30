@@ -426,6 +426,16 @@ def work_errors(status, summaries):
     for key in ('extra_optimizer_steps', 'extra_generations', 'additional_controller_model_passes'):
         if type(status.get(key)) is not int or status[key] != 0:
             errors.append(key)
+    expected_kw_work = dict(previews=1024, live_steps=512, credits=504)
+    for field in ('kw_work_attempts', 'kw_work_completed_lower_bound'):
+        value = status.get(field)
+        if (not isinstance(value, dict) or value != expected_kw_work
+                or any(type(count) is not int for count in value.values())):
+            errors.append(field)
+    unknown = status.get('kw_work_unknown')
+    if (not isinstance(unknown, dict) or unknown != dict.fromkeys(expected_kw_work, 0)
+            or any(type(count) is not int for count in unknown.values())):
+        errors.append('kw_work_unknown')
     return errors
 
 

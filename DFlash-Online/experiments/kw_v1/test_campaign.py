@@ -9,7 +9,7 @@ import unittest
 from experiments.ok_continuation.test_resume import fixture, event
 from experiments.ok_events_5_8 import resume as old
 from . import prepare as P, resume as R, storage as S
-from .campaign import require_qualification,reconcile_work
+from .campaign import require_qualification,reconcile_work,validate_completed_work
 
 class SelectionTests(unittest.TestCase):
     def test_source_cursor_counts_rejected_source_rows(self):
@@ -78,6 +78,26 @@ class BudgetTests(unittest.TestCase):
             self.assertEqual(progress['credit_opportunities'],1)
             self.assertEqual(progress['kw_work_unknown']['previews'],1)
             self.assertEqual(progress['kw_completed_window_previews'],0)
+
+    def test_completion_requires_exact_completed_kw_work_and_zero_unknown(self):
+        progress=dict(status='running',optimizer_steps=1536,presentations=3072,feedback_returned=512,
+            evaluation_returned=4032,evaluation_valid=4032,optimizer_previews=1024,credit_opportunities=504,
+            arm_counters={a:1536 for a in ('O','K','KW')},
+            kw_work_attempts=dict(previews=1024,live_steps=512,credits=504),
+            kw_work_completed_lower_bound=dict(previews=1024,live_steps=512,credits=504),
+            kw_work_unknown=dict(previews=0,live_steps=0,credits=0))
+        validate_completed_work(progress)
+        for field in ('kw_work_attempts','kw_work_completed_lower_bound','kw_work_unknown'):
+            for kind in ('previews','live_steps','credits'):
+                bad=deepcopy(progress);bad['status']='failed'
+                bad[field][kind]+=1 if field=='kw_work_unknown' else -1
+                before=deepcopy(bad)
+                with self.subTest(field=field,kind=kind),self.assertRaises(ValueError):
+                    validate_completed_work(bad)
+                self.assertEqual(bad,before)
+            missing=deepcopy(progress);del missing[field]
+            with self.subTest(missing=field),self.assertRaises(ValueError):
+                validate_completed_work(missing)
 
     def test_qualification_gate_requires_counters_and_memory_evidence(self):
         with tempfile.TemporaryDirectory() as temp:

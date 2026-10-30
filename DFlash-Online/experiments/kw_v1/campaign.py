@@ -235,6 +235,26 @@ def reconcile_work(output,progress):
     progress['training_counter_scope']='Completed calls from receipts; interrupted in-flight arithmetic remains unknown, never assumed absent.'
 
 
+def validate_completed_work(progress):
+    """Require exact completed work, rather than only charged attempt totals."""
+    expected=dict(optimizer_steps=1536,presentations=3072,feedback_returned=512,
+        evaluation_returned=4032,evaluation_valid=4032,optimizer_previews=1024,credit_opportunities=504)
+    if any(progress.get(k)!=v for k,v in expected.items()):
+        raise ValueError('Completed production work differs from fixed budget: '+str({k:progress.get(k) for k in expected}))
+    if progress['arm_counters']!={a:1536 for a in ARMS}:
+        raise ValueError('Require complete own final12 states')
+    expected_kw=dict(previews=1024,live_steps=512,credits=504)
+    for field in ('kw_work_attempts','kw_work_completed_lower_bound'):
+        actual=progress.get(field)
+        if (not isinstance(actual,dict) or actual!=expected_kw
+                or any(type(value) is not int for value in actual.values())):
+            raise ValueError('KW completed work is not exact: '+field)
+    unknown=progress.get('kw_work_unknown')
+    if (not isinstance(unknown,dict) or set(unknown)!=set(expected_kw)
+            or any(type(value) is not int or value!=0 for value in unknown.values())):
+        raise ValueError('KW work remains unknown; completion is invalid')
+
+
 def load_boundary_for_resume(plan,output,event):
     """Explicit operator resume only after a complete event; never replay work."""
     if event not in (9,10,11):raise ValueError('Recover only complete event9,10,11; event12 is terminal')
@@ -326,11 +346,7 @@ def run(root,*,resume_after=None):
             write_json(output/'CURRENT_PARENTS.json',parents)
             progress['phase']=f'idle_boundary_{number:03d}';save()
         storage.finalize(parents);reconcile_work(output,progress)
-        expected=dict(optimizer_steps=1536,presentations=3072,feedback_returned=512,
-            evaluation_returned=4032,evaluation_valid=4032,optimizer_previews=1024,credit_opportunities=504)
-        if any(progress.get(k)!=v for k,v in expected.items()):
-            raise ValueError('Completed production work differs from fixed budget: '+str({k:progress.get(k) for k in expected}))
-        if progress['arm_counters']!={a:1536 for a in ARMS}:raise ValueError('Require complete own final12 states')
+        validate_completed_work(progress)
         progress.update(status='completed',phase='finished')
     except BaseException as error:
         progress.update(status='failed',error=repr(error),traceback=traceback.format_exc());raise

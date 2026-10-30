@@ -9,7 +9,7 @@ from . import test_evaluate as fixtures
 from .test_evaluate import panels
 from .evaluation_protocol import ARMS, method_order
 from .report import (paired_bootstrap, outcome_label, write_campaign_report,
-                     qualification_errors, aggregate_requests)
+                     qualification_errors, aggregate_requests, work_errors)
 
 
 class BootstrapTests(unittest.TestCase):
@@ -72,6 +72,36 @@ class BootstrapTests(unittest.TestCase):
                 self.assertTrue(qualification_errors(changed))
 
 
+class WorkAuditTests(unittest.TestCase):
+    def test_completed_claim_requires_exact_attempts_completions_and_zero_unknown(self):
+        status = dict(status='completed', feedback_attempted=512, feedback_returned=512,
+            optimizer_steps=1536, presentations=3072, evaluation_attempted=4032,
+            evaluation_returned=4032, evaluation_valid=4032, optimizer_previews=1024,
+            credit_opportunities=504, arm_counters={arm:1536 for arm in ARMS},
+            arm_presentations={arm:3072 for arm in ARMS}, extra_optimizer_steps=0,
+            extra_generations=0, additional_controller_model_passes=0,
+            kw_work_attempts=dict(previews=1024, live_steps=512, credits=504),
+            kw_work_completed_lower_bound=dict(previews=1024, live_steps=512, credits=504),
+            kw_work_unknown=dict(previews=0, live_steps=0, credits=0))
+        summaries = {'all':dict(returned_measurements=4032)}
+        self.assertEqual(work_errors(status, summaries), [])
+        for field, kind, changed_count in (
+                ('kw_work_attempts', 'previews', 1025),
+                ('kw_work_completed_lower_bound', 'live_steps', 511),
+                ('kw_work_completed_lower_bound', 'credits', 503),
+                ('kw_work_unknown', 'previews', 1),
+                ('kw_work_unknown', 'live_steps', 1),
+                ('kw_work_unknown', 'credits', 1),
+                ('kw_work_unknown', 'credits', False)):
+            with self.subTest(field=field, kind=kind):
+                changed = dict(status, **{field:dict(status[field], **{kind:changed_count})})
+                self.assertEqual(work_errors(changed, summaries), [field])
+        for field in ('kw_work_attempts', 'kw_work_completed_lower_bound', 'kw_work_unknown'):
+            changed = dict(status)
+            del changed[field]
+            self.assertEqual(work_errors(changed, summaries), [field])
+
+
 class CampaignReportTests(unittest.TestCase):
     setUp = fixtures.EvaluationTests.setUp
     run_panel = fixtures.EvaluationTests.run_panel
@@ -99,7 +129,10 @@ class CampaignReportTests(unittest.TestCase):
                       optimizer_steps=1536, presentations=3072, evaluation_attempted=4032,
                       evaluation_returned=4032, evaluation_valid=4032, optimizer_previews=1024,
                       credit_opportunities=504, arm_counters={arm:1536 for arm in ARMS},
-                      arm_presentations={arm:3072 for arm in ARMS}, extra_optimizer_steps=0, extra_generations=0, additional_controller_model_passes=0)
+                      arm_presentations={arm:3072 for arm in ARMS}, extra_optimizer_steps=0, extra_generations=0, additional_controller_model_passes=0,
+                      kw_work_attempts=dict(previews=1024, live_steps=512, credits=504),
+                      kw_work_completed_lower_bound=dict(previews=1024, live_steps=512, credits=504),
+                      kw_work_unknown=dict(previews=0, live_steps=0, credits=0))
         (campaign / 'STATUS.json').write_text(json.dumps(status))
         costs = {}
         for event in range(9, 13):
