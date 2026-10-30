@@ -1,0 +1,268 @@
+EXECUTOR HANDOFF — O VERSUS K ON CODEALPACA, TWO TRAINING SEEDS
+Date: 2026-10-30
+Task: complete one fixed coding-task confirmation of ordinary OSD (O) versus K, with released frozen DFlash (F) as a serving reference.
+
+1. PURPOSE AND FIXED SCOPE
+
+Determine whether K's observed advantage over O transfers to a coding workload and appears under two training seeds. Run the already-qualified O and K algorithms. This experiment validates an existing component; it introduces no controller, correction, new loss, learning-rate search or additional training arm.
+
+Use training seeds 17 and 29. For each seed, start both O and K from the same pinned released draft with fresh Adam, then complete four events of 128 responses. Evaluate at events 2 and 4 on one presealed 128-request coding panel. F is the same released checkpoint throughout and receives no training.
+
+This is a controlled stream of separate coding requests with 128-response updates. It is not a multi-turn/domain-shift test, a one-update-per-turn test, or a convergence claim. Preserve valid negative or mixed results and stop at the fixed endpoint.
+
+Base repository:
+https://github.com/ToxicMinhao/Online-Speculative-decoding-test
+Reviewed baseline publication: 8d5d4185976fc8d78b7d55a19928d86c7cb86e95.
+Use the latest qualified O/K model/training/serving recipe retained with that publication, not the older CodeAlpaca pilot's numerical settings.
+
+Implement additive preparation, initialization, campaign and evaluation wrappers in a new experiment directory. Preserve historical source, guards, results and checkpoints. Follow the repository's AGENTS.md and existing server operational rules. Pin the new execution commit, clean/dirty status, exact source/configuration bindings and commands before GPU work.
+
+2. DATASET, PROMPTS AND SEALED SELECTION
+
+Dataset: sahil2801/CodeAlpaca-20k
+Revision: 3bd2de8099ee8a140653ad9b9df783554d5efabb
+Retained source key: codealpaca_train.
+
+Resolve the exact source parquet and its path/hash from the retained source receipts and source_paths.json used by the project's CodeAlpaca preparation. Verify revision, bytes, original row count N and original row order. Prefer retained exact bytes; a download must resolve to the same pinned source identity. Record the actual file path, repository path, SHA-256 and row count in the new seal; do not invent missing source hashes.
+
+Keep the project's existing partition BEFORE filtering:
+- Training reservoir: raw source rows [0, N-1024).
+- Evaluation reservoir: final 1,024 raw source rows.
+This is the project's deterministic partition, not an official dataset train/test split.
+
+Assemble each user request exactly:
+  text = instruction + ("\n\n" + input if input else "")
+  messages = [{"role": "user", "content": text}]
+
+Use the pinned Qwen3 tokenizer and its qualified no-thinking template:
+  apply_chat_template(messages, tokenize=True,
+                      add_generation_prompt=True, enable_thinking=False)
+
+Require equivalence to the retained author-template helper. Use no explicit system message, mathematics suffix, source-answer history or new coding wrapper. Only instruction/input and source identity may determine the request. Dataset output/solution fields must not enter prompts, targets, selection, scoring or training. Target-generated answers supply all training labels.
+
+Input eligibility, before model generation:
+- Instruction must be a nonempty string; input must be a string.
+- Render and tokenize the complete prompt, including special tokens/generation prefix.
+- Require 1..224 rendered prompt tokens for BOTH train and evaluation.
+- Preserve original text/indentation; no truncation, rewriting or generated-length filtering.
+- Use NFC normalization plus whitespace collapse only for duplicate/history matching.
+- Deduplicate each reservoir in source-index order, retaining its lowest-index representative.
+- Remove assembled-prompt duplicate keys occurring across the two reservoirs from both pools.
+- Exclude all recoverable historically allocated/selected project requests by source ID or normalized user-prompt identity, including training, evaluation, probes and reserved selections. Use raw catalogs only for ID lookup, not as evidence that every catalog row was used.
+- Extend the retained prior-exclusion inventory with subsequent current-study selections; record exact evidence and exclusion reasons. Do not inspect historical performance to choose requests.
+
+Use isolated Python random.Random instances:
+- Training selection seed 20261030: shuffle eligible training indices, take first 512; preserve this resulting order as the four-event request stream.
+- Evaluation selection seed 20261031: shuffle eligible evaluation indices, take first 128; preserve this panel order.
+- Training seeds 17/29 must not affect either data selection.
+
+Seal the two ordered inventories, exact prompt IDs, source IDs, hashes, partition boundaries, normalization/template/tokenizer bindings, exclusions, and all evaluation slots BEFORE any model generation. The same 512 training prompts and 128 evaluation prompts are used for both training seeds.
+
+The 224-token rule reserves the full 2048-token output budget within the unchanged 2272-token training limit. Report the resulting population as short-prompt CodeAlpaca requests, with raw/eligible/excluded counts. The shuffled source stream is not a chronological conversation.
+
+If the verified sources and fixed exclusions cannot produce 512/128 eligible requests, stop during CPU-only preparation and report the exact shortfall. Do not silently relax exclusions, change the dataset/partition, widen the prompt cap or select replacements after model outcomes. Freshness means disjoint from the inventoried retained project requests; it does not establish absence from pretraining or inaccessible history.
+
+3. INHERITED MODEL, LEARNING AND SERVING RECIPE
+
+Target/tokenizer:
+  Qwen/Qwen3-8B
+  revision b968826d9c46dd6066d109eabc6255188de91218
+Released draft F:
+  z-lab/Qwen3-8B-DFlash-b16
+  revision 9b41424b7109f9c5413454f481b09a82b85333f4.
+
+Retain qualified trainable draft parameters and frozen target/embedding/vocabulary head. Keep all current runtime/model pins and compatibility patches.
+
+O: objective="osd", all qualified valid proposals, pure teacher forward KL.
+K: objective="osd_first_error", current detached correct prefix INCLUDING its first mismatch, same forward KL.
+Both: reduction="response_mean"; response-only supervision with each response's own full prompt context.
+
+Keep:
+- BF16 model parameters and native direct BF16 AdamW moments, no master weights/offload.
+- LR 3e-4 constant; betas 0.9/0.999, epsilon 1e-8, weight decay 0.01.
+- Global gradient clipping at 1; existing optimizer arithmetic.
+- KL temperature 1 and current BF16 probability arithmetic.
+- Existing exponential position decay 7 and response denominator epsilon 1e-6.
+- Microbatch 1, accumulation 2, two passes/event.
+- Up to 512 native anchors/response, Flex training attention, block size 16, projection chunks of 8.
+- Training maximum length 2272; no response truncation.
+- Greedy, reasoning-off native serving, concurrency 1, block size 16, maximum output 2048 or EOS, context 4096.
+- Current SGLang/FA3, cache policy, publication checks and timing boundaries.
+
+Preserve optimizer horizon 7424 and the consistent native online max_events metadata 58. The new campaign independently limits execution to FOUR events. Do not set native max_events=4 while leaving horizon 7424: recipe.py validates their consistency.
+
+F is the exact released serving checkpoint, not a historical adapted model. Do not initialize any arm from mathematical O8/K8/O12/K12 or KW states.
+
+4. FRESH INITIALIZATION, SEED CONTROL AND PROCESS PARITY
+
+Construct four training trajectories:
+  seed 17/O, seed 17/K, seed 29/O, seed 29/K.
+
+Each starts at:
+  global_step=0; presentations=0; events=[].
+  Native Adam state empty, with the qualified parameter groups/options.
+  No residual gradients, accumulation or metric buffers.
+  Released draft tensors exactly loaded; no newly randomized trainable values.
+
+Within each seed, verify equal O/K released weights, trainable membership/order, empty optimizer state/options, ordinary counters and complete ready-to-train Python/NumPy/Torch/CUDA RNG. Objective metadata intentionally differs. Across seeds, initialize the appropriate distinct RNG; do not restore seed 17 RNG into seed 29.
+
+Add narrow initialization/event-zero and event 1 to 4 validators. Historical continuation validators require populated Adam state and different event ranges; preserve them. Add event 1 natural schedule comparison rather than bypassing its guard. A step-zero snapshot must contain genuine empty history; never fabricate an event or take a warmup Adam step to create moments.
+
+Run EACH (seed, arm, event) training job in a fresh interpreter:
+- Same pinned runtime, physical updater GPU, compile options and startup policy for O/K.
+- Exactly one CUDA-visible device per training process.
+- Separate, initially empty task-specific compiler/kernel cache directories under the same policy. Preserve pinned model caches, immutable feature storage and unrelated caches.
+- Record process IDs and cache/startup configuration.
+- No model warmups or optimizer warmups.
+- Feedback generation, terminal-teacher preparation and serving evaluation run separately from training RNG.
+
+Initialize/seed each trajectory once. Later jobs restore that arm's own complete preceding event state, including full RNG and Adam. Native construction may internally seed before restore; no reseeding or random observation may occur AFTER restoration and before ordinary training. Keep each trajectory's config_text stable across resume, and bind seed/data/source identity in the new campaign contract.
+
+Use existing preserve_rng behavior during export and metadata work. Perform scientific-state checks at initialization and complete boundaries; do not add repeated whole-model hashing or diagnostic scans inside every update.
+
+5. FIXED FOUR-EVENT EXECUTION
+
+Complete seed 17, then seed 29, with no outcome-based change to seed 29.
+
+For EACH seed s and event e=1..4:
+1. Use the next sealed 128 prompts.
+2. Generate feedback with that seed's preceding O checkpoint: F/O_s,0 for event 1, then O_s,1/O_s,2/O_s,3.
+3. Generate and prepare the pool ONCE for this seed/event, including native target bindings and terminal-teacher completion features.
+4. Give O and K the exact same immutable feedback/features within that seed.
+5. Run O's ordinary training to obtain its natural response-order/anchor receipt.
+6. In a separate fresh process, run K from its own state. Its natural response permutation and anchor draws must match O's receipt, including event 1. Validation must not substitute forced anchors or permutations.
+7. Each arm completes 256 ordinary response presentations and 128 committed Adam updates.
+8. Save and verify complete own-arm state and serving export.
+
+Generate all four pools independently for both seeds, including each seed's event 1 pool. Do not silently reuse seed 17 feedback for seed 29. Same source prompts across seeds need not imply byte-identical native capture tensors; record their identities. Required schedule/feature equality is within each seed, not across seeds.
+
+Each trajectory ends at step 512, presentation 1024, four completed events. Every arm/seed must preserve its optimizer/RNG continuously across events.
+
+EOS and valid output-cap completions remain in the experiment. Preserve inherited whole-response and minimum-adjacent-token checks. If a sealed request produces an invalid training record or output disagreement, preserve it and report the blocker; do not shorten, replace, or rerun it to obtain a convenient outcome.
+
+6. FIXED F/O/K SERVING EVALUATION
+
+Use one shared 128-request panel and these four cells, in this order:
+  seed 17, event 2: F / O17-2 / K17-2
+  seed 17, event 4: F / O17-4 / K17-4
+  seed 29, event 2: F / O29-2 / K29-2
+  seed 29, event 4: F / O29-4 / K29-4.
+
+F is the SAME immutable released checkpoint. Remeasure it in every cell so F/O/K timing is contemporaneous. This is not a third training arm.
+
+Three repeats per request/method. With i the 0-based panel request ordinal and repeat=0,1,2:
+  base = (F,O,K) if i is even else (F,K,O)
+  shift = (i + repeat) % 3
+  order = base[shift:] + base[:shift].
+
+Each method occupies every position once/request, and pair precedence is 192/192 per cell. Preserve all 128 panel ordinals. The first eight requests of EACH cell form its included validity gate: 72 executions/cell, 288 total, already counted below. Gate on correctness, not speedup.
+
+In the first cell, each request's first valid F execution supplies its canonical tokens and termination. Defer any earlier O/K row until that F reference exists. Reuse the same canonical tokens globally in later cells; all methods/seeds/endpoints must agree exactly. This is the inherited native-verifier reference protocol, not a new target-only generation.
+
+Check full native traces/counts, exact output and termination, loaded/publication weights, repeated-count consistency and unchanged F outputs/counts across cells. Timing repeats are repeated measurements, not independent requests.
+
+During timed serving, run no training, artifact transfer or checkpoint persistence. Preserve complete-request and native-generation timings separately, along with cache-maintenance measurements. Add no extra generation warmups, target-only references or favorable-result retries. Do not select a better intermediate checkpoint.
+
+7. EXACT WORK BUDGET AND QUALIFICATION
+
+Production:
+  Unique training prompt identities:             512
+  Evaluation prompt identities:                  128
+  Training trajectories:                         4
+  Arm/event training jobs:                       16
+  Shared feedback pools:                         8
+  Complete feedback generations:                 1024
+  Terminal-teacher completion forwards:           1024, separate preparation work
+  Committed Adam updates:                        2048
+  Ordinary response presentations:               4096
+  KW/correction previews or controller work:      0
+
+Evaluation:
+  4 cells x 128 requests x 3 methods x 3 repeats:    4608 generations
+  Included correctness-gate executions:          288, already inside 4608
+  Complete production generations total:         5632
+  Extra warmup/reference generations:            0
+
+No standalone full-model qualification forwards/backwards or disposable Adam updates are added. O/K numerical algorithms are unchanged. Use small CPU/tiny fixtures for the new data, initialization, event-zero state, seed 29, restore, event 1 schedule and evaluation plumbing, no-forward decoded initialization checks, and included ordinary-serving gates.
+
+Preflight must verify the pinned source/data/model/runtime, eligible input counts, full retention/storage budget and updater/serving memory feasibility. Do not reinterpret prior KW memory or time measurements as new coding guarantees. If a new scientific implementation change actually requires extra model qualification, stop and explain that specific change and required bound before expanding this fixed campaign.
+
+Account for ordinary checkpoint recomputation, initialization/compilation, shared feature preparation, CPU checks, loading, saving/export, audit costs and all failed/partial attempts. Preparation forwards are not complete generations. No unrecorded retry, missing work, or automatic budget extension is allowed.
+
+8. PRIMARY ANALYSIS, COSTS AND OUTCOME
+
+Primary: event 4 K versus O, reported SEPARATELY for training seeds 17 and 29:
+  R_s = 100 * [sum_i calls(O_s,4,i) - sum_i calls(K_s,4,i)]
+                    / sum_i calls(O_s,4,i).
+
+Event 2 is a fixed secondary learning-curve endpoint. Report contemporaneous K/F and O/F at both endpoints. A K/O advantage alone does not show useful adaptation if K is worse than released F.
+
+For every seed/endpoint/method:
+- Exact calls, calls/1000 generated tokens, accepted draft tokens and committed progress/call.
+- Per-request wins/losses/ties; gross saved/added calls.
+- Exact output/termination and count validity; missing/rejected records.
+- Complete-request and native-generation latency from each request's three-repeat mean.
+- Output lengths and output-cap frequency; do not exclude capped requests.
+- Existing per-response loss, selection/exposure and first-error summaries, without extra model passes.
+- Updater time, complete event time, startup/compile/load, shared feedback preparation, save/export, audit and memory scopes.
+
+Keep updater costs separate from serving latency. This experiment does not measure deployment queueing, asynchronous lag or training-inclusive speedup.
+
+Uncertainty:
+- Per seed, paired-request bootstrap over 128 identities: 10000 resamples, NumPy PCG64 seed 20261030, ratio-of-summed-calls statistic, linear 2.5/97.5 percentile endpoints.
+- Reuse the same bootstrap request-index draws for both seeds.
+- If giving a combined summary, resample each request JOINTLY with its observations in both seeds, then calculate the ratio from calls summed across both seeds.
+- Do not treat 256 seed/request rows, timing repeats, or four repeated F cells as independent samples.
+- These intervals are conditional on the two fitted trajectories and selected panel. With only two training seeds, make no population-level seed-robustness claim or multiplicity-adjusted significance claim.
+
+Complete the experiment regardless of valid outcome:
+- Promising transfer: K has lower final calls than O in both seeds, is useful relative to F, and timings/costs support the interpretation. Show interval uncertainty, including any interval crossing zero.
+- Relative advantage only: K beats O but does not improve on F.
+- Mixed/seed-sensitive: direction or practical benefit differs across seeds/metrics.
+- Unsupported at this budget: no useful K-over-O advantage at the fixed final endpoint.
+- Invalid/incomplete: a stated correctness or operational condition failed; preserve all work and do not interpret invalid rows as efficacy.
+
+No automatic extra seed, event 5, parameter search or checkpoint selection follows. Four events assess early coding adaptation, not convergence. These outcomes do not by themselves establish novelty, stochastic-decoding performance or the intended multi-turn domain-shift claim.
+
+9. RECOVERY, RETENTION AND FINAL DELIVERABLES
+
+Retain:
+- Immutable released F and validated per-seed O/K initialization metadata/state.
+- Complete restart states and serving exports for all EIGHT seed/arm event 2/event 4 endpoints.
+- Rolling complete event 1/event 3 boundaries until their verified own successors make them unnecessary.
+- All eight feedback pools, native captures, prepared-feature identities/data, input seals and source/configuration pins.
+- Raw per-response training records, all 4608 evaluation records/traces, timing tables, work ledger and failures.
+
+Recovery is from a verified complete own-arm event boundary. Preserve exact seed, config, model/Adam/RNG/history and completed-work ledger. Reuse completed immutable feedback pools and completed arm/event results; do not regenerate/retrain them. Record partial failed work separately and stop if completion would require unapproved extra scientific work. Never overwrite or retire historical checkpoints to make the new run fit without existing authorization.
+
+Deliver:
+1. Readable experiment/preparation/init/evaluation code and exact run/resume commands.
+2. Sealed dataset/input/startup/source contracts and CPU/plumbing checks.
+3. Every fixed result table, raw measurements and scoped costs.
+4. A concise report answering whether K improves on O in BOTH seeds and whether it improves on F.
+5. A separate read-only review of data exclusions, initialization/RNG/schedule continuity, work accounting and result calculations.
+
+Use the established repository review/publication workflow under its existing authorization. Do not merge or deploy serving changes as part of this experiment.
+
+When preparation and correctness gates pass, complete the fixed comparison. The deliverable is the full result, including a valid negative result, or a concrete documented blocker—not another preliminary mechanism-probe proposal.
+
+SOURCE REFERENCES
+
+Reviewed current result/code:
+https://github.com/ToxicMinhao/Online-Speculative-decoding-test/tree/8d5d4185976fc8d78b7d55a19928d86c7cb86e95/DFlash-Online/experiments/kw_v1/production_20261029/results
+
+CodeAlpaca source/partition authority (reuse data construction, not old 512-token recipe):
+https://github.com/ToxicMinhao/Online-Speculative-decoding-test/blob/8d5d4185976fc8d78b7d55a19928d86c7cb86e95/DFlash-Online/reports/projected_target_feasibility_20261022/CURRENT_STATE_REPORT.md
+
+Retained prompt preparation:
+https://github.com/ToxicMinhao/Online-Speculative-decoding-test/blob/8d5d4185976fc8d78b7d55a19928d86c7cb86e95/DFlash-Online/provenance/objects/a320b017ac4f4765c363f89da735a71deeae46a2bff0787ce94525fe366ce2b9
+
+Independent prompt validator:
+https://github.com/ToxicMinhao/Online-Speculative-decoding-test/blob/8d5d4185976fc8d78b7d55a19928d86c7cb86e95/DFlash-Online/provenance/objects/7051fc81615e838d11b3d8fe98be979a388d76d72968077dc34c9c03209b344a
+
+Native recipe/horizon constraint:
+https://github.com/ToxicMinhao/Online-Speculative-decoding-test/blob/8d5d4185976fc8d78b7d55a19928d86c7cb86e95/DFlash-Online/online_feedback/recipe.py
+
+Qualified training and initialization:
+https://github.com/ToxicMinhao/Online-Speculative-decoding-test/blob/8d5d4185976fc8d78b7d55a19928d86c7cb86e95/DFlash-Online/online_feedback/training.py
+
