@@ -1,0 +1,297 @@
+{
+  "review": "same-team numerical-core author; local retained-evidence analysis only",
+  "verification_status": "ANALYZED",
+  "checks": {
+    "work_counts": 4,
+    "event_lengths": 4,
+    "window_identity": 512,
+    "response_binding": 512,
+    "phi_continuity": 512,
+    "feature_shape_range_fp32": 512,
+    "weight_algebra": 512,
+    "preview_endpoints": 512,
+    "pass_credit_boundaries": 512,
+    "no_credit_keeps_phi": 8,
+    "rms_count_continuity": 512,
+    "finite_timers": 512,
+    "credit_previous_window_binding": 504,
+    "credit_rms_normalization": 504,
+    "credit_state_fields": 504,
+    "credit_phi_update_scalar_reconstruction": 504,
+    "event_final_controller": 4,
+    "event_cost_sums": 4,
+    "per_response_training_sum": 12
+  },
+  "errors": [],
+  "feature_reconstruction_checks": {
+    "feature_1": 512,
+    "feature_2": 1024,
+    "feature_3": 1024,
+    "feature_4": 1024,
+    "feature_5": 1024
+  },
+  "feature_reconstruction_errors": [],
+  "allocation_formula_max_absolute_error": 4.336808689942018e-19,
+  "cached_derivative_formula_max_absolute_error": 0.0,
+  "events": [
+    {
+      "event": 9,
+      "windows": 128,
+      "credits": 126,
+      "previews": 256,
+      "a_min": -0.0028157708039117345,
+      "a_max": 0.0019747280702853737,
+      "a_mean": 1.5648980608148196e-05,
+      "phi_norm": 0.023788452804450768,
+      "controller_final": {
+        "phi": [
+          -0.006874918233967353,
+          -0.01055074084706735,
+          -0.017834197730487496,
+          0.005773299455620154,
+          -0.007477851187973724
+        ],
+        "v": 6.560709432585079e-07,
+        "n": 126
+      },
+      "work_counts": {
+        "previews:started": 256,
+        "previews:completed_pair": 128,
+        "live_steps:started": 128,
+        "live_steps:completed": 128,
+        "credits:started": 126,
+        "credits:completed": 126
+      }
+    },
+    {
+      "event": 10,
+      "windows": 128,
+      "credits": 126,
+      "previews": 256,
+      "a_min": -0.006280615169534886,
+      "a_max": 0.003528483775871839,
+      "a_mean": -0.00012149629936807116,
+      "phi_norm": 0.018298017520981796,
+      "controller_final": {
+        "phi": [
+          -0.00475724491928961,
+          -0.007375746243768473,
+          -0.01338778740408713,
+          0.008170765208370468,
+          0.0034336828124091343
+        ],
+        "v": 5.472917444660319e-07,
+        "n": 252
+      },
+      "work_counts": {
+        "previews:started": 256,
+        "previews:completed_pair": 128,
+        "live_steps:started": 128,
+        "live_steps:completed": 128,
+        "credits:started": 126,
+        "credits:completed": 126
+      }
+    },
+    {
+      "event": 11,
+      "windows": 128,
+      "credits": 126,
+      "previews": 256,
+      "a_min": -0.003000886930368124,
+      "a_max": 0.003122005311004358,
+      "a_mean": -7.624921869962131e-05,
+      "phi_norm": 0.019955183696361026,
+      "controller_final": {
+        "phi": [
+          -0.006889314210462392,
+          -0.009003691822965565,
+          -0.013254083861179,
+          0.007123759651498766,
+          0.0065773512184320385
+        ],
+        "v": 3.7796701796744643e-07,
+        "n": 378
+      },
+      "work_counts": {
+        "previews:started": 256,
+        "previews:completed_pair": 128,
+        "live_steps:started": 128,
+        "live_steps:completed": 128,
+        "credits:started": 126,
+        "credits:completed": 126
+      }
+    },
+    {
+      "event": 12,
+      "windows": 128,
+      "credits": 126,
+      "previews": 256,
+      "a_min": -0.003065231330945093,
+      "a_max": 0.001504136711388745,
+      "a_mean": -5.164830504892574e-05,
+      "phi_norm": 0.01182191677384976,
+      "controller_final": {
+        "phi": [
+          -0.0007132026936608935,
+          0.003023755669568113,
+          0.009900349257248081,
+          0.005529685006811277,
+          -0.0012294828531922647
+        ],
+        "v": 5.450021623708545e-07,
+        "n": 504
+      },
+      "work_counts": {
+        "previews:started": 256,
+        "previews:completed_pair": 128,
+        "live_steps:started": 128,
+        "live_steps:completed": 128,
+        "credits:started": 126,
+        "credits:completed": 126
+      }
+    }
+  ],
+  "windows": 512,
+  "credits": 504,
+  "previews": 1024,
+  "discarded_at_pass_end": 8,
+  "neutral_windows": [
+    {
+      "event": 9,
+      "pass_index": 0,
+      "window_in_pass": 1,
+      "global_step": 1025,
+      "response_ids": [
+        "train_01148",
+        "train_01144"
+      ],
+      "anchor_binding_source": "RESULT.json.records",
+      "presentation_ordinals": [
+        0,
+        1
+      ]
+    },
+    {
+      "event": 9,
+      "pass_index": 0,
+      "window_in_pass": 2,
+      "global_step": 1026,
+      "response_ids": [
+        "train_01089",
+        "train_01040"
+      ],
+      "anchor_binding_source": "RESULT.json.records",
+      "presentation_ordinals": [
+        2,
+        3
+      ]
+    }
+  ],
+  "a_min": -0.006280615169534886,
+  "a_max": 0.003528483775871839,
+  "absolute_a_median": 0.0003831623806379379,
+  "a_positive": 248,
+  "a_negative": 262,
+  "weights_min": 0.4937193848304651,
+  "weights_max": 0.5062806151695349,
+  "feature_ranges": [
+    {
+      "min": 0.45821627974510193,
+      "max": 0.9649462103843689
+    },
+    {
+      "min": 0.2712104022502899,
+      "max": 0.9331597089767456
+    },
+    {
+      "min": 0.0060606058686971664,
+      "max": 0.7708333134651184
+    },
+    {
+      "min": 0.03835155814886093,
+      "max": 0.3756204843521118
+    },
+    {
+      "min": 0.03271484375,
+      "max": 1.0
+    }
+  ],
+  "zero_secants": 0,
+  "zero_credits": 0,
+  "credit_clipped": 98,
+  "controller_projected": 0,
+  "credit_positive": 230,
+  "credit_negative": 274,
+  "allocation_saturated": 0,
+  "endpoint_clipped": 0,
+  "live_gradient_clipped": 0,
+  "secant_change_fraction_range": [
+    0.012304295034211002,
+    0.04114948820973454
+  ],
+  "secant_norm_range": [
+    1.7788969437050042,
+    6.678026382010628
+  ],
+  "controller_costs": {
+    "ordinary_training_s": 1265.8730997722596,
+    "capture_host_s": 1.019443279132247,
+    "credit_and_controller_s": 103.79756966605783,
+    "previews_s": 295.50651553459466,
+    "weighting_s": 96.71356171183288,
+    "live_update_s": 34.04699078388512,
+    "window_observed_s": 1804.3725381102413
+  },
+  "arm_cost_totals": {
+    "O": {
+      "training_s": 1224.9296051543206,
+      "event_wall_s": 1357.6718779951334,
+      "loading_and_resume_validation_s": 145.676075078547,
+      "checkpoint_save_s": 68.37871076911688,
+      "export_s": 53.81572767905891,
+      "saved_state_validation_s": 20.57751533575356,
+      "peak_allocated_bytes": 27234509312,
+      "peak_reserved_bytes": 34873540608,
+      "loading_peak_allocated_bytes": 17583621120,
+      "loading_peak_reserved_bytes": 17853054976
+    },
+    "K": {
+      "training_s": 1277.7744149174541,
+      "event_wall_s": 1410.2071960885078,
+      "loading_and_resume_validation_s": 147.03776368685067,
+      "checkpoint_save_s": 67.40458228439093,
+      "export_s": 54.37579668685794,
+      "saved_state_validation_s": 20.884295266121626,
+      "peak_allocated_bytes": 29250772480,
+      "peak_reserved_bytes": 34873540608,
+      "loading_peak_allocated_bytes": 17583621120,
+      "loading_peak_reserved_bytes": 17853054976
+    },
+    "KW": {
+      "training_s": 1802.70925902389,
+      "event_wall_s": 1937.8786444067955,
+      "loading_and_resume_validation_s": 176.90845935605466,
+      "checkpoint_save_s": 67.99563061073422,
+      "export_s": 56.27791653200984,
+      "saved_state_validation_s": 22.002529425546527,
+      "peak_allocated_bytes": 38576687104,
+      "peak_reserved_bytes": 42490396672,
+      "loading_peak_allocated_bytes": 17583621120,
+      "loading_peak_reserved_bytes": 17853054976
+    }
+  },
+  "window_end_memory": {
+    "allocated_bytes": {
+      "min": 25972663808,
+      "max": 25989441024
+    },
+    "reserved_bytes": {
+      "min": 40428896256,
+      "max": 42490396672
+    }
+  },
+  "execution_commit": "708e974e06f5d9f4b186c32607c16b37cbd4b14f",
+  "source_scope": "All 4 KW_WINDOWS/KW_WORK files, all 12 RESULT and resume COSTS receipts; local retained-data analysis only.",
+  "feature_reconstruction_limit": "The second response selected-weight fraction is not exactly reconstructable from rounded merged totals; its 512 values only receive shape/range/FP32-representation checks.",
+  "peak_scope_correction": "Peak counters reset after loading and read after training, persistence and validation; not isolated training-kernel peaks."
+}

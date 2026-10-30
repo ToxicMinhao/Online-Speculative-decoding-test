@@ -1,0 +1,139 @@
+{
+  "execution_commit": "708e974e06f5d9f4b186c32607c16b37cbd4b14f",
+  "status": "completed",
+  "outcome": "Mixed/inconclusive",
+  "primary": {
+    "candidate": "KW",
+    "reference": "K",
+    "call_reduction_pct": 0.21536252692031588,
+    "request_time_reduction_pct": 0.23018535245873412,
+    "native_generate_time_reduction_pct": 0.21941095197420776,
+    "call_request_directions": {
+      "improved": 25,
+      "regressed": 20,
+      "tied": 19
+    },
+    "call_gross_saved": 40,
+    "call_gross_extra": 34,
+    "call_net_saved": 6,
+    "latency_request_directions": {
+      "improved": 35,
+      "regressed": 29,
+      "tied": 0
+    },
+    "latency_gross_saved": 0.7079688943922519,
+    "latency_gross_extra": 0.5974488028635578,
+    "latency_net_saved": 0.11052009152869396
+  },
+  "primary_bootstrap": {
+    "request_pairs": 64,
+    "resamples": 10000,
+    "bit_generator": "PCG64",
+    "seed": 20261030,
+    "statistic": "100 * (sum(K calls) - sum(KW calls)) / sum(K calls)",
+    "estimate_pct": 0.21536252692031588,
+    "percentile_95_ci_pct": [
+      -0.6896676979345416,
+      1.0526575741295943
+    ],
+    "percentile_method": "linear",
+    "scope": "Conditional on this run/checkpoint and request panel; no training-seed inference."
+  },
+  "pooled_final_comparisons": {
+    "KW_vs_K": {
+      "candidate": "KW",
+      "reference": "K",
+      "call_reduction_pct": -0.06996676578625154,
+      "request_time_reduction_pct": -0.07660995753011701,
+      "native_generate_time_reduction_pct": -0.05591592130950045,
+      "call_request_directions": {
+        "improved": 93,
+        "regressed": 98,
+        "tied": 65
+      },
+      "call_gross_saved": 160,
+      "call_gross_extra": 168,
+      "call_net_saved": -8
+    },
+    "KW_vs_O": {
+      "candidate": "KW",
+      "reference": "O",
+      "call_reduction_pct": 3.3941236068895644,
+      "request_time_reduction_pct": 3.268405127567166,
+      "native_generate_time_reduction_pct": 3.2895279578193115,
+      "call_request_directions": {
+        "improved": 163,
+        "regressed": 50,
+        "tied": 43
+      },
+      "call_gross_saved": 504,
+      "call_gross_extra": 102,
+      "call_net_saved": 402
+    },
+    "K_vs_O": {
+      "candidate": "K",
+      "reference": "O",
+      "call_reduction_pct": 3.4616683552853766,
+      "request_time_reduction_pct": 3.342454432176329,
+      "native_generate_time_reduction_pct": 3.3435742887605837,
+      "call_request_directions": {
+        "improved": 163,
+        "regressed": 50,
+        "tied": 43
+      },
+      "call_gross_saved": 521,
+      "call_gross_extra": 111,
+      "call_net_saved": 410
+    }
+  },
+  "training": {
+    "O": {
+      "training_s": 1224.9296051543206,
+      "event_wall_s": 1357.6718779951334,
+      "loading_and_resume_validation_s": 145.676075078547,
+      "checkpoint_save_s": 68.37871076911688,
+      "export_s": 53.81572767905891,
+      "peak_allocated_bytes": 27234509312,
+      "peak_reserved_bytes": 34873540608
+    },
+    "K": {
+      "training_s": 1277.7744149174541,
+      "event_wall_s": 1410.2071960885078,
+      "loading_and_resume_validation_s": 147.03776368685067,
+      "checkpoint_save_s": 67.40458228439093,
+      "export_s": 54.37579668685794,
+      "peak_allocated_bytes": 29250772480,
+      "peak_reserved_bytes": 34873540608
+    },
+    "KW": {
+      "training_s": 1802.70925902389,
+      "event_wall_s": 1937.8786444067955,
+      "loading_and_resume_validation_s": 176.90845935605466,
+      "checkpoint_save_s": 67.99563061073422,
+      "export_s": 56.27791653200984,
+      "peak_allocated_bytes": 38576687104,
+      "peak_reserved_bytes": 42490396672
+    },
+    "KW_vs_K_training_s": {
+      "extra_s": 524.9348441064358,
+      "overhead_pct": 41.08196548452157
+    },
+    "KW_vs_K_event_wall_s": {
+      "extra_s": 527.6714483182877,
+      "overhead_pct": 37.41800848711383
+    }
+  },
+  "KW_component_timers": {
+    "ordinary_training_s": 1265.8730997722596,
+    "capture_host_s": 1.019443279132247,
+    "credit_and_controller_s": 103.79756966605783,
+    "previews_s": 295.50651553459466,
+    "weighting_s": 96.71356171183288,
+    "live_update_s": 34.04699078388512,
+    "window_observed_s": 1804.3725381102413
+  },
+  "cost_limits": "Component timers overlap; sums above group only same-scope events. Scientific peak labels corrected in this analysis; raw evidence preserved.",
+  "all_valid_generations": 4032,
+  "new_controller_model_passes": 0,
+  "campaign_wall_s": 14723.32524574548
+}

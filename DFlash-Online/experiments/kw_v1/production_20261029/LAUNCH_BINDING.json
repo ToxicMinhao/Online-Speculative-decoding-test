@@ -1,0 +1,65 @@
+{
+  "execution_commit": "708e974e06f5d9f4b186c32607c16b37cbd4b14f",
+  "purpose": "Operational production launch binding; no scientific source changes",
+  "files": {
+    "sealed/PLAN.json": {
+      "bytes": 2722659,
+      "sha256": "ded1cf543b7817dcb5555322b4d2c635ab364e2f0de130f70a83b53d7e19dcbf"
+    },
+    "sealed/SEAL.json": {
+      "bytes": 595369,
+      "sha256": "f38a0f07b639b52d2325100c7d9d615d4c2c96cb5e677b9235021a004d421c07"
+    },
+    "QUALIFICATION_REUSE.json": {
+      "bytes": 1202,
+      "sha256": "344df9a99ed425883e16872f67f10ec57fe55b77923fd7fbdf12bdedf3a4a645"
+    },
+    "PREPARATION_CHECK.json": {
+      "bytes": 3099,
+      "sha256": "18743bddf1ce33a400b5a29f0b1267f994b251c6e5c728290935f2f3edf426f1"
+    },
+    "launch_campaign_and_report.sh": {
+      "bytes": 1250,
+      "sha256": "2906d274891b600f4455430b43ec7b476338dcc26850f64661cfdd14b85641f2"
+    }
+  },
+  "fixed_new_budget": {
+    "feedback": 512,
+    "evaluation": 4032,
+    "generations": 4544,
+    "presentations": 3072,
+    "optimizer_steps": 1536,
+    "optimizer_previews": 1024,
+    "credit_opportunities": 504,
+    "additional_controller_model_passes": 0
+  },
+  "reused_qualification": {
+    "schema": "kw_v1_passed_qualification_reuse_v1",
+    "qualification_status": "passed",
+    "original_successful_root": "/data/sources/minhao/runs/dflash_kw_v1_20261029/neutral_repair_001",
+    "original_successful_receipt": "/data/sources/minhao/runs/dflash_kw_v1_20261029/neutral_repair_001/IMPLEMENTATION_QUALIFICATION.json",
+    "copied_receipt": "/data/sources/minhao/runs/dflash_kw_v1_20261029/production_001/IMPLEMENTATION_QUALIFICATION.json",
+    "receipt_identity": {
+      "bytes": 409073,
+      "sha256": "d731b3e5ca2bdf5ee1a9a53f80eae724ba9a3964ed508314981529b766e65beb"
+    },
+    "bindings": {
+      "source_k8_sha256": "1b1a646eb1dac0b61629a0eb3586b424dea847f487a849f63ec800489de6e9ed",
+      "qualification_inputs_sha256": "403896b58e38146f15087ffeb3a8b68cbaf519cb6ec6e52968b9c5bbfc62fc7b",
+      "execution_commit": "708e974e06f5d9f4b186c32607c16b37cbd4b14f"
+    },
+    "new_qualification_work": 0,
+    "original_failed_receipt_preserved": "/data/sources/minhao/runs/dflash_kw_v1_20261029/IMPLEMENTATION_QUALIFICATION.json",
+    "retired_comparison_tensors_required_by_production": false,
+    "qualification_repair_plan_field": "Historical scope of reused qualification, not the current production authorization."
+  },
+  "storage": {
+    "before_free_bytes": 190751002624,
+    "settled_free_bytes": 218015649792,
+    "required_bytes": 215574560848,
+    "retired_temporary_tensor_files": 7,
+    "retired_bytes": 27264636789,
+    "retained_compact_evidence_verified": 39
+  },
+  "qualification_new_work": 0
+}

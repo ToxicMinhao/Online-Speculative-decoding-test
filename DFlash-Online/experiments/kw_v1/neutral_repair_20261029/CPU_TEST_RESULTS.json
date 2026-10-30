@@ -1,0 +1,40 @@
+{
+  "scope": "Local CPU implementation regressions only; no full-model GPU or remote work by this agent.",
+  "test_runs": [
+    {
+      "command": "CUDA_VISIBLE_DEVICES='' PYTHONPATH=.:training:tests /home/minhao2/.venvs/dflash-specforge/bin/python -m unittest test_kw_training",
+      "status": "passed",
+      "tests": 15,
+      "elapsed_s": 7.992,
+      "timing": "Before whitespace-only formatting and removal of unused diagnostic envelope fallback; tool output observed, not separately saved as a raw log."
+    },
+    {
+      "command": "CUDA_VISIBLE_DEVICES='' PYTHONPATH=.:training:tests /home/minhao2/.venvs/dflash-specforge/bin/python -m unittest test_kw_training test_response_weighting experiments.kw_v1.test_diagnostics experiments.kw_v1.test_campaign experiments.kw_v1.test_resume experiments.kw_v1.test_evaluate experiments.kw_v1.test_evaluation_protocol experiments.kw_v1.test_report",
+      "status": "passed",
+      "tests": 68,
+      "elapsed_s": 39.871,
+      "log": "/home/minhao2/EAGLE_SPEC/research/dflash_kw_v1_20261029/neutral_repair_001/CPU_COMBINED_TESTS.log",
+      "timing": "Final source after formatting and fallback removal; includes the preceding 15 tests."
+    }
+  ],
+  "source_sha256": {
+    "experiments/kw_v1/qualify.py": "07201e49d4d57054b2cc0864a69254d671e5861b14270e3ca8e12143ea12e2f9",
+    "tests/test_kw_training.py": "e2e49a3e2be41fe3e232c75f4cacbc92717dc1944aac720a68c5e33cdf28c850"
+  },
+  "diff_check": "passed",
+  "new_regressions": [
+    "immutable saved optimizer step/moment state across disposable native steps",
+    "cleanup-only failure writes worker failure receipt before propagation",
+    "second worker resumes same global work ceiling",
+    "fresh Python subprocess commands per arm without retry",
+    "aborted child retains started attempt without completion receipt"
+  ],
+  "cpu_fixture_work": {
+    "response_forwards": 8,
+    "response_backwards": 8,
+    "disposable_optimizer_applications": 14,
+    "serving_generations": 0,
+    "persistent_optimizer_updates": 0
+  },
+  "full_model_memory_checked": false
+}
