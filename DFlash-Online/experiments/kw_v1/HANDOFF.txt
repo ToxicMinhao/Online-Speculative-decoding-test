@@ -1,0 +1,309 @@
+EXECUTOR HANDOFF — K WITH LEARNED RESPONSE WEIGHTS (KW-v1)
+Date: 2026-10-29
+Task: implement one algorithm update, qualify its numerical implementation, and run the fixed O/K/KW comparison through events 9–12.
+
+1. OBJECTIVE AND SCOPE
+
+Test this hypothesis: within K's existing two-response Adam window, learning the relative contribution of each response from its effect on the next ordinary training window improves online adaptation.
+
+Use arm name KW. K's token selection, per-response loss, anchors and model architecture stay exactly qualified. KW adds a five-parameter response-weight controller. The next-window signal is collected training data, not held-out validation, and is not necessarily the next chronological user request because training shuffles within each pass.
+
+This is an algorithm experiment. Complete implementation, the bounded correctness checks below, training and the fixed evaluations. Do not insert a separate normalization study, correction replay, hyperparameter search or fourth training arm. Improvement is a hypothesis, not a required outcome. Generic example reweighting and next-minibatch gradient credit already have prior art; describe this particular optimizer-aware online-SD mechanism without claiming novelty has been established.
+
+2. SOURCE, INITIAL STATES AND INHERITED RECIPE
+
+Base repository:
+https://github.com/ToxicMinhao/Online-Speculative-decoding-test
+Scientific baseline: PR #18, commit 2ac730cf70b3830677fb145151db08a43dffac25.
+Read its results, provenance, runtime/training/model pins and continuation code before implementing. Pin the new execution commit and exact commands before the campaign.
+
+Start all arms at event 8, cumulative step 1024 and presentation 2048:
+- O: complete own O8 state.
+- K: complete own K8 state.
+- KW: a separate exact copy of complete K8, plus a new zero-initialized controller.
+Preserve weights, BF16 Adam moments and step counters, all RNG state, event history and horizon. Do not restart Adam or reseed. Verify scientific-state equality before adding KW controller metadata.
+
+Use an additive KW trainer/optimizer wrapper and an explicit versioned algorithm contract. Existing O/K continuation, optimizer and restore guards must retain their behavior. The sole K8-to-KW migration must be explicit and narrowly validated; subsequent KW restores require the complete KW contract and controller state.
+
+Keep the pinned Qwen3-8B target / DFlash-b16 draft, frozen target/embedding/vocabulary head, trainable draft backbone, direct BF16 AdamW without master weights, and existing loss arithmetic. Key inherited settings:
+- K objective: osd_first_error, forward KL at temperature 1, detached current training-forward correct prefix including first mismatch.
+- Seed position excluded; qualified EOS and contiguous-validity rules unchanged.
+- Existing exponential position decay 7 and selected-weight normalization per response, with epsilon 1e-6.
+- Response-mean accumulation; microbatch 1, accumulation 2.
+- AdamW LR 3e-4, betas 0.9/0.999, epsilon 1e-8, weight decay 0.01; one global clip at norm 1.
+- Constant inherited horizon 7424; no new scheduler.
+- At most 512 native anchors/response, block size 16, projection chunks 8, training length limit 2272.
+- Every event: 128 shared feedback responses, two passes, 256 presentations and 128 committed Adam steps.
+- Serving: qualified greedy BF16, concurrency 1, block 16, output cap 2048 or EOS, context 4096, pinned SGLang/FA3 and cache policy.
+
+FP32 gradient-difference/eligibility arithmetic and FP64 scalar reductions below are bookkeeping; model weights and Adam moments remain BF16. No FP32 model or optimizer arm.
+
+3. CONTROLLER: EXACT FEATURES AND DEFAULTS
+
+For each response, use its existing ordinary training forward. Read the detached response loss and additive selection statistics immediately from that response's StepOutput, before TrainerCore merges the two responses' metrics. Do not use the boundary StepResult as if it were one response. Checkpoint recomputation must not create a second observation.
+
+Let:
+  W = available_position_weight
+  S = selected_position_weight
+  H_j = first_error_position_j, j = 1,...,15
+  N0 = no_error_blocks
+  N = N0 + sum_j H_j
+  ell = native response-normalized K loss
+  L = full response token count, including EOS when present.
+
+Require finite raw loss, weights, counts and length before any clamp; require nonnegative raw weights/counts and a valid response length. Compute this five-element detached feature vector in FP32:
+  z1 = clip(S / (W + 1e-6), 0, 1)
+  z2 = [sum_j j*H_j + 16*N0] / (16*N), or 0 if N=0
+  z3 = N0 / N, or 0 if N=0
+  z4 = max(ell, 0) / [1 + max(ell, 0)]
+  z5 = clip(L / 2048, 0, 1).
+Clip all features to [0,1] and reject nonfinite values. The no-error sentinel in z2 is 16. Empty blocks contribute to neither N nor its numerator. Clamp the loss only for z4; never alter the native training loss.
+
+Controller:
+  phi is a five-vector, initially zero; no bias.
+  d_t = z_(t,1) - z_(t,2)
+  s_t = dot(phi_entry, d_t)
+  a_t = 0.25 * tanh(s_t)
+  weights = (0.5 + a_t, 0.5 - a_t)
+  b_t = 0.25 * [1 - tanh(s_t)^2] * d_t.
+
+Each response receives weight in [0.25,0.75], with total weight 1. This does not fix gradient norm or Adam step magnitude. Compute controller/scalar operations in CPU FP64 after converting the detached FP32 features; do not consume any training RNG.
+
+Fixed v1 parameters:
+  secant half-width delta = 1/16
+  credit RMS decay = 0.95
+  credit normalization epsilon = 1e-12
+  normalized-credit clip = [-1,1]
+  controller learning rate = 0.05
+  controller L2 coefficient-norm cap = 2.
+No tuning against either intermediate or final evaluation results.
+
+4. NATIVE GRADIENT CAPTURE AND EXACT NEUTRAL BEHAVIOR
+
+The pinned TrainerCore backpropagates ell/2 for each response. The response-mean adapter supplies denominator 1 per response, so boundary normalization has scale 2/2 = 1.
+
+Let u1 and u2 be the actual per-response, pre-accumulation backward-hook contributions. They already contain the factor 1/2. Capture each directly; hooks return None and leave native accumulation intact. Never infer u2 by subtracting successive BF16 accumulated .grad buffers.
+
+Let G be the native accumulated and normalized BF16 gradient, before clipping. Preserve it unchanged for the delayed query and for the exact neutral case. Define KW's gradient at allocation a as:
+  if a == 0:
+      G(a) = G, using the unchanged native path
+  otherwise:
+      G(a) = BF16( FP32(G)
+                   + float32(2*a) * (FP32(u1) - FP32(u2)) ).
+
+Use separate FP32 subtract, multiply and add operations, then one BF16 cast. Do not introduce compiler fusion that changes this numerical contract. Treat a missing response contribution as zero for the perturbation while preserving the native active/None-gradient set. Never turn an all-None parameter into an active zero gradient and thereby change weight decay or Adam state.
+
+This definition applies weighting to stored native gradient contributions. Do not claim bitwise equivalence to weighting losses before backpropagation. Do not rebuild the neutral gradient by averaging newly converted FP32 contributions. Preserve the DDP wrapper, bucket views, trainable-parameter ordering and existing backend normalization.
+
+There are exactly the usual two model forwards/backwards in a training window. No extra backward to form an independently weighted loss or to obtain the next-window query.
+
+5. ACTUAL BF16 OPTIMIZER SECANT AND DELAYED CREDIT
+
+Let T_t(a) be the actual parameter result from applying the qualified optimizer to G(a), starting from the same pre-step weights, Adam moments and counters. It includes native global clipping, BF16 Adam arithmetic, weight decay and BF16 parameter updates.
+
+Form:
+  a_plus  = clip(a_t + delta, -0.25, 0.25)
+  a_minus = clip(a_t - delta, -0.25, 0.25)
+  theta_plus  = T_t(a_plus)
+  theta_minus = T_t(a_minus)
+  e_t = [FP32(theta_plus) - FP32(theta_minus)]
+        / float32(a_plus - a_minus).
+
+Cast each parameter proposal to FP32 BEFORE subtraction. Use the actual clipped denominator, not an unconditional 2*delta. e_t covers the same named trainable parameters as G; store it in FP32.
+
+Both proposals are uncommitted optimizer arithmetic:
+- Start each from identical pre-step model/Adam state.
+- Preserve native parameter grouping, active-gradient set, optimizer options and foreach/fused dispatch behavior.
+- Include the same global clipping rule.
+- Never consume RNG, mutate live weights/moments/counters, advance global_step, publish weights or run the model.
+- Discard hypothetical moments. Only the real update at a_t changes live model and Adam state.
+- Use sequential scratch proposals and reuse buffers where safe. Memory efficiency must preserve numerical equivalence. Never replace this map with a closed-form FP32 Adam approximation followed by a BF16 cast.
+
+At the next window, use h_(t+1) = that window's native G, UNWEIGHTED and UNCLIPPED, to obtain the credit below. A missing current query gradient contributes zero to this dot product, while its optimizer None-gradient semantics remain unchanged:
+  c_t = sum_parameters dot(FP64(h_(t+1)), FP64(e_t)).
+Perform fixed-order chunked FP64 products/sums (at most 1,048,576 elements per chunk), followed by CPU FP64 accumulation in named-parameter order. This avoids a full-model FP64 buffer.
+
+Positive c means increasing the preceding first-response weight locally predicts increasing the next-window loss. Therefore use gradient DESCENT:
+  n <- n + 1
+  v <- 0.95*v + 0.05*c_t^2
+  v_hat <- v / (1 - 0.95^n)
+  c_scaled <- clip(c_t / (sqrt(v_hat) + 1e-12), -1, 1)
+  phi <- project_L2_ball_radius_2(
+             phi - 0.05*c_scaled*b_t ).
+
+Initially v=0 and n=0. Every scheduled within-pass credit opportunity counts, including c=0. If the proposed controller increment is identically zero (including zero normalized credit), leave phi bitwise unchanged and skip its projection, while still updating the prescribed RMS/count state. Thus an all-zero secant gives exactly zero credit and zero controller change. Cache b_t from the producing window; do not recompute it using newer phi. Reject nonfinite gradients, proposals, secants or controller/credit scalars; never silently replace them with zeros.
+
+This is an approximate first-order loss-transfer signal using a finite secant of a quantized optimizer. It is not an exact derivative through BF16, an exact acceptance/serving objective, or a derivative through future Adam history. Report these limits.
+
+6. WINDOW ORDER, BOUNDARIES AND RESUME
+
+Use this exact order:
+1. Cache phi_entry at the start of the window.
+2. Run both ordinary unweighted K forwards/backwards; collect per-response features, u1, u2 and native G.
+3. Compute and freeze a_t and b_t using phi_entry.
+4. If pending eligibility exists from the preceding window in the SAME pass, compute its credit using current G and update phi for SUBSEQUENT windows.
+5. Build the two previews from the current pre-step scientific state, obtain e_t, and commit exactly one live native optimizer update using the already-frozen a_t.
+6. Save pending (e_t, b_t, producing-step identity), then clear it if this is the predetermined end of the pass.
+
+Thus the first two windows after zero initialization use equal weights; the first learned allocation can occur in window 3. No current-window credit may retroactively change its already-frozen allocation.
+
+Keep phi, v and n across all passes/events. Clear pending eligibility at EVERY pass boundary, in both uninterrupted and resumed execution. There are 64 windows/pass and two passes/event: 126 credit opportunities/event, 504 across this campaign. Generate two previews per window in this first version, including the final window of each pass; its unused eligibility is discarded.
+
+Persist algorithm version, fixed hyperparameters, phi/v/n, counters, model/Adam/RNG, and input/schedule bindings. Complete-event checkpoints have no pending eligibility. Restrict v1 recovery to complete committed event boundaries unless exact mid-pass recovery is implemented and qualified, including saved pass permutation/cursor, pending eligibility/b_t and all RNG/counters. Never silently drop pending credit or reset controller state on a mid-pass restart.
+
+7. IMPLEMENTATION QUALIFICATION — BOUNDED, NO NEW MECHANISM STUDY
+
+Before production events, use small numerical fixtures to test:
+- Feature definitions, EOS/empty-block cases, controller sign, response-swap symmetry and delayed timing.
+- Native neutral equivalence, parameter/None-gradient semantics and clipping.
+- Preview agreement with native optimizer behavior at nonzero allocations, including clipped endpoints, moment/counter and parameter state.
+- Preview isolation, exact checkpoint round trip, and controller/pass-boundary restore.
+
+One bounded full-model GPU qualification is allowed:
+- Select four retained event-8 training responses by descending stored length, breaking ties by record ID. Seal those identities before running.
+- From identical disposable K8 clones and RNG state, run the same two consecutive windows once with ordinary K and once with normal zero-initialized KW.
+- This is at most 8 extra response forwards and 8 backwards, with native checkpoint recomputation included in measured cost.
+- Both windows must match K's decoded model/Adam/RNG and ordinary training counters exactly: KW's first credit can only affect its third allocation. The added controller state has no K counterpart and may change after window 2.
+- Reuse these captured gradients and saved pre-step states for optimizer-only nonzero-allocation and isolation checks; no extra model passes.
+- Bound full-model disposable optimizer applications, including these shadow steps and previews, to 16. CPU tiny-fixture work is separate.
+- Zero serving generations; zero updates to retained or production states.
+
+Before proceeding, validate remote O8/K8 and feature availability, pinned dependencies, disk budget and memory fit with all gradient, eligibility and preview buffers. A FP32 eligibility buffer alone is roughly 2 GiB at this model scale; do not assume fit from the old training peak.
+
+If a scientific mismatch remains or this qualification budget is exhausted, report the specific implementation blocker. Do not reinterpret it as algorithm evidence, expand into an open-ended probe, or silently change precision/optimizer behavior. Correctness checks are required; performance improvement is not a gate for running the fixed campaign.
+
+8. FIXED EVENTS 9–12 AND INPUT SEALING
+
+For each event:
+- Generate one 128-response feedback pool using the preceding O checkpoint: O8, O9, O10 and O11 respectively.
+- Prepare its frozen-target features once; share exactly that pool and immutable features among O, K and KW.
+- Train O first to obtain the ordinary presentation/anchor receipt.
+- K and KW use their own restored natural RNG draws and verify exact presentation/anchor agreement with O. Keep existing schedule-validation semantics; do not silently force replacement anchors.
+- Complete both passes and all 128 Adam steps for every arm.
+
+Seal the next 512 eligible training prompts from the chronological source cursor recorded by the preceding campaign. Do not assume the source cursor equals the number of accepted requests. Exclude all earlier current-study evaluation/probe content and duplicate training content. Preserve the qualified prompt template, tokenizer, feature validation and full-length requirements.
+
+Prepare all evaluation identities before outcomes:
+- Retained development64: keep its exact F canonical outputs.
+- Retained additional64, seed 20261028: keep its exact K1 canonical outputs.
+- Retained PR18 fresh64, seed 20261029: now use its saved O8 outputs as retained canonicals.
+- New final64: isolated random.Random(20261030), inherited deduplicate-before-shuffle recipe, first 64 eligible test rows.
+
+For new final64, enumerate test rows in source order, exclude all prior and planned training questions and all earlier current-study evaluation/probe identities/content, deduplicate, then shuffle. Include the older confirmation panel seed 20261027 in exclusions even though it is not re-evaluated. Verify source identities, normalized-question and exact-prompt-token overlap; seal indices, tokens, hashes, selection seed and exclusion reasons. Use question columns only, without answer labels. Disclose known unrelated older-project exposure; do not select around prior performance.
+
+Stop on an invalid or overlength feedback record under the existing contract; do not shorten it or substitute a new prompt based on outcomes. Preserve completed work and log operational failures.
+
+9. FIXED EVALUATION
+
+Evaluate all three retained panels at events 10 and 12. Evaluate new final64 only at event 12. Three repeats per request and arm.
+
+Use this balanced order, with ordinal the 0-based request index WITHIN its panel:
+  base = (O,K,KW) if ordinal is even else (O,KW,K)
+  shift = (ordinal + repeat) % 3
+  order = base[shift:] + base[:shift]
+  repeat = 0,1,2.
+
+Each arm occupies each position once per request; across each 64-request panel, each pair's precedence is balanced 96/96. Pin the complete evaluation schedule.
+
+The first eight development requests at event 10 form the included correctness gate: 72 generations already inside the budget. Keep exact output/termination equality, checkpoint-publication/weight checks, cache rules and timing boundaries. No extra generation warmups or target-only reference runs.
+
+For new final64, the first native O12 output supplies the canonical tokens; defer validation of any earlier K/KW output until that reference exists. This is the inherited native-verifier agreement protocol, not new independent target-only verification.
+
+No training or artifact transfer during timed serving. Record complete-request and native-generation time separately. Do not use repeated measurements as independent requests. Do not select a favorable intermediate checkpoint or rerun unfavorable valid results.
+
+10. FIXED WORK BUDGET
+
+Production training:
+  Shared feedback generations:                  512
+  New committed Adam steps per arm:             512
+  New committed Adam steps, three arms:         1536
+  Ordinary response presentations, three arms:  3072
+  Additional model passes for controller:       0
+  KW uncommitted optimizer previews:            1024
+  Scheduled delayed-credit opportunities:       504
+
+Evaluation:
+  3 retained panels x 2 endpoints x 64 requests
+    x 3 arms x 3 repeats:                       3456
+  1 new final panel x 64 x 3 arms x 3 repeats:    576
+  Total evaluation generations:                 4032
+  Total production complete generations:        4544
+
+Separate implementation qualification:
+  Extra response forward/backwards:             <=8 / <=8
+  Full-model disposable optimizer applications:  <=16
+  Serving generations:                          0
+  Persistent/production Adam updates:           0
+
+Each production arm ends at cumulative step 1536 and presentation 3072. Count model checkpoint recomputation, CPU fixtures, scratch optimizer arithmetic, failed/partial attempts, loading and transfers honestly in the work/cost ledger; they must not masquerade as free operations. No automatic budget expansion after a failure.
+
+11. REQUIRED LOGS, REPORT AND DECISION
+
+Record one compact KW row per optimizer window:
+- Event/pass/window/global step and response IDs; schedule/anchor binding.
+- Both feature vectors and ordinary unweighted K losses.
+- Frozen a, two weights, phi before/after, cached derivative identity.
+- Actual a_plus/a_minus; secant norm, zero-secant flag and fraction of parameter coordinates changed between previews.
+- Delayed credit and producing/query IDs, RMS v/n, normalized credit, controller update norm and clipping/saturation flags.
+- Ordinary/weighted pre-clip gradient norms, actual live-step norm if available without another proposal.
+- Timings for ordinary training, capture/weighting, optimizer previews, credit/controller work and live update; allocated/reserved memory.
+- All work counters and validity failures.
+Log scalar summaries; do not retain every full gradient or eligibility vector as a diagnostic archive.
+
+Primary comparison:
+  KW12 versus K12 on the prespecified NEW final64 panel.
+  call_reduction_pct = 100 * (sum(calls_K12) - sum(calls_KW12))
+                                  / sum(calls_K12).
+
+Show O comparisons too. A gain over O without a gain over K is not evidence for the new component.
+
+For every fixed panel/endpoint, report exact calls and calls/1000 generated tokens, accepted-draft and committed progress per call, request wins/losses/ties, gross saved/added calls, exact outputs/termination, repeat consistency, full-request and native-generation timings. Compute timing comparisons from each request's three-repeat mean. Present every endpoint, not only the best.
+
+For the primary call reduction, add a paired request bootstrap: 10,000 resamples of the 64 request pairs, isolated NumPy PCG64 seed 20261030, ratio-of-summed-calls statistic, percentile 95% interval. Repeats are not independent samples. This interval is conditional on this run/checkpoint and request panel, not evidence of training-seed robustness.
+
+Also report final results pooled across the four disjoint final panels, with each panel still visible, plus full training/controller cost relative to K. Separate updater cost from request latency; this controlled shared-feedback campaign does not measure deployed asynchronous queue/lag behavior.
+
+Apply outcome labels with this precedence: correctness failure is invalid; nonpositive primary new-final64 call reduction does not support the primary improvement claim, even if older panels improve; positive primary but nonpositive pooled reduction is mixed. Conclude with one of:
+- Promising v1: improvement over K on new final64 and pooled final requests, with serving-time direction and costs reported. Recommend a subsequent confirmation run; do not claim a completed conference contribution or established causal mechanism.
+- Mixed/inconclusive: gains depend on panel/metric, uncertainty is substantial, or measured overhead prevents an efficiency conclusion.
+- Unsupported v1 in this run: nonpositive call reduction over K at the primary fixed final comparison; retain K and report this result without automatic tuning/probes. This does not prove that every possible learned-weight method must fail.
+- Implementation invalid: a correctness/state/budget condition failed; name it and do not interpret performance scientifically.
+
+Do not guarantee a positive result, set a success-conditioned retry, or add a fourth arm after seeing outcomes. If v1 is promising, mechanism ablations and another seed/task are later work.
+
+12. DELIVERABLES AND RETENTION
+
+Deliver:
+1. New algorithm code/configuration and documented exact run/resume commands.
+2. A concise README stating the hypothesis, equations, precision contract, fixed choices and limitations.
+3. Input/source/configuration seals and the bounded implementation-qualification report.
+4. Raw training/controller/evaluation records, numerical checks, complete cost ledger and outcome tables.
+5. A report that directly answers whether KW improves on K, whether actual serving timing agrees, and what overhead it introduces.
+6. A separate read-only review of code, state continuity, budgets and result calculations.
+
+Retain original O8/K8; immutable complete states and serving exports for O/K/KW at events 10 and 12; complete rolling event boundaries after 9 and 11; all new shared feedback/features; exact controller/RNG/Adam state; source/input hashes and failure records. At a recoverable interruption, verify saved state/export/counters before resuming and do not regenerate completed pools or retrain completed events.
+
+Use the repository's established review/publication workflow under its existing authorization. Do not merge or deploy serving changes as part of this experiment.
+
+Finish the fixed comparison when correctness gates pass. The final deliverable must be implemented code plus measured results, or a specific documented implementation/operational blocker—not a recommendation for another preliminary mechanism probe.
+
+SOURCE REFERENCES
+
+PR18:
+https://github.com/ToxicMinhao/Online-Speculative-decoding-test/pull/18
+Report and pins:
+https://github.com/ToxicMinhao/Online-Speculative-decoding-test/tree/2ac730cf70b3830677fb145151db08a43dffac25/DFlash-Online/experiments/ok_events_5_8/results_20261029
+Qualified trainer:
+https://github.com/ToxicMinhao/Online-Speculative-decoding-test/blob/2ac730cf70b3830677fb145151db08a43dffac25/DFlash-Online/online_feedback/training.py
+Qualified optimizer:
+https://github.com/ToxicMinhao/Online-Speculative-decoding-test/blob/2ac730cf70b3830677fb145151db08a43dffac25/DFlash-Online/online_feedback/optimizer.py
+Objective and first-error statistics:
+https://github.com/ToxicMinhao/Online-Speculative-decoding-test/blob/2ac730cf70b3830677fb145151db08a43dffac25/DFlash-Online/online_feedback/objective.py
+Pinned upstream accumulation semantics:
+https://github.com/sgl-project/SpecForge/blob/1839aae30003e3573d00979eb1edd57347b3578c/specforge/training/controller.py
+Related-work foundations (not novelty clearance):
+Ren et al., Learning to Reweight Examples for Robust Deep Learning (ICML 2018):
+https://proceedings.mlr.press/v80/ren18a.html
+Mueller, Biedenkapp and Hutter, In-Loop Meta-Learning with Gradient-Alignment Reward (2021):
+https://ml.informatik.uni-freiburg.de/wp-content/uploads/papers/21-OAML-MetaAAAI.pdf
+
