@@ -1,0 +1,2843 @@
+{
+  "status": "passed",
+  "review_type": "Same-team compact-record accounting audit; adapter contributor, not independent tensor re-read or GPU reproduction",
+  "execution_commit": "d10521a1aa7d256bb75b37a6aae07586ae7cc8b3",
+  "errors": [],
+  "checks": {
+    "retrieval_identity": 272,
+    "source_commit": 18,
+    "campaign_completed": 1,
+    "supervisor_exit": 1,
+    "original_schedule_identity": 8,
+    "pool_identity_disjoint": 8,
+    "worker_completed": 16,
+    "ledger_phases": 71,
+    "ledger_pairs": 71,
+    "event_work": 16,
+    "worker_work_receipt": 16,
+    "native_schedule_gate": 16,
+    "same_features": 16,
+    "event_accounting": 16,
+    "objective_contract": 16,
+    "live_restore": 16,
+    "live_endpoint": 16,
+    "serialized_endpoint": 16,
+    "closed_continuity": 16,
+    "state_identity_receipt": 16,
+    "own_initial_migration": 4,
+    "cold_startup": 16,
+    "response_count": 16,
+    "natural_schedule_reconstruction": 4096,
+    "step_counters": 4096,
+    "learning_rate": 4096,
+    "durable_response_observation": 4096,
+    "finite_training_record": 4096,
+    "pass_order": 4096,
+    "one_anchor_call": 4096,
+    "boundary_gradient_metrics": 2048,
+    "training_timer_sum": 16,
+    "response_exposure_sum": 48,
+    "production_penalty_finite": 2048,
+    "loss_decomposition": 2048,
+    "protected_histogram": 2048,
+    "protected_counts": 2048,
+    "threshold_bounds": 2048,
+    "objective_response_counts": 8,
+    "checkpoint_recomputation_counts": 8,
+    "layer_counts": 8,
+    "fixed_released_reference": 8,
+    "own_saved_resume": 12,
+    "qualification_case_work": 4,
+    "qualification_truthful_state": 4,
+    "qualification_restore": 4,
+    "qualification_isolation": 4,
+    "qualification_finite": 4,
+    "qualification_cold_process": 4,
+    "qualification_neutral_exact": 1,
+    "qualification_forced_active": 1,
+    "production_total": 1,
+    "qualification_total": 1,
+    "qualification_report_work": 1,
+    "unique_process_cache_and_same_device": 1,
+    "report_training_audit": 1,
+    "training_csv_count": 1,
+    "report_cost_reconstruction": 28,
+    "cpu_pre_post_modelwork": 1,
+    "cpu_report_receipt": 1,
+    "remote_cpu_tests": 1
+  },
+  "production_work": {
+    "forwards": 4096,
+    "backwards": 4096,
+    "optimizer_steps": 2048,
+    "reference_forwards": 2048
+  },
+  "production_response_observations": {
+    "K_HALF": 2048,
+    "KP": 2048
+  },
+  "qualification_work": {
+    "forwards": 8,
+    "backwards": 8,
+    "optimizer_steps": 4,
+    "reference_forwards": 6
+  },
+  "total_recorded_training_and_qualification_work": {
+    "forwards": 4104,
+    "backwards": 4104,
+    "optimizer_steps": 2052,
+    "reference_forwards": 2054
+  },
+  "qualification_cases": [
+    {
+      "case": 1,
+      "work": {
+        "forwards": 2,
+        "backwards": 2,
+        "optimizer_steps": 1
+      },
+      "wall_s": 100.09424527734518,
+      "subprocess_wall_s": 114.33565278165042,
+      "peak_allocated_bytes": 20654736896,
+      "peak_reserved_bytes": 21562916864,
+      "objective_work": {
+        "reference_setup_s": 0.0,
+        "reference_forward_s": 0.0,
+        "reference_head_s": 0.0,
+        "projection_s": 0.0,
+        "teacher_head_s": 1.6216418985277414,
+        "selection_s": 0.23582936264574528
+      },
+      "protected": null,
+      "active": null
+    },
+    {
+      "case": 2,
+      "work": {
+        "forwards": 2,
+        "reference_forwards": 2,
+        "backwards": 2,
+        "optimizer_steps": 1
+      },
+      "wall_s": 119.24940425157547,
+      "subprocess_wall_s": 132.98910889029503,
+      "peak_allocated_bytes": 22860826112,
+      "peak_reserved_bytes": 23737663488,
+      "objective_work": {
+        "reference_setup_s": 10.136874975636601,
+        "reference_forward_s": 11.332888923585415,
+        "reference_head_s": 0.8554820716381073,
+        "projection_s": 0.0,
+        "teacher_head_s": 1.6218094155192375,
+        "selection_s": 0.2212269902229309,
+        "extra_loss_s": 0.0,
+        "work": {
+          "reference_draft_forwards": 2,
+          "reference_layer_forwards": 10,
+          "reference_response_forwards": 2,
+          "reference_head_calls": 128,
+          "current_response_forwards": 2,
+          "current_draft_forwards": 2,
+          "current_layer_forwards": 10,
+          "current_objective_chunks": 256,
+          "current_head_calls": 256,
+          "teacher_head_calls": 256
+        },
+        "reference_binding": "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/draft"
+      },
+      "protected": null,
+      "active": null
+    },
+    {
+      "case": 3,
+      "work": {
+        "forwards": 2,
+        "reference_forwards": 2,
+        "backwards": 2,
+        "optimizer_steps": 1
+      },
+      "wall_s": 118.26085967198014,
+      "subprocess_wall_s": 132.717127609998,
+      "peak_allocated_bytes": 24958084096,
+      "peak_reserved_bytes": 26138902528,
+      "objective_work": {
+        "reference_setup_s": 9.915400121361017,
+        "reference_forward_s": 11.331269497051835,
+        "reference_head_s": 0.853563679382205,
+        "projection_s": 0.0,
+        "teacher_head_s": 1.6207881569862366,
+        "selection_s": 0.22769164480268955,
+        "extra_loss_s": 0.06814218871295452,
+        "work": {
+          "reference_draft_forwards": 2,
+          "reference_layer_forwards": 10,
+          "reference_response_forwards": 2,
+          "reference_head_calls": 128,
+          "current_response_forwards": 2,
+          "current_draft_forwards": 2,
+          "current_layer_forwards": 10,
+          "current_objective_chunks": 256,
+          "current_head_calls": 256,
+          "teacher_head_calls": 256
+        },
+        "reference_binding": "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/draft"
+      },
+      "protected": 9546,
+      "active": 106
+    },
+    {
+      "case": 4,
+      "work": {
+        "forwards": 2,
+        "reference_forwards": 2,
+        "backwards": 2,
+        "optimizer_steps": 1
+      },
+      "wall_s": 120.83977833762765,
+      "subprocess_wall_s": 135.4857940133661,
+      "peak_allocated_bytes": 22860831232,
+      "peak_reserved_bytes": 23737663488,
+      "objective_work": {
+        "reference_setup_s": 9.953948855400085,
+        "reference_forward_s": 11.61400544270873,
+        "reference_head_s": 0.8543822858482599,
+        "projection_s": 0.0,
+        "teacher_head_s": 1.6207425743341446,
+        "selection_s": 0.22874684259295464,
+        "extra_loss_s": 0.0755361057817936,
+        "work": {
+          "reference_draft_forwards": 2,
+          "reference_layer_forwards": 10,
+          "reference_response_forwards": 2,
+          "reference_head_calls": 128,
+          "current_response_forwards": 2,
+          "current_draft_forwards": 2,
+          "current_layer_forwards": 10,
+          "current_objective_chunks": 256,
+          "current_head_calls": 256,
+          "teacher_head_calls": 256
+        },
+        "reference_binding": "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/draft"
+      },
+      "protected": 15235,
+      "active": 15235
+    }
+  ],
+  "qualification_wall_s": 546.8591510411352,
+  "qualification_q4": {
+    "gradients": {
+      "exact": false,
+      "changed_parameters": 58,
+      "changed_coordinates": 1046762296,
+      "max_abs_error": 0.1405029296875
+    },
+    "moments": {
+      "exact": false,
+      "changed_parameters": 116,
+      "changed_coordinates": 1095401476,
+      "max_abs_error": 0.01409912109375
+    },
+    "updated_bf16_parameters": {
+      "exact": false,
+      "changed_parameters": 41,
+      "changed_coordinates": 35065175,
+      "max_abs_error": 0.0009765625
+    }
+  },
+  "initial_states": 4,
+  "own_resume_boundaries": 12,
+  "validated_endpoints": 16,
+  "distinct_worker_processes": 20,
+  "distinct_empty_cache_directories": 120,
+  "physical_gpu_uuids": [
+    "c6943f33-bcd0-a724-0b35-f77af6b0a3f1"
+  ],
+  "kp_objective_work": {
+    "reference_draft_forwards": 2048,
+    "reference_layer_forwards": 10240,
+    "reference_response_forwards": 2048,
+    "reference_head_calls": 70140,
+    "current_response_forwards": 2048,
+    "current_draft_forwards": 2048,
+    "current_layer_forwards": 10240,
+    "current_objective_chunks": 140280,
+    "current_head_calls": 140280,
+    "teacher_head_calls": 140280
+  },
+  "cost_totals": {
+    "17/K_HALF": {
+      "training_s": 1490.5844547711313,
+      "event_wall_s": 1642.6036802064627,
+      "loading_initialization_resume_validation_s": 169.32944092713296,
+      "frozen_reference_setup_s": 0.0,
+      "checkpoint_save_s": 77.82906240783632,
+      "export_s": 61.50289107859135,
+      "state_validation_hash_s": 66.87470170296729,
+      "worker_wall_s": 1881.1554342601448,
+      "subprocess_wall_s": 1910.9400109108537,
+      "peak_allocated_bytes": 20708042240,
+      "peak_reserved_bytes": 26172456960,
+      "loading_peak_allocated_bytes": 10880436736,
+      "loading_peak_reserved_bytes": 10926161920,
+      "objective_subtimers": {
+        "reference_setup_s": 0.0,
+        "reference_forward_s": 0.0,
+        "reference_head_s": 0.0,
+        "teacher_head_s": 441.25258199311793,
+        "selection_s": 59.30745027028024,
+        "extra_loss_s": 0
+      }
+    },
+    "17/KP": {
+      "training_s": 1847.0242952313274,
+      "event_wall_s": 2000.7693857457489,
+      "loading_initialization_resume_validation_s": 202.4421470835805,
+      "frozen_reference_setup_s": 43.61311273276806,
+      "checkpoint_save_s": 81.08448622748256,
+      "export_s": 59.82477249763906,
+      "state_validation_hash_s": 66.08380680903792,
+      "worker_wall_s": 2271.8133045621216,
+      "subprocess_wall_s": 2293.9858064241707,
+      "peak_allocated_bytes": 22805302784,
+      "peak_reserved_bytes": 29748101120,
+      "loading_peak_allocated_bytes": 12977693184,
+      "loading_peak_reserved_bytes": 13044285440,
+      "objective_subtimers": {
+        "reference_setup_s": 43.60851254686713,
+        "reference_forward_s": 116.65869645029306,
+        "reference_head_s": 228.47165531665087,
+        "teacher_head_s": 441.3830365650356,
+        "selection_s": 59.61786615103483,
+        "extra_loss_s": 18.58527068607509
+      }
+    },
+    "29/K_HALF": {
+      "training_s": 1492.8250755928457,
+      "event_wall_s": 1651.6547389235348,
+      "loading_initialization_resume_validation_s": 182.02619432844222,
+      "frozen_reference_setup_s": 0.0,
+      "checkpoint_save_s": 82.81501087732613,
+      "export_s": 61.66870440915227,
+      "state_validation_hash_s": 67.83598739467561,
+      "worker_wall_s": 1904.2596217375249,
+      "subprocess_wall_s": 1951.7035479955375,
+      "peak_allocated_bytes": 20679275520,
+      "peak_reserved_bytes": 27856470016,
+      "loading_peak_allocated_bytes": 10880436736,
+      "loading_peak_reserved_bytes": 10926161920,
+      "objective_subtimers": {
+        "reference_setup_s": 0.0,
+        "reference_forward_s": 0.0,
+        "reference_head_s": 0.0,
+        "teacher_head_s": 441.1337368749082,
+        "selection_s": 59.81113005056977,
+        "extra_loss_s": 0
+      }
+    },
+    "29/KP": {
+      "training_s": 1848.318660300225,
+      "event_wall_s": 2003.820432184264,
+      "loading_initialization_resume_validation_s": 205.48958509229124,
+      "frozen_reference_setup_s": 44.856652116402984,
+      "checkpoint_save_s": 78.61690808832645,
+      "export_s": 62.91709471307695,
+      "state_validation_hash_s": 80.1932060085237,
+      "worker_wall_s": 2292.545988669619,
+      "subprocess_wall_s": 2315.0505510643125,
+      "peak_allocated_bytes": 22776356864,
+      "peak_reserved_bytes": 29861347328,
+      "loading_peak_allocated_bytes": 12977693184,
+      "loading_peak_reserved_bytes": 13044285440,
+      "objective_subtimers": {
+        "reference_setup_s": 44.85249253362417,
+        "reference_forward_s": 115.30455307662487,
+        "reference_head_s": 228.4321563858539,
+        "teacher_head_s": 441.1884220633656,
+        "selection_s": 61.04720492102206,
+        "extra_loss_s": 18.714622400701046
+      }
+    },
+    "pooled/K_HALF": {
+      "training_s": 2983.409530363977,
+      "event_wall_s": 3294.2584191299975,
+      "loading_initialization_resume_validation_s": 351.3556352555752,
+      "frozen_reference_setup_s": 0.0,
+      "checkpoint_save_s": 160.64407328516245,
+      "export_s": 123.17159548774362,
+      "state_validation_hash_s": 134.7106890976429,
+      "worker_wall_s": 3785.4150559976697,
+      "subprocess_wall_s": 3862.6435589063913,
+      "peak_allocated_bytes": 20708042240,
+      "peak_reserved_bytes": 27856470016,
+      "loading_peak_allocated_bytes": 10880436736,
+      "loading_peak_reserved_bytes": 10926161920,
+      "objective_subtimers": {
+        "reference_setup_s": 0.0,
+        "reference_forward_s": 0.0,
+        "reference_head_s": 0.0,
+        "teacher_head_s": 882.3863188680261,
+        "selection_s": 119.11858032085001,
+        "extra_loss_s": 0
+      }
+    },
+    "pooled/KP": {
+      "training_s": 3695.3429555315524,
+      "event_wall_s": 4004.589817930013,
+      "loading_initialization_resume_validation_s": 407.93173217587173,
+      "frozen_reference_setup_s": 88.46976484917104,
+      "checkpoint_save_s": 159.701394315809,
+      "export_s": 122.74186721071601,
+      "state_validation_hash_s": 146.27701281756163,
+      "worker_wall_s": 4564.359293231741,
+      "subprocess_wall_s": 4609.036357488483,
+      "peak_allocated_bytes": 22805302784,
+      "peak_reserved_bytes": 29861347328,
+      "loading_peak_allocated_bytes": 12977693184,
+      "loading_peak_reserved_bytes": 13044285440,
+      "objective_subtimers": {
+        "reference_setup_s": 88.4610050804913,
+        "reference_forward_s": 231.96324952691793,
+        "reference_head_s": 456.90381170250475,
+        "teacher_head_s": 882.5714586284012,
+        "selection_s": 120.66507107205689,
+        "extra_loss_s": 37.29989308677614
+      }
+    }
+  },
+  "cost_differences": {
+    "17": {
+      "training_s": {
+        "K_HALF_s": 1490.5844547711313,
+        "KP_s": 1847.0242952313274,
+        "extra_s": 356.43984046019614,
+        "extra_percent": 23.912757128204774
+      },
+      "event_wall_s": {
+        "K_HALF_s": 1642.6036802064627,
+        "KP_s": 2000.7693857457489,
+        "extra_s": 358.16570553928614,
+        "extra_percent": 21.804754844715024
+      },
+      "worker_wall_s": {
+        "K_HALF_s": 1881.1554342601448,
+        "KP_s": 2271.8133045621216,
+        "extra_s": 390.6578703019768,
+        "extra_percent": 20.76691076065289
+      },
+      "subprocess_wall_s": {
+        "K_HALF_s": 1910.9400109108537,
+        "KP_s": 2293.9858064241707,
+        "extra_s": 383.045795513317,
+        "extra_percent": 20.044888553604423
+      }
+    },
+    "29": {
+      "training_s": {
+        "K_HALF_s": 1492.8250755928457,
+        "KP_s": 1848.318660300225,
+        "extra_s": 355.49358470737934,
+        "extra_percent": 23.813478921246165
+      },
+      "event_wall_s": {
+        "K_HALF_s": 1651.6547389235348,
+        "KP_s": 2003.820432184264,
+        "extra_s": 352.1656932607293,
+        "extra_percent": 21.321992118658727
+      },
+      "worker_wall_s": {
+        "K_HALF_s": 1904.2596217375249,
+        "KP_s": 2292.545988669619,
+        "extra_s": 388.2863669320941,
+        "extra_percent": 20.39041118656948
+      },
+      "subprocess_wall_s": {
+        "K_HALF_s": 1951.7035479955375,
+        "KP_s": 2315.0505510643125,
+        "extra_s": 363.34700306877494,
+        "extra_percent": 18.616915639772436
+      }
+    },
+    "pooled": {
+      "training_s": {
+        "K_HALF_s": 2983.409530363977,
+        "KP_s": 3695.3429555315524,
+        "extra_s": 711.9334251675755,
+        "extra_percent": 23.863080744423293
+      },
+      "event_wall_s": {
+        "K_HALF_s": 3294.2584191299975,
+        "KP_s": 4004.589817930013,
+        "extra_s": 710.3313988000154,
+        "extra_percent": 21.5627102802582
+      },
+      "worker_wall_s": {
+        "K_HALF_s": 3785.4150559976697,
+        "KP_s": 4564.359293231741,
+        "extra_s": 778.9442372340709,
+        "extra_percent": 20.577511995676655
+      },
+      "subprocess_wall_s": {
+        "K_HALF_s": 3862.6435589063913,
+        "KP_s": 4609.036357488483,
+        "extra_s": 746.3927985820919,
+        "extra_percent": 19.32336720174652
+      }
+    }
+  },
+  "event_records": [
+    {
+      "seed": 17,
+      "arm": "K_HALF",
+      "event": 1,
+      "work": {
+        "forwards": 256,
+        "backwards": 256,
+        "optimizer_steps": 128
+      },
+      "exposure": {
+        "supervised_position_exposure": 534613.0,
+        "available_position_occurrences": 990315.0,
+        "selected_position_occurrences": 534613.0,
+        "available_position_weight": 441831.8451538086,
+        "selected_position_weight": 301195.14544677734,
+        "no_error_blocks": 13590.0,
+        "empty_blocks": 0.0,
+        "first_error_position_1": 5224.0,
+        "first_error_position_2": 6407.0,
+        "first_error_position_3": 5885.0,
+        "first_error_position_4": 5143.0,
+        "first_error_position_5": 4590.0,
+        "first_error_position_6": 4023.0,
+        "first_error_position_7": 3558.0,
+        "first_error_position_8": 3183.0,
+        "first_error_position_9": 2821.0,
+        "first_error_position_10": 2592.0,
+        "first_error_position_11": 2422.0,
+        "first_error_position_12": 2329.0,
+        "first_error_position_13": 2126.0,
+        "first_error_position_14": 1944.0,
+        "first_error_position_15": 1919.0,
+        "main_loss_numerator": 76171.98408508301,
+        "loss_denominator": 301195.14544677734
+      },
+      "protection": {},
+      "costs": {
+        "loading_initialization_resume_validation_s": 32.27081290259957,
+        "frozen_reference_setup_s": 0.0,
+        "event_wall_s": 395.94249512813985,
+        "training_s": 361.0314061380923,
+        "checkpoint_save_s": 17.59813405200839,
+        "export_s": 14.547068901360035,
+        "event_wall_s_before_commit": 395.86220187693834,
+        "objective_work": {
+          "reference_setup_s": 0.0,
+          "reference_forward_s": 0.0,
+          "reference_head_s": 0.0,
+          "projection_s": 0.0,
+          "teacher_head_s": 107.71779219433665,
+          "selection_s": 13.474141316488385
+        },
+        "state_validation_hash_s": 15.604009199887514,
+        "loading_peak_allocated_bytes": 6691168768,
+        "loading_peak_reserved_bytes": 9208594432,
+        "peak_allocated_bytes": 20591971840,
+        "peak_reserved_bytes": 24310185984,
+        "device_name": "NVIDIA A800 80GB PCIe",
+        "compilation_scope": "Cold native work, no extra warmup; checkpoint recomputation counted by objective",
+        "response_observations": 256
+      },
+      "worker_wall_s": 444.31771899200976,
+      "subprocess_wall_s": 449.1608243994415
+    },
+    {
+      "seed": 17,
+      "arm": "KP",
+      "event": 1,
+      "work": {
+        "forwards": 256,
+        "reference_forwards": 256,
+        "backwards": 256,
+        "optimizer_steps": 128
+      },
+      "exposure": {
+        "available_position_occurrences": 990315.0,
+        "selected_position_occurrences": 542210.0,
+        "available_position_weight": 441831.8451538086,
+        "selected_position_weight": 304496.96492004395,
+        "no_error_blocks": 13837.0,
+        "empty_blocks": 0.0,
+        "first_error_position_1": 4908.0,
+        "first_error_position_2": 6072.0,
+        "first_error_position_3": 5756.0,
+        "first_error_position_4": 5160.0,
+        "first_error_position_5": 4550.0,
+        "first_error_position_6": 4045.0,
+        "first_error_position_7": 3643.0,
+        "first_error_position_8": 3271.0,
+        "first_error_position_9": 2891.0,
+        "first_error_position_10": 2659.0,
+        "first_error_position_11": 2533.0,
+        "first_error_position_12": 2282.0,
+        "first_error_position_13": 2134.0,
+        "first_error_position_14": 2042.0,
+        "first_error_position_15": 1973.0,
+        "supervised_position_exposure": 542210.0,
+        "main_loss_numerator": 78938.18186950684,
+        "loss_denominator": 304496.96492004395,
+        "protection_numerator": 10471.320814192295,
+        "protection_weight": 254192.79861450195
+      },
+      "protection": {
+        "protected_positions": 437100,
+        "active_positions": 16613,
+        "incorrect_protected_positions": 12338,
+        "wrong_tie_positions": 772,
+        "available_blocks": 67756,
+        "protected_blocks": 61760,
+        "empty_protected_blocks": 5996
+      },
+      "costs": {
+        "loading_initialization_resume_validation_s": 43.628516590222716,
+        "frozen_reference_setup_s": 10.124393500387669,
+        "event_wall_s": 483.6112045608461,
+        "training_s": 447.6671673171222,
+        "checkpoint_save_s": 19.270146694034338,
+        "export_s": 13.722493682056665,
+        "event_wall_s_before_commit": 483.50928303971887,
+        "objective_work": {
+          "reference_setup_s": 10.12260241433978,
+          "reference_forward_s": 27.697198029607534,
+          "reference_head_s": 55.74737657234073,
+          "projection_s": 0.0,
+          "teacher_head_s": 107.71414950489998,
+          "selection_s": 13.778424309566617,
+          "extra_loss_s": 4.565272403880954,
+          "work": {
+            "reference_draft_forwards": 256,
+            "reference_layer_forwards": 1280,
+            "reference_response_forwards": 256,
+            "reference_head_calls": 8572,
+            "current_response_forwards": 256,
+            "current_draft_forwards": 256,
+            "current_layer_forwards": 1280,
+            "current_objective_chunks": 17144,
+            "current_head_calls": 17144,
+            "teacher_head_calls": 17144
+          },
+          "reference_binding": "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/draft"
+        },
+        "state_validation_hash_s": 15.285990681499243,
+        "loading_peak_allocated_bytes": 8788425216,
+        "loading_peak_reserved_bytes": 9208594432,
+        "peak_allocated_bytes": 22609706496,
+        "peak_reserved_bytes": 29748101120,
+        "device_name": "NVIDIA A800 80GB PCIe",
+        "compilation_scope": "Cold native work, no extra warmup; checkpoint recomputation counted by objective",
+        "response_observations": 256
+      },
+      "worker_wall_s": 543.3500603325665,
+      "subprocess_wall_s": 548.450456302613
+    },
+    {
+      "seed": 17,
+      "arm": "K_HALF",
+      "event": 2,
+      "work": {
+        "forwards": 256,
+        "backwards": 256,
+        "optimizer_steps": 128
+      },
+      "exposure": {
+        "supervised_position_exposure": 558670.0,
+        "available_position_occurrences": 1038364.0,
+        "selected_position_occurrences": 558670.0,
+        "available_position_weight": 463034.8660964966,
+        "selected_position_weight": 314286.87481307983,
+        "no_error_blocks": 14671.0,
+        "empty_blocks": 0.0,
+        "first_error_position_1": 5689.0,
+        "first_error_position_2": 6804.0,
+        "first_error_position_3": 6217.0,
+        "first_error_position_4": 5512.0,
+        "first_error_position_5": 4814.0,
+        "first_error_position_6": 4104.0,
+        "first_error_position_7": 3668.0,
+        "first_error_position_8": 3273.0,
+        "first_error_position_9": 2901.0,
+        "first_error_position_10": 2702.0,
+        "first_error_position_11": 2428.0,
+        "first_error_position_12": 2250.0,
+        "first_error_position_13": 2063.0,
+        "first_error_position_14": 1924.0,
+        "first_error_position_15": 1926.0,
+        "main_loss_numerator": 79603.5174779892,
+        "loss_denominator": 314286.8748149872
+      },
+      "protection": {},
+      "costs": {
+        "loading_initialization_resume_validation_s": 52.89593187533319,
+        "frozen_reference_setup_s": 0.0,
+        "event_wall_s": 423.6710222866386,
+        "training_s": 386.50021122023463,
+        "checkpoint_save_s": 18.55135651677847,
+        "export_s": 15.590390177443624,
+        "event_wall_s_before_commit": 423.58517988212407,
+        "objective_work": {
+          "reference_setup_s": 0.0,
+          "reference_forward_s": 0.0,
+          "reference_head_s": 0.0,
+          "projection_s": 0.0,
+          "teacher_head_s": 112.79520580545068,
+          "selection_s": 15.564526032656431
+        },
+        "state_validation_hash_s": 16.410706335678697,
+        "loading_peak_allocated_bytes": 10880436736,
+        "loading_peak_reserved_bytes": 10926161920,
+        "peak_allocated_bytes": 20622517760,
+        "peak_reserved_bytes": 26172456960,
+        "device_name": "NVIDIA A800 80GB PCIe",
+        "compilation_scope": "Cold native work, no extra warmup; checkpoint recomputation counted by objective",
+        "response_observations": 256
+      },
+      "worker_wall_s": 493.88031105324626,
+      "subprocess_wall_s": 499.17541898973286
+    },
+    {
+      "seed": 17,
+      "arm": "KP",
+      "event": 2,
+      "work": {
+        "forwards": 256,
+        "reference_forwards": 256,
+        "backwards": 256,
+        "optimizer_steps": 128
+      },
+      "exposure": {
+        "available_position_occurrences": 1038364.0,
+        "selected_position_occurrences": 563757.0,
+        "available_position_weight": 463034.8660964966,
+        "selected_position_weight": 316588.4622144699,
+        "no_error_blocks": 14732.0,
+        "empty_blocks": 0.0,
+        "first_error_position_1": 5492.0,
+        "first_error_position_2": 6596.0,
+        "first_error_position_3": 6122.0,
+        "first_error_position_4": 5409.0,
+        "first_error_position_5": 4792.0,
+        "first_error_position_6": 4133.0,
+        "first_error_position_7": 3711.0,
+        "first_error_position_8": 3312.0,
+        "first_error_position_9": 2965.0,
+        "first_error_position_10": 2773.0,
+        "first_error_position_11": 2522.0,
+        "first_error_position_12": 2327.0,
+        "first_error_position_13": 2140.0,
+        "first_error_position_14": 1964.0,
+        "first_error_position_15": 1956.0,
+        "supervised_position_exposure": 563757.0,
+        "main_loss_numerator": 82832.24874973297,
+        "loss_denominator": 316588.46221637726,
+        "protection_numerator": 12530.620668917894,
+        "protection_weight": 265454.1245651245
+      },
+      "protection": {
+        "protected_positions": 458577,
+        "active_positions": 19613,
+        "incorrect_protected_positions": 14600,
+        "wrong_tie_positions": 805,
+        "available_blocks": 70946,
+        "protected_blocks": 64431,
+        "empty_protected_blocks": 6515
+      },
+      "costs": {
+        "loading_initialization_resume_validation_s": 52.23293454386294,
+        "frozen_reference_setup_s": 11.175557715818286,
+        "event_wall_s": 519.4333231672645,
+        "training_s": 480.42455648444593,
+        "checkpoint_save_s": 20.48169670626521,
+        "export_s": 15.298177687451243,
+        "event_wall_s_before_commit": 519.331610687077,
+        "objective_work": {
+          "reference_setup_s": 11.17460174486041,
+          "reference_forward_s": 32.569423984736204,
+          "reference_head_s": 58.41895486973226,
+          "projection_s": 0.0,
+          "teacher_head_s": 112.7565486188978,
+          "selection_s": 15.568669762462378,
+          "extra_loss_s": 4.784404002130032,
+          "work": {
+            "reference_draft_forwards": 256,
+            "reference_layer_forwards": 1280,
+            "reference_response_forwards": 256,
+            "reference_head_calls": 8966,
+            "current_response_forwards": 256,
+            "current_draft_forwards": 256,
+            "current_layer_forwards": 1280,
+            "current_objective_chunks": 17932,
+            "current_head_calls": 17932,
+            "teacher_head_calls": 17932
+          },
+          "reference_binding": "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/draft"
+        },
+        "state_validation_hash_s": 16.670664319768548,
+        "loading_peak_allocated_bytes": 12977693184,
+        "loading_peak_reserved_bytes": 13044285440,
+        "peak_allocated_bytes": 22718702080,
+        "peak_reserved_bytes": 28242345984,
+        "device_name": "NVIDIA A800 80GB PCIe",
+        "compilation_scope": "Cold native work, no extra warmup; checkpoint recomputation counted by objective",
+        "response_observations": 256
+      },
+      "worker_wall_s": 588.9390037264675,
+      "subprocess_wall_s": 594.6597190238535
+    },
+    {
+      "seed": 17,
+      "arm": "K_HALF",
+      "event": 3,
+      "work": {
+        "forwards": 256,
+        "backwards": 256,
+        "optimizer_steps": 128
+      },
+      "exposure": {
+        "supervised_position_exposure": 515754.0,
+        "available_position_occurrences": 1045277.0,
+        "selected_position_occurrences": 515754.0,
+        "available_position_weight": 466055.28803253174,
+        "selected_position_weight": 298666.3847618103,
+        "no_error_blocks": 12310.0,
+        "empty_blocks": 0.0,
+        "first_error_position_1": 6890.0,
+        "first_error_position_2": 8083.0,
+        "first_error_position_3": 7108.0,
+        "first_error_position_4": 6079.0,
+        "first_error_position_5": 5060.0,
+        "first_error_position_6": 4273.0,
+        "first_error_position_7": 3710.0,
+        "first_error_position_8": 3190.0,
+        "first_error_position_9": 2788.0,
+        "first_error_position_10": 2380.0,
+        "first_error_position_11": 2249.0,
+        "first_error_position_12": 1966.0,
+        "first_error_position_13": 1831.0,
+        "first_error_position_14": 1784.0,
+        "first_error_position_15": 1681.0,
+        "main_loss_numerator": 86828.09013295174,
+        "loss_denominator": 298666.38476371765
+      },
+      "protection": {},
+      "costs": {
+        "loading_initialization_resume_validation_s": 42.708961149677634,
+        "frozen_reference_setup_s": 0.0,
+        "event_wall_s": 420.5427674036473,
+        "training_s": 380.7059948872775,
+        "checkpoint_save_s": 21.014237478375435,
+        "export_s": 15.36216151714325,
+        "event_wall_s_before_commit": 420.4619372449815,
+        "objective_work": {
+          "reference_setup_s": 0.0,
+          "reference_forward_s": 0.0,
+          "reference_head_s": 0.0,
+          "projection_s": 0.0,
+          "teacher_head_s": 113.55561231635511,
+          "selection_s": 15.591857420280576
+        },
+        "state_validation_hash_s": 16.985789466649294,
+        "loading_peak_allocated_bytes": 10880436736,
+        "loading_peak_reserved_bytes": 10926161920,
+        "peak_allocated_bytes": 20617268736,
+        "peak_reserved_bytes": 25371344896,
+        "device_name": "NVIDIA A800 80GB PCIe",
+        "compilation_scope": "Cold native work, no extra warmup; checkpoint recomputation counted by objective",
+        "response_observations": 256
+      },
+      "worker_wall_s": 480.6617513168603,
+      "subprocess_wall_s": 486.1177290920168
+    },
+    {
+      "seed": 17,
+      "arm": "KP",
+      "event": 3,
+      "work": {
+        "forwards": 256,
+        "reference_forwards": 256,
+        "backwards": 256,
+        "optimizer_steps": 128
+      },
+      "exposure": {
+        "available_position_occurrences": 1045277.0,
+        "selected_position_occurrences": 520746.0,
+        "available_position_weight": 466055.28803253174,
+        "selected_position_weight": 301086.236038208,
+        "no_error_blocks": 12322.0,
+        "empty_blocks": 0.0,
+        "first_error_position_1": 6706.0,
+        "first_error_position_2": 7739.0,
+        "first_error_position_3": 6997.0,
+        "first_error_position_4": 6063.0,
+        "first_error_position_5": 5049.0,
+        "first_error_position_6": 4343.0,
+        "first_error_position_7": 3837.0,
+        "first_error_position_8": 3259.0,
+        "first_error_position_9": 2845.0,
+        "first_error_position_10": 2539.0,
+        "first_error_position_11": 2303.0,
+        "first_error_position_12": 2050.0,
+        "first_error_position_13": 1870.0,
+        "first_error_position_14": 1730.0,
+        "first_error_position_15": 1730.0,
+        "supervised_position_exposure": 520746.0,
+        "main_loss_numerator": 90608.90062570572,
+        "loss_denominator": 301086.23604011536,
+        "protection_numerator": 14476.759418785572,
+        "protection_weight": 248578.3438949585
+      },
+      "protection": {
+        "protected_positions": 417831,
+        "active_positions": 21338,
+        "incorrect_protected_positions": 16045,
+        "wrong_tie_positions": 826,
+        "available_blocks": 71382,
+        "protected_blocks": 63822,
+        "empty_protected_blocks": 7560
+      },
+      "costs": {
+        "loading_initialization_resume_validation_s": 52.947142742574215,
+        "frozen_reference_setup_s": 11.19092233106494,
+        "event_wall_s": 510.1560609154403,
+        "training_s": 470.79914454743266,
+        "checkpoint_save_s": 20.61295867152512,
+        "export_s": 15.456521233543754,
+        "event_wall_s_before_commit": 510.0442266520113,
+        "objective_work": {
+          "reference_setup_s": 11.189985882490873,
+          "reference_forward_s": 28.352096255868673,
+          "reference_head_s": 58.79688397049904,
+          "projection_s": 0.0,
+          "teacher_head_s": 113.45521341264248,
+          "selection_s": 15.527628423646092,
+          "extra_loss_s": 4.744821548461914,
+          "work": {
+            "reference_draft_forwards": 256,
+            "reference_layer_forwards": 1280,
+            "reference_response_forwards": 256,
+            "reference_head_calls": 9020,
+            "current_response_forwards": 256,
+            "current_draft_forwards": 256,
+            "current_layer_forwards": 1280,
+            "current_objective_chunks": 18040,
+            "current_head_calls": 18040,
+            "teacher_head_calls": 18040
+          },
+          "reference_binding": "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/draft"
+        },
+        "state_validation_hash_s": 17.072872007265687,
+        "loading_peak_allocated_bytes": 12977693184,
+        "loading_peak_reserved_bytes": 13044285440,
+        "peak_allocated_bytes": 22713923072,
+        "peak_reserved_bytes": 27455913984,
+        "device_name": "NVIDIA A800 80GB PCIe",
+        "compilation_scope": "Cold native work, no extra warmup; checkpoint recomputation counted by objective",
+        "response_observations": 256
+      },
+      "worker_wall_s": 580.7365888804197,
+      "subprocess_wall_s": 586.0871396921575
+    },
+    {
+      "seed": 17,
+      "arm": "K_HALF",
+      "event": 4,
+      "work": {
+        "forwards": 256,
+        "backwards": 256,
+        "optimizer_steps": 128
+      },
+      "exposure": {
+        "supervised_position_exposure": 515898.0,
+        "available_position_occurrences": 985025.0,
+        "selected_position_occurrences": 515898.0,
+        "available_position_weight": 439440.83966064453,
+        "selected_position_weight": 292733.54679107666,
+        "no_error_blocks": 13480.0,
+        "empty_blocks": 0.0,
+        "first_error_position_1": 5764.0,
+        "first_error_position_2": 6881.0,
+        "first_error_position_3": 6264.0,
+        "first_error_position_4": 5413.0,
+        "first_error_position_5": 4552.0,
+        "first_error_position_6": 3867.0,
+        "first_error_position_7": 3449.0,
+        "first_error_position_8": 3054.0,
+        "first_error_position_9": 2713.0,
+        "first_error_position_10": 2380.0,
+        "first_error_position_11": 2219.0,
+        "first_error_position_12": 2020.0,
+        "first_error_position_13": 1919.0,
+        "first_error_position_14": 1730.0,
+        "first_error_position_15": 1671.0,
+        "main_loss_numerator": 77593.07189178467,
+        "loss_denominator": 292733.54679107666
+      },
+      "protection": {},
+      "costs": {
+        "loading_initialization_resume_validation_s": 41.45373499952257,
+        "frozen_reference_setup_s": 0.0,
+        "event_wall_s": 402.44739538803697,
+        "training_s": 362.3468425255269,
+        "checkpoint_save_s": 20.665334360674024,
+        "export_s": 16.00327048264444,
+        "event_wall_s_before_commit": 402.35918249189854,
+        "objective_work": {
+          "reference_setup_s": 0.0,
+          "reference_forward_s": 0.0,
+          "reference_head_s": 0.0,
+          "projection_s": 0.0,
+          "teacher_head_s": 107.18397167697549,
+          "selection_s": 14.67692550085485
+        },
+        "state_validation_hash_s": 17.87419670075178,
+        "loading_peak_allocated_bytes": 10880436736,
+        "loading_peak_reserved_bytes": 10926161920,
+        "peak_allocated_bytes": 20708042240,
+        "peak_reserved_bytes": 26000490496,
+        "device_name": "NVIDIA A800 80GB PCIe",
+        "compilation_scope": "Cold native work, no extra warmup; checkpoint recomputation counted by objective",
+        "response_observations": 256
+      },
+      "worker_wall_s": 462.2956528980285,
+      "subprocess_wall_s": 476.4860384296626
+    },
+    {
+      "seed": 17,
+      "arm": "KP",
+      "event": 4,
+      "work": {
+        "forwards": 256,
+        "reference_forwards": 256,
+        "backwards": 256,
+        "optimizer_steps": 128
+      },
+      "exposure": {
+        "available_position_occurrences": 985025.0,
+        "selected_position_occurrences": 519396.0,
+        "available_position_weight": 439440.83966064453,
+        "selected_position_weight": 294769.04039764404,
+        "no_error_blocks": 13311.0,
+        "empty_blocks": 0.0,
+        "first_error_position_1": 5481.0,
+        "first_error_position_2": 6668.0,
+        "first_error_position_3": 6092.0,
+        "first_error_position_4": 5373.0,
+        "first_error_position_5": 4689.0,
+        "first_error_position_6": 4050.0,
+        "first_error_position_7": 3513.0,
+        "first_error_position_8": 3061.0,
+        "first_error_position_9": 2812.0,
+        "first_error_position_10": 2499.0,
+        "first_error_position_11": 2284.0,
+        "first_error_position_12": 2086.0,
+        "first_error_position_13": 1929.0,
+        "first_error_position_14": 1776.0,
+        "first_error_position_15": 1752.0,
+        "supervised_position_exposure": 519396.0,
+        "main_loss_numerator": 80883.91003704071,
+        "loss_denominator": 294769.04039764404,
+        "protection_numerator": 12886.36410164833,
+        "protection_weight": 246506.49417114258
+      },
+      "protection": {
+        "protected_positions": 421876,
+        "active_positions": 19723,
+        "incorrect_protected_positions": 14793,
+        "wrong_tie_positions": 737,
+        "available_blocks": 67376,
+        "protected_blocks": 60990,
+        "empty_protected_blocks": 6386
+      },
+      "costs": {
+        "loading_initialization_resume_validation_s": 53.633553206920624,
+        "frozen_reference_setup_s": 11.122239185497165,
+        "event_wall_s": 487.568797102198,
+        "training_s": 448.1334268823266,
+        "checkpoint_save_s": 20.719684155657887,
+        "export_s": 15.347579894587398,
+        "event_wall_s_before_commit": 487.4639369081706,
+        "objective_work": {
+          "reference_setup_s": 11.121322505176067,
+          "reference_forward_s": 28.039978180080652,
+          "reference_head_s": 55.50843990407884,
+          "projection_s": 0.0,
+          "teacher_head_s": 107.45712502859533,
+          "selection_s": 14.743143655359745,
+          "extra_loss_s": 4.490772731602192,
+          "work": {
+            "reference_draft_forwards": 256,
+            "reference_layer_forwards": 1280,
+            "reference_response_forwards": 256,
+            "reference_head_calls": 8512,
+            "current_response_forwards": 256,
+            "current_draft_forwards": 256,
+            "current_layer_forwards": 1280,
+            "current_objective_chunks": 17024,
+            "current_head_calls": 17024,
+            "teacher_head_calls": 17024
+          },
+          "reference_binding": "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/draft"
+        },
+        "state_validation_hash_s": 17.054279800504446,
+        "loading_peak_allocated_bytes": 12977693184,
+        "loading_peak_reserved_bytes": 13044285440,
+        "peak_allocated_bytes": 22805302784,
+        "peak_reserved_bytes": 28171042816,
+        "device_name": "NVIDIA A800 80GB PCIe",
+        "compilation_scope": "Cold native work, no extra warmup; checkpoint recomputation counted by objective",
+        "response_observations": 256
+      },
+      "worker_wall_s": 558.7876516226679,
+      "subprocess_wall_s": 564.7884914055467
+    },
+    {
+      "seed": 29,
+      "arm": "K_HALF",
+      "event": 1,
+      "work": {
+        "forwards": 256,
+        "backwards": 256,
+        "optimizer_steps": 128
+      },
+      "exposure": {
+        "supervised_position_exposure": 531410.0,
+        "available_position_occurrences": 990265.0,
+        "selected_position_occurrences": 531410.0,
+        "available_position_weight": 441820.2269897461,
+        "selected_position_weight": 299951.7419128418,
+        "no_error_blocks": 13509.0,
+        "empty_blocks": 0.0,
+        "first_error_position_1": 5337.0,
+        "first_error_position_2": 6495.0,
+        "first_error_position_3": 5883.0,
+        "first_error_position_4": 5242.0,
+        "first_error_position_5": 4529.0,
+        "first_error_position_6": 4023.0,
+        "first_error_position_7": 3581.0,
+        "first_error_position_8": 3215.0,
+        "first_error_position_9": 2832.0,
+        "first_error_position_10": 2561.0,
+        "first_error_position_11": 2414.0,
+        "first_error_position_12": 2275.0,
+        "first_error_position_13": 2084.0,
+        "first_error_position_14": 1919.0,
+        "first_error_position_15": 1857.0,
+        "main_loss_numerator": 76346.65340614319,
+        "loss_denominator": 299951.7419128418
+      },
+      "protection": {},
+      "costs": {
+        "loading_initialization_resume_validation_s": 40.940356474369764,
+        "frozen_reference_setup_s": 0.0,
+        "event_wall_s": 403.1073439847678,
+        "training_s": 362.2481077928096,
+        "checkpoint_save_s": 21.73485453799367,
+        "export_s": 15.524414468556643,
+        "event_wall_s_before_commit": 403.0192040503025,
+        "objective_work": {
+          "reference_setup_s": 0.0,
+          "reference_forward_s": 0.0,
+          "reference_head_s": 0.0,
+          "projection_s": 0.0,
+          "teacher_head_s": 107.67293796688318,
+          "selection_s": 14.763754352927208
+        },
+        "state_validation_hash_s": 16.93403339572251,
+        "loading_peak_allocated_bytes": 6691168768,
+        "loading_peak_reserved_bytes": 9208594432,
+        "peak_allocated_bytes": 20547887104,
+        "peak_reserved_bytes": 21541945344,
+        "device_name": "NVIDIA A800 80GB PCIe",
+        "compilation_scope": "Cold native work, no extra warmup; checkpoint recomputation counted by objective",
+        "response_observations": 256
+      },
+      "worker_wall_s": 461.59108729846776,
+      "subprocess_wall_s": 473.6448620390147
+    },
+    {
+      "seed": 29,
+      "arm": "KP",
+      "event": 1,
+      "work": {
+        "forwards": 256,
+        "reference_forwards": 256,
+        "backwards": 256,
+        "optimizer_steps": 128
+      },
+      "exposure": {
+        "available_position_occurrences": 990265.0,
+        "selected_position_occurrences": 541947.0,
+        "available_position_weight": 441820.2269897461,
+        "selected_position_weight": 304154.6788253784,
+        "no_error_blocks": 13993.0,
+        "empty_blocks": 0.0,
+        "first_error_position_1": 5005.0,
+        "first_error_position_2": 6093.0,
+        "first_error_position_3": 5718.0,
+        "first_error_position_4": 5188.0,
+        "first_error_position_5": 4538.0,
+        "first_error_position_6": 4032.0,
+        "first_error_position_7": 3606.0,
+        "first_error_position_8": 3219.0,
+        "first_error_position_9": 2890.0,
+        "first_error_position_10": 2614.0,
+        "first_error_position_11": 2440.0,
+        "first_error_position_12": 2332.0,
+        "first_error_position_13": 2134.0,
+        "first_error_position_14": 2029.0,
+        "first_error_position_15": 1925.0,
+        "supervised_position_exposure": 541947.0,
+        "main_loss_numerator": 78241.83584976196,
+        "loss_denominator": 304154.6788253784,
+        "protection_numerator": 9684.394463986158,
+        "protection_weight": 254264.7522277832
+      },
+      "protection": {
+        "protected_positions": 437289,
+        "active_positions": 16258,
+        "incorrect_protected_positions": 11806,
+        "wrong_tie_positions": 776,
+        "available_blocks": 67756,
+        "protected_blocks": 61742,
+        "empty_protected_blocks": 6014
+      },
+      "costs": {
+        "loading_initialization_resume_validation_s": 47.88304699771106,
+        "frozen_reference_setup_s": 11.49792718142271,
+        "event_wall_s": 489.1353164445609,
+        "training_s": 448.8542673289776,
+        "checkpoint_save_s": 20.55339166149497,
+        "export_s": 16.214244551956654,
+        "event_wall_s_before_commit": 489.0206421278417,
+        "objective_work": {
+          "reference_setup_s": 11.49699936248362,
+          "reference_forward_s": 27.23434503376484,
+          "reference_head_s": 55.73501599021256,
+          "projection_s": 0.0,
+          "teacher_head_s": 107.61738873273134,
+          "selection_s": 14.77589406259358,
+          "extra_loss_s": 4.514287021011114,
+          "work": {
+            "reference_draft_forwards": 256,
+            "reference_layer_forwards": 1280,
+            "reference_response_forwards": 256,
+            "reference_head_calls": 8572,
+            "current_response_forwards": 256,
+            "current_draft_forwards": 256,
+            "current_layer_forwards": 1280,
+            "current_objective_chunks": 17144,
+            "current_head_calls": 17144,
+            "teacher_head_calls": 17144
+          },
+          "reference_binding": "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/draft"
+        },
+        "state_validation_hash_s": 17.047160299494863,
+        "loading_peak_allocated_bytes": 8788425216,
+        "loading_peak_reserved_bytes": 9208594432,
+        "peak_allocated_bytes": 22607035392,
+        "peak_reserved_bytes": 23649583104,
+        "device_name": "NVIDIA A800 80GB PCIe",
+        "compilation_scope": "Cold native work, no extra warmup; checkpoint recomputation counted by objective",
+        "response_observations": 256
+      },
+      "worker_wall_s": 554.9290007054806,
+      "subprocess_wall_s": 560.8568497225642
+    },
+    {
+      "seed": 29,
+      "arm": "K_HALF",
+      "event": 2,
+      "work": {
+        "forwards": 256,
+        "backwards": 256,
+        "optimizer_steps": 128
+      },
+      "exposure": {
+        "supervised_position_exposure": 558406.0,
+        "available_position_occurrences": 1038444.0,
+        "selected_position_occurrences": 558406.0,
+        "available_position_weight": 463061.30701446533,
+        "selected_position_weight": 314194.8539381027,
+        "no_error_blocks": 14638.0,
+        "empty_blocks": 0.0,
+        "first_error_position_1": 5744.0,
+        "first_error_position_2": 6806.0,
+        "first_error_position_3": 6196.0,
+        "first_error_position_4": 5428.0,
+        "first_error_position_5": 4840.0,
+        "first_error_position_6": 4147.0,
+        "first_error_position_7": 3648.0,
+        "first_error_position_8": 3244.0,
+        "first_error_position_9": 2956.0,
+        "first_error_position_10": 2692.0,
+        "first_error_position_11": 2427.0,
+        "first_error_position_12": 2286.0,
+        "first_error_position_13": 2080.0,
+        "first_error_position_14": 1923.0,
+        "first_error_position_15": 1891.0,
+        "main_loss_numerator": 79828.33560466766,
+        "loss_denominator": 314194.85394001007
+      },
+      "protection": {},
+      "costs": {
+        "loading_initialization_resume_validation_s": 41.40532322600484,
+        "frozen_reference_setup_s": 0.0,
+        "event_wall_s": 428.94200236722827,
+        "training_s": 389.0745156686753,
+        "checkpoint_save_s": 20.648981537669897,
+        "export_s": 15.381777621805668,
+        "event_wall_s_before_commit": 428.84944462403655,
+        "objective_work": {
+          "reference_setup_s": 0.0,
+          "reference_forward_s": 0.0,
+          "reference_head_s": 0.0,
+          "projection_s": 0.0,
+          "teacher_head_s": 112.80882346071303,
+          "selection_s": 15.867783976718783
+        },
+        "state_validation_hash_s": 16.677613113075495,
+        "loading_peak_allocated_bytes": 10880436736,
+        "loading_peak_reserved_bytes": 10926161920,
+        "peak_allocated_bytes": 20618957312,
+        "peak_reserved_bytes": 24043847680,
+        "device_name": "NVIDIA A800 80GB PCIe",
+        "compilation_scope": "Cold native work, no extra warmup; checkpoint recomputation counted by objective",
+        "response_observations": 256
+      },
+      "worker_wall_s": 487.79616072401404,
+      "subprocess_wall_s": 500.68475306779146
+    },
+    {
+      "seed": 29,
+      "arm": "KP",
+      "event": 2,
+      "work": {
+        "forwards": 256,
+        "reference_forwards": 256,
+        "backwards": 256,
+        "optimizer_steps": 128
+      },
+      "exposure": {
+        "available_position_occurrences": 1038444.0,
+        "selected_position_occurrences": 563797.0,
+        "available_position_weight": 463061.30701446533,
+        "selected_position_weight": 316385.95087718964,
+        "no_error_blocks": 14955.0,
+        "empty_blocks": 0.0,
+        "first_error_position_1": 5561.0,
+        "first_error_position_2": 6625.0,
+        "first_error_position_3": 6153.0,
+        "first_error_position_4": 5404.0,
+        "first_error_position_5": 4674.0,
+        "first_error_position_6": 4088.0,
+        "first_error_position_7": 3718.0,
+        "first_error_position_8": 3315.0,
+        "first_error_position_9": 3007.0,
+        "first_error_position_10": 2744.0,
+        "first_error_position_11": 2497.0,
+        "first_error_position_12": 2261.0,
+        "first_error_position_13": 2117.0,
+        "first_error_position_14": 1946.0,
+        "first_error_position_15": 1881.0,
+        "supervised_position_exposure": 563797.0,
+        "main_loss_numerator": 82497.91650772095,
+        "loss_denominator": 316385.950879097,
+        "protection_numerator": 12096.36834537983,
+        "protection_weight": 265571.8209762573
+      },
+      "protection": {
+        "protected_positions": 458705,
+        "active_positions": 18640,
+        "incorrect_protected_positions": 13618,
+        "wrong_tie_positions": 882,
+        "available_blocks": 70946,
+        "protected_blocks": 64418,
+        "empty_protected_blocks": 6528
+      },
+      "costs": {
+        "loading_initialization_resume_validation_s": 52.36624150723219,
+        "frozen_reference_setup_s": 11.01272719912231,
+        "event_wall_s": 519.4697850234807,
+        "training_s": 481.67397444695234,
+        "checkpoint_save_s": 18.68711767718196,
+        "export_s": 15.442175939679146,
+        "event_wall_s_before_commit": 519.3611072357744,
+        "objective_work": {
+          "reference_setup_s": 11.011444618925452,
+          "reference_forward_s": 33.05334974825382,
+          "reference_head_s": 58.45286184921861,
+          "projection_s": 0.0,
+          "teacher_head_s": 112.7396125420928,
+          "selection_s": 15.917536459863186,
+          "extra_loss_s": 4.906283505260944,
+          "work": {
+            "reference_draft_forwards": 256,
+            "reference_layer_forwards": 1280,
+            "reference_response_forwards": 256,
+            "reference_head_calls": 8966,
+            "current_response_forwards": 256,
+            "current_draft_forwards": 256,
+            "current_layer_forwards": 1280,
+            "current_objective_chunks": 17932,
+            "current_head_calls": 17932,
+            "teacher_head_calls": 17932
+          },
+          "reference_binding": "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/draft"
+        },
+        "state_validation_hash_s": 16.935830883681774,
+        "loading_peak_allocated_bytes": 12977693184,
+        "loading_peak_reserved_bytes": 13044285440,
+        "peak_allocated_bytes": 22716992000,
+        "peak_reserved_bytes": 26080182272,
+        "device_name": "NVIDIA A800 80GB PCIe",
+        "compilation_scope": "Cold native work, no extra warmup; checkpoint recomputation counted by objective",
+        "response_observations": 256
+      },
+      "worker_wall_s": 589.1964868754148,
+      "subprocess_wall_s": 594.8000122290105
+    },
+    {
+      "seed": 29,
+      "arm": "K_HALF",
+      "event": 3,
+      "work": {
+        "forwards": 256,
+        "backwards": 256,
+        "optimizer_steps": 128
+      },
+      "exposure": {
+        "supervised_position_exposure": 515001.0,
+        "available_position_occurrences": 1045147.0,
+        "selected_position_occurrences": 515001.0,
+        "available_position_weight": 466007.59857940674,
+        "selected_position_weight": 298315.45322036743,
+        "no_error_blocks": 12285.0,
+        "empty_blocks": 0.0,
+        "first_error_position_1": 6928.0,
+        "first_error_position_2": 8092.0,
+        "first_error_position_3": 7125.0,
+        "first_error_position_4": 6125.0,
+        "first_error_position_5": 5042.0,
+        "first_error_position_6": 4208.0,
+        "first_error_position_7": 3745.0,
+        "first_error_position_8": 3188.0,
+        "first_error_position_9": 2749.0,
+        "first_error_position_10": 2388.0,
+        "first_error_position_11": 2227.0,
+        "first_error_position_12": 1973.0,
+        "first_error_position_13": 1790.0,
+        "first_error_position_14": 1821.0,
+        "first_error_position_15": 1696.0,
+        "main_loss_numerator": 86948.32972240448,
+        "loss_denominator": 298315.4532222748
+      },
+      "protection": {},
+      "costs": {
+        "loading_initialization_resume_validation_s": 41.408915001899004,
+        "frozen_reference_setup_s": 0.0,
+        "event_wall_s": 420.4821212403476,
+        "training_s": 380.9249167703092,
+        "checkpoint_save_s": 20.588840793818235,
+        "export_s": 15.385785752907395,
+        "event_wall_s_before_commit": 420.398978151381,
+        "objective_work": {
+          "reference_setup_s": 0.0,
+          "reference_forward_s": 0.0,
+          "reference_head_s": 0.0,
+          "projection_s": 0.0,
+          "teacher_head_s": 113.49494633078575,
+          "selection_s": 15.400479383766651
+        },
+        "state_validation_hash_s": 17.002748830243945,
+        "loading_peak_allocated_bytes": 10880436736,
+        "loading_peak_reserved_bytes": 10926161920,
+        "peak_allocated_bytes": 20582162432,
+        "peak_reserved_bytes": 27856470016,
+        "device_name": "NVIDIA A800 80GB PCIe",
+        "compilation_scope": "Cold native work, no extra warmup; checkpoint recomputation counted by objective",
+        "response_observations": 256
+      },
+      "worker_wall_s": 479.6577215399593,
+      "subprocess_wall_s": 492.35530320741236
+    },
+    {
+      "seed": 29,
+      "arm": "KP",
+      "event": 3,
+      "work": {
+        "forwards": 256,
+        "reference_forwards": 256,
+        "backwards": 256,
+        "optimizer_steps": 128
+      },
+      "exposure": {
+        "available_position_occurrences": 1045147.0,
+        "selected_position_occurrences": 520554.0,
+        "available_position_weight": 466007.59857940674,
+        "selected_position_weight": 300937.2081604004,
+        "no_error_blocks": 12347.0,
+        "empty_blocks": 0.0,
+        "first_error_position_1": 6682.0,
+        "first_error_position_2": 7822.0,
+        "first_error_position_3": 6960.0,
+        "first_error_position_4": 6061.0,
+        "first_error_position_5": 5066.0,
+        "first_error_position_6": 4337.0,
+        "first_error_position_7": 3825.0,
+        "first_error_position_8": 3270.0,
+        "first_error_position_9": 2838.0,
+        "first_error_position_10": 2456.0,
+        "first_error_position_11": 2252.0,
+        "first_error_position_12": 2058.0,
+        "first_error_position_13": 1894.0,
+        "first_error_position_14": 1765.0,
+        "first_error_position_15": 1749.0,
+        "supervised_position_exposure": 520554.0,
+        "main_loss_numerator": 90515.62893819809,
+        "loss_denominator": 300937.20816230774,
+        "protection_numerator": 13529.549957811832,
+        "protection_weight": 248397.44576263428
+      },
+      "protection": {
+        "protected_positions": 417681,
+        "active_positions": 20514,
+        "incorrect_protected_positions": 15293,
+        "wrong_tie_positions": 882,
+        "available_blocks": 71382,
+        "protected_blocks": 63805,
+        "empty_protected_blocks": 7577
+      },
+      "costs": {
+        "loading_initialization_resume_validation_s": 52.710885068401694,
+        "frozen_reference_setup_s": 11.109305430203676,
+        "event_wall_s": 511.1943662688136,
+        "training_s": 471.07971168123186,
+        "checkpoint_save_s": 20.648766089230776,
+        "export_s": 15.918596670031548,
+        "event_wall_s_before_commit": 511.0826825108379,
+        "objective_work": {
+          "reference_setup_s": 11.108384223654866,
+          "reference_forward_s": 27.609446294605732,
+          "reference_head_s": 58.77061381191015,
+          "projection_s": 0.0,
+          "teacher_head_s": 113.75030739419162,
+          "selection_s": 15.583116276189685,
+          "extra_loss_s": 4.77463791705668,
+          "work": {
+            "reference_draft_forwards": 256,
+            "reference_layer_forwards": 1280,
+            "reference_response_forwards": 256,
+            "reference_head_calls": 9020,
+            "current_response_forwards": 256,
+            "current_draft_forwards": 256,
+            "current_layer_forwards": 1280,
+            "current_objective_chunks": 18040,
+            "current_head_calls": 18040,
+            "teacher_head_calls": 18040
+          },
+          "reference_binding": "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/draft"
+        },
+        "state_validation_hash_s": 29.104764260351658,
+        "loading_peak_allocated_bytes": 12977693184,
+        "loading_peak_reserved_bytes": 13044285440,
+        "peak_allocated_bytes": 22679424000,
+        "peak_reserved_bytes": 29861347328,
+        "device_name": "NVIDIA A800 80GB PCIe",
+        "compilation_scope": "Cold native work, no extra warmup; checkpoint recomputation counted by objective",
+        "response_observations": 256
+      },
+      "worker_wall_s": 594.1368382852525,
+      "subprocess_wall_s": 599.8304943926632
+    },
+    {
+      "seed": 29,
+      "arm": "K_HALF",
+      "event": 4,
+      "work": {
+        "forwards": 256,
+        "backwards": 256,
+        "optimizer_steps": 128
+      },
+      "exposure": {
+        "supervised_position_exposure": 515509.0,
+        "available_position_occurrences": 984885.0,
+        "selected_position_occurrences": 515509.0,
+        "available_position_weight": 439395.17071533203,
+        "selected_position_weight": 292743.25997161865,
+        "no_error_blocks": 13350.0,
+        "empty_blocks": 0.0,
+        "first_error_position_1": 5736.0,
+        "first_error_position_2": 6867.0,
+        "first_error_position_3": 6281.0,
+        "first_error_position_4": 5398.0,
+        "first_error_position_5": 4534.0,
+        "first_error_position_6": 3902.0,
+        "first_error_position_7": 3480.0,
+        "first_error_position_8": 3061.0,
+        "first_error_position_9": 2768.0,
+        "first_error_position_10": 2444.0,
+        "first_error_position_11": 2237.0,
+        "first_error_position_12": 1983.0,
+        "first_error_position_13": 1865.0,
+        "first_error_position_14": 1771.0,
+        "first_error_position_15": 1699.0,
+        "main_loss_numerator": 77974.4677658081,
+        "loss_denominator": 292743.25997161865
+      },
+      "protection": {},
+      "costs": {
+        "loading_initialization_resume_validation_s": 58.27159962616861,
+        "frozen_reference_setup_s": 0.0,
+        "event_wall_s": 399.12327133119106,
+        "training_s": 360.57753536105156,
+        "checkpoint_save_s": 19.84233400784433,
+        "export_s": 15.376726565882564,
+        "event_wall_s_before_commit": 399.04414272867143,
+        "objective_work": {
+          "reference_setup_s": 0.0,
+          "reference_forward_s": 0.0,
+          "reference_head_s": 0.0,
+          "projection_s": 0.0,
+          "teacher_head_s": 107.15702911652625,
+          "selection_s": 13.77911233715713
+        },
+        "state_validation_hash_s": 17.221592055633664,
+        "loading_peak_allocated_bytes": 10880436736,
+        "loading_peak_reserved_bytes": 10926161920,
+        "peak_allocated_bytes": 20679275520,
+        "peak_reserved_bytes": 26241662976,
+        "device_name": "NVIDIA A800 80GB PCIe",
+        "compilation_scope": "Cold native work, no extra warmup; checkpoint recomputation counted by objective",
+        "response_observations": 256
+      },
+      "worker_wall_s": 475.21465217508376,
+      "subprocess_wall_s": 485.018629681319
+    },
+    {
+      "seed": 29,
+      "arm": "KP",
+      "event": 4,
+      "work": {
+        "forwards": 256,
+        "reference_forwards": 256,
+        "backwards": 256,
+        "optimizer_steps": 128
+      },
+      "exposure": {
+        "available_position_occurrences": 984885.0,
+        "selected_position_occurrences": 519593.0,
+        "available_position_weight": 439395.17071533203,
+        "selected_position_weight": 294911.98516845703,
+        "no_error_blocks": 13321.0,
+        "empty_blocks": 0.0,
+        "first_error_position_1": 5445.0,
+        "first_error_position_2": 6659.0,
+        "first_error_position_3": 6096.0,
+        "first_error_position_4": 5417.0,
+        "first_error_position_5": 4639.0,
+        "first_error_position_6": 4060.0,
+        "first_error_position_7": 3466.0,
+        "first_error_position_8": 3095.0,
+        "first_error_position_9": 2835.0,
+        "first_error_position_10": 2523.0,
+        "first_error_position_11": 2299.0,
+        "first_error_position_12": 2078.0,
+        "first_error_position_13": 1948.0,
+        "first_error_position_14": 1811.0,
+        "first_error_position_15": 1684.0,
+        "supervised_position_exposure": 519593.0,
+        "main_loss_numerator": 81082.42424964905,
+        "loss_denominator": 294911.98516845703,
+        "protection_numerator": 12534.636756300926,
+        "protection_weight": 246242.75625610352
+      },
+      "protection": {
+        "protected_positions": 421118,
+        "active_positions": 19103,
+        "incorrect_protected_positions": 14377,
+        "wrong_tie_positions": 781,
+        "available_blocks": 67376,
+        "protected_blocks": 61008,
+        "empty_protected_blocks": 6368
+      },
+      "costs": {
+        "loading_initialization_resume_validation_s": 52.52941151894629,
+        "frozen_reference_setup_s": 11.236692305654287,
+        "event_wall_s": 484.0209644474089,
+        "training_s": 446.71070684306324,
+        "checkpoint_save_s": 18.72763266041875,
+        "export_s": 15.342077551409602,
+        "event_wall_s_before_commit": 483.9152848124504,
+        "objective_work": {
+          "reference_setup_s": 11.235664328560233,
+          "reference_forward_s": 27.407412000000477,
+          "reference_head_s": 55.47366473451257,
+          "projection_s": 0.0,
+          "teacher_head_s": 107.08111339434981,
+          "selection_s": 14.770658122375607,
+          "extra_loss_s": 4.519413957372308,
+          "work": {
+            "reference_draft_forwards": 256,
+            "reference_layer_forwards": 1280,
+            "reference_response_forwards": 256,
+            "reference_head_calls": 8512,
+            "current_response_forwards": 256,
+            "current_draft_forwards": 256,
+            "current_layer_forwards": 1280,
+            "current_objective_chunks": 17024,
+            "current_head_calls": 17024,
+            "teacher_head_calls": 17024
+          },
+          "reference_binding": "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/draft"
+        },
+        "state_validation_hash_s": 17.105450564995408,
+        "loading_peak_allocated_bytes": 12977693184,
+        "loading_peak_reserved_bytes": 13044285440,
+        "peak_allocated_bytes": 22776356864,
+        "peak_reserved_bytes": 28183625728,
+        "device_name": "NVIDIA A800 80GB PCIe",
+        "compilation_scope": "Cold native work, no extra warmup; checkpoint recomputation counted by objective",
+        "response_observations": 256
+      },
+      "worker_wall_s": 554.2836628034711,
+      "subprocess_wall_s": 559.5631947200745
+    }
+  ],
+  "historical_K_context": {
+    "17": {
+      "training_s": 1486.4870554115623,
+      "event_wall_s": 1630.8895133510232,
+      "loading_initialization_resume_validation_s": 160.1930772960186,
+      "checkpoint_save_s": 72.39936100691557,
+      "export_s": 59.50579768978059
+    },
+    "29": {
+      "training_s": 1486.2791505083442,
+      "event_wall_s": 1637.6002263128757,
+      "loading_initialization_resume_validation_s": 162.50588885508478,
+      "checkpoint_save_s": 78.09375561214983,
+      "export_s": 59.12260011956096
+    }
+  },
+  "cpu_scope": {
+    "remote_tests": [
+      42,
+      15
+    ],
+    "preflight_modelwork": 0,
+    "postflight_modelwork": 0,
+    "report_runs_with_cuda_hidden": true,
+    "audit_imports_models": false,
+    "audit_gpu_work": 0
+  },
+  "campaign_wall_s": 17902.114519692957,
+  "supervisor_wall_s": 18879.0,
+  "recorded_evaluation_generations": 3072,
+  "consumed_files": {
+    "sealed/PLAN.json": {
+      "bytes": 728402,
+      "sha256": "cf4dfb9da0cfdeb66bc064846a8ea02815a65693bc831a510de6166c8bf75b35"
+    },
+    "campaign_001/STATUS.json": {
+      "bytes": 2688,
+      "sha256": "0ff080a174faeccac932b3a702106629b611db04a1d5386ff717818b92c60875"
+    },
+    "EXIT_CODE": {
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    "audit_inputs/original_schedules/17_1.json": {
+      "bytes": 2849544,
+      "sha256": "a89996ff80feba220ccf3a3c297fd37b26c39a7d7f7565159ebf3e1b4405c6c7"
+    },
+    "campaign_001/seed_17/K_HALF/events/event_001/RESULT.json": {
+      "bytes": 3541214,
+      "sha256": "86eb18175d238bc313b9962a677a081fd085d6baa7bd1535e0a894ef3052c1c3"
+    },
+    "campaign_001/seed_17/resume_001_K_HALF/WORKER.json": {
+      "bytes": 3150,
+      "sha256": "024289c85699d00fa9cad063c40d5389c2525d01c436335cd236e7993c55c86f"
+    },
+    "campaign_001/seed_17/resume_001_K_HALF/COSTS.json": {
+      "bytes": 927,
+      "sha256": "efcad3085848ffabe38aba7fe37d9d7fb7577b33ec5ac0bb95dded0a5ecd1f92"
+    },
+    "campaign_001/seed_17/resume_001_K_HALF/EXEC.json": {
+      "bytes": 408,
+      "sha256": "c24d83692909d9e9bd5bbed9add916098df4900b0190e107570a2161fb9c1701"
+    },
+    "campaign_001/seed_17/resume_001_K_HALF/CLOSED.json": {
+      "bytes": 447,
+      "sha256": "b6679fd642f523605d7d55974dcda33cc78c6aaca3652b6a80559a6f888394a0"
+    },
+    "campaign_001/seed_17/resume_001_K_HALF/SAVED_ENDPOINT.json": {
+      "bytes": 288,
+      "sha256": "4c9d3247c4bd18d0cb51bc8b25a102c71c46b26520917eadf579da5e2e020d9a"
+    },
+    "campaign_001/seed_17/resume_001_K_HALF/LIVE.json": {
+      "bytes": 143,
+      "sha256": "13e3c23c471617ba2fa7e48246b4ef1425df9fa216b2c90906d5d577f8aaee3f"
+    },
+    "campaign_001/seed_17/resume_001_K_HALF/LIVE_BOUNDARY.json": {
+      "bytes": 147,
+      "sha256": "967d496895f5336ce4e6b4230078be2bddb8457202e09c51722233e3685336a4"
+    },
+    "campaign_001/seed_17/resume_001_K_HALF/EVENT_CHECK.json": {
+      "bytes": 320,
+      "sha256": "bd9e7cc43c6e0cabfff0d1f0a895b89692c28b4c2a901f5ac3c690204184cfdd"
+    },
+    "campaign_001/seed_17/resume_001_K_HALF/STATE_IDENTITIES.json": {
+      "bytes": 788,
+      "sha256": "85301ebaf52e4fe13871cd48b876d65fa8e7200f3c190dc18b10f1bc2b230f68"
+    },
+    "campaign_001/seed_17/resume_001_K_HALF/JOB.json": {
+      "bytes": 625,
+      "sha256": "8cece6b22c942f1796a0f3fc9606c80f38a783c1885601b5ea88054349e171a0"
+    },
+    "campaign_001/seed_17/resume_001_K_HALF/WORK.jsonl": {
+      "bytes": 75896,
+      "sha256": "91a638a9344430dcc603efd0cd78040080a490c6762581580e9e5fa082cd31a6"
+    },
+    "campaign_001/seed_17/resume_001_K_HALF/MIGRATION.json": {
+      "bytes": 360,
+      "sha256": "372ff13e02c40a049784f36a55d5883a32ab0a411849a25fb6d4041e3e0d2c59"
+    },
+    "campaign_001/seed_17/resume_001_K_HALF/RESPONSE_OBSERVATIONS.jsonl": {
+      "bytes": 285999,
+      "sha256": "ce3bae0a5f6bef367ad5c6651cddbaa24990f2d109d6369d4336802760345bcf"
+    },
+    "campaign_001/seed_17/KP/events/event_001/RESULT.json": {
+      "bytes": 4221089,
+      "sha256": "a90e3898f84ee942268fa2f4c663b62b2070239b62c9654f76a362c74d3be1ca"
+    },
+    "campaign_001/seed_17/resume_001_KP/WORKER.json": {
+      "bytes": 3210,
+      "sha256": "72092b754b762bbe4d0f9205cd608601d514868f3a04262c88b1159cb57e6b79"
+    },
+    "campaign_001/seed_17/resume_001_KP/COSTS.json": {
+      "bytes": 1523,
+      "sha256": "27dc840417673caf03e4aef93cff8c8c03a880b04e318fdc14d17b94d0599c4e"
+    },
+    "campaign_001/seed_17/resume_001_KP/EXEC.json": {
+      "bytes": 403,
+      "sha256": "387254c9b823e123a1d90a6fefb0e12edf824fe0d8fea799129b3b10af340da2"
+    },
+    "campaign_001/seed_17/resume_001_KP/CLOSED.json": {
+      "bytes": 443,
+      "sha256": "cda15779cc1d2b1dc3923dd8e1b33e639677e81fc25f20a5cc4ec9dc6ea760ef"
+    },
+    "campaign_001/seed_17/resume_001_KP/SAVED_ENDPOINT.json": {
+      "bytes": 284,
+      "sha256": "426f2812ef354292e2f03c678ceee1044cf76292957d80d074f361f9c1a2a161"
+    },
+    "campaign_001/seed_17/resume_001_KP/LIVE.json": {
+      "bytes": 143,
+      "sha256": "f7d2f5e4ba61f37637e7bef50029372aa3479235b8269e5dba8f50bb48400ca8"
+    },
+    "campaign_001/seed_17/resume_001_KP/LIVE_BOUNDARY.json": {
+      "bytes": 146,
+      "sha256": "67b00d4364f8de9aab8f429af156f092bf5a5d7fb18efca98478ce7f20e0394c"
+    },
+    "campaign_001/seed_17/resume_001_KP/EVENT_CHECK.json": {
+      "bytes": 320,
+      "sha256": "bd9e7cc43c6e0cabfff0d1f0a895b89692c28b4c2a901f5ac3c690204184cfdd"
+    },
+    "campaign_001/seed_17/resume_001_KP/STATE_IDENTITIES.json": {
+      "bytes": 776,
+      "sha256": "b29675b8e672a7b01a3ffe8f2b8eb3520147ba7961505b9b9c9d3ea23cc676a4"
+    },
+    "campaign_001/seed_17/resume_001_KP/JOB.json": {
+      "bytes": 617,
+      "sha256": "514eff12e340e3b22c9c8b3c97e94420edb59c244429e37881d577a9d49b23b6"
+    },
+    "campaign_001/seed_17/resume_001_KP/WORK.jsonl": {
+      "bytes": 110496,
+      "sha256": "9a661d1c4403fa8bf055e78d315650e7cb8d6abc6d0e4ee24bfbe2268faffc48"
+    },
+    "campaign_001/seed_17/resume_001_KP/MIGRATION.json": {
+      "bytes": 292,
+      "sha256": "dfe8f40540d9a918214ca8db812eed58509957e22f8fdb10f9f2ff110dbe2ef9"
+    },
+    "campaign_001/seed_17/resume_001_KP/RESPONSE_OBSERVATIONS.jsonl": {
+      "bytes": 662559,
+      "sha256": "6f79590e0fd1a43bd6909014c2b941910ac3a4afadce501376af0bbefa5ecb16"
+    },
+    "audit_inputs/original_schedules/17_2.json": {
+      "bytes": 2975197,
+      "sha256": "7d6e6c453b0b541e9703c0b9135fb0a8c15cdfefa40867144457514b17eab519"
+    },
+    "campaign_001/seed_17/K_HALF/events/event_002/RESULT.json": {
+      "bytes": 3667149,
+      "sha256": "46b762a2a6cee7aafb32badb4b1eb6a2485c2b12b91f01e39833da43c9d025bd"
+    },
+    "campaign_001/seed_17/resume_002_K_HALF/WORKER.json": {
+      "bytes": 3169,
+      "sha256": "5996cf64774110e6c797870ae136f4317f206a11baf5cfabaa715e4d29c24227"
+    },
+    "campaign_001/seed_17/resume_002_K_HALF/COSTS.json": {
+      "bytes": 929,
+      "sha256": "ab7ba1fa29e13641cd0da99425f62c839c2a26ba978b8343aeb45af1a8cf8bd9"
+    },
+    "campaign_001/seed_17/resume_002_K_HALF/EXEC.json": {
+      "bytes": 409,
+      "sha256": "7f981c7b2b2e6aa9d32c6c2caeaa7c443c742817d47e5b1e281f35454d3a91e6"
+    },
+    "campaign_001/seed_17/resume_002_K_HALF/CLOSED.json": {
+      "bytes": 464,
+      "sha256": "c29efcaa4fedb17efbdae51fda814537961cef46aef533900a768aa2e7cbb2f4"
+    },
+    "campaign_001/seed_17/resume_002_K_HALF/SAVED_ENDPOINT.json": {
+      "bytes": 288,
+      "sha256": "6ade91603f87619406f578d225c0c487122a19732a632b254e301b3ce4e2a5b0"
+    },
+    "campaign_001/seed_17/resume_002_K_HALF/LIVE.json": {
+      "bytes": 146,
+      "sha256": "ff312633542a1e51ec58a45e8933ffdac3bce9b377b38f5612e56ad3c67ead45"
+    },
+    "campaign_001/seed_17/resume_002_K_HALF/LIVE_BOUNDARY.json": {
+      "bytes": 146,
+      "sha256": "6d85e1266af308de90fe320dd02feb1de12f98d115f8a18edd7d407a2f847572"
+    },
+    "campaign_001/seed_17/resume_002_K_HALF/EVENT_CHECK.json": {
+      "bytes": 322,
+      "sha256": "7344be862fe68620a678f650d5e79e31b17e5f4299f274e9993498b605229d91"
+    },
+    "campaign_001/seed_17/resume_002_K_HALF/STATE_IDENTITIES.json": {
+      "bytes": 788,
+      "sha256": "fd0e628116b80bef98379403400ba1e842b9290b84e17277d69b5bd4536bc1c1"
+    },
+    "campaign_001/seed_17/resume_002_K_HALF/JOB.json": {
+      "bytes": 625,
+      "sha256": "1f13d4c541a79df9bc0327165a5e96cf4c24ba92190b76bf87948ab668d135f9"
+    },
+    "campaign_001/seed_17/resume_002_K_HALF/WORK.jsonl": {
+      "bytes": 75896,
+      "sha256": "91a638a9344430dcc603efd0cd78040080a490c6762581580e9e5fa082cd31a6"
+    },
+    "campaign_001/seed_17/resume_002_K_HALF/SAVED.json": {
+      "bytes": 450,
+      "sha256": "e8ce8cbe2c63cfb4958b428e1618af00d550d23b9cc1492f4f67a64bd692fbf8"
+    },
+    "campaign_001/seed_17/resume_002_K_HALF/RESPONSE_OBSERVATIONS.jsonl": {
+      "bytes": 286066,
+      "sha256": "16383be47a0324f438a4d3b646f4fd83a2d92b069403f612cb83654d0c403127"
+    },
+    "campaign_001/seed_17/KP/events/event_002/RESULT.json": {
+      "bytes": 4347095,
+      "sha256": "8730cb4a04cce97b905235d2e88503d6f6e935661ab97f46ac99ca3c237792c5"
+    },
+    "campaign_001/seed_17/resume_002_KP/WORKER.json": {
+      "bytes": 3229,
+      "sha256": "320ee7de8e6b825910eb538f2dc4c6a3a04bebc43e9a2e11b3a56b59c22eb2be"
+    },
+    "campaign_001/seed_17/resume_002_KP/COSTS.json": {
+      "bytes": 1521,
+      "sha256": "3aadbaa3955e020f0bc1316098831ad9a832d8ecf31b42d4cfc660c0452b6a24"
+    },
+    "campaign_001/seed_17/resume_002_KP/EXEC.json": {
+      "bytes": 404,
+      "sha256": "b89cbd08ec1bcb28eb4c216051264433d220613630b3674a45edcd528ecb1e32"
+    },
+    "campaign_001/seed_17/resume_002_KP/CLOSED.json": {
+      "bytes": 460,
+      "sha256": "9cc40849185c932f1953b8e9d71f01e1264c6a1d54e7c8c38c5e6a15eb1fd06c"
+    },
+    "campaign_001/seed_17/resume_002_KP/SAVED_ENDPOINT.json": {
+      "bytes": 284,
+      "sha256": "da95962b0b1438f72a1f5a866d18f2a79d4f43682d363a3cfd8e096cac2138ca"
+    },
+    "campaign_001/seed_17/resume_002_KP/LIVE.json": {
+      "bytes": 147,
+      "sha256": "29984041e3f5421c8da5c2658939df7088b80b8a08a9873086d158188485383e"
+    },
+    "campaign_001/seed_17/resume_002_KP/LIVE_BOUNDARY.json": {
+      "bytes": 147,
+      "sha256": "dcbef05c5e481f707e6ed9d60f2723bf942fe48415110869c18cd334d46ecc38"
+    },
+    "campaign_001/seed_17/resume_002_KP/EVENT_CHECK.json": {
+      "bytes": 322,
+      "sha256": "7344be862fe68620a678f650d5e79e31b17e5f4299f274e9993498b605229d91"
+    },
+    "campaign_001/seed_17/resume_002_KP/STATE_IDENTITIES.json": {
+      "bytes": 776,
+      "sha256": "03a70fd252793643672ce55eb75ae36b67fb516560f1fb85f1577a3624267eac"
+    },
+    "campaign_001/seed_17/resume_002_KP/JOB.json": {
+      "bytes": 617,
+      "sha256": "8820e56e76462315ce2554bf3e6953bcb9389e83f26238a4e972d5233f0175b1"
+    },
+    "campaign_001/seed_17/resume_002_KP/WORK.jsonl": {
+      "bytes": 110496,
+      "sha256": "9a661d1c4403fa8bf055e78d315650e7cb8d6abc6d0e4ee24bfbe2268faffc48"
+    },
+    "campaign_001/seed_17/resume_002_KP/SAVED.json": {
+      "bytes": 442,
+      "sha256": "aa9b7d04cc812e5ce241b22eb4d9bf9b3047d59f92f56d2cd9eff0a37b2e53fb"
+    },
+    "campaign_001/seed_17/resume_002_KP/RESPONSE_OBSERVATIONS.jsonl": {
+      "bytes": 662765,
+      "sha256": "b52c1a57419debf560a0a55dbe4c8ad30b82c70fce21d22832bf6578ed006740"
+    },
+    "audit_inputs/original_schedules/17_3.json": {
+      "bytes": 2991008,
+      "sha256": "b03550a0d86ad363db135b54d8b4d59710a53c83f25488935a4e3ade87a57457"
+    },
+    "campaign_001/seed_17/K_HALF/events/event_003/RESULT.json": {
+      "bytes": 3682452,
+      "sha256": "885bfa0120ec62c24cd8ffe2d9e76dd5c8c22d4eb9f915f3f22d5b7a5e4efa19"
+    },
+    "campaign_001/seed_17/resume_003_K_HALF/WORKER.json": {
+      "bytes": 3187,
+      "sha256": "2eb9b8e3e155d1cc2a43e06e72fb32fb307b466110c768e1e4b5ad46e949ca09"
+    },
+    "campaign_001/seed_17/resume_003_K_HALF/COSTS.json": {
+      "bytes": 928,
+      "sha256": "a324eb8a6292c89e29a78dfffebf3326a01f0a885d832ca62a62efea49d9a74a"
+    },
+    "campaign_001/seed_17/resume_003_K_HALF/EXEC.json": {
+      "bytes": 408,
+      "sha256": "3ee095e9d0e78091ca3e45bbb6ad6a550fce630a486fd90a2bbe241eabc928d1"
+    },
+    "campaign_001/seed_17/resume_003_K_HALF/CLOSED.json": {
+      "bytes": 481,
+      "sha256": "3442ef1bafe7fe92c49321b680eadba02f588a78ec1914745800182c4966a987"
+    },
+    "campaign_001/seed_17/resume_003_K_HALF/SAVED_ENDPOINT.json": {
+      "bytes": 288,
+      "sha256": "966837543232cf95513cbd0417381338d8d73cddf740dc6e26d2504ccd6ddc28"
+    },
+    "campaign_001/seed_17/resume_003_K_HALF/LIVE.json": {
+      "bytes": 147,
+      "sha256": "841c78c0edb8cb0916efc35b0e58246549ccc337d8dc7c7cf24d3a9467046b68"
+    },
+    "campaign_001/seed_17/resume_003_K_HALF/LIVE_BOUNDARY.json": {
+      "bytes": 146,
+      "sha256": "036c03279b6e0a596d4775f7d306de76cc87f89e7322bd26f5feb51688f0ac33"
+    },
+    "campaign_001/seed_17/resume_003_K_HALF/EVENT_CHECK.json": {
+      "bytes": 322,
+      "sha256": "632ca8b91dd9cedbdfbde420a4b4701aa4f854e8ecf8b957384b93d652bad7a5"
+    },
+    "campaign_001/seed_17/resume_003_K_HALF/STATE_IDENTITIES.json": {
+      "bytes": 788,
+      "sha256": "0f222bcbf6f7b16661c9ba57ad8f568ba321700c2c5d9cb74aad5c386140d22e"
+    },
+    "campaign_001/seed_17/resume_003_K_HALF/JOB.json": {
+      "bytes": 625,
+      "sha256": "d7ea138cc8d5cac02f0d91b1a1721367aef6cf39bc531cba812d93b23815f751"
+    },
+    "campaign_001/seed_17/resume_003_K_HALF/WORK.jsonl": {
+      "bytes": 75896,
+      "sha256": "91a638a9344430dcc603efd0cd78040080a490c6762581580e9e5fa082cd31a6"
+    },
+    "campaign_001/seed_17/resume_003_K_HALF/SAVED.json": {
+      "bytes": 450,
+      "sha256": "8f6235b5e527151a9effa5c94d422c624624196cf7cfbfb77c92b00fa8a1fd80"
+    },
+    "campaign_001/seed_17/resume_003_K_HALF/RESPONSE_OBSERVATIONS.jsonl": {
+      "bytes": 285844,
+      "sha256": "4d0d80e7856a955ad792a79891a679bac90a879ce44307cc1d5abe31422ccaaf"
+    },
+    "campaign_001/seed_17/KP/events/event_003/RESULT.json": {
+      "bytes": 4362214,
+      "sha256": "00ec561857e6158070a6b0a65e79471bfb9447ac07cc88cba2fc7183fab8a0b4"
+    },
+    "campaign_001/seed_17/resume_003_KP/WORKER.json": {
+      "bytes": 3248,
+      "sha256": "c7707686716c1a6c7eb961f8e6301c8226ddec56505943dedd981c17790bc472"
+    },
+    "campaign_001/seed_17/resume_003_KP/COSTS.json": {
+      "bytes": 1524,
+      "sha256": "7998cb6395a7dd3af5adba6d77d317c10b721df263b21cb9c705f62d3077525a"
+    },
+    "campaign_001/seed_17/resume_003_KP/EXEC.json": {
+      "bytes": 404,
+      "sha256": "146e4a0e62fc134ac94a02276393efb74262e5daf07c859187f4d90ad89ba4de"
+    },
+    "campaign_001/seed_17/resume_003_KP/CLOSED.json": {
+      "bytes": 477,
+      "sha256": "de11d7c2ab7066c302fb34fe27b69d4438763c858bfd5dd8d19543b97475d3ed"
+    },
+    "campaign_001/seed_17/resume_003_KP/SAVED_ENDPOINT.json": {
+      "bytes": 284,
+      "sha256": "b33a0a56711a6b74b61c9c9ad1edc17729e36b8654c7f045b86039a3793a16e9"
+    },
+    "campaign_001/seed_17/resume_003_KP/LIVE.json": {
+      "bytes": 146,
+      "sha256": "28b1210ee9c7c8c7e78dc69feb8a8482ddc484849e6125d7c7bdf9769888d810"
+    },
+    "campaign_001/seed_17/resume_003_KP/LIVE_BOUNDARY.json": {
+      "bytes": 146,
+      "sha256": "a0f8f289616ba8f9e29101077ab5528b246dfedc87824fa24395ed864ddbbdcb"
+    },
+    "campaign_001/seed_17/resume_003_KP/EVENT_CHECK.json": {
+      "bytes": 322,
+      "sha256": "632ca8b91dd9cedbdfbde420a4b4701aa4f854e8ecf8b957384b93d652bad7a5"
+    },
+    "campaign_001/seed_17/resume_003_KP/STATE_IDENTITIES.json": {
+      "bytes": 776,
+      "sha256": "f31824772c210b28ec30244f5e1d4844237a1a534a607d38b2fb849452a73fbf"
+    },
+    "campaign_001/seed_17/resume_003_KP/JOB.json": {
+      "bytes": 617,
+      "sha256": "825738bb88a79dc288bffc0418c30654d942085ea1e7152babda575fcb066a97"
+    },
+    "campaign_001/seed_17/resume_003_KP/WORK.jsonl": {
+      "bytes": 110496,
+      "sha256": "9a661d1c4403fa8bf055e78d315650e7cb8d6abc6d0e4ee24bfbe2268faffc48"
+    },
+    "campaign_001/seed_17/resume_003_KP/SAVED.json": {
+      "bytes": 442,
+      "sha256": "ff9aa6c885524c640a90a9803a9549de42dbfedfe7c6759adb711a5adf85d652"
+    },
+    "campaign_001/seed_17/resume_003_KP/RESPONSE_OBSERVATIONS.jsonl": {
+      "bytes": 662508,
+      "sha256": "7a0457593ec15ab8e3b0c24ddd558437b64e98020561921e912b36a104812ad3"
+    },
+    "audit_inputs/original_schedules/17_4.json": {
+      "bytes": 2835839,
+      "sha256": "9233a8d5d7f40bddb714d237c0ad63ec493a16f152a331889458fe31fa8e7414"
+    },
+    "campaign_001/seed_17/K_HALF/events/event_004/RESULT.json": {
+      "bytes": 3527130,
+      "sha256": "1e59ac0ffc083f29fd3ac3d7a2bb609e283a433a96df556c49a6837252715d68"
+    },
+    "campaign_001/seed_17/resume_004_K_HALF/WORKER.json": {
+      "bytes": 3207,
+      "sha256": "671b917a2ab66d1517e18a2ec16595042191f719005ccf0dcae4e279b06d4eec"
+    },
+    "campaign_001/seed_17/resume_004_K_HALF/COSTS.json": {
+      "bytes": 927,
+      "sha256": "21d1e80b28abb383e4c2328e272811a694b289a419f3b07bb00083d2ddbbaafc"
+    },
+    "campaign_001/seed_17/resume_004_K_HALF/EXEC.json": {
+      "bytes": 408,
+      "sha256": "2e4f823e38c27c703c95b04c3086a6cdeb23cf46c865314d7288e2d8d5d80ccf"
+    },
+    "campaign_001/seed_17/resume_004_K_HALF/CLOSED.json": {
+      "bytes": 499,
+      "sha256": "73577538d731703e6a8ce565cbfca456cb13fae9e730dd11201d9184322bf759"
+    },
+    "campaign_001/seed_17/resume_004_K_HALF/SAVED_ENDPOINT.json": {
+      "bytes": 289,
+      "sha256": "c261910fb5e33c8af7c52e8c18679b47146ef09a1b9511740a498d4d597193f4"
+    },
+    "campaign_001/seed_17/resume_004_K_HALF/LIVE.json": {
+      "bytes": 147,
+      "sha256": "14371c6f207106b750c94a5b73ecbbe25256ff63dab141b8c78b44e43df06f58"
+    },
+    "campaign_001/seed_17/resume_004_K_HALF/LIVE_BOUNDARY.json": {
+      "bytes": 148,
+      "sha256": "086e271fbf7c5f69ec2c99c3c462e76b34c95857004e7a6201c6226cbe592e95"
+    },
+    "campaign_001/seed_17/resume_004_K_HALF/EVENT_CHECK.json": {
+      "bytes": 322,
+      "sha256": "31aa238cbe1eb4b2271a953fdb1ef8ad6c0f1b9a4550ce712f7992326fca5cd6"
+    },
+    "campaign_001/seed_17/resume_004_K_HALF/STATE_IDENTITIES.json": {
+      "bytes": 788,
+      "sha256": "09aeb131060bbcf84dece873f380e819601bb636b76c352169dffb595fbe7c6a"
+    },
+    "campaign_001/seed_17/resume_004_K_HALF/JOB.json": {
+      "bytes": 625,
+      "sha256": "b88ee0707da2bc4360abf105fbc789131074e65d547474dfbb1d0397cec3854b"
+    },
+    "campaign_001/seed_17/resume_004_K_HALF/WORK.jsonl": {
+      "bytes": 75896,
+      "sha256": "91a638a9344430dcc603efd0cd78040080a490c6762581580e9e5fa082cd31a6"
+    },
+    "campaign_001/seed_17/resume_004_K_HALF/SAVED.json": {
+      "bytes": 450,
+      "sha256": "904abfea2a0833bb63e65e804fc28b50d088c2c69cbeecb29891977edc04f4a9"
+    },
+    "campaign_001/seed_17/resume_004_K_HALF/RESPONSE_OBSERVATIONS.jsonl": {
+      "bytes": 285733,
+      "sha256": "d94c58f74d61f60b87e06ea8e6591dc2dadcd0c68a680d67fb09a9358ad2373d"
+    },
+    "campaign_001/seed_17/KP/events/event_004/RESULT.json": {
+      "bytes": 4207168,
+      "sha256": "28404ae82ca709eb0c6c587d188616803e6b9df1dcaa38f3f46605d5e925a016"
+    },
+    "campaign_001/seed_17/resume_004_KP/WORKER.json": {
+      "bytes": 3268,
+      "sha256": "3bbe6ea4a5d2e9de76fd1fd883c4ba621818c07506531453771bea0d03e751a5"
+    },
+    "campaign_001/seed_17/resume_004_KP/COSTS.json": {
+      "bytes": 1524,
+      "sha256": "2636f91067c3ae5488de1e0199bbc16d626a4b4eeb674519ec1f39f67a775e45"
+    },
+    "campaign_001/seed_17/resume_004_KP/EXEC.json": {
+      "bytes": 404,
+      "sha256": "c52ffc9e6af7129f44fd15f4aa9c4eafb7ca15912b29dc329a8c57c95e3936b7"
+    },
+    "campaign_001/seed_17/resume_004_KP/CLOSED.json": {
+      "bytes": 495,
+      "sha256": "811d542b68f11cb65e790286c8717b8bc99b270fd6e3810fae78adcc59ad0a4c"
+    },
+    "campaign_001/seed_17/resume_004_KP/SAVED_ENDPOINT.json": {
+      "bytes": 285,
+      "sha256": "14e5ad5e4f5b83e0ea23d150add2268aa50f4a17ca065fe6d7d2845d14e81d3c"
+    },
+    "campaign_001/seed_17/resume_004_KP/LIVE.json": {
+      "bytes": 146,
+      "sha256": "b11547d9f50c065474be5fb061d56634a4fe95550cad92197364d68375bf8e9b"
+    },
+    "campaign_001/seed_17/resume_004_KP/LIVE_BOUNDARY.json": {
+      "bytes": 148,
+      "sha256": "16c3aca3870350218d88cba606077e64ba78c8ab31949b0a4ea02ae5b264c788"
+    },
+    "campaign_001/seed_17/resume_004_KP/EVENT_CHECK.json": {
+      "bytes": 322,
+      "sha256": "31aa238cbe1eb4b2271a953fdb1ef8ad6c0f1b9a4550ce712f7992326fca5cd6"
+    },
+    "campaign_001/seed_17/resume_004_KP/STATE_IDENTITIES.json": {
+      "bytes": 776,
+      "sha256": "2667b1d1af82edaeb8aadcac373b78732f8c280f6f57c51029fd000cfb1e604e"
+    },
+    "campaign_001/seed_17/resume_004_KP/JOB.json": {
+      "bytes": 617,
+      "sha256": "3815134910ad201c297409a4477e18bca8f849710857c2571ee3355624d2b79c"
+    },
+    "campaign_001/seed_17/resume_004_KP/WORK.jsonl": {
+      "bytes": 110496,
+      "sha256": "9a661d1c4403fa8bf055e78d315650e7cb8d6abc6d0e4ee24bfbe2268faffc48"
+    },
+    "campaign_001/seed_17/resume_004_KP/SAVED.json": {
+      "bytes": 442,
+      "sha256": "c969bdae8ff5b568b317a23cb6bd1e7f56691f559813ad351c9ccf4c3d72cc83"
+    },
+    "campaign_001/seed_17/resume_004_KP/RESPONSE_OBSERVATIONS.jsonl": {
+      "bytes": 662438,
+      "sha256": "0193cc918b3d7edee37023a9af9d6a74bd435f52526320b05fd439e17a11b5b0"
+    },
+    "audit_inputs/original_schedules/29_1.json": {
+      "bytes": 2849484,
+      "sha256": "f152b5e20424a96c1b15480c30675b1fa4465ef2a8ac2fc2b6e7552522a46cc0"
+    },
+    "campaign_001/seed_29/K_HALF/events/event_001/RESULT.json": {
+      "bytes": 3540884,
+      "sha256": "7661426a3fbfc076c6650d5fd3794a77774125d2e1618510f0cd3bba7683030f"
+    },
+    "campaign_001/seed_29/resume_001_K_HALF/WORKER.json": {
+      "bytes": 3150,
+      "sha256": "98a7dad178d999ecfb2d20091f8872af87b7e0cbd17caecb16af37d9279e90de"
+    },
+    "campaign_001/seed_29/resume_001_K_HALF/COSTS.json": {
+      "bytes": 925,
+      "sha256": "c1ea05f38514bbcd313e8478c41c3ac1df086d56917504bc39f4b18b5a8a75e0"
+    },
+    "campaign_001/seed_29/resume_001_K_HALF/EXEC.json": {
+      "bytes": 408,
+      "sha256": "84aecfa0bdc0c7c5f9380751809abe31351ea42b8f96d8217c3dcc31c66377b1"
+    },
+    "campaign_001/seed_29/resume_001_K_HALF/CLOSED.json": {
+      "bytes": 447,
+      "sha256": "a1017d64cbfea7da94e3ae02ea94d3a9a1ba2c5a82afea612a872d4e26d6c05a"
+    },
+    "campaign_001/seed_29/resume_001_K_HALF/SAVED_ENDPOINT.json": {
+      "bytes": 288,
+      "sha256": "ab139deed7d1fdaeff1d8306436c44731b74cb97f4a213ff53096fb9520d50f3"
+    },
+    "campaign_001/seed_29/resume_001_K_HALF/LIVE.json": {
+      "bytes": 143,
+      "sha256": "6cd52efadb0e927a18153755db5f75e1e46f7ab32472fb6d3bce5b0b7fcc831c"
+    },
+    "campaign_001/seed_29/resume_001_K_HALF/LIVE_BOUNDARY.json": {
+      "bytes": 147,
+      "sha256": "7c7c903a0fe8474f667804640ea6dda744c8d221e56d57765b7f249b34c8b903"
+    },
+    "campaign_001/seed_29/resume_001_K_HALF/EVENT_CHECK.json": {
+      "bytes": 320,
+      "sha256": "bd9e7cc43c6e0cabfff0d1f0a895b89692c28b4c2a901f5ac3c690204184cfdd"
+    },
+    "campaign_001/seed_29/resume_001_K_HALF/STATE_IDENTITIES.json": {
+      "bytes": 788,
+      "sha256": "412b1cb03e7d244f916e9ff12162e2007240ddce941eb7e2d1703828f3eac5de"
+    },
+    "campaign_001/seed_29/resume_001_K_HALF/JOB.json": {
+      "bytes": 625,
+      "sha256": "f09dae37761999e46e7be36c4343b99257ec44ad049543132515a42ede7e8be7"
+    },
+    "campaign_001/seed_29/resume_001_K_HALF/WORK.jsonl": {
+      "bytes": 75896,
+      "sha256": "91a638a9344430dcc603efd0cd78040080a490c6762581580e9e5fa082cd31a6"
+    },
+    "campaign_001/seed_29/resume_001_K_HALF/MIGRATION.json": {
+      "bytes": 360,
+      "sha256": "6c50a5fe65d1ffc37bcb5feb50a70bb2a819d9a70526cb6604e9b221000b9755"
+    },
+    "campaign_001/seed_29/resume_001_K_HALF/RESPONSE_OBSERVATIONS.jsonl": {
+      "bytes": 285746,
+      "sha256": "9835593a9e46dc24ee6f0de85fe6a8b084c6263c991bb3928b4face43561fb6d"
+    },
+    "campaign_001/seed_29/KP/events/event_001/RESULT.json": {
+      "bytes": 4220900,
+      "sha256": "e9e60cf6def7511f6a3fae4a1c4a23ad21249496667b0493946a0466c156fdf9"
+    },
+    "campaign_001/seed_29/resume_001_KP/WORKER.json": {
+      "bytes": 3210,
+      "sha256": "e8d95842635307cc9cecec029cba7da7b20df836a548aec8b69b12b5ce1eb4c0"
+    },
+    "campaign_001/seed_29/resume_001_KP/COSTS.json": {
+      "bytes": 1517,
+      "sha256": "493baf915922d93776d28ddf8060a7ecf6f4e3b1ef6ccfb80ff397ff66fcd49a"
+    },
+    "campaign_001/seed_29/resume_001_KP/EXEC.json": {
+      "bytes": 404,
+      "sha256": "704cb4274e30759fc54096a6c19a91ba76d1ee92c786ab8846574e3e7eea425b"
+    },
+    "campaign_001/seed_29/resume_001_KP/CLOSED.json": {
+      "bytes": 443,
+      "sha256": "4a6b410db267cf440be1325226c8967d7675c210c72d17c7f97633d1ca7aea7e"
+    },
+    "campaign_001/seed_29/resume_001_KP/SAVED_ENDPOINT.json": {
+      "bytes": 284,
+      "sha256": "c5afc506dc0bc858a9144693a2db28ee8fcb4e438d7c39dda3170060f869f0c1"
+    },
+    "campaign_001/seed_29/resume_001_KP/LIVE.json": {
+      "bytes": 143,
+      "sha256": "dfcb3b79ce13f7c30a5f5375c3af85dcf62a7a26dc62cc7d9904e6e8fec7cf99"
+    },
+    "campaign_001/seed_29/resume_001_KP/LIVE_BOUNDARY.json": {
+      "bytes": 147,
+      "sha256": "ab54e302870eb7d610abdf8a5ec3619636176e308ba9de99ee6e2fb69b9b659e"
+    },
+    "campaign_001/seed_29/resume_001_KP/EVENT_CHECK.json": {
+      "bytes": 320,
+      "sha256": "bd9e7cc43c6e0cabfff0d1f0a895b89692c28b4c2a901f5ac3c690204184cfdd"
+    },
+    "campaign_001/seed_29/resume_001_KP/STATE_IDENTITIES.json": {
+      "bytes": 776,
+      "sha256": "ad5d25f58b0f8bea9ef5e59fec3e49ea18322c58ad61a523b268dc1f2969d633"
+    },
+    "campaign_001/seed_29/resume_001_KP/JOB.json": {
+      "bytes": 617,
+      "sha256": "4b5dfc86ede470fce4e174d55078e08777748b5c2fdc559df30ea892b9843e63"
+    },
+    "campaign_001/seed_29/resume_001_KP/WORK.jsonl": {
+      "bytes": 110496,
+      "sha256": "9a661d1c4403fa8bf055e78d315650e7cb8d6abc6d0e4ee24bfbe2268faffc48"
+    },
+    "campaign_001/seed_29/resume_001_KP/MIGRATION.json": {
+      "bytes": 292,
+      "sha256": "915f97ba99a1ff4e6a78d824900833a64c0e20bd70d6816d769f6a8e67b43a6c"
+    },
+    "campaign_001/seed_29/resume_001_KP/RESPONSE_OBSERVATIONS.jsonl": {
+      "bytes": 662584,
+      "sha256": "8a0ede82e277eb0da7915ba53b543eb4f9dad155aff194ca6e9101cdbb5308c8"
+    },
+    "audit_inputs/original_schedules/29_2.json": {
+      "bytes": 2975218,
+      "sha256": "11bf75009cdc7ffad4cd8df22cd0af65dade8bc98f85d9137b3e684455cecc8d"
+    },
+    "campaign_001/seed_29/K_HALF/events/event_002/RESULT.json": {
+      "bytes": 3666893,
+      "sha256": "9c9af86ca58b76b6d8693e46d79f667b6822c8e963f8934735377163be604f68"
+    },
+    "campaign_001/seed_29/resume_002_K_HALF/WORKER.json": {
+      "bytes": 3169,
+      "sha256": "0d4049b542cb447482cb4cf65613baf401288d2cd3fa02cf04808631c5f6f165"
+    },
+    "campaign_001/seed_29/resume_002_K_HALF/COSTS.json": {
+      "bytes": 930,
+      "sha256": "c377f6c2ffba1663287582e21aa516dc3e4c9746d8e1ce660bb7a3039c03cf57"
+    },
+    "campaign_001/seed_29/resume_002_K_HALF/EXEC.json": {
+      "bytes": 409,
+      "sha256": "0925ac28ba4da9745c0a0ea293b95291bfb4ef7b61e380b4aab43c5a24a1465a"
+    },
+    "campaign_001/seed_29/resume_002_K_HALF/CLOSED.json": {
+      "bytes": 464,
+      "sha256": "cbfa10468693949946b3a0a04cfc74dfb292a98158908e1c8ea340cdf6c647e1"
+    },
+    "campaign_001/seed_29/resume_002_K_HALF/SAVED_ENDPOINT.json": {
+      "bytes": 288,
+      "sha256": "d831ce9a328ad93f95d70445bf28164d96ccceb26dca3c86174b43db08e44359"
+    },
+    "campaign_001/seed_29/resume_002_K_HALF/LIVE.json": {
+      "bytes": 147,
+      "sha256": "c785cc98000c52e0e1acba10cee8ee6fb0763e403bf4848a00a1fe8b6e953bf4"
+    },
+    "campaign_001/seed_29/resume_002_K_HALF/LIVE_BOUNDARY.json": {
+      "bytes": 147,
+      "sha256": "7ba719c9e5c9fd10356c430cbc0edfdd23d7f9fcddd2f9f1d1a88f531c6b0ca6"
+    },
+    "campaign_001/seed_29/resume_002_K_HALF/EVENT_CHECK.json": {
+      "bytes": 322,
+      "sha256": "7344be862fe68620a678f650d5e79e31b17e5f4299f274e9993498b605229d91"
+    },
+    "campaign_001/seed_29/resume_002_K_HALF/STATE_IDENTITIES.json": {
+      "bytes": 788,
+      "sha256": "892daf680111182ad548cae070e3c176072e2fee27cb6b4532aed561f6af46db"
+    },
+    "campaign_001/seed_29/resume_002_K_HALF/JOB.json": {
+      "bytes": 625,
+      "sha256": "103e82c0f93bff6e3e4f7b2df2d0c44846bc23074ee17241e60d3b4d937c50b0"
+    },
+    "campaign_001/seed_29/resume_002_K_HALF/WORK.jsonl": {
+      "bytes": 75896,
+      "sha256": "91a638a9344430dcc603efd0cd78040080a490c6762581580e9e5fa082cd31a6"
+    },
+    "campaign_001/seed_29/resume_002_K_HALF/SAVED.json": {
+      "bytes": 450,
+      "sha256": "47d74096c099683ef0683609dd4cc5c3f7ac72205aeaea1d4f71ad3c837b977f"
+    },
+    "campaign_001/seed_29/resume_002_K_HALF/RESPONSE_OBSERVATIONS.jsonl": {
+      "bytes": 285840,
+      "sha256": "201452e4d6ffb85e145796cdea69f63b3665eba8dbebbd3433078e38be4c2d86"
+    },
+    "campaign_001/seed_29/KP/events/event_002/RESULT.json": {
+      "bytes": 4346820,
+      "sha256": "6bf87edfee88862552c8a68eee7cfab8d73185e706448910b328ce98383cd147"
+    },
+    "campaign_001/seed_29/resume_002_KP/WORKER.json": {
+      "bytes": 3229,
+      "sha256": "f32445041b6f0fe12910c47328047d9e4b531b64e038b17b9131a98a47b08ea7"
+    },
+    "campaign_001/seed_29/resume_002_KP/COSTS.json": {
+      "bytes": 1521,
+      "sha256": "2339e1da0556d698193ab8429fb03dd689deebab06f20c6d36de3902013f1c77"
+    },
+    "campaign_001/seed_29/resume_002_KP/EXEC.json": {
+      "bytes": 404,
+      "sha256": "6fe669eaa1eb2424676048c166c35b0854569db6e95b4b71a5529d1affd65ded"
+    },
+    "campaign_001/seed_29/resume_002_KP/CLOSED.json": {
+      "bytes": 460,
+      "sha256": "bc88894a4db1a5bc74e74e008ac8f1c219b5641e57600fcd2509b6e6765aece7"
+    },
+    "campaign_001/seed_29/resume_002_KP/SAVED_ENDPOINT.json": {
+      "bytes": 284,
+      "sha256": "f20ec92523578a79514da6d257b2348c11fda928827329fad02aa3da25f5748a"
+    },
+    "campaign_001/seed_29/resume_002_KP/LIVE.json": {
+      "bytes": 147,
+      "sha256": "bd18aea4c4d82bb5beb2741219eecffdc877e006cdddfa3027444a3d900e9d7f"
+    },
+    "campaign_001/seed_29/resume_002_KP/LIVE_BOUNDARY.json": {
+      "bytes": 147,
+      "sha256": "89f9246e717c52e35975eb7f1b6e2cbdc57f652d54b882001acc65ed07773ff7"
+    },
+    "campaign_001/seed_29/resume_002_KP/EVENT_CHECK.json": {
+      "bytes": 322,
+      "sha256": "7344be862fe68620a678f650d5e79e31b17e5f4299f274e9993498b605229d91"
+    },
+    "campaign_001/seed_29/resume_002_KP/STATE_IDENTITIES.json": {
+      "bytes": 776,
+      "sha256": "f01270c49042c772bb24c8d543b39f084a3f1de0b9bfec98f62c9de35fd789a6"
+    },
+    "campaign_001/seed_29/resume_002_KP/JOB.json": {
+      "bytes": 617,
+      "sha256": "9dec0b48402b9320a801a6c21b364669c8d2f906e2e9fabf64a8847c6d4e7052"
+    },
+    "campaign_001/seed_29/resume_002_KP/WORK.jsonl": {
+      "bytes": 110496,
+      "sha256": "9a661d1c4403fa8bf055e78d315650e7cb8d6abc6d0e4ee24bfbe2268faffc48"
+    },
+    "campaign_001/seed_29/resume_002_KP/SAVED.json": {
+      "bytes": 442,
+      "sha256": "9e1b935517f6b93135d75561631564d3c7ac5efcd29f54eb966e34757a703404"
+    },
+    "campaign_001/seed_29/resume_002_KP/RESPONSE_OBSERVATIONS.jsonl": {
+      "bytes": 662636,
+      "sha256": "9f7e0f68c40644bcd74e069b2e603faa4f74ce157b06756c9f182a4d3941f283"
+    },
+    "audit_inputs/original_schedules/29_3.json": {
+      "bytes": 2991072,
+      "sha256": "152024cfbd59d3bdac02c6cf4bc61783d2d2f4817ea4d78f0352913f4ad6e964"
+    },
+    "campaign_001/seed_29/K_HALF/events/event_003/RESULT.json": {
+      "bytes": 3682534,
+      "sha256": "11f73f20f5968f6140e76c5b3e9f04eacb3c04f24ffa389e684cfc8532a4c27a"
+    },
+    "campaign_001/seed_29/resume_003_K_HALF/WORKER.json": {
+      "bytes": 3187,
+      "sha256": "88f4fed37fa2b4f88250527c4e9a7eae275ebcf3453c03a0b17a67fdcfa20cd8"
+    },
+    "campaign_001/seed_29/resume_003_K_HALF/COSTS.json": {
+      "bytes": 928,
+      "sha256": "a3e5f8e5bbc8c4dd0b24505c2feadb0e6db4f9256a275a8f231a0ffbb15feae1"
+    },
+    "campaign_001/seed_29/resume_003_K_HALF/EXEC.json": {
+      "bytes": 409,
+      "sha256": "914a7bbe17181898f6490798a373472f71ebf95edf5a603a6d2929d94f586e6d"
+    },
+    "campaign_001/seed_29/resume_003_K_HALF/CLOSED.json": {
+      "bytes": 481,
+      "sha256": "c269fd31d972c5de8833104d8157d56b882beaa0d0e4c92490eecb4552b6f47e"
+    },
+    "campaign_001/seed_29/resume_003_K_HALF/SAVED_ENDPOINT.json": {
+      "bytes": 288,
+      "sha256": "d517249f5c2ee35ae8b836ccf42343b5e9bb20ce8e2bf807af13bf6a8ddd2d77"
+    },
+    "campaign_001/seed_29/resume_003_K_HALF/LIVE.json": {
+      "bytes": 147,
+      "sha256": "877643372d0f2550710896bea3eeea3be2d39b76ce0bfef375eff5e49687ca4b"
+    },
+    "campaign_001/seed_29/resume_003_K_HALF/LIVE_BOUNDARY.json": {
+      "bytes": 146,
+      "sha256": "8ca2e5ed6c24eaeff0e757bd8d7b1f75a773cfeed9d288b523399ad26e995003"
+    },
+    "campaign_001/seed_29/resume_003_K_HALF/EVENT_CHECK.json": {
+      "bytes": 322,
+      "sha256": "632ca8b91dd9cedbdfbde420a4b4701aa4f854e8ecf8b957384b93d652bad7a5"
+    },
+    "campaign_001/seed_29/resume_003_K_HALF/STATE_IDENTITIES.json": {
+      "bytes": 788,
+      "sha256": "ebc9fc675da1855d87879e31c78c3b42a3fe1d064d84eb477b2c221ebb0cd2fd"
+    },
+    "campaign_001/seed_29/resume_003_K_HALF/JOB.json": {
+      "bytes": 625,
+      "sha256": "e65476e608ae1f42162554f5c5709fb530974da22a980ee5e175421942ec41ad"
+    },
+    "campaign_001/seed_29/resume_003_K_HALF/WORK.jsonl": {
+      "bytes": 75896,
+      "sha256": "91a638a9344430dcc603efd0cd78040080a490c6762581580e9e5fa082cd31a6"
+    },
+    "campaign_001/seed_29/resume_003_K_HALF/SAVED.json": {
+      "bytes": 450,
+      "sha256": "869f388661a02831ecc617c9081569596bde2740e653fc2d14a50c7825854640"
+    },
+    "campaign_001/seed_29/resume_003_K_HALF/RESPONSE_OBSERVATIONS.jsonl": {
+      "bytes": 285800,
+      "sha256": "ebd9a4ebb5d8cc1db14a1dfe2b236c75d21bff21ee97f85bae120751462294f3"
+    },
+    "campaign_001/seed_29/KP/events/event_003/RESULT.json": {
+      "bytes": 4362590,
+      "sha256": "a968832a7687aa156dcafdf6f5818e209f53b1f161f3b19ef5c756efa3a0b478"
+    },
+    "campaign_001/seed_29/resume_003_KP/WORKER.json": {
+      "bytes": 3248,
+      "sha256": "2683e1990484bda14f6a839b28680f991be560db90bd9d0a42416cc6a7c33891"
+    },
+    "campaign_001/seed_29/resume_003_KP/COSTS.json": {
+      "bytes": 1525,
+      "sha256": "b2b5d39610d60ea63b281523c4ad65e66e967f5f33230546fd112ca9d7376b18"
+    },
+    "campaign_001/seed_29/resume_003_KP/EXEC.json": {
+      "bytes": 404,
+      "sha256": "e5a844d95a4383c547e926accf9b5f95ac13dc809067a11265f8485ab8098d4f"
+    },
+    "campaign_001/seed_29/resume_003_KP/CLOSED.json": {
+      "bytes": 477,
+      "sha256": "d3df6629330a6bb06a08c6d75ab92ad3cadcf23737832939dbab5531cbfddd41"
+    },
+    "campaign_001/seed_29/resume_003_KP/SAVED_ENDPOINT.json": {
+      "bytes": 284,
+      "sha256": "568c71835d526b3a8cd2ebff4bb905da0023b96fb5f142177407bbe392435729"
+    },
+    "campaign_001/seed_29/resume_003_KP/LIVE.json": {
+      "bytes": 146,
+      "sha256": "f5860fa05e78a1c257c7c9cebb0a6b0d3a026a29a97d70d8bafbc823a7e9b1bb"
+    },
+    "campaign_001/seed_29/resume_003_KP/LIVE_BOUNDARY.json": {
+      "bytes": 146,
+      "sha256": "034013faf1a15834e675c6e29d2a75648b8c7533c81163b493374fe1ef4dc46b"
+    },
+    "campaign_001/seed_29/resume_003_KP/EVENT_CHECK.json": {
+      "bytes": 322,
+      "sha256": "632ca8b91dd9cedbdfbde420a4b4701aa4f854e8ecf8b957384b93d652bad7a5"
+    },
+    "campaign_001/seed_29/resume_003_KP/STATE_IDENTITIES.json": {
+      "bytes": 776,
+      "sha256": "96057c8f99513c97230c0b0be4644f0af26ee29e7420a6f5dbf8c414f6e02cd7"
+    },
+    "campaign_001/seed_29/resume_003_KP/JOB.json": {
+      "bytes": 617,
+      "sha256": "0338686d831769971aa5d6378ee71caabffbbeee1948db20770c5d0741d916eb"
+    },
+    "campaign_001/seed_29/resume_003_KP/WORK.jsonl": {
+      "bytes": 110496,
+      "sha256": "9a661d1c4403fa8bf055e78d315650e7cb8d6abc6d0e4ee24bfbe2268faffc48"
+    },
+    "campaign_001/seed_29/resume_003_KP/SAVED.json": {
+      "bytes": 442,
+      "sha256": "1859698fc1ede09be668eea314c14bd8427b5b81da3cb49198f62080fbf83cb7"
+    },
+    "campaign_001/seed_29/resume_003_KP/RESPONSE_OBSERVATIONS.jsonl": {
+      "bytes": 662601,
+      "sha256": "39acea52369b2265a28c0393e1b50f500fa052442cd0f8d0ff6578f5171d59d8"
+    },
+    "audit_inputs/original_schedules/29_4.json": {
+      "bytes": 2835846,
+      "sha256": "3530fac6625a7a9391fcfd2ada5db529f9f65dc148e03ee8debee80a944add24"
+    },
+    "campaign_001/seed_29/K_HALF/events/event_004/RESULT.json": {
+      "bytes": 3527357,
+      "sha256": "027fa41b10bf9c0f72f3f531bae7184794ba5744606aaa55d51417c01d8b52a2"
+    },
+    "campaign_001/seed_29/resume_004_K_HALF/WORKER.json": {
+      "bytes": 3208,
+      "sha256": "7dcc13aa537b343bba2800e363d9fc68eecd853aa93af7288d0018985e986f8a"
+    },
+    "campaign_001/seed_29/resume_004_K_HALF/COSTS.json": {
+      "bytes": 929,
+      "sha256": "d483378bb3cef0985f8a033fc8e2b3bc632e300b84f701d099e00b6e49a0d2f7"
+    },
+    "campaign_001/seed_29/resume_004_K_HALF/EXEC.json": {
+      "bytes": 407,
+      "sha256": "e55ea728d20e1b4de313a0f3fb1a31d59ef2f9a7ace4aa367f607922153f4ba5"
+    },
+    "campaign_001/seed_29/resume_004_K_HALF/CLOSED.json": {
+      "bytes": 499,
+      "sha256": "1063f093b00e1dd0dfb71e3ca69d0607cb7285b7f1baa21cb566f4c065424635"
+    },
+    "campaign_001/seed_29/resume_004_K_HALF/SAVED_ENDPOINT.json": {
+      "bytes": 289,
+      "sha256": "25de1581140fb9a856b7c6e7f64047ce21d03735ad1a6293a8f471d955604e54"
+    },
+    "campaign_001/seed_29/resume_004_K_HALF/LIVE.json": {
+      "bytes": 147,
+      "sha256": "bed767d7df111ec47ba2b2330caec8a66548695f3d8e27044abca2f3f49c285f"
+    },
+    "campaign_001/seed_29/resume_004_K_HALF/LIVE_BOUNDARY.json": {
+      "bytes": 148,
+      "sha256": "b6d835eea60fabf7076424e7b1ea5a1ae74f9cd2ec9e19d84001531cd8f04df1"
+    },
+    "campaign_001/seed_29/resume_004_K_HALF/EVENT_CHECK.json": {
+      "bytes": 322,
+      "sha256": "31aa238cbe1eb4b2271a953fdb1ef8ad6c0f1b9a4550ce712f7992326fca5cd6"
+    },
+    "campaign_001/seed_29/resume_004_K_HALF/STATE_IDENTITIES.json": {
+      "bytes": 788,
+      "sha256": "ac2da6541673b350f61cab9507d12bdbe7e0108538bc208202c431ee22831217"
+    },
+    "campaign_001/seed_29/resume_004_K_HALF/JOB.json": {
+      "bytes": 625,
+      "sha256": "1d791aacca6b29be57a7e2901f85fb04b5e060ec26b0ffff9ba149bb9330d302"
+    },
+    "campaign_001/seed_29/resume_004_K_HALF/WORK.jsonl": {
+      "bytes": 75896,
+      "sha256": "91a638a9344430dcc603efd0cd78040080a490c6762581580e9e5fa082cd31a6"
+    },
+    "campaign_001/seed_29/resume_004_K_HALF/SAVED.json": {
+      "bytes": 450,
+      "sha256": "135c852055b623f8b214198c39695dd50cbeae5a821832c1cf7dbc2ad89e23bd"
+    },
+    "campaign_001/seed_29/resume_004_K_HALF/RESPONSE_OBSERVATIONS.jsonl": {
+      "bytes": 285800,
+      "sha256": "fdbbf311a19fd64359829f42e23e4f28c4f164d3a79b91acac1833ca8e205a64"
+    },
+    "campaign_001/seed_29/KP/events/event_004/RESULT.json": {
+      "bytes": 4206746,
+      "sha256": "4e1e5edc54de9491ef1b1f11bcec38627f2d3ce36c95b5d3c73ce2248711e503"
+    },
+    "campaign_001/seed_29/resume_004_KP/WORKER.json": {
+      "bytes": 3268,
+      "sha256": "2f59afa48e545167a81f141579129b70a9b74adb6598b9f94a9b024a02e131f1"
+    },
+    "campaign_001/seed_29/resume_004_KP/COSTS.json": {
+      "bytes": 1524,
+      "sha256": "29aa708f3b91a7254f3cafd9e6053196eca34ce11f29957c9214fcd170900253"
+    },
+    "campaign_001/seed_29/resume_004_KP/EXEC.json": {
+      "bytes": 404,
+      "sha256": "b198b3ff4dfcf964773b2af94f2e2105b332df02ad0c372f5f4f6b1fcdfd2fb9"
+    },
+    "campaign_001/seed_29/resume_004_KP/CLOSED.json": {
+      "bytes": 495,
+      "sha256": "815b85e7b07a657101d16b06cfa1645a1b0d50758414d9d6832bfdcd6d54e55f"
+    },
+    "campaign_001/seed_29/resume_004_KP/SAVED_ENDPOINT.json": {
+      "bytes": 285,
+      "sha256": "5b28fd26c22ca69bd4bf109ae07fbd3f064b14a38115b8807296326efe718fb0"
+    },
+    "campaign_001/seed_29/resume_004_KP/LIVE.json": {
+      "bytes": 147,
+      "sha256": "98a8cbf2e10d4a22680f9bf23fd45cc026ae5332b07bdf09a5ca2009942f6d38"
+    },
+    "campaign_001/seed_29/resume_004_KP/LIVE_BOUNDARY.json": {
+      "bytes": 147,
+      "sha256": "349a79c77388909f438618458e2c472a004f9e6eecc8948954ca02f9c760a041"
+    },
+    "campaign_001/seed_29/resume_004_KP/EVENT_CHECK.json": {
+      "bytes": 322,
+      "sha256": "31aa238cbe1eb4b2271a953fdb1ef8ad6c0f1b9a4550ce712f7992326fca5cd6"
+    },
+    "campaign_001/seed_29/resume_004_KP/STATE_IDENTITIES.json": {
+      "bytes": 776,
+      "sha256": "dfd6f8666cbd671ee180ef5c8cce526659c40c29c432b0afe39ababedb7b2344"
+    },
+    "campaign_001/seed_29/resume_004_KP/JOB.json": {
+      "bytes": 617,
+      "sha256": "4b7e1ea8b5d169103e1192baca36df51e5c7a9f3b7cb533043e950e981f8005f"
+    },
+    "campaign_001/seed_29/resume_004_KP/WORK.jsonl": {
+      "bytes": 110496,
+      "sha256": "9a661d1c4403fa8bf055e78d315650e7cb8d6abc6d0e4ee24bfbe2268faffc48"
+    },
+    "campaign_001/seed_29/resume_004_KP/SAVED.json": {
+      "bytes": 442,
+      "sha256": "90d9be03fa9d3e3d31c0e26f38ddd87bcb8ffe783b179315f2582d7a9190d6bf"
+    },
+    "campaign_001/seed_29/resume_004_KP/RESPONSE_OBSERVATIONS.jsonl": {
+      "bytes": 662197,
+      "sha256": "36a1f80ca13e7e8c452dc59c072945fa4c3a3db506636769289c6b7f363ab048"
+    },
+    "qualification_001/RESULT.json": {
+      "bytes": 753,
+      "sha256": "8f53b7c0a140065a30fee427e3961583f1480ea65fae39d0faadeae0d1e3b9d1"
+    },
+    "qualification_001/Q1/CASE.json": {
+      "bytes": 3794,
+      "sha256": "da32fca776603b387ded4b09fb5ba09de1e82530ae8b1652a4e1dd2c4339e84c"
+    },
+    "qualification_001/Q1/INITIAL.json": {
+      "bytes": 147,
+      "sha256": "3a78edcef99bcf9464f38ce541f8647c0e16d3fac07c16771e54af9ba179f79c"
+    },
+    "qualification_001/Q1/POST_RESTORE.json": {
+      "bytes": 147,
+      "sha256": "9b9251036f9d55fe6e422b4b9b4f9fa4742c79395db27f5e6eb0625cc7cc689a"
+    },
+    "qualification_001/Q1/EXEC.json": {
+      "bytes": 356,
+      "sha256": "4831536bfcc473d489f15b71d8a0d33c99451ec64a2e586c7d01e940464fb645"
+    },
+    "qualification_001/Q1/WORK.jsonl": {
+      "bytes": 578,
+      "sha256": "5bd411af7c638288adb448fcd6dc4b8b67aa9b579c562b26fa80e9359eaa608d"
+    },
+    "qualification_001/Q1/RESPONSES.json": {
+      "bytes": 39318,
+      "sha256": "d5503ae3126805f6fab5b8b96432f5907597c7691296810bc2832789056eea3a"
+    },
+    "qualification_001/Q2/CASE.json": {
+      "bytes": 4356,
+      "sha256": "2d787e2e57aabbdccea7aa6acc4874ac5cdb97ff4ae37ba52f46a566be4978ab"
+    },
+    "qualification_001/Q2/INITIAL.json": {
+      "bytes": 147,
+      "sha256": "7cfc020789b3a9ea6ec849320023cca73d64d940530089555e92ebf1a283c7b1"
+    },
+    "qualification_001/Q2/POST_RESTORE.json": {
+      "bytes": 147,
+      "sha256": "f8d5c6a718b5dbdca2f4125992377f1bbab60e63696274e2964fc773b15f67c3"
+    },
+    "qualification_001/Q2/EXEC.json": {
+      "bytes": 356,
+      "sha256": "2442f3c1e3a3a9bbb0d6a7cc69836252be38920c25418d569ce9568bd36910db"
+    },
+    "qualification_001/Q2/WORK.jsonl": {
+      "bytes": 842,
+      "sha256": "40bea5c49992f1049104d1e231a3117e54f97dbc5399434e2773292346e6f8f9"
+    },
+    "qualification_001/Q2/RESPONSES.json": {
+      "bytes": 39991,
+      "sha256": "cc23e761b7e86b190285559dce776289a9561a81043dba2e9aa1654295f33d05"
+    },
+    "qualification_001/Q3/CASE.json": {
+      "bytes": 4370,
+      "sha256": "179bd05dadc0d9566054035b7410e2a0b236067e29d044abb0c47f53e0a78f37"
+    },
+    "qualification_001/Q3/INITIAL.json": {
+      "bytes": 146,
+      "sha256": "0f5b71f3b820538bb90d7d128eb4be4d3960e6d79a714ef838d6f6d12364eda0"
+    },
+    "qualification_001/Q3/POST_RESTORE.json": {
+      "bytes": 148,
+      "sha256": "afe9dfd1a09f17bf711eac398bd40e12ce4e5a0393a65b7192e038ad7bd8e024"
+    },
+    "qualification_001/Q3/EXEC.json": {
+      "bytes": 354,
+      "sha256": "b1de90d8b2497cefb83ac353d22ac15b5867bcba4c40a729daa8f981616da1e1"
+    },
+    "qualification_001/Q3/WORK.jsonl": {
+      "bytes": 842,
+      "sha256": "40bea5c49992f1049104d1e231a3117e54f97dbc5399434e2773292346e6f8f9"
+    },
+    "qualification_001/Q3/RESPONSES.json": {
+      "bytes": 43994,
+      "sha256": "c377d600b3e0678003656c20b441713e38f12e00a5ba93597587fe423ba3b4c7"
+    },
+    "qualification_001/Q4/CASE.json": {
+      "bytes": 4368,
+      "sha256": "e000646575c4893c6b41434c4ae6c67050e14e64482f1523ab85d81d516b937a"
+    },
+    "qualification_001/Q4/INITIAL.json": {
+      "bytes": 148,
+      "sha256": "98d573547e3dce782a28c5c4dac5e58f53e3265ee638a37b2eb9721685328ffc"
+    },
+    "qualification_001/Q4/POST_RESTORE.json": {
+      "bytes": 147,
+      "sha256": "54c4ce481755f42b1afcb4864a6a9e8530d42905f2ead14dfea89b79ecfda987"
+    },
+    "qualification_001/Q4/EXEC.json": {
+      "bytes": 355,
+      "sha256": "3a8d178925d1fdba7158e2d779754e2bafd0cc5b3f1c5c311e4aeb395c9e27cc"
+    },
+    "qualification_001/Q4/WORK.jsonl": {
+      "bytes": 842,
+      "sha256": "40bea5c49992f1049104d1e231a3117e54f97dbc5399434e2773292346e6f8f9"
+    },
+    "qualification_001/Q4/RESPONSES.json": {
+      "bytes": 43944,
+      "sha256": "c57fc516c99dadf6c3235fcff76143e7ea8aba694f78566d5bf78e6904def2c1"
+    },
+    "qualification_001/Q2/VERSUS_Q1.json": {
+      "bytes": 432,
+      "sha256": "5aa11ccb154ca627af0a10160f4f7b95b0b150c659fa58aac2d5e8546182630b"
+    },
+    "qualification_001/Q4/FORCED_ACTIVE.json": {
+      "bytes": 86874,
+      "sha256": "4ee59df6f1e31a6623fcc9a6da69c29af6c3a1e086eccecee67861f39c29c87b"
+    },
+    "final_report/SUMMARY.json": {
+      "bytes": 61219,
+      "sha256": "d69299571683ef273c87ec9696340c3ef2c117124ff3738a485f2cbe413c9cee"
+    },
+    "final_report/TRAINING_AUDIT.json": {
+      "bytes": 67241164,
+      "sha256": "75ae2f5b68da955b78f77a925cc4d3575deecdba16889617db45c2380a661878"
+    },
+    "final_report/COST_SUMMARY.json": {
+      "bytes": 4359,
+      "sha256": "1ef84b93bbcc65635359aeb9263da2a0664453c703d5e92d746cebfb71d62900"
+    },
+    "final_report/TRAINING_COSTS.csv": {
+      "bytes": 12529,
+      "sha256": "6490b20566f83523677a454c47b5c4cbc5e4c7c28deef2dafd817cca1813b5d4"
+    },
+    "PREFLIGHT.json": {
+      "bytes": 3416,
+      "sha256": "f5d9673e3be4c5eaaf788a22f9a478a56998417f06496363fdbea60d1f6c218e"
+    },
+    "POSTFLIGHT.json": {
+      "bytes": 2355,
+      "sha256": "145edf120f612044a8e8275db74d6d09a479325f6dcc942f7d1d66a116472c95"
+    },
+    "REPORT.log": {
+      "bytes": 34,
+      "sha256": "b933d869e5ebdcc3952453bb53cc5a8ff37590d67575eaa07c5fc5a20797219c"
+    },
+    "CPU_REMOTE.log": {
+      "bytes": 11072,
+      "sha256": "1a4b87f822a6eddff6c99b55e29c89bcf20759de9883be71a783fd15a7912fcf"
+    },
+    "STARTED_UTC": {
+      "bytes": 21,
+      "sha256": "eb5e90c85141204adebe9209715e2e137884c7aeda7c4fa027e27e51ae7c6b60"
+    },
+    "ENDED_UTC": {
+      "bytes": 21,
+      "sha256": "304252f40eca06ed2b9bb447432c7bafcc7bced1e5c3b646b56e152afe43b89c"
+    }
+  },
+  "consumed_file_count": 272,
+  "consumed_bytes": 163965350,
+  "created_utc": "2026-10-31T17:59:52.338502+00:00",
+  "final_delivery_wording_review": {
+    "report": "/home/minhao2/EAGLE_SPEC/research/dflash_k_prefix_protection_v1_20261031/final_delivery_001/REPORT.md",
+    "numerical_budget_and_costs": "agree",
+    "requested_wording_correction": "Maximum training allocation must state post-load training/persistence/validation peak; not training-only.",
+    "subprocess_label": "3862.6435589063913 / 4609.036357488483 s are EXEC wall clocks including fresh interpreter/import/exit; worker function only is 3785.4150559976697 / 4564.359293231741 s.",
+    "change_ownership": "Parent notified; this review did not edit final delivery or retrieved report."
+  }
+}

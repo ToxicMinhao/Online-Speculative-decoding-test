@@ -1,0 +1,30 @@
+{
+  "execution_commit": "d10521a1aa7d256bb75b37a6aae07586ae7cc8b3",
+  "original_execution_commit": "2705d992b133196be162229e1d5a08dd9c4f9cbb",
+  "publication_scope": "New report packaging only; no experimental source or retained measurements changed.",
+  "raw_remote_root": "/data/sources/minhao/runs/dflash_k_prefix_protection_v1_20261031/production_001",
+  "private_verified_mirror": "/home/minhao2/EAGLE_SPEC/research/dflash_k_prefix_protection_v1_20261031/compact_evidence_001",
+  "upstream_training_binding": "6def4832d12698fc2733e91c427db77558f3fe50e7f51063e9c2a11f9bc961af",
+  "new_panel_binding": "8a2d3857a54c069bce655f5dda107ce0bd6ec30ebbc2b72dce20bc8a7d05295f",
+  "exact_copies": [
+    "SUMMARY.json",
+    "PAIRED_REQUESTS.csv",
+    "ALL_REPEATS.csv",
+    "REPEAT_TOTALS.csv",
+    "TRAINING_COSTS.csv",
+    "TRAINING_WINDOWS.csv",
+    "COST_SUMMARY.json",
+    "EVALUATION_COSTS.json",
+    "MEASUREMENTS_REPORT.md"
+  ],
+  "derived_tables": {
+    "TRAINING_RESPONSE_SUMMARY.csv": "All4096 rows; scalar metrics retained, sampled-anchor arrays represented by their counts. Exact anchors and nested diagnostics remain in private retained originals.",
+    "TRAINING_EVENT_PASS_SUMMARY.json": "All16 event and32 pass entries; no new statistical calculation."
+  },
+  "retention": "All checkpoints, recovery tensors, full qualification tensors, original buffers/features, exact anchors, token IDs and native traces remain at retained paths outsideGit. Full raw reports remain unchanged; this compact public package omits oversized/redundant payloads.",
+  "analysis_tool": {
+    "file": "INDEPENDENT_RECORD_AUDIT_SCRIPT.py",
+    "sha256": "c70d4b0d25403f4336246dce93d9944e0481f026eedddbf1fe75542e68b65d19",
+    "scope": "Post-run independent CPU raw-record reconstruction; not part of the GPU execution source."
+  }
+}

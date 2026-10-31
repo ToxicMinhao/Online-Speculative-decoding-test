@@ -1,0 +1,1341 @@
+{
+  "status": "passed",
+  "scope": "Independent compact-record analysis, not GPU reexecution or tensor-state replay",
+  "script_sha256": "c70d4b0d25403f4336246dce93d9944e0481f026eedddbf1fe75542e68b65d19",
+  "numerical_comparison_atol": 1e-10,
+  "numerical_comparison_rtol": 1e-12,
+  "errors": [],
+  "execution_commit": "d10521a1aa7d256bb75b37a6aae07586ae7cc8b3",
+  "evaluation_costs": [
+    {
+      "seed": 17,
+      "event": 4,
+      "activation_count": 1409,
+      "activation_s": 2913.1555409245193,
+      "weight_validation_s": 10.597539085894823,
+      "native_loading_s": 37.32371634617448,
+      "evaluation_wall_s": 4635.835257804021,
+      "serving_repeat_sums": {
+        "request_latency_s": 1679.7892225366086,
+        "native_generate_s": 1642.5756765417755,
+        "cache_maintenance_s": 7.379284920170903
+      }
+    },
+    {
+      "seed": 29,
+      "event": 4,
+      "activation_count": 1409,
+      "activation_s": 2866.2485386133194,
+      "weight_validation_s": 13.367298929020762,
+      "native_loading_s": 36.76260354742408,
+      "evaluation_wall_s": 4584.728197624907,
+      "serving_repeat_sums": {
+        "request_latency_s": 1674.1012233048677,
+        "native_generate_s": 1637.602928103879,
+        "cache_maintenance_s": 6.822740959003568
+      }
+    }
+  ],
+  "analysis": {
+    "combined": {
+      "KP_vs_K": {
+        "verification_calls": {
+          "point_pct": 0.34349506225848003,
+          "ci95_pct": [
+            0.018151622683971726,
+            0.6918921480290082
+          ],
+          "candidate_sum": 16247.0,
+          "reference_sum": 16303.0
+        },
+        "request_latency_s": {
+          "point_pct": 0.17698747054743552,
+          "ci95_pct": [
+            -0.3118903857670473,
+            0.6729269189545712
+          ],
+          "candidate_sum": 280.64541499875486,
+          "reference_sum": 281.14300288818777
+        },
+        "native_generate_s": {
+          "point_pct": 0.37579868182430337,
+          "ci95_pct": [
+            -0.03577013040188159,
+            0.8111730176515604
+          ],
+          "candidate_sum": 274.347579560553,
+          "reference_sum": 275.38246322733664
+        },
+        "cache_maintenance_s": {
+          "point_pct": -70.14270558281066,
+          "ci95_pct": [
+            -228.51337045347148,
+            7.302124817048272
+          ],
+          "candidate_sum": 1.2855786290019748,
+          "reference_sum": 0.7555884482959906
+        },
+        "request_seed_wins": 102,
+        "request_seed_regressions": 80,
+        "request_seed_ties": 74,
+        "gross_calls_saved": 203,
+        "gross_calls_added": 147
+      },
+      "KP_vs_F": {
+        "verification_calls": {
+          "point_pct": 0.32515337423312884,
+          "ci95_pct": [
+            -0.6385826721392628,
+            1.2364786324786323
+          ],
+          "candidate_sum": 16247.0,
+          "reference_sum": 16300.0
+        },
+        "request_latency_s": {
+          "point_pct": 0.36195824921507697,
+          "ci95_pct": [
+            -0.6267095833082008,
+            1.2934879993833992
+          ],
+          "candidate_sum": 280.64541499875486,
+          "reference_sum": 281.66492442786694
+        },
+        "native_generate_s": {
+          "point_pct": 0.4061743672277024,
+          "ci95_pct": [
+            -0.5580885003916,
+            1.3355460502880159
+          ],
+          "candidate_sum": 274.347579560553,
+          "reference_sum": 275.46645368573564
+        },
+        "cache_maintenance_s": {
+          "point_pct": -0.028168351604754133,
+          "ci95_pct": [
+            -83.56504069672853,
+            45.93278958982379
+          ],
+          "candidate_sum": 1.2855786290019748,
+          "reference_sum": 1.2852166046698887
+        },
+        "request_seed_wins": 112,
+        "request_seed_regressions": 110,
+        "request_seed_ties": 34,
+        "gross_calls_saved": 392,
+        "gross_calls_added": 339
+      },
+      "KP_vs_K_HALF": {
+        "verification_calls": {
+          "point_pct": -2.407815947053262,
+          "ci95_pct": [
+            -3.286105766818478,
+            -1.628051099764122
+          ],
+          "candidate_sum": 16247.0,
+          "reference_sum": 15865.0
+        },
+        "request_latency_s": {
+          "point_pct": -2.234990435917115,
+          "ci95_pct": [
+            -3.2221884768522053,
+            -1.3714933958876205
+          ],
+          "candidate_sum": 280.64541499875486,
+          "reference_sum": 274.51013963234914
+        },
+        "native_generate_s": {
+          "point_pct": -2.2935462471083756,
+          "ci95_pct": [
+            -3.2042853230580364,
+            -1.5063526783265253
+          ],
+          "candidate_sum": 274.347579560553,
+          "reference_sum": 268.1963717415929
+        },
+        "cache_maintenance_s": {
+          "point_pct": 8.670371742498057,
+          "ci95_pct": [
+            -76.10939600168972,
+            52.03001233885735
+          ],
+          "candidate_sum": 1.2855786290019748,
+          "reference_sum": 1.4076249444236357
+        },
+        "request_seed_wins": 57,
+        "request_seed_regressions": 163,
+        "request_seed_ties": 36,
+        "gross_calls_saved": 143,
+        "gross_calls_added": 525
+      },
+      "K_HALF_vs_K": {
+        "verification_calls": {
+          "point_pct": 2.686622094093112,
+          "ci95_pct": [
+            1.9232920051809212,
+            3.5337505943437657
+          ],
+          "candidate_sum": 15865.0,
+          "reference_sum": 16303.0
+        },
+        "request_latency_s": {
+          "point_pct": 2.359248918770551,
+          "ci95_pct": [
+            1.566848743463759,
+            3.252812974111969
+          ],
+          "candidate_sum": 274.51013963234914,
+          "reference_sum": 281.14300288818777
+        },
+        "native_generate_s": {
+          "point_pct": 2.609494955316534,
+          "ci95_pct": [
+            1.8512234440075797,
+            3.464375290029458
+          ],
+          "candidate_sum": 268.1963717415929,
+          "reference_sum": 275.38246322733664
+        },
+        "cache_maintenance_s": {
+          "point_pct": -86.29519119808188,
+          "ci95_pct": [
+            -287.0971979936808,
+            5.137930633660302
+          ],
+          "candidate_sum": 1.4076249444236357,
+          "reference_sum": 0.7555884482959906
+        },
+        "request_seed_wins": 175,
+        "request_seed_regressions": 48,
+        "request_seed_ties": 33,
+        "gross_calls_saved": 570,
+        "gross_calls_added": 132
+      },
+      "K_HALF_vs_F": {
+        "verification_calls": {
+          "point_pct": 2.668711656441718,
+          "ci95_pct": [
+            1.8410824948357432,
+            3.5566083258654255
+          ],
+          "candidate_sum": 15865.0,
+          "reference_sum": 16300.0
+        },
+        "request_latency_s": {
+          "point_pct": 2.540175994597476,
+          "ci95_pct": [
+            1.7109532282757205,
+            3.4292431069774296
+          ],
+          "candidate_sum": 274.51013963234914,
+          "reference_sum": 281.66492442786694
+        },
+        "native_generate_s": {
+          "point_pct": 2.63918958075265,
+          "ci95_pct": [
+            1.8191681123684433,
+            3.5276608851287565
+          ],
+          "candidate_sum": 268.1963717415929,
+          "reference_sum": 275.46645368573564
+        },
+        "cache_maintenance_s": {
+          "point_pct": -9.524335377318588,
+          "ci95_pct": [
+            -110.88494544679378,
+            43.557577403257454
+          ],
+          "candidate_sum": 1.4076249444236357,
+          "reference_sum": 1.2852166046698887
+        },
+        "request_seed_wins": 154,
+        "request_seed_regressions": 62,
+        "request_seed_ties": 40,
+        "gross_calls_saved": 560,
+        "gross_calls_added": 125
+      },
+      "K_vs_F": {
+        "verification_calls": {
+          "point_pct": -0.018404907975460124,
+          "ci95_pct": [
+            -1.0283942680381633,
+            0.8981870542467204
+          ],
+          "candidate_sum": 16303.0,
+          "reference_sum": 16300.0
+        },
+        "request_latency_s": {
+          "point_pct": 0.18529873421027662,
+          "ci95_pct": [
+            -0.8222908930211308,
+            1.0970312616329003
+          ],
+          "candidate_sum": 281.14300288818777,
+          "reference_sum": 281.66492442786694
+        },
+        "native_generate_s": {
+          "point_pct": 0.030490267426472404,
+          "ci95_pct": [
+            -0.9617648828883235,
+            0.9333625658803352
+          ],
+          "candidate_sum": 275.38246322733664,
+          "reference_sum": 275.46645368573564
+        },
+        "cache_maintenance_s": {
+          "point_pct": 41.209252545405334,
+          "ci95_pct": [
+            -17.60583596301295,
+            72.0394862854726
+          ],
+          "candidate_sum": 0.7555884482959906,
+          "reference_sum": 1.2852166046698887
+        },
+        "request_seed_wins": 107,
+        "request_seed_regressions": 113,
+        "request_seed_ties": 36,
+        "gross_calls_saved": 369,
+        "gross_calls_added": 372
+      },
+      "K_HALF_gain_harm": {
+        "parts": {
+          "K_gross_gain": {
+            "point": 369,
+            "ci95": [
+              279.0,
+              468.0
+            ]
+          },
+          "K_gross_harm": {
+            "point": 372,
+            "ci95": [
+              287.0,
+              462.0
+            ]
+          },
+          "candidate_gross_gain": {
+            "point": 560,
+            "ci95": [
+              444.0,
+              684.0
+            ]
+          },
+          "candidate_gross_harm": {
+            "point": 125,
+            "ci95": [
+              82.0,
+              173.0
+            ]
+          },
+          "retained_gain": {
+            "point": 261,
+            "ci95": [
+              188.0,
+              341.0
+            ]
+          },
+          "lost_gain": {
+            "point": 108,
+            "ci95": [
+              67.0,
+              154.0
+            ]
+          },
+          "added_gain": {
+            "point": 299,
+            "ci95": [
+              228.0,
+              376.0
+            ]
+          },
+          "prevented_harm": {
+            "point": 271,
+            "ci95": [
+              212.0,
+              333.0
+            ]
+          },
+          "added_harm": {
+            "point": 24,
+            "ci95": [
+              12.0,
+              38.0
+            ]
+          }
+        },
+        "retained_fraction": 0.7073170731707317,
+        "retained_fraction_ci95": [
+          0.6114439987437904,
+          0.7977339181286548
+        ]
+      },
+      "KP_gain_harm": {
+        "parts": {
+          "K_gross_gain": {
+            "point": 369,
+            "ci95": [
+              279.0,
+              468.0
+            ]
+          },
+          "K_gross_harm": {
+            "point": 372,
+            "ci95": [
+              287.0,
+              462.0
+            ]
+          },
+          "candidate_gross_gain": {
+            "point": 392,
+            "ci95": [
+              302.0,
+              490.0
+            ]
+          },
+          "candidate_gross_harm": {
+            "point": 339,
+            "ci95": [
+              256.0,
+              429.0
+            ]
+          },
+          "retained_gain": {
+            "point": 301,
+            "ci95": [
+              220.97500000000002,
+              388.0
+            ]
+          },
+          "lost_gain": {
+            "point": 68,
+            "ci95": [
+              47.0,
+              91.0
+            ]
+          },
+          "added_gain": {
+            "point": 91,
+            "ci95": [
+              66.0,
+              117.0
+            ]
+          },
+          "prevented_harm": {
+            "point": 112,
+            "ci95": [
+              82.0,
+              144.0
+            ]
+          },
+          "added_harm": {
+            "point": 79,
+            "ci95": [
+              52.0,
+              109.0
+            ]
+          }
+        },
+        "retained_fraction": 0.8157181571815718,
+        "retained_fraction_ci95": [
+          0.7616429874040459,
+          0.8626955704561616
+        ]
+      }
+    },
+    "17": {
+      "KP_vs_K": {
+        "verification_calls": {
+          "point_pct": -0.04914004914004914,
+          "ci95_pct": [
+            -0.4837539312265427,
+            0.40366954691412443
+          ],
+          "candidate_sum": 8144.0,
+          "reference_sum": 8140.0
+        },
+        "request_latency_s": {
+          "point_pct": -0.09155615419492748,
+          "ci95_pct": [
+            -0.7647647249237258,
+            0.5825934375218845
+          ],
+          "candidate_sum": 140.8781963530928,
+          "reference_sum": 140.7493316779534
+        },
+        "native_generate_s": {
+          "point_pct": 0.07112527809289654,
+          "ci95_pct": [
+            -0.4919226784533607,
+            0.6575181513078364
+          ],
+          "candidate_sum": 137.6419588128726,
+          "reference_sum": 137.73992671879628
+        },
+        "cache_maintenance_s": {
+          "point_pct": -38.823700861593785,
+          "ci95_pct": [
+            -252.0016577320376,
+            40.25867518267094
+          ],
+          "candidate_sum": 0.6993575897067785,
+          "reference_sum": 0.5037739127874374
+        },
+        "request_seed_wins": 44,
+        "request_seed_regressions": 41,
+        "request_seed_ties": 43,
+        "gross_calls_saved": 71,
+        "gross_calls_added": 75
+      },
+      "KP_vs_F": {
+        "verification_calls": {
+          "point_pct": 0.0736196319018405,
+          "ci95_pct": [
+            -0.9387413944365365,
+            1.0477002330542406
+          ],
+          "candidate_sum": 8144.0,
+          "reference_sum": 8150.0
+        },
+        "request_latency_s": {
+          "point_pct": -0.09388799600547307,
+          "ci95_pct": [
+            -1.1817176125977777,
+            0.9507099803332372
+          ],
+          "candidate_sum": 140.8781963530928,
+          "reference_sum": 140.7460527047515
+        },
+        "native_generate_s": {
+          "point_pct": 0.07586415123519863,
+          "ci95_pct": [
+            -0.966099664534155,
+            1.0726891420733191
+          ],
+          "candidate_sum": 137.6419588128726,
+          "reference_sum": 137.74645899484557
+        },
+        "cache_maintenance_s": {
+          "point_pct": -30.07626426301932,
+          "ci95_pct": [
+            -184.15908566173252,
+            36.92179879152915
+          ],
+          "candidate_sum": 0.6993575897067785,
+          "reference_sum": 0.5376519641528527
+        },
+        "request_seed_wins": 58,
+        "request_seed_regressions": 56,
+        "request_seed_ties": 14,
+        "gross_calls_saved": 187,
+        "gross_calls_added": 181
+      },
+      "KP_vs_K_HALF": {
+        "verification_calls": {
+          "point_pct": -2.4531387595924015,
+          "ci95_pct": [
+            -3.358723197805464,
+            -1.625363802421528
+          ],
+          "candidate_sum": 8144.0,
+          "reference_sum": 7949.0
+        },
+        "request_latency_s": {
+          "point_pct": -2.4150399667336107,
+          "ci95_pct": [
+            -3.5027186168171274,
+            -1.4345809556841425
+          ],
+          "candidate_sum": 140.8781963530928,
+          "reference_sum": 137.55616010973853
+        },
+        "native_generate_s": {
+          "point_pct": -2.414548463937818,
+          "ci95_pct": [
+            -3.365238970126756,
+            -1.550872308791262
+          ],
+          "candidate_sum": 137.6419588128726,
+          "reference_sum": 134.39688098741073
+        },
+        "cache_maintenance_s": {
+          "point_pct": 2.72895401122763,
+          "ci95_pct": [
+            -140.61944565741962,
+            60.71922239610449
+          ],
+          "candidate_sum": 0.6993575897067785,
+          "reference_sum": 0.7189781734098991
+        },
+        "request_seed_wins": 27,
+        "request_seed_regressions": 80,
+        "request_seed_ties": 21,
+        "gross_calls_saved": 63,
+        "gross_calls_added": 258
+      },
+      "K_HALF_vs_K": {
+        "verification_calls": {
+          "point_pct": 2.3464373464373462,
+          "ci95_pct": [
+            1.47150439493002,
+            3.297455381413099
+          ],
+          "candidate_sum": 7949.0,
+          "reference_sum": 8140.0
+        },
+        "request_latency_s": {
+          "point_pct": 2.268693946995867,
+          "ci95_pct": [
+            1.216113186591056,
+            3.3964834764675014
+          ],
+          "candidate_sum": 137.55616010973853,
+          "reference_sum": 140.7493316779534
+        },
+        "native_generate_s": {
+          "point_pct": 2.42707093797906,
+          "ci95_pct": [
+            1.4834752968501366,
+            3.463200276081143
+          ],
+          "candidate_sum": 134.39688098741073,
+          "reference_sum": 137.73992671879628
+        },
+        "cache_maintenance_s": {
+          "point_pct": -42.71842093444506,
+          "ci95_pct": [
+            -302.09178288450306,
+            45.76768919582799
+          ],
+          "candidate_sum": 0.7189781734098991,
+          "reference_sum": 0.5037739127874374
+        },
+        "request_seed_wins": 86,
+        "request_seed_regressions": 28,
+        "request_seed_ties": 14,
+        "gross_calls_saved": 267,
+        "gross_calls_added": 76
+      },
+      "K_HALF_vs_F": {
+        "verification_calls": {
+          "point_pct": 2.4662576687116564,
+          "ci95_pct": [
+            1.60114625864925,
+            3.387507983562634
+          ],
+          "candidate_sum": 7949.0,
+          "reference_sum": 8150.0
+        },
+        "request_latency_s": {
+          "point_pct": 2.2664170921400735,
+          "ci95_pct": [
+            1.324522698525396,
+            3.264789888520853
+          ],
+          "candidate_sum": 137.55616010973853,
+          "reference_sum": 140.7460527047515
+        },
+        "native_generate_s": {
+          "point_pct": 2.4316980863807056,
+          "ci95_pct": [
+            1.5532574429683796,
+            3.383891722919917
+          ],
+          "candidate_sum": 134.39688098741073,
+          "reference_sum": 137.74645899484557
+        },
+        "cache_maintenance_s": {
+          "point_pct": -33.7255736697162,
+          "ci95_pct": [
+            -248.6722384235607,
+            48.168667899083594
+          ],
+          "candidate_sum": 0.7189781734098991,
+          "reference_sum": 0.5376519641528527
+        },
+        "request_seed_wins": 77,
+        "request_seed_regressions": 33,
+        "request_seed_ties": 18,
+        "gross_calls_saved": 274,
+        "gross_calls_added": 73
+      },
+      "K_vs_F": {
+        "verification_calls": {
+          "point_pct": 0.12269938650306748,
+          "ci95_pct": [
+            -0.9544784013710917,
+            1.1380808723265803
+          ],
+          "candidate_sum": 8140.0,
+          "reference_sum": 8150.0
+        },
+        "request_latency_s": {
+          "point_pct": -0.002329708818747202,
+          "ci95_pct": [
+            -1.1864778457310217,
+            1.1104058829927648
+          ],
+          "candidate_sum": 140.7493316779534,
+          "reference_sum": 140.7460527047515
+        },
+        "native_generate_s": {
+          "point_pct": 0.004742246078012925,
+          "ci95_pct": [
+            -1.1120102306988244,
+            1.074415974343493
+          ],
+          "candidate_sum": 137.73992671879628,
+          "reference_sum": 137.74645899484557
+        },
+        "cache_maintenance_s": {
+          "point_pct": 6.301111801720081,
+          "ci95_pct": [
+            -162.8784881808026,
+            66.88379922918425
+          ],
+          "candidate_sum": 0.5037739127874374,
+          "reference_sum": 0.5376519641528527
+        },
+        "request_seed_wins": 57,
+        "request_seed_regressions": 58,
+        "request_seed_ties": 13,
+        "gross_calls_saved": 195,
+        "gross_calls_added": 185
+      },
+      "K_HALF_gain_harm": {
+        "parts": {
+          "K_gross_gain": {
+            "point": 195,
+            "ci95": [
+              144.0,
+              251.0
+            ]
+          },
+          "K_gross_harm": {
+            "point": 185,
+            "ci95": [
+              139.0,
+              235.0
+            ]
+          },
+          "candidate_gross_gain": {
+            "point": 274,
+            "ci95": [
+              216.0,
+              336.0
+            ]
+          },
+          "candidate_gross_harm": {
+            "point": 73,
+            "ci95": [
+              48.0,
+              101.0
+            ]
+          },
+          "retained_gain": {
+            "point": 135,
+            "ci95": [
+              98.0,
+              176.0
+            ]
+          },
+          "lost_gain": {
+            "point": 60,
+            "ci95": [
+              32.0,
+              92.0
+            ]
+          },
+          "added_gain": {
+            "point": 139,
+            "ci95": [
+              101.0,
+              181.0
+            ]
+          },
+          "prevented_harm": {
+            "point": 128,
+            "ci95": [
+              93.0,
+              167.0
+            ]
+          },
+          "added_harm": {
+            "point": 16,
+            "ci95": [
+              7.0,
+              26.024999999999636
+            ]
+          }
+        },
+        "retained_fraction": 0.6923076923076923,
+        "retained_fraction_ci95": [
+          0.5825230207186467,
+          0.8066307550644568
+        ]
+      },
+      "KP_gain_harm": {
+        "parts": {
+          "K_gross_gain": {
+            "point": 195,
+            "ci95": [
+              144.0,
+              251.0
+            ]
+          },
+          "K_gross_harm": {
+            "point": 185,
+            "ci95": [
+              139.0,
+              235.0
+            ]
+          },
+          "candidate_gross_gain": {
+            "point": 187,
+            "ci95": [
+              143.0,
+              236.0
+            ]
+          },
+          "candidate_gross_harm": {
+            "point": 181,
+            "ci95": [
+              136.0,
+              231.0
+            ]
+          },
+          "retained_gain": {
+            "point": 153,
+            "ci95": [
+              111.97500000000002,
+              198.0
+            ]
+          },
+          "lost_gain": {
+            "point": 42,
+            "ci95": [
+              24.0,
+              62.0
+            ]
+          },
+          "added_gain": {
+            "point": 34,
+            "ci95": [
+              21.0,
+              50.0
+            ]
+          },
+          "prevented_harm": {
+            "point": 37,
+            "ci95": [
+              23.0,
+              52.0
+            ]
+          },
+          "added_harm": {
+            "point": 33,
+            "ci95": [
+              19.0,
+              49.0
+            ]
+          }
+        },
+        "retained_fraction": 0.7846153846153846,
+        "retained_fraction_ci95": [
+          0.7086591676040495,
+          0.8588253338145073
+        ]
+      }
+    },
+    "29": {
+      "KP_vs_K": {
+        "verification_calls": {
+          "point_pct": 0.735023888276369,
+          "ci95_pct": [
+            0.12763575583594597,
+            1.3441613317110634
+          ],
+          "candidate_sum": 8103.0,
+          "reference_sum": 8163.0
+        },
+        "request_latency_s": {
+          "point_pct": 0.4462113991122762,
+          "ci95_pct": [
+            -0.27542074803612365,
+            1.1442453227922997
+          ],
+          "candidate_sum": 139.76721864566207,
+          "reference_sum": 140.39367121023434
+        },
+        "native_generate_s": {
+          "point_pct": 0.6806876599529554,
+          "ci95_pct": [
+            0.029719098637155213,
+            1.3230383100135952
+          ],
+          "candidate_sum": 136.70562074768046,
+          "reference_sum": 137.64253650854033
+        },
+        "cache_maintenance_s": {
+          "point_pct": -132.79872947417078,
+          "ci95_pct": [
+            -710.8802575175406,
+            19.380122525715002
+          ],
+          "candidate_sum": 0.5862210392951965,
+          "reference_sum": 0.2518145355085532
+        },
+        "request_seed_wins": 58,
+        "request_seed_regressions": 39,
+        "request_seed_ties": 31,
+        "gross_calls_saved": 132,
+        "gross_calls_added": 72
+      },
+      "KP_vs_F": {
+        "verification_calls": {
+          "point_pct": 0.5766871165644172,
+          "ci95_pct": [
+            -0.47302086047768876,
+            1.5482233502538072
+          ],
+          "candidate_sum": 8103.0,
+          "reference_sum": 8150.0
+        },
+        "request_latency_s": {
+          "point_pct": 0.8172454571707055,
+          "ci95_pct": [
+            -0.31556301806059384,
+            1.835055641897412
+          ],
+          "candidate_sum": 139.76721864566207,
+          "reference_sum": 140.91887172311544
+        },
+        "native_generate_s": {
+          "point_pct": 0.7365480557027462,
+          "ci95_pct": [
+            -0.32330079761676067,
+            1.7405043488786551
+          ],
+          "candidate_sum": 136.70562074768046,
+          "reference_sum": 137.71999469089013
+        },
+        "cache_maintenance_s": {
+          "point_pct": 21.582561891938873,
+          "ci95_pct": [
+            -105.28854459254842,
+            71.33642687325
+          ],
+          "candidate_sum": 0.5862210392951965,
+          "reference_sum": 0.7475646405170362
+        },
+        "request_seed_wins": 54,
+        "request_seed_regressions": 54,
+        "request_seed_ties": 20,
+        "gross_calls_saved": 205,
+        "gross_calls_added": 158
+      },
+      "KP_vs_K_HALF": {
+        "verification_calls": {
+          "point_pct": -2.362304194037393,
+          "ci95_pct": [
+            -3.434920430346176,
+            -1.389776175391516
+          ],
+          "candidate_sum": 8103.0,
+          "reference_sum": 7916.0
+        },
+        "request_latency_s": {
+          "point_pct": -2.0541492352815407,
+          "ci95_pct": [
+            -3.2614847731267433,
+            -1.0027506185783122
+          ],
+          "candidate_sum": 139.76721864566207,
+          "reference_sum": 136.95397952261072
+        },
+        "native_generate_s": {
+          "point_pct": -2.172003777531164,
+          "ci95_pct": [
+            -3.2689063051642266,
+            -1.1995978616476817
+          ],
+          "candidate_sum": 136.70562074768046,
+          "reference_sum": 133.79949075418216
+        },
+        "cache_maintenance_s": {
+          "point_pct": 14.873478832662247,
+          "ci95_pct": [
+            -136.3161521409254,
+            69.1612246604899
+          ],
+          "candidate_sum": 0.5862210392951965,
+          "reference_sum": 0.6886467710137367
+        },
+        "request_seed_wins": 30,
+        "request_seed_regressions": 83,
+        "request_seed_ties": 15,
+        "gross_calls_saved": 80,
+        "gross_calls_added": 267
+      },
+      "K_HALF_vs_K": {
+        "verification_calls": {
+          "point_pct": 3.0258483400710525,
+          "ci95_pct": [
+            2.1273902843146644,
+            3.9900614019680485
+          ],
+          "candidate_sum": 7916.0,
+          "reference_sum": 8163.0
+        },
+        "request_latency_s": {
+          "point_pct": 2.4500332942165253,
+          "ci95_pct": [
+            1.5644287298284985,
+            3.4036262218500197
+          ],
+          "candidate_sum": 136.95397952261072,
+          "reference_sum": 140.39367121023434
+        },
+        "native_generate_s": {
+          "point_pct": 2.7920480484023353,
+          "ci95_pct": [
+            1.9295804954194757,
+            3.7224541304134706
+          ],
+          "candidate_sum": 133.79949075418216,
+          "reference_sum": 137.64253650854033
+        },
+        "cache_maintenance_s": {
+          "point_pct": -173.4737967460762,
+          "ci95_pct": [
+            -813.0151703698465,
+            6.8922018790080575
+          ],
+          "candidate_sum": 0.6886467710137367,
+          "reference_sum": 0.2518145355085532
+        },
+        "request_seed_wins": 89,
+        "request_seed_regressions": 20,
+        "request_seed_ties": 19,
+        "gross_calls_saved": 303,
+        "gross_calls_added": 56
+      },
+      "K_HALF_vs_F": {
+        "verification_calls": {
+          "point_pct": 2.871165644171779,
+          "ci95_pct": [
+            2.0234372463335917,
+            3.776408922061096
+          ],
+          "candidate_sum": 7916.0,
+          "reference_sum": 8150.0
+        },
+        "request_latency_s": {
+          "point_pct": 2.8135991666858806,
+          "ci95_pct": [
+            1.9221844868442894,
+            3.736301685978298
+          ],
+          "candidate_sum": 136.95397952261072,
+          "reference_sum": 140.91887172311544
+        },
+        "native_generate_s": {
+          "point_pct": 2.846720946735054,
+          "ci95_pct": [
+            1.9981914276038277,
+            3.7693806484731076
+          ],
+          "candidate_sum": 133.79949075418216,
+          "reference_sum": 137.71999469089013
+        },
+        "cache_maintenance_s": {
+          "point_pct": 7.881307690335682,
+          "ci95_pct": [
+            -146.30427177945765,
+            65.59557704671897
+          ],
+          "candidate_sum": 0.6886467710137367,
+          "reference_sum": 0.7475646405170362
+        },
+        "request_seed_wins": 77,
+        "request_seed_regressions": 29,
+        "request_seed_ties": 22,
+        "gross_calls_saved": 286,
+        "gross_calls_added": 52
+      },
+      "K_vs_F": {
+        "verification_calls": {
+          "point_pct": -0.15950920245398773,
+          "ci95_pct": [
+            -1.2375798299068979,
+            0.8146905055916905
+          ],
+          "candidate_sum": 8163.0,
+          "reference_sum": 8150.0
+        },
+        "request_latency_s": {
+          "point_pct": 0.3726970748907498,
+          "ci95_pct": [
+            -0.6791512318342305,
+            1.3366812923478142
+          ],
+          "candidate_sum": 140.39367121023434,
+          "reference_sum": 140.91887172311544
+        },
+        "native_generate_s": {
+          "point_pct": 0.05624323652034293,
+          "ci95_pct": [
+            -0.9906059388360768,
+            0.995302412300682
+          ],
+          "candidate_sum": 137.64253650854033,
+          "reference_sum": 137.71999469089013
+        },
+        "cache_maintenance_s": {
+          "point_pct": 66.31534962188803,
+          "ci95_pct": [
+            7.316466899897062,
+            89.54882178910863
+          ],
+          "candidate_sum": 0.2518145355085532,
+          "reference_sum": 0.7475646405170362
+        },
+        "request_seed_wins": 50,
+        "request_seed_regressions": 55,
+        "request_seed_ties": 23,
+        "gross_calls_saved": 174,
+        "gross_calls_added": 187
+      },
+      "K_HALF_gain_harm": {
+        "parts": {
+          "K_gross_gain": {
+            "point": 174,
+            "ci95": [
+              125.0,
+              227.0
+            ]
+          },
+          "K_gross_harm": {
+            "point": 187,
+            "ci95": [
+              140.0,
+              238.0
+            ]
+          },
+          "candidate_gross_gain": {
+            "point": 286,
+            "ci95": [
+              225.0,
+              351.0
+            ]
+          },
+          "candidate_gross_harm": {
+            "point": 52,
+            "ci95": [
+              32.0,
+              74.0
+            ]
+          },
+          "retained_gain": {
+            "point": 126,
+            "ci95": [
+              86.0,
+              170.0
+            ]
+          },
+          "lost_gain": {
+            "point": 48,
+            "ci95": [
+              26.0,
+              74.0
+            ]
+          },
+          "added_gain": {
+            "point": 160,
+            "ci95": [
+              120.0,
+              203.0
+            ]
+          },
+          "prevented_harm": {
+            "point": 143,
+            "ci95": [
+              108.0,
+              181.0
+            ]
+          },
+          "added_harm": {
+            "point": 8,
+            "ci95": [
+              3.0,
+              15.0
+            ]
+          }
+        },
+        "retained_fraction": 0.7241379310344828,
+        "retained_fraction_ci95": [
+          0.60267783230842,
+          0.8341721978878348
+        ]
+      },
+      "KP_gain_harm": {
+        "parts": {
+          "K_gross_gain": {
+            "point": 174,
+            "ci95": [
+              125.0,
+              227.0
+            ]
+          },
+          "K_gross_harm": {
+            "point": 187,
+            "ci95": [
+              140.0,
+              238.0
+            ]
+          },
+          "candidate_gross_gain": {
+            "point": 205,
+            "ci95": [
+              151.0,
+              262.0
+            ]
+          },
+          "candidate_gross_harm": {
+            "point": 158,
+            "ci95": [
+              112.0,
+              210.0
+            ]
+          },
+          "retained_gain": {
+            "point": 148,
+            "ci95": [
+              103.0,
+              197.0
+            ]
+          },
+          "lost_gain": {
+            "point": 26,
+            "ci95": [
+              15.0,
+              39.0
+            ]
+          },
+          "added_gain": {
+            "point": 57,
+            "ci95": [
+              37.0,
+              79.0
+            ]
+          },
+          "prevented_harm": {
+            "point": 75,
+            "ci95": [
+              50.0,
+              101.0
+            ]
+          },
+          "added_harm": {
+            "point": 46,
+            "ci95": [
+              25.0,
+              71.0
+            ]
+          }
+        },
+        "retained_fraction": 0.8505747126436781,
+        "retained_fraction_ci95": [
+          0.778889323667518,
+          0.9074896233862136
+        ]
+      }
+    }
+  },
+  "training": {
+    "production": {
+      "forwards": 4096,
+      "backwards": 4096,
+      "optimizer_steps": 2048,
+      "reference_forwards": 2048
+    },
+    "qualification": {
+      "forwards": 8,
+      "backwards": 8,
+      "optimizer_steps": 4,
+      "reference_forwards": 6
+    },
+    "costs": {
+      "17/K_HALF": {
+        "training_s": 1490.5844547711313,
+        "event_wall_s": 1642.6036802064627,
+        "loading_initialization_resume_validation_s": 169.32944092713296,
+        "frozen_reference_setup_s": 0.0,
+        "checkpoint_save_s": 77.82906240783632,
+        "export_s": 61.50289107859135,
+        "state_validation_hash_s": 66.87470170296729,
+        "peak_allocated_bytes": 20708042240,
+        "peak_reserved_bytes": 26172456960,
+        "loading_peak_allocated_bytes": 10880436736,
+        "loading_peak_reserved_bytes": 10926161920
+      },
+      "17/KP": {
+        "training_s": 1847.0242952313274,
+        "event_wall_s": 2000.7693857457489,
+        "loading_initialization_resume_validation_s": 202.4421470835805,
+        "frozen_reference_setup_s": 43.61311273276806,
+        "checkpoint_save_s": 81.08448622748256,
+        "export_s": 59.82477249763906,
+        "state_validation_hash_s": 66.08380680903792,
+        "peak_allocated_bytes": 22805302784,
+        "peak_reserved_bytes": 29748101120,
+        "loading_peak_allocated_bytes": 12977693184,
+        "loading_peak_reserved_bytes": 13044285440
+      },
+      "29/K_HALF": {
+        "training_s": 1492.8250755928457,
+        "event_wall_s": 1651.6547389235348,
+        "loading_initialization_resume_validation_s": 182.02619432844222,
+        "frozen_reference_setup_s": 0.0,
+        "checkpoint_save_s": 82.81501087732613,
+        "export_s": 61.66870440915227,
+        "state_validation_hash_s": 67.83598739467561,
+        "peak_allocated_bytes": 20679275520,
+        "peak_reserved_bytes": 27856470016,
+        "loading_peak_allocated_bytes": 10880436736,
+        "loading_peak_reserved_bytes": 10926161920
+      },
+      "29/KP": {
+        "training_s": 1848.318660300225,
+        "event_wall_s": 2003.820432184264,
+        "loading_initialization_resume_validation_s": 205.48958509229124,
+        "frozen_reference_setup_s": 44.856652116402984,
+        "checkpoint_save_s": 78.61690808832645,
+        "export_s": 62.91709471307695,
+        "state_validation_hash_s": 80.1932060085237,
+        "peak_allocated_bytes": 22776356864,
+        "peak_reserved_bytes": 29861347328,
+        "loading_peak_allocated_bytes": 12977693184,
+        "loading_peak_reserved_bytes": 13044285440
+      }
+    },
+    "scope": "Parent and nested timers remain separate; original K times are historical, not fresh matched costs."
+  },
+  "raw_measurements": 3072,
+  "trace_blocks": 194145,
+  "full_proposal_blocks": 194145,
+  "paired_seed_requests": 256,
+  "bootstrap": {
+    "request_identities": 128,
+    "both_seeds_and_all_methods_together": true,
+    "draws": 10000,
+    "generator": "PCG64",
+    "seed": 20261102,
+    "quantile_method": "linear"
+  },
+  "checks": 1973211,
+  "raw_records_checked": 3072,
+  "evidence_limits": [
+    "Native GPU execution was not repeated.",
+    "Model/Adam tensors were not decoded locally; retained exact restoration/export receipts were inspected.",
+    "No model outputs, requests, endpoints or observations were selected or replaced by this audit."
+  ]
+}
