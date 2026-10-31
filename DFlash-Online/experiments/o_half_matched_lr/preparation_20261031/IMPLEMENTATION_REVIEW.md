@@ -1,0 +1,13 @@
+# O_HALF implementation review
+
+Material passport: fixed user-authorized O_HALF experiment, implementation/CPU stage. All43focused CPU tests pass in48.800s. No GPU model work has started at this review point. GPU validity remains conditional on the included48-generation compatibility bridge and per-method first8-request gates.
+
+The additive wrapper uses unchanged native ordinary OSD (objective=osd), including supervision after the first mismatch and the ordinary full-position denominator. It migrates each exact original-O initial state by changing only the declared LR in both optimizer recipe/group and run/config metadata. Independent original seeds, parameter ordering, empty moments, RNG and history remain exact. Own-state continuation checks native counters, complete history, empty accumulation, finiteness, full saved/live equality and serving export equality. Natural order and anchors are compared with original O receipts, never forced. No reference model, extra training qualification or post-step update is introduced.
+
+Tests cover a tiny native training/event/restore trajectory exactly against plain O atLR1.5e-4, invalid migrations/boundaries, after-error O gradients, complete3072-record archive validation and native tampering, exact1072slot evaluator, bridge/final failures and unknown work, valid harmful completion, bootstrap/sign/interaction/accounting, complete synthetic report and invalid comparison rejection, peak-storage arithmetic and new-only rolling retirement. CPU fixture optimizer work is not real-model GPU qualification.
+
+Separate same-team source reviews covered training, archive/evaluation and statistical reporting, followed by cross-file integration checks. These are code/record reviews, not independent GPU reproductions or cross-model verification. During review one apparent AGENTS.md source mismatch was withdrawn after exact byte verification; the local and remote DFlash-Online file remains the original1476bytes/SHA36296d38deaddde3009669e335a20c07fd7aa27931e92c631dff5b331ca303e0.
+
+All tracked historical source and numerical paths remain unchanged. New code lives only under experiments/o_half_matched_lr plus five focused test files. The source revision actually executed will be sealed in PLAN.json after publication. Archive/state/model/runtime identities and actual capacity are rechecked on A800 before any native work. Do not infer efficacy from these implementation tests.
+
+Scope stays1,024newAdamsteps/2,048presentations, no new feedback/features, and1,072totalgenerations. Timings remain operational accounting, not comparative latency evidence. Any concrete numerical/artifact/native failure stops; valid negative outcomes continue. No follow-on tuning or merge is authorized.
