@@ -35,7 +35,7 @@ def half_config(source):
 
 def arguments(source, seed=17):
     return dict(seed=seed, binding=BINDING, original_contract=contract(seed),
-                original_algorithm_contract=deepcopy(source['algorithm_contract']),
+                original_algorithm_contract=json.loads(json.dumps(source['algorithm_contract'])),
                 original_optimizer_recipe=json.loads(json.dumps(source['backend']['optimizer']['recipe'])),
                 original_config_text=source['config_text'], config_text=half_config(source),
                 expected_cuda_rng_states=0)
@@ -74,6 +74,51 @@ class OHalfScientificStateTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'learning_rate'):
             old.validate_snapshot(candidate, arm='O', seed=17, campaign_contract=contract(17),
                 config_text=candidate['config_text'], completed_event=0, expected_cuda_rng_states=0)
+
+    def test_json_transport_restores_only_the_three_provider_tuple_fields(self):
+        source = snapshot(17, 'O')
+        source['algorithm_contract'].update(
+            dflash_target_layer_ids=(1, 15, 29),
+            specforge_step_options=(),
+            specforge_model_provenance=(
+                ('capture_layers', (1, 15, 29)),
+                ('target_model', ('directory-stat-v2', '/target', (
+                    ('stat', 'model.safetensors', 42, 123456),))),
+            ),
+        )
+        source_before = deepcopy(source)
+        kwargs = arguments(source)
+        transported = kwargs['original_algorithm_contract']
+        self.assertIsInstance(transported['dflash_target_layer_ids'], list)
+        self.assertTrue(old.inherited.differences(source['algorithm_contract'], transported))
+        decoded = T.native_algorithm_contract(transported)
+        self.assertFalse(old.inherited.differences(decoded, source['algorithm_contract']))
+        self.assertIsInstance(decoded[old.CONTRACT_KEY]['binding']['events'], list)
+        expected = deepcopy(source['algorithm_contract'])
+        expected[T.CONTRACT_KEY] = T.experiment_contract(17, BINDING)
+        state, _ = T.migrate_source(source, **kwargs, new_contract=expected)
+        T.validate_snapshot(state, **kwargs, completed_event=0)
+        self.assertIsInstance(state['algorithm_contract']['dflash_target_layer_ids'], tuple)
+        self.assertIsInstance(state['algorithm_contract']['specforge_model_provenance'][1][1][2], tuple)
+        self.assertFalse(old.inherited.differences(source, source_before))
+        self.assertIsInstance(transported['specforge_step_options'], list)
+
+    def test_json_transport_does_not_relax_saved_types_or_scientific_values(self):
+        source = snapshot(17, 'O')
+        source['algorithm_contract']['dflash_target_layer_ids'] = (1, 15, 29)
+        kwargs = arguments(source)
+        expected = deepcopy(source['algorithm_contract'])
+        expected[T.CONTRACT_KEY] = T.experiment_contract(17, BINDING)
+        own, _ = T.migrate_source(source, **kwargs, new_contract=expected)
+        for value in ([1, 15, 29], (1, 16, 29)):
+            broken = deepcopy(own)
+            broken['algorithm_contract']['dflash_target_layer_ids'] = value
+            with self.assertRaisesRegex(ValueError, 'Foreign arm, objective'):
+                T.validate_snapshot(broken, **kwargs, completed_event=0)
+        changed_binding = deepcopy(kwargs)
+        changed_binding['original_algorithm_contract']['dflash_target_layer_ids'][1] = 16
+        with self.assertRaisesRegex(ValueError, 'Original O identity'):
+            T.migrate_source(source, **changed_binding, new_contract=expected)
 
     def test_only_learning_rate_and_run_output_identity_may_change(self):
         source, _, _, kwargs = migrated()

@@ -50,6 +50,29 @@ def _recipe_json(recipe):
     return json.loads(json.dumps(recipe, allow_nan=False))
 
 
+def native_algorithm_contract(transport):
+    """Restore only the pinned provider's tuple fields after PLAN JSON transport.
+
+    JSON lists elsewhere (for example coding-event bindings) remain lists.
+    Actual source, live and saved contracts are never normalized or rewritten;
+    they still pass the historical exact, type-sensitive comparison.
+    """
+    def tuples(value):
+        if isinstance(value, (list, tuple)):
+            return tuple(tuples(item) for item in value)
+        if isinstance(value, dict):
+            return {key: tuples(item) for key, item in value.items()}
+        return value
+
+    native = deepcopy(transport)
+    for key in ('dflash_target_layer_ids', 'specforge_step_options', 'specforge_model_provenance'):
+        if key in native:
+            if not isinstance(native[key], (list, tuple)):
+                raise ValueError('Malformed tuple-valued original contract field: ' + key)
+            native[key] = tuples(native[key])
+    return native
+
+
 def _optimizer_view(optimizer, learning_rate):
     """Copy only small mutable containers; never duplicate model-sized moments."""
     recipe = deepcopy(optimizer['recipe'])
@@ -70,6 +93,7 @@ def validate_snapshot(state, *, seed, binding, original_contract,
     if type(completed_event) is not int or completed_event not in range(5):
         raise ValueError('An O_HALF boundary must be event0..4')
     validate_config_text(config_text, seed, original_config_text)
+    original_algorithm_contract = native_algorithm_contract(original_algorithm_contract)
     expected = deepcopy(original_algorithm_contract)
     expected[CONTRACT_KEY] = experiment_contract(seed, binding)
     if resume.differences(state['algorithm_contract'], expected):
@@ -113,6 +137,7 @@ def migrate_source(source, *, seed, binding, original_contract,
     original.validate_snapshot(source, arm='O', seed=seed,
         campaign_contract=original_contract, config_text=original_config_text,
         completed_event=0, expected_cuda_rng_states=expected_cuda_rng_states)
+    original_algorithm_contract = native_algorithm_contract(original_algorithm_contract)
     expected = deepcopy(original_algorithm_contract)
     expected[CONTRACT_KEY] = experiment_contract(seed, binding)
     if (resume.differences(source['algorithm_contract'], original_algorithm_contract)
@@ -195,7 +220,7 @@ class OHalfTrainer(SpecForgeEventTrainer):
             raise ValueError('Require original O initialization or own complete continuation')
         self.seed, self.binding = seed, deepcopy(binding)
         self.original_contract = deepcopy(original_contract)
-        self.original_algorithm_contract = deepcopy(original_algorithm_contract)
+        self.original_algorithm_contract = native_algorithm_contract(original_algorithm_contract)
         self.original_optimizer_recipe = deepcopy(original_optimizer_recipe)
         self.original_config_text = original_config_text
         self.completed_event = completed_event
