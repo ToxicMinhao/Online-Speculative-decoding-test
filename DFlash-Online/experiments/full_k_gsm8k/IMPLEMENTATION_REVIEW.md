@@ -63,3 +63,20 @@ No performance result is implied by these checks. The run continues through
 valid harmful or null outcomes, stops on concrete correctness/resource failures,
 and retains all attempted/invalid/unknown/unattempted work. There is no automatic
 retry, tuning, extra probe, O retraining or follow-on experiment.
+
+## November 1 operational early-launch update
+
+The user authorized retiring additional completed intermediate optimizer states so
+training can begin while the existing historical archive copy continues. The
+scientific algorithms, data, optimizer settings, work budget and endpoint schedule
+are unchanged. An opt-in, run-bound transfer-clearance barrier now prevents the
+final timed backend from starting before the coordinator verifies transfer
+quiescence. Waiting is recorded separately within campaign wall time. The
+coordinator must keep transfers stopped until campaign exit; the marker is an
+operational attestation, not automatic discovery of arbitrary external jobs.
+
+All 65 focused CPU tests passed in 38.857 seconds, including seven new barrier
+checks. This is not a GPU qualification result. No model work was executed under
+the preceding preparation seal. Historical archival candidates remain protected;
+additional retirement has its own exact-path, hash, dependency and loss-of-resume
+receipts outside the scientific source tree.

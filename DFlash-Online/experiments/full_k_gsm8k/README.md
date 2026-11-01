@@ -93,6 +93,22 @@ the launcher in an occupied directory. An explicit `campaign --resume` accepts
 only exact own complete event boundaries with no unaccounted scientific work;
 it does not repeat an incomplete event or partial final evaluation.
 
+When an already authorized historical copy overlaps training, set
+`FULL_K_TRANSFER_CLEARANCE` to an absolute JSON marker path inside this run root.
+After both arm workers exit and their training audit passes, the campaign waits
+before constructing the final serving backend. The operational coordinator must
+atomically publish the marker only after checking that the copy process and all
+transport children have stopped, and must prevent further transfers through
+campaign exit. The marker requires `schema: full_k_transfer_clearance_v1`,
+`status: cleared`, the canonical `run_root`, and `binding` and `execution_source`
+equal to the sealed plan; `copy_process_stopped`, `transport_processes_stopped`
+and `no_transfers_until_campaign_exit` must all be JSON `true`. An absent marker
+waits under the existing 48-hour deadline; an invalid marker fails closed.
+`campaign_001/TRANSFER_CLEARANCE_WAIT.json` records this operational wait
+separately. It is included in `campaign_wall_s`, outside native loading, training
+and final evaluation timers. This attestation gate does not itself discover or
+stop transfer processes. Unconfigured launches retain the original ordering.
+
 ## Storage and interpretation
 
 Admission covers two empty-Adam initials, the completed arm, atomic replacement

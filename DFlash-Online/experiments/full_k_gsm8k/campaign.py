@@ -360,6 +360,8 @@ def run(root, *, resume=False):
             if not resume or read(final / "STATUS.json")["status"] != "completed":
                 raise ValueError("Partial final evaluation is preserved and cannot be silently repeated")
         else:
+            from .transfer_gate import wait_for_transfer_clearance
+            status["transfer_clearance"] = wait_for_transfer_clearance(root, plan)
             from online_feedback.sglang_backend import SGLangDFlashBackend
             from .evaluation import evaluate_final
             admit(root, plan["storage"], validated_tensor_paths=boundary_files(campaign),
