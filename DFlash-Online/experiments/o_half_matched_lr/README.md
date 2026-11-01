@@ -87,3 +87,9 @@ Original O/K execution:2705d992b133196be162229e1d5a08dd9c4f9cbb.
 PR21 execution:d10521a1aa7d256bb75b37a6aae07586ae7cc8b3.
 PR21 results:649e0b34066e217a3f918d82012d2a631c447ad0.
 The actual new execution commit is recorded in its sealed PLAN and every report.
+
+## Completed result
+
+Execution `19ee22faf985e0576d287eaa8c8624b5a44b46f5` completed all 1,024 new Adam steps and 1,072 generations. K_HALF uses 1.1034% fewer calls than the new matched-LR O_HALF control, with a descriptive paired 95% interval of [0.4548%, 1.8059%] and positive point effects in both seeds. Decision A applies on this reused coding panel. No new comparative latency or training-inclusive speedup claim follows.
+
+See the [reviewed result and evidence](results_20261031/REPORT.md), [all new executions](results_20261031/ALL_NEW_EVALUATIONS.csv), [paired counts](results_20261031/PAIRED_REQUESTS.csv) and [completion accounting](results_20261031/COMPLETION.json). Only O_HALF was trained; the existing O/K/K_HALF artifacts remain unchanged. No follow-on run was launched.

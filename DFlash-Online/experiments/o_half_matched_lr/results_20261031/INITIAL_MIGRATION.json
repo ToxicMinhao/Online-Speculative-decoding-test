@@ -1,0 +1,150 @@
+{
+  "status": "passed",
+  "execution_commit": "19ee22f",
+  "model_work": 0,
+  "optimizer_steps": 0,
+  "scientific_state_writes": 0,
+  "seeds": {
+    "17": {
+      "source": {
+        "status": "passed",
+        "completed_event": 0,
+        "global_step": 0,
+        "presentations": 0,
+        "objective": "osd",
+        "horizon": 7424,
+        "draft_tensors": 58,
+        "optimizer_parameters": 58,
+        "adam_state_entries": 0,
+        "cuda_rng_states": 1,
+        "scientific_extra_steps": 0,
+        "arm": "O",
+        "training_seed": 17,
+        "campaign_contract_exact": true,
+        "state_path": "/data/sources/minhao/runs/dflash_ok_coding_20261030/production_002/campaign_001/seed_17/O/initial_state.pt",
+        "export_path": "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/draft",
+        "export_exact": true,
+        "wall_s": 10.089036080986261
+      },
+      "migration": {
+        "status": "passed",
+        "original_arm": "O",
+        "original_seed": 17,
+        "original_steps": 0,
+        "source_weights_rng_moments_counters_history_exact": true,
+        "changes": [
+          "additive O_HALF contract",
+          "configuration/run/output identity",
+          "learning rate3e-4\u21921.5e-4 in recipe and native Adam group"
+        ],
+        "qualification_only": false,
+        "no_reseed_after_restore": true
+      },
+      "own": {
+        "status": "passed",
+        "completed_event": 0,
+        "global_step": 0,
+        "presentations": 0,
+        "objective": "osd",
+        "horizon": 7424,
+        "draft_tensors": 58,
+        "optimizer_parameters": 58,
+        "adam_state_entries": 0,
+        "cuda_rng_states": 1,
+        "scientific_extra_steps": 0,
+        "arm": "O_HALF",
+        "training_seed": 17,
+        "campaign_contract_exact": true,
+        "seed": 17,
+        "exact_contract": true,
+        "qualification_steps": 0,
+        "reference_operations": 0
+      },
+      "source_path": "/data/sources/minhao/runs/dflash_ok_coding_20261030/production_002/campaign_001/seed_17/O/initial_state.pt",
+      "export_exact": true,
+      "native_contract_types": {
+        "dflash_target_layer_ids": "tuple",
+        "specforge_step_options": "tuple",
+        "specforge_model_provenance": "tuple"
+      },
+      "json_transport_types": {
+        "dflash_target_layer_ids": "list",
+        "specforge_step_options": "list",
+        "specforge_model_provenance": "list"
+      },
+      "process_rng_unchanged": true,
+      "cuda_initialized": false
+    },
+    "29": {
+      "source": {
+        "status": "passed",
+        "completed_event": 0,
+        "global_step": 0,
+        "presentations": 0,
+        "objective": "osd",
+        "horizon": 7424,
+        "draft_tensors": 58,
+        "optimizer_parameters": 58,
+        "adam_state_entries": 0,
+        "cuda_rng_states": 1,
+        "scientific_extra_steps": 0,
+        "arm": "O",
+        "training_seed": 29,
+        "campaign_contract_exact": true,
+        "state_path": "/data/sources/minhao/runs/dflash_ok_coding_20261030/production_002/campaign_001/seed_29/O/initial_state.pt",
+        "export_path": "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/draft",
+        "export_exact": true,
+        "wall_s": 9.882439695298672
+      },
+      "migration": {
+        "status": "passed",
+        "original_arm": "O",
+        "original_seed": 29,
+        "original_steps": 0,
+        "source_weights_rng_moments_counters_history_exact": true,
+        "changes": [
+          "additive O_HALF contract",
+          "configuration/run/output identity",
+          "learning rate3e-4\u21921.5e-4 in recipe and native Adam group"
+        ],
+        "qualification_only": false,
+        "no_reseed_after_restore": true
+      },
+      "own": {
+        "status": "passed",
+        "completed_event": 0,
+        "global_step": 0,
+        "presentations": 0,
+        "objective": "osd",
+        "horizon": 7424,
+        "draft_tensors": 58,
+        "optimizer_parameters": 58,
+        "adam_state_entries": 0,
+        "cuda_rng_states": 1,
+        "scientific_extra_steps": 0,
+        "arm": "O_HALF",
+        "training_seed": 29,
+        "campaign_contract_exact": true,
+        "seed": 29,
+        "exact_contract": true,
+        "qualification_steps": 0,
+        "reference_operations": 0
+      },
+      "source_path": "/data/sources/minhao/runs/dflash_ok_coding_20261030/production_002/campaign_001/seed_29/O/initial_state.pt",
+      "export_exact": true,
+      "native_contract_types": {
+        "dflash_target_layer_ids": "tuple",
+        "specforge_step_options": "tuple",
+        "specforge_model_provenance": "tuple"
+      },
+      "json_transport_types": {
+        "dflash_target_layer_ids": "list",
+        "specforge_step_options": "list",
+        "specforge_model_provenance": "list"
+      },
+      "process_rng_unchanged": true,
+      "cuda_initialized": false
+    }
+  },
+  "wall_s": 42.36486051417887
+}

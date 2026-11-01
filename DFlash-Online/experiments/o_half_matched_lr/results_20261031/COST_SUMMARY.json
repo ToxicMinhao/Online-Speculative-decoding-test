@@ -1,0 +1,115 @@
+{
+  "current_O_HALF": {
+    "17": {
+      "events": 4,
+      "training_s": 1423.2118894048035,
+      "event_wall_s": 1580.8625214211643,
+      "loading_initialization_resume_validation_s": 155.75136131420732,
+      "checkpoint_save_s": 80.8652173653245,
+      "export_s": 62.66600235179067,
+      "state_validation_hash_s": 81.12818838097155,
+      "worker_wall_s": 1821.0324484724551,
+      "subprocess_wall_s": 1852.9891342967749,
+      "peak_allocated_bytes": 20652867584,
+      "peak_reserved_bytes": 26172456960,
+      "loading_peak_allocated_bytes": 10880436736,
+      "loading_peak_reserved_bytes": 10926161920,
+      "objective_subtimers": {
+        "reference_setup_s": 0.0,
+        "optimizer_step_host_s": 4.081487875431776,
+        "reference_forward_s": 0.0,
+        "projection_s": 0.0,
+        "reference_operations": 0,
+        "response_record_write_s": 0.5388187579810619,
+        "teacher_head_s": 443.3003202173859,
+        "response_observation_s": 0.6743495594710112,
+        "reference_head_s": 0.0
+      }
+    },
+    "29": {
+      "events": 4,
+      "training_s": 1419.2273459676653,
+      "event_wall_s": 1574.7469263374805,
+      "loading_initialization_resume_validation_s": 155.6366612613201,
+      "checkpoint_save_s": 79.71235939860344,
+      "export_s": 61.72629216872156,
+      "state_validation_hash_s": 67.25497202016413,
+      "worker_wall_s": 1800.670711658895,
+      "subprocess_wall_s": 1841.0294118057936,
+      "peak_allocated_bytes": 20652867584,
+      "peak_reserved_bytes": 27856470016,
+      "loading_peak_allocated_bytes": 10880436736,
+      "loading_peak_reserved_bytes": 10926161920,
+      "objective_subtimers": {
+        "reference_setup_s": 0.0,
+        "optimizer_step_host_s": 4.227840073406696,
+        "reference_forward_s": 0.0,
+        "projection_s": 0.0,
+        "reference_operations": 0,
+        "response_record_write_s": 0.5204017739742994,
+        "teacher_head_s": 442.81441537477076,
+        "response_observation_s": 0.6586571503430605,
+        "reference_head_s": 0.0
+      }
+    }
+  },
+  "historical_unmatched": {
+    "17/O": {
+      "source": "/data/sources/minhao/runs/dflash_ok_coding_20261030/production_002/final_report/TRAINING_COSTS.csv",
+      "status": "historical_unmatched",
+      "training_s": 1412.7386691868305,
+      "event_wall_s": 1550.564707973972,
+      "loading_initialization_resume_validation_s": 154.47035420499742,
+      "checkpoint_save_s": 70.38825058378279,
+      "export_s": 55.43616936355829
+    },
+    "17/K": {
+      "source": "/data/sources/minhao/runs/dflash_ok_coding_20261030/production_002/final_report/TRAINING_COSTS.csv",
+      "status": "historical_unmatched",
+      "training_s": 1486.4870554115623,
+      "event_wall_s": 1630.8895133510232,
+      "loading_initialization_resume_validation_s": 160.1930772960186,
+      "checkpoint_save_s": 72.39936100691557,
+      "export_s": 59.50579768978059
+    },
+    "29/O": {
+      "source": "/data/sources/minhao/runs/dflash_ok_coding_20261030/production_002/final_report/TRAINING_COSTS.csv",
+      "status": "historical_unmatched",
+      "training_s": 1411.802890399471,
+      "event_wall_s": 1561.6636901702732,
+      "loading_initialization_resume_validation_s": 156.79733209311962,
+      "checkpoint_save_s": 74.65666841343045,
+      "export_s": 59.311003563925624
+    },
+    "29/K": {
+      "source": "/data/sources/minhao/runs/dflash_ok_coding_20261030/production_002/final_report/TRAINING_COSTS.csv",
+      "status": "historical_unmatched",
+      "training_s": 1486.2791505083442,
+      "event_wall_s": 1637.6002263128757,
+      "loading_initialization_resume_validation_s": 162.50588885508478,
+      "checkpoint_save_s": 78.09375561214983,
+      "export_s": 59.12260011956096
+    },
+    "17/K_HALF": {
+      "source": "/data/sources/minhao/runs/dflash_k_prefix_protection_v1_20261031/production_001/final_report/TRAINING_COSTS.csv",
+      "status": "historical_unmatched",
+      "training_s": 1490.5844547711313,
+      "event_wall_s": 1642.6036802064627,
+      "loading_initialization_resume_validation_s": 169.32944092713296,
+      "checkpoint_save_s": 77.82906240783632,
+      "export_s": 61.50289107859135
+    },
+    "29/K_HALF": {
+      "source": "/data/sources/minhao/runs/dflash_k_prefix_protection_v1_20261031/production_001/final_report/TRAINING_COSTS.csv",
+      "status": "historical_unmatched",
+      "training_s": 1492.8250755928457,
+      "event_wall_s": 1651.6547389235348,
+      "loading_initialization_resume_validation_s": 182.02619432844222,
+      "checkpoint_save_s": 82.81501087732613,
+      "export_s": 61.66870440915227
+    }
+  },
+  "scope": "No fresh matched updater-cost comparison against retained O/K/K_HALF.",
+  "timer_overlap": "Event time includes training/save/export; objective subtimers overlap training/loading. Do not sum nested timers.",
+  "comparative_latency": "Not supported: old/new measurements, checkpoint batching and unequal repeat counts."
+}
