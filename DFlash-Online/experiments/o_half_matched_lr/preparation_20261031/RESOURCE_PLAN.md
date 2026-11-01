@@ -1,0 +1,11 @@
+# O_HALF capacity plan before execution
+
+Measured A800 free space: 83,710,308,352 bytes. No active GPU compute processes. Fenrir free: 74,240,995,328 bytes. Existing scientific artifacts will not be deleted or offloaded.
+
+Seal the handoff-permitted rolling retention policy for NEW O_HALF arms only: preserve genuine initial states and complete event2/event4 states/exports; preserve event1/event3 until their immediate successor has passed decoded state/export/live boundary checks. Then remove only the superseded training_state.pt and export/model.safetensors, with exact paths, identities, successor proof and free-space receipts. All original event, schedule, cost, native and failure evidence remains. This loses exact odd-event optimizer resumption and serving export; these files are retired, not archived.
+
+Future tensor peak: 23 × 2,097,259,104 = 48,236,959,392 bytes, including export temporary overlap. Add 8 GiB compiler/kernel cache allowance, then the established 10% tensor/cache slack plus 4 GiB compact/workspace and 8 GiB reserve: **75,394,485,270 bytes required**. CPU state comparison also requires80GiB available host RAM. Actual admission is checked before launch and each event. Remaining compiler allowance charges1GiB per unexecuted cold worker, with a1GiB floor for remaining serving; completed cache occupancy is already reflected in free space and is not charged again as a future write. Resume verifies complete chronology before computing additional writes; already occupied artifacts are charged by free space and receive no speculative deletion credit.
+
+Cache allowance basis: all16 just-completed identical-shape KP/K_HALF fresh worker cache directories measured32,960,512–60,096,512 allocated bytes each. Eight GiB for the eight new O workers is over17 times the sum obtained by charging every worker the observed maximum. No cold-cache policy is changed and no cache is reused. New O has no frozen reference or disposable GPU training qualification. No needed cache, model or environment is removed.
+
+These are storage/memory admission estimates, not additional scientific work or an assurance of GPU output correctness. The included48-generation bridge is the native compatibility gate.

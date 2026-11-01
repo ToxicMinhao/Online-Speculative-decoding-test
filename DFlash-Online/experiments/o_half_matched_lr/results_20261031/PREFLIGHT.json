@@ -1,0 +1,91 @@
+{
+  "status": "passed",
+  "model_work": 0,
+  "postflight": false,
+  "seal": {
+    "status": "passed",
+    "files_checked": 2790,
+    "execution_source": {
+      "commit": "19ee22faf985e0576d287eaa8c8624b5a44b46f5",
+      "dirty": false,
+      "source_path": "/data/sources/minhao/DFlash-Online",
+      "repository": "https://github.com/ToxicMinhao/Online-Speculative-decoding-test"
+    }
+  },
+  "plan": {
+    "status": "passed",
+    "budget": {
+      "optimizer_steps": 1024,
+      "presentations": 2048,
+      "evaluation": 1072,
+      "bridge": 48,
+      "evaluation_main": 1024,
+      "feedback": 0,
+      "terminal_teacher_forwards": 0,
+      "reference_forwards": 0,
+      "qualification_optimizer_steps": 0
+    },
+    "training_objective": "osd",
+    "qualification_model_work": 0
+  },
+  "native_runtime": {
+    "python_version": "3.12.14",
+    "torch": "2.9.1+cu130",
+    "transformers": "4.57.1",
+    "cuda": "13.0",
+    "native_runtime_sha256": {
+      "speculative/dflash_worker.py": "9397402f5cfbf60b00b7d27d551e5e9e1b605be9b084d028d4ddda76c475dc8c",
+      "speculative/dflash_info.py": "9c7ac23a1bf0840eec8218f02f2adbfc3e419099cd19822137ce5c6e0e902218",
+      "layers/logits_processor.py": "5c6c54bec37b941652e29908c773a756fe6c86f99932ab80043672a1eaa0f086",
+      "models/qwen3.py": "e23ee8af21eac46685852854a5fe585cf58477d4a1f8047887d6afeefaf8e32d",
+      "models/dflash.py": "d4fcfe005a1acc51a4938d038e1dbc1a2c8ff245842f4253338527335b2327b2",
+      "entrypoints/engine.py": "2bcd4b04c325d4ed65f867490c5bac9e915e02f05471c83dacb5a4a097cf1f2a",
+      "server_args.py": "bd60199803698e4ffe6dc44499a8d42be73f42db28056cb6750411523cf56c04"
+    }
+  },
+  "training_runtime": {
+    "python": "3.12.15",
+    "torch": "2.13.0+cu130",
+    "transformers": "5.12.1"
+  },
+  "hardware": {
+    "status": "passed",
+    "gpus": [
+      {
+        "index": 0,
+        "name": "NVIDIA A800 80GB PCIe",
+        "total_mib": 81920,
+        "used_mib": 0
+      },
+      {
+        "index": 1,
+        "name": "NVIDIA A800 80GB PCIe",
+        "total_mib": 81920,
+        "used_mib": 0
+      }
+    ],
+    "active_compute_processes": [],
+    "cuda_context_created": false
+  },
+  "storage": {
+    "capacity": {
+      "payload_bytes": 56826893984,
+      "peak_required_bytes": 75394485270,
+      "future_tensor_peak_bytes": 48236959392,
+      "compiler_bytes": 8589934592,
+      "reserve_bytes": 8589934592,
+      "compact_workspace_bytes": 4294967296,
+      "slack_fraction": 0.1,
+      "completed_jobs": 0,
+      "completed_initials": 0,
+      "preexisting_deletion_credit_bytes": 0,
+      "new_feedback_bytes": 0,
+      "retention": "Keep initial/event2/event4; retire new event1/3 tensors only after a verified successor"
+    },
+    "free_bytes": 83682209792,
+    "host_available_bytes": 137833041920,
+    "host_required_bytes": 85899345920,
+    "admitted": true
+  },
+  "wall_s": 240.85710254870355
+}

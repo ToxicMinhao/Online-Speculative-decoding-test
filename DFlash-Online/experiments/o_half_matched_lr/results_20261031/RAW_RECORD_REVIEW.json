@@ -1,0 +1,299 @@
+{
+  "status": "passed_with_prespecified_scope_limits",
+  "execution_commit": "19ee22faf985e0576d287eaa8c8624b5a44b46f5",
+  "review_scope": "Separate record and statistical reconstruction plus final prose review; reviewer also authored production statistics/report. Not independent investigators, GPU rerun, model-weight tensor decoding or a new experiment.",
+  "raw_audit": {
+    "status": "passed",
+    "checks": 643740,
+    "raw_records": 1072,
+    "native_blocks": 67872,
+    "full_proposal_blocks": 67872,
+    "model_work": 0,
+    "auditor_source_sha256": "a6314e049025aa8d96b0543823462db534a7442ff89e30da3a9641e9f732262e"
+  },
+  "first_real_audit_attempt_passed": true,
+  "auditor_repairs_after_results": 0,
+  "primary": {
+    "call_reduction": {
+      "point_pct": 1.1033536965465607,
+      "ci95_pct": [
+        0.45478794436844744,
+        1.8058519261441812
+      ],
+      "undefined_bootstrap_draws": 0,
+      "candidate_sum": 15865.0,
+      "reference_sum": 16042.0
+    },
+    "request_seed_wins": 125,
+    "request_seed_regressions": 82,
+    "request_seed_ties": 49,
+    "request_seed_denominator": 256,
+    "gross_calls_saved": 336,
+    "gross_calls_added": 159
+  },
+  "per_seed_primary": {
+    "17": {
+      "call_reduction": {
+        "point_pct": 1.0703173615432493,
+        "ci95_pct": [
+          0.3809621735232102,
+          1.8128083316692853
+        ],
+        "undefined_bootstrap_draws": 0,
+        "candidate_sum": 7949.0,
+        "reference_sum": 8035.0
+      },
+      "request_seed_wins": 63,
+      "request_seed_regressions": 39,
+      "request_seed_ties": 26,
+      "request_seed_denominator": 128,
+      "gross_calls_saved": 160,
+      "gross_calls_added": 74
+    },
+    "29": {
+      "call_reduction": {
+        "point_pct": 1.1365055576370686,
+        "ci95_pct": [
+          0.406832461116656,
+          1.9179902506650464
+        ],
+        "undefined_bootstrap_draws": 0,
+        "candidate_sum": 7916.0,
+        "reference_sum": 8007.0
+      },
+      "request_seed_wins": 62,
+      "request_seed_regressions": 43,
+      "request_seed_ties": 23,
+      "request_seed_denominator": 128,
+      "gross_calls_saved": 176,
+      "gross_calls_added": 85
+    }
+  },
+  "decision": {
+    "branch": "A",
+    "label": "Useful matched-LR advantage for K_HALF",
+    "primary_seed_effects_pct": [
+      1.0703173615432493,
+      1.1365055576370686
+    ],
+    "useful_K_HALF_advantage": true,
+    "useful_O_HALF_advantage": false,
+    "pooled_practical_equivalence": false,
+    "equivalence_seed_point_consistency": false,
+    "equivalence_band_pct": [
+      -0.5,
+      0.5
+    ],
+    "priority_target_pct": 0.5,
+    "true_effect_above_priority_target_supported": false,
+    "within_objective_LR_point_effects_pct": {
+      "K_HALF_vs_K": 2.6866220940931163,
+      "O_HALF_vs_O": 2.057512668661088
+    },
+    "next_action": "Keep K_HALF as the provisional coding base; recommend a separately agreed bounded portability or online-setting check of this fixed base.",
+    "automatic_followup_authorized": false,
+    "scope": "Development/ablation evidence conditional on this reused panel and two fixed fitted seeds; equal LR does not match displacement or isolate selection from normalization."
+  },
+  "clear_conclusion": "K_HALF meets the predeclared useful matched-LR advantage rule on this reused coding panel. Ordinary O_HALF improves over O, but does not remove the incremental K_HALF advantage.",
+  "forbidden_overclaim": "The lower primary interval bound 0.4548% is below 0.5%; neither a true benefit above 0.5% nor fresh confirmation is established.",
+  "gain_harm": {
+    "comparator_gross_gain": {
+      "point": 418.0,
+      "ci95": [
+        326.0,
+        516.0
+      ],
+      "undefined_bootstrap_draws": 0
+    },
+    "comparator_gross_harm": {
+      "point": 160.0,
+      "ci95": [
+        112.0,
+        213.0
+      ],
+      "undefined_bootstrap_draws": 0
+    },
+    "candidate_gross_gain": {
+      "point": 560.0,
+      "ci95": [
+        444.0,
+        684.0
+      ],
+      "undefined_bootstrap_draws": 0
+    },
+    "candidate_gross_harm": {
+      "point": 125.0,
+      "ci95": [
+        82.0,
+        173.0
+      ],
+      "undefined_bootstrap_draws": 0
+    },
+    "retained_gain": {
+      "point": 309.0,
+      "ci95": [
+        230.0,
+        392.0
+      ],
+      "undefined_bootstrap_draws": 0
+    },
+    "lost_gain": {
+      "point": 109.0,
+      "ci95": [
+        70.0,
+        156.0
+      ],
+      "undefined_bootstrap_draws": 0
+    },
+    "added_gain": {
+      "point": 251.0,
+      "ci95": [
+        185.0,
+        327.0
+      ],
+      "undefined_bootstrap_draws": 0
+    },
+    "prevented_harm": {
+      "point": 85.0,
+      "ci95": [
+        55.0,
+        119.0
+      ],
+      "undefined_bootstrap_draws": 0
+    },
+    "added_harm": {
+      "point": 50.0,
+      "ci95": [
+        26.0,
+        79.0
+      ],
+      "undefined_bootstrap_draws": 0
+    },
+    "retained_gain_fraction": {
+      "point": 0.7392344497607656,
+      "ci95": [
+        0.6458333333333334,
+        0.8196356388951268
+      ],
+      "undefined_bootstrap_draws": 0,
+      "denominator_comparator_gross_gain": 418
+    },
+    "net_calls_saved_vs_comparator": 177,
+    "identity_verified_at_each_seed_request": true
+  },
+  "cost_summary": {
+    "current_O_HALF_training_s": 2842.439235372469,
+    "current_O_HALF_event_wall_s": 3155.609447758645,
+    "loading_initialization_resume_validation_s": 311.38802257552743,
+    "peak_allocated_bytes": 20652867584,
+    "peak_reserved_bytes": 27856470016,
+    "campaign_wall_s": 5157.131760820746,
+    "scope": "Current training times only. Nested timers overlap, process peaks are not total residency, and historicalO/K/K_HALF training times are unmatched context. No comparative serving latency or training-inclusive speedup."
+  },
+  "fallacy_scan": {
+    "coverage": "11/11 checked",
+    "items": [
+      {
+        "id": 1,
+        "name": "Simpson's paradox",
+        "assessment": "No primary reversal detected",
+        "evidence_and_limit": "Primary pooled +1.1034%; seeds +1.0703% and +1.1365%. The report also shows K/F's mixed seed signs (+0.1227%, -0.1595%) rather than hiding them behind its -0.0184% pooled value."
+      },
+      {
+        "id": 2,
+        "name": "Ecological fallacy",
+        "assessment": "Boundary correctly stated",
+        "evidence_and_limit": "Bootstrap uses 128 joint request identities carrying both fitted seeds/all methods;256 seed/request outcomes are descriptive, not 256 independent draws. No population training-seed inference."
+      },
+      {
+        "id": 3,
+        "name": "Berkson's selection bias",
+        "assessment": "Selection limitation retained",
+        "evidence_and_limit": "The reserved short-prompt CodeAlpaca panel is conditional data and is reused after favoring K_HALF. This is a generalizability limitation, not evidence that a particular Berkson artifact occurred. No general-domain claim is made."
+      },
+      {
+        "id": 4,
+        "name": "Collider bias",
+        "assessment": "No outcome-conditioned exclusion detected",
+        "evidence_and_limit": "All 1,072 planned executions are valid and retained; all 128 panel identities remain. No generated-length/performance filtering or complete-case rescue. Existing panel/eligibility, canonical and checkpoint identities are unchanged."
+      },
+      {
+        "id": 5,
+        "name": "Base-rate neglect",
+        "assessment": "Denominators accounted for",
+        "evidence_and_limit": "Primary 125 wins/82 regressions/49 ties over 256 seed/request outcomes; gross 336 calls saved/159 added. All methods output 88,266 tokens across those rows;128 distinct canonical requests all terminate by EOS, zero cap hits. Gain retention uses 418 comparator gross-gain calls, not request count."
+      },
+      {
+        "id": 6,
+        "name": "Regression to the mean",
+        "assessment": "Prior selection caution disclosed",
+        "evidence_and_limit": "The report explicitly calls this reused-panel development/ablation evidence, not fresh confirmation. Ordinary O_HALF is a meaningful matched-LR control, but the nominal interval does not adjust prior selection of K_HALF."
+      },
+      {
+        "id": 7,
+        "name": "Survivorship bias",
+        "assessment": "No attrition detected",
+        "evidence_and_limit": "Eight training jobs and 1,072 new evaluations completed with zero invalid/unknown/unattempted scientific work. The earlier source-admission failure occurred before model work and remains separate; no unfavorable request was replaced."
+      },
+      {
+        "id": 8,
+        "name": "Look-elsewhere effect",
+        "assessment": "Multiplicity caution disclosed",
+        "evidence_and_limit": "All 8 prespecified comparisons, reverse primary, common-F interaction and both seeds are present. Secondary intervals remain descriptive/unadjusted; no new tests or selective significant subset were introduced."
+      },
+      {
+        "id": 9,
+        "name": "Garden of forking paths",
+        "assessment": "Fixed analysis preserved",
+        "evidence_and_limit": "Prespecified endpoint 4, seeds 17/29, LR1.5e-4, panel,10,000 PCG64seed 20261102 joint draws, linear percentiles and A/B/C/D/E rules reproduce. Operational tuple/list/source-deployment repairs are disclosed, with no outcome-driven scientific tuning or extra steps."
+      },
+      {
+        "id": 10,
+        "name": "Correlation versus causation",
+        "assessment": "Mechanism limits correctly stated",
+        "evidence_and_limit": "The comparison supports the implemented K recipe at matched LR, including selection and normalization together. It does not identify gradient conflict, memorization, preservation, optimal LR or a closed-loop deployment mechanism. Gain/harm is accounting, not proof of causation."
+      },
+      {
+        "id": 11,
+        "name": "Reverse causality",
+        "assessment": "No leakage/temporal reversal detected in reviewed records",
+        "evidence_and_limit": "The immutable evaluation panel and original O-generated feedback/schedules were sealed independently of these endpoint outcomes. Evaluation stays outside training; future performance is not used to select the observed learning trajectory."
+      }
+    ],
+    "blocking_findings": [],
+    "caution": "Reused selected development panel, two fitted seeds, conditional nominal intervals and unadjusted secondary comparisons."
+  },
+  "one_recommendation": "Keep K_HALF as the provisional coding base and seek agreement on one bounded portability or online-setting check of that fixed base.",
+  "automatic_followup_authorized": false,
+  "stage_change_authorized": false,
+  "source_files": {
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_o_half_matched_lr_20261031/compact_evidence_001/final_report/REPORT.md": {
+      "bytes": 9096,
+      "sha256": "1c542449c3cbbbd9f64a1c307d50bdb9874e8dbde361bc63805324c0c98cf673"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_o_half_matched_lr_20261031/compact_evidence_001/final_report/SUMMARY.json": {
+      "bytes": 61972,
+      "sha256": "83d3d127c3b5484aac9504aac8909d36937332a0934be9986457496a42e44878"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_o_half_matched_lr_20261031/compact_evidence_001/final_report/PAIRED_REQUESTS.csv": {
+      "bytes": 342554,
+      "sha256": "424964c9e41686cd679b3cc10df87e2b201f05412f51e9157ba0e4234b74eda8"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_o_half_matched_lr_20261031/compact_evidence_001/final_report/ALL_NEW_EVALUATIONS.csv": {
+      "bytes": 451647,
+      "sha256": "d92fe8545055e8e7c38c381eeb553272f31c875381619ca87610eed27fb8fe07"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_o_half_matched_lr_20261031/HANDOFF.txt": {
+      "bytes": 27085,
+      "sha256": "e4c39ec53ed1951141d2e76e30a66910094dbdd9255960e11a56d2431cb55d04"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_o_half_matched_lr_20261031/POSTRUN_AUDIT_PLAN.md": {
+      "bytes": 9409,
+      "sha256": "ca1053a6f136254e1818fb9d419707728f048f5aa7d2f45818b54f520876d62d"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_o_half_matched_lr_20261031/postrun_record_audit_001/RECORD_AUDIT.json": {
+      "bytes": 767241,
+      "sha256": "7371154c3435287d362b0cb35ebbf795f0c2686945a4027b070bad0eb11d4809"
+    }
+  }
+}
