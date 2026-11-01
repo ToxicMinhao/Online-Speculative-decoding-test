@@ -9,6 +9,7 @@ import gc
 import json
 import os
 from pathlib import Path
+import signal
 import subprocess
 import sys
 import time
@@ -386,6 +387,12 @@ def main():
     parser.add_argument("--arm", choices=ARMS)
     parser.add_argument("--resume", action="store_true")
     args = parser.parse_args()
+    # The enclosing deadline must unwind the worker so its owned native
+    # subprocess is closed and partial work is recorded before process exit.
+    def terminate(_signum, _frame):
+        raise SystemExit(128 + signal.SIGTERM)
+
+    signal.signal(signal.SIGTERM, terminate)
     if args.arm:
         run_arm(args.root, args.arm, resume=args.resume)
     else:

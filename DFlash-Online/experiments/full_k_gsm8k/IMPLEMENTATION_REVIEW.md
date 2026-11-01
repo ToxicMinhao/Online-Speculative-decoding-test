@@ -12,7 +12,7 @@
 - Status at publication: CPU tests and original-artifact inventory passed;
   native correctness and resource admission remain execution gates.
 
-All 57 focused CPU tests passed in 38.684 seconds. Coverage includes unchanged
+All 58 focused CPU tests passed in 38.922 seconds. Coverage includes unchanged
 native-K numerical behavior with observations enabled, independent initialization,
 uninterrupted versus own-state continuation, true event-58 contracts, exact
 budgets and four inherited correctness generations, unknown-work preservation,
@@ -46,6 +46,11 @@ missing terminal clocks that prevented its audit from being written. Missing
 clocks now produce explicit errors and unavailable values while preserving the
 audit. Two regression tests cover this path. No scientific execution preceded
 this repair, and complete-run accounting is unchanged.
+
+The enclosing resource deadline now unwinds Python cleanup instead of abruptly
+leaving the worker's separately launched native process running. A CPU test
+checks the termination path; post-run retrieval separately requires idle GPUs
+and no remaining experiment process. Neither adds scientific work.
 
 The peak storage model includes atomic overlap and both completed/active arms,
 with separate evidence, compiler, workspace and reserve allowances. A

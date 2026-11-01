@@ -37,6 +37,25 @@ class CampaignBoundaryTests(unittest.TestCase):
         self.assertEqual({key for key in before if before[key] != after[key]},
                          {'online_generations'})
 
+    def test_resource_deadline_unwinds_owned_worker_cleanup(self):
+        handlers, cleaned = {}, []
+
+        def install(signum, handler):
+            handlers[signum] = handler
+
+        def worker(_root, *, resume=False):
+            try:
+                handlers[C.signal.SIGTERM](C.signal.SIGTERM, None)
+            finally:
+                cleaned.append('owned worker cleanup')
+
+        with patch('sys.argv', ['campaign', str(self.root)]), \
+                patch.object(C.signal, 'signal', side_effect=install), \
+                patch.object(C, 'run', side_effect=worker), self.assertRaises(SystemExit) as failure:
+            C.main()
+        self.assertEqual(failure.exception.code, 143)
+        self.assertEqual(cleaned, ['owned worker cleanup'])
+
     def test_phase_wrappers_count_only_actual_actions(self):
         calls = []
         backend = SimpleNamespace(
