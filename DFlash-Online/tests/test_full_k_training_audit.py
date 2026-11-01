@@ -330,6 +330,36 @@ class TrainingAuditTests(unittest.TestCase):
         self.assertTrue(receipt['errors'])
         self.assertEqual(receipt['extra_model_work'], 0)
 
+    def test_hard_killed_worker_preserves_partial_audit_and_unavailable_clocks(self):
+        sealed = self.root / 'sealed'
+        write_json(sealed / 'ORIGINAL_MANIFEST.json', {'train_requests': []})
+        write_json(sealed / 'CANONICALS.json', {})
+        # Deliberately incomplete: the audit must report missing scientific
+        # evidence without requiring a fabricated complete-run fixture.
+        write_json(sealed / 'PLAN.json', dict(manifest=str(sealed / 'ORIGINAL_MANIFEST.json'),
+            canonicals=str(sealed / 'CANONICALS.json'), checkpoints={
+                arm: str(self.root / 'campaign_001/arms' / arm / 'trainer/events/event_058/export')
+                for arm in A.ARMS}, evaluation_requests=[], binding='a'*64, draft='/F'))
+        write_json(self.root / 'campaign_001/arms/K/STATUS.json', dict(status='running',
+            segments=[dict(resume=False, backend_loading_s=1.2, trainer_loading_s=2.3)], event_costs=[]))
+        result = A.audit_training(self.root, raise_on_error=False)
+        self.assertEqual(result['status'], 'invalid_or_incomplete')
+        self.assertEqual(result['arms']['K']['costs']['loading_s'], 3.5)
+        for name in ('online_wall_s', 'initial_validation_s', 'publication_validation_s', 'retention_s'):
+            self.assertIsNone(result['arms']['K']['costs'][name])
+            self.assertIn(name, result['arms']['K']['unavailable_costs'])
+            self.assertTrue(any('unavailable cost ' + name in error for error in result['errors']))
+        self.assertEqual(result['arms']['K']['actual_work']['completed']['optimizer_steps'], 0)
+        saved = json.loads((self.root / 'campaign_001/TRAINING_AUDIT.json').read_text())
+        self.assertEqual(saved, result)
+        with self.assertRaisesRegex(ValueError, 'preserved'):
+            A.audit_training(self.root)
+
+    def test_missing_clock_is_not_a_measured_zero(self):
+        self.assertEqual(A.sum_recorded_costs([0.], 'clock'), 0.)
+        with self.assertRaisesRegex(ValueError, 'No recorded clock'):
+            A.sum_recorded_costs([], 'clock')
+
 
 if __name__ == '__main__':
     unittest.main()

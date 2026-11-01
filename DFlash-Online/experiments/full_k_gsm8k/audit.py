@@ -45,6 +45,13 @@ def close_number(actual, expected, name):
             'Materialized accumulation differs: ' + name)
 
 
+def sum_recorded_costs(values, name):
+    """An absent terminal clock is unavailable, not a measured zero."""
+    values = list(values)
+    require(bool(values), 'No recorded clock for ' + name)
+    return sum(finite_nonnegative(value, name) for value in values)
+
+
 def audit_work(path):
     """Reconstruct both action totals and the causal collection/update ordering."""
     work = read_work(path, ARM_WORK)
@@ -546,15 +553,26 @@ def audit_training(root, *, raise_on_error=True):
                     and status['final_checkpoint'] == plan['checkpoints'][arm]
                     and status['actual_work'] == row['actual_work'] and not status['invalid_online_records'],
                     'Status is inconsistent with independently reconstructed records'))
-                totals['loading_s'] = sum(segment['backend_loading_s'] + segment['trainer_loading_s'] for segment in status['segments'])
-                totals['online_wall_s'] = sum(status['worker_segments_s'])
-                totals['initial_validation_s'] = sum(segment.get('initial_validation_s', 0.) for segment in status['segments'])
-                totals['publication_validation_s'] = sum(entry['costs']['publication_validation_s'] for entry in status['event_costs'])
-                totals['retention_s'] = sum(entry['costs']['retention_s'] for entry in status['event_costs'])
                 checked(arm + ' status event costs', lambda: require(
                     [entry['event'] for entry in status['event_costs']] == list(range(1, 59))
                     and all(entry['costs']['training_s'] == row['event_audits'][index]['costs']['training_s']
                             for index, entry in enumerate(status['event_costs'])), 'Status event costs changed'))
+            # A hard kill can leave STATUS before the worker's finally block.
+            # Preserve every available observation and explicitly mark absent
+            # clocks instead of raising before the durable audit is written.
+            clock_readers = {
+                'loading_s': lambda: [segment[key] for segment in status['segments']
+                    for key in ('backend_loading_s', 'trainer_loading_s')],
+                'online_wall_s': lambda: status['worker_segments_s'],
+                'initial_validation_s': lambda: [segment['initial_validation_s']
+                    for segment in status['segments'] if not segment['resume']],
+                'publication_validation_s': lambda: [entry['costs']['publication_validation_s']
+                    for entry in status['event_costs']],
+                'retention_s': lambda: [entry['costs']['retention_s'] for entry in status['event_costs']],
+            }
+            worker_costs = {name: checked(arm + ' unavailable cost ' + name,
+                lambda name=name, read_clock=read_clock: sum_recorded_costs(read_clock(), name))
+                for name, read_clock in clock_readers.items()}
             executed = checked(arm + ' worker receipt', lambda: reader.read(root / f'campaign_001/EXEC_{arm}.json'))
             if executed:
                 checked(arm + ' worker completion', lambda: require(executed['arm'] == arm
@@ -567,13 +585,14 @@ def audit_training(root, *, raise_on_error=True):
             row['native_trace_files'] = len(native_files)
             checked(arm + ' finite costs', lambda: [finite_nonnegative(value, name)
                 for name, value in totals.items()])
-            row.update(costs=dict(totals), exposure=dict(exposure), actual_native_work=dict(actual_native),
+            row.update(costs={**totals, **worker_costs}, exposure=dict(exposure), actual_native_work=dict(actual_native),
                        final_checkpoint=plan['checkpoints'][arm] if final else None,
                        cost_scope='Nested component clocks must not be added to controller update or worker totals.',
                        resource_records=resource_records,
                        peak_allocated_bytes=max((r['training_peak_allocated_bytes'] for r in resource_records), default=None),
                        peak_reserved_bytes=max((r['training_peak_reserved_bytes'] for r in resource_records), default=None),
-                       unavailable_costs=['Native serving-worker compilation separated from loading/serving'])
+                       unavailable_costs=[name for name, value in worker_costs.items() if value is None]
+                           + ['Native serving-worker compilation separated from loading/serving'])
             checked(arm + ' completion', lambda: require(row['events_completed'] == 58
                 and row['optimizer_steps'] == 7424 and row['response_presentations'] == 14848
                 and row['online_generations'] == 7473 and row['terminal_preparation_forwards'] == 7424
