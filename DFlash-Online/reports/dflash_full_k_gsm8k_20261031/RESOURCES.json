@@ -1,0 +1,1894 @@
+{
+  "K": {
+    "peak_allocated_bytes": 20675251200,
+    "peak_reserved_bytes": 24052236288,
+    "event_records": [
+      {
+        "event": 1,
+        "training_peak_allocated_bytes": 20555607040,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {
+          "AOTAutogradCache.inductor_load": {
+            "calls": 4,
+            "durations_s": [
+              0.02843423,
+              0.036294002,
+              0.025267248,
+              0.03342343
+            ],
+            "total_s": 0.12341890999999999
+          },
+          "CacheBase.get_system.triton_key": {
+            "calls": 1,
+            "durations_s": [
+              0.43601734
+            ],
+            "total_s": 0.43601734
+          },
+          "OutputGraph.call_user_compiler": {
+            "calls": 4,
+            "durations_s": [
+              0.693313238,
+              0.059866085,
+              0.075856503,
+              0.123581885
+            ],
+            "total_s": 0.952617711
+          },
+          "PyCodeCache.load_by_key_path": {
+            "calls": 6,
+            "durations_s": [
+              0.011931266,
+              0.005594799,
+              0.00645863,
+              0.010919922,
+              0.005672675,
+              0.00605802
+            ],
+            "total_s": 0.046635312
+          },
+          "StaticAutotunerFuture.warm_precompile": {
+            "calls": 17,
+            "durations_s": [
+              0.001266669,
+              0.001088406,
+              0.00112512,
+              0.00056316,
+              0.000528843,
+              0.003210405,
+              0.001166831,
+              0.00255358,
+              0.001114574,
+              0.002036683,
+              0.001028478,
+              0.000934189,
+              0.000745381,
+              0.000998356,
+              0.003109291,
+              0.000670397,
+              0.002077915
+            ],
+            "total_s": 0.024218278
+          },
+          "TritonBundler.load_cached_static_autotuners": {
+            "calls": 6,
+            "durations_s": [
+              0.000282961,
+              8.3307e-05,
+              0.000134046,
+              0.000355341,
+              8.2177e-05,
+              9.062e-05
+            ],
+            "total_s": 0.001028452
+          },
+          "TritonBundler.read_and_emit": {
+            "calls": 6,
+            "durations_s": [
+              0.000668367,
+              0.000198074,
+              0.000295545,
+              0.000766665,
+              0.000193273,
+              0.000224173
+            ],
+            "total_s": 0.002346097
+          },
+          "_compile.compile_inner": {
+            "calls": 4,
+            "durations_s": [
+              1.819146601,
+              0.276344422,
+              1.463377,
+              0.761418688
+            ],
+            "total_s": 4.320286711
+          },
+          "async_compile.wait": {
+            "calls": 6,
+            "durations_s": [
+              0.000333213,
+              0.000134999,
+              0.000104105,
+              0.007164695,
+              0.003261809,
+              0.002906601
+            ],
+            "total_s": 0.013905421999999999
+          },
+          "build_guards": {
+            "calls": 4,
+            "durations_s": [
+              0.040730033,
+              0.032656978,
+              0.069395852,
+              0.071968046
+            ],
+            "total_s": 0.214750909
+          },
+          "bytecode_tracing": {
+            "calls": 4,
+            "durations_s": [
+              1.036674194,
+              0.161496806,
+              1.281078224,
+              0.243005278
+            ],
+            "total_s": 2.722254502
+          },
+          "compile_attempt_0": {
+            "calls": 4,
+            "durations_s": [
+              1.76205271,
+              0.241721783,
+              1.38610027,
+              0.687327366
+            ],
+            "total_s": 4.077202129
+          },
+          "create_proxy": {
+            "calls": 4,
+            "durations_s": [
+              0.339371889,
+              0.007809308,
+              0.02855961,
+              0.012372668
+            ],
+            "total_s": 0.388113475
+          },
+          "gc": {
+            "calls": 4,
+            "durations_s": [
+              0.00089473,
+              0.000444831,
+              0.000516183,
+              0.000715668
+            ],
+            "total_s": 0.0025714120000000004
+          },
+          "get_fake_value": {
+            "calls": 4,
+            "durations_s": [
+              0.09717116,
+              0.029864339,
+              0.72509867,
+              0.058368749
+            ],
+            "total_s": 0.9105029179999999
+          },
+          "inductor_codecache_torch_key": {
+            "calls": 1,
+            "durations_s": [
+              0.20150218
+            ],
+            "total_s": 0.20150218
+          },
+          "insert_deferred_runtime_asserts": {
+            "calls": 4,
+            "durations_s": [
+              0.007922649,
+              0.004056055,
+              0.007593258,
+              0.006869684
+            ],
+            "total_s": 0.026441646
+          },
+          "pgo.dynamic_whitelist": {
+            "calls": 2,
+            "durations_s": [
+              2.9411e-05,
+              2.7684e-05
+            ],
+            "total_s": 5.7095e-05
+          },
+          "variable_builder_call": {
+            "calls": 4,
+            "durations_s": [
+              0.072643827,
+              0.033697973,
+              0.036562013,
+              0.085426704
+            ],
+            "total_s": 0.228330517
+          },
+          "wrap_to_fake_tensor_and_record": {
+            "calls": 4,
+            "durations_s": [
+              0.001334051,
+              0.012787425,
+              0.005584905,
+              0.063173149
+            ],
+            "total_s": 0.08287952999999999
+          }
+        },
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 2,
+        "training_peak_allocated_bytes": 20661707776,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 3,
+        "training_peak_allocated_bytes": 20500317696,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 4,
+        "training_peak_allocated_bytes": 20675251200,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 5,
+        "training_peak_allocated_bytes": 20485493760,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 6,
+        "training_peak_allocated_bytes": 20499553792,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 7,
+        "training_peak_allocated_bytes": 20473935360,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 8,
+        "training_peak_allocated_bytes": 20477017600,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 9,
+        "training_peak_allocated_bytes": 20657813504,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 10,
+        "training_peak_allocated_bytes": 20538221568,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 11,
+        "training_peak_allocated_bytes": 20551455232,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 12,
+        "training_peak_allocated_bytes": 20489949696,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 13,
+        "training_peak_allocated_bytes": 20363012608,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 14,
+        "training_peak_allocated_bytes": 20487815168,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 15,
+        "training_peak_allocated_bytes": 20665601024,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 16,
+        "training_peak_allocated_bytes": 20484937728,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 17,
+        "training_peak_allocated_bytes": 20476585984,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 18,
+        "training_peak_allocated_bytes": 20492255744,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 19,
+        "training_peak_allocated_bytes": 20491378176,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 20,
+        "training_peak_allocated_bytes": 20489579008,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 21,
+        "training_peak_allocated_bytes": 20508062720,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 22,
+        "training_peak_allocated_bytes": 20509367296,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 23,
+        "training_peak_allocated_bytes": 20482046464,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 24,
+        "training_peak_allocated_bytes": 20651282944,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 25,
+        "training_peak_allocated_bytes": 20553047552,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 26,
+        "training_peak_allocated_bytes": 20350352896,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 27,
+        "training_peak_allocated_bytes": 20484752384,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 28,
+        "training_peak_allocated_bytes": 20530185728,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 29,
+        "training_peak_allocated_bytes": 20489300480,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 30,
+        "training_peak_allocated_bytes": 20527172608,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 31,
+        "training_peak_allocated_bytes": 20477785088,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 32,
+        "training_peak_allocated_bytes": 20507942912,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 33,
+        "training_peak_allocated_bytes": 20661456896,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 34,
+        "training_peak_allocated_bytes": 20099469312,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 35,
+        "training_peak_allocated_bytes": 20517333504,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 36,
+        "training_peak_allocated_bytes": 20666228736,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 37,
+        "training_peak_allocated_bytes": 20470554624,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 38,
+        "training_peak_allocated_bytes": 20478333440,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 39,
+        "training_peak_allocated_bytes": 20491127296,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 40,
+        "training_peak_allocated_bytes": 20479532544,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 41,
+        "training_peak_allocated_bytes": 20483137024,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 42,
+        "training_peak_allocated_bytes": 20515296768,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 43,
+        "training_peak_allocated_bytes": 20551587328,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 44,
+        "training_peak_allocated_bytes": 20484659200,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 45,
+        "training_peak_allocated_bytes": 19607193600,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 46,
+        "training_peak_allocated_bytes": 19984877568,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 47,
+        "training_peak_allocated_bytes": 20527929856,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 48,
+        "training_peak_allocated_bytes": 20471647744,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 49,
+        "training_peak_allocated_bytes": 20522400256,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 50,
+        "training_peak_allocated_bytes": 20489485824,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 51,
+        "training_peak_allocated_bytes": 20658561536,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 52,
+        "training_peak_allocated_bytes": 20512416768,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 53,
+        "training_peak_allocated_bytes": 20610330112,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 54,
+        "training_peak_allocated_bytes": 20472954368,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 55,
+        "training_peak_allocated_bytes": 20658315264,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 56,
+        "training_peak_allocated_bytes": 20472410624,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 57,
+        "training_peak_allocated_bytes": 20528555520,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 58,
+        "training_peak_allocated_bytes": 20490135040,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      }
+    ],
+    "compiler_by_timer_name": {
+      "AOTAutogradCache.inductor_load": {
+        "calls": 4,
+        "total_s": 0.12341890999999999
+      },
+      "CacheBase.get_system.triton_key": {
+        "calls": 1,
+        "total_s": 0.43601734
+      },
+      "OutputGraph.call_user_compiler": {
+        "calls": 4,
+        "total_s": 0.952617711
+      },
+      "PyCodeCache.load_by_key_path": {
+        "calls": 6,
+        "total_s": 0.046635312
+      },
+      "StaticAutotunerFuture.warm_precompile": {
+        "calls": 17,
+        "total_s": 0.024218278
+      },
+      "TritonBundler.load_cached_static_autotuners": {
+        "calls": 6,
+        "total_s": 0.001028452
+      },
+      "TritonBundler.read_and_emit": {
+        "calls": 6,
+        "total_s": 0.002346097
+      },
+      "_compile.compile_inner": {
+        "calls": 4,
+        "total_s": 4.320286711
+      },
+      "async_compile.wait": {
+        "calls": 6,
+        "total_s": 0.013905421999999999
+      },
+      "build_guards": {
+        "calls": 4,
+        "total_s": 0.214750909
+      },
+      "bytecode_tracing": {
+        "calls": 4,
+        "total_s": 2.722254502
+      },
+      "compile_attempt_0": {
+        "calls": 4,
+        "total_s": 4.077202129
+      },
+      "create_proxy": {
+        "calls": 4,
+        "total_s": 0.388113475
+      },
+      "gc": {
+        "calls": 4,
+        "total_s": 0.0025714120000000004
+      },
+      "get_fake_value": {
+        "calls": 4,
+        "total_s": 0.9105029179999999
+      },
+      "inductor_codecache_torch_key": {
+        "calls": 1,
+        "total_s": 0.20150218
+      },
+      "insert_deferred_runtime_asserts": {
+        "calls": 4,
+        "total_s": 0.026441646
+      },
+      "pgo.dynamic_whitelist": {
+        "calls": 2,
+        "total_s": 5.7095e-05
+      },
+      "variable_builder_call": {
+        "calls": 4,
+        "total_s": 0.228330517
+      },
+      "wrap_to_fake_tensor_and_record": {
+        "calls": 4,
+        "total_s": 0.08287952999999999
+      }
+    },
+    "unavailable_costs": [
+      "Native serving-worker compilation separated from loading/serving"
+    ],
+    "memory_scope": "Trainer-process CUDA peak reset immediately before controller.update; observed through preparation, training, save/export and publication. Excludes initial loading, later boundary validation and the separate serving worker.",
+    "compiler_scope": "TorchDynamo timers from that update window; each name is summed across events. Different timer names can nest and must not be added together or on top of update time.",
+    "serving_worker_scope": "Compilation is included in worker loading/serving, but is not separately identified. Trainer peaks do not measure serving-worker or total-system memory."
+  },
+  "K_HALF": {
+    "peak_allocated_bytes": 20675251200,
+    "peak_reserved_bytes": 24052236288,
+    "event_records": [
+      {
+        "event": 1,
+        "training_peak_allocated_bytes": 20555607040,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {
+          "AOTAutogradCache.inductor_load": {
+            "calls": 4,
+            "durations_s": [
+              0.034329643,
+              0.033406031,
+              0.023141967,
+              0.032149847
+            ],
+            "total_s": 0.123027488
+          },
+          "CacheBase.get_system.triton_key": {
+            "calls": 1,
+            "durations_s": [
+              0.46702942
+            ],
+            "total_s": 0.46702942
+          },
+          "OutputGraph.call_user_compiler": {
+            "calls": 4,
+            "durations_s": [
+              0.746408173,
+              0.05657755,
+              0.07275786,
+              0.121158059
+            ],
+            "total_s": 0.996901642
+          },
+          "PyCodeCache.load_by_key_path": {
+            "calls": 6,
+            "durations_s": [
+              0.013049733,
+              0.004182025,
+              0.007579362,
+              0.010333902,
+              0.005285535,
+              0.006336133
+            ],
+            "total_s": 0.04676669
+          },
+          "StaticAutotunerFuture.warm_precompile": {
+            "calls": 17,
+            "durations_s": [
+              0.001173803,
+              0.001063362,
+              0.001116177,
+              0.000651119,
+              0.000600657,
+              0.001940532,
+              0.001130021,
+              0.003906349,
+              0.000951696,
+              0.00200004,
+              0.000963648,
+              0.000926217,
+              0.000728907,
+              0.000952469,
+              0.002832851,
+              0.000763326,
+              0.002371475
+            ],
+            "total_s": 0.024072649
+          },
+          "TritonBundler.load_cached_static_autotuners": {
+            "calls": 6,
+            "durations_s": [
+              0.000447633,
+              7.1382e-05,
+              0.000122503,
+              0.000332859,
+              7.3075e-05,
+              8.6929e-05
+            ],
+            "total_s": 0.001134381
+          },
+          "TritonBundler.read_and_emit": {
+            "calls": 6,
+            "durations_s": [
+              0.000992951,
+              0.000172469,
+              0.000279685,
+              0.000708938,
+              0.000179675,
+              0.000206368
+            ],
+            "total_s": 0.002540086
+          },
+          "_compile.compile_inner": {
+            "calls": 4,
+            "durations_s": [
+              1.829655439,
+              0.269789226,
+              1.450694795,
+              0.652651347
+            ],
+            "total_s": 4.2027908069999995
+          },
+          "async_compile.wait": {
+            "calls": 6,
+            "durations_s": [
+              0.000352709,
+              0.000119517,
+              9.6722e-05,
+              0.006799415,
+              0.002969981,
+              0.003282276
+            ],
+            "total_s": 0.01362062
+          },
+          "build_guards": {
+            "calls": 4,
+            "durations_s": [
+              0.041002587,
+              0.031899474,
+              0.066832176,
+              0.070519791
+            ],
+            "total_s": 0.21025402799999998
+          },
+          "bytecode_tracing": {
+            "calls": 4,
+            "durations_s": [
+              0.991989284,
+              0.15990577,
+              1.276766816,
+              0.237915031
+            ],
+            "total_s": 2.666576901
+          },
+          "compile_attempt_0": {
+            "calls": 4,
+            "durations_s": [
+              1.772678498,
+              0.236138918,
+              1.37685345,
+              0.580258853
+            ],
+            "total_s": 3.965929719
+          },
+          "create_proxy": {
+            "calls": 4,
+            "durations_s": [
+              0.293294062,
+              0.00767286,
+              0.028765115,
+              0.012023094
+            ],
+            "total_s": 0.34175513100000005
+          },
+          "gc": {
+            "calls": 4,
+            "durations_s": [
+              0.000653326,
+              0.000392361,
+              0.000279457,
+              0.000642693
+            ],
+            "total_s": 0.001967837
+          },
+          "get_fake_value": {
+            "calls": 4,
+            "durations_s": [
+              0.094380579,
+              0.030440022,
+              0.718025074,
+              0.057083472
+            ],
+            "total_s": 0.899929147
+          },
+          "inductor_codecache_torch_key": {
+            "calls": 1,
+            "durations_s": [
+              0.206993898
+            ],
+            "total_s": 0.206993898
+          },
+          "insert_deferred_runtime_asserts": {
+            "calls": 4,
+            "durations_s": [
+              0.008242388,
+              0.003935258,
+              0.007305962,
+              0.006580365
+            ],
+            "total_s": 0.026063973
+          },
+          "pgo.dynamic_whitelist": {
+            "calls": 2,
+            "durations_s": [
+              2.5505e-05,
+              2.7092e-05
+            ],
+            "total_s": 5.2597e-05
+          },
+          "variable_builder_call": {
+            "calls": 4,
+            "durations_s": [
+              0.077091007,
+              0.032881622,
+              0.035001834,
+              0.083122886
+            ],
+            "total_s": 0.228097349
+          },
+          "wrap_to_fake_tensor_and_record": {
+            "calls": 4,
+            "durations_s": [
+              0.001242894,
+              0.012686739,
+              0.005456748,
+              0.062334752
+            ],
+            "total_s": 0.081721133
+          }
+        },
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 2,
+        "training_peak_allocated_bytes": 20661707776,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 3,
+        "training_peak_allocated_bytes": 20500317696,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 4,
+        "training_peak_allocated_bytes": 20675251200,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 5,
+        "training_peak_allocated_bytes": 20485493760,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 6,
+        "training_peak_allocated_bytes": 20499553792,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 7,
+        "training_peak_allocated_bytes": 20473935360,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 8,
+        "training_peak_allocated_bytes": 20477017600,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 9,
+        "training_peak_allocated_bytes": 20657813504,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 10,
+        "training_peak_allocated_bytes": 20538221568,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 11,
+        "training_peak_allocated_bytes": 20551455232,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 12,
+        "training_peak_allocated_bytes": 20489949696,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 13,
+        "training_peak_allocated_bytes": 20363012608,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 14,
+        "training_peak_allocated_bytes": 20487815168,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 15,
+        "training_peak_allocated_bytes": 20665601024,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 16,
+        "training_peak_allocated_bytes": 20484937728,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 17,
+        "training_peak_allocated_bytes": 20476585984,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 18,
+        "training_peak_allocated_bytes": 20492255744,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 19,
+        "training_peak_allocated_bytes": 20491378176,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 20,
+        "training_peak_allocated_bytes": 20489579008,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 21,
+        "training_peak_allocated_bytes": 20508062720,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 22,
+        "training_peak_allocated_bytes": 20509367296,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 23,
+        "training_peak_allocated_bytes": 20482046464,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 24,
+        "training_peak_allocated_bytes": 20651282944,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 25,
+        "training_peak_allocated_bytes": 20553047552,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 26,
+        "training_peak_allocated_bytes": 20350352896,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 27,
+        "training_peak_allocated_bytes": 20484752384,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 28,
+        "training_peak_allocated_bytes": 20530185728,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 29,
+        "training_peak_allocated_bytes": 20489300480,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 30,
+        "training_peak_allocated_bytes": 20527172608,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 31,
+        "training_peak_allocated_bytes": 20477785088,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 32,
+        "training_peak_allocated_bytes": 20507942912,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 33,
+        "training_peak_allocated_bytes": 20661456896,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 34,
+        "training_peak_allocated_bytes": 20099469312,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 35,
+        "training_peak_allocated_bytes": 20517333504,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 36,
+        "training_peak_allocated_bytes": 20666228736,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 37,
+        "training_peak_allocated_bytes": 20470554624,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 38,
+        "training_peak_allocated_bytes": 20478333440,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 39,
+        "training_peak_allocated_bytes": 20491127296,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 40,
+        "training_peak_allocated_bytes": 20479532544,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 41,
+        "training_peak_allocated_bytes": 20483137024,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 42,
+        "training_peak_allocated_bytes": 20515296768,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 43,
+        "training_peak_allocated_bytes": 20551587328,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 44,
+        "training_peak_allocated_bytes": 20484659200,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 45,
+        "training_peak_allocated_bytes": 19607193600,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 46,
+        "training_peak_allocated_bytes": 19984877568,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 47,
+        "training_peak_allocated_bytes": 20527929856,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 48,
+        "training_peak_allocated_bytes": 20471647744,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 49,
+        "training_peak_allocated_bytes": 20522400256,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 50,
+        "training_peak_allocated_bytes": 20489485824,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 51,
+        "training_peak_allocated_bytes": 20658561536,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 52,
+        "training_peak_allocated_bytes": 20512416768,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 53,
+        "training_peak_allocated_bytes": 20610330112,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 54,
+        "training_peak_allocated_bytes": 20472954368,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 55,
+        "training_peak_allocated_bytes": 20658315264,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 56,
+        "training_peak_allocated_bytes": 20472410624,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 57,
+        "training_peak_allocated_bytes": 20528555520,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      {
+        "event": 58,
+        "training_peak_allocated_bytes": 20490135040,
+        "training_peak_reserved_bytes": 24052236288,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      }
+    ],
+    "compiler_by_timer_name": {
+      "AOTAutogradCache.inductor_load": {
+        "calls": 4,
+        "total_s": 0.123027488
+      },
+      "CacheBase.get_system.triton_key": {
+        "calls": 1,
+        "total_s": 0.46702942
+      },
+      "OutputGraph.call_user_compiler": {
+        "calls": 4,
+        "total_s": 0.996901642
+      },
+      "PyCodeCache.load_by_key_path": {
+        "calls": 6,
+        "total_s": 0.04676669
+      },
+      "StaticAutotunerFuture.warm_precompile": {
+        "calls": 17,
+        "total_s": 0.024072649
+      },
+      "TritonBundler.load_cached_static_autotuners": {
+        "calls": 6,
+        "total_s": 0.001134381
+      },
+      "TritonBundler.read_and_emit": {
+        "calls": 6,
+        "total_s": 0.002540086
+      },
+      "_compile.compile_inner": {
+        "calls": 4,
+        "total_s": 4.2027908069999995
+      },
+      "async_compile.wait": {
+        "calls": 6,
+        "total_s": 0.01362062
+      },
+      "build_guards": {
+        "calls": 4,
+        "total_s": 0.21025402799999998
+      },
+      "bytecode_tracing": {
+        "calls": 4,
+        "total_s": 2.666576901
+      },
+      "compile_attempt_0": {
+        "calls": 4,
+        "total_s": 3.965929719
+      },
+      "create_proxy": {
+        "calls": 4,
+        "total_s": 0.34175513100000005
+      },
+      "gc": {
+        "calls": 4,
+        "total_s": 0.001967837
+      },
+      "get_fake_value": {
+        "calls": 4,
+        "total_s": 0.899929147
+      },
+      "inductor_codecache_torch_key": {
+        "calls": 1,
+        "total_s": 0.206993898
+      },
+      "insert_deferred_runtime_asserts": {
+        "calls": 4,
+        "total_s": 0.026063973
+      },
+      "pgo.dynamic_whitelist": {
+        "calls": 2,
+        "total_s": 5.2597e-05
+      },
+      "variable_builder_call": {
+        "calls": 4,
+        "total_s": 0.228097349
+      },
+      "wrap_to_fake_tensor_and_record": {
+        "calls": 4,
+        "total_s": 0.081721133
+      }
+    },
+    "unavailable_costs": [
+      "Native serving-worker compilation separated from loading/serving"
+    ],
+    "memory_scope": "Trainer-process CUDA peak reset immediately before controller.update; observed through preparation, training, save/export and publication. Excludes initial loading, later boundary validation and the separate serving worker.",
+    "compiler_scope": "TorchDynamo timers from that update window; each name is summed across events. Different timer names can nest and must not be added together or on top of update time.",
+    "serving_worker_scope": "Compilation is included in worker loading/serving, but is not separately identified. Trainer peaks do not measure serving-worker or total-system memory."
+  }
+}

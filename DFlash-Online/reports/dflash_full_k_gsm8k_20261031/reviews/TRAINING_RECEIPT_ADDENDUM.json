@@ -1,0 +1,51 @@
+{
+  "source_files": 2856,
+  "arms": {
+    "K": {
+      "correctness_generations": 4,
+      "additional_reconstructed_costs_s": {
+        "loading_s": 42.12120636552572,
+        "online_wall_s": 31423.153652068228,
+        "initial_validation_s": 8.434784684330225,
+        "publication_validation_s": 1540.9410674758255,
+        "retention_s": 447.86230641976,
+        "correctness_publication_replay_s": 7.39759755320847,
+        "correctness_capture_disabled_replay_s": 0.41533467173576355,
+        "tail_native_request_s": 31.68673632480204,
+        "tail_native_generate_s": 31.32635358721018,
+        "tail_cache_maintenance_s": 0.01517799124121666
+      }
+    },
+    "K_HALF": {
+      "correctness_generations": 4,
+      "additional_reconstructed_costs_s": {
+        "loading_s": 40.381150336936116,
+        "online_wall_s": 31417.314178297296,
+        "initial_validation_s": 11.24229641072452,
+        "publication_validation_s": 1457.2277883123606,
+        "retention_s": 460.96630224213004,
+        "correctness_publication_replay_s": 6.85933961160481,
+        "correctness_capture_disabled_replay_s": 0.415498411282897,
+        "tail_native_request_s": 32.3938282430172,
+        "tail_native_generate_s": 31.94163299165666,
+        "tail_cache_maintenance_s": 0.03082764334976673
+      }
+    }
+  },
+  "checks_by_category": {
+    "source_config_hash": 2856,
+    "correctness": 26,
+    "cost": 20,
+    "budget": 2,
+    "receipt": 1
+  },
+  "checks_total": 2905,
+  "errors": [],
+  "status": "passed",
+  "final_generations_from_evaluation_receipt": 12288,
+  "combined_complete_generations": 28010,
+  "final_generation_scope": "Final raw evaluation/bootstrap checked by separate evaluation reviewer; this addendum reconciles completed receipts.",
+  "final_storage_free_bytes": 76780548096,
+  "gpu_status": "0, 0 %, 0 MiB\n1, 0 %, 0 MiB\n",
+  "gpu_compute_processes": ""
+}
