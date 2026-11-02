@@ -1,5 +1,7 @@
 # Full GSM8K K and K_HALF campaign
 
+Completed at execution `0698eeb2ddd97b9e2ac6953989dc82acbc0a1e34`: [final report and independent record reviews](../../reports/dflash_full_k_gsm8k_20261031/REPORT.md). All 58 events per arm and the fixed evaluation budget completed.
+
 This additive runner completes the October 31 fixed handoff. It calls the
 existing `online_feedback` inference, conditioning, first-error-selected KL,
 sampler, accumulation, optimizer and exporter. It does not implement a new loss.
