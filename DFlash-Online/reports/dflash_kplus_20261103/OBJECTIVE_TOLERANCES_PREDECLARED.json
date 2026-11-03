@@ -1,0 +1,12 @@
+{
+  "status": "declared_before_objective_fixture_execution",
+  "date": "2026-11-03",
+  "scope": "CPU arithmetic/logit fixtures only; no disposable training or GPU model work",
+  "fp64_reference": {"rtol": 1e-12, "atol": 1e-12},
+  "fp32_loss_and_logit_gradient": {"rtol": 2e-6, "atol": 2e-7},
+  "native_bf16_logit_gradient": {"rtol": 0.02, "atol": 0.0002, "relative_l2_max": 0.01},
+  "native_bf16_loss_with_fp32_reductions": {"rtol": 2e-6, "atol": 2e-7},
+  "native_neutral_loss_and_gradient": {"rtol": 0.0, "atol": 0.0},
+  "first_error_mass_conservation": {"rtol": 2e-6, "atol": 2e-7},
+  "rationale": "Mixed reference and chunked formulations reorder FP32 reductions and BF16 gradient rounding. Homogeneous/no-error responses must directly return the existing K numerator and match its loss and gradients exactly. Coefficient conservation is tested in FP64 and asserted on the FP32 production reduction path. No efficacy result is used to choose these tolerances."
+}

@@ -192,6 +192,17 @@ class TargetObjectiveModel(OnlineDFlashModel):
                 (token_loss * selected_weights).sum(), selected_weights.sum(),
                 correct, eligible.sum().float(), statistics,
             )
+            redistribution = getattr(self, 'first_error_redistribution', None)
+            if redistribution is not None:
+                _synchronize(token_loss)
+                started = time.perf_counter()
+                extra = redistribution.chunk_terms(
+                    token_loss, proposals, labels, weights, selection, self.eos_token_ids,
+                )
+                _synchronize(extra[0])
+                self.costs['kplus_chunk_s'] = self.costs.get('kplus_chunk_s', 0.0) + (
+                    time.perf_counter() - started)
+                return (*terms, *extra)
             guard = getattr(self, "prefix_guard", None)
             if guard is not None:
                 return (*terms, *guard.chunk(logits, labels, weights, hidden.storage_offset()))
@@ -357,6 +368,9 @@ class TargetObjectiveModel(OnlineDFlashModel):
                 max_valid_anchors=None, selector_loss_alpha=None, collect_detailed_metrics=True):
         # Target labels were verified against canonical frozen-target replay at
         # the feature boundary. The head/reference use exactly these same blocks.
+        redistribution = getattr(self, 'first_error_redistribution', None)
+        if redistribution is not None:
+            redistribution.validate_response(input_ids)
         if (self.objective == 'projected' or self.ranking_enabled) and self.reference is None:
             raise RuntimeError('Begin the event before using a reference-dependent objective')
         if self.uses_teacher and target_last_hidden_states is None:
@@ -401,6 +415,14 @@ class TargetObjectiveModel(OnlineDFlashModel):
             chunk_size=self.objective_chunk_blocks, dim=1, checkpoint=True,
         )
         loss_sum, denominator, correct, positions = terms[:4]
+        redistribution_metrics = {}
+        if redistribution is not None:
+            _synchronize(loss_sum)
+            started = time.perf_counter()
+            loss_sum, redistribution_metrics = redistribution.reduce_response(terms)
+            _synchronize(loss_sum)
+            self.costs['kplus_response_s'] = self.costs.get('kplus_response_s', 0.0) + (
+                time.perf_counter() - started)
         if self.is_osd:
             # Apply the author's epsilon once per response, not once per chunk.
             denominator = denominator + 1e-6
@@ -430,6 +452,7 @@ class TargetObjectiveModel(OnlineDFlashModel):
                 loss_name: (loss_sum.detach(), denominator.detach()),
                 'selection_rate': (statistics[1], statistics[0]),
             })
+        metrics['sum_metrics'].update(redistribution_metrics)
         if guard is not None:
             preservation = guard.finish_response(terms[5], terms[6])
             metrics['ratio_metrics']['prefix_preservation_H'] = (

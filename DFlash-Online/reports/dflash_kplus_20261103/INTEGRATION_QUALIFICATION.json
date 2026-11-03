@@ -1,0 +1,69 @@
+{
+  "material_passport": {
+    "origin_skill": "ARS experiment-agent",
+    "mode": "run\u2192validate",
+    "verification_status": "CPU_INTEGRATION_QUALIFIED",
+    "scope": "Same-team source review, synthetic arithmetic and CPU toy-model/state fixtures; not a GPU experiment or scientific replication"
+  },
+  "status": "passed",
+  "command": "CUDA_VISIBLE_DEVICES='' PYTHONPATH=DFlash-Online:DFlash-Online/training:DFlash-Online/tests /home/minhao2/.venvs/dflash-specforge/bin/python -m unittest -v test_kplus_objective test_kplus_storage test_kplus_full_training test_kplus_full_campaign test_kplus_full_evaluation test_kplus_full_statistics test_kplus_full_report test_first_error_objective test_first_error_mask test_full_k_training test_full_k_training_audit",
+  "working_directory": "/home/minhao2/EAGLE_SPEC/research/dflash_online_publication_20261028/github_checkout",
+  "stdout_stderr": "/home/minhao2/EAGLE_SPEC/research/dflash_kplus_20261103/reviews/INTEGRATION_CPU_FINAL_001.log",
+  "tests": 75,
+  "new_kplus_tests": 39,
+  "inherited_regression_tests": 36,
+  "unittest_wall_s": 44.725,
+  "exit_code": 0,
+  "failures": 0,
+  "errors": 0,
+  "previous_attempts": [
+    "INTEGRATION_CPU_ATTEMPT_001.json",
+    "INTEGRATION_CPU_ATTEMPT_002.json"
+  ],
+  "files": {
+    "DFlash-Online/online_feedback/kplus.py": "218faa074d42676905da26dc4c49e835e4d6e19cd324409f7e9ea07357730872",
+    "DFlash-Online/online_feedback/objective.py": "58412242fb5d9918d30de44c7c783ede62803a6fb13d6561a254330883dd38a9",
+    "DFlash-Online/experiments/kplus_full_gsm8k/__init__.py": "61e9f388dd6212643b50f68688aa118718208ef0abba7fb03c4066b4d69468f6",
+    "DFlash-Online/experiments/kplus_full_gsm8k/campaign.py": "8327d411a0098d3b2986a82bc7672aff0842fbff1bca578c04d1d1027c82287e",
+    "DFlash-Online/experiments/kplus_full_gsm8k/contract.py": "5e1ea20f72f5933fcc8f165dbbe89462d02ddb7345e687480aa4705589a98ee6",
+    "DFlash-Online/experiments/kplus_full_gsm8k/evaluation.py": "bd1620a6116cb6ae39ac5d733ee5f0f0df14dc5db03e7fc34f86081a28683b2a",
+    "DFlash-Online/experiments/kplus_full_gsm8k/preflight.py": "df0eac0b801e5f538f50ca855765aa99d79f9d5c59a11993eb08084d2d4067c7",
+    "DFlash-Online/experiments/kplus_full_gsm8k/report.py": "c20b5586d8240e8a6836803f035fd7b6ff11b9430161772791aaee1ea9ba670d",
+    "DFlash-Online/experiments/kplus_full_gsm8k/seal.py": "39568195d61ccbbae6f331c8ffe43210ac594f944fb5f12f030204f8c002efed",
+    "DFlash-Online/experiments/kplus_full_gsm8k/statistics.py": "0a58be1b7de9fc40222eb4a7515c26ac8773329a3d5beaa4b58f6ba6b8d10ffd",
+    "DFlash-Online/experiments/kplus_full_gsm8k/storage.py": "3116b624f9ccdf428c73ca3f9a22998c7f112f80db98aa600aa12621c7c5b8a8",
+    "DFlash-Online/experiments/kplus_full_gsm8k/training.py": "5ce2dbc8660f250de566dcd8fc29efd763033b89f4676dff8d66417993d7fbf5",
+    "DFlash-Online/tests/test_kplus_full_campaign.py": "e3f8e4c123f4f15b2b0f9bc74e45de5e0df5508e7a851a68bace8e85e09fd11e",
+    "DFlash-Online/tests/test_kplus_full_evaluation.py": "823cd5fc7a37d96321e58e63a935ba53d3a20fb9e489db6ee090c394b7a66d4d",
+    "DFlash-Online/tests/test_kplus_full_report.py": "5336c82008267eed13058e8dbaa5a08a3fb532a3e121e08fc8d23c48dede7ed0",
+    "DFlash-Online/tests/test_kplus_full_statistics.py": "872dc8cc756753191f2ae6d6f52aaf0ac079db22c0b964ce762abf9fa989032c",
+    "DFlash-Online/tests/test_kplus_full_training.py": "ba96196923147a174ca64b76eaa154bdd156bdbbbbfc2391148323106f574fc3",
+    "DFlash-Online/tests/test_kplus_integration_controls.py": "b89bbc7346c6c80d9bd225891769651ceb061e61b5038f561e28da8e372f50d0",
+    "DFlash-Online/tests/test_kplus_objective.py": "d9f69ab70742b874fdc42a1e301f3252dc0510a478cd3409d25c53899e434459",
+    "DFlash-Online/tests/test_kplus_storage.py": "85383315710aabb16ff3027d456032e1264b187b2dcec83aeb552008fee74c00"
+  },
+  "log_sha256": "8eacd93d8a07fa4fca2216a5162e9f1039b446799d418d0eda5a0d65179318db",
+  "source_base": "4d94f30c42701d0f86ac04e2829c834593c16d8e",
+  "execution_commit": "Pending parent publication; exact working sources bound by hashes",
+  "gpu_model_work": 0,
+  "production_model_work": 0,
+  "qualification_limit": "CPU toy fixtures exercise a small synthetic model/optimizer to test lifecycle and native K update equality; they do not run the pinned Qwen target/draft or consume production requests.",
+  "resolved_findings": [
+    "Boundary inventory ignored event_NNN_validation.json by using exact event_[0-9][0-9][0-9].json glob.",
+    "Admission now credits allocated bytes once per device/inode, including directory metadata, and rejects symlinks.",
+    "Initial compiler cache allocation retained once; later growth above4GiB or changed roots fails.",
+    "Before retirement the prepared BF16 rows exactly match decoded native+terminal source tensors; one changed element prevents either unlink.",
+    "Parent fixed missing native validate_snapshot expected_contract/expected_recipe arguments.",
+    "Parent added storage and quiescence to final evaluator boundary callbacks."
+  ],
+  "remaining_blockers": [],
+  "generated_utc": "2026-11-03T08:59:57.207624+00:00",
+  "parent_final_followup": {
+    "reported_by": "root",
+    "tests": 15,
+    "status": "passed",
+    "scope": "Storage/report focused checks following the final Material Passport, postflight storage, copied-input identity, and conservative capacity metadata-overlap updates",
+    "duration_s": null,
+    "note": "The75-test command result is retained unchanged. File hashes bind the final reviewed working source; this followup distinguishes the final minor source/documentation changes."
+  }
+}
