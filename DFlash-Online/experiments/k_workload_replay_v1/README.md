@@ -74,3 +74,13 @@ bindings, native validity records, complete initial/final states and final
 reservoir. The separate read-only review checks these outputs against the fixed
 handoff. A completed negative result remains a completed experiment; no later
 mechanism change or replication is automatically authorized.
+
+## Completed fixed campaign
+
+Execution `8a4cbcc8b78adfee845a0a1409db4a0d29c54058` completed all eight
+events, 5,380 generations and 3,072 Adam steps. All planned outputs passed
+validity checks. The balanced final panel did not establish an improvement
+from coverage-selected replay over uniform replay or K. The complete
+[report and paired records](../../reports/dflash_k_workload_replay_v1_20261102/REPORT.md)
+retain the domain tradeoff, uncertainty, costs and separate CPU evidence reviews.
+No follow-on experiment was launched.

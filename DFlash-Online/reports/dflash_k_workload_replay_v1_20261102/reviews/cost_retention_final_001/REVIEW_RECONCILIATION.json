@@ -1,0 +1,70 @@
+{
+  "status": "passed",
+  "scope": "Cost-component reconciliation and review provenance, not endpoint/GPU reproduction",
+  "utc": "2026-11-03T02:08:10.309625+00:00",
+  "component_checks": {
+    "worker_sum": {
+      "rebuilt": 10016.63027044572,
+      "producer": 10016.63027044572,
+      "match": true
+    },
+    "initial_worker_sum": {
+      "rebuilt": 81.28954487107694,
+      "producer": 81.28954487107694,
+      "match": true
+    },
+    "export_sum": {
+      "rebuilt": 434.0040175821632,
+      "producer": 434.0040175821632,
+      "match": true
+    },
+    "selection_sum": {
+      "rebuilt": 0.6827728357166052,
+      "producer": 0.6827728357166052,
+      "match": true
+    },
+    "resource_check_sum": {
+      "rebuilt": 1384.5276044029742,
+      "producer": 1384.5276044029742,
+      "match": true
+    }
+  },
+  "additional_files": [
+    {
+      "path": "retrieved_001/RETRIEVAL_VERIFIED.json",
+      "bytes": 441,
+      "sha256": "8055fcadb932b0cbc0a0a39b52e8662830a3507a1433c26b6f2e03dad421415d"
+    },
+    {
+      "path": "retrieved_001/FINAL_BULK_PRESENCE.json",
+      "bytes": 30078,
+      "sha256": "bbf0ebd1fd6dbb03761d443e87721416328a3b6d7058102d531de2d696dc155c"
+    },
+    {
+      "path": "retrieved_001/production_001/sealed/preflight/INPUT_SOURCE_CHECK.json",
+      "bytes": 3495,
+      "sha256": "71b6170cd6b73850a99124d225bbb9df8e710de6a1001d9adf87b619b695c8e2"
+    },
+    {
+      "path": "retrieved_001/production_001/sealed/preflight/CANONICAL_SOURCE_CHECK.json",
+      "bytes": 228877,
+      "sha256": "b6a80bd0c84b96053eec733f5f4b807bee8be9a854b4220579edf6678b834511"
+    },
+    {
+      "path": "retrieved_001/production_001/sealed/preflight/INPUT_DISJOINTNESS.json",
+      "bytes": 516728,
+      "sha256": "b7f82578d98fac6dd6754768f86824e2e030a5803a90e0860798fb5203493ebb"
+    },
+    {
+      "path": "retrieved_001/production_001/campaign_001/events/event_001/NEUTRAL_STATE.json",
+      "bytes": 508,
+      "sha256": "d47b080477fc616f3d89bed1430b218715bdcbaeb276992fb82e0f20f1eff38f"
+    },
+    {
+      "path": "reviews/FINAL_TRAINING_COST_REVIEW.md",
+      "bytes": 13426,
+      "sha256": "74fbe678788fe15f4108dbcd0388c4e27b88b3fcb76d3e53c1459b8202043b41"
+    }
+  ],
+  "report": "reviews/FINAL_TRAINING_COST_REVIEW.md"
+}

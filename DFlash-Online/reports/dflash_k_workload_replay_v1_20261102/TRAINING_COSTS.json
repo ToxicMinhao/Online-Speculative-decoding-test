@@ -1,0 +1,1622 @@
+{
+  "events": [
+    {
+      "arm": "K",
+      "event": 1,
+      "source_path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/arms/K/trainer/events/event_001/RESULT.json",
+      "status": "completed",
+      "costs": {
+        "training_s": 330.24476016685367,
+        "checkpoint_save_s": 17.520816871896386,
+        "export_s": 0.0,
+        "event_wall_s_before_commit": 352.0318854227662
+      },
+      "runtime_costs": {
+        "construction_s": 20.58161181770265,
+        "restore_s": 2.137069810181856,
+        "construction_and_restore_s": 22.718681627884507,
+        "feature_admission_io_and_validation_s": 3.253102421760559
+      },
+      "pass_loop_costs": [
+        {
+          "pass_index": 0,
+          "total_loop_s": 167.7123387698084,
+          "input_load_and_loop_bookkeeping_s": 0.49599096551537514
+        },
+        {
+          "pass_index": 1,
+          "total_loop_s": 163.53881594352424,
+          "input_load_and_loop_bookkeeping_s": 0.5104035809636116
+        }
+      ],
+      "pass_exposure": [
+        {
+          "pass_index": 0,
+          "presentations": 128,
+          "replay_presentations": 0,
+          "prompt_tokens": 9475,
+          "response_tokens": 32679,
+          "active_anchors": 32548,
+          "response_forward_backward_presentations": 128,
+          "optimizer_steps": 64
+        },
+        {
+          "pass_index": 1,
+          "presentations": 128,
+          "replay_presentations": 0,
+          "prompt_tokens": 9475,
+          "response_tokens": 32679,
+          "active_anchors": 32548,
+          "response_forward_backward_presentations": 128,
+          "optimizer_steps": 64
+        }
+      ],
+      "validation": {
+        "status": "passed",
+        "arm": "K",
+        "event_id": "event_001",
+        "objective": "osd_first_error",
+        "passes": 2,
+        "response_presentations": 256,
+        "optimizer_steps": 128,
+        "start_step": 0,
+        "end_step": 128,
+        "reduction": "response_mean",
+        "anchor_draws_checked": 256,
+        "extra_optimizer_steps": 0,
+        "historical_anchors_forced": false
+      }
+    },
+    {
+      "arm": "K",
+      "event": 2,
+      "source_path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/arms/K/trainer/events/event_002/RESULT.json",
+      "status": "completed",
+      "costs": {
+        "training_s": 339.2244566343725,
+        "checkpoint_save_s": 17.284289423376322,
+        "export_s": 0.0,
+        "event_wall_s_before_commit": 361.2448642924428
+      },
+      "runtime_costs": {
+        "construction_s": 21.16265619918704,
+        "restore_s": 7.507746731862426,
+        "construction_and_restore_s": 28.670402931049466,
+        "feature_admission_io_and_validation_s": 3.5506280679255724
+      },
+      "pass_loop_costs": [
+        {
+          "pass_index": 0,
+          "total_loop_s": 171.8887342121452,
+          "input_load_and_loop_bookkeeping_s": 0.595515288412571
+        },
+        {
+          "pass_index": 1,
+          "total_loop_s": 168.5149487759918,
+          "input_load_and_loop_bookkeeping_s": 0.583711065351963
+        }
+      ],
+      "pass_exposure": [
+        {
+          "pass_index": 0,
+          "presentations": 128,
+          "replay_presentations": 0,
+          "prompt_tokens": 9205,
+          "response_tokens": 35361,
+          "active_anchors": 33469,
+          "response_forward_backward_presentations": 128,
+          "optimizer_steps": 64
+        },
+        {
+          "pass_index": 1,
+          "presentations": 128,
+          "replay_presentations": 0,
+          "prompt_tokens": 9205,
+          "response_tokens": 35361,
+          "active_anchors": 33469,
+          "response_forward_backward_presentations": 128,
+          "optimizer_steps": 64
+        }
+      ],
+      "validation": {
+        "status": "passed",
+        "arm": "K",
+        "event_id": "event_002",
+        "objective": "osd_first_error",
+        "passes": 2,
+        "response_presentations": 256,
+        "optimizer_steps": 128,
+        "start_step": 128,
+        "end_step": 256,
+        "reduction": "response_mean",
+        "anchor_draws_checked": 256,
+        "extra_optimizer_steps": 0,
+        "historical_anchors_forced": false
+      }
+    },
+    {
+      "arm": "K",
+      "event": 3,
+      "source_path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/arms/K/trainer/events/event_003/RESULT.json",
+      "status": "completed",
+      "costs": {
+        "training_s": 350.7792889010161,
+        "checkpoint_save_s": 18.056454392150044,
+        "export_s": 0.0,
+        "event_wall_s_before_commit": 373.43807822838426
+      },
+      "runtime_costs": {
+        "construction_s": 24.033086257055402,
+        "restore_s": 8.51802104152739,
+        "construction_and_restore_s": 32.55110729858279,
+        "feature_admission_io_and_validation_s": 3.393090046942234
+      },
+      "pass_loop_costs": [
+        {
+          "pass_index": 0,
+          "total_loop_s": 181.77570122852921,
+          "input_load_and_loop_bookkeeping_s": 0.6404223386198282
+        },
+        {
+          "pass_index": 1,
+          "total_loop_s": 170.20476507395506,
+          "input_load_and_loop_bookkeeping_s": 0.5607550628483295
+        }
+      ],
+      "pass_exposure": [
+        {
+          "pass_index": 0,
+          "presentations": 128,
+          "replay_presentations": 0,
+          "prompt_tokens": 5211,
+          "response_tokens": 36632,
+          "active_anchors": 33878,
+          "response_forward_backward_presentations": 128,
+          "optimizer_steps": 64
+        },
+        {
+          "pass_index": 1,
+          "presentations": 128,
+          "replay_presentations": 0,
+          "prompt_tokens": 5211,
+          "response_tokens": 36632,
+          "active_anchors": 33878,
+          "response_forward_backward_presentations": 128,
+          "optimizer_steps": 64
+        }
+      ],
+      "validation": {
+        "status": "passed",
+        "arm": "K",
+        "event_id": "event_003",
+        "objective": "osd_first_error",
+        "passes": 2,
+        "response_presentations": 256,
+        "optimizer_steps": 128,
+        "start_step": 256,
+        "end_step": 384,
+        "reduction": "response_mean",
+        "anchor_draws_checked": 256,
+        "extra_optimizer_steps": 0,
+        "historical_anchors_forced": false
+      }
+    },
+    {
+      "arm": "K",
+      "event": 4,
+      "source_path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/arms/K/trainer/events/event_004/RESULT.json",
+      "status": "completed",
+      "costs": {
+        "training_s": 375.5620566662401,
+        "checkpoint_save_s": 18.702166015282273,
+        "export_s": 0.0,
+        "event_wall_s_before_commit": 399.21087689325213
+      },
+      "runtime_costs": {
+        "construction_s": 21.830774672329426,
+        "restore_s": 8.714088147506118,
+        "construction_and_restore_s": 30.544862819835544,
+        "feature_admission_io_and_validation_s": 3.6837838422507048
+      },
+      "pass_loop_costs": [
+        {
+          "pass_index": 0,
+          "total_loop_s": 198.67396614700556,
+          "input_load_and_loop_bookkeeping_s": 0.6357592791318893
+        },
+        {
+          "pass_index": 1,
+          "total_loop_s": 178.14281845092773,
+          "input_load_and_loop_bookkeeping_s": 0.618968652561307
+        }
+      ],
+      "pass_exposure": [
+        {
+          "pass_index": 0,
+          "presentations": 128,
+          "replay_presentations": 0,
+          "prompt_tokens": 4985,
+          "response_tokens": 40269,
+          "active_anchors": 35473,
+          "response_forward_backward_presentations": 128,
+          "optimizer_steps": 64
+        },
+        {
+          "pass_index": 1,
+          "presentations": 128,
+          "replay_presentations": 0,
+          "prompt_tokens": 4985,
+          "response_tokens": 40269,
+          "active_anchors": 35473,
+          "response_forward_backward_presentations": 128,
+          "optimizer_steps": 64
+        }
+      ],
+      "validation": {
+        "status": "passed",
+        "arm": "K",
+        "event_id": "event_004",
+        "objective": "osd_first_error",
+        "passes": 2,
+        "response_presentations": 256,
+        "optimizer_steps": 128,
+        "start_step": 384,
+        "end_step": 512,
+        "reduction": "response_mean",
+        "anchor_draws_checked": 256,
+        "extra_optimizer_steps": 0,
+        "historical_anchors_forced": false
+      }
+    },
+    {
+      "arm": "K",
+      "event": 5,
+      "source_path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/arms/K/trainer/events/event_005/RESULT.json",
+      "status": "completed",
+      "costs": {
+        "training_s": 347.60450168699026,
+        "checkpoint_save_s": 17.814569065347314,
+        "export_s": 0.0,
+        "event_wall_s_before_commit": 370.2314856145531
+      },
+      "runtime_costs": {
+        "construction_s": 22.221618693321943,
+        "restore_s": 9.054728655144572,
+        "construction_and_restore_s": 31.276347348466516,
+        "feature_admission_io_and_validation_s": 3.521456440910697
+      },
+      "pass_loop_costs": [
+        {
+          "pass_index": 0,
+          "total_loop_s": 180.14809060283005,
+          "input_load_and_loop_bookkeeping_s": 0.6682655308395624
+        },
+        {
+          "pass_index": 1,
+          "total_loop_s": 168.73972784541547,
+          "input_load_and_loop_bookkeeping_s": 0.6150512304157019
+        }
+      ],
+      "pass_exposure": [
+        {
+          "pass_index": 0,
+          "presentations": 128,
+          "replay_presentations": 0,
+          "prompt_tokens": 9023,
+          "response_tokens": 33839,
+          "active_anchors": 33409,
+          "response_forward_backward_presentations": 128,
+          "optimizer_steps": 64
+        },
+        {
+          "pass_index": 1,
+          "presentations": 128,
+          "replay_presentations": 0,
+          "prompt_tokens": 9023,
+          "response_tokens": 33839,
+          "active_anchors": 33409,
+          "response_forward_backward_presentations": 128,
+          "optimizer_steps": 64
+        }
+      ],
+      "validation": {
+        "status": "passed",
+        "arm": "K",
+        "event_id": "event_005",
+        "objective": "osd_first_error",
+        "passes": 2,
+        "response_presentations": 256,
+        "optimizer_steps": 128,
+        "start_step": 512,
+        "end_step": 640,
+        "reduction": "response_mean",
+        "anchor_draws_checked": 256,
+        "extra_optimizer_steps": 0,
+        "historical_anchors_forced": false
+      }
+    },
+    {
+      "arm": "K",
+      "event": 6,
+      "source_path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/arms/K/trainer/events/event_006/RESULT.json",
+      "status": "completed",
+      "costs": {
+        "training_s": 344.0972384866327,
+        "checkpoint_save_s": 17.714026195928454,
+        "export_s": 0.0,
+        "event_wall_s_before_commit": 366.90013840422034
+      },
+      "runtime_costs": {
+        "construction_s": 22.425178123638034,
+        "restore_s": 9.769603095948696,
+        "construction_and_restore_s": 32.19478121958673,
+        "feature_admission_io_and_validation_s": 3.7478608898818493
+      },
+      "pass_loop_costs": [
+        {
+          "pass_index": 0,
+          "total_loop_s": 178.73412384465337,
+          "input_load_and_loop_bookkeeping_s": 0.6778453513979912
+        },
+        {
+          "pass_index": 1,
+          "total_loop_s": 166.69661372341216,
+          "input_load_and_loop_bookkeeping_s": 0.6556537300348282
+        }
+      ],
+      "pass_exposure": [
+        {
+          "pass_index": 0,
+          "presentations": 128,
+          "replay_presentations": 0,
+          "prompt_tokens": 9683,
+          "response_tokens": 35429,
+          "active_anchors": 32998,
+          "response_forward_backward_presentations": 128,
+          "optimizer_steps": 64
+        },
+        {
+          "pass_index": 1,
+          "presentations": 128,
+          "replay_presentations": 0,
+          "prompt_tokens": 9683,
+          "response_tokens": 35429,
+          "active_anchors": 32998,
+          "response_forward_backward_presentations": 128,
+          "optimizer_steps": 64
+        }
+      ],
+      "validation": {
+        "status": "passed",
+        "arm": "K",
+        "event_id": "event_006",
+        "objective": "osd_first_error",
+        "passes": 2,
+        "response_presentations": 256,
+        "optimizer_steps": 128,
+        "start_step": 640,
+        "end_step": 768,
+        "reduction": "response_mean",
+        "anchor_draws_checked": 256,
+        "extra_optimizer_steps": 0,
+        "historical_anchors_forced": false
+      }
+    },
+    {
+      "arm": "K",
+      "event": 7,
+      "source_path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/arms/K/trainer/events/event_007/RESULT.json",
+      "status": "completed",
+      "costs": {
+        "training_s": 369.902355318889,
+        "checkpoint_save_s": 18.47858160547912,
+        "export_s": 0.0,
+        "event_wall_s_before_commit": 393.7318220846355
+      },
+      "runtime_costs": {
+        "construction_s": 22.683513324707747,
+        "restore_s": 10.52491863630712,
+        "construction_and_restore_s": 33.20843196101487,
+        "feature_admission_io_and_validation_s": 3.8955713119357824
+      },
+      "pass_loop_costs": [
+        {
+          "pass_index": 0,
+          "total_loop_s": 191.4889663979411,
+          "input_load_and_loop_bookkeeping_s": 0.7425603345036507
+        },
+        {
+          "pass_index": 1,
+          "total_loop_s": 179.86013535782695,
+          "input_load_and_loop_bookkeeping_s": 0.7041861023753881
+        }
+      ],
+      "pass_exposure": [
+        {
+          "pass_index": 0,
+          "presentations": 128,
+          "replay_presentations": 0,
+          "prompt_tokens": 4538,
+          "response_tokens": 41052,
+          "active_anchors": 35691,
+          "response_forward_backward_presentations": 128,
+          "optimizer_steps": 64
+        },
+        {
+          "pass_index": 1,
+          "presentations": 128,
+          "replay_presentations": 0,
+          "prompt_tokens": 4538,
+          "response_tokens": 41052,
+          "active_anchors": 35691,
+          "response_forward_backward_presentations": 128,
+          "optimizer_steps": 64
+        }
+      ],
+      "validation": {
+        "status": "passed",
+        "arm": "K",
+        "event_id": "event_007",
+        "objective": "osd_first_error",
+        "passes": 2,
+        "response_presentations": 256,
+        "optimizer_steps": 128,
+        "start_step": 768,
+        "end_step": 896,
+        "reduction": "response_mean",
+        "anchor_draws_checked": 256,
+        "extra_optimizer_steps": 0,
+        "historical_anchors_forced": false
+      }
+    },
+    {
+      "arm": "K",
+      "event": 8,
+      "source_path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/arms/K/trainer/events/event_008/RESULT.json",
+      "status": "completed",
+      "costs": {
+        "training_s": 349.3046750240028,
+        "checkpoint_save_s": 18.353346249088645,
+        "export_s": 0.0,
+        "event_wall_s_before_commit": 372.8274421580136
+      },
+      "runtime_costs": {
+        "construction_s": 22.230736561119556,
+        "restore_s": 10.605366241186857,
+        "construction_and_restore_s": 32.836102802306414,
+        "feature_admission_io_and_validation_s": 3.7673527374863625
+      },
+      "pass_loop_costs": [
+        {
+          "pass_index": 0,
+          "total_loop_s": 180.66062057577074,
+          "input_load_and_loop_bookkeeping_s": 0.7149856127798557
+        },
+        {
+          "pass_index": 1,
+          "total_loop_s": 170.0385190024972,
+          "input_load_and_loop_bookkeeping_s": 0.6794789414852858
+        }
+      ],
+      "pass_exposure": [
+        {
+          "pass_index": 0,
+          "presentations": 128,
+          "replay_presentations": 0,
+          "prompt_tokens": 5067,
+          "response_tokens": 39119,
+          "active_anchors": 33688,
+          "response_forward_backward_presentations": 128,
+          "optimizer_steps": 64
+        },
+        {
+          "pass_index": 1,
+          "presentations": 128,
+          "replay_presentations": 0,
+          "prompt_tokens": 5067,
+          "response_tokens": 39119,
+          "active_anchors": 33688,
+          "response_forward_backward_presentations": 128,
+          "optimizer_steps": 64
+        }
+      ],
+      "validation": {
+        "status": "passed",
+        "arm": "K",
+        "event_id": "event_008",
+        "objective": "osd_first_error",
+        "passes": 2,
+        "response_presentations": 256,
+        "optimizer_steps": 128,
+        "start_step": 896,
+        "end_step": 1024,
+        "reduction": "response_mean",
+        "anchor_draws_checked": 256,
+        "extra_optimizer_steps": 0,
+        "historical_anchors_forced": false
+      }
+    },
+    {
+      "arm": "U",
+      "event": 1,
+      "source_path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/arms/U/trainer/events/event_001/RESULT.json",
+      "status": "completed",
+      "costs": {
+        "training_s": 330.4078274667263,
+        "checkpoint_save_s": 18.318693060427904,
+        "export_s": 0.0,
+        "event_wall_s_before_commit": 352.9763641282916
+      },
+      "runtime_costs": {
+        "construction_s": 22.33194610476494,
+        "restore_s": 4.1395675502717495,
+        "construction_and_restore_s": 26.471513655036688,
+        "feature_admission_io_and_validation_s": 3.222550230100751
+      },
+      "pass_loop_costs": [
+        {
+          "pass_index": 0,
+          "total_loop_s": 167.76079476438463,
+          "input_load_and_loop_bookkeeping_s": 0.5133064445108175
+        },
+        {
+          "pass_index": 1,
+          "total_loop_s": 163.66753965988755,
+          "input_load_and_loop_bookkeeping_s": 0.507200513035059
+        }
+      ],
+      "pass_exposure": [
+        {
+          "pass_index": 0,
+          "presentations": 128,
+          "replay_presentations": 0,
+          "prompt_tokens": 9475,
+          "response_tokens": 32679,
+          "active_anchors": 32548,
+          "response_forward_backward_presentations": 128,
+          "optimizer_steps": 64
+        },
+        {
+          "pass_index": 1,
+          "presentations": 128,
+          "replay_presentations": 0,
+          "prompt_tokens": 9475,
+          "response_tokens": 32679,
+          "active_anchors": 32548,
+          "response_forward_backward_presentations": 128,
+          "optimizer_steps": 64
+        }
+      ],
+      "validation": {
+        "status": "passed",
+        "arm": "U",
+        "event_id": "event_001",
+        "objective": "osd_first_error",
+        "passes": 2,
+        "response_presentations": 256,
+        "optimizer_steps": 128,
+        "start_step": 0,
+        "end_step": 128,
+        "reduction": "response_mean",
+        "anchor_draws_checked": 256,
+        "extra_optimizer_steps": 0,
+        "historical_anchors_forced": false
+      }
+    },
+    {
+      "arm": "U",
+      "event": 2,
+      "source_path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/arms/U/trainer/events/event_002/RESULT.json",
+      "status": "completed",
+      "costs": {
+        "training_s": 336.22827529348433,
+        "checkpoint_save_s": 17.38763634301722,
+        "export_s": 0.0,
+        "event_wall_s_before_commit": 359.1152521762997
+      },
+      "runtime_costs": {
+        "construction_s": 20.704888317734003,
+        "restore_s": 7.416447374969721,
+        "construction_and_restore_s": 28.121335692703724,
+        "feature_admission_io_and_validation_s": 4.326584883034229
+      },
+      "pass_loop_costs": [
+        {
+          "pass_index": 0,
+          "total_loop_s": 172.36344499140978,
+          "input_load_and_loop_bookkeeping_s": 0.5923658926039934
+        },
+        {
+          "pass_index": 1,
+          "total_loop_s": 165.03063875064254,
+          "input_load_and_loop_bookkeeping_s": 0.5734425559639931
+        }
+      ],
+      "pass_exposure": [
+        {
+          "pass_index": 0,
+          "presentations": 128,
+          "replay_presentations": 0,
+          "prompt_tokens": 9205,
+          "response_tokens": 35361,
+          "active_anchors": 33469,
+          "response_forward_backward_presentations": 128,
+          "optimizer_steps": 64
+        },
+        {
+          "pass_index": 1,
+          "presentations": 128,
+          "replay_presentations": 32,
+          "prompt_tokens": 9395,
+          "response_tokens": 34660,
+          "active_anchors": 32768,
+          "response_forward_backward_presentations": 128,
+          "optimizer_steps": 64
+        }
+      ],
+      "validation": {
+        "status": "passed",
+        "arm": "U",
+        "event_id": "event_002",
+        "objective": "osd_first_error",
+        "passes": 2,
+        "response_presentations": 256,
+        "optimizer_steps": 128,
+        "start_step": 128,
+        "end_step": 256,
+        "reduction": "response_mean",
+        "anchor_draws_checked": 256,
+        "extra_optimizer_steps": 0,
+        "historical_anchors_forced": false
+      }
+    },
+    {
+      "arm": "U",
+      "event": 3,
+      "source_path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/arms/U/trainer/events/event_003/RESULT.json",
+      "status": "completed",
+      "costs": {
+        "training_s": 346.01113699376583,
+        "checkpoint_save_s": 17.653442511335015,
+        "export_s": 0.0,
+        "event_wall_s_before_commit": 368.96948586031795
+      },
+      "runtime_costs": {
+        "construction_s": 21.218312533572316,
+        "restore_s": 8.086078310385346,
+        "construction_and_restore_s": 29.304390843957663,
+        "feature_admission_io_and_validation_s": 4.15105090290308
+      },
+      "pass_loop_costs": [
+        {
+          "pass_index": 0,
+          "total_loop_s": 174.14812131226063,
+          "input_load_and_loop_bookkeeping_s": 0.5649049393832684
+        },
+        {
+          "pass_index": 1,
+          "total_loop_s": 173.0097050536424,
+          "input_load_and_loop_bookkeeping_s": 0.5817844327539206
+        }
+      ],
+      "pass_exposure": [
+        {
+          "pass_index": 0,
+          "presentations": 128,
+          "replay_presentations": 0,
+          "prompt_tokens": 5211,
+          "response_tokens": 36632,
+          "active_anchors": 33878,
+          "response_forward_backward_presentations": 128,
+          "optimizer_steps": 64
+        },
+        {
+          "pass_index": 1,
+          "presentations": 128,
+          "replay_presentations": 32,
+          "prompt_tokens": 6286,
+          "response_tokens": 37007,
+          "active_anchors": 34417,
+          "response_forward_backward_presentations": 128,
+          "optimizer_steps": 64
+        }
+      ],
+      "validation": {
+        "status": "passed",
+        "arm": "U",
+        "event_id": "event_003",
+        "objective": "osd_first_error",
+        "passes": 2,
+        "response_presentations": 256,
+        "optimizer_steps": 128,
+        "start_step": 256,
+        "end_step": 384,
+        "reduction": "response_mean",
+        "anchor_draws_checked": 256,
+        "extra_optimizer_steps": 0,
+        "historical_anchors_forced": false
+      }
+    },
+    {
+      "arm": "U",
+      "event": 4,
+      "source_path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/arms/U/trainer/events/event_004/RESULT.json",
+      "status": "completed",
+      "costs": {
+        "training_s": 351.19859202206135,
+        "checkpoint_save_s": 17.796087777242064,
+        "export_s": 0.0,
+        "event_wall_s_before_commit": 374.71682032570243
+      },
+      "runtime_costs": {
+        "construction_s": 22.802956452593207,
+        "restore_s": 9.000093488022685,
+        "construction_and_restore_s": 31.803049940615892,
+        "feature_admission_io_and_validation_s": 4.525627471506596
+      },
+      "pass_loop_costs": [
+        {
+          "pass_index": 0,
+          "total_loop_s": 184.25976872257888,
+          "input_load_and_loop_bookkeeping_s": 0.6367934234440327
+        },
+        {
+          "pass_index": 1,
+          "total_loop_s": 168.12769396044314,
+          "input_load_and_loop_bookkeeping_s": 0.5520772375166416
+        }
+      ],
+      "pass_exposure": [
+        {
+          "pass_index": 0,
+          "presentations": 128,
+          "replay_presentations": 0,
+          "prompt_tokens": 4985,
+          "response_tokens": 40269,
+          "active_anchors": 35473,
+          "response_forward_backward_presentations": 128,
+          "optimizer_steps": 64
+        },
+        {
+          "pass_index": 1,
+          "presentations": 128,
+          "replay_presentations": 32,
+          "prompt_tokens": 5767,
+          "response_tokens": 35642,
+          "active_anchors": 33455,
+          "response_forward_backward_presentations": 128,
+          "optimizer_steps": 64
+        }
+      ],
+      "validation": {
+        "status": "passed",
+        "arm": "U",
+        "event_id": "event_004",
+        "objective": "osd_first_error",
+        "passes": 2,
+        "response_presentations": 256,
+        "optimizer_steps": 128,
+        "start_step": 384,
+        "end_step": 512,
+        "reduction": "response_mean",
+        "anchor_draws_checked": 256,
+        "extra_optimizer_steps": 0,
+        "historical_anchors_forced": false
+      }
+    },
+    {
+      "arm": "U",
+      "event": 5,
+      "source_path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/arms/U/trainer/events/event_005/RESULT.json",
+      "status": "completed",
+      "costs": {
+        "training_s": 348.4047563150525,
+        "checkpoint_save_s": 18.483807170763612,
+        "export_s": 0.0,
+        "event_wall_s_before_commit": 372.61671555787325
+      },
+      "runtime_costs": {
+        "construction_s": 22.778678899630904,
+        "restore_s": 9.08361192047596,
+        "construction_and_restore_s": 31.862290820106864,
+        "feature_admission_io_and_validation_s": 4.453251231461763
+      },
+      "pass_loop_costs": [
+        {
+          "pass_index": 0,
+          "total_loop_s": 173.11459628492594,
+          "input_load_and_loop_bookkeeping_s": 0.6455493997782469
+        },
+        {
+          "pass_index": 1,
+          "total_loop_s": 176.5578014459461,
+          "input_load_and_loop_bookkeeping_s": 0.6220920160412788
+        }
+      ],
+      "pass_exposure": [
+        {
+          "pass_index": 0,
+          "presentations": 128,
+          "replay_presentations": 0,
+          "prompt_tokens": 9023,
+          "response_tokens": 33839,
+          "active_anchors": 33409,
+          "response_forward_backward_presentations": 128,
+          "optimizer_steps": 64
+        },
+        {
+          "pass_index": 1,
+          "presentations": 128,
+          "replay_presentations": 32,
+          "prompt_tokens": 8704,
+          "response_tokens": 35884,
+          "active_anchors": 35001,
+          "response_forward_backward_presentations": 128,
+          "optimizer_steps": 64
+        }
+      ],
+      "validation": {
+        "status": "passed",
+        "arm": "U",
+        "event_id": "event_005",
+        "objective": "osd_first_error",
+        "passes": 2,
+        "response_presentations": 256,
+        "optimizer_steps": 128,
+        "start_step": 512,
+        "end_step": 640,
+        "reduction": "response_mean",
+        "anchor_draws_checked": 256,
+        "extra_optimizer_steps": 0,
+        "historical_anchors_forced": false
+      }
+    },
+    {
+      "arm": "U",
+      "event": 6,
+      "source_path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/arms/U/trainer/events/event_006/RESULT.json",
+      "status": "completed",
+      "costs": {
+        "training_s": 342.3790224213153,
+        "checkpoint_save_s": 17.983044005930424,
+        "export_s": 0.0,
+        "event_wall_s_before_commit": 366.3273295518011
+      },
+      "runtime_costs": {
+        "construction_s": 22.639637960121036,
+        "restore_s": 9.788403680548072,
+        "construction_and_restore_s": 32.42804164066911,
+        "feature_admission_io_and_validation_s": 4.616479517892003
+      },
+      "pass_loop_costs": [
+        {
+          "pass_index": 0,
+          "total_loop_s": 171.1549821216613,
+          "input_load_and_loop_bookkeeping_s": 0.7023780792951584
+        },
+        {
+          "pass_index": 1,
+          "total_loop_s": 172.56542061828077,
+          "input_load_and_loop_bookkeeping_s": 0.639002239331603
+        }
+      ],
+      "pass_exposure": [
+        {
+          "pass_index": 0,
+          "presentations": 128,
+          "replay_presentations": 0,
+          "prompt_tokens": 9683,
+          "response_tokens": 35429,
+          "active_anchors": 32998,
+          "response_forward_backward_presentations": 128,
+          "optimizer_steps": 64
+        },
+        {
+          "pass_index": 1,
+          "presentations": 128,
+          "replay_presentations": 32,
+          "prompt_tokens": 8907,
+          "response_tokens": 34960,
+          "active_anchors": 34167,
+          "response_forward_backward_presentations": 128,
+          "optimizer_steps": 64
+        }
+      ],
+      "validation": {
+        "status": "passed",
+        "arm": "U",
+        "event_id": "event_006",
+        "objective": "osd_first_error",
+        "passes": 2,
+        "response_presentations": 256,
+        "optimizer_steps": 128,
+        "start_step": 640,
+        "end_step": 768,
+        "reduction": "response_mean",
+        "anchor_draws_checked": 256,
+        "extra_optimizer_steps": 0,
+        "historical_anchors_forced": false
+      }
+    },
+    {
+      "arm": "U",
+      "event": 7,
+      "source_path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/arms/U/trainer/events/event_007/RESULT.json",
+      "status": "completed",
+      "costs": {
+        "training_s": 366.5716663133353,
+        "checkpoint_save_s": 17.947616467252374,
+        "export_s": 0.0,
+        "event_wall_s_before_commit": 390.6959776505828
+      },
+      "runtime_costs": {
+        "construction_s": 22.527982803061604,
+        "restore_s": 10.159954885020852,
+        "construction_and_restore_s": 32.68793768808246,
+        "feature_admission_io_and_validation_s": 4.720776733011007
+      },
+      "pass_loop_costs": [
+        {
+          "pass_index": 0,
+          "total_loop_s": 184.4350988883525,
+          "input_load_and_loop_bookkeeping_s": 0.735869525000453
+        },
+        {
+          "pass_index": 1,
+          "total_loop_s": 183.58559156395495,
+          "input_load_and_loop_bookkeeping_s": 0.7131546139717102
+        }
+      ],
+      "pass_exposure": [
+        {
+          "pass_index": 0,
+          "presentations": 128,
+          "replay_presentations": 0,
+          "prompt_tokens": 4538,
+          "response_tokens": 41052,
+          "active_anchors": 35691,
+          "response_forward_backward_presentations": 128,
+          "optimizer_steps": 64
+        },
+        {
+          "pass_index": 1,
+          "presentations": 128,
+          "replay_presentations": 32,
+          "prompt_tokens": 5290,
+          "response_tokens": 41097,
+          "active_anchors": 36290,
+          "response_forward_backward_presentations": 128,
+          "optimizer_steps": 64
+        }
+      ],
+      "validation": {
+        "status": "passed",
+        "arm": "U",
+        "event_id": "event_007",
+        "objective": "osd_first_error",
+        "passes": 2,
+        "response_presentations": 256,
+        "optimizer_steps": 128,
+        "start_step": 768,
+        "end_step": 896,
+        "reduction": "response_mean",
+        "anchor_draws_checked": 256,
+        "extra_optimizer_steps": 0,
+        "historical_anchors_forced": false
+      }
+    },
+    {
+      "arm": "U",
+      "event": 8,
+      "source_path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/arms/U/trainer/events/event_008/RESULT.json",
+      "status": "completed",
+      "costs": {
+        "training_s": 343.3762664217502,
+        "checkpoint_save_s": 18.722058720886707,
+        "export_s": 0.0,
+        "event_wall_s_before_commit": 368.23158209212124
+      },
+      "runtime_costs": {
+        "construction_s": 22.739036912098527,
+        "restore_s": 11.160414524376392,
+        "construction_and_restore_s": 33.89945143647492,
+        "feature_admission_io_and_validation_s": 4.712007559835911
+      },
+      "pass_loop_costs": [
+        {
+          "pass_index": 0,
+          "total_loop_s": 174.79203007742763,
+          "input_load_and_loop_bookkeeping_s": 0.7247891183942556
+        },
+        {
+          "pass_index": 1,
+          "total_loop_s": 169.9978202879429,
+          "input_load_and_loop_bookkeeping_s": 0.6887948252260685
+        }
+      ],
+      "pass_exposure": [
+        {
+          "pass_index": 0,
+          "presentations": 128,
+          "replay_presentations": 0,
+          "prompt_tokens": 5067,
+          "response_tokens": 39119,
+          "active_anchors": 33688,
+          "response_forward_backward_presentations": 128,
+          "optimizer_steps": 64
+        },
+        {
+          "pass_index": 1,
+          "presentations": 128,
+          "replay_presentations": 32,
+          "prompt_tokens": 5775,
+          "response_tokens": 38825,
+          "active_anchors": 33635,
+          "response_forward_backward_presentations": 128,
+          "optimizer_steps": 64
+        }
+      ],
+      "validation": {
+        "status": "passed",
+        "arm": "U",
+        "event_id": "event_008",
+        "objective": "osd_first_error",
+        "passes": 2,
+        "response_presentations": 256,
+        "optimizer_steps": 128,
+        "start_step": 896,
+        "end_step": 1024,
+        "reduction": "response_mean",
+        "anchor_draws_checked": 256,
+        "extra_optimizer_steps": 0,
+        "historical_anchors_forced": false
+      }
+    },
+    {
+      "arm": "R",
+      "event": 1,
+      "source_path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/arms/R/trainer/events/event_001/RESULT.json",
+      "status": "completed",
+      "costs": {
+        "training_s": 330.4949917085469,
+        "checkpoint_save_s": 18.493743589147925,
+        "export_s": 0.0,
+        "event_wall_s_before_commit": 353.22249152325094
+      },
+      "runtime_costs": {
+        "construction_s": 22.107678174972534,
+        "restore_s": 4.206354005262256,
+        "construction_and_restore_s": 26.31403218023479,
+        "feature_admission_io_and_validation_s": 3.222381003201008
+      },
+      "pass_loop_costs": [
+        {
+          "pass_index": 0,
+          "total_loop_s": 167.74123692698777,
+          "input_load_and_loop_bookkeeping_s": 0.5048261899501085
+        },
+        {
+          "pass_index": 1,
+          "total_loop_s": 163.75804820097983,
+          "input_load_and_loop_bookkeeping_s": 0.4994672294706106
+        }
+      ],
+      "pass_exposure": [
+        {
+          "pass_index": 0,
+          "presentations": 128,
+          "replay_presentations": 0,
+          "prompt_tokens": 9475,
+          "response_tokens": 32679,
+          "active_anchors": 32548,
+          "response_forward_backward_presentations": 128,
+          "optimizer_steps": 64
+        },
+        {
+          "pass_index": 1,
+          "presentations": 128,
+          "replay_presentations": 0,
+          "prompt_tokens": 9475,
+          "response_tokens": 32679,
+          "active_anchors": 32548,
+          "response_forward_backward_presentations": 128,
+          "optimizer_steps": 64
+        }
+      ],
+      "validation": {
+        "status": "passed",
+        "arm": "R",
+        "event_id": "event_001",
+        "objective": "osd_first_error",
+        "passes": 2,
+        "response_presentations": 256,
+        "optimizer_steps": 128,
+        "start_step": 0,
+        "end_step": 128,
+        "reduction": "response_mean",
+        "anchor_draws_checked": 256,
+        "extra_optimizer_steps": 0,
+        "historical_anchors_forced": false
+      }
+    },
+    {
+      "arm": "R",
+      "event": 2,
+      "source_path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/arms/R/trainer/events/event_002/RESULT.json",
+      "status": "completed",
+      "costs": {
+        "training_s": 340.4423890784383,
+        "checkpoint_save_s": 18.358940990641713,
+        "export_s": 0.0,
+        "event_wall_s_before_commit": 364.4205054026097
+      },
+      "runtime_costs": {
+        "construction_s": 22.218188483268023,
+        "restore_s": 8.350887693464756,
+        "construction_and_restore_s": 30.56907617673278,
+        "feature_admission_io_and_validation_s": 4.424224767833948
+      },
+      "pass_loop_costs": [
+        {
+          "pass_index": 0,
+          "total_loop_s": 172.7468278054148,
+          "input_load_and_loop_bookkeeping_s": 0.6010391227900982
+        },
+        {
+          "pass_index": 1,
+          "total_loop_s": 168.8839863408357,
+          "input_load_and_loop_bookkeeping_s": 0.5873859450221062
+        }
+      ],
+      "pass_exposure": [
+        {
+          "pass_index": 0,
+          "presentations": 128,
+          "replay_presentations": 0,
+          "prompt_tokens": 9205,
+          "response_tokens": 35361,
+          "active_anchors": 33469,
+          "response_forward_backward_presentations": 128,
+          "optimizer_steps": 64
+        },
+        {
+          "pass_index": 1,
+          "presentations": 128,
+          "replay_presentations": 32,
+          "prompt_tokens": 9302,
+          "response_tokens": 35362,
+          "active_anchors": 33470,
+          "response_forward_backward_presentations": 128,
+          "optimizer_steps": 64
+        }
+      ],
+      "validation": {
+        "status": "passed",
+        "arm": "R",
+        "event_id": "event_002",
+        "objective": "osd_first_error",
+        "passes": 2,
+        "response_presentations": 256,
+        "optimizer_steps": 128,
+        "start_step": 128,
+        "end_step": 256,
+        "reduction": "response_mean",
+        "anchor_draws_checked": 256,
+        "extra_optimizer_steps": 0,
+        "historical_anchors_forced": false
+      }
+    },
+    {
+      "arm": "R",
+      "event": 3,
+      "source_path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/arms/R/trainer/events/event_003/RESULT.json",
+      "status": "completed",
+      "costs": {
+        "training_s": 347.5623087864369,
+        "checkpoint_save_s": 17.403569970279932,
+        "export_s": 0.0,
+        "event_wall_s_before_commit": 370.27540829218924
+      },
+      "runtime_costs": {
+        "construction_s": 21.11105248890817,
+        "restore_s": 8.195771005004644,
+        "construction_and_restore_s": 29.306823493912816,
+        "feature_admission_io_and_validation_s": 4.181023962795734
+      },
+      "pass_loop_costs": [
+        {
+          "pass_index": 0,
+          "total_loop_s": 174.23330335877836,
+          "input_load_and_loop_bookkeeping_s": 0.5593101512640715
+        },
+        {
+          "pass_index": 1,
+          "total_loop_s": 174.45123222470284,
+          "input_load_and_loop_bookkeeping_s": 0.5629166457802057
+        }
+      ],
+      "pass_exposure": [
+        {
+          "pass_index": 0,
+          "presentations": 128,
+          "replay_presentations": 0,
+          "prompt_tokens": 5211,
+          "response_tokens": 36632,
+          "active_anchors": 33878,
+          "response_forward_backward_presentations": 128,
+          "optimizer_steps": 64
+        },
+        {
+          "pass_index": 1,
+          "presentations": 128,
+          "replay_presentations": 32,
+          "prompt_tokens": 6341,
+          "response_tokens": 37322,
+          "active_anchors": 34744,
+          "response_forward_backward_presentations": 128,
+          "optimizer_steps": 64
+        }
+      ],
+      "validation": {
+        "status": "passed",
+        "arm": "R",
+        "event_id": "event_003",
+        "objective": "osd_first_error",
+        "passes": 2,
+        "response_presentations": 256,
+        "optimizer_steps": 128,
+        "start_step": 256,
+        "end_step": 384,
+        "reduction": "response_mean",
+        "anchor_draws_checked": 256,
+        "extra_optimizer_steps": 0,
+        "historical_anchors_forced": false
+      }
+    },
+    {
+      "arm": "R",
+      "event": 4,
+      "source_path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/arms/R/trainer/events/event_004/RESULT.json",
+      "status": "completed",
+      "costs": {
+        "training_s": 354.16408515535295,
+        "checkpoint_save_s": 17.658032482489944,
+        "export_s": 0.0,
+        "event_wall_s_before_commit": 377.5931734312326
+      },
+      "runtime_costs": {
+        "construction_s": 21.262291880324483,
+        "restore_s": 8.216916486620903,
+        "construction_and_restore_s": 29.479208366945386,
+        "feature_admission_io_and_validation_s": 4.522688781842589
+      },
+      "pass_loop_costs": [
+        {
+          "pass_index": 0,
+          "total_loop_s": 184.33134412765503,
+          "input_load_and_loop_bookkeeping_s": 0.6587451174855232
+        },
+        {
+          "pass_index": 1,
+          "total_loop_s": 171.0736284852028,
+          "input_load_and_loop_bookkeeping_s": 0.5821423400193453
+        }
+      ],
+      "pass_exposure": [
+        {
+          "pass_index": 0,
+          "presentations": 128,
+          "replay_presentations": 0,
+          "prompt_tokens": 4985,
+          "response_tokens": 40269,
+          "active_anchors": 35473,
+          "response_forward_backward_presentations": 128,
+          "optimizer_steps": 64
+        },
+        {
+          "pass_index": 1,
+          "presentations": 128,
+          "replay_presentations": 32,
+          "prompt_tokens": 4870,
+          "response_tokens": 36828,
+          "active_anchors": 34018,
+          "response_forward_backward_presentations": 128,
+          "optimizer_steps": 64
+        }
+      ],
+      "validation": {
+        "status": "passed",
+        "arm": "R",
+        "event_id": "event_004",
+        "objective": "osd_first_error",
+        "passes": 2,
+        "response_presentations": 256,
+        "optimizer_steps": 128,
+        "start_step": 384,
+        "end_step": 512,
+        "reduction": "response_mean",
+        "anchor_draws_checked": 256,
+        "extra_optimizer_steps": 0,
+        "historical_anchors_forced": false
+      }
+    },
+    {
+      "arm": "R",
+      "event": 5,
+      "source_path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/arms/R/trainer/events/event_005/RESULT.json",
+      "status": "completed",
+      "costs": {
+        "training_s": 344.68767359666526,
+        "checkpoint_save_s": 20.093104418367147,
+        "export_s": 0.0,
+        "event_wall_s_before_commit": 370.4423677381128
+      },
+      "runtime_costs": {
+        "construction_s": 22.689680675044656,
+        "restore_s": 9.664610851556063,
+        "construction_and_restore_s": 32.35429152660072,
+        "feature_admission_io_and_validation_s": 4.369920436292887
+      },
+      "pass_loop_costs": [
+        {
+          "pass_index": 0,
+          "total_loop_s": 173.02213487960398,
+          "input_load_and_loop_bookkeeping_s": 0.6607055943459272
+        },
+        {
+          "pass_index": 1,
+          "total_loop_s": 172.94984273053706,
+          "input_load_and_loop_bookkeeping_s": 0.6235984191298485
+        }
+      ],
+      "pass_exposure": [
+        {
+          "pass_index": 0,
+          "presentations": 128,
+          "replay_presentations": 0,
+          "prompt_tokens": 9023,
+          "response_tokens": 33839,
+          "active_anchors": 33409,
+          "response_forward_backward_presentations": 128,
+          "optimizer_steps": 64
+        },
+        {
+          "pass_index": 1,
+          "presentations": 128,
+          "replay_presentations": 32,
+          "prompt_tokens": 9240,
+          "response_tokens": 34677,
+          "active_anchors": 34244,
+          "response_forward_backward_presentations": 128,
+          "optimizer_steps": 64
+        }
+      ],
+      "validation": {
+        "status": "passed",
+        "arm": "R",
+        "event_id": "event_005",
+        "objective": "osd_first_error",
+        "passes": 2,
+        "response_presentations": 256,
+        "optimizer_steps": 128,
+        "start_step": 512,
+        "end_step": 640,
+        "reduction": "response_mean",
+        "anchor_draws_checked": 256,
+        "extra_optimizer_steps": 0,
+        "historical_anchors_forced": false
+      }
+    },
+    {
+      "arm": "R",
+      "event": 6,
+      "source_path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/arms/R/trainer/events/event_006/RESULT.json",
+      "status": "completed",
+      "costs": {
+        "training_s": 342.4623828213662,
+        "checkpoint_save_s": 18.151311861351132,
+        "export_s": 0.0,
+        "event_wall_s_before_commit": 366.61205288395286
+      },
+      "runtime_costs": {
+        "construction_s": 22.47703887335956,
+        "restore_s": 9.777238812297583,
+        "construction_and_restore_s": 32.254277685657144,
+        "feature_admission_io_and_validation_s": 4.66522054001689
+      },
+      "pass_loop_costs": [
+        {
+          "pass_index": 0,
+          "total_loop_s": 171.3955620918423,
+          "input_load_and_loop_bookkeeping_s": 0.6947177667170763
+        },
+        {
+          "pass_index": 1,
+          "total_loop_s": 172.39332125149667,
+          "input_load_and_loop_bookkeeping_s": 0.6317827552556992
+        }
+      ],
+      "pass_exposure": [
+        {
+          "pass_index": 0,
+          "presentations": 128,
+          "replay_presentations": 0,
+          "prompt_tokens": 9683,
+          "response_tokens": 35429,
+          "active_anchors": 32998,
+          "response_forward_backward_presentations": 128,
+          "optimizer_steps": 64
+        },
+        {
+          "pass_index": 1,
+          "presentations": 128,
+          "replay_presentations": 32,
+          "prompt_tokens": 9530,
+          "response_tokens": 34728,
+          "active_anchors": 34071,
+          "response_forward_backward_presentations": 128,
+          "optimizer_steps": 64
+        }
+      ],
+      "validation": {
+        "status": "passed",
+        "arm": "R",
+        "event_id": "event_006",
+        "objective": "osd_first_error",
+        "passes": 2,
+        "response_presentations": 256,
+        "optimizer_steps": 128,
+        "start_step": 640,
+        "end_step": 768,
+        "reduction": "response_mean",
+        "anchor_draws_checked": 256,
+        "extra_optimizer_steps": 0,
+        "historical_anchors_forced": false
+      }
+    },
+    {
+      "arm": "R",
+      "event": 7,
+      "source_path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/arms/R/trainer/events/event_007/RESULT.json",
+      "status": "completed",
+      "costs": {
+        "training_s": 368.84314340539277,
+        "checkpoint_save_s": 18.225191259756684,
+        "export_s": 0.0,
+        "event_wall_s_before_commit": 393.3744305539876
+      },
+      "runtime_costs": {
+        "construction_s": 22.4582523945719,
+        "restore_s": 10.182532181963325,
+        "construction_and_restore_s": 32.640784576535225,
+        "feature_admission_io_and_validation_s": 4.83668228238821
+      },
+      "pass_loop_costs": [
+        {
+          "pass_index": 0,
+          "total_loop_s": 184.29595460370183,
+          "input_load_and_loop_bookkeeping_s": 0.762207318097353
+        },
+        {
+          "pass_index": 1,
+          "total_loop_s": 186.0085896998644,
+          "input_load_and_loop_bookkeeping_s": 0.6991935800760984
+        }
+      ],
+      "pass_exposure": [
+        {
+          "pass_index": 0,
+          "presentations": 128,
+          "replay_presentations": 0,
+          "prompt_tokens": 4538,
+          "response_tokens": 41052,
+          "active_anchors": 35691,
+          "response_forward_backward_presentations": 128,
+          "optimizer_steps": 64
+        },
+        {
+          "pass_index": 1,
+          "presentations": 128,
+          "replay_presentations": 32,
+          "prompt_tokens": 4720,
+          "response_tokens": 42068,
+          "active_anchors": 36867,
+          "response_forward_backward_presentations": 128,
+          "optimizer_steps": 64
+        }
+      ],
+      "validation": {
+        "status": "passed",
+        "arm": "R",
+        "event_id": "event_007",
+        "objective": "osd_first_error",
+        "passes": 2,
+        "response_presentations": 256,
+        "optimizer_steps": 128,
+        "start_step": 768,
+        "end_step": 896,
+        "reduction": "response_mean",
+        "anchor_draws_checked": 256,
+        "extra_optimizer_steps": 0,
+        "historical_anchors_forced": false
+      }
+    },
+    {
+      "arm": "R",
+      "event": 8,
+      "source_path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/arms/R/trainer/events/event_008/RESULT.json",
+      "status": "completed",
+      "costs": {
+        "training_s": 347.3413712512702,
+        "checkpoint_save_s": 18.458078248426318,
+        "export_s": 0.0,
+        "event_wall_s_before_commit": 371.87518786638975
+      },
+      "runtime_costs": {
+        "construction_s": 22.460823722183704,
+        "restore_s": 11.111831760033965,
+        "construction_and_restore_s": 33.57265548221767,
+        "feature_admission_io_and_validation_s": 4.635063741356134
+      },
+      "pass_loop_costs": [
+        {
+          "pass_index": 0,
+          "total_loop_s": 174.71608952246606,
+          "input_load_and_loop_bookkeeping_s": 0.7372678257524967
+        },
+        {
+          "pass_index": 1,
+          "total_loop_s": 174.0581319220364,
+          "input_load_and_loop_bookkeeping_s": 0.6955823674798012
+        }
+      ],
+      "pass_exposure": [
+        {
+          "pass_index": 0,
+          "presentations": 128,
+          "replay_presentations": 0,
+          "prompt_tokens": 5067,
+          "response_tokens": 39119,
+          "active_anchors": 33688,
+          "response_forward_backward_presentations": 128,
+          "optimizer_steps": 64
+        },
+        {
+          "pass_index": 1,
+          "presentations": 128,
+          "replay_presentations": 32,
+          "prompt_tokens": 5100,
+          "response_tokens": 39443,
+          "active_anchors": 34498,
+          "response_forward_backward_presentations": 128,
+          "optimizer_steps": 64
+        }
+      ],
+      "validation": {
+        "status": "passed",
+        "arm": "R",
+        "event_id": "event_008",
+        "objective": "osd_first_error",
+        "passes": 2,
+        "response_presentations": 256,
+        "optimizer_steps": 128,
+        "start_step": 896,
+        "end_step": 1024,
+        "reduction": "response_mean",
+        "anchor_draws_checked": 256,
+        "extra_optimizer_steps": 0,
+        "historical_anchors_forced": false
+      }
+    }
+  ],
+  "observed_totals": {
+    "optimizer_steps": 3072,
+    "response_presentations": 6144,
+    "replay_presentations": 448,
+    "prompt_tokens": 346925,
+    "response_tokens": 1761381,
+    "active_anchors": 1631357
+  },
+  "errors": [],
+  "timing_scope": "Nested recorded costs are retained separately and must not be summed as disjoint time."
+}

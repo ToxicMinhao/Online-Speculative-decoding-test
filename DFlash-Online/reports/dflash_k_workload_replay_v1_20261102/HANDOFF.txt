@@ -1,0 +1,144 @@
+TRACK 2 EXECUTOR INSTRUCTIONS — WORKLOAD-CONDITIONED REPLAY WITH K
+Date: 2026-11-02
+Status: implementation experiment for the executor; no experiment has been run here.
+
+1. QUESTION AND SCOPE
+
+Implement and execute one fixed, eight-event experiment. Does selecting a small set of past verified responses to cover the current workload improve K under the same number of optimizer steps and response presentations? The comparator with uniform replay distinguishes useful selection from the ordinary benefit of replay.
+
+This is a new algorithm implementation experiment, not another test of whether K beats O. Run only K, U and R below. O and K_HALF are unnecessary for this question. The declared stream deliberately switches between math and coding and returns to both; it is a controlled recurrence experiment, not evidence about naturally occurring conversation traffic. The final evaluation panel has been used in development before; do not call it a new unseen confirmatory panel. This fresh eight-event experiment does not measure an improvement over the trained K58 checkpoint. Its percentage gains cannot be added to PR23's full-GSM8K result.
+
+2. FROZEN TRAINING AND SERVING RECIPE
+
+Pin the scientific base to repository ToxicMinhao/Online-Speculative-decoding-test, publication commit 4d94f30c42701d0f86ac04e2829c834593c16d8e (qualified PR23 execution 0698eeb2ddd97b9e2ac6953989dc82acbc0a1e34). Target/tokenizer: Qwen/Qwen3-8B at b968826d9c46dd6066d109eabc6255188de91218. Released draft: z-lab/Qwen3-8B-DFlash-b16 at 9b41424b7109f9c5413454f481b09a82b85333f4. Preserve the qualified runtime pins and compatibility patches. Use that recipe, starting from the released draft, seed 17, empty Adam state, zero cumulative updates and an empty replay memory. All three arms start from identical decoded scientific state. Do not start from K58, O, or an intermediate trained checkpoint.
+
+Keep K unchanged: current correct prefix plus first error, forward KL, inherited position decay gamma=7, normalization once per response over selected weights, response-mean accumulation, BF16 parameters/gradients/native AdamW, learning rate 3e-4, Adam betas .9/.999 and epsilon 1e-8, weight decay .01, clipping 1, KL temperature 1, response denominator epsilon 1e-6, microbatch size 1, accumulation 2, up to 512 native anchors per response and the existing attention/kernel settings. Preserve the inherited constant-schedule horizon 7,424 in the optimizer/StepContext together with consistent native max_events=58 metadata; the new experiment stops after 1,024 committed Adam steps per arm. Do not add a controller, correction, optimizer preview, FP32 substitute optimizer, teacher forward for scoring, gradient-based scoring, or changes to the serving proposal.
+
+Use the same concurrency-1 greedy DFlash serving settings, block size 16, output cap 2,048, complete-response stop semantics, tokenization and context limits as the qualified recipe. Keep training maximum length 2,272, serving context 4,096, projection chunks of 8 and the qualified cache-flush policy. The target remains fixed. Replay always uses the original complete prompt-plus-response packet and original target-label binding. Each replay presentation freshly samples native anchors and recomputes K's current predictions, first error and loss. Never reuse an old K mask or splice an old response into a new prompt.
+
+3. DATA: EXACT SELECTION RULE, FIXED BEFORE GENERATION
+
+Reuse retained sealed request inventories; do not run a new data search or select requests using outcomes.
+
+Math training: the first 512 requests of the exact PR23 GSM8K training manifest, original request IDs train_00000 through train_00511, preserving their original prompt token arrays and source order. Divide into M1/M2/M3/M4, 128 each.
+
+Coding training: all 512 requests from the PR20 sealed TRAINING_REQUESTS.json with data binding 6def4832d12698fc2733e91c427db77558f3fe50e7f51063e9c2a11f9bc961af, IDs coding_training_00000 through coding_training_00511, in their sealed order. Divide into C1/C2/C3/C4, 128 each. Source is sahil2801/CodeAlpaca-20k, revision 3bd2de8099ee8a140653ad9b9df783554d5efabb, parquet SHA256 5a2fa0c510d42843292c583f357086abb59f95796e0f55727b97e449aa93bed9. Reuse the selected requests; do not rerun historical exclusions, which would now exclude these previously allocated development requests.
+
+Event order: 1=M1, 2=M2, 3=C1, 4=C2, 5=M3, 6=M4, 7=C3, 8=C4. Global fresh-record ordinal 0..1023 follows this event order and the sealed order inside each event. Domain labels are for reporting only; neither memory membership nor the coverage selector may read them.
+
+Final panel: original PR23 math evaluation IDs eval_00001 through eval_00128, plus all PR20 coding evaluation IDs coding_evaluation_00000 through coding_evaluation_00127 from its sealed EVALUATION_REQUESTS.json. Preserve exact prompt tokens, reasoning instructions where already present, stop IDs and output caps. Interleave math1, code0, math2, code1, ..., math128, code127 for a fixed 256-request order. Each contiguous 64-request evaluation block therefore contains 32 requests of each domain.
+
+Before model work, resolve the real retained manifest paths and complete canonical evaluation outputs/termination receipts, verify their old receipts, seal exact selected source IDs/token arrays and hashes, and check cross-domain and train/evaluation identity and normalized-prompt disjointness. Retain original source IDs plus experiment IDs explicitly; do not rename a replayed packet to evade duplicate-record guards. Missing sealed inputs or a duplicate that violates this fixed panel is a preflight failure, not permission to substitute samples.
+
+4. THREE ARMS, EXACT EXPOSURE
+
+K: first pass all 128 fresh responses; second pass all 128 fresh responses.
+U: first pass all 128 fresh responses; second pass a common 96-response fresh subset plus 32 distinct uniformly selected past-memory responses.
+R: first pass all 128 fresh responses; second pass the SAME 96-response fresh subset plus 32 distinct past-memory responses chosen by the coverage rule below.
+
+Event 1 has no past memory, so all three arms use K's two complete fresh passes. Events 2–8 use replay in U/R. Every event and arm has exactly 256 response presentations and 128 native Adam updates, with no dropped or extra accumulation window. U and R therefore replace 25% of their second pass, or 12.5% of their total per-event presentations, from event 2 onward.
+
+For event e, choose the common 96 fresh records without replacement using a separate NumPy PCG64 generator initialized from SeedSequence([20261102,e,0]). Uniform U chooses 32 old memory records without replacement with SeedSequence([20261102,e,1]). Sort each resulting pass input list by original global record ordinal before the native trainer shuffles it. The same fresh subset is used by U and R. K uses its complete original fresh input list.
+
+Preserve native per-arm torch.randperm(128) at the start of each pass and the existing native anchor RNG. Preserve and restore each arm's full RNG state across events, export and evaluation. Selection, descriptor computation, reservoir and bootstrap RNGs must never advance training RNGs. After replay begins, different response lengths and histories may lead to different native anchors; do not force matching with a new stateless anchor scheme. Require exact neutral equality only where inputs and complete state are identical, especially event 1.
+
+5. COMMON BOUNDED MEMORY
+
+Capacity is fixed at 128 complete prepared response packets. This is an upfront storage-conscious choice. A uniform reservoir retains older workloads in expectation despite a two-event domain change; a FIFO buffer this small would discard all responses from the previous domain.
+
+Use ordinary Algorithm R over strictly past fresh records, one independent PCG64 generator initialized from SeedSequence([20261102,0,2]) for the whole campaign. Fill the first 128 slots. For the nth unique fresh record thereafter (n is one-based), draw j uniformly from 0..n-1 and replace slot j only if j<128. Process insertion in global fresh-record order, not shuffled training order. Save its RNG/counter/slot mapping as scientific state.
+
+During event e, both replay arms see the identical reservoir left after event e-1. Current-event records are not eligible as old replay. Insert the current 128 records only after all three arms have committed and verified that event. Selection cannot change memory admission or retention priority. Do not replay more than one copy of a stored response in the same event. Keep compact descriptors, original identities, selection and membership receipts for all 1,024 records; retain large feature tensors only while current or in this reservoir. Report actual memory domain mixture and age throughout; uniform membership does not guarantee exact domain balance in this seed.
+
+6. COVERAGE SELECTOR — NO NEW MODEL PASSES
+
+For every fresh packet x, read h_x = target_last_hidden_states[0, prompt_length-1, :] from its already-required prepared feedback packet. This is the frozen target's last prompt-token representation, before response tokens. The native capture already supplies this row. It requires no separate target/draft forward or backward and does not inspect future requests, evaluation examples, source answers, domain labels or current draft loss.
+
+On CPU, convert to float64, require finite values and positive norm, and store z_x = h_x / ||h_x||_2. Use all dimensions; no projection or learned encoder. Define s(x,i)=max(0, clip(dot(z_x,z_i),-1,1)). For the current 128 fresh requests Q and a selected old set S, F(S)=(1/128) sum over x in Q of max over i in S of s(x,i), with the empty maximum equal to 0.
+
+Starting from empty S, choose the remaining memory record giving the largest increase in F, repeat exactly 32 times, and resolve exact numeric ties by smaller original global record ordinal. Keep choosing when the remaining gain is zero. This picks past requests that collectively represent the current batch; it is not a loss or acceptance oracle. Use the actual fixed CPU arithmetic in the receipt and record F after every addition. The facility-coverage objective is a proxy. Higher coverage is not itself evidence of model accuracy or decoding speed.
+
+Log the two selections' coverage scores, similarity distribution and concentration, per-step marginal gains, record ages, descriptor norm checks and reporting-only domain composition. No outcome-driven change to the descriptor, clipping, memory capacity, replay count or selector is allowed inside this run.
+
+7. SHARED FEEDBACK AND FUTURE-SERVING MEASUREMENT
+
+At each event, before any arm updates on that event, serve its 128 fresh requests once under each arm's preceding checkpoint. K's run has native feedback capture on and supplies the sole shared feedback pool; U/R runs have capture off and are evaluation only. Train all three arms on identical immutable prepared packets from K. These comparisons use the same supervision history, not three independent self-generated online streams.
+
+Use method order K,U,R for events with e mod 3=1; U,R,K for remainder 2; R,K,U for remainder 0. Freeze all three preceding checkpoints until all event serving rows and their validity checks complete. Only then train. Store output tokens, termination, target-call counts and useful-token counts for every row. All three methods must preserve the same complete greedy output and termination under the inherited validity contract.
+
+K may prepare and validate each captured packet immediately after that response, then retire its own bulk raw/terminal tensors while retaining compact native receipts. This prevents the raw and prepared 128-response pools from both accumulating on disk. Each request still receives exactly the one required terminal-feature preparation forward. Preparation must not alter the serving checkpoint or training RNG. If incremental retirement is not implemented and verified, the storage budget must include full raw+prepared coexistence.
+
+The 3,072 pre-update serving executions comprise 1,024 K feedback generations plus 2,048 U/R evaluation generations. Do not count the feedback again. Call-count comparisons are useful here; capture-on/off wall times are not comparable and must not be used for a speedup claim. Events 1 and 2 should have equal cross-arm counts because event 1 training is identical and the first different update occurs in event 2. Replay can first affect future serving in event 3. Report events 3–8 (768 distinct future requests) as the descriptive online-learning outcome; do not apply an ordinary independent-request bootstrap to infer uncertainty over the entire adaptive trajectory.
+
+8. FINAL EVALUATION AND PRIMARY DECISION
+
+After event 8, evaluate the fixed 256-request panel under all three final checkpoints, three repeats, capture off, with no training, transfer or updater contention during timing. Use the qualified common serving path and inherited definition of measured serving time; report publication/reload separately.
+
+There are four 64-request blocks b=0..3 and three repeats r=0..2. For each block, set base=(K,U,R) when b is even and base=(K,R,U) when b is odd; set shift=(b+r)%3 and run base[shift:]+base[:shift]. Every request sees each arm in each execution position exactly once across repeats. All six method permutations occur twice overall; each method occupies each position four times, and every pair has 6/6 precedence. Each block contains 32 requests from each domain, so these balances hold within each domain too. Finish the complete 64-request batch for one arm before loading the next arm; loading is outside per-request timing. No extra efficacy warmup or replacement evaluation is authorized. All 2,304 rows must be reported, including invalid attempts. Compare complete output tokens and stop semantics with the preflight-verified retained canonical references and across arms and repeats; counts must be repeat-stable under the qualified greedy setting.
+
+Primary: final R versus U percentage reduction in pooled target calls, 100*(1-sum(R_calls)/sum(U_calls)), across the 256 unique requests. Required usefulness contrast: the same final R versus K reduction. Also report U versus K, each domain separately, all raw totals, useful tokens/target call, final serving-time reduction and throughput ratio with denominators stated. Beating U while losing to K does not validate an upgrade to K.
+
+For endpoint intervals, use a paired stratified bootstrap: 10,000 resamples with a separate PCG64 seed 20261102; sample 128 math request indices with replacement and 128 coding indices with replacement each replicate; carry the same sampled indices jointly through all methods. Count a unique request once for call metrics after repeat equality is verified. For time, first take each method/request's mean over its three repeats. Use the 2.5th and 97.5th percentiles with the linear percentile convention for 95% intervals. Also report per-request wins/losses/ties and gross saved/added calls; do not hide a domain regression inside the pooled average. These are conditional request-panel intervals for one trained trajectory/seed, not seed robustness or an uncertainty estimate for a deployment workload.
+
+9. EXACT NEW WORK BUDGET AND QUALIFICATION
+
+Production shared feedback generations: 1,024 (already included below).
+Pre-update stream generations across three arms: 3,072.
+Final panel generations: 2,304.
+Capture-mode parity controls: 4 additional complete generations.
+TOTAL complete generations: 5,380.
+Required terminal-feature target preparations: 1,024, separately counted.
+Committed Adam steps: 3,072 total = 1,024 per arm.
+Ordinary response forward/backward presentations: 6,144 total = 2,048 per arm.
+Replay presentations: 224 per replay arm, 448 total; these are included in 6,144.
+Optimizer previews, extra scoring forwards/backwards, disposable Adam updates: zero.
+
+The four parity controls are capture-off repetitions under the same K checkpoint of the first two event-1 math requests and first two event-3 code requests. Run them before that event's update and compare complete tokens, stop reason and target-call counts to the already-required capture-on K rows. They are qualification rows, not extra primary samples. Use them to validate the capture-mode combination, not to select a faster path.
+
+Use CPU fixtures for exact reservoir membership, distinct selection, marginal-gain arithmetic, immutable packet binding, presentation exposure and RNG isolation. Event 1 is the production neutral-path qualification: require equality of decoded weights, Adam, RNG, counters and sampled-anchor records across the three arms, ignoring arm/path metadata. Event 2 receipts establish the first mixed-pass execution. Do not add another preliminary GPU probe. A complete-output mismatch, termination mismatch, repeat-count mismatch, failed capture parity or failed scientific-state gate stops the run with all attempted work recorded; do not automatically tune, rerun, shorten, substitute samples or consume an unreported retry budget.
+
+10. IMPLEMENTATION, STORAGE AND DELIVERY
+
+Implement additively under a new experiment directory, for example experiments/k_workload_replay_v1. Reuse online_feedback/sglang_backend.py preparation, objective/first_error and the native train_step/Adam path. Existing experiments/full_k_gsm8k/training.py deliberately rejects old records and custom presentation schedules; preserve those guards. Its PresentationSchedule helper is for validating a retained same-input schedule and is not an allocator for mixed fresh/replay passes. Add a new experiment-specific pass-plan validator/loop with exactly two 128-record lists, reusing unchanged native training operations and scientific-state/export checks.
+
+Seal the code/config/data/selection seeds before model work. Preflight current disk, RAM, GPU availability and retained input availability. The previously reported approximately 76.8 GB free is historical, not a current capacity promise. At cap-length, 128 prepared packets were budgeted at approximately 13.1 GB in the coding implementation; memory128+fresh128 can therefore approach 26.3 GB before states and transients. Recompute exact bytes from pinned tensor dimensions, selected prompt lengths and 2,048-token caps.
+
+Count all live Adam/model states, initial snapshots, pending atomic saves, serving exports and temporary export workspace, native/terminal/prepared overlap and any rollback state, compiler growth, compact records and at least the inherited 8 GiB free reserve. The capacity check must use actual filesystem/inode accounting rather than double-count hardlinks or assume an unverified transfer. It may deduplicate identical initial tensors or reuse an immutable retained initial artifact only with verified identities and complete restore metadata. Materialize serving exports when needed and retire only this new run's unneeded exports after verification. Keep current and old reservoir packets durable until every arm that needs them has completed; store arm-level commit receipts so partial progress is explicit. Retire a preceding arm checkpoint only after its successor and any remaining serving requirement are verified.
+
+Keep initial and final complete scientific states, final serving exports, final reservoir and every compact source/measurement/membership/selection/RNG/cost/audit receipt. Allow retirement of this run's unused native/prepared/terminal bulk tensors and previous checkpoints only after the documented verified successor or reservoir-eviction condition. No historical deletion, RAM-only nondurable memory, cap reduction, smaller panel/memory, fewer events or unverified offload is authorized as a workaround. If conservative admission fails, report the exact missing capacity before GPU work; otherwise proceed through the fixed implementation run without an additional approval checkpoint.
+
+Report descriptor/scoring/selection wall time and memory, I/O/loading, training forwards/backwards and tokens, optimizer/export/publication, feedback/preparation, final serving latency and total adaptation-ready time separately. Equal response presentations are not guaranteed equal token FLOPs because selected responses differ in length; report actual response/prompt tokens, active anchors and observed updater time. This controlled run does not measure true asynchronous deployment throughput, and an accepted-per-call improvement does not itself prove net wall-clock speedup.
+
+Deliver one report, machine-readable paired endpoint rows, every event's counts and exposure, exact membership/selection ledgers, validity and cost accounting, resource peaks, source/input/state receipts and a separate read-only review. Report all three arms and all attempted work, irrespective of sign.
+
+11. PREDECLARED NEXT ACTION FROM EACH OUTCOME
+
+A. R beats U and K on the final panel, both paired intervals support a positive call reduction, future-event comparisons are directionally compatible, and common-mode timing/costs are acceptable: retain the mechanism unchanged and move to longer validation with another training seed and workload order. The next step is scaling a demonstrated update, not another local diagnostic probe. A later matched full-training experiment is required before claiming an addition to the PR23 K58 gain.
+
+B. U and R improve over K but an R-over-U gain is not established: keep uniform replay as the practical candidate and remove the unsupported coverage-selector claim. A wide R/U interval means uncertainty, not demonstrated equivalence. Use the recorded descriptor and selection evidence to decide whether a distinctly better selector has a concrete rationale; no automatic selector search follows.
+
+C. R improves over U but fails to improve over K: the selector is better than random within an unsuccessful replay allocation. If the future-serving records specifically show recurrence benefits accompanied by loss of fresh-domain adaptation, the next proposed mechanism change is a smaller replay dose, 16 old plus 112 fresh in pass two. Without that evidence, stop this replay allocation. Do not execute the new dose in this campaign.
+
+D. R helps current-domain/future requests but hurts the other domain enough to lose the balanced final test: identify a specialization-versus-retention tradeoff. A concrete next candidate, if the per-domain evidence supports it, is to divide the same 32 replay slots into 16 coverage-selected and 16 uniformly selected from the remaining memory. This keeps the budget fixed while adding an explicit retention component. Do not execute this candidate here or call the balanced endpoint positive.
+
+E. Both replay arms lose to K with no supported recurrence benefit, or R increases coverage without improving useful serving: retain K and stop this mechanism in its current form. If the descriptors do not discriminate the workload, report that the fixed descriptor was uninformative. If coverage rises without serving gain, report that this coverage proxy did not improve the draft. Do not change the descriptor post hoc and present a selected rerun as the original result.
+
+F. Calls improve but common-mode serving time does not: report call efficiency and inspect the measured serving costs before claiming speedup. If selector/I/O/updater overhead is material, optimize the measured overhead while freezing the scientific selection rule; updater cost is separate from the measured C=1 serving latency. The experiment does not measure how asynchronous update lag affects deployment benefit.
+
+G. Valid effects remain inconclusive: finish and report uncertainty. If both domains and the future-serving records show a practically useful, consistent direction, the next possible step is one unchanged replication with another training seed. Otherwise park the candidate. Neither case authorizes a chain of small probes, automatic budget extensions or tuning on the final panel.
+
+If several descriptions apply, report all of them and recommend one next action supported by the complete evidence. Invalid runs are implementation failures, not negative efficacy results.
+
+12. SOURCE AUTHORITY
+
+Scientific base and full-K report:
+https://github.com/ToxicMinhao/Online-Speculative-decoding-test/tree/4d94f30c42701d0f86ac04e2829c834593c16d8e
+https://github.com/ToxicMinhao/Online-Speculative-decoding-test/blob/4d94f30c42701d0f86ac04e2829c834593c16d8e/DFlash-Online/reports/dflash_full_k_gsm8k_20261031/REPORT.md
+
+Retained coding data preparation and corrected experiment authority:
+https://github.com/ToxicMinhao/Online-Speculative-decoding-test/pull/20
+DFlash-Online/experiments/ok_coding/preparation_20261030/
+DFlash-Online/experiments/ok_coding/recovery_fix_20261030/
+Resolve these retained inventories and receipts under the pinned scientific base or their verified original immutable source commits; record the exact paths and hashes in this experiment seal. A moving PR head is not a scientific source pin.
+
+No GPU execution, remote mutation or new experiment result is represented by this handoff. The executor should implement, qualify through the included production gates, and complete this fixed experiment after current resource admission succeeds.
