@@ -1,0 +1,2178 @@
+{
+  "status": "passed",
+  "utc": "2026-11-03T02:05:34.343323+00:00",
+  "presence_receipt_sha256": "bbf0ebd1fd6dbb03761d443e87721416328a3b6d7058102d531de2d696dc155c",
+  "presence_time_utc": "2026-11-03T02:03:44Z",
+  "expected_bulk_artifacts": 135,
+  "stat_paths": 138,
+  "unique_inodes": 135,
+  "logical_bytes_per_unique_inode": 29558608470,
+  "allocated_bytes_per_unique_inode": 29558915072,
+  "kinds": {
+    "shared_initial_state": 1,
+    "last_committed_full_state": 3,
+    "last_materialized_export": 3,
+    "final_reservoir_packet": 128
+  },
+  "joined": [
+    {
+      "kind": "shared_initial_state",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/arms/K/trainer/initial_state.pt",
+      "producer_identity": {},
+      "stat": {
+        "path": "campaign_001/arms/K/trainer/initial_state.pt",
+        "bytes": 2097297537,
+        "device": 2066,
+        "inode": 2172679393,
+        "nlink": 1,
+        "allocated_bytes": 2097299456
+      }
+    },
+    {
+      "kind": "last_committed_full_state",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/arms/K/trainer/events/event_008/training_state.pt",
+      "producer_identity": {
+        "bytes": 6299184859,
+        "sha256": "7714e20bd31414c27560ac3797aabae267f4274d60f93b1e1e53ec167aa405fa"
+      },
+      "stat": {
+        "path": "campaign_001/arms/K/trainer/events/event_008/training_state.pt",
+        "bytes": 6299184859,
+        "device": 2066,
+        "inode": 2172743555,
+        "nlink": 2,
+        "allocated_bytes": 6299185152
+      }
+    },
+    {
+      "kind": "last_materialized_export",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/arms/K/trainer/events/event_008/export/model.safetensors",
+      "producer_identity": {
+        "bytes": 2097259104,
+        "sha256": "3fac30d071424bd158e92bddd9c3d1bc90b950a87f7c222b6f55e7015c5d607d"
+      },
+      "stat": {
+        "path": "campaign_001/arms/K/trainer/events/event_008/export/model.safetensors",
+        "bytes": 2097259104,
+        "device": 2066,
+        "inode": 2172840974,
+        "nlink": 1,
+        "allocated_bytes": 2097262592
+      }
+    },
+    {
+      "kind": "last_committed_full_state",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/arms/U/trainer/events/event_008/training_state.pt",
+      "producer_identity": {
+        "bytes": 6299261083,
+        "sha256": "2cf8746163be622413d68e268b95d9b8f304917f8478143c5d4bb8553300ec04"
+      },
+      "stat": {
+        "path": "campaign_001/arms/U/trainer/events/event_008/training_state.pt",
+        "bytes": 6299261083,
+        "device": 2066,
+        "inode": 2598674616,
+        "nlink": 2,
+        "allocated_bytes": 6299262976
+      }
+    },
+    {
+      "kind": "last_materialized_export",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/arms/U/trainer/events/event_008/export/model.safetensors",
+      "producer_identity": {
+        "bytes": 2097259104,
+        "sha256": "4609920cf3e761961b35950540dde34d8781628eaca1d4415afd87c4db5c756e"
+      },
+      "stat": {
+        "path": "campaign_001/arms/U/trainer/events/event_008/export/model.safetensors",
+        "bytes": 2097259104,
+        "device": 2066,
+        "inode": 2298939304,
+        "nlink": 1,
+        "allocated_bytes": 2097262592
+      }
+    },
+    {
+      "kind": "last_committed_full_state",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/arms/R/trainer/events/event_008/training_state.pt",
+      "producer_identity": {
+        "bytes": 6299277275,
+        "sha256": "317ea8d72b8f71b0036aa1b0184dca87e5ec8f5b79c36e30f365bdbbb48dbc6c"
+      },
+      "stat": {
+        "path": "campaign_001/arms/R/trainer/events/event_008/training_state.pt",
+        "bytes": 6299277275,
+        "device": 2066,
+        "inode": 3265901306,
+        "nlink": 2,
+        "allocated_bytes": 6299279360
+      }
+    },
+    {
+      "kind": "last_materialized_export",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/arms/R/trainer/events/event_008/export/model.safetensors",
+      "producer_identity": {
+        "bytes": 2097259104,
+        "sha256": "ee36f52b933e78640cd3aeb5bb0aeaa1aa2d33b091420fdbe415465da7a8304c"
+      },
+      "stat": {
+        "path": "campaign_001/arms/R/trainer/events/event_008/export/model.safetensors",
+        "bytes": 2097259104,
+        "device": 2066,
+        "inode": 2598674619,
+        "nlink": 1,
+        "allocated_bytes": 2097262592
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_002/features/train_00142.pt",
+      "producer_identity": {
+        "bytes": 24982819,
+        "sha256": "213e5a450359deb2ff1f9bbf45a419c4ac273d72cd41a301ac26f7824adadedf"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_002/features/train_00142.pt",
+        "bytes": 24982819,
+        "device": 2066,
+        "inode": 4029812036,
+        "nlink": 1,
+        "allocated_bytes": 24985600
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_006/features/train_00393.pt",
+      "producer_identity": {
+        "bytes": 12788131,
+        "sha256": "cde005b8f5fa01a63ea060e4e277d0a8dd324acf69e7429c89a871090011f054"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_006/features/train_00393.pt",
+        "bytes": 12788131,
+        "device": 2066,
+        "inode": 3265590585,
+        "nlink": 1,
+        "allocated_bytes": 12791808
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_001/features/train_00002.pt",
+      "producer_identity": {
+        "bytes": 15885923,
+        "sha256": "7f02e3e30e82d9a845442d4e4502a794481ff3a545dc744496a3b792bfad0a28"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_001/features/train_00002.pt",
+        "bytes": 15885923,
+        "device": 2066,
+        "inode": 1152672443,
+        "nlink": 1,
+        "allocated_bytes": 15888384
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_007/features/coding_training_00286.pt",
+      "producer_identity": {
+        "bytes": 5707591,
+        "sha256": "9e4546a517738ddc9a71e7287a9b6c8162dfc6af8905509762f87ab08d2269d5"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_007/features/coding_training_00286.pt",
+        "bytes": 5707591,
+        "device": 2066,
+        "inode": 10424731,
+        "nlink": 1,
+        "allocated_bytes": 5709824
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_007/features/coding_training_00344.pt",
+      "producer_identity": {
+        "bytes": 43669127,
+        "sha256": "95b3b37a9ea26197c675b3ff6e20e792cf6bc27fc03c7872b7e0c760535b86eb"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_007/features/coding_training_00344.pt",
+        "bytes": 43669127,
+        "device": 2066,
+        "inode": 10411785,
+        "nlink": 1,
+        "allocated_bytes": 43671552
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_004/features/coding_training_00192.pt",
+      "producer_identity": {
+        "bytes": 10575687,
+        "sha256": "dd9924d2576e3e2558b5ee230bd615e77a0ead6e26f5f8b30ce0361aa24bedb7"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_004/features/coding_training_00192.pt",
+        "bytes": 10575687,
+        "device": 2066,
+        "inode": 3265381594,
+        "nlink": 1,
+        "allocated_bytes": 10575872
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_005/features/train_00337.pt",
+      "producer_identity": {
+        "bytes": 14214115,
+        "sha256": "92e82671ce900bac10e28b9808fc1cfee76e344b65ae5528811f29e2d97000ff"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_005/features/train_00337.pt",
+        "bytes": 14214115,
+        "device": 2066,
+        "inode": 3265472757,
+        "nlink": 1,
+        "allocated_bytes": 14217216
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_003/features/coding_training_00053.pt",
+      "producer_identity": {
+        "bytes": 20754503,
+        "sha256": "8a8ba955a2185c7529cf3b39e2d0c59b77cf1c85b35c48333e446e3966fb6833"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_003/features/coding_training_00053.pt",
+        "bytes": 20754503,
+        "device": 2066,
+        "inode": 2172754639,
+        "nlink": 1,
+        "allocated_bytes": 20758528
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_005/features/train_00259.pt",
+      "producer_identity": {
+        "bytes": 15836707,
+        "sha256": "31680700c11c550a052d7dedee99c830a8bf8068b45656c232d983f9dc0d3659"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_005/features/train_00259.pt",
+        "bytes": 15836707,
+        "device": 2066,
+        "inode": 3265409775,
+        "nlink": 1,
+        "allocated_bytes": 15839232
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_005/features/train_00269.pt",
+      "producer_identity": {
+        "bytes": 13328995,
+        "sha256": "233d5a2adb1d4e21b64e0c5871b234dc343472a7f2261f9ce94eb6b9b76c64c5"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_005/features/train_00269.pt",
+        "bytes": 13328995,
+        "device": 2066,
+        "inode": 3265415329,
+        "nlink": 1,
+        "allocated_bytes": 13332480
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_007/features/coding_training_00362.pt",
+      "producer_identity": {
+        "bytes": 17017479,
+        "sha256": "c19b199a694c745c1f89ac1505e673feb87e296bc9c7594ab236d4bd01d77dcb"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_007/features/coding_training_00362.pt",
+        "bytes": 17017479,
+        "device": 2066,
+        "inode": 10411839,
+        "nlink": 1,
+        "allocated_bytes": 17018880
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_001/features/train_00011.pt",
+      "producer_identity": {
+        "bytes": 24491043,
+        "sha256": "b041e5ad3a34768b6d9c7d197b58d0f38363a6857ea712d04ab23350e1f21dd0"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_001/features/train_00011.pt",
+        "bytes": 24491043,
+        "device": 2066,
+        "inode": 1248049213,
+        "nlink": 1,
+        "allocated_bytes": 24494080
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_007/features/coding_training_00273.pt",
+      "producer_identity": {
+        "bytes": 9149703,
+        "sha256": "2cbfbb1835e82b07b5c90381aec57a709e6203f08af9641f9b812e4c8e4dfc8b"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_007/features/coding_training_00273.pt",
+        "bytes": 9149703,
+        "device": 2066,
+        "inode": 10432308,
+        "nlink": 1,
+        "allocated_bytes": 9150464
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_004/features/coding_training_00246.pt",
+      "producer_identity": {
+        "bytes": 13280199,
+        "sha256": "48360e28622a3203b28a10861741b868c276f35ef92642f77a8510c5189d8d0f"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_004/features/coding_training_00246.pt",
+        "bytes": 13280199,
+        "device": 2066,
+        "inode": 3265715688,
+        "nlink": 1,
+        "allocated_bytes": 13283328
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_005/features/train_00329.pt",
+      "producer_identity": {
+        "bytes": 12935587,
+        "sha256": "6ca970caa879c64c8414be13bee5a0e2b15b8b1599a6efe157f2a5c15264d11d"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_005/features/train_00329.pt",
+        "bytes": 12935587,
+        "device": 2066,
+        "inode": 3265472717,
+        "nlink": 1,
+        "allocated_bytes": 12939264
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_007/features/coding_training_00363.pt",
+      "producer_identity": {
+        "bytes": 45192775,
+        "sha256": "a86ffd8778ab797730c0eaa43e2cdaef39204c3615c32c8523ef28249045d306"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_007/features/coding_training_00363.pt",
+        "bytes": 45192775,
+        "device": 2066,
+        "inode": 10410754,
+        "nlink": 1,
+        "allocated_bytes": 45195264
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_004/features/coding_training_00228.pt",
+      "producer_identity": {
+        "bytes": 11264071,
+        "sha256": "e818cb0416a8a4dd3b0a0a038686c4500e26dec57499425dffac8e512f994923"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_004/features/coding_training_00228.pt",
+        "bytes": 11264071,
+        "device": 2066,
+        "inode": 3265469454,
+        "nlink": 1,
+        "allocated_bytes": 11268096
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_002/features/train_00242.pt",
+      "producer_identity": {
+        "bytes": 17852707,
+        "sha256": "8528f651fa6113b72f33ca41861674340e30db7187808f33df5d73b228e3e54c"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_002/features/train_00242.pt",
+        "bytes": 17852707,
+        "device": 2066,
+        "inode": 4030479163,
+        "nlink": 1,
+        "allocated_bytes": 17854464
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_002/features/train_00204.pt",
+      "producer_identity": {
+        "bytes": 11706211,
+        "sha256": "1958771ee91a8d47af036f9f7b0a6f259eef37b69f458f656e1463390f523fe2"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_002/features/train_00204.pt",
+        "bytes": 11706211,
+        "device": 2066,
+        "inode": 4031846802,
+        "nlink": 1,
+        "allocated_bytes": 11706368
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_001/features/train_00019.pt",
+      "producer_identity": {
+        "bytes": 17901987,
+        "sha256": "094f940ece7f44401f6057ea47a4b685eca3aa649456ca81538ceab16a4c9a5b"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_001/features/train_00019.pt",
+        "bytes": 17901987,
+        "device": 2066,
+        "inode": 1248043187,
+        "nlink": 1,
+        "allocated_bytes": 17903616
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_005/features/train_00270.pt",
+      "producer_identity": {
+        "bytes": 17508515,
+        "sha256": "ad7e65df1d9180e15642a96899e36ce6da060a0ba8c48ae85a664652a4ab2dc3"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_005/features/train_00270.pt",
+        "bytes": 17508515,
+        "device": 2066,
+        "inode": 3265415334,
+        "nlink": 1,
+        "allocated_bytes": 17510400
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_001/features/train_00021.pt",
+      "producer_identity": {
+        "bytes": 20213155,
+        "sha256": "c4aeb3c16518eb983736c8d073764a8831ade87fe3e5f9336d8f08d8aa992d64"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_001/features/train_00021.pt",
+        "bytes": 20213155,
+        "device": 2066,
+        "inode": 1259514753,
+        "nlink": 1,
+        "allocated_bytes": 20213760
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_008/features/coding_training_00421.pt",
+      "producer_identity": {
+        "bytes": 39538631,
+        "sha256": "cfb222f83ab3b5105ef9b15458e0262d70f0553409aff33fa35566a896b3a3f9"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_008/features/coding_training_00421.pt",
+        "bytes": 39538631,
+        "device": 2066,
+        "inode": 2688837839,
+        "nlink": 1,
+        "allocated_bytes": 39538688
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_001/features/train_00023.pt",
+      "producer_identity": {
+        "bytes": 15394147,
+        "sha256": "803e1d5a0be8b5c8feed1441b794ff730da192776788c2da26a99a98a77476aa"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_001/features/train_00023.pt",
+        "bytes": 15394147,
+        "device": 2066,
+        "inode": 1259514768,
+        "nlink": 1,
+        "allocated_bytes": 15396864
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_004/features/coding_training_00252.pt",
+      "producer_identity": {
+        "bytes": 10969159,
+        "sha256": "2dfe8992b5e5f52f2205ffee30a6ee959f9c418fbd3b602de1489a4ee60175fc"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_004/features/coding_training_00252.pt",
+        "bytes": 10969159,
+        "device": 2066,
+        "inode": 3265726150,
+        "nlink": 1,
+        "allocated_bytes": 10973184
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_005/features/train_00355.pt",
+      "producer_identity": {
+        "bytes": 23900835,
+        "sha256": "4fe33323c5df17f37186d3c9ce36c6effa047eea089be7b9a20a8c5f07d0bcbe"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_005/features/train_00355.pt",
+        "bytes": 23900835,
+        "device": 2066,
+        "inode": 3265483471,
+        "nlink": 1,
+        "allocated_bytes": 23904256
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_005/features/train_00257.pt",
+      "producer_identity": {
+        "bytes": 17016867,
+        "sha256": "5572d68d6ffa56dbb1cd2a32d3360e503d74ff6865606d0ecaaffeea9f1808b1"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_005/features/train_00257.pt",
+        "bytes": 17016867,
+        "device": 2066,
+        "inode": 3265409765,
+        "nlink": 1,
+        "allocated_bytes": 17018880
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_006/features/train_00447.pt",
+      "producer_identity": {
+        "bytes": 13476451,
+        "sha256": "beff29e756025c62297c064a48ab7b8303a62ec8dc3f030f332021ef9211ed2c"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_006/features/train_00447.pt",
+        "bytes": 13476451,
+        "device": 2066,
+        "inode": 3265619911,
+        "nlink": 1,
+        "allocated_bytes": 13479936
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_002/features/train_00224.pt",
+      "producer_identity": {
+        "bytes": 25031779,
+        "sha256": "5f13963c50a958877ebebb5891b2c95e6e2d4b0d44f72d13fa56cdb53a7fc4f5"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_002/features/train_00224.pt",
+        "bytes": 25031779,
+        "device": 2066,
+        "inode": 4030479109,
+        "nlink": 1,
+        "allocated_bytes": 25034752
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_007/features/coding_training_00275.pt",
+      "producer_identity": {
+        "bytes": 15148487,
+        "sha256": "e78971ad3e7cd23816a452e47c8fa39ea5282e4e02cbc251e3447516efae0adf"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_007/features/coding_training_00275.pt",
+        "bytes": 15148487,
+        "device": 2066,
+        "inode": 10432314,
+        "nlink": 1,
+        "allocated_bytes": 15151104
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_006/features/train_00467.pt",
+      "producer_identity": {
+        "bytes": 14312419,
+        "sha256": "5969c00fb22c8f5be544e7aa9a656e090d767965ab3aa5eb7bfe134da2f8dbce"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_006/features/train_00467.pt",
+        "bytes": 14312419,
+        "device": 2066,
+        "inode": 3265624811,
+        "nlink": 1,
+        "allocated_bytes": 14315520
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_004/features/coding_training_00151.pt",
+      "producer_identity": {
+        "bytes": 18148359,
+        "sha256": "42c6ea7248cd71e661b7e6f4b3fb1c70fab408eaafa6b66eaea9d7785efeda76"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_004/features/coding_training_00151.pt",
+        "bytes": 18148359,
+        "device": 2066,
+        "inode": 3265311030,
+        "nlink": 1,
+        "allocated_bytes": 18149376
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_006/features/train_00451.pt",
+      "producer_identity": {
+        "bytes": 11411299,
+        "sha256": "e06168c7d5c5f79a44f051978b6ce5cada7e9b942babdc0f098c972ed10a99d9"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_006/features/train_00451.pt",
+        "bytes": 11411299,
+        "device": 2066,
+        "inode": 3265619931,
+        "nlink": 1,
+        "allocated_bytes": 11411456
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_008/features/coding_training_00501.pt",
+      "producer_identity": {
+        "bytes": 23213191,
+        "sha256": "a3fddcdc835cdd4aeabbb406a955d2c440ad3e0752a56ff1c333cb264620ccf2"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_008/features/coding_training_00501.pt",
+        "bytes": 23213191,
+        "device": 2066,
+        "inode": 2691562239,
+        "nlink": 1,
+        "allocated_bytes": 23216128
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_007/features/coding_training_00324.pt",
+      "producer_identity": {
+        "bytes": 30834951,
+        "sha256": "6b7ffd39b9799b2057d3c4f658dcc399a69b21f3cdeb3bf13a9f7f6637c7f033"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_007/features/coding_training_00324.pt",
+        "bytes": 30834951,
+        "device": 2066,
+        "inode": 10414413,
+        "nlink": 1,
+        "allocated_bytes": 30838784
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_005/features/train_00379.pt",
+      "producer_identity": {
+        "bytes": 12886307,
+        "sha256": "7685ecfb14c3e018a2224691b5f6362079eb46decbe0c2d4cd3294716845884b"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_005/features/train_00379.pt",
+        "bytes": 12886307,
+        "device": 2066,
+        "inode": 3265576775,
+        "nlink": 1,
+        "allocated_bytes": 12890112
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_008/features/coding_training_00385.pt",
+      "producer_identity": {
+        "bytes": 14755271,
+        "sha256": "82486a72803ee8e7c9d9e51d9ffa92d37af7f7dc5733652736a18473952f1bae"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_008/features/coding_training_00385.pt",
+        "bytes": 14755271,
+        "device": 2066,
+        "inode": 2691516707,
+        "nlink": 1,
+        "allocated_bytes": 14757888
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_007/features/coding_training_00281.pt",
+      "producer_identity": {
+        "bytes": 13034311,
+        "sha256": "59164c39377d4e147586f0e5ff7d496b0e76df830d0c7883af1cea12310c25cd"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_007/features/coding_training_00281.pt",
+        "bytes": 13034311,
+        "device": 2066,
+        "inode": 10424716,
+        "nlink": 1,
+        "allocated_bytes": 13037568
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_004/features/coding_training_00189.pt",
+      "producer_identity": {
+        "bytes": 27343303,
+        "sha256": "5df141f4dad1d81a85782313e6b2e689bbc5e3df75fea30e978a007a0ab8ac68"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_004/features/coding_training_00189.pt",
+        "bytes": 27343303,
+        "device": 2066,
+        "inode": 3265381582,
+        "nlink": 1,
+        "allocated_bytes": 27344896
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_007/features/coding_training_00283.pt",
+      "producer_identity": {
+        "bytes": 16328967,
+        "sha256": "d8f56f026bc4e689a5fef64030f36fd4c6c995573b90b2eec05e9db70171ec47"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_007/features/coding_training_00283.pt",
+        "bytes": 16328967,
+        "device": 2066,
+        "inode": 10424722,
+        "nlink": 1,
+        "allocated_bytes": 16330752
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_005/features/train_00325.pt",
+      "producer_identity": {
+        "bytes": 12296291,
+        "sha256": "43e7034a42d39cb5930923b96744f53a463f842ad7713d7ac11302b8df941a13"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_005/features/train_00325.pt",
+        "bytes": 12296291,
+        "device": 2066,
+        "inode": 3265447353,
+        "nlink": 1,
+        "allocated_bytes": 12300288
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_002/features/train_00149.pt",
+      "producer_identity": {
+        "bytes": 12837283,
+        "sha256": "f4c3c44076bfea4ee40a1ec1d0cef34c1be08a3446480c420cfe00d381a01f6c"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_002/features/train_00149.pt",
+        "bytes": 12837283,
+        "device": 2066,
+        "inode": 4029812078,
+        "nlink": 1,
+        "allocated_bytes": 12840960
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_004/features/coding_training_00174.pt",
+      "producer_identity": {
+        "bytes": 7674439,
+        "sha256": "1eecd133306b3cf34701dae7b2b53a85eda26af95973f462937543746a624d63"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_004/features/coding_training_00174.pt",
+        "bytes": 7674439,
+        "device": 2066,
+        "inode": 3265377490,
+        "nlink": 1,
+        "allocated_bytes": 7675904
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_006/features/train_00452.pt",
+      "producer_identity": {
+        "bytes": 14312483,
+        "sha256": "e052f2b227bde2463b75997360f42fe34961689d2a87ff3aa4698ca22162946b"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_006/features/train_00452.pt",
+        "bytes": 14312483,
+        "device": 2066,
+        "inode": 3265619936,
+        "nlink": 1,
+        "allocated_bytes": 14315520
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_006/features/train_00439.pt",
+      "producer_identity": {
+        "bytes": 19770403,
+        "sha256": "9ffc1c03d4c6d1ee9146a0feb21b34ae8dad547b392892d503f752e514137bad"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_006/features/train_00439.pt",
+        "bytes": 19770403,
+        "device": 2066,
+        "inode": 3265614751,
+        "nlink": 1,
+        "allocated_bytes": 19771392
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_006/features/train_00429.pt",
+      "producer_identity": {
+        "bytes": 18492003,
+        "sha256": "6035737bccec7ecce17dea2e1a38d95743c6ef6bf2d0772e716f31c35be7360e"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_006/features/train_00429.pt",
+        "bytes": 18492003,
+        "device": 2066,
+        "inode": 3265609645,
+        "nlink": 1,
+        "allocated_bytes": 18493440
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_001/features/train_00046.pt",
+      "producer_identity": {
+        "bytes": 14656675,
+        "sha256": "d6f762e953213776b56cb875c2f2dd75cfc6282a9a7c2708a26a98a3dc225ead"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_001/features/train_00046.pt",
+        "bytes": 14656675,
+        "device": 2066,
+        "inode": 1266473521,
+        "nlink": 1,
+        "allocated_bytes": 14659584
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_008/features/coding_training_00463.pt",
+      "producer_identity": {
+        "bytes": 40177735,
+        "sha256": "d1ef47ab6ee08b9fb4966ba8e6b20095a73ca3f068e32657b94191c66e0b1e84"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_008/features/coding_training_00463.pt",
+        "bytes": 40177735,
+        "device": 2066,
+        "inode": 2691437197,
+        "nlink": 1,
+        "allocated_bytes": 40181760
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_006/features/train_00454.pt",
+      "producer_identity": {
+        "bytes": 12591459,
+        "sha256": "72c2ab3f40e71bdc73e7a71872fa6737da0ec4f4faf86ed26723b003d205fc29"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_006/features/train_00454.pt",
+        "bytes": 12591459,
+        "device": 2066,
+        "inode": 3265619946,
+        "nlink": 1,
+        "allocated_bytes": 12595200
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_002/features/train_00191.pt",
+      "producer_identity": {
+        "bytes": 21934051,
+        "sha256": "da68b81fe8de56b09ae7f554428d97d165ca50c619b984f69813a5f8bddfb25b"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_002/features/train_00191.pt",
+        "bytes": 21934051,
+        "device": 2066,
+        "inode": 4031592132,
+        "nlink": 1,
+        "allocated_bytes": 21934080
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_004/features/coding_training_00224.pt",
+      "producer_identity": {
+        "bytes": 17754887,
+        "sha256": "e481a3cb57ebbd75e48ebd4af6611c57e7e65fb3e7f66da9513ea9815df82284"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_004/features/coding_training_00224.pt",
+        "bytes": 17754887,
+        "device": 2066,
+        "inode": 3265425850,
+        "nlink": 1,
+        "allocated_bytes": 17756160
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_005/features/train_00258.pt",
+      "producer_identity": {
+        "bytes": 15590883,
+        "sha256": "0c003ad57c76af6884ff72a59db5a8315edf4e28136a2da7d19b857067d2835d"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_005/features/train_00258.pt",
+        "bytes": 15590883,
+        "device": 2066,
+        "inode": 3265409770,
+        "nlink": 1,
+        "allocated_bytes": 15593472
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_004/features/coding_training_00211.pt",
+      "producer_identity": {
+        "bytes": 14017927,
+        "sha256": "620d36b721fe938e1e7a79d51a9c667129b2f9bd569a365757de4123a903a84e"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_004/features/coding_training_00211.pt",
+        "bytes": 14017927,
+        "device": 2066,
+        "inode": 3265418425,
+        "nlink": 1,
+        "allocated_bytes": 14020608
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_005/features/train_00356.pt",
+      "producer_identity": {
+        "bytes": 18098787,
+        "sha256": "c8c6f7caa7f5473175c207d3bbdb4dbd95605d57fa3d919c14aa6644e4a9d616"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_005/features/train_00356.pt",
+        "bytes": 18098787,
+        "device": 2066,
+        "inode": 3265483476,
+        "nlink": 1,
+        "allocated_bytes": 18100224
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_006/features/train_00437.pt",
+      "producer_identity": {
+        "bytes": 23556707,
+        "sha256": "426c2f5ae40eb97bbfcf0a0345d8dc61b2b8f091484112eb4192bf0ce1441855"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_006/features/train_00437.pt",
+        "bytes": 23556707,
+        "device": 2066,
+        "inode": 3265614741,
+        "nlink": 1,
+        "allocated_bytes": 23560192
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_004/features/coding_training_00147.pt",
+      "producer_identity": {
+        "bytes": 29212039,
+        "sha256": "5380ca51fcfba6c4cc1078282f2e109f9006ef8ec2e2f52bcf84e7be03069a2c"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_004/features/coding_training_00147.pt",
+        "bytes": 29212039,
+        "device": 2066,
+        "inode": 3265311014,
+        "nlink": 1,
+        "allocated_bytes": 29212672
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_008/features/coding_training_00507.pt",
+      "producer_identity": {
+        "bytes": 18836679,
+        "sha256": "bb71ea3cd470149da2cf4d0aeceb27134e6657e1b294164ac5c76c44b8789125"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_008/features/coding_training_00507.pt",
+        "bytes": 18836679,
+        "device": 2066,
+        "inode": 2691563217,
+        "nlink": 1,
+        "allocated_bytes": 18837504
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_004/features/coding_training_00250.pt",
+      "producer_identity": {
+        "bytes": 19525127,
+        "sha256": "93e86ad943423661c6065a27c6e8c77a0f6e390a7b8af45aef340a3ea2ace12c"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_004/features/coding_training_00250.pt",
+        "bytes": 19525127,
+        "device": 2066,
+        "inode": 3265715708,
+        "nlink": 1,
+        "allocated_bytes": 19525632
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_005/features/train_00339.pt",
+      "producer_identity": {
+        "bytes": 11804643,
+        "sha256": "a98664aadc000c52ba9eae7c26f1da5e265ec1a91fe822019c8540a0dba065d8"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_005/features/train_00339.pt",
+        "bytes": 11804643,
+        "device": 2066,
+        "inode": 3265472767,
+        "nlink": 1,
+        "allocated_bytes": 11804672
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_001/features/train_00059.pt",
+      "producer_identity": {
+        "bytes": 16328355,
+        "sha256": "0104709048e19724968fe03b68199ab7ba4d9e53e93d27634434dff54c200f03"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_001/features/train_00059.pt",
+        "bytes": 16328355,
+        "device": 2066,
+        "inode": 1266611788,
+        "nlink": 1,
+        "allocated_bytes": 16330752
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_008/features/coding_training_00491.pt",
+      "producer_identity": {
+        "bytes": 21688391,
+        "sha256": "ba0f5790cafc9e3c30ee94bd463ccfc05fbf1eb3b035ff2a89fc23bc5c78557f"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_008/features/coding_training_00491.pt",
+        "bytes": 21688391,
+        "device": 2066,
+        "inode": 2691562209,
+        "nlink": 1,
+        "allocated_bytes": 21692416
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_007/features/coding_training_00261.pt",
+      "producer_identity": {
+        "bytes": 16869575,
+        "sha256": "f471493f03e7db5873311b918fe1a2825ab5fb1a79e5a2006b189e68052a143e"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_007/features/coding_training_00261.pt",
+        "bytes": 16869575,
+        "device": 2066,
+        "inode": 10432272,
+        "nlink": 1,
+        "allocated_bytes": 16871424
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_004/features/coding_training_00164.pt",
+      "producer_identity": {
+        "bytes": 18885767,
+        "sha256": "2e5af3c2835c9b838e644d7a62f2f70df93962824f2df3df3c05e29ba8c657b6"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_004/features/coding_training_00164.pt",
+        "bytes": 18885767,
+        "device": 2066,
+        "inode": 3265373802,
+        "nlink": 1,
+        "allocated_bytes": 18886656
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_002/features/train_00225.pt",
+      "producer_identity": {
+        "bytes": 20852323,
+        "sha256": "558bc4ad60acbc8379c653aaa7ac5dfe651af96769bdbf8ddb934ae9d74eedad"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_002/features/train_00225.pt",
+        "bytes": 20852323,
+        "device": 2066,
+        "inode": 4030479112,
+        "nlink": 1,
+        "allocated_bytes": 20852736
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_006/features/train_00495.pt",
+      "producer_identity": {
+        "bytes": 13328931,
+        "sha256": "6e51541456a112f191948e734b1cdd3862c9fbe923bc606d6178dbf92e20159f"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_006/features/train_00495.pt",
+        "bytes": 13328931,
+        "device": 2066,
+        "inode": 3265679607,
+        "nlink": 1,
+        "allocated_bytes": 13332480
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_005/features/train_00378.pt",
+      "producer_identity": {
+        "bytes": 18197027,
+        "sha256": "cdef992e38a17f64bce95f798e4538682177998c041134d4053edeee4f9958e7"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_005/features/train_00378.pt",
+        "bytes": 18197027,
+        "device": 2066,
+        "inode": 3265576770,
+        "nlink": 1,
+        "allocated_bytes": 18198528
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_002/features/train_00151.pt",
+      "producer_identity": {
+        "bytes": 12345507,
+        "sha256": "011c3f506dd435735bd5dd7d73caf84c9af781a345e7fa1892c44da3ecb386e6"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_002/features/train_00151.pt",
+        "bytes": 12345507,
+        "device": 2066,
+        "inode": 4029812090,
+        "nlink": 1,
+        "allocated_bytes": 12349440
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_004/features/coding_training_00148.pt",
+      "producer_identity": {
+        "bytes": 14214407,
+        "sha256": "2f7801bb49eccb4b5b41f73a1d6258e66830d722d1badb1d1e0da3f78f839b05"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_004/features/coding_training_00148.pt",
+        "bytes": 14214407,
+        "device": 2066,
+        "inode": 3265311018,
+        "nlink": 1,
+        "allocated_bytes": 14217216
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_007/features/coding_training_00280.pt",
+      "producer_identity": {
+        "bytes": 14755463,
+        "sha256": "a2c2b48d12d8cb68b2bb92fc3ae1f53ac80b73306ec69233d39e616bb16311be"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_007/features/coding_training_00280.pt",
+        "bytes": 14755463,
+        "device": 2066,
+        "inode": 10424713,
+        "nlink": 1,
+        "allocated_bytes": 14757888
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_003/features/coding_training_00021.pt",
+      "producer_identity": {
+        "bytes": 11214919,
+        "sha256": "814e06b02e9c5d7a2f7c58116960314a278f399298ad6e58b0b54ba77606f04e"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_003/features/coding_training_00021.pt",
+        "bytes": 11214919,
+        "device": 2066,
+        "inode": 2172741391,
+        "nlink": 1,
+        "allocated_bytes": 11218944
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_004/features/coding_training_00190.pt",
+      "producer_identity": {
+        "bytes": 15345479,
+        "sha256": "0a542677693989768c3c50a380f30bd0a8378186f15d3e287c40102dd45fc9f8"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_004/features/coding_training_00190.pt",
+        "bytes": 15345479,
+        "device": 2066,
+        "inode": 3265381586,
+        "nlink": 1,
+        "allocated_bytes": 15347712
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_004/features/coding_training_00201.pt",
+      "producer_identity": {
+        "bytes": 12690183,
+        "sha256": "fa18ce461540f4f837d3d5ade06e3655aa824459cd3a7aff5eed3418844c7824"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_004/features/coding_training_00201.pt",
+        "bytes": 12690183,
+        "device": 2066,
+        "inode": 3265418375,
+        "nlink": 1,
+        "allocated_bytes": 12693504
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_004/features/coding_training_00202.pt",
+      "producer_identity": {
+        "bytes": 7772807,
+        "sha256": "636bba0157eb5d6abe92f7e8bea4acf4c96b0c63f4a9759a6e7318a16d01df49"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_004/features/coding_training_00202.pt",
+        "bytes": 7772807,
+        "device": 2066,
+        "inode": 3265418380,
+        "nlink": 1,
+        "allocated_bytes": 7774208
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_003/features/coding_training_00068.pt",
+      "producer_identity": {
+        "bytes": 9346375,
+        "sha256": "2ca6437146910fa9461280992e42c52551840486fcb2eccebe0dc4a9c1ea813d"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_003/features/coding_training_00068.pt",
+        "bytes": 9346375,
+        "device": 2066,
+        "inode": 2172785163,
+        "nlink": 1,
+        "allocated_bytes": 9347072
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_007/features/coding_training_00313.pt",
+      "producer_identity": {
+        "bytes": 2265607,
+        "sha256": "1ba1ec7a4fde19991f97f2ee184f6e1ec08fe01611c4c4e8babf06a086e6540b"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_007/features/coding_training_00313.pt",
+        "bytes": 2265607,
+        "device": 2066,
+        "inode": 10417644,
+        "nlink": 1,
+        "allocated_bytes": 2269184
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_002/features/train_00213.pt",
+      "producer_identity": {
+        "bytes": 13132195,
+        "sha256": "a4144c22f0b9296e880d0ff29ae3977a7c4d00adce18df27983b00a4fee316e9"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_002/features/train_00213.pt",
+        "bytes": 13132195,
+        "device": 2066,
+        "inode": 4032072136,
+        "nlink": 1,
+        "allocated_bytes": 13135872
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_007/features/coding_training_00300.pt",
+      "producer_identity": {
+        "bytes": 11608263,
+        "sha256": "40dafe3023b78c44874bcf14db9667af804d1edb734a143f1bff2b88c4f67d54"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_007/features/coding_training_00300.pt",
+        "bytes": 11608263,
+        "device": 2066,
+        "inode": 10417605,
+        "nlink": 1,
+        "allocated_bytes": 11612160
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_008/features/coding_training_00502.pt",
+      "producer_identity": {
+        "bytes": 17803911,
+        "sha256": "5c5376bca1410394f06f1fceecef8c54d4b2141e83c42bb5945aa4d5f4cfd77d"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_008/features/coding_training_00502.pt",
+        "bytes": 17803911,
+        "device": 2066,
+        "inode": 2691563202,
+        "nlink": 1,
+        "allocated_bytes": 17805312
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_006/features/train_00486.pt",
+      "producer_identity": {
+        "bytes": 23114211,
+        "sha256": "d1b5ecc8c92306cc4f276afb0ebd731b180c6291595ef48ba8805e3fb02c55ed"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_006/features/train_00486.pt",
+        "bytes": 23114211,
+        "device": 2066,
+        "inode": 3265679562,
+        "nlink": 1,
+        "allocated_bytes": 23117824
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_001/features/train_00079.pt",
+      "producer_identity": {
+        "bytes": 5953251,
+        "sha256": "c444cb1271ec7165cd78459b97bcc0bd2358e9a9ff5995c4b3de852bf2efd3dd"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_001/features/train_00079.pt",
+        "bytes": 5953251,
+        "device": 2066,
+        "inode": 1227965079,
+        "nlink": 1,
+        "allocated_bytes": 5955584
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_001/features/train_00080.pt",
+      "producer_identity": {
+        "bytes": 13181411,
+        "sha256": "fb401221a57ca6c639c3dc0e8ab142695ca0a46eb776f01552a3415d2d2055d0"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_001/features/train_00080.pt",
+        "bytes": 13181411,
+        "device": 2066,
+        "inode": 1227965086,
+        "nlink": 1,
+        "allocated_bytes": 13185024
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_007/features/coding_training_00260.pt",
+      "producer_identity": {
+        "bytes": 20262791,
+        "sha256": "5d20068bbee925242b6746705bc88589825a9e0ed6e77c31b9ef8c09754eb345"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_007/features/coding_training_00260.pt",
+        "bytes": 20262791,
+        "device": 2066,
+        "inode": 10432269,
+        "nlink": 1,
+        "allocated_bytes": 20262912
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_003/features/coding_training_00051.pt",
+      "producer_identity": {
+        "bytes": 20410183,
+        "sha256": "dee8aa193b335085273edaf6599a1e95dbf2bcdc85e33663ee3854da84224f44"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_003/features/coding_training_00051.pt",
+        "bytes": 20410183,
+        "device": 2066,
+        "inode": 2172754631,
+        "nlink": 1,
+        "allocated_bytes": 20410368
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_008/features/coding_training_00462.pt",
+      "producer_identity": {
+        "bytes": 12493319,
+        "sha256": "5ce7908afc93e2b879e6d67ea413375dbcd050103aa1309921313cdd3e320578"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_008/features/coding_training_00462.pt",
+        "bytes": 12493319,
+        "device": 2066,
+        "inode": 2691437194,
+        "nlink": 1,
+        "allocated_bytes": 12496896
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_007/features/coding_training_00381.pt",
+      "producer_identity": {
+        "bytes": 24196423,
+        "sha256": "1b6bafc9ea347e9f21f8649aab98ec97d757755afd93197989a47c0527940b8d"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_007/features/coding_training_00381.pt",
+        "bytes": 24196423,
+        "device": 2066,
+        "inode": 10410808,
+        "nlink": 1,
+        "allocated_bytes": 24199168
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_005/features/train_00266.pt",
+      "producer_identity": {
+        "bytes": 15148387,
+        "sha256": "398d7d570d0b6231c9b08013e20964583fb4dc7be66694129ffd4d2d05f9f89b"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_005/features/train_00266.pt",
+        "bytes": 15148387,
+        "device": 2066,
+        "inode": 3265415314,
+        "nlink": 1,
+        "allocated_bytes": 15151104
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_004/features/coding_training_00205.pt",
+      "producer_identity": {
+        "bytes": 24392967,
+        "sha256": "05d353a36cf2b93c9c78f0bc5c586ddbc92e98ac1b95419abfed923685cad56b"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_004/features/coding_training_00205.pt",
+        "bytes": 24392967,
+        "device": 2066,
+        "inode": 3265418395,
+        "nlink": 1,
+        "allocated_bytes": 24395776
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_005/features/train_00360.pt",
+      "producer_identity": {
+        "bytes": 14214179,
+        "sha256": "12de7dd5868a6c26ff289912412657ae18626aeb205a7cf3cff12cadc2a65245"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_005/features/train_00360.pt",
+        "bytes": 14214179,
+        "device": 2066,
+        "inode": 3265483496,
+        "nlink": 1,
+        "allocated_bytes": 14217216
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_007/features/coding_training_00328.pt",
+      "producer_identity": {
+        "bytes": 24786439,
+        "sha256": "786b9e7b5b9e78ef1cbc64d49c6a803d5289d121253095b967d40fa4b10585a3"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_007/features/coding_training_00328.pt",
+        "bytes": 24786439,
+        "device": 2066,
+        "inode": 10414425,
+        "nlink": 1,
+        "allocated_bytes": 24788992
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_008/features/coding_training_00408.pt",
+      "producer_identity": {
+        "bytes": 11755783,
+        "sha256": "dffb801c4a131ed2bea7217d5d7d322290904edd6b61a2aba6f6e4f0d83da00a"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_008/features/coding_training_00408.pt",
+        "bytes": 11755783,
+        "device": 2066,
+        "inode": 2688833832,
+        "nlink": 1,
+        "allocated_bytes": 11759616
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_003/features/coding_training_00050.pt",
+      "producer_identity": {
+        "bytes": 37030279,
+        "sha256": "4971da155225e2734d838770497a8fbf6163bcff77f570355f29883d1b83d087"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_003/features/coding_training_00050.pt",
+        "bytes": 37030279,
+        "device": 2066,
+        "inode": 2172754627,
+        "nlink": 1,
+        "allocated_bytes": 37031936
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_001/features/train_00091.pt",
+      "producer_identity": {
+        "bytes": 18688675,
+        "sha256": "211c478a4a12c55defa10b78dd1bd8b83a93cf31cab6b9e94503169b79f1c1bd"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_001/features/train_00091.pt",
+        "bytes": 18688675,
+        "device": 2066,
+        "inode": 1266609580,
+        "nlink": 1,
+        "allocated_bytes": 18690048
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_003/features/coding_training_00125.pt",
+      "producer_identity": {
+        "bytes": 24049095,
+        "sha256": "b72cd891fc0261e51ffa8bf49d0163d064505172785869e77596305af964987a"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_003/features/coding_training_00125.pt",
+        "bytes": 24049095,
+        "device": 2066,
+        "inode": 2298909933,
+        "nlink": 1,
+        "allocated_bytes": 24051712
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_006/features/train_00461.pt",
+      "producer_identity": {
+        "bytes": 18295203,
+        "sha256": "d9985186c850a3e659467eefdda8136d44c14dbf14de05458c764702e5ddbd1b"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_006/features/train_00461.pt",
+        "bytes": 18295203,
+        "device": 2066,
+        "inode": 3265624781,
+        "nlink": 1,
+        "allocated_bytes": 18296832
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_003/features/coding_training_00127.pt",
+      "producer_identity": {
+        "bytes": 20656135,
+        "sha256": "de68e15bd594aa7dd52c2f7a43950a315d3e62f9334a5a0e728b901d3d45206d"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_003/features/coding_training_00127.pt",
+        "bytes": 20656135,
+        "device": 2066,
+        "inode": 2298909941,
+        "nlink": 1,
+        "allocated_bytes": 20660224
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_007/features/coding_training_00359.pt",
+      "producer_identity": {
+        "bytes": 25671751,
+        "sha256": "11cb94df20cdd1696e2f6eb862ad0a92a26da84b87522d2ed1b1ac733d84ac40"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_007/features/coding_training_00359.pt",
+        "bytes": 25671751,
+        "device": 2066,
+        "inode": 10411830,
+        "nlink": 1,
+        "allocated_bytes": 25673728
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_001/features/train_00096.pt",
+      "producer_identity": {
+        "bytes": 13574755,
+        "sha256": "4799dbe4f127499fb4507d367d75352e3874e3fb7bd299982672b2e1149ce6df"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_001/features/train_00096.pt",
+        "bytes": 13574755,
+        "device": 2066,
+        "inode": 1227966479,
+        "nlink": 1,
+        "allocated_bytes": 13578240
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_007/features/coding_training_00316.pt",
+      "producer_identity": {
+        "bytes": 47947207,
+        "sha256": "4b7fd193ea0add49d29f84cdc0a4809a2f9125646a5630ae50f732510ad141d4"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_007/features/coding_training_00316.pt",
+        "bytes": 47947207,
+        "device": 2066,
+        "inode": 10417653,
+        "nlink": 1,
+        "allocated_bytes": 47947776
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_007/features/coding_training_00357.pt",
+      "producer_identity": {
+        "bytes": 26458247,
+        "sha256": "647c95e3f6d8bf956b6e52f9602ff06c24452d4bddfb4f8d58259b867aab9363"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_007/features/coding_training_00357.pt",
+        "bytes": 26458247,
+        "device": 2066,
+        "inode": 10411824,
+        "nlink": 1,
+        "allocated_bytes": 26460160
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_001/features/train_00099.pt",
+      "producer_identity": {
+        "bytes": 30440995,
+        "sha256": "1c688c8d64035e9fdb8e6edc6cba8d081ed227db1bf44d326934ccbc0bb7c7ff"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_001/features/train_00099.pt",
+        "bytes": 30440995,
+        "device": 2066,
+        "inode": 1227966500,
+        "nlink": 1,
+        "allocated_bytes": 30441472
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_004/features/coding_training_00203.pt",
+      "producer_identity": {
+        "bytes": 10870727,
+        "sha256": "455096077eac9d14902e59e7b036c3ab7297538395cbc7b069c301c4eb34b8f5"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_004/features/coding_training_00203.pt",
+        "bytes": 10870727,
+        "device": 2066,
+        "inode": 3265418385,
+        "nlink": 1,
+        "allocated_bytes": 10870784
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_005/features/train_00291.pt",
+      "producer_identity": {
+        "bytes": 11657059,
+        "sha256": "a2f4cee50bff897d3d9e9d0df7fc1ebb453924113c8f65b98cb2ca5e39e20a37"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_005/features/train_00291.pt",
+        "bytes": 11657059,
+        "device": 2066,
+        "inode": 3265436943,
+        "nlink": 1,
+        "allocated_bytes": 11657216
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_005/features/train_00295.pt",
+      "producer_identity": {
+        "bytes": 15885987,
+        "sha256": "4037a2997ee85d043a4c713ff57d4ada06f5f4f17599a9d1c3e47aea84588f6f"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_005/features/train_00295.pt",
+        "bytes": 15885987,
+        "device": 2066,
+        "inode": 3265436963,
+        "nlink": 1,
+        "allocated_bytes": 15888384
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_008/features/coding_training_00451.pt",
+      "producer_identity": {
+        "bytes": 19623623,
+        "sha256": "6ae343401d5fb81c719b6896ff6a091f9c02607861fbc63da85470bce3cf93d5"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_008/features/coding_training_00451.pt",
+        "bytes": 19623623,
+        "device": 2066,
+        "inode": 2691074857,
+        "nlink": 1,
+        "allocated_bytes": 19623936
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_005/features/train_00305.pt",
+      "producer_identity": {
+        "bytes": 8411811,
+        "sha256": "58d8acd8ef6b1b9236f3f0e670d43b170f2ede1277486e44ec030dac80920103"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_005/features/train_00305.pt",
+        "bytes": 8411811,
+        "device": 2066,
+        "inode": 3265442325,
+        "nlink": 1,
+        "allocated_bytes": 8413184
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_001/features/train_00105.pt",
+      "producer_identity": {
+        "bytes": 8854371,
+        "sha256": "7c5509e688f6f67f993bca042a641001211f760f80130490629f0443fbab26ec"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_001/features/train_00105.pt",
+        "bytes": 8854371,
+        "device": 2066,
+        "inode": 1222250254,
+        "nlink": 1,
+        "allocated_bytes": 8855552
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_006/features/train_00492.pt",
+      "producer_identity": {
+        "bytes": 15541475,
+        "sha256": "211991609e9e10dbea66d26261cd9bf59eb5b16a35f172ed6c6ae98acfff0847"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_006/features/train_00492.pt",
+        "bytes": 15541475,
+        "device": 2066,
+        "inode": 3265679592,
+        "nlink": 1,
+        "allocated_bytes": 15544320
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_006/features/train_00484.pt",
+      "producer_identity": {
+        "bytes": 8411747,
+        "sha256": "b8aa6a5df5f7431e858333c9f9722c8d6c55373b31ba572bdc37da344830254e"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_006/features/train_00484.pt",
+        "bytes": 8411747,
+        "device": 2066,
+        "inode": 3265679552,
+        "nlink": 1,
+        "allocated_bytes": 8413184
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_002/features/train_00200.pt",
+      "producer_identity": {
+        "bytes": 16131747,
+        "sha256": "74dc1b9ec4df6259d683a67d3f5ef2a016499c436d0a4fcf4d4eb45e5c344749"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_002/features/train_00200.pt",
+        "bytes": 16131747,
+        "device": 2066,
+        "inode": 4031592186,
+        "nlink": 1,
+        "allocated_bytes": 16134144
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_002/features/train_00249.pt",
+      "producer_identity": {
+        "bytes": 15590755,
+        "sha256": "17cc5961995a77c7854062ed4ec0fb4c8b6338694277fa21bd582a074fcff629"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_002/features/train_00249.pt",
+        "bytes": 15590755,
+        "device": 2066,
+        "inode": 4030411024,
+        "nlink": 1,
+        "allocated_bytes": 15593472
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_003/features/coding_training_00015.pt",
+      "producer_identity": {
+        "bytes": 33391879,
+        "sha256": "b3b587682b8b75d7ea2c7e15fd9b3c178496c49943a76bdb3d2fdd7baa19acb0"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_003/features/coding_training_00015.pt",
+        "bytes": 33391879,
+        "device": 2066,
+        "inode": 2172679413,
+        "nlink": 1,
+        "allocated_bytes": 33394688
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_006/features/train_00468.pt",
+      "producer_identity": {
+        "bytes": 24736675,
+        "sha256": "9c45b0ca06cc7baeeff254b7b0111208ec01c3bd5aa0992aa05655f36af0d1d7"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_006/features/train_00468.pt",
+        "bytes": 24736675,
+        "device": 2066,
+        "inode": 3265624816,
+        "nlink": 1,
+        "allocated_bytes": 24739840
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_007/features/coding_training_00366.pt",
+      "producer_identity": {
+        "bytes": 4429127,
+        "sha256": "1044af176a43794030e1a38e417e45ce70edfd8effb7156c75ae181c769a8891"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_007/features/coding_training_00366.pt",
+        "bytes": 4429127,
+        "device": 2066,
+        "inode": 10410763,
+        "nlink": 1,
+        "allocated_bytes": 4431872
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_002/features/train_00231.pt",
+      "producer_identity": {
+        "bytes": 19819683,
+        "sha256": "c34bf17362bf059886c4f5ef7b2c7f835dbcd1dfde64f430856e84c184653c7e"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_002/features/train_00231.pt",
+        "bytes": 19819683,
+        "device": 2066,
+        "inode": 4030479130,
+        "nlink": 1,
+        "allocated_bytes": 19820544
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_008/features/coding_training_00392.pt",
+      "producer_identity": {
+        "bytes": 11657287,
+        "sha256": "9121597b06f4c22f0ff3901ee92d0019a31d84af705b4c1a14b0a1ecb7ef014f"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_008/features/coding_training_00392.pt",
+        "bytes": 11657287,
+        "device": 2066,
+        "inode": 2691516728,
+        "nlink": 1,
+        "allocated_bytes": 11661312
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_004/features/coding_training_00216.pt",
+      "producer_identity": {
+        "bytes": 9100551,
+        "sha256": "7bf3435b49a4d3185a1f57063a2d4ca63d1679a6ab7972710bb67b593c039158"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_004/features/coding_training_00216.pt",
+        "bytes": 9100551,
+        "device": 2066,
+        "inode": 3265425810,
+        "nlink": 1,
+        "allocated_bytes": 9101312
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_002/features/train_00243.pt",
+      "producer_identity": {
+        "bytes": 14361443,
+        "sha256": "241cfe24024ba1e07de6d567977ed035bfa9ab339673e196491d2cc669f0a8fc"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_002/features/train_00243.pt",
+        "bytes": 14361443,
+        "device": 2066,
+        "inode": 4030479166,
+        "nlink": 1,
+        "allocated_bytes": 14364672
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_001/features/train_00117.pt",
+      "producer_identity": {
+        "bytes": 25622051,
+        "sha256": "43720cd496d9e0fccae5645f53485150176471bdb4f9898054b8fe2102c9b310"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_001/features/train_00117.pt",
+        "bytes": 25622051,
+        "device": 2066,
+        "inode": 1266914595,
+        "nlink": 1,
+        "allocated_bytes": 25624576
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_007/features/coding_training_00350.pt",
+      "producer_identity": {
+        "bytes": 10034631,
+        "sha256": "54034cf41933807b8318abb03368f8cfb779e7a9d12552101e190e74079a0213"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_007/features/coding_training_00350.pt",
+        "bytes": 10034631,
+        "device": 2066,
+        "inode": 10411803,
+        "nlink": 1,
+        "allocated_bytes": 10035200
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_004/features/coding_training_00233.pt",
+      "producer_identity": {
+        "bytes": 13427591,
+        "sha256": "59c1632ae5f07e1a3f051fc05be957b44c833bd9fd8fc790e67c78297dbb3e34"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_004/features/coding_training_00233.pt",
+        "bytes": 13427591,
+        "device": 2066,
+        "inode": 3265469479,
+        "nlink": 1,
+        "allocated_bytes": 13430784
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_002/features/train_00212.pt",
+      "producer_identity": {
+        "bytes": 29604835,
+        "sha256": "8c27bda74bda6f877a0219facff19d68d6c3fefe6bf26c0ab70932a2047254ab"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_002/features/train_00212.pt",
+        "bytes": 29604835,
+        "device": 2066,
+        "inode": 4032072130,
+        "nlink": 1,
+        "allocated_bytes": 29605888
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_003/features/coding_training_00087.pt",
+      "producer_identity": {
+        "bytes": 15836871,
+        "sha256": "4934e533d0e9742ae3d68a8368bbe90a9b2eed58c50978e08b16407b0b336d9f"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_003/features/coding_training_00087.pt",
+        "bytes": 15836871,
+        "device": 2066,
+        "inode": 2298899733,
+        "nlink": 1,
+        "allocated_bytes": 15839232
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_004/features/coding_training_00229.pt",
+      "producer_identity": {
+        "bytes": 21246215,
+        "sha256": "bfb5fb9eacfa25bb9ec2c669328aecb6908056631df2f0e789f76f1fd6a94789"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_004/features/coding_training_00229.pt",
+        "bytes": 21246215,
+        "device": 2066,
+        "inode": 3265469459,
+        "nlink": 1,
+        "allocated_bytes": 21250048
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_006/features/train_00407.pt",
+      "producer_identity": {
+        "bytes": 14607587,
+        "sha256": "b9bfc9d277cd5017cda3b5e439377151a1da2c2e3d6d4495f66a1c80a2608e3c"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_006/features/train_00407.pt",
+        "bytes": 14607587,
+        "device": 2066,
+        "inode": 3265595583,
+        "nlink": 1,
+        "allocated_bytes": 14610432
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_004/features/coding_training_00144.pt",
+      "producer_identity": {
+        "bytes": 18934727,
+        "sha256": "970757eb69859c2a6a4aaaef857d52353e1ef071c4abd14c603e4ca0481eb478"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_004/features/coding_training_00144.pt",
+        "bytes": 18934727,
+        "device": 2066,
+        "inode": 3265311002,
+        "nlink": 1,
+        "allocated_bytes": 18935808
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_002/features/train_00219.pt",
+      "producer_identity": {
+        "bytes": 16574435,
+        "sha256": "6c795ba56bfb3a20bdc6645af453e788a165d8f768ad0794246adafe2fcaa7b7"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_002/features/train_00219.pt",
+        "bytes": 16574435,
+        "device": 2066,
+        "inode": 4032072172,
+        "nlink": 1,
+        "allocated_bytes": 16576512
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_004/features/coding_training_00182.pt",
+      "producer_identity": {
+        "bytes": 24048839,
+        "sha256": "b92fd79dc8b3c74b36b4f93ad3591852152f4d7e1f4666067ef90027e58929d5"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_004/features/coding_training_00182.pt",
+        "bytes": 24048839,
+        "device": 2066,
+        "inode": 3265377522,
+        "nlink": 1,
+        "allocated_bytes": 24051712
+      }
+    },
+    {
+      "kind": "final_reservoir_packet",
+      "path": "/data/sources/minhao/runs/dflash_k_workload_replay_v1_20261102/production_001/campaign_001/events/event_003/features/coding_training_00097.pt",
+      "producer_identity": {
+        "bytes": 9887239,
+        "sha256": "75c59748a9018603ec5ece40f1d51021fc496ef35e1712c2ad1368e1c020210f"
+      },
+      "stat": {
+        "path": "campaign_001/events/event_003/features/coding_training_00097.pt",
+        "bytes": 9887239,
+        "device": 2066,
+        "inode": 2298899773,
+        "nlink": 1,
+        "allocated_bytes": 9887744
+      }
+    }
+  ],
+  "errors": [],
+  "scope": "Fresh parent-produced remote stat proves path existence, recorded size and inode linkage at receipt time; no content hash or tensor decode was performed. Content identities remain producer commit/export/packet receipts."
+}

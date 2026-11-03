@@ -1,0 +1,188 @@
+{
+  "status": "passed",
+  "utc": "2026-11-03T02:15:36.326920+00:00",
+  "scope": "Independent aggregation check of parent exposure tables from original response observations; reviewer authored trainer and does not claim independent trainer validation",
+  "events": 24,
+  "passes": 48,
+  "responses": 6144,
+  "unique_presentations_within_passes": true,
+  "per_pass_count": 128,
+  "all_csv_fields_compared": true,
+  "all_total_fields_compared": true,
+  "first_error_histogram_plus_no_error_and_empty_equals_active_anchors_each_record": true,
+  "selected_weight_vs_loss_denominator": {
+    "exact": false,
+    "max_absolute_difference": 1.9073486328125e-06,
+    "note": "The two producer fields differ by up to the recorded amount. This check sums selected_position_weight directly, as the published tables do; it does not substitute loss_denominator."
+  },
+  "no_double_count": "Each RESULT.records[].response_observation.sum_metrics is summed once. No accumulated metrics or optimizer-boundary selection_totals are summed.",
+  "float_comparison_tolerance": {
+    "rel_tol": 1e-12,
+    "abs_tol": 1e-09
+  },
+  "totals": {
+    "K": {
+      "response_presentations": 2048.0,
+      "active_anchors": 542308.0,
+      "available_position_occurrences": 7924658.0,
+      "selected_position_occurrences": 4328864.0,
+      "available_position_weight": 3535915.1807403564,
+      "selected_position_weight": 2436995.401394844,
+      "no_error_blocks": 111801.0,
+      "empty_blocks": 0.0
+    },
+    "U": {
+      "response_presentations": 2048.0,
+      "active_anchors": 543435.0,
+      "available_position_occurrences": 7940991.0,
+      "selected_position_occurrences": 4401565.0,
+      "available_position_weight": 3543222.995990753,
+      "selected_position_weight": 2464473.090121269,
+      "no_error_blocks": 116419.0,
+      "empty_blocks": 0.0
+    },
+    "R": {
+      "response_presentations": 2048.0,
+      "active_anchors": 545614.0,
+      "available_position_occurrences": 7973717.0,
+      "selected_position_occurrences": 4418085.0,
+      "available_position_weight": 3557687.0910186768,
+      "selected_position_weight": 2474039.855772972,
+      "no_error_blocks": 116631.0,
+      "empty_blocks": 0.0
+    }
+  },
+  "source_files": [
+    {
+      "path": "retrieved_001/production_001/campaign_001/arms/K/trainer/events/event_001/RESULT.json",
+      "bytes": 6474568,
+      "sha256": "90bed9f253cd15194e36333403be7af112e33564d72cc391309240953d985f44"
+    },
+    {
+      "path": "retrieved_001/production_001/campaign_001/arms/K/trainer/events/event_002/RESULT.json",
+      "bytes": 6626517,
+      "sha256": "4e1c84a4021b57b9a0cf437cff92d4a77dd1c8e503cdb8f182f42ad04c3e9020"
+    },
+    {
+      "path": "retrieved_001/production_001/campaign_001/arms/K/trainer/events/event_003/RESULT.json",
+      "bytes": 6689238,
+      "sha256": "d5ba1f159af2fa9926501fd4cc9f8ba405a1a26743be94c416dcec6a2f214515"
+    },
+    {
+      "path": "retrieved_001/production_001/campaign_001/arms/K/trainer/events/event_004/RESULT.json",
+      "bytes": 6952919,
+      "sha256": "c6e016947f72dbaacfb1234119939ef0d1a916040359e60ea12e80528af88ab2"
+    },
+    {
+      "path": "retrieved_001/production_001/campaign_001/arms/K/trainer/events/event_005/RESULT.json",
+      "bytes": 6614576,
+      "sha256": "9d98ab473866f530ba1f38a1d5b503516a9dac6bd3436321e6ec608a5aba310e"
+    },
+    {
+      "path": "retrieved_001/production_001/campaign_001/arms/K/trainer/events/event_006/RESULT.json",
+      "bytes": 6551111,
+      "sha256": "59acceaa9f656b0ab79d7bd676012d749178d7eb3ab7297ea52e36e01b5780c0"
+    },
+    {
+      "path": "retrieved_001/production_001/campaign_001/arms/K/trainer/events/event_007/RESULT.json",
+      "bytes": 6986098,
+      "sha256": "92d6e4fea86960961fc03567d7c52f400bb1e3d49ae50fb739bfa8402821f730"
+    },
+    {
+      "path": "retrieved_001/production_001/campaign_001/arms/K/trainer/events/event_008/RESULT.json",
+      "bytes": 6659894,
+      "sha256": "2bfbb884a286aca22138290661dc1a1b38ad2f39df3da3e642d45617f849e92f"
+    },
+    {
+      "path": "retrieved_001/production_001/campaign_001/arms/U/trainer/events/event_001/RESULT.json",
+      "bytes": 6474573,
+      "sha256": "1f4be33bcfa320f533ece45f4d29d51ebd8c7e24bdb0d40ed9ab6b25fcaff105"
+    },
+    {
+      "path": "retrieved_001/production_001/campaign_001/arms/U/trainer/events/event_002/RESULT.json",
+      "bytes": 6569072,
+      "sha256": "282d47c86090d718b8278f29b41ed10afe7c1c912700140b946e09d68b12e928"
+    },
+    {
+      "path": "retrieved_001/production_001/campaign_001/arms/U/trainer/events/event_003/RESULT.json",
+      "bytes": 6734122,
+      "sha256": "0309ae3ce18aae029f5d75a914694e0bb1a1840e85d37f2acacb560c594e65d0"
+    },
+    {
+      "path": "retrieved_001/production_001/campaign_001/arms/U/trainer/events/event_004/RESULT.json",
+      "bytes": 6787134,
+      "sha256": "707d84e4c920f3faaaea5dfe3416dd1f30820403b640ee8f27c77c7b2a81d2b7"
+    },
+    {
+      "path": "retrieved_001/production_001/campaign_001/arms/U/trainer/events/event_005/RESULT.json",
+      "bytes": 6745124,
+      "sha256": "03ccc8b4760689561473c0e0e47be4ed10aad24073be79b689466b50c347aa0a"
+    },
+    {
+      "path": "retrieved_001/production_001/campaign_001/arms/U/trainer/events/event_006/RESULT.json",
+      "bytes": 6645539,
+      "sha256": "07c5fc5bc64a17ba24e8c34f4c37ad991851b649c859c7ff2f4a6732abef6e70"
+    },
+    {
+      "path": "retrieved_001/production_001/campaign_001/arms/U/trainer/events/event_007/RESULT.json",
+      "bytes": 7035921,
+      "sha256": "a9aeefda22c0a5225851e858d497f7c78cddac7ab25e50eebf51cad4db61e562"
+    },
+    {
+      "path": "retrieved_001/production_001/campaign_001/arms/U/trainer/events/event_008/RESULT.json",
+      "bytes": 6655599,
+      "sha256": "07c6fe5f04523cc90ebafd0c318a8a4c8efdcc1397a56fe2452db0110fad0927"
+    },
+    {
+      "path": "retrieved_001/production_001/campaign_001/arms/R/trainer/events/event_001/RESULT.json",
+      "bytes": 6474570,
+      "sha256": "41eeb9ca9ff377eff7d7f1e5eefd2d8d33a57b07e04ded69ee2a6300b7c23127"
+    },
+    {
+      "path": "retrieved_001/production_001/campaign_001/arms/R/trainer/events/event_002/RESULT.json",
+      "bytes": 6626612,
+      "sha256": "5d8d301466c1f54023a13ea0cc5afef28cc76a8f66964a6e5d9e01241255e1b1"
+    },
+    {
+      "path": "retrieved_001/production_001/campaign_001/arms/R/trainer/events/event_003/RESULT.json",
+      "bytes": 6761153,
+      "sha256": "855a620f44db1e36b2d29eec48bf5e247fc1e20605e04ae6279a61db25d096f8"
+    },
+    {
+      "path": "retrieved_001/production_001/campaign_001/arms/R/trainer/events/event_004/RESULT.json",
+      "bytes": 6832664,
+      "sha256": "daccba16ea52e2baae22e6e89b0985ab4cfda99243519fb5f7154b41a758ef83"
+    },
+    {
+      "path": "retrieved_001/production_001/campaign_001/arms/R/trainer/events/event_005/RESULT.json",
+      "bytes": 6683281,
+      "sha256": "0e17d3b300a861691a0f362b799e280ec43a7b8cee5e967278f6b7b3980bf50b"
+    },
+    {
+      "path": "retrieved_001/production_001/campaign_001/arms/R/trainer/events/event_006/RESULT.json",
+      "bytes": 6638417,
+      "sha256": "f2c2e32cbf086c8f4eff72eccace644f0186564ec736183c99d5222e16957bf6"
+    },
+    {
+      "path": "retrieved_001/production_001/campaign_001/arms/R/trainer/events/event_007/RESULT.json",
+      "bytes": 7083140,
+      "sha256": "b5f591599cefec9da2f6cb5e019d38b98d78f8a8ec8bea50c57354633616805d"
+    },
+    {
+      "path": "retrieved_001/production_001/campaign_001/arms/R/trainer/events/event_008/RESULT.json",
+      "bytes": 6726235,
+      "sha256": "4f2732f7e3c9a9e43a2b531a16f3cb88d92d6a266f21e640e341422042fa96a0"
+    },
+    {
+      "path": "final_delivery_001/TRAINING_EXPOSURE.csv",
+      "bytes": 10186,
+      "sha256": "afbe7a140c5f81324df0cdc99054874e27b20b224edba6c1749693b7178109f7"
+    },
+    {
+      "path": "final_delivery_001/TRAINING_EXPOSURE_TOTALS.json",
+      "bytes": 3024,
+      "sha256": "cd1343263eebded2e47ebf73f4a4244502edea2c1190b9242de0044d38dee82c"
+    }
+  ],
+  "model_work": 0
+}

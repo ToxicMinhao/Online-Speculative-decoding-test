@@ -1,0 +1,389 @@
+{
+  "status": "passed",
+  "model_work": 0,
+  "postflight": false,
+  "seal": {
+    "status": "passed",
+    "files_checked": 3453,
+    "execution_source": {
+      "commit": "8a4cbcc8b78adfee845a0a1409db4a0d29c54058",
+      "dirty": false,
+      "source_path": "/data/sources/minhao/DFlash-Online",
+      "repository": "https://github.com/ToxicMinhao/Online-Speculative-decoding-test",
+      "scientific_base": "4d94f30c42701d0f86ac04e2829c834593c16d8e"
+    }
+  },
+  "plan": {
+    "status": "passed",
+    "model_work": 0,
+    "events": 8,
+    "arms": [
+      "K",
+      "U",
+      "R"
+    ],
+    "budget": {
+      "pre_update_generations": 3072,
+      "shared_feedback_generations": 1024,
+      "final_generations": 2304,
+      "capture_parity_generations": 4,
+      "complete_generations": 5380,
+      "terminal_preparation_forwards": 1024,
+      "optimizer_steps": 3072,
+      "response_forwards": 6144,
+      "response_backwards": 6144,
+      "replay_presentations": 448,
+      "scoring_model_passes": 0,
+      "disposable_optimizer_steps": 0
+    }
+  },
+  "native_runtime": {
+    "python_version": "3.12.14",
+    "torch": "2.9.1+cu130",
+    "transformers": "4.57.1",
+    "cuda": "13.0",
+    "native_runtime_sha256": {
+      "speculative/dflash_worker.py": "9397402f5cfbf60b00b7d27d551e5e9e1b605be9b084d028d4ddda76c475dc8c",
+      "speculative/dflash_info.py": "9c7ac23a1bf0840eec8218f02f2adbfc3e419099cd19822137ce5c6e0e902218",
+      "layers/logits_processor.py": "5c6c54bec37b941652e29908c773a756fe6c86f99932ab80043672a1eaa0f086",
+      "models/qwen3.py": "e23ee8af21eac46685852854a5fe585cf58477d4a1f8047887d6afeefaf8e32d",
+      "models/dflash.py": "d4fcfe005a1acc51a4938d038e1dbc1a2c8ff245842f4253338527335b2327b2",
+      "entrypoints/engine.py": "2bcd4b04c325d4ed65f867490c5bac9e915e02f05471c83dacb5a4a097cf1f2a",
+      "server_args.py": "bd60199803698e4ffe6dc44499a8d42be73f42db28056cb6750411523cf56c04"
+    }
+  },
+  "training_runtime": {
+    "python": "3.12.15",
+    "torch": "2.13.0+cu130",
+    "transformers": "5.12.1"
+  },
+  "hardware": {
+    "status": "passed",
+    "gpus": [
+      {
+        "index": 0,
+        "name": "NVIDIA A800 80GB PCIe",
+        "total_mib": 81920,
+        "used_mib": 0
+      },
+      {
+        "index": 1,
+        "name": "NVIDIA A800 80GB PCIe",
+        "total_mib": 81920,
+        "used_mib": 0
+      }
+    ],
+    "active_compute_processes": [],
+    "cuda_context_created": false
+  },
+  "host_available_bytes": 137295110144,
+  "storage": {
+    "status": "passed",
+    "free_bytes": 76724031488,
+    "required_bytes": 75023917685,
+    "headroom_bytes": 1700113803,
+    "plan": {
+      "weight_bytes": 2097259104,
+      "row_bytes": 49164,
+      "phases": [
+        {
+          "event": 1,
+          "past_memory_rows": 0,
+          "fresh_rows": 271619,
+          "incremental_raw_terminal_rows": 2175,
+          "capture_tensor_bytes": 40725176568,
+          "training_tensor_bytes": 40618244868,
+          "export_tensor_bytes": 42715503972,
+          "post_eviction_memory_rows": 271619
+        },
+        {
+          "event": 2,
+          "past_memory_rows": 271619,
+          "fresh_rows": 271349,
+          "incremental_raw_terminal_rows": 2199,
+          "capture_tensor_bytes": 54066958740,
+          "training_tensor_bytes": 53958847104,
+          "export_tensor_bytes": 42720420372,
+          "post_eviction_memory_rows": 271719
+        },
+        {
+          "event": 3,
+          "past_memory_rows": 271719,
+          "fresh_rows": 267355,
+          "incremental_raw_terminal_rows": 2218,
+          "capture_tensor_bytes": 53876448240,
+          "training_tensor_bytes": 53767402488,
+          "export_tensor_bytes": 42649476720,
+          "post_eviction_memory_rows": 270276
+        },
+        {
+          "event": 4,
+          "past_memory_rows": 270276,
+          "fresh_rows": 267129,
+          "incremental_raw_terminal_rows": 2179,
+          "capture_tensor_bytes": 53792476128,
+          "training_tensor_bytes": 53685347772,
+          "export_tensor_bytes": 42615701052,
+          "post_eviction_memory_rows": 269589
+        },
+        {
+          "event": 5,
+          "past_memory_rows": 269589,
+          "fresh_rows": 271167,
+          "incremental_raw_terminal_rows": 2187,
+          "capture_tensor_bytes": 53957618004,
+          "training_tensor_bytes": 53850096336,
+          "export_tensor_bytes": 42627057936,
+          "post_eviction_memory_rows": 269820
+        },
+        {
+          "event": 6,
+          "past_memory_rows": 269820,
+          "fresh_rows": 271827,
+          "incremental_raw_terminal_rows": 2231,
+          "capture_tensor_bytes": 54003586344,
+          "training_tensor_bytes": 53893901460,
+          "export_tensor_bytes": 42637874016,
+          "post_eviction_memory_rows": 270040
+        },
+        {
+          "event": 7,
+          "past_memory_rows": 270040,
+          "fresh_rows": 266682,
+          "incremental_raw_terminal_rows": 2156,
+          "capture_tensor_bytes": 53757766344,
+          "training_tensor_bytes": 53651768760,
+          "export_tensor_bytes": 42624206424,
+          "post_eviction_memory_rows": 269762
+        },
+        {
+          "event": 8,
+          "past_memory_rows": 269762,
+          "fresh_rows": 267211,
+          "incremental_raw_terminal_rows": 2200,
+          "capture_tensor_bytes": 53772269724,
+          "training_tensor_bytes": 53664108924,
+          "export_tensor_bytes": 42612210408,
+          "post_eviction_memory_rows": 269518
+        }
+      ],
+      "tensor_peak_bytes": 54066958740,
+      "tensor_peak_with_margin_bytes": 56770306677,
+      "tensor_headroom_percent": 5,
+      "compiler_growth_bytes": 4294967296,
+      "compact_bytes": 3221225472,
+      "workspace_bytes": 2147483648,
+      "reserve_bytes": 8589934592,
+      "required_initial_free_bytes": 75023917685,
+      "compiler_baseline": [
+        {
+          "path": "/data/sources/minhao/.cache/torch",
+          "allocated_bytes": 0
+        },
+        {
+          "path": "/data/sources/minhao/.cache/torch_extensions",
+          "allocated_bytes": 0
+        },
+        {
+          "path": "/data/sources/minhao/.cache/torchinductor",
+          "allocated_bytes": 1015615488
+        },
+        {
+          "path": "/data/sources/minhao/.cache/triton",
+          "allocated_bytes": 2046226432
+        },
+        {
+          "path": "/data/sources/minhao/.cache/cuda",
+          "allocated_bytes": 0
+        },
+        {
+          "path": "/data/sources/minhao/.cache/sglang",
+          "allocated_bytes": 35897344
+        },
+        {
+          "path": "/data/sources/minhao/.cache/flashinfer",
+          "allocated_bytes": 32526336
+        },
+        {
+          "path": "/data/sources/minhao/.cache/tvm-ffi",
+          "allocated_bytes": 3657728
+        }
+      ],
+      "compiler_allowance_basis": "4 GiB additional growth exceeds the measured existing qualified caches; same kernels and cached runtime are reused. Enforced during this run.",
+      "lifecycle": "One shared initial; retire preceding serving exports after all serving checks; defer exports until successor state validation and reservoir eviction.",
+      "preflight_full_phase_table": [
+        {
+          "event": 1,
+          "phase": "preupdate_capture_preparation",
+          "tensor_bytes": 40725176568,
+          "tensor_with_5pct_margin_bytes": 42761435397,
+          "required_initial_free_bytes": 61015046405
+        },
+        {
+          "event": 1,
+          "phase": "pending_complete_state_save",
+          "tensor_bytes": 40618244868,
+          "tensor_with_5pct_margin_bytes": 42649157112,
+          "required_initial_free_bytes": 60902768120
+        },
+        {
+          "event": 1,
+          "phase": "post_commit_exports",
+          "tensor_bytes": 42715503972,
+          "tensor_with_5pct_margin_bytes": 44851279171,
+          "required_initial_free_bytes": 63104890179
+        },
+        {
+          "event": 2,
+          "phase": "preupdate_capture_preparation",
+          "tensor_bytes": 54066958740,
+          "tensor_with_5pct_margin_bytes": 56770306677,
+          "required_initial_free_bytes": 75023917685
+        },
+        {
+          "event": 2,
+          "phase": "pending_complete_state_save",
+          "tensor_bytes": 53958847104,
+          "tensor_with_5pct_margin_bytes": 56656789460,
+          "required_initial_free_bytes": 74910400468
+        },
+        {
+          "event": 2,
+          "phase": "post_commit_exports",
+          "tensor_bytes": 42715503972,
+          "tensor_with_5pct_margin_bytes": 44851279171,
+          "required_initial_free_bytes": 63104890179
+        },
+        {
+          "event": 3,
+          "phase": "preupdate_capture_preparation",
+          "tensor_bytes": 53876448240,
+          "tensor_with_5pct_margin_bytes": 56570270652,
+          "required_initial_free_bytes": 74823881660
+        },
+        {
+          "event": 3,
+          "phase": "pending_complete_state_save",
+          "tensor_bytes": 53767402488,
+          "tensor_with_5pct_margin_bytes": 56455772613,
+          "required_initial_free_bytes": 74709383621
+        },
+        {
+          "event": 3,
+          "phase": "post_commit_exports",
+          "tensor_bytes": 42720420372,
+          "tensor_with_5pct_margin_bytes": 44856441391,
+          "required_initial_free_bytes": 63110052399
+        },
+        {
+          "event": 4,
+          "phase": "preupdate_capture_preparation",
+          "tensor_bytes": 53792476128,
+          "tensor_with_5pct_margin_bytes": 56482099935,
+          "required_initial_free_bytes": 74735710943
+        },
+        {
+          "event": 4,
+          "phase": "pending_complete_state_save",
+          "tensor_bytes": 53685347772,
+          "tensor_with_5pct_margin_bytes": 56369615161,
+          "required_initial_free_bytes": 74623226169
+        },
+        {
+          "event": 4,
+          "phase": "post_commit_exports",
+          "tensor_bytes": 42649476720,
+          "tensor_with_5pct_margin_bytes": 44781950556,
+          "required_initial_free_bytes": 63035561564
+        },
+        {
+          "event": 5,
+          "phase": "preupdate_capture_preparation",
+          "tensor_bytes": 53957618004,
+          "tensor_with_5pct_margin_bytes": 56655498905,
+          "required_initial_free_bytes": 74909109913
+        },
+        {
+          "event": 5,
+          "phase": "pending_complete_state_save",
+          "tensor_bytes": 53850096336,
+          "tensor_with_5pct_margin_bytes": 56542601153,
+          "required_initial_free_bytes": 74796212161
+        },
+        {
+          "event": 5,
+          "phase": "post_commit_exports",
+          "tensor_bytes": 42693281844,
+          "tensor_with_5pct_margin_bytes": 44827945937,
+          "required_initial_free_bytes": 63081556945
+        },
+        {
+          "event": 6,
+          "phase": "preupdate_capture_preparation",
+          "tensor_bytes": 54003586344,
+          "tensor_with_5pct_margin_bytes": 56703765662,
+          "required_initial_free_bytes": 74957376670
+        },
+        {
+          "event": 6,
+          "phase": "pending_complete_state_save",
+          "tensor_bytes": 53893901460,
+          "tensor_with_5pct_margin_bytes": 56588596533,
+          "required_initial_free_bytes": 74842207541
+        },
+        {
+          "event": 6,
+          "phase": "post_commit_exports",
+          "tensor_bytes": 42725730084,
+          "tensor_with_5pct_margin_bytes": 44862016589,
+          "required_initial_free_bytes": 63115627597
+        },
+        {
+          "event": 7,
+          "phase": "preupdate_capture_preparation",
+          "tensor_bytes": 53757766344,
+          "tensor_with_5pct_margin_bytes": 56445654662,
+          "required_initial_free_bytes": 74699265670
+        },
+        {
+          "event": 7,
+          "phase": "pending_complete_state_save",
+          "tensor_bytes": 53651768760,
+          "tensor_with_5pct_margin_bytes": 56334357198,
+          "required_initial_free_bytes": 74587968206
+        },
+        {
+          "event": 7,
+          "phase": "post_commit_exports",
+          "tensor_bytes": 42637874016,
+          "tensor_with_5pct_margin_bytes": 44769767717,
+          "required_initial_free_bytes": 63023378725
+        },
+        {
+          "event": 8,
+          "phase": "preupdate_capture_preparation",
+          "tensor_bytes": 53772269724,
+          "tensor_with_5pct_margin_bytes": 56460883211,
+          "required_initial_free_bytes": 74714494219
+        },
+        {
+          "event": 8,
+          "phase": "pending_complete_state_save",
+          "tensor_bytes": 53664108924,
+          "tensor_with_5pct_margin_bytes": 56347314371,
+          "required_initial_free_bytes": 74600925379
+        },
+        {
+          "event": 8,
+          "phase": "post_commit_exports",
+          "tensor_bytes": 42624206424,
+          "tensor_with_5pct_margin_bytes": 44755416746,
+          "required_initial_free_bytes": 63009027754
+        }
+      ],
+      "weight_file_bytes": 2097259104,
+      "weight_tensor_bytes": 2097252864
+    }
+  },
+  "wall_s": 37.61139808781445
+}

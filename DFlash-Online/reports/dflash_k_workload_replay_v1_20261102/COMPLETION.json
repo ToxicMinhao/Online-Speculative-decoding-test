@@ -1,0 +1,142 @@
+{
+  "status": "completed_valid",
+  "execution_commit": "8a4cbcc8b78adfee845a0a1409db4a0d29c54058",
+  "wrapper_exit_code": 0,
+  "campaign_exit_code": 0,
+  "report_exit_code": 0,
+  "postflight_exit_code": 0,
+  "start_utc": "2026-11-02T21:01:53Z",
+  "end_utc": "2026-11-03T01:56:37Z",
+  "events_per_arm": 8,
+  "adam_steps_per_arm": 1024,
+  "presentations_per_arm": 2048,
+  "total_complete_generations": 5380,
+  "preupdate_generations": 3072,
+  "parity_controls": 4,
+  "final_generations": 2304,
+  "invalid_generations": 0,
+  "unattempted_generations": 0,
+  "terminal_preparations": 1024,
+  "total_adam_steps": 3072,
+  "total_presentations": 6144,
+  "extra_scoring_forwards": 0,
+  "disposable_adam_steps": 0,
+  "scientific_retries": 0,
+  "new_training_or_tuning_after_final": 0,
+  "verification_status": "ANALYZED",
+  "primary": {
+    "call_reduction": {
+      "point_pct": 0.09204571603896872,
+      "ci95_pct": [
+        -0.4774916258159517,
+        0.6432475214236874
+      ],
+      "undefined_bootstrap_draws": 0,
+      "candidate_sum": 13025.0,
+      "reference_sum": 13037.0
+    },
+    "request_wins": 101,
+    "request_regressions": 107,
+    "request_ties": 48,
+    "request_denominator": 256,
+    "gross_calls_saved": 241,
+    "gross_calls_added": 229,
+    "request_latency_s_reduction": {
+      "point_pct": -0.6691324211888894,
+      "ci95_pct": [
+        -1.7589571606365189,
+        0.34402058413030984
+      ],
+      "undefined_bootstrap_draws": 0,
+      "candidate_sum": 231.7646597251296,
+      "reference_sum": 230.22415526087087
+    },
+    "native_generate_s_reduction": {
+      "point_pct": -0.1592112969805104,
+      "ci95_pct": [
+        -1.0032952993807325,
+        0.646423040152468
+      ],
+      "undefined_bootstrap_draws": 0,
+      "candidate_sum": 222.95741618114215,
+      "reference_sum": 222.6030070465058
+    },
+    "cache_maintenance_s_reduction": {
+      "point_pct": -29.949980148016753,
+      "ci95_pct": [
+        -88.96275578034742,
+        11.206776611624804
+      ],
+      "undefined_bootstrap_draws": 0,
+      "candidate_sum": 4.600381539513668,
+      "reference_sum": 3.540117154518763
+    },
+    "serving_throughput_ratio": {
+      "point": 0.9933531520030459,
+      "ci95": [
+        0.9827144734019593,
+        1.0034520817498827
+      ],
+      "denominator": "candidate/reference output tokens per second, using per-request three-repeat mean times"
+    }
+  },
+  "required_usefulness": {
+    "call_reduction": {
+      "point_pct": -0.16148877268533646,
+      "ci95_pct": [
+        -0.8027453893353803,
+        0.4487341661664223
+      ],
+      "undefined_bootstrap_draws": 0,
+      "candidate_sum": 13025.0,
+      "reference_sum": 13004.0
+    },
+    "request_wins": 101,
+    "request_regressions": 112,
+    "request_ties": 43,
+    "request_denominator": 256,
+    "gross_calls_saved": 241,
+    "gross_calls_added": 262,
+    "request_latency_s_reduction": {
+      "point_pct": -0.6440924597248765,
+      "ci95_pct": [
+        -1.791067688886745,
+        0.42619327187161604
+      ],
+      "undefined_bootstrap_draws": 0,
+      "candidate_sum": 231.7646597251296,
+      "reference_sum": 230.2814343702048
+    },
+    "native_generate_s_reduction": {
+      "point_pct": -0.7443840259049095,
+      "ci95_pct": [
+        -1.6310645787443523,
+        0.08798336881722671
+      ],
+      "undefined_bootstrap_draws": 0,
+      "candidate_sum": 222.95741618114215,
+      "reference_sum": 221.31001974642277
+    },
+    "cache_maintenance_s_reduction": {
+      "point_pct": 4.429904152614828,
+      "ci95_pct": [
+        -31.88563594102205,
+        31.772660460862664
+      ],
+      "undefined_bootstrap_draws": 0,
+      "candidate_sum": 4.600381539513668,
+      "reference_sum": 4.813620305309692
+    },
+    "serving_throughput_ratio": {
+      "point": 0.9936002954174122,
+      "ci95": [
+        0.9824044709515901,
+        1.004280174539892
+      ],
+      "denominator": "candidate/reference output tokens per second, using per-request three-repeat mean times"
+    }
+  },
+  "decision": "No demonstrated upgrade; retain K and park this fixed coverage allocation. A proposal, no next experiment authorized.",
+  "stage": "Stage 1 / project None unchanged",
+  "separate_reviews": "same-team CPU reconstruction, with disclosed implementation overlap; not independent GPU replication"
+}

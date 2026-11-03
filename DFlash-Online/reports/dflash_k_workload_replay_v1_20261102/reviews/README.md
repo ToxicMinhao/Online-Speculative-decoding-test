@@ -1,0 +1,3 @@
+# Review provenance and access
+
+Execution: `8a4cbcc8b78adfee845a0a1409db4a0d29c54058`. These are separate same-team CPU reviews with disclosed implementation overlap, not independent GPU replications. Their original relative private-evidence links refer to the workspace task directory `/home/minhao2/EAGLE_SPEC/research/dflash_k_workload_replay_v1_20261102`; private raw data are intentionally outside Git. The containing public package preserves numerical records, file identities and review code. See `../PROVENANCE.json` for the exact retained root and archive receipt. No missing bulk tensor was recreated.
