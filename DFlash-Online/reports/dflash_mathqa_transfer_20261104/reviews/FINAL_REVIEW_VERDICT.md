@@ -1,0 +1,15 @@
+# MathQA fixed-checkpoint confirmation — independent review verdict
+
+## Material Passport
+
+ARS experiment-agent validate; same-team separate scalar calculation, with statistics/report authorship overlap disclosed. Original raw measurement rows were read from the 63-file, 79,633,180-byte compact subset whose hashes the resource agent verified against the original A800 inventory. Bulk native artifacts were not yet fully retrieved for this review. No production statistics helpers were imported, no protocol was changed, and no model work was performed.
+
+**The recorded endpoint and accounting reproduce.** The first calculation passed 179,617 checks; the exact raw-repeat/paired-mean/cost calculation passed 271,379. All 9,216 original timing rows round-trip exactly to the exported all-repeat table. All 1,024 request identities remain in analysis, with 45 cap hits per checkpoint. Three historical controls remain separate. There is no invalid, unknown or unattempted work in the completed 9,219-generation accounting.
+
+**K+58 beats ordinary OSD on this MathQA panel, but its incremental advantage over K58 does not repeat here.** The prespecified primary K+/O complete-time reduction is **2.0522% [1.6520%, 2.4525%]**, so the secondary K+/K test is confirmatory. Its result is **−0.1003% [−0.4399%, 0.2427%]**, which does not establish an incremental improvement or equivalence. The corresponding once-per-request call totals are O 74,786, K 73,117 and K+ 73,132. K+ saves 1,654 net calls versus O, but adds 15 versus K. This is a completed valid mixed result.
+
+K+/O complete-request time is lower in all three timing repeats. K+/K is slower in repeats 0 and 2 and faster in repeat 1. These descriptive repeat directions agree with reporting a stable primary advantage and unresolved incremental difference; repeats are not independent prompt samples and receive no extra significance tests. Per-request differences also remain visible: K+/O wins/regressions/ties 635/249/140; K+/K 407/396/221.
+
+Complete serving across all timed executions took **12,051.922 s**. This includes **11,479.388 s** native generation and **477.020 s** cache maintenance, plus other request overhead; these are nested components, not additive extras. Final timed-stage wall was **13,050.616 s**, including **235.168 s** of checkpoint activation and **9.863 s** of weight validation outside request timers. Campaign wall was **13,160.476 s** (about 3 h 39 min), including controls, initial loading, close and other audit/serial work. No detailed kernel breakdown or adaptation-inclusive speedup follows.
+
+The full 11/11 ARS interpretation scan is in `ENDPOINT_REVIEW.md`; source hashes, independent paired rows, bootstrap reconstruction and repeat/cost checks are preserved beside it. The intervals concern 1,024 eligible MathQA requests and these fixed GSM8K-trained checkpoints. They do not establish multi-seed robustness, a mechanism explanation, equivalent algorithms or a general cross-domain advantage. No further experiment is proposed or launched by this audit.
