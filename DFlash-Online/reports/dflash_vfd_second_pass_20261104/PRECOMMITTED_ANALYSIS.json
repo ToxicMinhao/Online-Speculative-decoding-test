@@ -1,0 +1,32 @@
+{
+  "panel_digest": "f416ad18ae12685811fb09dfce9f9bf7bcb299b8c7d1f1e8dbe2c2c54382afff",
+  "policy_version": "vfd-s2-v1",
+  "analysis": {
+    "policy": "vfd-s2-v1",
+    "primary": "PROGRESS64_vs_FULL",
+    "statistic": "100 * (1 - sum(candidate per-request repeat means) / sum(comparator per-request repeat means))",
+    "bootstrap": {
+      "seed": 20261104,
+      "generator": "PCG64",
+      "draws": 10000,
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "method": "linear",
+      "unit": "paired request",
+      "shared_draws": true
+    },
+    "acceptable_slowdown_pct": 0.5,
+    "clear_simpler_dominance": "RANDOM64 or ONCE has strictly lower updater time than PROGRESS64 and PROGRESS64-versus-arm latency interval upper bound < 0",
+    "efficiency_preference": [
+      "ONCE",
+      "RANDOM64",
+      "PROGRESS64"
+    ],
+    "updater_time_scope": "Measured logical standalone training-pass worker wall plus scoring/selection worker wall, including packet loads and setup; shared event-1 work charged to every applicable policy; initialization, restoration, preparation and export excluded; compute timers reported separately",
+    "control_intervals": "Descriptive and unadjusted; intervals crossing zero do not establish the added scoring mechanism",
+    "automatic_extension": false
+  },
+  "analysis_digest": "db5d60106bea18980368095342553e6b028ffad94f2fdd5082df697087b5b742"
+}

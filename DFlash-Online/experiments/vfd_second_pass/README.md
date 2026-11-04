@@ -89,3 +89,7 @@ compilation, qualification and all work are reported. A12-hour operational ceili
 prevents an unattended stuck process; it is not a performance-based stopping rule.
 Correctness/resource failures stop with evidence. Null or harmful valid results
 continue. No automatic retries, score tuning, additional arms or longer run.
+
+## Completed screen
+
+The fixed four-event run completed from execution `05e4b30488fb267a196edb1a81a5f6aaf613a838`. PROGRESS64 was 0.8313% slower than FULL (95% paired interval for reduction: −1.5384% to −0.1463%) and did not establish a benefit over RANDOM64 or STATIC64. The prescribed decision is not to advance this rule from this screen; no extension or tuning followed. See the [report and raw summary tables](../../reports/dflash_vfd_second_pass_20261104/REPORT.md).
