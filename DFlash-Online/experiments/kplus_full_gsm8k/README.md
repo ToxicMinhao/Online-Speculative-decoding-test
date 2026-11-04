@@ -100,3 +100,18 @@ supports drafting improvement here; a serving-time claim additionally requires
 a positive lower time bound. Otherwise K remains the incumbent. One fitted seed
 and a reused mathematics panel do not establish broad robustness or an
 asynchronous/training-inclusive speedup. No automatic tuning or rescue run follows.
+
+## Saved-evidence reporting recovery
+
+The original production run completed its model work but its aggregate audit
+used the evaluation directory as the root for native sidecars. Both callers now
+pass the production root explicitly. This changes file resolution only.
+
+For that preserved missing-path failure, `report.py --recover-completed-audit
+--output <new-directory>` permits CPU-only report recovery. It requires complete
+training, all 6,144 saved executions to pass the ordinary audit, the original
+failed exits and audit, successful resource/timing gates and postflight. It
+retains the original campaign status and failure hashes in the new report.
+An incomplete run or a different failure does not qualify. Recovery creates no
+model, optimizer, generation, or replacement scientific record; execution and
+reporting commits must be reported separately.

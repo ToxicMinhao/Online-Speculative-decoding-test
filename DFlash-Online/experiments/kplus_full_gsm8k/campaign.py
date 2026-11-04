@@ -275,7 +275,8 @@ def run(root):
         progress['evaluation'] = evaluation
         progress['post_evaluation_boundary'] = evaluation_boundary(root, plan, backend, phase='after_final_evaluation')
         audit = audit_stage(final, plan['evaluation_requests'], checkpoints,
-            canonicals=read(plan['canonicals']), baseline_counts=read(plan['baseline_counts']))
+            canonicals=read(plan['canonicals']), baseline_counts=read(plan['baseline_counts']),
+            evidence_root=root)
         write_json(campaign / 'FINAL_AUDIT.json', audit)
         if audit['status'] != 'passed':
             raise ValueError('Complete final endpoint failed raw-evidence validation')

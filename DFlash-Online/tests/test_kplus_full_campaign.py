@@ -3,7 +3,7 @@ from pathlib import Path
 from types import SimpleNamespace
 import tempfile
 import unittest
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 from experiments.kplus_full_gsm8k import campaign as C
 from experiments.kplus_full_gsm8k import contract
@@ -81,6 +81,29 @@ class CampaignTests(unittest.TestCase):
         self.assertEqual(result['identity_matches'], 1)
         self.assertEqual(result['exact_anchor_matches'], 0)
         self.assertFalse(result['forced'])
+
+    def test_final_audit_receives_run_root_for_native_sidecars(self):
+        from experiments.kplus_full_gsm8k import evaluation
+        plan = dict(execution_source={'commit': 'fixture'}, storage={}, references={'K': '/retained/K'},
+                    target='/target', draft='/released', worker_python='/worker',
+                    evaluation_requests=[], canonicals='/canonicals', baseline_counts='/counts')
+        values = {
+            str(self.root / 'sealed/PLAN.json'): plan,
+            str(self.root / 'campaign_001/arms/KPLUS/STATUS.json'): {'final_checkpoint': '/new/KPLUS'},
+            '/canonicals': {}, '/counts': {},
+        }
+        backend = SimpleNamespace(loading_s=0., close=Mock())
+        with patch.object(C, 'read', side_effect=lambda path: values[str(path)]), \
+                patch.object(C, 'validate_plan'), patch.object(C, 'admit'), \
+                patch.object(C, 'execute_training'), patch.object(C, 'evaluation_boundary', return_value={}), \
+                patch('online_feedback.sglang_backend.SGLangDFlashBackend', return_value=backend), \
+                patch.object(evaluation, 'evaluate_final', return_value={'status': 'completed'}), \
+                patch.object(evaluation, 'audit_stage', return_value={'status': 'passed', 'rows': []}) as audit:
+            result = C.run(self.root)
+        self.assertEqual(result['status'], 'completed')
+        self.assertEqual(audit.call_args.args[0], self.root / 'campaign_001/evaluation/final')
+        self.assertEqual(audit.call_args.kwargs['evidence_root'], self.root)
+        backend.close.assert_called_once_with()
 
     def test_final_boundary_checks_storage_and_quiescence_outside_requests(self):
         from experiments.kplus_full_gsm8k import preflight

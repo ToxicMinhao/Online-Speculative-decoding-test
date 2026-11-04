@@ -1,6 +1,7 @@
 """Compact outcome, work, exposure and treatment-activity report for fixed K+."""
 import argparse
 import csv
+import hashlib
 import json
 from pathlib import Path
 
@@ -82,30 +83,73 @@ def training_summary(root):
         final_boundary=read(base / 'boundaries/event_058.json'))
 
 
-def build_report(root, output=None):
+def completed_audit_recovery(root, campaign, training, audit):
+    """Recognize the preserved path failure only after all saved evidence passes.
+
+    This disposition concerns CPU reporting. It never rewrites the original
+    campaign status, exit codes or failed audit, and cannot restart model work.
+    """
+    original = read(root / 'campaign_001/FINAL_AUDIT.json')
+    expected_error = "ValueError('Complete final endpoint failed raw-evidence validation')"
+    path_error = "missing_or_malformed_evidence: FileNotFoundError(2, 'No such file or directory')"
+    if (campaign.get('status') != 'failed' or campaign.get('error') != expected_error
+            or campaign.get('cleanup_errors') or campaign.get('automatic_retry') is not False
+            or original.get('status') != 'invalid_or_incomplete'
+            or original.get('errors') != [path_error] or original.get('rows') != []):
+        raise ValueError('Recovery requires the original missing-path audit failure only')
+    if (training is None or training.get('status') != 'passed'
+            or audit.get('status') != 'passed' or audit.get('errors')
+            or len(audit.get('rows', [])) != 6144):
+        raise ValueError('Recovery requires complete training and all raw endpoint evidence')
+    for key in ('training_quiescence', 'post_evaluation_boundary'):
+        boundary = campaign[key]
+        if boundary['resource']['status'] != 'passed' or boundary['timing']['status'] != 'passed':
+            raise ValueError('Recovery requires both original resource and timing gates')
+    exits = {name: (root / name).read_text().strip()
+             for name in ('EXIT_CODE', 'CAMPAIGN_EXIT_CODE', 'REPORT_EXIT_CODES')}
+    if exits != dict(EXIT_CODE='1', CAMPAIGN_EXIT_CODE='1', REPORT_EXIT_CODES='report=1\npostflight=0'):
+        raise ValueError('Original failure exit records differ')
+    if read(root / 'POSTFLIGHT.json')['status'] != 'passed':
+        raise ValueError('Original postflight must pass')
+    paths = ['campaign_001/STATUS.json', 'campaign_001/FINAL_AUDIT.json',
+             'EXIT_CODE', 'CAMPAIGN_EXIT_CODE', 'REPORT_EXIT_CODES', 'POSTFLIGHT.json']
+    return dict(status='recovered_by_saved_evidence_audit', model_work=0,
+                original_campaign_status=campaign['status'], original_exits=exits,
+                explanation='Corrected native-sidecar root; all original records revalidated without rerunning models.',
+                preserved_evidence={name: hashlib.sha256((root / name).read_bytes()).hexdigest()
+                                    for name in paths})
+
+
+def build_report(root, output=None, *, recover_completed_audit=False):
     root = Path(root)
+    if recover_completed_audit and (output is None or Path(output).resolve() == (root / 'final_report').resolve()):
+        raise ValueError('Recovery requires a separate output directory; preserve the failed report')
     output = Path(output) if output else root / 'final_report'
-    output.mkdir(parents=True, exist_ok=True)
+    output.mkdir(parents=True, exist_ok=not recover_completed_audit)
     plan = read(root / 'sealed/PLAN.json')
     campaign = read(root / 'campaign_001/STATUS.json')
     errors = []
     training = endpoint = None
     audit = {}
+    recovery = None
     try:
         training = training_summary(root)
         checkpoints = dict(K=plan['references']['K'], KPLUS=read(root / 'campaign_001/arms/KPLUS/STATUS.json')['final_checkpoint'])
         audit = audit_stage(root / 'campaign_001/evaluation/final', plan['evaluation_requests'], checkpoints,
-            canonicals=read(plan['canonicals']), baseline_counts=read(plan['baseline_counts']))
+            canonicals=read(plan['canonicals']), baseline_counts=read(plan['baseline_counts']),
+            evidence_root=root)
         errors.extend(audit['errors'])
-        if audit['status'] == 'passed':
+        if recover_completed_audit:
+            recovery = completed_audit_recovery(root, campaign, training, audit)
+        elif campaign['status'] != 'completed':
+            errors.append('campaign_not_completed')
+        if audit['status'] == 'passed' and not errors:
             endpoint = summarize(audit['rows'])
             paired = reduce_final(audit['rows'])
             write_csv(output / 'MEASUREMENTS.csv', audit['rows'])
             write_csv(output / 'PAIRED_REQUESTS.csv', [dict(panel_ordinal=row['panel_ordinal'], request_id=row['request_id'],
                 **{method + '_' + key: value for method in ('K', 'KPLUS') for key, value in row[method].items()})
                 for row in paired])
-        if campaign['status'] != 'completed':
-            errors.append('campaign_not_completed')
     except (OSError, KeyError, ValueError, TypeError, IndexError) as error:
         errors.append(repr(error))
     if training is not None:
@@ -117,7 +161,8 @@ def build_report(root, output=None):
             readiness='ANALYZED' if endpoint is not None and not errors else 'PARTIAL',
             review_scope='Raw-record reconstruction and CPU implementation review; not an independent GPU reproduction'),
         execution_source=plan['execution_source'], budget=NEW_BUDGET, endpoint=endpoint,
-        training=training, campaign=campaign, evaluation_audit={key: value for key, value in audit.items() if key != 'rows'},
+        training=training, campaign=campaign, reporting_recovery=recovery,
+        evaluation_audit={key: value for key, value in audit.items() if key != 'rows'},
         errors=errors, limitations=[
             'One fitted seed and a previously used benchmark; request bootstrap is not training-seed robustness.',
             'KPLUS was trained from released initialization on its own feedback; K58 was only a retained serving control.',
@@ -132,6 +177,11 @@ def build_report(root, output=None):
         'Record reconstruction is not an independent GPU reproduction.', '',
         'Status: **' + summary['status'] + '**. One new KPLUS arm; retained K58 is read-only.', '',
         'The two arms use their own online feedback trajectories. K58 did not generate K+ training data or initialize K+.']
+    if recovery:
+        lines += ['', 'CPU reporting recovery: the original wrapper/campaign/report exited 1 because the '
+                  'evidence reader used the wrong native-sidecar root. The original failure records remain unchanged. '
+                  'All saved training and final-evaluation evidence now passes the corrected audit. '
+                  'Recovery adds zero training, generation or optimizer work.']
     if endpoint:
         effect = endpoint['comparisons']['KPLUS_vs_K']
         lines += ['', '| Endpoint | K58 | K+58 |', '|---|---:|---:|']
@@ -165,7 +215,9 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('root')
     parser.add_argument('--output')
+    parser.add_argument('--recover-completed-audit', action='store_true',
+                        help='Revalidate the completed run after its preserved missing-path report failure; no model work')
     args = parser.parse_args()
-    result = build_report(args.root, args.output)
+    result = build_report(args.root, args.output, recover_completed_audit=args.recover_completed_audit)
     print(json.dumps(dict(status=result['status'], errors=result['errors'])))
     raise SystemExit(0 if result['status'] == 'valid_complete' else 1)
