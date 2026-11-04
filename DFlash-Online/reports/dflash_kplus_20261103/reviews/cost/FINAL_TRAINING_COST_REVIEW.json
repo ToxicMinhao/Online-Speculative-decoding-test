@@ -1,0 +1,415 @@
+{
+  "verification_status": "ANALYZED",
+  "status": "passed_compact_cost_exposure_retention_reconstruction",
+  "utc": "2026-11-04T00:25:14.347426+00:00",
+  "execution_commit": "e0a9d3c235e1efd15404c549282d21c99243a21c",
+  "reporting_repair_commit": "181bf736aee231e36bd82a3bc1f73aa9f1eeb0f2",
+  "scope": "CPU reconstruction on original A800 saved compact evidence; every consumed byte/hash matched original inventory. Only compact review outputs retrieved; no assertion of full local retrieval. No model/tensor load, no production mutation.",
+  "authorship_overlap": "Reviewer authored K+ trainer/campaign/evaluation/report integration. Independent arithmetic and receipt reconstruction, not independent whole-implementation or GPU reproduction.",
+  "original_inventory_sha256": "c39e9cbbb97d603ec576fc8e0def54e4b8dbaa46efdde256d204694fdcc3009d",
+  "consumed_compact_files": 30171,
+  "actual_training_work": {
+    "attempts": {
+      "online_generations": 7473,
+      "correctness_generations": 4,
+      "terminal_preparation_forwards": 7424,
+      "response_forwards": 14848,
+      "response_backwards": 14848,
+      "optimizer_steps": 7424
+    },
+    "completed": {
+      "online_generations": 7473,
+      "correctness_generations": 4,
+      "terminal_preparation_forwards": 7424,
+      "response_forwards": 14848,
+      "response_backwards": 14848,
+      "optimizer_steps": 7424
+    },
+    "unknown": {
+      "online_generations": 0,
+      "correctness_generations": 0,
+      "terminal_preparation_forwards": 0,
+      "response_forwards": 0,
+      "response_backwards": 0,
+      "optimizer_steps": 0
+    }
+  },
+  "native_instrumented_work": {
+    "draft_forwards": 14848,
+    "layer_forwards": 74240,
+    "objective_chunks": 944660,
+    "vocabulary_head_calls": 1889320,
+    "response_forwards": 14848
+  },
+  "exposure": {
+    "presentations": 14848,
+    "prompt_tokens": 1063728,
+    "response_tokens": 3814918,
+    "active_anchors": 3728050,
+    "metrics": {
+      "available_position_occurrences": 54368391.0,
+      "available_position_weight": 24276321.875854492,
+      "empty_blocks": 0.0,
+      "first_error_position_1": 194059.0,
+      "first_error_position_10": 152339.0,
+      "first_error_position_11": 143722.0,
+      "first_error_position_12": 136237.0,
+      "first_error_position_13": 130552.0,
+      "first_error_position_14": 127445.0,
+      "first_error_position_15": 125289.0,
+      "first_error_position_2": 250453.0,
+      "first_error_position_3": 247833.0,
+      "first_error_position_4": 232880.0,
+      "first_error_position_5": 217210.0,
+      "first_error_position_6": 202323.0,
+      "first_error_position_7": 187430.0,
+      "first_error_position_8": 174611.0,
+      "first_error_position_9": 162857.0,
+      "kplus_N1": 1655933.869101286,
+      "kplus_N2": 518088.7859299183,
+      "kplus_N_K": 3252786.236854553,
+      "kplus_N_new": 3193024.5565662384,
+      "kplus_S": 18055981.97366333,
+      "kplus_W1": 916276.5275912285,
+      "kplus_W2": 415487.3730274439,
+      "kplus_coefficient1": 13094.125608742237,
+      "kplus_coefficient2": 18764.25121331215,
+      "kplus_conservation_error": -0.0008611679077148438,
+      "kplus_error_weight_moved": 105490.76809215546,
+      "kplus_error_weight_moved_share": 1170.4837209079415,
+      "kplus_first_error_weight_after": 1331763.8999009132,
+      "kplus_mixed_response": 14848.0,
+      "kplus_priority1_error_count": 1874744.0,
+      "kplus_priority2_error_count": 810496.0,
+      "kplus_response_count": 14848.0,
+      "loss_denominator": 18055981.97366333,
+      "main_loss_numerator": 3193024.5565662384,
+      "no_error_blocks": 1042810.0,
+      "selected_position_occurrences": 33411824.0,
+      "selected_position_weight": 18055981.97366333,
+      "supervised_position_exposure": 33411824.0
+    },
+    "mixed_response_frequency": 1.0,
+    "pooled_error_weight_moved_share": 0.07921131368942318,
+    "mean_response_moved_share": 0.07883106956545942,
+    "mean_coefficient1": 0.8818780717094717,
+    "mean_coefficient2": 1.2637561431379412,
+    "max_absolute_conservation_error": 3.0517578125e-05
+  },
+  "natural_historical_anchor_comparison": {
+    "presentations": 14848,
+    "identity_matches": 14848,
+    "exact_anchor_matches": 14848,
+    "presentation_order_matches": 14848
+  },
+  "adaptation": {
+    "worker_wall_s": 31887.916964488104,
+    "process_wall_s": 31891.99849401042,
+    "backend_loading_s": 22.007379988208413,
+    "trainer_loading_s": 20.18928106687963,
+    "initial_validation_s": 10.273306777700782,
+    "producer_work": {
+      "attempts": {
+        "online_generations": 7473,
+        "correctness_generations": 4,
+        "terminal_preparation_forwards": 7424,
+        "response_forwards": 14848,
+        "response_backwards": 14848,
+        "optimizer_steps": 7424
+      },
+      "completed": {
+        "online_generations": 7473,
+        "correctness_generations": 4,
+        "terminal_preparation_forwards": 7424,
+        "response_forwards": 14848,
+        "response_backwards": 14848,
+        "optimizer_steps": 7424
+      },
+      "unknown": {
+        "online_generations": 0,
+        "correctness_generations": 0,
+        "terminal_preparation_forwards": 0,
+        "response_forwards": 0,
+        "response_backwards": 0,
+        "optimizer_steps": 0
+      }
+    }
+  },
+  "timers": {
+    "update_call_s": 22383.30323193781,
+    "training_s": 19272.238142751157,
+    "checkpoint_save_s": 1114.783110106364,
+    "export_s": 897.1365184504539,
+    "event_wall_s_before_commit": 21430.965915000066,
+    "teacher_preparation_s": 288.5756506808102,
+    "feature_persistence_s": 325.4635106045753,
+    "publication_validation_s": 1479.3371422551572,
+    "retention_s": 548.6876671742648
+  },
+  "objective_timers": {
+    "reference_setup_s": 0.0,
+    "reference_forward_s": 0.0,
+    "reference_head_s": 0.0,
+    "projection_s": 0.0,
+    "teacher_head_s": 5926.436916450039,
+    "selection_s": 806.7303316444159,
+    "kplus_chunk_s": 226.95469418540597,
+    "kplus_response_s": 8.848674209788442
+  },
+  "historical_cost_comparison": {
+    "training_s": {
+      "KPLUS_s": 19272.238142751157,
+      "historical_K_s": 18707.203304618597,
+      "difference_s": 565.0348381325603,
+      "increase_percent": 3.0204132009035156
+    },
+    "update_call_s": {
+      "KPLUS_s": 22383.30323193781,
+      "historical_K_s": 21735.124798046425,
+      "difference_s": 648.1784338913858,
+      "increase_percent": 2.9821702884799794
+    },
+    "event_wall_s_before_commit": {
+      "KPLUS_s": 21430.965915000066,
+      "historical_K_s": 20910.247159248218,
+      "difference_s": 520.7187557518482,
+      "increase_percent": 2.4902563407603884
+    }
+  },
+  "historical_comparison_limits": [
+    "Historical archive copying overlapped K adaptation; observed costs may include I/O contention.",
+    "Historical K worker includes384 intermediate generations; KPLUS worker includes none. Worker walls are unequal operational scopes.",
+    "Own-feedback trajectories and changed diagnostics/retention can affect costs. Observed training-time difference is not an isolated causal estimate of redistribution overhead.",
+    "Tagged K+ chunk/response timers will be reported individually, inside native training; they do not establish complete incremental compute or end-to-end overhead."
+  ],
+  "memory": {
+    "max_event_allocated_bytes": 20674145792,
+    "max_event_reserved_bytes": 23938990080
+  },
+  "canonical_resource_samples": {
+    "free_bytes": {
+      "min": 48180531200,
+      "max": 61831770112,
+      "samples": 214
+    },
+    "required_additional_and_reserve_bytes": {
+      "min": 42844868997,
+      "max": 56453648773,
+      "samples": 214
+    },
+    "compact_bytes": {
+      "min": 20369408,
+      "max": 5182464000,
+      "samples": 214
+    },
+    "compiler_growth_bytes": {
+      "min": 0,
+      "max": 0,
+      "samples": 214
+    }
+  },
+  "monitor_resource_summary": {
+    "scope": "Read-only ~60second monitoring samples; not continuous disk/RAM/GPU peaks; duplicate boundary resource receipts are not independent samples",
+    "source_sha256": "6cb5bbb5f4b5b8bcafe606fb8bde0f9bf402171c5e51dd9bed1254ffed67c1bc",
+    "polls": 603,
+    "successful_polls": 603,
+    "connectivity_uncertain_polls": 0,
+    "first_utc": "2026-11-03T09:25:02.008646+00:00",
+    "last_utc": "2026-11-03T19:27:01.740010+00:00",
+    "minimum_sampled_free_bytes": 38600040448,
+    "minimum_free_utc": "2026-11-03T17:32:02.402801+00:00",
+    "minimum_free_phase": "training",
+    "minimum_free_event": 55,
+    "all_sampled_rules_matched": true,
+    "resource_statuses_seen": [
+      "passed"
+    ],
+    "compiler_growth_bytes_max_sampled": 0,
+    "raw_evidence_interpretation": "Operational supervision only; all scientific conclusions require separate raw endpoint audit"
+  },
+  "retirement": {
+    "counts": {
+      "native_capture": 7424,
+      "terminal_feature": 7424,
+      "prepared_feature": 7424,
+      "previous_state": 57,
+      "previous_export": 57
+    },
+    "distinct_retired_paths": 22386,
+    "nominal_logical_removed_bytes": 719818162083,
+    "retained": [
+      {
+        "kind": "initial_complete_state",
+        "path": "/data/sources/minhao/runs/dflash_kplus_20261103/production_001/campaign_001/arms/KPLUS/trainer/initial_state.pt",
+        "producer_check": {
+          "status": "passed",
+          "arm": "KPLUS",
+          "completed_event": 0,
+          "global_step": 0,
+          "presentations": 0,
+          "adam_state_entries": 0,
+          "cuda_rng_states": 1,
+          "extra_model_passes": 0,
+          "extra_optimizer_steps": 0,
+          "treatment": "first_error_weight_redistribution",
+          "original_K_initialization": {
+            "status": "passed",
+            "exact_released_weights_empty_adam_rng": true,
+            "allowed_difference": "LR and arm/run/output metadata only",
+            "rng_overwritten": false
+          },
+          "export_exact": true,
+          "state_path": "/data/sources/minhao/runs/dflash_kplus_20261103/production_001/campaign_001/arms/KPLUS/trainer/initial_state.pt",
+          "comparator_path": "/data/sources/minhao/runs/dflash_full_k_gsm8k_20261031/production_002/campaign_001/arms/K/trainer/initial_state.pt",
+          "original_weights_loaded_into_candidate": false
+        }
+      },
+      {
+        "kind": "final_complete_state",
+        "path": "/data/sources/minhao/runs/dflash_kplus_20261103/production_001/campaign_001/arms/KPLUS/trainer/events/event_058/training_state.pt",
+        "identity": {
+          "bytes": 6349421915,
+          "sha256": "1f556d5d49d87ec497b2538a9abeb8b750bf4f4562ae15442baa91075a72d70a"
+        },
+        "producer_check": {
+          "status": "passed",
+          "arm": "KPLUS",
+          "completed_event": 58,
+          "global_step": 7424,
+          "presentations": 14848,
+          "adam_state_entries": 58,
+          "cuda_rng_states": 1,
+          "extra_model_passes": 0,
+          "extra_optimizer_steps": 0,
+          "treatment": "first_error_weight_redistribution",
+          "export_exact": true,
+          "live": {
+            "status": "passed",
+            "exact_resume": true,
+            "mismatches": [],
+            "global_step": 7424,
+            "presentations": 14848,
+            "no_rng_reset": true,
+            "extra_model_passes": 0,
+            "extra_optimizer_steps": 0
+          },
+          "wall_s": 21.794995864853263
+        }
+      },
+      {
+        "kind": "final_export",
+        "path": "/data/sources/minhao/runs/dflash_kplus_20261103/production_001/campaign_001/arms/KPLUS/trainer/events/event_058/export/model.safetensors",
+        "identity": {
+          "bytes": 2097259104,
+          "sha256": "4bd8e872e4b3976b0da257f0b181f0f27c8b369e2faf386d7d833de9a1c87d67"
+        }
+      },
+      {
+        "kind": "latest_state_alias",
+        "path": "/data/sources/minhao/runs/dflash_kplus_20261103/production_001/campaign_001/arms/KPLUS/trainer/training_state.pt",
+        "scope": "Producer hardlink/atomic replacement design; fresh inode proof requires separate final stat receipt."
+      }
+    ],
+    "lost_capabilities": {
+      "native_capture": "Original feature tensor removed after exact prepared replacement; compact capture evidence survives. Replacement is later retired too.",
+      "terminal_feature": "Separate final-token feature removed after exact prepared replacement; compact teacher receipt survives.",
+      "prepared_feature": "Exact training feature replay is lost after event validation. Compact token/conditioning/exposure records survive.",
+      "previous_state": "Exact resume from this intermediate model/Adam/RNG boundary is lost. Compact validation and a later retained boundary remain.",
+      "previous_export": "Direct serving of this intermediate weight file is lost. Compact publication and serving evidence remain."
+    }
+  },
+  "fresh_bulk_stat": {
+    "utc": "2026-11-04T00:09:25.692326+00:00",
+    "paths": 4,
+    "unique_inodes": 3,
+    "unique_logical_bytes": 10543979196,
+    "unique_allocated_bytes": 10543984640,
+    "logical_all_paths_bytes": 16893401111,
+    "scope": "Fresh remote stat only; no tensor hash/decode/transfer"
+  },
+  "original_reporting_failure_preserved": {
+    "campaign_status": "failed",
+    "campaign_error": "ValueError('Complete final endpoint failed raw-evidence validation')"
+  },
+  "endpoint_analysis": "Not performed here; separate endpoint reviewer owns raw coverage, native counts and paired bootstrap.",
+  "fallacy_scan": {
+    "coverage": "11/11 scoped checks",
+    "not_applicable": [
+      "Simpson paradox: no subgroup efficacy inference",
+      "Berkson paradox: no correlation fitted",
+      "collider bias: no adjusted model",
+      "base-rate neglect: no diagnostic test",
+      "regression to mean: no selected extreme comparison",
+      "look-elsewhere: no inferential hypothesis test",
+      "reverse causality: no direction inferred"
+    ],
+    "qualified": [
+      "ecological: observations are presentations/position occurrences, not unique-token or request efficacy",
+      "survivorship: all planned work/retirements checked, failed reporting retained",
+      "forking paths: fixed schema; earlier analysis helper and tests preserved; no efficacy selection",
+      "causation: historical timing delta does not identify redistribution overhead"
+    ]
+  },
+  "files": {
+    "/home/minhao2/EAGLE_SPEC/research/dflash_kplus_20261103/report_recovery_001/independent_cost_001/COST_EXPOSURE_RETENTION.json": {
+      "bytes": 9945708,
+      "sha256": "048b89f04ab3a1c026a9dd6996cce8808b97143c42fecbe234d03cc362323200"
+    },
+    "/home/minhao2/EAGLE_SPEC/research/dflash_kplus_20261103/report_recovery_001/independent_cost_001/INPUT_IDENTITIES.json": {
+      "bytes": 6138491,
+      "sha256": "01f3a912a3590041a1586410f18b5ce1bb76f2b080af15139c178ff518b8611b"
+    },
+    "/home/minhao2/EAGLE_SPEC/research/dflash_kplus_20261103/report_recovery_001/independent_cost_001/INVENTORY_RECONCILIATION.json": {
+      "bytes": 1135,
+      "sha256": "c558c980347df938477eecd27f7385244171ba280e54a92925a6f4cdd17b1727"
+    },
+    "/home/minhao2/EAGLE_SPEC/research/dflash_kplus_20261103/report_recovery_001/independent_cost_001/PROCESS.json": {
+      "bytes": 612,
+      "sha256": "89d2705841e840513f033e4ceda0502b903d55530c2244a77a6b9a1b33d8a149"
+    },
+    "/home/minhao2/EAGLE_SPEC/research/dflash_kplus_20261103/report_recovery_001/independent_cost_001/PREFLIGHT.json": {
+      "bytes": 545,
+      "sha256": "0f956b4f61f05f0eeb6392161291c1f29280bb514cff2b5fe113410c04f5dbf5"
+    },
+    "/home/minhao2/EAGLE_SPEC/research/dflash_kplus_20261103/report_recovery_001/independent_cost_001/POSTFLIGHT.json": {
+      "bytes": 192,
+      "sha256": "88446bbb7f9b1ea431a22c1c7ff0ed7553229c2846eed389a9a76170efc0c7a6"
+    },
+    "/home/minhao2/EAGLE_SPEC/research/dflash_kplus_20261103/report_recovery_001/independent_cost_001/cost_retention_prepare.py": {
+      "bytes": 25475,
+      "sha256": "a847d213db9b9c9577691378395f2e15c81ad8c5937fc62cac4c294fc5468b0f"
+    },
+    "/home/minhao2/EAGLE_SPEC/research/dflash_kplus_20261103/retrieved_001/REMOTE_INVENTORY.json": {
+      "bytes": 22023348,
+      "sha256": "c39e9cbbb97d603ec576fc8e0def54e4b8dbaa46efdde256d204694fdcc3009d"
+    },
+    "/home/minhao2/EAGLE_SPEC/research/dflash_kplus_20261103/retrieved_001/FINAL_BULK_PRESENCE.json": {
+      "bytes": 1287,
+      "sha256": "5fe46efbf5dad0091da4c475cc089458a100b3d01625045bb5037e6f5bf5b66f"
+    },
+    "/home/minhao2/EAGLE_SPEC/research/dflash_kplus_20261103/reviews/HISTORICAL_K_COST_BASELINE.json": {
+      "bytes": 6162,
+      "sha256": "5def303c034b9c612fac6cd8d23a015b77ef6659679c28193087531ab2710aba"
+    },
+    "/home/minhao2/EAGLE_SPEC/research/dflash_kplus_20261103/reviews/MONITOR_RESOURCE_SUMMARY.json": {
+      "bytes": 848,
+      "sha256": "914c5e4c31d3d69fb2c8655e03a0d17dc707dc5a2d506b2d65aabe3f7a28f236"
+    },
+    "/home/minhao2/EAGLE_SPEC/research/dflash_kplus_20261103/reviews/CAMPAIGN_MONITOR.jsonl": {
+      "bytes": 4004385,
+      "sha256": "6cb5bbb5f4b5b8bcafe606fb8bde0f9bf402171c5e51dd9bed1254ffed67c1bc"
+    },
+    "/home/minhao2/EAGLE_SPEC/research/dflash_kplus_20261103/reviews/COST_RETENTION_CPU_TESTS_004.log": {
+      "bytes": 1634,
+      "sha256": "25f7e13a51bbfc3430826406cdad196ba665ad3ee184e004ae32586d8967355a"
+    },
+    "/home/minhao2/EAGLE_SPEC/research/dflash_kplus_20261103/production_001/sealed/CONTROL_AUDIT.json": {
+      "bytes": 1545298,
+      "sha256": "5ba831e7ee2620ebef60115118bd3257f972513b60b4ab441ee94f32ec98e6bb"
+    },
+    "/home/minhao2/EAGLE_SPEC/research/dflash_kplus_20261103/production_001/sealed/ORIGINAL_MANIFEST.json": {
+      "bytes": 10868762,
+      "sha256": "764fa339938a240259949040134581a2231de542b7c799af5a7eb85c5ea1dbd4"
+    }
+  }
+}
