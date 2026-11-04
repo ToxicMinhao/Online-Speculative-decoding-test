@@ -1,0 +1,117 @@
+{
+  "status": "completed",
+  "utc": "2026-11-04T00:24:14.377135+00:00",
+  "verification_status": "ANALYZED",
+  "scientific_execution_commit": "e0a9d3c235e1efd15404c549282d21c99243a21c",
+  "reporting_repair_commit": "181bf736aee231e36bd82a3bc1f73aa9f1eeb0f2",
+  "auditor_sha256": "a6803396f87ad9fef28960aaa17ca7f8e7c99b7e9937444893854151e0340700",
+  "scope": "Separate same-team CPU calculation on original A800 evidence; not independent GPU replication; full local raw-copy completion not required for this audit.",
+  "raw_executions": 6144,
+  "native_blocks": 259962,
+  "original_input_files": 12311,
+  "original_input_inventory_checks": "SOURCE_INVENTORY_RECONCILIATION.json",
+  "report_endpoint_checks": 76,
+  "per_request_identities_compared": 1024,
+  "per_request_scalar_checks": 14336,
+  "statistics": {
+    "call_reduction": {
+      "point_pct": 0.27658054255883524,
+      "ci95_pct": [
+        0.00450546407597346,
+        0.5457131696371539
+      ],
+      "reference_sum": 43387,
+      "candidate_sum": 43267
+    },
+    "request_latency_s_reduction": {
+      "point_pct": 0.8230494852574766,
+      "ci95_pct": [
+        0.27258024717848056,
+        1.3797050021095718
+      ],
+      "reference_sum": 794.7894849193592,
+      "candidate_sum": 788.2479741548499
+    },
+    "request_wins": 437,
+    "request_regressions": 360,
+    "request_ties": 227,
+    "request_denominator": 1024,
+    "gross_calls_saved": 792,
+    "gross_calls_added": 672,
+    "serving_throughput_ratio": {
+      "point": 1.0082987980673506,
+      "ci95": [
+        1.0027332527867328,
+        1.0139900717414958
+      ]
+    }
+  },
+  "fallacy_categories_assessed": 11,
+  "fallacies": [
+    {
+      "number": 1,
+      "category": "Simpson's paradox",
+      "assessment": "No direction reversal across repeats: calls are repeat-stable and complete-time reductions are positive in all three. Fixed blocks show mixed effects, retained in full; no subgroup-based superiority claim."
+    },
+    {
+      "number": 2,
+      "category": "Ecological fallacy",
+      "assessment": "Controlled by reporting 437 wins, 360 regressions and 227 ties plus gross gains/harms. The pooled benefit is not attributed to every request."
+    },
+    {
+      "number": 3,
+      "category": "Berkson's paradox",
+      "assessment": "Selection caution remains: this is the original eligible, train-disjoint but previously used GSM8K panel, not a representative fresh sample of production traffic. No inference outside that scope."
+    },
+    {
+      "number": 4,
+      "category": "Collider bias",
+      "assessment": "No endpoint conditioning on treatment activity, favorable calls, latency or successful-only records. All sealed requests and repeats enter; incomplete/invalid evidence would block the endpoint."
+    },
+    {
+      "number": 5,
+      "category": "Base rate neglect",
+      "assessment": "Absolute totals, the 1,024-request denominator, 120 net/792 gross saved/672 added calls and nested adaptation costs accompany percentages. The small magnitude is explicit."
+    },
+    {
+      "number": 6,
+      "category": "Regression to the mean",
+      "assessment": "Both final checkpoints were measured fresh with balanced 24/24 precedence. Historical counts authenticate K58; old timings are not used. No selection of prior extreme requests."
+    },
+    {
+      "number": 7,
+      "category": "Survivorship bias",
+      "assessment": "Full work and 6,144 executions reconcile, with zero invalid/unknown/unattempted execution exclusions. The operational failure is preserved and repaired only through complete saved-evidence validation."
+    },
+    {
+      "number": 8,
+      "category": "Look-elsewhere effect",
+      "assessment": "Primary calls and conditional secondary complete time were fixed in advance; all repeats and blocks are reported. Diagnostic slices are not confirmatory tests. Intervals do not adjust for the wider history of experiments on this reused benchmark."
+    },
+    {
+      "number": 9,
+      "category": "Garden of forking paths",
+      "assessment": "Seed, horizon, panel, count-once/mean-three rule and bootstrap were fixed before outcomes. CPU path/schema repairs and their prior bytes/failures are retained; no scientific retry, tuning, outlier removal or best-repeat choice."
+    },
+    {
+      "number": 10,
+      "category": "Correlation versus causation",
+      "assessment": "A complete own-feedback recipe comparison supports this measured endpoint contrast, not isolated weight-mechanism causality. Request resampling omits fitted-seed uncertainty; diagnostic activity cannot prove why the gain arose."
+    },
+    {
+      "number": 11,
+      "category": "Reverse causality",
+      "assessment": "Training precedes final evaluation. Priority/mixed-response activity also reflects model correctness and feedback; its association with endpoint performance is not used as directional causal evidence."
+    }
+  ],
+  "interpretation": "Both prespecified gates pass for a small benefit here; primary lower interval bound is very near zero. One fitted seed and reused panel do not establish seed robustness, broad superiority, isolated mechanism causality or training-inclusive deployment speedup.",
+  "operational_failure_preserved": true,
+  "original_wrapper_campaign_report_postflight_exits": [
+    1,
+    1,
+    1,
+    0
+  ],
+  "review_markdown_sha256": "c1d4e656eecee725d7bc4828363ecced003fd1bd26ebca122e17c6f5a5d86df6",
+  "no_new_scientific_model_work": true
+}
