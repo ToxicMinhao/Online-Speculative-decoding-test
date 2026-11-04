@@ -123,11 +123,14 @@ def history_candidates(workspace, exclude_root):
     selected = set()
     for name in sorted(paths):
         path = root / name
-        if ignored.intersection(path.parts) or path.resolve().is_relative_to(excluded):
+        # Catalog names apply inside the workspace, not to a server's parent
+        # directory such as A800's /data/sources/minhao/.
+        relative_parts = Path(name).parts
+        if ignored.intersection(relative_parts) or path.resolve().is_relative_to(excluded):
             continue
         filename = path.name.lower()
         selected_carrier = (any(s in filename for s in HISTORY_MARKERS)
-                            or (path.suffix == ".jsonl" and INPUT_DIRECTORIES.intersection(path.parts)))
+                            or (path.suffix == ".jsonl" and INPUT_DIRECTORIES.intersection(relative_parts)))
         if selected_carrier and not any(s in filename for s in NONALLOCATION_MARKERS):
             selected.add(str(path))
             yield path

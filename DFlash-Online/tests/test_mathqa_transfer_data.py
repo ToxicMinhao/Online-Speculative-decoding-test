@@ -129,6 +129,13 @@ class MathqaDataTests(unittest.TestCase):
             self.assertEqual(report["unavailable_referenced_inventories"], [str(missing)])
             self.assertEqual(report["distinct_scanned_files"], 0)
 
+    def test_server_parent_sources_directory_is_not_a_source_catalog(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder) / 'data/sources/minhao/workspace'
+            names = ['research/old/inputs/heldout.jsonl', 'research/old/sources/requests.json']
+            with patch('experiments.mathqa_transfer.data.subprocess.check_output', return_value='\n'.join(names)):
+                self.assertEqual(list(history_candidates(root, root/'research/new')), [root/names[0]])
+
     def test_no_outcome_fields_change_selection(self):
         raw = [{"Problem": f"Q{i}", "options": "a ) 1", "Rationale": f"answer {i}"} for i in range(8)]
         first = select_panel(render_inputs(raw, Tokenizer()), {}, count=4)
