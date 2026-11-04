@@ -1,0 +1,34 @@
+{
+  "status": "passed",
+  "checks": 271379,
+  "model_work": 0,
+  "exact_raw_export_rows": 9216,
+  "paired_request_means_checked": 1024,
+  "all_repeat_timer_sums": {
+    "request_latency_s": 12051.92237768136,
+    "native_generate_s": 11479.38834409602,
+    "cache_maintenance_s": 477.0199082866311
+  },
+  "stages": {
+    "controls": {
+      "stage_wall_s": 19.21042829565704,
+      "request_latency_all_executions_s": 1.3518139198422432,
+      "activation_s": 6.316216962412,
+      "weight_validation_s": 11.030615348368883,
+      "other_serial_stage_wall_s": 0.5117820650339127
+    },
+    "final": {
+      "stage_wall_s": 13050.616088131443,
+      "request_latency_all_executions_s": 12051.92237768136,
+      "activation_s": 235.16835584118962,
+      "weight_validation_s": 9.862608794122934,
+      "other_serial_stage_wall_s": 753.6627458147705
+    }
+  },
+  "campaign_wall_s": 13160.476490337402,
+  "loading_s": 21.507512219250202,
+  "close_s": 1.2150979209691286,
+  "other_campaign_wall_s": 67.9273637700826,
+  "timing_scope": "Stage and campaign walls contain the displayed child clocks; do not add nested costs. Native generation and cache maintenance are components of complete-request latency, not extra costs to add to it. Loading/switching are outside serving. Controls remain outside endpoint statistics.",
+  "raw_native_scope": "Only scalar evidence/export round trip; no independent native-token reconstruction."
+}

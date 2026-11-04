@@ -1,0 +1,948 @@
+{
+  "status": "valid_complete",
+  "material_passport": {
+    "workflow": "ARS experiment-agent run → validate",
+    "readiness": "ANALYZED",
+    "scope": "Frozen-checkpoint MathQA serving transfer, no training"
+  },
+  "execution_source": {
+    "commit": "12583640baf2210f767e108e3632c0e5f9b8caaa",
+    "dirty": false,
+    "repository": "https://github.com/ToxicMinhao/Online-Speculative-decoding-test",
+    "branch": "codex/mathqa-serving-transfer"
+  },
+  "budget": {
+    "timed_generations": 9216,
+    "historical_control_generations": 3,
+    "total_generations": 9219,
+    "optimizer_steps": 0,
+    "feedback_collections": 0,
+    "teacher_preparations": 0,
+    "extra_warmup_generations": 0
+  },
+  "endpoint": {
+    "request_count": 1024,
+    "execution_count": 9216,
+    "bootstrap": {
+      "resamples": 10000,
+      "seed": 20261103,
+      "generator": "PCG64",
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "method": "linear",
+      "shared_draws_across_contrasts": true,
+      "unit": "One paired request carrying all three methods; repeats form one mean latency."
+    },
+    "method_totals": {
+      "O": {
+        "verification_calls": 74786,
+        "accepted_draft_tokens": 444325,
+        "committed_progress": 518237,
+        "output_tokens": 519261,
+        "request_latency_s": 1358.1273691914976,
+        "native_generate_s": 1293.3374008865408,
+        "cache_maintenance_s": 54.501465978721775,
+        "calls_per_1000_output_tokens": 144.0239109041503,
+        "accepted_tokens_per_call": 5.941285802155484,
+        "committed_progress_per_call": 6.929599122830476,
+        "mean_request_ms": 1326.2962589760718,
+        "cap_hits": 45,
+        "eos_responses": 979,
+        "output_tokens_min": 74,
+        "output_tokens_max": 2048,
+        "output_tokens_mean": 507.0908203125
+      },
+      "K": {
+        "verification_calls": 73117,
+        "accepted_draft_tokens": 445987,
+        "committed_progress": 518237,
+        "output_tokens": 519261,
+        "request_latency_s": 1328.923629079635,
+        "native_generate_s": 1266.912263472875,
+        "cache_maintenance_s": 51.2899789152046,
+        "calls_per_1000_output_tokens": 140.80972767067044,
+        "accepted_tokens_per_call": 6.099634831844852,
+        "committed_progress_per_call": 7.08777712433497,
+        "mean_request_ms": 1297.776981523081,
+        "cap_hits": 45,
+        "eos_responses": 979,
+        "output_tokens_min": 74,
+        "output_tokens_max": 2048,
+        "output_tokens_mean": 507.0908203125
+      },
+      "KPLUS": {
+        "verification_calls": 73132,
+        "accepted_draft_tokens": 445974,
+        "committed_progress": 518237,
+        "output_tokens": 519261,
+        "request_latency_s": 1330.2564609559872,
+        "native_generate_s": 1266.2131170059245,
+        "cache_maintenance_s": 53.21519120161732,
+        "calls_per_1000_output_tokens": 140.83861487768195,
+        "accepted_tokens_per_call": 6.098205983700706,
+        "committed_progress_per_call": 7.086323360498824,
+        "mean_request_ms": 1299.0785751523313,
+        "cap_hits": 45,
+        "eos_responses": 979,
+        "output_tokens_min": 74,
+        "output_tokens_max": 2048,
+        "output_tokens_mean": 507.0908203125
+      }
+    },
+    "comparisons": {
+      "KPLUS_vs_O": {
+        "call_reduction": {
+          "point_pct": 2.2116438905677493,
+          "ci95_pct": [
+            1.9424462429024134,
+            2.472548875772725
+          ],
+          "undefined_bootstrap_draws": 0,
+          "candidate_sum": 73132.0,
+          "reference_sum": 74786.0
+        },
+        "request_wins": 635,
+        "request_regressions": 249,
+        "request_ties": 140,
+        "request_denominator": 1024,
+        "gross_calls_saved": 2228,
+        "gross_calls_added": 574,
+        "request_latency_s_reduction": {
+          "point_pct": 2.052157173748892,
+          "ci95_pct": [
+            1.652048472908294,
+            2.4525276901216633
+          ],
+          "undefined_bootstrap_draws": 0,
+          "candidate_sum": 1330.2564609559872,
+          "reference_sum": 1358.1273691914976
+        },
+        "native_generate_s_reduction": {
+          "point_pct": 2.097231848551162,
+          "ci95_pct": [
+            1.7629728236720006,
+            2.4289297048592027
+          ],
+          "undefined_bootstrap_draws": 0,
+          "candidate_sum": 1266.2131170059245,
+          "reference_sum": 1293.3374008865408
+        },
+        "cache_maintenance_s_reduction": {
+          "point_pct": 2.360073722799738,
+          "ci95_pct": [
+            -5.166454084334694,
+            9.426683094984899
+          ],
+          "undefined_bootstrap_draws": 0,
+          "candidate_sum": 53.21519120161732,
+          "reference_sum": 54.501465978721775
+        }
+      },
+      "KPLUS_vs_K": {
+        "call_reduction": {
+          "point_pct": -0.020515064895998414,
+          "ci95_pct": [
+            -0.21493715498761945,
+            0.17939966795296794
+          ],
+          "undefined_bootstrap_draws": 0,
+          "candidate_sum": 73132.0,
+          "reference_sum": 73117.0
+        },
+        "request_wins": 407,
+        "request_regressions": 396,
+        "request_ties": 221,
+        "request_denominator": 1024,
+        "gross_calls_saved": 859,
+        "gross_calls_added": 874,
+        "request_latency_s_reduction": {
+          "point_pct": -0.10029409118681443,
+          "ci95_pct": [
+            -0.4398836434649195,
+            0.24266055931799643
+          ],
+          "undefined_bootstrap_draws": 0,
+          "candidate_sum": 1330.2564609559872,
+          "reference_sum": 1328.923629079635
+        },
+        "native_generate_s_reduction": {
+          "point_pct": 0.05518507375041892,
+          "ci95_pct": [
+            -0.2184503713178304,
+            0.34030839682625974
+          ],
+          "undefined_bootstrap_draws": 0,
+          "candidate_sum": 1266.2131170059245,
+          "reference_sum": 1266.912263472875
+        },
+        "cache_maintenance_s_reduction": {
+          "point_pct": -3.7535836963309865,
+          "ci95_pct": [
+            -11.100998231802311,
+            3.014929411080403
+          ],
+          "undefined_bootstrap_draws": 0,
+          "candidate_sum": 53.21519120161732,
+          "reference_sum": 51.2899789152046
+        }
+      }
+    },
+    "repeat_totals": {
+      "0": {
+        "O": {
+          "verification_calls": 74786,
+          "accepted_draft_tokens": 444325,
+          "committed_progress": 518237,
+          "output_tokens": 519261,
+          "request_latency_s": 1357.035277126357,
+          "native_generate_s": 1296.2341576199979,
+          "cache_maintenance_s": 51.75864803045988
+        },
+        "K": {
+          "verification_calls": 73117,
+          "accepted_draft_tokens": 445987,
+          "committed_progress": 518237,
+          "output_tokens": 519261,
+          "request_latency_s": 1329.1206735093147,
+          "native_generate_s": 1265.374100677669,
+          "cache_maintenance_s": 52.24393993616104
+        },
+        "KPLUS": {
+          "verification_calls": 73132,
+          "accepted_draft_tokens": 445974,
+          "committed_progress": 518237,
+          "output_tokens": 519261,
+          "request_latency_s": 1331.8143284842372,
+          "native_generate_s": 1266.612716216594,
+          "cache_maintenance_s": 53.285854963585734
+        }
+      },
+      "1": {
+        "O": {
+          "verification_calls": 74786,
+          "accepted_draft_tokens": 444325,
+          "committed_progress": 518237,
+          "output_tokens": 519261,
+          "request_latency_s": 1359.4598317723721,
+          "native_generate_s": 1290.1292322147638,
+          "cache_maintenance_s": 58.237058563157916
+        },
+        "K": {
+          "verification_calls": 73117,
+          "accepted_draft_tokens": 445987,
+          "committed_progress": 518237,
+          "output_tokens": 519261,
+          "request_latency_s": 1330.2711502667516,
+          "native_generate_s": 1268.9946215879172,
+          "cache_maintenance_s": 50.535467779263854
+        },
+        "KPLUS": {
+          "verification_calls": 73132,
+          "accepted_draft_tokens": 445974,
+          "committed_progress": 518237,
+          "output_tokens": 519261,
+          "request_latency_s": 1328.923075163737,
+          "native_generate_s": 1263.927824921906,
+          "cache_maintenance_s": 54.335902059450746
+        }
+      },
+      "2": {
+        "O": {
+          "verification_calls": 74786,
+          "accepted_draft_tokens": 444325,
+          "committed_progress": 518237,
+          "output_tokens": 519261,
+          "request_latency_s": 1357.8869986757636,
+          "native_generate_s": 1293.6488128248602,
+          "cache_maintenance_s": 53.508691342547536
+        },
+        "K": {
+          "verification_calls": 73117,
+          "accepted_draft_tokens": 445987,
+          "committed_progress": 518237,
+          "output_tokens": 519261,
+          "request_latency_s": 1327.3790634628385,
+          "native_generate_s": 1266.3680681530386,
+          "cache_maintenance_s": 51.09052903018892
+        },
+        "KPLUS": {
+          "verification_calls": 73132,
+          "accepted_draft_tokens": 445974,
+          "committed_progress": 518237,
+          "output_tokens": 519261,
+          "request_latency_s": 1330.031979219988,
+          "native_generate_s": 1268.0988098792732,
+          "cache_maintenance_s": 52.02381658181548
+        }
+      }
+    },
+    "interpretation": {
+      "primary": {
+        "contrast": "KPLUS_vs_O",
+        "measure": "complete_request_time",
+        "pass_criterion": "lower endpoint of paired 95% interval > 0",
+        "passed": true,
+        "conclusion": "KPLUS58 has lower complete request time than O58 on this panel."
+      },
+      "secondary": {
+        "contrast": "KPLUS_vs_K",
+        "role": "confirmatory",
+        "interval_above_zero": false,
+        "passed": false,
+        "conclusion": "An incremental complete-request-time improvement over K58 is not established."
+      },
+      "scope": "Frozen checkpoints trained on GSM8K; MathQA serving transfer only. No new adaptation or training-seed replication.",
+      "automatic_followup_authorized": false
+    },
+    "primary_measure": "complete_request_time",
+    "other_intervals": "Call and component-time intervals are descriptive; only ordered total-time tests are confirmatory.",
+    "timing_scope": "Fresh contemporaneous frozen-checkpoint serving. Loading/switching excluded; cache maintenance included.",
+    "canonical_scope": "Cross-arm agreement against fresh O58 repeat0 under the qualified native verifier, not independent target-only generation."
+  },
+  "campaign": {
+    "status": "completed",
+    "execution_source": {
+      "commit": "12583640baf2210f767e108e3632c0e5f9b8caaa",
+      "dirty": false,
+      "repository": "https://github.com/ToxicMinhao/Online-Speculative-decoding-test",
+      "branch": "codex/mathqa-serving-transfer"
+    },
+    "budget": {
+      "timed_generations": 9216,
+      "historical_control_generations": 3,
+      "total_generations": 9219,
+      "optimizer_steps": 0,
+      "feedback_collections": 0,
+      "teacher_preparations": 0,
+      "extra_warmup_generations": 0
+    },
+    "cleanup_errors": [],
+    "loading_s": 21.507512219250202,
+    "close_s": 1.2150979209691286,
+    "controls": {
+      "status": "completed",
+      "planned_generations": 3,
+      "attempted_generations": 3,
+      "returned_generations": 3,
+      "activation_s": 6.316216962412,
+      "weight_validation_s": 11.030615348368883,
+      "publications": 3,
+      "optimizer_steps": 0,
+      "feedback_collections": 0,
+      "teacher_preparations": 0,
+      "extra_generations": 0,
+      "automatic_retry": false,
+      "completed_valid_generations": 3,
+      "invalid_generations": 0,
+      "pending_canonical_generations": 0,
+      "unknown_generation_attempts": 0,
+      "unattempted_generations": 0,
+      "interrupted_attempt": null,
+      "evaluation_wall_s": 19.21042829565704
+    },
+    "evaluation": {
+      "status": "completed",
+      "planned_generations": 9216,
+      "attempted_generations": 9216,
+      "returned_generations": 9216,
+      "activation_s": 235.16835584118962,
+      "weight_validation_s": 9.862608794122934,
+      "publications": 139,
+      "optimizer_steps": 0,
+      "feedback_collections": 0,
+      "teacher_preparations": 0,
+      "extra_generations": 0,
+      "automatic_retry": false,
+      "completed_valid_generations": 9216,
+      "invalid_generations": 0,
+      "pending_canonical_generations": 0,
+      "unknown_generation_attempts": 0,
+      "unattempted_generations": 0,
+      "interrupted_attempt": null,
+      "evaluation_wall_s": 13050.616088131443
+    },
+    "phase": "timed_evaluation",
+    "unchanged_exports": {
+      "O": {
+        "path": "/data/sources/minhao/runs/dflash_online_osd_rerun_20261023/campaign_001/trainer/events/event_058/export",
+        "files": {
+          "config.json": {
+            "bytes": 1211,
+            "sha256": "5749d96966f9ce7e6a9662c9f482b8aa0d461845fb6b9ce09ac2c08311fab2aa",
+            "inode": 1216164649,
+            "device": 2066,
+            "mtime_ns": 1792846706283935675,
+            "resolved": "/data/sources/minhao/runs/dflash_online_osd_rerun_20261023/campaign_001/trainer/events/event_058/export/config.json"
+          },
+          "model.safetensors": {
+            "bytes": 2097259104,
+            "sha256": "796ec9d486046d43a2b91bd0ddf32b33eb3183b7d924e9dd9ab6bc4c6b0d0856",
+            "inode": 1216164647,
+            "device": 2066,
+            "mtime_ns": 1792846706282935658,
+            "resolved": "/data/sources/minhao/runs/dflash_online_osd_rerun_20261023/campaign_001/trainer/events/event_058/export/model.safetensors"
+          }
+        },
+        "unchanged": true
+      },
+      "K": {
+        "path": "/data/sources/minhao/runs/dflash_full_k_gsm8k_20261031/production_002/campaign_001/arms/K/trainer/events/event_058/export",
+        "files": {
+          "config.json": {
+            "bytes": 1211,
+            "sha256": "5749d96966f9ce7e6a9662c9f482b8aa0d461845fb6b9ce09ac2c08311fab2aa",
+            "inode": 202198682,
+            "device": 2066,
+            "mtime_ns": 1793557616567745884,
+            "resolved": "/data/sources/minhao/runs/dflash_full_k_gsm8k_20261031/production_002/campaign_001/arms/K/trainer/events/event_058/export/config.json"
+          },
+          "model.safetensors": {
+            "bytes": 2097259104,
+            "sha256": "47a3112244fdbdc17e01c470c55bf1913b302b194fbf99d1e13239c642df859b",
+            "inode": 202198681,
+            "device": 2066,
+            "mtime_ns": 1793557616566745868,
+            "resolved": "/data/sources/minhao/runs/dflash_full_k_gsm8k_20261031/production_002/campaign_001/arms/K/trainer/events/event_058/export/model.safetensors"
+          }
+        },
+        "unchanged": true
+      },
+      "KPLUS": {
+        "path": "/data/sources/minhao/runs/dflash_kplus_20261103/production_001/campaign_001/arms/KPLUS/trainer/events/event_058/export",
+        "files": {
+          "config.json": {
+            "bytes": 1211,
+            "sha256": "5749d96966f9ce7e6a9662c9f482b8aa0d461845fb6b9ce09ac2c08311fab2aa",
+            "inode": 1277565676,
+            "device": 2066,
+            "mtime_ns": 1793728747144826671,
+            "resolved": "/data/sources/minhao/runs/dflash_kplus_20261103/production_001/campaign_001/arms/KPLUS/trainer/events/event_058/export/config.json"
+          },
+          "model.safetensors": {
+            "bytes": 2097259104,
+            "sha256": "4bd8e872e4b3976b0da257f0b181f0f27c8b369e2faf386d7d833de9a1c87d67",
+            "inode": 1277565675,
+            "device": 2066,
+            "mtime_ns": 1793728747143826654,
+            "resolved": "/data/sources/minhao/runs/dflash_kplus_20261103/production_001/campaign_001/arms/KPLUS/trainer/events/event_058/export/model.safetensors"
+          }
+        },
+        "unchanged": true
+      }
+    },
+    "actual_work": {
+      "attempted_generations": 9219,
+      "returned_generations": 9219,
+      "completed_valid_generations": 9219,
+      "invalid_generations": 0,
+      "pending_canonical_generations": 0,
+      "unknown_generation_attempts": 0,
+      "unattempted_generations": 0,
+      "planned_generations": 9219,
+      "optimizer_steps": 0,
+      "training_presentations": 0,
+      "feedback_collections": 0,
+      "teacher_preparations": 0,
+      "extra_warmup_generations": 0
+    },
+    "campaign_wall_s": 13160.476490337402
+  },
+  "costs": {
+    "loading_s": 21.507512219250202,
+    "close_s": 1.2150979209691286,
+    "controls": {
+      "status": "completed",
+      "planned_generations": 3,
+      "attempted_generations": 3,
+      "returned_generations": 3,
+      "activation_s": 6.316216962412,
+      "weight_validation_s": 11.030615348368883,
+      "publications": 3,
+      "optimizer_steps": 0,
+      "feedback_collections": 0,
+      "teacher_preparations": 0,
+      "extra_generations": 0,
+      "automatic_retry": false,
+      "completed_valid_generations": 3,
+      "invalid_generations": 0,
+      "pending_canonical_generations": 0,
+      "unknown_generation_attempts": 0,
+      "unattempted_generations": 0,
+      "interrupted_attempt": null,
+      "evaluation_wall_s": 19.21042829565704
+    },
+    "evaluation": {
+      "status": "completed",
+      "planned_generations": 9216,
+      "attempted_generations": 9216,
+      "returned_generations": 9216,
+      "activation_s": 235.16835584118962,
+      "weight_validation_s": 9.862608794122934,
+      "publications": 139,
+      "optimizer_steps": 0,
+      "feedback_collections": 0,
+      "teacher_preparations": 0,
+      "extra_generations": 0,
+      "automatic_retry": false,
+      "completed_valid_generations": 9216,
+      "invalid_generations": 0,
+      "pending_canonical_generations": 0,
+      "unknown_generation_attempts": 0,
+      "unattempted_generations": 0,
+      "interrupted_attempt": null,
+      "evaluation_wall_s": 13050.616088131443
+    },
+    "actual_work": {
+      "attempted_generations": 9219,
+      "returned_generations": 9219,
+      "completed_valid_generations": 9219,
+      "invalid_generations": 0,
+      "pending_canonical_generations": 0,
+      "unknown_generation_attempts": 0,
+      "unattempted_generations": 0,
+      "planned_generations": 9219,
+      "optimizer_steps": 0,
+      "training_presentations": 0,
+      "feedback_collections": 0,
+      "teacher_preparations": 0,
+      "extra_warmup_generations": 0
+    },
+    "campaign_wall_s": 13160.476490337402
+  },
+  "admission": {
+    "PREFLIGHT": {
+      "status": "passed",
+      "postflight": false,
+      "model_work": 0,
+      "seal": {
+        "status": "passed",
+        "files_checked": 2634,
+        "execution_source": {
+          "commit": "12583640baf2210f767e108e3632c0e5f9b8caaa",
+          "dirty": false,
+          "repository": "https://github.com/ToxicMinhao/Online-Speculative-decoding-test",
+          "branch": "codex/mathqa-serving-transfer"
+        }
+      },
+      "plan": {
+        "status": "passed",
+        "budget": {
+          "timed_generations": 9216,
+          "historical_control_generations": 3,
+          "total_generations": 9219,
+          "optimizer_steps": 0,
+          "feedback_collections": 0,
+          "teacher_preparations": 0,
+          "extra_warmup_generations": 0
+        },
+        "balance": {
+          "orders": [
+            {
+              "order": [
+                "K",
+                "KPLUS",
+                "O"
+              ],
+              "count": 8
+            },
+            {
+              "order": [
+                "K",
+                "O",
+                "KPLUS"
+              ],
+              "count": 8
+            },
+            {
+              "order": [
+                "KPLUS",
+                "K",
+                "O"
+              ],
+              "count": 8
+            },
+            {
+              "order": [
+                "KPLUS",
+                "O",
+                "K"
+              ],
+              "count": 8
+            },
+            {
+              "order": [
+                "O",
+                "K",
+                "KPLUS"
+              ],
+              "count": 8
+            },
+            {
+              "order": [
+                "O",
+                "KPLUS",
+                "K"
+              ],
+              "count": 8
+            }
+          ],
+          "each_order_count": 8,
+          "block_repeat_orders": 48,
+          "generations": 9216
+        }
+      },
+      "exports": {
+        "O": {
+          "path": "/data/sources/minhao/runs/dflash_online_osd_rerun_20261023/campaign_001/trainer/events/event_058/export",
+          "files": {
+            "config.json": {
+              "bytes": 1211,
+              "sha256": "5749d96966f9ce7e6a9662c9f482b8aa0d461845fb6b9ce09ac2c08311fab2aa",
+              "inode": 1216164649,
+              "device": 2066,
+              "mtime_ns": 1792846706283935675,
+              "resolved": "/data/sources/minhao/runs/dflash_online_osd_rerun_20261023/campaign_001/trainer/events/event_058/export/config.json"
+            },
+            "model.safetensors": {
+              "bytes": 2097259104,
+              "sha256": "796ec9d486046d43a2b91bd0ddf32b33eb3183b7d924e9dd9ab6bc4c6b0d0856",
+              "inode": 1216164647,
+              "device": 2066,
+              "mtime_ns": 1792846706282935658,
+              "resolved": "/data/sources/minhao/runs/dflash_online_osd_rerun_20261023/campaign_001/trainer/events/event_058/export/model.safetensors"
+            }
+          },
+          "unchanged": true
+        },
+        "K": {
+          "path": "/data/sources/minhao/runs/dflash_full_k_gsm8k_20261031/production_002/campaign_001/arms/K/trainer/events/event_058/export",
+          "files": {
+            "config.json": {
+              "bytes": 1211,
+              "sha256": "5749d96966f9ce7e6a9662c9f482b8aa0d461845fb6b9ce09ac2c08311fab2aa",
+              "inode": 202198682,
+              "device": 2066,
+              "mtime_ns": 1793557616567745884,
+              "resolved": "/data/sources/minhao/runs/dflash_full_k_gsm8k_20261031/production_002/campaign_001/arms/K/trainer/events/event_058/export/config.json"
+            },
+            "model.safetensors": {
+              "bytes": 2097259104,
+              "sha256": "47a3112244fdbdc17e01c470c55bf1913b302b194fbf99d1e13239c642df859b",
+              "inode": 202198681,
+              "device": 2066,
+              "mtime_ns": 1793557616566745868,
+              "resolved": "/data/sources/minhao/runs/dflash_full_k_gsm8k_20261031/production_002/campaign_001/arms/K/trainer/events/event_058/export/model.safetensors"
+            }
+          },
+          "unchanged": true
+        },
+        "KPLUS": {
+          "path": "/data/sources/minhao/runs/dflash_kplus_20261103/production_001/campaign_001/arms/KPLUS/trainer/events/event_058/export",
+          "files": {
+            "config.json": {
+              "bytes": 1211,
+              "sha256": "5749d96966f9ce7e6a9662c9f482b8aa0d461845fb6b9ce09ac2c08311fab2aa",
+              "inode": 1277565676,
+              "device": 2066,
+              "mtime_ns": 1793728747144826671,
+              "resolved": "/data/sources/minhao/runs/dflash_kplus_20261103/production_001/campaign_001/arms/KPLUS/trainer/events/event_058/export/config.json"
+            },
+            "model.safetensors": {
+              "bytes": 2097259104,
+              "sha256": "4bd8e872e4b3976b0da257f0b181f0f27c8b369e2faf386d7d833de9a1c87d67",
+              "inode": 1277565675,
+              "device": 2066,
+              "mtime_ns": 1793728747143826654,
+              "resolved": "/data/sources/minhao/runs/dflash_kplus_20261103/production_001/campaign_001/arms/KPLUS/trainer/events/event_058/export/model.safetensors"
+            }
+          },
+          "unchanged": true
+        }
+      },
+      "runtime": {
+        "python_version": "3.12.14",
+        "torch": "2.9.1+cu130",
+        "transformers": "4.57.1",
+        "cuda": "13.0",
+        "native_runtime_sha256": {
+          "speculative/dflash_worker.py": "9397402f5cfbf60b00b7d27d551e5e9e1b605be9b084d028d4ddda76c475dc8c",
+          "speculative/dflash_info.py": "9c7ac23a1bf0840eec8218f02f2adbfc3e419099cd19822137ce5c6e0e902218",
+          "layers/logits_processor.py": "5c6c54bec37b941652e29908c773a756fe6c86f99932ab80043672a1eaa0f086",
+          "models/qwen3.py": "e23ee8af21eac46685852854a5fe585cf58477d4a1f8047887d6afeefaf8e32d",
+          "models/dflash.py": "d4fcfe005a1acc51a4938d038e1dbc1a2c8ff245842f4253338527335b2327b2",
+          "entrypoints/engine.py": "2bcd4b04c325d4ed65f867490c5bac9e915e02f05471c83dacb5a4a097cf1f2a",
+          "server_args.py": "bd60199803698e4ffe6dc44499a8d42be73f42db28056cb6750411523cf56c04"
+        }
+      },
+      "hardware": {
+        "status": "passed",
+        "gpus": [
+          {
+            "index": 0,
+            "name": "NVIDIA A800 80GB PCIe",
+            "total_mib": 81920,
+            "used_mib": 0
+          },
+          {
+            "index": 1,
+            "name": "NVIDIA A800 80GB PCIe",
+            "total_mib": 81920,
+            "used_mib": 0
+          }
+        ],
+        "active_compute_processes": [],
+        "cuda_context_created": false
+      },
+      "quiescence": {
+        "status": "passed",
+        "transfers": [],
+        "training": [],
+        "foreign_gpu_processes": [],
+        "allowed_worker_pids": []
+      },
+      "available_host_bytes": 134959624192,
+      "storage": {
+        "status": "passed",
+        "free_bytes": 68736811008,
+        "required_bytes": 65216016930,
+        "initial_admission": true
+      },
+      "wall_s": 49.62463856302202
+    },
+    "POSTFLIGHT": {
+      "status": "passed",
+      "postflight": true,
+      "model_work": 0,
+      "seal": {
+        "status": "passed",
+        "files_checked": 2634,
+        "execution_source": {
+          "commit": "12583640baf2210f767e108e3632c0e5f9b8caaa",
+          "dirty": false,
+          "repository": "https://github.com/ToxicMinhao/Online-Speculative-decoding-test",
+          "branch": "codex/mathqa-serving-transfer"
+        }
+      },
+      "plan": {
+        "status": "passed",
+        "budget": {
+          "timed_generations": 9216,
+          "historical_control_generations": 3,
+          "total_generations": 9219,
+          "optimizer_steps": 0,
+          "feedback_collections": 0,
+          "teacher_preparations": 0,
+          "extra_warmup_generations": 0
+        },
+        "balance": {
+          "orders": [
+            {
+              "order": [
+                "K",
+                "KPLUS",
+                "O"
+              ],
+              "count": 8
+            },
+            {
+              "order": [
+                "K",
+                "O",
+                "KPLUS"
+              ],
+              "count": 8
+            },
+            {
+              "order": [
+                "KPLUS",
+                "K",
+                "O"
+              ],
+              "count": 8
+            },
+            {
+              "order": [
+                "KPLUS",
+                "O",
+                "K"
+              ],
+              "count": 8
+            },
+            {
+              "order": [
+                "O",
+                "K",
+                "KPLUS"
+              ],
+              "count": 8
+            },
+            {
+              "order": [
+                "O",
+                "KPLUS",
+                "K"
+              ],
+              "count": 8
+            }
+          ],
+          "each_order_count": 8,
+          "block_repeat_orders": 48,
+          "generations": 9216
+        }
+      },
+      "exports": {
+        "O": {
+          "path": "/data/sources/minhao/runs/dflash_online_osd_rerun_20261023/campaign_001/trainer/events/event_058/export",
+          "files": {
+            "config.json": {
+              "bytes": 1211,
+              "sha256": "5749d96966f9ce7e6a9662c9f482b8aa0d461845fb6b9ce09ac2c08311fab2aa",
+              "inode": 1216164649,
+              "device": 2066,
+              "mtime_ns": 1792846706283935675,
+              "resolved": "/data/sources/minhao/runs/dflash_online_osd_rerun_20261023/campaign_001/trainer/events/event_058/export/config.json"
+            },
+            "model.safetensors": {
+              "bytes": 2097259104,
+              "sha256": "796ec9d486046d43a2b91bd0ddf32b33eb3183b7d924e9dd9ab6bc4c6b0d0856",
+              "inode": 1216164647,
+              "device": 2066,
+              "mtime_ns": 1792846706282935658,
+              "resolved": "/data/sources/minhao/runs/dflash_online_osd_rerun_20261023/campaign_001/trainer/events/event_058/export/model.safetensors"
+            }
+          },
+          "unchanged": true
+        },
+        "K": {
+          "path": "/data/sources/minhao/runs/dflash_full_k_gsm8k_20261031/production_002/campaign_001/arms/K/trainer/events/event_058/export",
+          "files": {
+            "config.json": {
+              "bytes": 1211,
+              "sha256": "5749d96966f9ce7e6a9662c9f482b8aa0d461845fb6b9ce09ac2c08311fab2aa",
+              "inode": 202198682,
+              "device": 2066,
+              "mtime_ns": 1793557616567745884,
+              "resolved": "/data/sources/minhao/runs/dflash_full_k_gsm8k_20261031/production_002/campaign_001/arms/K/trainer/events/event_058/export/config.json"
+            },
+            "model.safetensors": {
+              "bytes": 2097259104,
+              "sha256": "47a3112244fdbdc17e01c470c55bf1913b302b194fbf99d1e13239c642df859b",
+              "inode": 202198681,
+              "device": 2066,
+              "mtime_ns": 1793557616566745868,
+              "resolved": "/data/sources/minhao/runs/dflash_full_k_gsm8k_20261031/production_002/campaign_001/arms/K/trainer/events/event_058/export/model.safetensors"
+            }
+          },
+          "unchanged": true
+        },
+        "KPLUS": {
+          "path": "/data/sources/minhao/runs/dflash_kplus_20261103/production_001/campaign_001/arms/KPLUS/trainer/events/event_058/export",
+          "files": {
+            "config.json": {
+              "bytes": 1211,
+              "sha256": "5749d96966f9ce7e6a9662c9f482b8aa0d461845fb6b9ce09ac2c08311fab2aa",
+              "inode": 1277565676,
+              "device": 2066,
+              "mtime_ns": 1793728747144826671,
+              "resolved": "/data/sources/minhao/runs/dflash_kplus_20261103/production_001/campaign_001/arms/KPLUS/trainer/events/event_058/export/config.json"
+            },
+            "model.safetensors": {
+              "bytes": 2097259104,
+              "sha256": "4bd8e872e4b3976b0da257f0b181f0f27c8b369e2faf386d7d833de9a1c87d67",
+              "inode": 1277565675,
+              "device": 2066,
+              "mtime_ns": 1793728747143826654,
+              "resolved": "/data/sources/minhao/runs/dflash_kplus_20261103/production_001/campaign_001/arms/KPLUS/trainer/events/event_058/export/model.safetensors"
+            }
+          },
+          "unchanged": true
+        }
+      },
+      "runtime": {
+        "python_version": "3.12.14",
+        "torch": "2.9.1+cu130",
+        "transformers": "4.57.1",
+        "cuda": "13.0",
+        "native_runtime_sha256": {
+          "speculative/dflash_worker.py": "9397402f5cfbf60b00b7d27d551e5e9e1b605be9b084d028d4ddda76c475dc8c",
+          "speculative/dflash_info.py": "9c7ac23a1bf0840eec8218f02f2adbfc3e419099cd19822137ce5c6e0e902218",
+          "layers/logits_processor.py": "5c6c54bec37b941652e29908c773a756fe6c86f99932ab80043672a1eaa0f086",
+          "models/qwen3.py": "e23ee8af21eac46685852854a5fe585cf58477d4a1f8047887d6afeefaf8e32d",
+          "models/dflash.py": "d4fcfe005a1acc51a4938d038e1dbc1a2c8ff245842f4253338527335b2327b2",
+          "entrypoints/engine.py": "2bcd4b04c325d4ed65f867490c5bac9e915e02f05471c83dacb5a4a097cf1f2a",
+          "server_args.py": "bd60199803698e4ffe6dc44499a8d42be73f42db28056cb6750411523cf56c04"
+        }
+      },
+      "storage": {
+        "status": "passed",
+        "free_bytes": 66794266624,
+        "required_bytes": 8589934592,
+        "initial_admission": false
+      },
+      "wall_s": 48.930799074471
+    }
+  },
+  "evaluation_audit": {
+    "status": "passed",
+    "errors": [],
+    "progress": {
+      "status": "completed",
+      "planned_generations": 9216,
+      "attempted_generations": 9216,
+      "returned_generations": 9216,
+      "activation_s": 235.16835584118962,
+      "weight_validation_s": 9.862608794122934,
+      "publications": 139,
+      "optimizer_steps": 0,
+      "feedback_collections": 0,
+      "teacher_preparations": 0,
+      "extra_generations": 0,
+      "automatic_retry": false,
+      "completed_valid_generations": 9216,
+      "invalid_generations": 0,
+      "pending_canonical_generations": 0,
+      "unknown_generation_attempts": 0,
+      "unattempted_generations": 0,
+      "interrupted_attempt": null,
+      "evaluation_wall_s": 13050.616088131443
+    },
+    "model_work": 0
+  },
+  "historical_controls": {
+    "status": "passed",
+    "errors": [],
+    "progress": {
+      "status": "completed",
+      "planned_generations": 3,
+      "attempted_generations": 3,
+      "returned_generations": 3,
+      "activation_s": 6.316216962412,
+      "weight_validation_s": 11.030615348368883,
+      "publications": 3,
+      "optimizer_steps": 0,
+      "feedback_collections": 0,
+      "teacher_preparations": 0,
+      "extra_generations": 0,
+      "automatic_retry": false,
+      "completed_valid_generations": 3,
+      "invalid_generations": 0,
+      "pending_canonical_generations": 0,
+      "unknown_generation_attempts": 0,
+      "unattempted_generations": 0,
+      "interrupted_attempt": null,
+      "evaluation_wall_s": 19.21042829565704
+    },
+    "model_work": 0
+  },
+  "raw_repeat_rows_preserved": 9216,
+  "errors": [],
+  "limitations": [
+    "Paired prompt uncertainty does not measure training-seed robustness.",
+    "Fresh O58 canonical references are native-verifier comparisons, not target-only decodes.",
+    "Fixed GSM8K-trained exports; no new MathQA learning or adaptation-inclusive speed claim.",
+    "Ordered primary/secondary total-time tests; all other interval summaries descriptive.",
+    "No pooling with historical GSM8K latency or counting timing repeats as independent prompts."
+  ]
+}
