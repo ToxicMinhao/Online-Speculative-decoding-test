@@ -1,0 +1,103 @@
+{
+  "schema": "vfd_second_pass_v1",
+  "arms": [
+    "FULL",
+    "ONCE",
+    "RANDOM64",
+    "STATIC64",
+    "PROGRESS64"
+  ],
+  "events": 4,
+  "seed": 17,
+  "budget": {
+    "feedback_generations": 512,
+    "teacher_preparations": 512,
+    "optimizer_steps": 1664,
+    "training_presentations": 3328,
+    "scoring_forwards": 1408,
+    "timed_generations": 2000,
+    "canonical_generations": 200,
+    "qualification_scoring_forwards": 8,
+    "qualification_training_presentations": 4,
+    "qualification_optimizer_steps": 2
+  },
+  "serving": {
+    "block_size": 16,
+    "max_new_tokens": 2048,
+    "context_limit": 4096,
+    "concurrency": 1,
+    "precision": "bfloat16",
+    "temperature": 0,
+    "attention_backend": "fa3",
+    "capture": false
+  },
+  "original_execution": "e0a9d3c235e1efd15404c549282d21c99243a21c",
+  "automatic_retry": false,
+  "inherited_optimizer_horizon": 7424,
+  "execution_source": {
+    "commit": "05e4b30488fb267a196edb1a81a5f6aaf613a838",
+    "dirty": false,
+    "repository": "https://github.com/ToxicMinhao/Online-Speculative-decoding-test",
+    "branch": "codex/vfd-second-pass-screen"
+  },
+  "target": "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/target",
+  "draft": "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/draft",
+  "worker_python": "/data/conda_envs/minhao/adaflash_author/bin/python",
+  "training_python": "/data/conda_envs/minhao/dflash_specforge_20261022/bin/python",
+  "analysis": {
+    "policy": "vfd-s2-v1",
+    "primary": "PROGRESS64_vs_FULL",
+    "statistic": "100 * (1 - sum(candidate per-request repeat means) / sum(comparator per-request repeat means))",
+    "bootstrap": {
+      "seed": 20261104,
+      "generator": "PCG64",
+      "draws": 10000,
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "method": "linear",
+      "unit": "paired request",
+      "shared_draws": true
+    },
+    "acceptable_slowdown_pct": 0.5,
+    "clear_simpler_dominance": "RANDOM64 or ONCE has strictly lower updater time than PROGRESS64 and PROGRESS64-versus-arm latency interval upper bound < 0",
+    "efficiency_preference": [
+      "ONCE",
+      "RANDOM64",
+      "PROGRESS64"
+    ],
+    "updater_time_scope": "Measured logical standalone training-pass worker wall plus scoring/selection worker wall, including packet loads and setup; shared event-1 work charged to every applicable policy; initialization, restoration, preparation and export excluded; compute timers reported separately",
+    "control_intervals": "Descriptive and unadjusted; intervals crossing zero do not establish the added scoring mechanism",
+    "automatic_extension": false
+  },
+  "policy_version": "vfd-s2-v1",
+  "event_hash_identity": "integer events 1..4 rendered as decimal strings",
+  "storage": {
+    "weight_bytes": 2097259104,
+    "state_weight_equivalents": 26,
+    "feature_peak_bytes": 14409427596,
+    "tensor_peak_bytes": 68938164300,
+    "tensor_peak_with_margin_bytes": 72385072515,
+    "compact_bytes": 17179869184,
+    "workspace_bytes": 2147483648,
+    "compiler_bytes": 4294967296,
+    "reserve_bytes": 8589934592,
+    "required_initial_free_bytes": 104597327235,
+    "lifecycle": "incremental preparation; all-policy event barrier; five rolling own states; export before atomic replacement",
+    "offload_assumed": false
+  },
+  "source_answers_used": false,
+  "qualification": {
+    "score_forwards": 8,
+    "training_presentations": 4,
+    "optimizer_steps": 2
+  },
+  "private_inputs": {
+    "PLAN.json": "597a00b8062177d6f8a350e74dca1c472daa398c7dc0f79ebacacb251be5c65a",
+    "PANEL.json": "e5b64bbd136b168bbc2732c930dda558a4b5843d9b75390ea361743237f961bb",
+    "TRAINING_REQUESTS.json": "e3e6905e554352cf8a0077f79d25ccff313c63afd8b4bbf6dc8ea30894854537",
+    "CANONICALS.json": "ae16b27aa7ac14929be5ea10f29a976a291768d293ae83536f2226101eea959c",
+    "SEAL.json": "b2d43fb2e72d810d010a63ebfaf3fd383cd181b401c5b5c07bcbe1c5648450c8"
+  }
+}

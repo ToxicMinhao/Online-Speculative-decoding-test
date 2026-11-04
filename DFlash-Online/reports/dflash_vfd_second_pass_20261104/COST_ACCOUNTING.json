@@ -1,0 +1,85 @@
+{
+  "execution_commit": "05e4b30488fb267a196edb1a81a5f6aaf613a838",
+  "wrapper_start_utc": "2026-11-04T19:02:15Z",
+  "wrapper_end_utc": "2026-11-04T21:41:29Z",
+  "wrapper_elapsed_s": 9554,
+  "campaign_wall_s": 9436.98411606066,
+  "backend_loading_s": 19.506371641531587,
+  "endpoint_weight_validation_s": 10.27539474144578,
+  "physical_components": {
+    "preparation_s": 44.617481444031,
+    "training_s": 4596.303964404389,
+    "scoring_s": 78.56934837251902,
+    "selection_s": 0.27967563830316067,
+    "training_compute_s": 4575.960361331701,
+    "persistence_s": 730.5637762993574,
+    "export_s": 291.4268331825733,
+    "activation_s": 149.29871313087642
+  },
+  "feedback_per_event": {
+    "event_001": {
+      "collection_wall_s": 101.44684918038547,
+      "teacher_preparation_s": 4.900278015062213,
+      "feature_persistence_s": 5.63687826320529,
+      "preparation_wall_s": 10.750565953552723,
+      "retention_s": 2.1621836349368095,
+      "wall_s": 119.11972541362047,
+      "request_latency_s": 100.9030297677964,
+      "capture_host_s": 76.3946955613792,
+      "cache_maintenance_s": 0.06199358217418194
+    },
+    "event_002": {
+      "collection_wall_s": 103.79610519856215,
+      "teacher_preparation_s": 5.122699815779924,
+      "feature_persistence_s": 5.927628289908171,
+      "preparation_wall_s": 11.257450483739376,
+      "retention_s": 2.369749443605542,
+      "wall_s": 132.46524585038424,
+      "request_latency_s": 103.2004821151495,
+      "capture_host_s": 78.33206560835242,
+      "cache_maintenance_s": 0.07086128927767277
+    },
+    "event_003": {
+      "collection_wall_s": 99.92332717217505,
+      "teacher_preparation_s": 4.951892152428627,
+      "feature_persistence_s": 5.9026445131748915,
+      "preparation_wall_s": 11.093355230987072,
+      "retention_s": 1.9496095702052116,
+      "wall_s": 138.20985112711787,
+      "request_latency_s": 99.34523242898285,
+      "capture_host_s": 74.97068694420159,
+      "cache_maintenance_s": 0.07164048217236996
+    },
+    "event_004": {
+      "collection_wall_s": 102.0022893100977,
+      "teacher_preparation_s": 5.102449392899871,
+      "feature_persistence_s": 6.174989212304354,
+      "preparation_wall_s": 11.51610977575183,
+      "retention_s": 2.013692183420062,
+      "wall_s": 151.62821723893285,
+      "request_latency_s": 101.41442817822099,
+      "capture_host_s": 76.6679357085377,
+      "cache_maintenance_s": 0.07232424058020115
+    }
+  },
+  "feedback_totals": {
+    "collection_wall_s": 407.16857086122036,
+    "teacher_preparation_s": 20.077319376170635,
+    "feature_persistence_s": 23.642140278592706,
+    "preparation_wall_s": 44.617481444031,
+    "retention_s": 8.495234832167625,
+    "wall_s": 541.4230396300554,
+    "request_latency_s": 404.86317249014974,
+    "capture_host_s": 306.3653838224709,
+    "cache_maintenance_s": 0.2768195942044258
+  },
+  "logical_updater_seconds": {
+    "FULL": 1414.155987618491,
+    "ONCE": 700.5739327091724,
+    "RANDOM64": 1053.034989606589,
+    "STATIC64": 1087.2256164513528,
+    "PROGRESS64": 1110.6966296751052
+  },
+  "qualification": 60.667193377390504,
+  "timing_scopes": "Component/subcomponent timers overlap. Do not sum capture with collection or compute with worker wall. Logical shared first-pass costs are charged to every policy; physical main work executes it once. Initialization/restoration and unpartitioned supervisor overhead are outside updater time. No kernel-time attribution is inferred."
+}

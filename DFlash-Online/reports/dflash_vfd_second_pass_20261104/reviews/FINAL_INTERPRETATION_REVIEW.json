@@ -1,0 +1,216 @@
+{
+  "material_passport": {
+    "origin_skill": "ars-codex:academic-research-suite / experiment-agent",
+    "origin_mode": "validate",
+    "origin_date": "2026-11-04T21:52:01.432397+00:00",
+    "verification_status": "ANALYZED",
+    "version_label": "vfd_final_interpretation_v1"
+  },
+  "execution_commit": "05e4b30488fb267a196edb1a81a5f6aaf613a838",
+  "overall_confidence": "CAUTION: small effect, one training seed and descriptive secondary intervals; prescribed decision is clear",
+  "decision": {
+    "decision": "otherwise",
+    "preferred_policy": null,
+    "reason": "Measured latency argues against the rule at this budget.",
+    "primary_pass": false,
+    "simpler_dominating_arms": [],
+    "efficiency_qualified_arms": [],
+    "scoring_mechanism_established_against_both_selectors": false,
+    "selector_control_caution": "Crossing-zero selector intervals leave added scoring value unestablished even if advancement passes.",
+    "updater_costs_s": {
+      "FULL": 1414.155987618491,
+      "ONCE": 700.5739327091724,
+      "RANDOM64": 1053.034989606589,
+      "STATIC64": 1087.2256164513528,
+      "PROGRESS64": 1110.6966296751052
+    },
+    "updater_scope": "Measured logical standalone training-pass worker wall plus scoring/selection worker wall, including packet loads and setup; shared event-1 work charged to every applicable policy; initialization, restoration, preparation and export excluded; compute timers reported separately",
+    "automatic_followup_authorized": false,
+    "limits": "One training seed and four events on common feedback; no seed-level replication, broad-domain claim or training-inclusive serving speedup."
+  },
+  "interpretation_review_status": "completed",
+  "final_report_review": {
+    "source": "final_delivery_001/REPORT.md",
+    "status": "consistent after root clarified count-based request comparison header",
+    "remaining_claim_or_cost_scope_blockers": []
+  },
+  "authorship_disclosure": "Same-team reviewer authored scoring module and scoring/training/worker tests, contributed narrow training/worker state and cost fixes, and previously reviewed campaign/storage/seal. This is not an independent implementation or GPU replication. Completed independent scalar/bootstrap/raw/exposure checks are owned by separate audit deliverables; this review does not replace or claim them.",
+  "scope": {
+    "model_work": 0,
+    "remote_operations": 0,
+    "public_source_edits": 0,
+    "independent_gpu_replication": false,
+    "stage_advanced": false,
+    "automatic_followup_authorized": false
+  },
+  "units": {
+    "paired_requests": 200,
+    "timing_repeats": 2,
+    "training_seeds": 1,
+    "events": 4,
+    "bootstrap_draws": 10000,
+    "bootstrap_seed": 20261104,
+    "repeats_are_independent_replications": false
+  },
+  "selection_evidence": {
+    "positive_score_responses_by_event": [
+      37,
+      45,
+      53,
+      53
+    ],
+    "selected_zero_score_responses_by_event": [
+      27,
+      19,
+      11,
+      11
+    ],
+    "valid_scoring_blocks_per_event": 2048,
+    "initial_opportunities_by_event": [
+      578,
+      548,
+      554,
+      531
+    ],
+    "opportunity_repairs_by_event": [
+      436,
+      410,
+      405,
+      371
+    ],
+    "positive_credit_blocks_by_event": [
+      44,
+      58,
+      69,
+      75
+    ],
+    "selected_response_tokens_total": {
+      "RANDOM64": 71212,
+      "STATIC64": 66763,
+      "PROGRESS64": 71758
+    },
+    "not_a_mechanistic_or_causal_attribution": true
+  },
+  "cost_scope": "Logical standalone updater includes training pass setup/packet loads plus scoring/selection; shared event1 first pass charged to every arm, entry score to both scored arms, postscore to PROGRESS. Excludes initialization/restoration/preparation/persistence/export; no training-inclusive serving-speedup claim.",
+  "panel_exposure": {
+    "train_disjoint": true,
+    "matched_prior_use": 196,
+    "unmatched_available_inventories": 4,
+    "old_panel_overlap": 142,
+    "historically_fresh_claim": false
+  },
+  "fallacy_scan": {
+    "coverage": "11/11 checked",
+    "categories": [
+      {
+        "category": "Simpson's paradox",
+        "severity": "NOTE",
+        "finding": "No sweep-level reversal: both sweeps are adverse. Eight blocks are adverse and two favorable (range −2.5009% to +1.0833%). Heterogeneity exists; no all-subgroup reversal was observed. Keep the prespecified ratio-of-totals primary."
+      },
+      {
+        "category": "Ecological fallacy",
+        "severity": "CAUTION",
+        "finding": "Aggregate harm is not universal request harm: call wins/regressions/ties are 70/101/29 and latency wins 89/200. Policy totals do not reveal each training response's causal value."
+      },
+      {
+        "category": "Berkson's paradox",
+        "severity": "CAUTION",
+        "finding": "Input-only selection avoids outcome filtering, but prior exposure and eligibility restrict population inference. No specific Berkson artifact is established; the panel is not historically fresh."
+      },
+      {
+        "category": "Collider bias",
+        "severity": "NOTE",
+        "finding": "The primary includes every sealed request without conditioning on post-training scores, acceptance, calls or length. Those fields remain diagnostics, not adjustment variables."
+      },
+      {
+        "category": "Base rate neglect",
+        "severity": "CAUTION",
+        "finding": "All 8192 valid blocks remain in denominators; 244 have positive credit. Zero ties fill 68 selected slots. Scores are not calibrated probabilities; correlated blocks do not increase the replication count."
+      },
+      {
+        "category": "Regression to the mean",
+        "severity": "CAUTION",
+        "finding": "Choosing first-pass movement does not establish persistent benefit. The endpoint is adverse versus FULL and uncertain versus both selectors; score movement is not efficacy evidence."
+      },
+      {
+        "category": "Survivorship bias",
+        "severity": "NOTE",
+        "finding": "All 2000 executions and 200 requests, including the capped question and regressing requests, remain. Source audits report zero invalid, unattempted or unknown endpoint work."
+      },
+      {
+        "category": "Look-elsewhere effect",
+        "severity": "CAUTION",
+        "finding": "One primary and 23 descriptive unadjusted secondary intervals are reported. No favorable-only reporting, primary switch, equivalence claim or new post-result correction is justified."
+      },
+      {
+        "category": "Garden of forking paths",
+        "severity": "NOTE",
+        "finding": "The sealed handoff/source specify scores, hashes, panel, timers, bootstrap and thresholds. No tuning or extension follows. The exact execution pin remains 05e4b30488fb267a196edb1a81a5f6aaf613a838."
+      },
+      {
+        "category": "Correlation versus causation",
+        "severity": "CAUTION",
+        "finding": "The controlled policy comparison supports a narrow endpoint comparison. Sparse scores, repairs and lengths do not isolate why it is slower, establish per-response attribution or prove general mechanism failure."
+      },
+      {
+        "category": "Reverse causality",
+        "severity": "NOTE",
+        "finding": "Entry/immediate-post-pass-1 scores precede selection/pass 2; held-out evaluation is after event 4. Current feedback supplies scores, not later events or endpoint outcomes. Temporal precedence does not prove score movement causes later benefit."
+      }
+    ]
+  },
+  "source_identities": {
+    "HANDOFF.md": {
+      "bytes": 9691,
+      "sha256": "4a1122136103516a91326d362497e918abb6ee7a8e41a2a06e9821274ab2b817"
+    },
+    "reviews/INTERPRETATION_CHECKLIST.md": {
+      "bytes": 7681,
+      "sha256": "8692ce183ba35f621539a7f13714bd00d2152e26bf48627b03c411323ecde156"
+    },
+    "data_preparation/PREPARATION_REVIEW.json": {
+      "bytes": 2037,
+      "sha256": "9adddd7d908e610922e59d23b6da1bddfebd6efbe856ce306d0455327fb040b8"
+    },
+    "retrieved_001/RETRIEVAL_VERIFIED.json": {
+      "bytes": 770,
+      "sha256": "a8b50471de89e59c2102e5e6121dc40f6fb1253b22556f64307a22c48cfce84e"
+    },
+    "final_delivery_001/REPORT.md": {
+      "bytes": 8485,
+      "sha256": "e0d06a0356cc5758411eaf6819988461a2141df0b20a1a07705f0da09104fe98"
+    },
+    "retrieved_001/evidence/production_001/final_report/SUMMARY.json": {
+      "bytes": 18809,
+      "sha256": "ce9627a6cfdfa9dd0b0563645b14813190ea14a8e0a71f8f305e6dc313e1eda2"
+    },
+    "retrieved_001/evidence/production_001/final_report/SCORES.csv": {
+      "bytes": 89061,
+      "sha256": "75e596009e7c4833f1a55fa2c4afdcf4b54973118e3820bdf75be9bccf62a676"
+    },
+    "retrieved_001/evidence/production_001/final_report/SCORE_SUMMARY.csv": {
+      "bytes": 685,
+      "sha256": "376311d6f7fd59aaf60fc7e5baab453197bf222293f58723db7d016ebbbfdb4a"
+    },
+    "retrieved_001/evidence/production_001/final_report/SELECTIONS.csv": {
+      "bytes": 95539,
+      "sha256": "24481befc4f7df9ccc14aaf160bfc4f939d646347ea894acce8c256b6a79d722"
+    },
+    "retrieved_001/evidence/production_001/final_report/TRAINING_AUDIT.json": {
+      "bytes": 896,
+      "sha256": "0e3a8dcb7d9168364a4d0e9d0322d7e3865ae29afe2e4a1a58d9a633bda15fe9"
+    },
+    "retrieved_001/evidence/production_001/final_report/ENDPOINT_AUDIT.json": {
+      "bytes": 725,
+      "sha256": "2237eaba37de0138131c1822e65b4d6ea5e15b9b0e5f7c45ee277320d4729cad"
+    },
+    "retrieved_001/evidence/production_001/final_report/QUALIFICATION_AUDIT.json": {
+      "bytes": 491,
+      "sha256": "ed3271331ac175514d896dbb4ebfaf0b7682096cec63140667ecdb7e7e9de5ef"
+    },
+    "reviews/FINAL_INTERPRETATION_REVIEW.md": {
+      "bytes": 10506,
+      "sha256": "ad4609a09371bb7c5812ebdc0cb8394396db61126e29d31e048e9f3ef9e3a973"
+    }
+  }
+}

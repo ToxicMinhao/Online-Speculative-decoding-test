@@ -1,0 +1,38 @@
+{
+  "status": "passed",
+  "errors": [],
+  "physical_optimizer_steps": 1664,
+  "physical_training_presentations": 3328,
+  "logical_optimizer_steps": 1920,
+  "logical_training_presentations": 3840,
+  "logical_updater_seconds": {
+    "FULL": 1414.155987618491,
+    "ONCE": 700.5739327091724,
+    "RANDOM64": 1053.034989606589,
+    "STATIC64": 1087.2256164513528,
+    "PROGRESS64": 1110.6966296751052
+  },
+  "event_selection_overlap": [
+    {
+      "event": 1,
+      "static_progress_selection_overlap": 37,
+      "comparable_state": true
+    },
+    {
+      "event": 2,
+      "static_progress_selection_overlap": 41,
+      "comparable_state": false
+    },
+    {
+      "event": 3,
+      "static_progress_selection_overlap": 38,
+      "comparable_state": false
+    },
+    {
+      "event": 4,
+      "static_progress_selection_overlap": 39,
+      "comparable_state": false
+    }
+  ],
+  "model_work": 0
+}
