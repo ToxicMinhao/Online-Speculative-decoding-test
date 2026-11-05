@@ -16,7 +16,7 @@ from pathlib import Path
 import numpy as np
 
 
-COMMIT = "4fe52546bd8fc41af30d234e1eeef4809b2d0a14"
+COMMIT = "9150cc3b20714153b8e4fb3d70e8a32861c5921f"
 ROUTES = ("FIVE", "THREE", "ADAPTIVE3", "ADAPTIVE5")
 MODES = ["FORCED5"] * 4 + ["THREE"] * 4 + ["ALTERNATE"] * 8
 BINS = (0, 256, 512, 1024, 2048, 4096, math.inf)
