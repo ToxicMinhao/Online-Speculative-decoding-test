@@ -20,7 +20,8 @@ from .storage import save_torch, write_json
 
 class SGLangDFlashBackend:
     def __init__(self, target_path, draft_path, *, worker_python, output_root,
-                 serving_gpu='0', context_limit=2048, block_size=16, reasoning='off'):
+                 serving_gpu='0', context_limit=2048, block_size=16, reasoning='off',
+                 worker_module='online_feedback.sglang_worker'):
         from transformers import AutoTokenizer
 
         self.root = Path(output_root).absolute()
@@ -71,7 +72,7 @@ class SGLangDFlashBackend:
         self.log = (self.root / 'worker.log').open('w')
         started = time.perf_counter()
         self.worker = subprocess.Popen([
-            str(worker_python), '-u', '-m', 'online_feedback.sglang_worker',
+            str(worker_python), '-u', '-m', worker_module,
             '--settings', str(self.root / 'engine_settings.json'), '--output', str(self.root),
         ], env=environment, stdout=self.log, stderr=subprocess.STDOUT, start_new_session=True)
         ready_path = self.root / 'ready.json'
