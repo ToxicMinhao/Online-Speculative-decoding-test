@@ -1,0 +1,82 @@
+{
+  "planned_complete_generations": 32,
+  "completed": 32,
+  "valid": 32,
+  "invalid": 0,
+  "unknown": 0,
+  "unattempted": 0,
+  "original_five_readout": 16,
+  "qualification_generations": {
+    "FORCED5": 4,
+    "THREE": 4,
+    "ALTERNATE": 8
+  },
+  "timed_route_measurements": 2048,
+  "matched_starts": 128,
+  "route_repeats_per_start": 4,
+  "route_warmups": 512,
+  "qualification_live_rounds": 1007,
+  "qualification_shadow_proposal_forwards": 2014,
+  "qualification_shadow_vocab_heads": 2014,
+  "qualification_total_vocab_heads": 3021,
+  "custom_graph_setup": [
+    {
+      "graph": "static_three",
+      "warmup_executions": 2,
+      "capture_executions": 1,
+      "captured_layer_calls": [
+        1,
+        1,
+        1,
+        0,
+        0
+      ],
+      "wall_s": 0.006686316803097725
+    },
+    {
+      "graph": "prefix",
+      "warmup_executions": 2,
+      "capture_executions": 1,
+      "captured_layer_calls": [
+        1,
+        1,
+        1,
+        0,
+        0
+      ],
+      "wall_s": 0.04634615778923035
+    },
+    {
+      "graph": "shallow",
+      "warmup_executions": 2,
+      "capture_executions": 1,
+      "captured_layer_calls": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "wall_s": 0.0013843774795532227
+    },
+    {
+      "graph": "deep",
+      "warmup_executions": 2,
+      "capture_executions": 1,
+      "captured_layer_calls": [
+        0,
+        0,
+        0,
+        1,
+        1
+      ],
+      "wall_s": 0.004288995638489723
+    }
+  ],
+  "optimizer_steps": 0,
+  "fitting_presentations": 0,
+  "final_generations": 0,
+  "native_engine_initialization_attempts": 2,
+  "failed_startup_forward_count": "not instrumented; see preserved native startup failure log",
+  "common_native_engine_graph_work": "preserved startup logs; not conflated with four custom segment captures"
+}

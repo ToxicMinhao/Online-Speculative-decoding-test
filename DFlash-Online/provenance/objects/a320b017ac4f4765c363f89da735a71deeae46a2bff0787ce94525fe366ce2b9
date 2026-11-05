@@ -1,0 +1,365 @@
+"""Seal 48 independent requests using cached public data; never load a model.
+
+Run with the existing dflash-specforge Python. Corpus answers are not labels or
+selection scores. Hashes here identify preparation inputs, not runtime state.
+"""
+from __future__ import annotations
+
+import argparse
+import ast
+from collections import Counter, defaultdict
+import hashlib
+import importlib.metadata
+import json
+from pathlib import Path
+import random
+import re
+import sys
+import unicodedata
+
+ROOT = Path('/home/minhao2/EAGLE_SPEC')
+HERE = Path(__file__).resolve().parent
+OLD = ROOT / 'research/dflash_baseline_learning_curve_20261020/execution_001/data'
+CHECKOUT = ROOT / 'research/dflash_two_update_followup_20261015/github_checkout'
+TOKENIZER = Path('/home/minhao2/.cache/huggingface/hub/models--Qwen--Qwen3-8B/snapshots/b968826d9c46dd6066d109eabc6255188de91218')
+BENCHMARK = Path('/home/minhao2/DFlash-Research/inference/dflash/benchmark.py')
+F5 = Path('/home/minhao2/DFlash-Research-artifacts/data/sharegpt_qwen3_256')
+SEED = 20261022
+
+
+def sha(path):
+    digest = hashlib.sha256()
+    with Path(path).open('rb') as stream:
+        for chunk in iter(lambda: stream.read(1024 * 1024), b''):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def norm(text):
+    return ' '.join(unicodedata.normalize('NFC', text).split())
+
+
+def save(path, value):
+    path.write_text(json.dumps(value, ensure_ascii=False, indent=2) + '\n')
+
+
+def prompt(row, key):
+    if key.startswith('gsm8k'):
+        return row['question']
+    if key == 'codealpaca_train':
+        return row['instruction'] + ('\n\n' + row['input'] if row['input'] else '')
+    messages = row.get('conversations', [])
+    if messages and isinstance(messages[0], dict):
+        first = messages[0]
+        if first.get('from', first.get('role')) in ('human', 'user'):
+            return first.get('value', first.get('content', ''))
+    return ''
+
+
+def history_files():
+    """Retained manifests plus the prompt files they summarize, and actual F5 data.
+
+    Reserved/allocated prior input manifests are excluded conservatively, even
+    when a particular historical execution did not finish. Raw source catalogs
+    alone do not count as used requests.
+    """
+    paths = []
+    for path in (ROOT / 'research').rglob('*.json'):
+        if 'manifest' in path.name.lower() and not path.resolve().is_relative_to(HERE):
+            paths.append(path)
+    patterns = [
+        'research/initialization_matrix_20260928/data_001/*.jsonl',
+        'research/target_variant_specialization_001/data/prompts/*.jsonl',
+        'research/target_variant_specialization_001/data/sealed_final/*.prompts.jsonl',
+        'research/shared_adapter_verifier_distillation_001/data/prompts/*.jsonl',
+        'research/dflash_data_scaling_20260917/inputs*/*.jsonl',
+        'research/dflash_causal_signals_20260918/inputs/*.jsonl',
+        'research/dflash_generalization_20261004/data_locked_001/*.jsonl',
+        'research/dflash_paid_learning_20261004/data_audit_sources/COLLECTION.jsonl',
+    ]
+    for pattern in patterns:
+        paths.extend(ROOT.glob(pattern))
+    paths.extend([F5 / 'manifest.json', F5 / 'train.jsonl'])
+    return sorted(set(paths), key=str)
+
+
+def build_exclusions(sources):
+    """Match selected IDs, conversation roots and normalized user prompt text.
+
+    Normalize old formatted user requests for matching only. Actual serving text
+    always remains untouched. Every excluded source row retains its first piece
+    of supporting history, allowing an audit without copying old responses.
+    """
+    text_rows, identifier_rows = defaultdict(set), defaultdict(set)
+    for key, rows in sources.items():
+        for index, row in enumerate(rows):
+            identity = (key, index)
+            text = prompt(row, key)
+            if isinstance(text, str) and text.strip():
+                text_rows[norm(text)].add(identity)
+            identifier_rows[f'{key}:{index}'].add(identity)
+            if key.startswith('gsm8k'):
+                split = key.removeprefix('gsm8k_')
+                for source_id in (f'gsm8k:main:{split}:{index}', f'gsm8k:{split}:{index}'):
+                    identifier_rows[source_id].add(identity)
+            elif key == 'codealpaca_train':
+                identifier_rows[f'codealpaca:{index}'].add(identity)
+            else:
+                source_id = str(row.get('id', ''))
+                identifier_rows[source_id].add(identity)
+                chunk = re.fullmatch(r'([^_\s]+)_(0|[1-9][0-9]*)', source_id)
+                if chunk:
+                    identifier_rows['sharegpt-root:' + chunk[1]].add(identity)
+    # Old AdaFlash manifests use opaque IDs. Resolve only IDs actually occurring
+    # in historical selections, using the retained raw mapping as a lookup.
+    mapping_files = [OLD / 'source_paths.json']
+    for split in ('train', 'test'):
+        path = ROOT / f'research/dflash_paid_learning_20261004/data_audit_sources/gsm8k_{split}.jsonl'
+        mapping_files.append(path)
+        for line in path.open():
+            row = json.loads(line)
+            text = row['conversations'][0]['content']
+            identifier_rows[row['id']].update(text_rows.get(norm(text), set()))
+
+    excluded, receipts, content_seen = {}, [], {}
+    for path in history_files():
+        digest = sha(path)
+        receipt = {'path': str(path), 'sha256': digest, 'bytes': path.stat().st_size}
+        if digest in content_seen:
+            receipt['duplicate_of'] = content_seen[digest]
+            receipts.append(receipt)
+            continue
+        content_seen[digest] = str(path)
+        found = set()
+
+        def scan(value):
+            if isinstance(value, dict):
+                # Structured source records sometimes carry a numeric row ID.
+                dataset = value.get('source_dataset', value.get('dataset'))
+                split = value.get('source_split')
+                row_index = value.get('source_row_index', value.get('source_index'))
+                if dataset == 'openai/gsm8k' and split in ('train', 'test') and isinstance(row_index, int):
+                    found.add((f'gsm8k_{split}', row_index))
+                role = value.get('role', value.get('from'))
+                for field, item in value.items():
+                    if field in {'answer', 'reference_answer', 'output', 'response', 'completion',
+                                 'assistant', 'output_text', 'response_text', 'generated_text'}:
+                        continue
+                    if role in ('assistant', 'gpt', 'chatgpt', 'bing', 'bard') and field in ('content', 'value'):
+                        continue
+                    scan(item)
+            elif isinstance(value, list):
+                for item in value:
+                    if not isinstance(item, (int, float, bool)):
+                        scan(item)
+            elif isinstance(value, str):
+                found.update(identifier_rows.get(value, ()))
+                chunk = re.fullmatch(r'([^_\s]+)_(0|[1-9][0-9]*)', value)
+                if chunk:
+                    found.update(identifier_rows.get('sharegpt-root:' + chunk[1], ()))
+                variants = [value]
+                if '<|im_start|>user\n' in value:
+                    variants.extend(re.findall(r'<\|im_start\|>user\n(.*?)<\|im_end\|>', value, re.S))
+                for text in variants:
+                    text = text.removesuffix('\nPlease reason step by step, and put your final answer within \\boxed{}.')
+                    text = text.removeprefix('Solve the following math problem. Give your final numerical answer at the end.\n\n')
+                    found.update(text_rows.get(norm(text), ()))
+
+        if path.suffix == '.jsonl':
+            for line in path.open():
+                scan(json.loads(line))
+        else:
+            scan(json.loads(path.read_text()))
+        receipt['matching_source_rows'] = len(found)
+        receipt['newly_excluded_rows'] = len(found - excluded.keys())
+        for identity in found:
+            excluded.setdefault(identity, str(path))
+        receipts.append(receipt)
+    # Bind F5's exact actually trained records, not merely its metadata inventory.
+    f5_manifest = json.loads((F5 / 'manifest.json').read_text())
+    f5_rows = [json.loads(line) for line in (F5 / 'train.jsonl').open()]
+    assert len(f5_rows) == len(f5_manifest['selected']) == 256
+    assert sha(F5 / 'train.jsonl') == f5_manifest['training_jsonl']['sha256']
+    for selected, actual in zip(f5_manifest['selected'], f5_rows):
+        source = sources['sharegpt_train'][selected['source_index']]
+        assert source['id'] == selected['source_id']
+        assert actual['conversations'] == source['conversations']
+        assert ('sharegpt_train', selected['source_index']) in excluded
+    audit = {
+        'rule': 'Conservative exclusion of allocated/selected prior requests from retained manifests and explicitly listed prompt files; match source IDs, opaque-ID mappings, ShareGPT conversation roots and NFC/whitespace-normalized prompt text.',
+        'limits': 'Covers retained local records inventoried below, not inaccessible history or pretraining. Allocated prior records are excluded even if their experiment did not complete. No semantic-near-duplicate guarantee.',
+        'history_files': receipts,
+        'lookup_only_files': [{'path': str(p), 'sha256': sha(p)} for p in mapping_files],
+        'excluded_source_row_counts': dict(Counter(k for k, _ in excluded)),
+        'excluded_source_rows': [{'source_key': k, 'source_index': i, 'first_evidence': excluded[k, i]} for k, i in sorted(excluded)],
+        'f5_actual_records': {'count': 256, 'all_records_match_source': True, 'all_source_rows_excluded': True, 'training_file': str(F5 / 'train.jsonl')},
+    }
+    return excluded, audit
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--out', type=Path, default=HERE)
+    reuse = parser.add_mutually_exclusive_group()
+    reuse.add_argument('--propose-gsm8k-a-reuse', action='store_true',
+                       help='Write a conditional proposal only; never seal it.')
+    reuse.add_argument('--allow-previous-gsm8k-a', action='store_true',
+                       help='Use only after explicit user authorization of GSM8K A historical reuse.')
+    args = parser.parse_args()
+    args.out.mkdir(parents=True, exist_ok=True)
+    sys.path.insert(0, str(CHECKOUT))
+    # Reuse only missing pure-Python langdetect; installed binary packages win.
+    sys.path.append(str(OLD / 'preparation_dependencies'))
+    from experiments.dflash_baseline_learning_curve import data as previous
+    from transformers import AutoTokenizer
+
+    previous.SEED = SEED
+    sources, receipts = previous._load_source_files(
+        json.loads((OLD / 'source_paths.json').read_text()), previous.catalog())
+    excluded, audit = build_exclusions(sources)
+    save(args.out / 'prior_exclusion_audit.json', audit)
+    print('Historical exclusions:', audit['excluded_source_row_counts'], flush=True)
+    tokenizer = AutoTokenizer.from_pretrained(TOKENIZER, local_files_only=True)
+    # Run the exact two author template helpers without importing model/GPU code.
+    tree = ast.parse(BENCHMARK.read_text())
+    helpers = ast.Module(body=[node for node in tree.body if isinstance(node, ast.FunctionDef)
+                              and node.name in ('_reasoning_kwargs', 'apply_chat_template')], type_ignores=[])
+    namespace = {}
+    exec(compile(helpers, str(BENCHMARK), 'exec'), namespace)
+    render = namespace['apply_chat_template']
+    english = previous._english_detector()
+    rng, used_text, used_roots = random.Random(SEED), set(), set()
+    groups, rejected, pools, shortfalls = [], [], [], []
+    for domain in ('gsm8k', 'codealpaca', 'sharegpt'):
+        group = {'name': domain, 'requests': []}
+        for role, old_role in (('A', 'feedback'), ('B', 'evaluation')):
+            key, indices = previous._partition_indices(sources, domain, old_role)
+            rng.shuffle(indices)
+            accepted = 0
+            for rank, index in enumerate(indices):
+                row = sources[key][index]
+                metadata, reason = previous._extract_prompt(row, domain, english)
+                evidence = {'domain': domain, 'role': role, 'source_key': key,
+                            'source_index': index, 'source_id': row.get('id', f'{key}:{index}'), 'candidate_rank': rank}
+                if (key, index) in excluded:
+                    evidence['prior_evidence'] = excluded[key, index]
+                    permitted_reuse = domain == 'gsm8k' and role == 'A' and (
+                        args.propose_gsm8k_a_reuse or args.allow_previous_gsm8k_a)
+                    if permitted_reuse:
+                        evidence['historical_reuse'] = True
+                        evidence['reuse_scope'] = 'Previously exposed GSM8K train request; never described as fresh.'
+                    else:
+                        reason = 'prior_request_or_conversation'
+                if reason:
+                    rejected.append({**evidence, 'reason': reason})
+                    continue
+                text = metadata['text']
+                identity = norm(text)
+                root = metadata.get('conversation_root_id')
+                if identity in used_text or (root and root in used_roots):
+                    rejected.append({**evidence, 'reason': 'duplicate_selected_prompt_or_conversation'})
+                    continue
+                messages = [{'role': 'user', 'content': text}]
+                rendered = render(tokenizer, messages, 'off')
+                ids = tokenizer.encode(rendered, add_special_tokens=False)
+                if len(ids) > 1024:
+                    rejected.append({**evidence, 'reason': 'rendered_prompt_above_1024', 'prompt_tokens': len(ids)})
+                    continue
+                assert len(ids) + 512 + 16 <= 2048
+                used_text.add(identity)
+                if root:
+                    used_roots.add(root)
+                spec = receipts[key]
+                group['requests'].append({**metadata, **evidence,
+                    'request_id': f'{domain}_{role}_{accepted:02d}', 'order_in_role': accepted,
+                    'messages': messages, 'prompt_ids': ids, 'prompt_tokens': len(ids),
+                    'dataset': spec['dataset'], 'source_revision': spec['revision'],
+                    'source_split': spec['split'], 'source_repository_path': spec['repository_path']})
+                accepted += 1
+                if accepted == 8:
+                    break
+            pools.append({'domain': domain, 'role': role, 'source_key': key,
+                          'pool_rows': len(indices), 'inspected': rank + 1,
+                          'accepted': accepted, 'uninspected': len(indices) - rank - 1})
+            if accepted != 8:
+                shortfalls.append({'domain': domain, 'role': role, 'required': 8, 'available': accepted})
+        groups.append(group)
+    status = ('conditional_proposal_not_approved' if args.propose_gsm8k_a_reuse else
+              'blocked' if shortfalls else 'sealed_before_generation')
+    manifest = {
+        'schema_version': 1, 'status': status, 'selection_seed': SEED,
+        'groups': groups,
+        'generation': {'temperature': 0, 'reasoning': 'off', 'concurrency': 1,
+                       'max_new_tokens': 512, 'block_size': 16, 'context_limit': 2048,
+                       'max_rendered_prompt_tokens': 1024, 'explicit_system_message': None},
+        'tokenizer': {'model': 'Qwen/Qwen3-8B', 'revision': TOKENIZER.name,
+                      'local_path': str(TOKENIZER), 'class': type(tokenizer).__name__,
+                      'files_sha256': {p.name: sha(p) for p in TOKENIZER.iterdir() if p.name in
+                          ('tokenizer.json', 'tokenizer_config.json', 'vocab.json', 'merges.txt', 'config.json')},
+                      'template_sha256': hashlib.sha256(tokenizer.chat_template.encode()).hexdigest()},
+        'sources': receipts,
+        'preprocessing': {'source': str(CHECKOUT / 'experiments/dflash_baseline_learning_curve/data.py'),
+                          'sha256': sha(CHECKOUT / 'experiments/dflash_baseline_learning_curve/data.py'),
+                          'adaptations': ['seed 20261022', 'one 8A/8B group per dataset', 'prior manifest exclusion',
+                                          'Qwen3 native no-system reasoning-off rendering', '1024 prompt / 512 output / 16 block / 2048 context']},
+        'native_template_source': {'path': str(BENCHMARK), 'sha256': sha(BENCHMARK),
+                                   'functions': ['_reasoning_kwargs', 'apply_chat_template']},
+        'selection': {'order': 'One Python Random(20261022), shuffle per source partition in gsm8k/codealpaca/sharegpt then A/B order; accept first eight eligible requests after exclusions, subject only to the explicitly recorded GSM8K A reuse policy.',
+                      'gsm8k_A_historical_reuse': ('proposed_not_approved' if args.propose_gsm8k_a_reuse else
+                                                 'user_authorized' if args.allow_previous_gsm8k_a else 'forbidden'),
+                      'partitions': previous.catalog()['selection']['partitions'],
+                      'pools': pools, 'exclusions': rejected, 'answers_used': False,
+                      'english_filter': {'package': 'langdetect', 'version': '1.0.9', 'seed': SEED,
+                                         'min_en_probability': 0.9, 'inputs': 'first user and concatenated user messages'},
+                      'prior_exclusion_audit': 'prior_exclusion_audit.json'},
+        'environment': {'python': sys.version.split()[0], 'packages': {name: importlib.metadata.version(name)
+                        for name in ('transformers', 'tokenizers', 'pyarrow', 'langdetect')}},
+    }
+    manifest_name = ('CONDITIONAL_MANIFEST.json' if args.propose_gsm8k_a_reuse else
+                     'PROVISIONAL_MANIFEST.json' if shortfalls else 'manifest.json')
+    save(args.out / manifest_name, manifest)
+    preview = ['# Projected-target request selection', '',
+               f"Status: {manifest['status']}. Seed 20261022. A is feedback; B is held out.",
+               'No explicit system message; native Qwen3 reasoning off. Dataset answers are unused.', '',
+               '| Group | Role | Request | Source row | Tokens |', '|---|---|---|---:|---:|']
+    for group in groups:
+        for r in group['requests']:
+            preview.append(f"| {group['name']} | {r['role']} | {r['request_id']} | {r['source_index']} | {r['prompt_tokens']} |")
+    for group in groups:
+        for r in group['requests']:
+            preview.extend(['', f"## {r['request_id']} — {r['source_id']}", '', r['text']])
+    (args.out / 'SELECTED_REQUESTS.md').write_text('\n'.join(preview) + '\n')
+    if args.propose_gsm8k_a_reuse:
+        save(args.out / 'CONDITIONAL_GSM8K_A.json', {
+            'status': 'proposed_not_approved', 'selection_seed': SEED,
+            'scope': 'Historical-use exception for GSM8K A only; fresh B and both other groups unchanged.',
+            'requests': groups[0]['requests'][:8], 'shortfalls': shortfalls,
+            'conditional_manifest_sha256': sha(args.out / manifest_name),
+            'preparation_code_sha256': sha(Path(__file__))})
+        print('Conditional proposal prepared; no manifest.json or SEAL.json written.')
+        return
+    if shortfalls:
+        save(args.out / 'BLOCKED.json', {'status': 'blocked_before_generation', 'shortfalls': shortfalls,
+                                       'pools': pools, 'selection_exclusion_counts': dict(Counter(x['reason'] for x in rejected)),
+                                       'provisional_manifest_sha256': sha(args.out / manifest_name),
+                                       'preparation_code_sha256': sha(Path(__file__)),
+                                       'reason': 'Strict historical freshness conflicts with exhausted source partition; no replacement or reuse is authorized.'})
+        print(json.dumps(json.loads((args.out / 'BLOCKED.json').read_text()), indent=2))
+        return
+    save(args.out / 'SEAL.json', {
+        'status': 'sealed_before_generation', 'requests': 48, 'unique_normalized_prompts': len(used_text),
+        'groups': 3, 'per_group': {'A': 8, 'B': 8},
+        'max_prompt_tokens': max(r['prompt_tokens'] for g in groups for r in g['requests']),
+        'manifest_sha256': sha(args.out / 'manifest.json'),
+        'prior_exclusion_audit_sha256': sha(args.out / 'prior_exclusion_audit.json'),
+        'preparation_code_sha256': sha(Path(__file__)),
+        'selection_exclusion_counts': dict(Counter(x['reason'] for x in rejected)),
+        'checks': {'source_bytes_and_hashes_match_pins': True, 'f5_actual_256_records_checked': True,
+                   'answers_not_used_as_prompts_labels_or_scores': True, 'gpu_or_model_execution': False,
+                   'network_or_dependency_install': False},
+    })
+    print(json.dumps(json.loads((args.out / 'SEAL.json').read_text()), indent=2))
+
+
+if __name__ == '__main__':
+    main()

@@ -1,0 +1,50 @@
+"""Read-only CPU artifact comparison after native timing has finished."""
+import hashlib
+import json
+from pathlib import Path
+import resource
+import sys
+import time
+
+root=Path(sys.argv[1])
+status=json.loads((root/'campaign_001/STATUS.json').read_text())
+if status['status'] != 'completed' or not (root/'EXIT_CODE').is_file():
+    raise RuntimeError('Compare checkpoints only after campaign completion')
+plan=json.loads((root/'sealed/PLAN.json').read_text())
+k=json.loads(Path(plan['k_receipt']).read_text())
+g=json.loads((root/'campaign_001/G/events/event_001/RESULT.json').read_text())
+left=Path(k['checkpoint_path'])/'model.safetensors'
+right=Path(g['checkpoint_path'])/'model.safetensors'
+started=time.perf_counter()
+def identity(path):
+    with path.open('rb') as stream:
+        return {'bytes':path.stat().st_size,'sha256':hashlib.file_digest(stream,'sha256').hexdigest()}
+result={'K':{'path':str(left),**identity(left)},'G':{'path':str(right),**identity(right)},
+        'training_steps':0,'model_forwards':0,'scope':'final exported weights only; not every intermediate gradient or Adam state'}
+result['file_bytes_equal']=result['K']['bytes']==result['G']['bytes'] and result['K']['sha256']==result['G']['sha256']
+if result['file_bytes_equal']:
+    result['tensor_values_equal']=True
+else:
+    import torch
+    from safetensors import safe_open
+    rows=[]
+    with safe_open(left,framework='pt',device='cpu') as a, safe_open(right,framework='pt',device='cpu') as b:
+        result['keys_equal']=sorted(a.keys())==sorted(b.keys())
+        for name in sorted(set(a.keys()) & set(b.keys())):
+            x,y=a.get_tensor(name),b.get_tensor(name)
+            same_layout=x.dtype==y.dtype and x.shape==y.shape
+            row={'parameter':name,'shape':list(x.shape),'dtype':str(x.dtype),'same_layout':same_layout}
+            row['equal']=same_layout and torch.equal(x,y)
+            if same_layout and not row['equal']:
+                row['different_coordinates']=int((x!=y).sum())
+                d=x.float()-y.float()
+                row['max_abs_difference']=float(d.abs().max())
+                row['difference_l2']=float(torch.linalg.vector_norm(d.double()))
+            rows.append(row)
+    result['parameters']=rows
+    result['tensor_values_equal']=result['keys_equal'] and all(r['equal'] for r in rows)
+    result['cuda_initialized']=torch.cuda.is_initialized()
+result['wall_s']=time.perf_counter()-started
+result['cpu_peak_rss_bytes']=resource.getrusage(resource.RUSAGE_SELF).ru_maxrss*1024
+(root/'FINAL_WEIGHT_COMPARISON.json').write_text(json.dumps(result,indent=2)+'\n')
+print(json.dumps({k:v for k,v in result.items() if k!='parameters'}))

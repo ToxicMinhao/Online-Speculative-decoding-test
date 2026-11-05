@@ -1,0 +1,253 @@
+"""CPU contracts for native chronology, final-row coverage and publication."""
+import json
+from pathlib import Path
+import tempfile
+from types import SimpleNamespace
+import unittest
+from unittest.mock import patch
+
+from online_feedback import sglang_hooks as hooks
+
+try:
+    import torch
+except ImportError:
+    torch = None
+
+
+class CaptureChronologyTests(unittest.TestCase):
+    def setUp(self):
+        self.temp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.temp.cleanup)
+        self.path = Path(self.temp.name) / 'capture.json'
+
+    def capture(self, prompt=None):
+        return hooks.RequestCapture(prompt or [2, 3], self.path, False)
+
+    def prefill(self, capture):
+        capture.prefill(0, capture.prompt_ids, 10, block_size=4)
+
+    def verify(self, capture, **changes):
+        arguments = dict(before=[10], after=[10, 11, 12, 20],
+                         candidates=[10, 11, 12, 99], positions=[2, 3, 4, 5],
+                         posterior=[11, 12, 20, 66], commit_rows=3,
+                         native_accepted=2, finished=True)
+        arguments.update(changes)
+        capture.verification(**arguments)
+
+    def test_chunked_prefill_is_contiguous_and_only_final_chunk_commits(self):
+        capture = self.capture([2, 3, 4, 5, 6])
+        capture.prefill(0, [2, 3], None, block_size=4)
+        capture.prefill(2, [4], None, block_size=4)
+        self.assertEqual(capture.teacher_ids, [])
+        capture.prefill(3, [5, 6], 10, block_size=4)
+        result = capture.finish([10])
+        self.assertEqual(result['prefill_chunks'], 3)
+        self.assertEqual(result['covered_token_ids'], [2, 3, 4, 5, 6])
+        self.assertEqual(result['blocks'], [])
+        self.assertFalse(result['final_emitted_token_feature_present'])
+        self.assertFalse(self.path.with_suffix('.pt').exists())
+
+    def test_one_token_output_finalizes_without_verification(self):
+        capture = self.capture()
+        self.prefill(capture)
+        result = capture.finish([10])
+        self.assertEqual(result['target_argmax_ids'], [10])
+        self.assertEqual(result['covered_rows'], 2)
+        self.assertTrue(result['native_capture_validated'])
+
+    def test_rejection_keeps_only_processed_canonical_rows(self):
+        capture = self.capture()
+        self.prefill(capture)
+        self.verify(capture)
+        result = capture.finish([10, 11, 12, 20])
+        self.assertEqual(result['covered_token_ids'], [2, 3, 10, 11, 12])
+        block = result['blocks'][0]
+        self.assertEqual(block['draft_tokens'], [11, 12, 99])
+        self.assertEqual(block['committed_tokens'], [11, 12, 20])
+        self.assertEqual(block['accepted_draft_tokens'], 2)
+        self.assertFalse(block['stop_clipped'])
+
+    def test_terminal_clipping_preserves_full_posterior_and_native_count(self):
+        capture = self.capture()
+        self.prefill(capture)
+        self.verify(capture, after=[10, 11, 12], commit_rows=2, native_accepted=1)
+        result = capture.finish([10, 11, 12])
+        block = result['blocks'][0]
+        self.assertEqual(block['verify_size'], 4)
+        self.assertEqual(block['target_argmax'], [11, 12, 20, 66])
+        self.assertEqual(block['raw_accepted_draft_tokens_before_stop'], 2)
+        self.assertEqual(block['accepted_draft_tokens'], 2)
+        self.assertEqual(block['native_accepted_draft_tokens'], 1)
+        self.assertTrue(block['stop_clipped'])
+        self.assertEqual(result['covered_token_ids'], [2, 3, 10, 11])
+
+    def test_all_accepted_block_processes_anchor_and_proposals_not_bonus(self):
+        capture = self.capture()
+        self.prefill(capture)
+        self.verify(capture, candidates=[10, 11, 12, 13],
+                    posterior=[11, 12, 13, 20], after=[10, 11, 12, 13, 20],
+                    commit_rows=4, native_accepted=3)
+        result = capture.finish([10, 11, 12, 13, 20])
+        self.assertEqual(result['covered_token_ids'], [2, 3, 10, 11, 12, 13])
+
+    def test_later_verification_preserves_absolute_and_output_alignment(self):
+        capture = self.capture()
+        self.prefill(capture)
+        self.verify(capture, finished=False)
+        self.verify(capture, before=[10, 11, 12, 20], after=[10, 11, 12, 20, 21],
+                    candidates=[20, 99, 98, 97], positions=[5, 6, 7, 8],
+                    posterior=[21, 66, 67, 68], commit_rows=1, native_accepted=0)
+        result = capture.finish([10, 11, 12, 20, 21])
+        self.assertEqual(result['blocks'][1]['output_start'], 3)
+        self.assertEqual(result['covered_rows'], 6)
+
+    def test_rejects_chunk_gaps_overlaps_or_premature_outputs(self):
+        for start, tokens, first in [(1, [3], None), (0, [2], 10), (0, [99], None)]:
+            with self.subTest(start=start, tokens=tokens, first=first):
+                with self.assertRaises(RuntimeError):
+                    self.capture().prefill(start, tokens, first, block_size=4)
+
+    def test_rejects_wrong_native_posterior_or_discarded_history(self):
+        for changes in [dict(posterior=[77, 12, 20, 66]),
+                        dict(candidates=[10, 77, 12, 99]),
+                        dict(positions=[3, 4, 5, 6]), dict(native_accepted=3),
+                        dict(before=[9]), dict(after=[10, 11, 12, 20, 66])]:
+            with self.subTest(changes=changes):
+                capture = self.capture()
+                self.prefill(capture)
+                with self.assertRaises(RuntimeError):
+                    self.verify(capture, **changes)
+
+    def test_rejects_different_returned_answer(self):
+        capture = self.capture()
+        self.prefill(capture)
+        self.verify(capture)
+        with self.assertRaises(RuntimeError):
+            capture.finish([10, 11, 12, 99])
+        self.assertFalse(self.path.exists())
+
+    def test_existing_capture_is_never_overwritten(self):
+        self.path.write_text('preserve')
+        with self.assertRaises(RuntimeError):
+            self.capture()
+        self.assertEqual(self.path.read_text(), 'preserve')
+
+    def test_idle_gate_rejects_chunked_or_running_requests(self):
+        scheduler = SimpleNamespace(enable_overlap=False, _is_no_request=lambda: True,
+                                    waiting_queue=[], running_batch=SimpleNamespace(reqs=[]),
+                                    chunked_req=None, grammar_manager=SimpleNamespace(grammar_queue=[]))
+        hooks.strict_idle(scheduler)
+        scheduler.chunked_req = object()
+        with self.assertRaises(RuntimeError):
+            hooks.strict_idle(scheduler)
+        scheduler.chunked_req = None
+        scheduler.running_batch.reqs = [object()]
+        with self.assertRaises(RuntimeError):
+            hooks.strict_idle(scheduler)
+
+
+@unittest.skipIf(torch is None, 'CPU torch is required for feature/weight tests')
+class CaptureTensorTests(unittest.TestCase):
+    def test_publication_refresh_failure_poisoning_survives_cache_cleanup(self):
+        class NativeResult:
+            def __init__(self, success, message, count=0):
+                self.success, self.message = success, message
+
+        worker = SimpleNamespace(_init_fused_kv_helper=lambda: None)
+        scheduler = SimpleNamespace(draft_worker=worker,
+                                    tree_cache=SimpleNamespace(total_size=lambda: 0),
+                                    flush_cache=lambda: True)
+        request = SimpleNamespace(update_speculative_draft=True, flush_cache=True,
+                                  model_path='/qualified/checkpoint')
+        modules = {'sglang.srt.managers.io_struct':
+                   SimpleNamespace(UpdateWeightFromDiskReqOutput=NativeResult)}
+        with patch.dict('sys.modules', modules), patch.object(hooks, '_ACTIVE', None), \
+                patch.object(hooks, '_POISONED', None), \
+                patch.object(hooks, 'flush_idle', return_value=0.1), \
+                patch.object(torch.cuda, 'synchronize'), \
+                patch.object(hooks, 'check_fused_helper', side_effect=RuntimeError('stale helper')):
+            result = hooks.publish_update(scheduler, request,
+                                          lambda owner, body: NativeResult(True, 'loaded'))
+            self.assertFalse(result.success)
+            self.assertIn('stale helper', hooks._POISONED)
+            self.assertEqual(scheduler._online_publication['status'], 'failed')
+            with self.assertRaisesRegex(RuntimeError, 'blocked'):
+                hooks._healthy()
+
+    def test_cpu_capture_owns_storage_and_preserves_two_dimensional_contract(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            path = Path(temporary) / 'capture.json'
+            capture = hooks.RequestCapture([2, 3], path, True)
+            aux = torch.arange(8).reshape(2, 4).to(torch.bfloat16)
+            hidden = aux[:, :2].clone()
+            capture.prefill(0, [2, 3], 10, block_size=4, aux=aux, final=hidden)
+            aux.zero_(); hidden.zero_()
+            receipt = capture.finish([10])
+            packet = torch.load(receipt['feature_path'], weights_only=False)
+            self.assertEqual(packet['input_ids'], [2, 3])
+            self.assertEqual(tuple(packet['hidden_states'].shape), (2, 4))
+            self.assertEqual(tuple(packet['target_last_hidden_states'].shape), (2, 2))
+            self.assertEqual(packet['hidden_states'][1, 3].item(), 7)
+            self.assertEqual(packet['target_last_hidden_states'][1, 1].item(), 5)
+
+    def test_nonfinite_features_fail_before_artifact_creation(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            path = Path(temporary) / 'capture.json'
+            capture = hooks.RequestCapture([2], path, True)
+            aux = torch.tensor([[float('nan'), 2]], dtype=torch.bfloat16)
+            with self.assertRaises(RuntimeError):
+                capture.prefill(0, [2], 10, block_size=4, aux=aux, final=aux[:, :1])
+            self.assertFalse(path.exists())
+
+    def test_stale_fused_kv_and_norm_weights_are_rejected(self):
+        weight = torch.arange(12).reshape(6, 2).to(torch.bfloat16)
+        norm = torch.ones(2, dtype=torch.bfloat16)
+        attention = SimpleNamespace(qkv_proj=SimpleNamespace(weight=weight), q_size=2, kv_size=2,
+                                    k_norm=SimpleNamespace(weight=norm))
+        helper = SimpleNamespace(batched_kv_weight=weight[2:].unsqueeze(0).clone(),
+                                 k_norm_weights=[norm.clone()])
+        worker = SimpleNamespace(_use_fused_kv_materialize=True, _fused_kv_helper=helper,
+                                 draft_model=SimpleNamespace(layers=[SimpleNamespace(self_attn=attention)]))
+        self.assertTrue(hooks.check_fused_helper(worker)['helper_matches_current_layers'])
+        helper.batched_kv_weight.zero_()
+        with self.assertRaises(RuntimeError):
+            hooks.check_fused_helper(worker)
+        helper.batched_kv_weight = weight[2:].unsqueeze(0).clone()
+        helper.k_norm_weights[0].zero_()
+        with self.assertRaises(RuntimeError):
+            hooks.check_fused_helper(worker)
+
+    def test_checkpoint_comparison_checks_packed_and_standalone_weights(self):
+        try:
+            from safetensors.torch import save_file
+        except ImportError:
+            self.skipTest('safetensors is required')
+        state = {
+            'layers.0.self_attn.' + part + '.weight': torch.full((size, 2), value, dtype=torch.bfloat16)
+            for part, size, value in [('q_proj', 4, 1), ('k_proj', 2, 2), ('v_proj', 2, 3)]
+        }
+        state.update({
+            'layers.0.mlp.gate_proj.weight': torch.ones((4, 2), dtype=torch.bfloat16),
+            'layers.0.mlp.up_proj.weight': torch.full((4, 2), 2, dtype=torch.bfloat16),
+            'fc.weight': torch.ones((2, 4), dtype=torch.bfloat16),
+        })
+        native = {
+            'layers.0.self_attn.qkv_proj.weight': torch.cat([state['layers.0.self_attn.' + p + '.weight']
+                                                          for p in ('q_proj', 'k_proj', 'v_proj')]),
+            'layers.0.mlp.gate_up_proj.weight': torch.cat([state['layers.0.mlp.' + p + '.weight']
+                                                         for p in ('gate_proj', 'up_proj')]),
+            'fc.weight': state['fc.weight'].clone(),
+        }
+        model = SimpleNamespace(named_parameters=lambda: native.items())
+        with tempfile.TemporaryDirectory() as temporary:
+            save_file(state, str(Path(temporary) / 'model.safetensors'))
+            result = hooks.checkpoint_tensor_comparison(model, temporary)
+            self.assertTrue(result['all_equal'])
+            self.assertEqual(result['tensors'], 6)
+            native['layers.0.self_attn.qkv_proj.weight'][4, 0] = 9
+            with self.assertRaises(RuntimeError):
+                hooks.checkpoint_tensor_comparison(model, temporary)
+
+
+if __name__ == '__main__':
+    unittest.main()

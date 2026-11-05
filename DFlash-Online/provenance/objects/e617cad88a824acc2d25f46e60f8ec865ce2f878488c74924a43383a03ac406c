@@ -1,0 +1,114 @@
+"""Read-only verification of the completed run's retained records; no models run."""
+import collections
+import csv
+import json
+import math
+from pathlib import Path
+import sys
+
+HERE = Path(__file__).resolve().parent
+TASK = HERE.parent
+sys.path.insert(0, str(TASK / 'worktree'))
+from online_feedback.native import validate_generation
+
+
+def read(path):
+    return json.loads(path.read_text())
+
+
+run = HERE / 'raw/campaign_001'
+manifest = read(TASK / 'sealed/MANIFEST.json')
+rows = list(csv.DictReader((run / 'evaluation/PER_REQUEST.csv').open()))
+row_index = {(r['request_id'], int(r['repeat']), r['method']): r for r in rows}
+assert len(rows) == len(row_index) == 6144
+blocks_checked = 0
+for index, request in enumerate(manifest['eval_requests']):
+    reference = None
+    for repeat in range(3):
+        comparison = read(run / f'evaluation/{index:04d}_r{repeat}_comparison.json')
+        assert comparison['valid'] and not comparison['errors']
+        expected_order = ['F', 'O'] if (index + repeat) % 2 == 0 else ['O', 'F']
+        assert comparison['order'] == expected_order
+        for method in ('F', 'O'):
+            record = read(run / f'evaluation/{index:04d}_r{repeat}_{method}.json')
+            if reference is None:
+                reference = record['response_ids']
+            assert record['prompt_ids'] == request['prompt_ids']
+            assert record['response_ids'] == reference == comparison['canonical_response_ids']
+            assert record['purpose'] == 'evaluation'
+            assert record['max_new_tokens'] == request['max_new_tokens'] == 2048
+            metrics = record['metadata']
+            assert not metrics['feedback_capture_in_timed_request']
+            assert metrics['block_size'] == 16
+            response, finish = validate_generation(
+                record['prompt_ids'], record['prompt_ids'] + record['response_ids'],
+                metrics['trace'], max_new_tokens=2048, stop_tokens=record['stop_token_ids'])
+            assert finish == record['finish_reason']
+            row = row_index[request['request_id'], repeat, method]
+            assert row['valid_pair'] == 'True'
+            assert int(row['output_tokens']) == len(response)
+            assert int(row['verification_calls']) == metrics['verification_calls'] == len(metrics['trace'])
+            assert int(row['accepted_draft_tokens']) == sum(b['accepted_draft_tokens'] for b in metrics['trace'])
+            assert int(row['committed_progress']) == len(response) - 1
+            assert float(row['request_latency_s']) == metrics['request_latency_s']
+            if method == 'F':
+                assert record['checkpoint_id'].endswith('/qwen3_dflash_foundation_20261022/draft')
+            else:
+                assert record['checkpoint_id'].endswith('/trainer/events/event_058/export')
+            blocks_checked += len(metrics['trace'])
+
+steps = presentations = exposure = anchors = removed_bytes = 0
+event_table = []
+for number in range(1, 59):
+    event_id = f'event_{number:03d}'
+    result = read(run / f'trainer/events/{event_id}/RESULT.json')
+    publication = read(run / f'events/{event_id}/PUBLICATION_CHECK.json')
+    retirement = read(run / f'events/{event_id}/RETIREMENT.json')
+    assert result['optimizer_steps'] == 128 and result['response_presentations'] == 256
+    assert result['start_step'] == (number - 1) * 128 and result['end_step'] == number * 128
+    assert result['objective'] == 'osd' and result['reduction'] == 'response_mean'
+    assert publication['all_equal'] and publication['source_tensor_count'] == 58
+    assert publication['trainer_status']['accumulation_remainder'] == 0
+    expected_ids = {r['request_id'] for r in manifest['train_requests'][(number - 1) * 128:number * 128]}
+    for pass_index in (0, 1):
+        ids = [r['record_id'] for r in result['records'] if r['pass'] == pass_index]
+        assert len(ids) == len(set(ids)) == 128 and set(ids) == expected_ids
+    event_exposure = 0
+    for i, record in enumerate(result['records']):
+        assert record['optimizer_stepped'] == (i % 2 == 1)
+        assert all(math.isfinite(v) for v in record['metrics'].values())
+        if record['optimizer_stepped']:
+            assert record['learning_rate'] == 3e-4
+            event_exposure += record['metrics']['supervised_position_exposure']
+        for sample in record['sampled_anchors']:
+            for positions in sample['positions']:
+                assert len(positions) <= 512 and len(positions) == len(set(positions))
+                anchors += len(positions)
+    steps += result['optimizer_steps']
+    presentations += result['response_presentations']
+    exposure += event_exposure
+    removed_bytes += retirement['removed_bytes']
+    event_table.append({'event_id': event_id, 'end_step': result['end_step'],
+                        'supervised_position_exposure': event_exposure,
+                        **result['costs']})
+
+status = read(run / 'STATUS.json')
+assert status['status'] == 'completed'
+assert status['optimizer_steps'] == steps == 7424
+assert presentations == 14848
+assert status['reconstructed_episode_s'] == status['controller_serving_s'] + status['blocking_update_s']
+summary = {'status': 'passed', 'timed_records': len(rows), 'paired_repeats': len(rows)//2,
+           'distinct_heldout_requests': len(manifest['eval_requests']),
+           'canonical_input_output_and_trace_checks': True,
+           'verification_blocks_checked': blocks_checked,
+           'events_and_publications_checked': 58, 'optimizer_steps': steps,
+           'response_presentations': presentations, 'anchor_presentations': anchors,
+           'supervised_position_exposure': exposure,
+           'rolling_retirement_bytes_from_receipts': removed_bytes,
+           'limits': 'Retained-record audit; optimizer tensors were not reloaded and model execution was not repeated.'}
+(HERE / 'RAW_AUDIT.json').write_text(json.dumps(summary, indent=2)+'\n')
+with (HERE / 'EVENTS.csv').open('w', newline='') as f:
+    writer = csv.DictWriter(f, fieldnames=list(event_table[0]))
+    writer.writeheader()
+    writer.writerows(event_table)
+print(json.dumps(summary, indent=2))

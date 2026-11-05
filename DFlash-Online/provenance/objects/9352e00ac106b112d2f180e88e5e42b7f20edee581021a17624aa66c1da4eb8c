@@ -1,0 +1,214 @@
+"""CPU lifecycle contracts using real durable buffer and filesystem evidence."""
+from pathlib import Path
+import copy
+import json
+import tempfile
+import unittest
+from unittest.mock import patch
+
+from online_feedback.buffer import FeedbackError
+from online_feedback.controller import OnlineController
+from online_feedback.native import atomic_json
+
+
+class FakeTrainer:
+    def __init__(self): self.calls=[];self.steps=0;self.fail=False
+    def status(self): return {'global_step':self.steps,'completed_events':[x[0] for x in self.calls]}
+    def train_event(self,event_id,paths,passes=2):
+        self.calls.append((event_id,list(paths),passes))
+        if self.fail: raise RuntimeError('controlled training failure')
+        self.steps+=2
+        return {'checkpoint_path':'event-export','full_state_path':'committed-training-state','optimizer_steps':2}
+
+
+class FakeBackend:
+    def __init__(self):
+        self.checkpoint_id='released';self.generations=[];self.prepared=[];self.published=[]
+        self.response=[31,2];self.wrong_prompt=False;self.fail_publication=False;self.on_generate=None
+    def generate(self,prompt_ids,**kwargs):
+        self.generations.append((list(prompt_ids),copy.deepcopy(kwargs)))
+        row=dict(record_id=kwargs['request_id'],session_id=kwargs['session_id'],request_index=kwargs['request_index'],
+                 checkpoint_id=self.checkpoint_id,purpose=kwargs['purpose'],prompt_ids=list(prompt_ids),
+                 response_ids=list(self.response),finish_reason='eos',stop_token_ids=[2],
+                 max_new_tokens=kwargs['max_new_tokens'],metadata={'verification_calls':1})
+        if self.wrong_prompt:row['prompt_ids']=[999]
+        if self.on_generate:self.on_generate()
+        atomic_json(kwargs['save_to'],row)
+        return row
+    def prepare_feedback(self,record,path):
+        self.prepared.append(record['record_id'])
+        if len(record['response_ids'])<2:
+            return {'status':'ineligible_short_response','record_id':record['record_id']}
+        path.parent.mkdir(parents=True,exist_ok=True);path.write_bytes(b'CPU feature fixture')
+        return {'status':'prepared','record_id':record['record_id'],'feature_path':str(path)}
+    def publish(self,path):
+        self.published.append(path)
+        if self.fail_publication:raise OSError('controlled publication failure')
+        self.checkpoint_id='updated'
+        return {'checkpoint_id':'updated'}
+
+
+class ControllerTests(unittest.TestCase):
+    def setUp(self):
+        self.tmp=tempfile.TemporaryDirectory(prefix='controller_contract_');self.root=Path(self.tmp.name)/'loop'
+        self.backend=FakeBackend();self.trainer=FakeTrainer();self.ctl=OnlineController(self.backend,self.trainer,self.root,buffer_capacity=2)
+    def tearDown(self):self.tmp.cleanup()
+    def serve(self,index=1,collect=True):
+        return self.ctl.serve([101,7],request_id=f'r{index}',session_id='s',request_index=index,max_new_tokens=4,collect_feedback=collect)
+    def evaluate(self,label='eval'):
+        return self.ctl.evaluate([101,7],canonical_response_ids=[31,2],label=label,max_new_tokens=4)
+    def comparison(self,label):return json.loads((self.root/'evaluation'/f'{label}.comparison.json').read_text())
+    def test_evaluation_never_enters_feedback_or_training(self):
+        self.serve();before=(self.root/'feedback_buffer'/'state.json').read_bytes()
+        with patch.object(self.ctl.buffer,'add',side_effect=AssertionError('evaluation added feedback')), \
+             patch.object(self.ctl.buffer,'seal_event',side_effect=AssertionError('evaluation sealed event')), \
+             patch.object(self.backend,'prepare_feedback',side_effect=AssertionError('evaluation captured training features')), \
+             patch.object(self.trainer,'train_event',side_effect=AssertionError('evaluation trained')):
+            row=self.evaluate()
+        self.assertTrue(row['output_equal']);self.assertTrue(row['same_input']);self.assertTrue(row['learning_unchanged'])
+        self.assertEqual(self.backend.generations[-1][1]['purpose'],'evaluation')
+        self.assertEqual(before,(self.root/'feedback_buffer'/'state.json').read_bytes())
+    def test_output_mismatch_preserves_raw_and_comparison(self):
+        self.backend.response=[32,2]
+        with self.assertRaisesRegex(ValueError,'Invalid checkpoint replay'):self.evaluate('bad_output')
+        row=self.comparison('bad_output');self.assertFalse(row['output_equal']);self.assertTrue(row['same_input'])
+        self.assertEqual(json.loads((self.root/'evaluation'/'bad_output.json').read_text())['response_ids'],[32,2])
+        self.assertEqual(self.ctl.buffer.pending(),[]);self.assertEqual(self.trainer.calls,[])
+    def test_input_mismatch_preserves_comparison(self):
+        self.backend.wrong_prompt=True
+        with self.assertRaisesRegex(ValueError,'Invalid checkpoint replay'):self.evaluate('bad_input')
+        self.assertFalse(self.comparison('bad_input')['same_input']);self.assertEqual(self.trainer.calls,[])
+    def test_evaluation_detects_trainer_counter_mutation(self):
+        self.backend.on_generate=lambda:setattr(self.trainer,'steps',1)
+        with self.assertRaisesRegex(ValueError,'Invalid checkpoint replay'):self.evaluate('bad_learning')
+        self.assertFalse(self.comparison('bad_learning')['learning_unchanged'])
+    def test_serving_collection_can_be_explicitly_disabled(self):
+        row=self.serve(collect=False)
+        self.assertEqual(row['purpose'],'serving');self.assertEqual(self.ctl.buffer.pending(),[])
+        self.assertTrue((self.root/'serving'/'r1.json').is_file())
+    def test_success_commits_only_after_training_and_publication(self):
+        self.serve(1);self.serve(2);row=self.ctl.update('e1',2,passes=2)
+        self.assertEqual(self.backend.prepared,['r1','r2']);self.assertEqual(self.backend.published,['event-export'])
+        self.assertEqual([p.name for p in self.trainer.calls[0][1]],['r1.pt','r2.pt'])
+        self.assertEqual(self.trainer.calls[0][2],2);self.assertEqual(self.ctl.buffer.event('e1')['status'],'committed')
+        self.assertEqual(self.ctl.buffer.event('e1')['receipt'],row);self.assertEqual(self.ctl.buffer.pending(),[])
+    def test_failed_publication_never_retrains_under_same_or_new_event(self):
+        self.serve(1);self.serve(2);self.backend.fail_publication=True
+        with self.assertRaisesRegex(OSError,'publication failure'):self.ctl.update('e1',2)
+        self.assertEqual(self.trainer.steps,2);self.assertEqual(len(self.trainer.calls),1)
+        failed=self.ctl.buffer.event('e1');self.assertEqual(failed['status'],'failed');self.assertIn('publication failure',failed['error'])
+        self.assertEqual(self.backend.checkpoint_id,'released')
+        # Reopen the durable controller to prove this is not an in-memory guard.
+        reopened=OnlineController(self.backend,self.trainer,self.root,buffer_capacity=2)
+        for event in ('e1','e2'):
+            with self.subTest(event=event),self.assertRaises(FeedbackError):reopened.update(event,2)
+        self.assertEqual(len(self.trainer.calls),1);self.assertTrue((self.root/'features'/'r1.pt').is_file())
+    def test_short_response_stops_before_training_without_resampling(self):
+        self.backend.response=[2];self.serve(1);self.serve(2)
+        with self.assertRaisesRegex(ValueError,'No eligible training anchors'):self.ctl.update('short',2)
+        self.assertEqual(len(self.backend.generations),2);self.assertEqual(self.trainer.calls,[])
+        self.assertEqual(self.ctl.buffer.event('short')['status'],'failed')
+    def test_training_failure_never_publishes_or_retries(self):
+        self.serve(1);self.serve(2);self.trainer.fail=True
+        with self.assertRaisesRegex(RuntimeError,'training failure'):self.ctl.update('e1',2)
+        self.assertEqual(self.backend.published,[]);self.assertEqual(self.ctl.buffer.event('e1')['status'],'failed')
+        with self.assertRaises(FeedbackError):self.ctl.update('e2',2)
+        self.assertEqual(len(self.trainer.calls),1)
+
+
+
+class PublicationRecoveryTests(unittest.TestCase):
+    setUp=ControllerTests.setUp
+    tearDown=ControllerTests.tearDown
+    serve=ControllerTests.serve
+
+    def ready(self,failed=True):
+        from types import SimpleNamespace
+        from unittest.mock import Mock
+        import torch
+        from safetensors.torch import save_file
+        from online_feedback.training import file_sha
+        from online_feedback.buffer import token_sha256
+        self.serve(1);self.serve(2)
+        original=self.ctl.buffer.seal_event('e1',2)
+        if failed:original=self.ctl.buffer.fail_event('e1','ValueError: publication configuration mismatch')
+        trainer_root=Path(self.tmp.name)/'trainer';event_dir=trainer_root/'events'/'e1';export=event_dir/'export';export.mkdir(parents=True)
+        model=torch.nn.Linear(1,1,bias=False).to(torch.bfloat16)
+        save_file(model.state_dict(),str(export/'model.safetensors'));(export/'config.json').write_text('{}')
+        config=trainer_root/'config.yaml';config.write_text('fixed configuration')
+        latest=trainer_root/'training_state.pt';latest.write_bytes(b'fixture committed complete checkpoint')
+        features=[]
+        for record in self.ctl.buffer.records(original['record_ids']):
+            path=self.root/'features'/(record['record_id']+'.pt');path.parent.mkdir(exist_ok=True);path.write_bytes(b'unchanged feature fixture')
+            feature={'record_id':record['record_id'],'input_sha256':token_sha256(record['prompt_ids']+record['response_ids']),
+                     'response_sha256':token_sha256(record['response_ids']),'length':4,'prompt_length':2,'response_tokens':2,
+                     'path':str(path),'bytes':path.stat().st_size,'sha256':file_sha(path)}
+            features.append(feature)
+            atomic_json(path.with_suffix('.json'),{**feature,'status':'prepared','feature_sha256':feature['sha256']})
+        ledger={'event_id':'e1','features':features,'passes':2,'start_step':0,'end_step':2,'optimizer_steps':2,'response_presentations':4}
+        result={**ledger,'status':'completed','checkpoint_path':str(export),'export_path':str(export),'full_state_path':str(latest),
+                'full_state_sha256':file_sha(latest),'counters':{'global_step':2,'presentations':4,'completed_events':1},
+                'costs':{'training_s':1.25,'export_s':0.5}}
+        atomic_json(event_dir/'RESULT.json',result)
+        status={'closed':False,'failed':False,'accumulation_remainder':0,'completed_events':['e1'],
+                'global_step':2,'presentations':4,'full_state_path':str(latest)}
+        self.trainer=SimpleNamespace(events=[ledger],events_root=trainer_root/'events',latest=latest,config_path=config,
+             config_sha256=file_sha(config),bundle=SimpleNamespace(draft_model=model),status=Mock(return_value=status),
+             train_event=Mock(side_effect=AssertionError('recovery retrained')))
+        self.ctl.trainer=self.trainer
+        self.result_path=event_dir/'RESULT.json';self.original=original;self.result=result;self.status=status
+        return result
+
+    def test_failed_publication_recovers_without_training_and_preserves_failure(self):
+        self.ready();before=self.result_path.read_bytes()
+        with patch.object(self.backend,'prepare_feedback',side_effect=AssertionError('recovery replayed target features')):
+            receipt=self.ctl.recover_publication('e1')
+        self.trainer.train_event.assert_not_called();self.assertEqual(self.result_path.read_bytes(),before)
+        self.assertEqual(receipt['training']['costs'],{'training_s':1.25,'export_s':0.5})
+        self.assertFalse(receipt['publication_recovery']['retrained']);self.assertFalse(receipt['publication_recovery']['feedback_replayed'])
+        self.assertEqual(self.ctl.buffer.event('e1')['status'],'committed')
+        audits=list((self.root/'feedback_buffer'/'publication_recovery').glob('*.json'));self.assertEqual(len(audits),1)
+        self.assertEqual(json.loads(audits[0].read_text())['event_before'],self.original)
+        self.assertTrue((self.root/'events'/'e1.recovery.json').is_file())
+        with self.assertRaises(ValueError):self.ctl.recover_publication('e1')
+        self.assertEqual(len(self.backend.published),1)
+    def test_sealed_completed_training_can_recover(self):
+        self.ready(failed=False);self.ctl.recover_publication('e1')
+        self.assertEqual(self.ctl.buffer.event('e1')['receipt']['publication_recovery']['event_before']['status'],'sealed')
+    def test_different_checkpoint_bytes_refused_before_publication(self):
+        self.ready();self.trainer.latest.write_bytes(b'other checkpoint')
+        with self.assertRaisesRegex(ValueError,'checkpoint differs'):self.ctl.recover_publication('e1')
+        self.assertEqual(self.backend.published,[]);self.assertEqual(self.ctl.buffer.event('e1'),self.original)
+    def test_different_feature_bytes_refused_before_publication(self):
+        self.ready();Path(self.result['features'][0]['path']).write_bytes(b'other features')
+        with self.assertRaisesRegex(ValueError,'feature changed'):self.ctl.recover_publication('e1')
+        self.assertEqual(self.backend.published,[])
+    def test_wrong_canonical_token_binding_refused(self):
+        self.ready();self.trainer.events[0]['features'][0]['input_sha256']='0'*64
+        self.result['features'][0]['input_sha256']='0'*64;atomic_json(self.result_path,self.result)
+        with self.assertRaisesRegex(ValueError,'token identities'):self.ctl.recover_publication('e1')
+        self.assertEqual(self.backend.published,[])
+    def test_wrong_export_weights_refused(self):
+        import torch
+        from safetensors.torch import save_file
+        self.ready();save_file({'weight':torch.ones((1,1),dtype=torch.bfloat16)*10},str(Path(self.result['export_path'])/'model.safetensors'))
+        with self.assertRaisesRegex(ValueError,'Export tensor differs'):self.ctl.recover_publication('e1')
+        self.assertEqual(self.backend.published,[])
+    def test_later_or_failed_training_refused(self):
+        self.ready();self.status['global_step']=3
+        with self.assertRaisesRegex(ValueError,'cursor/counters'):self.ctl.recover_publication('e1')
+        self.status['global_step']=2;self.status['failed']=True
+        with self.assertRaisesRegex(ValueError,'successful durable'):self.ctl.recover_publication('e1')
+        self.assertEqual(self.backend.published,[])
+    def test_repeated_publication_failure_preserves_original_failed_event(self):
+        self.ready();self.backend.fail_publication=True
+        with self.assertRaisesRegex(OSError,'publication failure'):self.ctl.recover_publication('e1')
+        self.assertEqual(self.ctl.buffer.event('e1'),self.original);self.trainer.train_event.assert_not_called()
+    def test_changed_buffer_event_cannot_be_recovered_with_stale_proof(self):
+        self.ready();stale=copy.deepcopy(self.original);stale['error']='different failure'
+        with self.assertRaises(FeedbackError):self.ctl.buffer.recover_commit_event('e1','updated',
+             {'publication_recovery':{'kind':'publication_only_v1','event_before':stale,'retrained':False,
+              'feedback_replayed':False,'full_state_sha256':'abc','export_tensor_match':True}},expected_event=stale)
+        self.assertEqual(self.ctl.buffer.event('e1'),self.original)
+
+if __name__=='__main__':unittest.main()

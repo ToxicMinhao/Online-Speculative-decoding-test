@@ -1,0 +1,517 @@
+"""CPU behavior checks for native generation, target replay, and publication."""
+import contextlib
+import copy
+import json
+from pathlib import Path
+import random
+import tempfile
+import types
+import unittest
+from unittest.mock import Mock, patch
+
+import numpy as np
+import torch
+
+from online_feedback.native import (
+    NativeDFlashBackend, validate_generation, validate_publication,
+)
+from online_feedback.rng import capture_rng, restore_rng
+
+
+class FakeConfig:
+    def __init__(self, **changes):
+        self.fields = {
+            'hidden_size': 3,
+            'num_hidden_layers': 1,
+            'rope_theta': 10000,
+            'dflash_config': {'block_size': 16, 'mask_token_id': 7},
+            '_name_or_path': 'released',
+            'dtype': 'bfloat16',
+            'transformers_version': 'old',
+            'architectures': ['DFlashDraftModel'],
+        }
+        self.fields.update(changes)
+
+    def to_dict(self):
+        return copy.deepcopy(self.fields)
+
+
+class FakeDraft:
+    def __init__(self):
+        self.config = FakeConfig()
+        self.block_size = 16
+        self.mask_token_id = 7
+        self.target_layer_ids = [1, 3, 5]
+        self.state = {
+            'layers.0.weight': torch.ones(2, 3, dtype=torch.bfloat16),
+            'norm.weight': torch.ones(3, dtype=torch.bfloat16),
+        }
+        self.grad_enabled = True
+        self.training = True
+
+    def state_dict(self):
+        return self.state
+
+    def to(self, device):
+        return self
+
+    def eval(self):
+        self.training = False
+        return self
+
+    def requires_grad_(self, enabled):
+        self.grad_enabled = enabled
+        return self
+
+
+def loading_info():
+    return dict(missing_keys=[], unexpected_keys=[], mismatched_keys=[], error_msgs=[])
+
+
+def validate(candidate, current=None, info=None):
+    return validate_publication(
+        candidate, current or FakeDraft(), loading_info() if info is None else info,
+        tensor_isfinite=lambda value: bool(torch.isfinite(value).all()))
+
+
+@contextlib.contextmanager
+def fake_dflash(*, benchmark=None, **model_attributes):
+    package = types.ModuleType('dflash')
+    model = types.ModuleType('dflash.model')
+    benchmark_module = types.ModuleType('dflash.benchmark')
+    vars(model).update(model_attributes)
+    vars(benchmark_module).update(benchmark or {})
+    package.model = model
+    package.benchmark = benchmark_module
+    with patch.dict('sys.modules', {
+        'dflash': package,
+        'dflash.model': model,
+        'dflash.benchmark': benchmark_module,
+    }):
+        yield
+
+
+def backend():
+    instance = NativeDFlashBackend.__new__(NativeDFlashBackend)
+    instance.torch = torch
+    instance.device = torch.device('cpu')
+    instance.context_limit = 128
+    instance.block_size = 16
+    instance.draft = FakeDraft()
+    instance.target = FakeDraft()
+    instance.checkpoint_id = '/old/export'
+    instance.stop_tokens = [2]
+    return instance
+
+
+def response_trace(response):
+    return {
+        'output_start': 0,
+        'anchor_token': response[0],
+        'committed_progress': len(response) - 1,
+        'committed_tokens': response[1:],
+        'accepted_draft_tokens': max(0, len(response) - 2),
+    }
+
+
+def serving_record(prompt=(101, 102), response=(31, 32, 2)):
+    return {
+        'record_id': 'r1', 'purpose': 'serving',
+        'prompt_ids': list(prompt), 'response_ids': list(response),
+    }
+
+
+def random_draws():
+    return random.random(), float(np.random.random()), float(torch.rand(()))
+
+
+class PublicationTests(unittest.TestCase):
+    def setUp(self):
+        self.synchronize = self.enterContext(patch('torch.cuda.synchronize'))
+
+    def test_compatible_export_allows_provenance_changes(self):
+        candidate = FakeDraft()
+        candidate.config.fields.update(
+            _name_or_path='event/export', transformers_version='new',
+            architectures=['SpecForgeDFlash'], dtype='float32')
+        receipt = validate(candidate)
+        self.assertEqual(receipt['tensor_count'], 2)
+        self.assertTrue(receipt['strict_loading'])
+        self.assertTrue(receipt['all_tensors_finite'])
+
+    def test_partial_loading_is_rejected(self):
+        for field in loading_info():
+            info = loading_info()
+            info[field] = ['layers.0.weight']
+            with self.subTest(field=field), self.assertRaises(ValueError):
+                validate(FakeDraft(), info=info)
+
+    def test_forward_configuration_changes_are_rejected(self):
+        changes = (
+            ('rope_theta', 20000), ('hidden_size', 4),
+            ('dflash_config', {'block_size': 16, 'mask_token_id': 8}),
+        )
+        for field, value in changes:
+            candidate = FakeDraft()
+            candidate.config.fields[field] = value
+            with self.subTest(field=field), self.assertRaises(ValueError):
+                validate(candidate)
+        for field, value in (
+            ('block_size', 8), ('mask_token_id', 8), ('target_layer_ids', [2, 3, 5]),
+        ):
+            candidate = FakeDraft()
+            setattr(candidate, field, value)
+            with self.subTest(field=field), self.assertRaises(ValueError):
+                validate(candidate)
+
+    def test_qwen_dflash_vocab_default_matches_export_in_both_directions(self):
+        released, exported = FakeDraft(), FakeDraft()
+        for model in (released, exported):
+            model.config.fields.update(model_type='qwen3', vocab_size=151936)
+        exported.config.fields['draft_vocab_size'] = 151936
+        self.assertTrue(validate(exported, current=released)['semantic_config_match'])
+        self.assertTrue(validate(released, current=exported)['semantic_config_match'])
+        self.assertNotIn('draft_vocab_size', released.config.fields)
+
+    def test_explicit_draft_vocab_changes_are_rejected(self):
+        released = FakeDraft()
+        released.config.fields.update(model_type='qwen3', vocab_size=151936)
+        for value in (151935, None, True, '151936'):
+            exported = copy.deepcopy(released)
+            exported.config.fields['draft_vocab_size'] = value
+            with self.subTest(value=value), self.assertRaises(ValueError):
+                validate(exported, current=released)
+
+    def test_vocab_normalization_is_limited_to_qwen_dflash(self):
+        for model_type, dflash_config in (('llama', {'mask_token_id': 7}), ('qwen3', None)):
+            released, exported = FakeDraft(), FakeDraft()
+            for model in (released, exported):
+                model.config.fields.update(
+                    model_type=model_type, vocab_size=151936, dflash_config=dflash_config)
+            exported.config.fields['draft_vocab_size'] = 151936
+            with self.subTest(model_type=model_type), self.assertRaises(ValueError):
+                validate(exported, current=released)
+
+    def test_other_semantic_changes_remain_rejected_after_vocab_normalization(self):
+        released = FakeDraft()
+        released.config.fields.update(model_type='qwen3', vocab_size=151936)
+        for field, value in (
+            ('vocab_size', 151935), ('rope_theta', 20000),
+            ('attention_dropout', 0.1), ('hidden_size', 4),
+        ):
+            exported = copy.deepcopy(released)
+            exported.config.fields['draft_vocab_size'] = 151936
+            exported.config.fields[field] = value
+            with self.subTest(field=field), self.assertRaises(ValueError):
+                validate(exported, current=released)
+
+    def test_state_keys_shapes_dtypes_and_finite_values_are_required(self):
+        mutations = (
+            lambda state: state.pop('norm.weight'),
+            lambda state: state.update(extra=torch.ones(1)),
+            lambda state: state.update({'norm.weight': torch.ones(4, dtype=torch.bfloat16)}),
+            lambda state: state.update({'norm.weight': torch.ones(3, dtype=torch.float32)}),
+            lambda state: state['norm.weight'].fill_(float('nan')),
+        )
+        for index, mutate in enumerate(mutations):
+            candidate = FakeDraft()
+            mutate(candidate.state)
+            with self.subTest(index=index), self.assertRaises((ValueError, FloatingPointError)):
+                validate(candidate)
+
+    def test_publish_validates_before_activation_and_preserves_rng(self):
+        native = backend()
+        candidate = FakeDraft()
+        old = native.draft
+        initial_rng = capture_rng()
+        expected_draws = random_draws()
+        restore_rng(initial_rng)
+
+        def load(*args, **kwargs):
+            random_draws()
+            self.assertIs(native.draft, old)
+            return candidate, loading_info()
+
+        loader = Mock(side_effect=load)
+        self.synchronize.side_effect = lambda _: self.assertIs(native.draft, old)
+        with fake_dflash(DFlashDraftModel=types.SimpleNamespace(from_pretrained=loader)):
+            receipt = native.publish('/event/export')
+        self.assertTrue(loader.call_args.kwargs['output_loading_info'])
+        self.assertIs(native.draft, candidate)
+        self.assertEqual(native.checkpoint_id, '/event/export')
+        self.assertEqual(receipt['checkpoint_id'], '/event/export')
+        self.assertFalse(candidate.grad_enabled)
+        self.assertFalse(candidate.training)
+        self.assertEqual(random_draws(), expected_draws)
+
+    def test_failed_publication_keeps_previous_draft(self):
+        for cause in ('load', 'missing', 'nonfinite', 'synchronize'):
+            native = backend()
+            candidate = FakeDraft()
+            old = native.draft
+            info = loading_info()
+            if cause == 'missing':
+                info['missing_keys'] = ['norm.weight']
+            elif cause == 'nonfinite':
+                candidate.state['norm.weight'].fill_(float('nan'))
+            self.synchronize.side_effect = RuntimeError('device failure') if cause == 'synchronize' else None
+            loader = Mock(return_value=(candidate, info))
+            if cause == 'load':
+                loader.side_effect = RuntimeError('loading failed')
+            with self.subTest(cause=cause):
+                with fake_dflash(DFlashDraftModel=types.SimpleNamespace(from_pretrained=loader)):
+                    with self.assertRaises((ValueError, RuntimeError, FloatingPointError)):
+                        native.publish('/event/export')
+                self.assertIs(native.draft, old)
+                self.assertEqual(native.checkpoint_id, '/old/export')
+
+
+class GenerationTests(unittest.TestCase):
+    def setUp(self):
+        self.synchronize = self.enterContext(patch('torch.cuda.synchronize'))
+
+    def test_model_setup_freezes_target_and_draft_and_preserves_rng(self):
+        target, draft = FakeDraft(), FakeDraft()
+        initial_rng = capture_rng()
+        expected_draws = random_draws()
+        restore_rng(initial_rng)
+
+        def load(*args):
+            random_draws()
+            return target, draft, object()
+
+        with fake_dflash(benchmark={
+            'load_transformers_models': load,
+            'stop_token_ids': lambda *args: [2],
+        }):
+            native = NativeDFlashBackend('/target', '/draft', device='cpu')
+        self.assertFalse(target.grad_enabled)
+        self.assertFalse(draft.grad_enabled)
+        self.assertFalse(target.training)
+        self.assertEqual(native.checkpoint_id, '/draft')
+        self.assertEqual(random_draws(), expected_draws)
+
+    def test_render_uses_exact_template_tokens_once(self):
+        native = backend()
+        native.reasoning = 'off'
+        native.tokenizer = types.SimpleNamespace(encode=Mock(return_value=[11, 12]))
+        template = Mock(return_value='rendered prompt')
+        messages = [{'role': 'user', 'content': 'question'}]
+        with fake_dflash(benchmark={'apply_chat_template': template}):
+            self.assertEqual(native.render(messages), [11, 12])
+        template.assert_called_once_with(native.tokenizer, messages, 'off')
+        native.tokenizer.encode.assert_called_once_with('rendered prompt', add_special_tokens=False)
+
+    def test_generation_preserves_exact_tokens_and_rng_and_excludes_persistence_time(self):
+        native = backend()
+        prompt, response = [101, 102], [31, 32, 2]
+        clock = [10.0]
+        initial_rng = capture_rng()
+        expected_draws = random_draws()
+        restore_rng(initial_rng)
+
+        def generate(draft, target, ids, cap, stops, **kwargs):
+            self.assertEqual(ids.tolist(), [prompt])
+            self.assertEqual(cap, 4)
+            self.assertEqual(stops, [2])
+            self.assertEqual(kwargs['temperature'], 0)
+            random_draws()
+            kwargs['trace_callback'](response_trace(response))
+            clock[0] += 2
+            return types.SimpleNamespace(
+                output_ids=torch.tensor([prompt + response]), time_to_first_token=0.1)
+
+        def persist(*args):
+            clock[0] += 100
+
+        with fake_dflash(dflash_generate=generate):
+            with patch('online_feedback.native.time.perf_counter', side_effect=lambda: clock[0]):
+                with patch('online_feedback.native.write_json', side_effect=persist):
+                    result = native.generate(
+                        prompt, max_new_tokens=4, request_id='r', session_id='s',
+                        request_index=0, save_to=Path('/unused/request.json'))
+        self.assertEqual(result['prompt_ids'], prompt)
+        self.assertEqual(result['response_ids'], response)
+        self.assertEqual(result['finish_reason'], 'eos')
+        self.assertEqual(result['metadata']['verification_calls'], 1)
+        self.assertEqual(result['metadata']['request_latency_s'], 2)
+        self.assertFalse(result['metadata']['feedback_capture_in_timed_request'])
+        self.assertEqual(random_draws(), expected_draws)
+
+    def test_each_request_gets_a_fresh_native_invocation_and_trace(self):
+        native = backend()
+        callbacks = []
+
+        def generate(draft, target, ids, cap, stops, **kwargs):
+            callbacks.append(kwargs['trace_callback'])
+            self.assertEqual(set(kwargs), {'temperature', 'block_size', 'return_stats', 'trace_callback'})
+            kwargs['trace_callback'](response_trace([31, 2]))
+            return types.SimpleNamespace(
+                output_ids=torch.tensor([[101, 102, 31, 2]]), time_to_first_token=0.1)
+
+        with fake_dflash(dflash_generate=generate):
+            records = [native.generate(
+                [101, 102], max_new_tokens=4, request_id=str(index),
+                session_id='s', request_index=index) for index in range(2)]
+        self.assertIsNot(callbacks[0].__self__, callbacks[1].__self__)
+        self.assertEqual([record['metadata']['verification_calls'] for record in records], [1, 1])
+
+    def test_full_context_budget_rejects_before_generation_without_truncating(self):
+        native = backend()
+        generator = Mock()
+        with fake_dflash(dflash_generate=generator):
+            with self.assertRaisesRegex(ValueError, 'full-context'):
+                native.generate([1] * 127, max_new_tokens=2,
+                                request_id='r', session_id='s', request_index=0)
+        generator.assert_not_called()
+
+    def test_output_and_trace_must_describe_the_exact_answer(self):
+        prompt, response = [101, 102], [31, 32, 2]
+        original = response_trace(response)
+        invalid = [
+            ([999] + prompt[1:] + response, [original]),
+            (prompt, []),
+            (prompt + [31, 2, 33], [response_trace([31, 2, 33])]),
+            (prompt + [31], []),
+            (prompt + response, []),
+        ]
+        for field, value in (
+            ('output_start', 1), ('anchor_token', 999), ('committed_tokens', [32, 999]),
+            ('committed_progress', 1),
+        ):
+            invalid.append((prompt + response, [{**original, field: value}]))
+        for index, (combined, trace) in enumerate(invalid):
+            with self.subTest(index=index), self.assertRaises(RuntimeError):
+                validate_generation(prompt, combined, trace, max_new_tokens=4, stop_tokens=[2])
+        self.assertEqual(validate_generation(
+            prompt, prompt + [31], [], max_new_tokens=1, stop_tokens=[2]), ([31], 'length'))
+        self.assertEqual(validate_generation(
+            prompt, prompt + [2], [], max_new_tokens=4, stop_tokens=[2]), ([2], 'eos'))
+
+
+class FeedbackTests(unittest.TestCase):
+    def setUp(self):
+        self.enterContext(patch('torch.cuda.synchronize'))
+        self.temporary = self.enterContext(tempfile.TemporaryDirectory(prefix='native_feedback_'))
+        self.path = Path(self.temporary) / 'features.pt'
+        self.native = backend()
+
+    def install_target(self, record, *, wrong_index=None):
+        combined = record['prompt_ids'] + record['response_ids']
+        last_hidden = torch.arange(len(combined), dtype=torch.float32).reshape(1, -1, 1)
+        states = tuple(last_hidden + 100 * layer for layer in range(7))
+        outputs = types.SimpleNamespace(hidden_states=states, last_hidden_state=last_hidden)
+        self.native.target.model = Mock(return_value=outputs)
+        chunks = []
+
+        def lm_head(hidden):
+            chunks.append(hidden.clone())
+            positions = hidden[0, :, 0].long()
+            next_tokens = torch.tensor(combined)[positions + 1]
+            if wrong_index is not None:
+                mismatch_position = len(record['prompt_ids']) - 1 + wrong_index
+                next_tokens[positions == mismatch_position] = 99
+            return torch.nn.functional.one_hot(next_tokens, num_classes=128).float().unsqueeze(0)
+
+        self.native.target.lm_head = Mock(side_effect=lm_head)
+        # Native DFlash indexes transformer layers after the embedding state.
+        extractor = Mock(side_effect=lambda hidden, layers: torch.cat(
+            [hidden[layer + 1] for layer in layers], dim=-1))
+        return extractor, states, last_hidden, chunks
+
+    def test_replay_saves_complete_conditioning_and_response_only_loss(self):
+        record = serving_record()
+        extractor, states, last_hidden, chunks = self.install_target(record)
+        with fake_dflash(extract_context_feature=extractor):
+            receipt = self.native.prepare_feedback(record, self.path)
+        payload = torch.load(self.path, weights_only=False)
+        self.assertEqual(payload['input_ids'].tolist(), [[101, 102, 31, 32, 2]])
+        self.assertEqual(payload['loss_mask'].tolist(), [[0, 0, 1, 1, 1]])
+        expected_features = torch.cat([states[layer + 1] for layer in [1, 3, 5]], dim=-1)
+        self.assertTrue(torch.equal(payload['hidden_states'], expected_features))
+        self.assertTrue(torch.equal(payload['target_last_hidden_states'], last_hidden))
+        self.assertEqual(payload['label_binding']['target_argmax_ids'], record['response_ids'])
+        self.assertEqual(receipt['supervised_positions'], 3)
+        self.assertEqual(chunks[0][0, :, 0].tolist(), [1, 2, 3])
+        self.assertEqual(self.native.target.model.call_args.kwargs['input_ids'].tolist(), payload['input_ids'].tolist())
+        self.assertFalse(self.native.target.model.call_args.kwargs['use_cache'])
+        self.assertEqual(set(payload), {
+            'input_ids', 'loss_mask', 'hidden_states', 'target_last_hidden_states',
+            'record_id', 'prompt_length', 'label_binding',
+        })
+
+    def test_target_argmax_alignment_spans_vocabulary_head_chunks(self):
+        record = serving_record(response=[31] * 65 + [2])
+        extractor, _, _, chunks = self.install_target(record)
+        with fake_dflash(extract_context_feature=extractor):
+            receipt = self.native.prepare_feedback(record, self.path)
+        self.assertEqual([chunk.shape[1] for chunk in chunks], [64, 2])
+        self.assertEqual(receipt['target_argmax_ids'], record['response_ids'])
+        self.assertEqual(chunks[1][0, :, 0].tolist(), [65, 66])
+
+    def test_mismatched_target_replay_saves_evidence_without_training_features(self):
+        record = serving_record()
+        extractor, _, _, _ = self.install_target(record, wrong_index=1)
+        with fake_dflash(extract_context_feature=extractor):
+            with self.assertRaisesRegex(RuntimeError, 'disagrees'):
+                self.native.prepare_feedback(record, self.path)
+        self.assertFalse(self.path.exists())
+        failure = json.loads(self.path.with_suffix('.alignment_failure.json').read_text())
+        self.assertEqual(failure['label_mismatches'], [1])
+        self.assertEqual(failure['target_argmax_ids'], [31, 99, 2])
+        self.assertEqual(failure['prompt_ids'], record['prompt_ids'])
+        self.assertEqual(failure['response_ids'], record['response_ids'])
+
+    def test_teacher_rng_and_preparation_time_are_separate_from_persistence(self):
+        record = serving_record()
+        extractor, _, _, _ = self.install_target(record)
+        outputs = self.native.target.model.return_value
+        clock = [0.0]
+        initial_rng = capture_rng()
+        expected_draws = random_draws()
+        restore_rng(initial_rng)
+
+        def replay(**kwargs):
+            self.assertTrue(torch.is_inference_mode_enabled())
+            random_draws()
+            clock[0] += 3
+            return outputs
+
+        def persist(*args):
+            clock[0] += 20
+
+        self.native.target.model.side_effect = replay
+        with fake_dflash(extract_context_feature=extractor):
+            with patch('online_feedback.native.time.perf_counter', side_effect=lambda: clock[0]):
+                with patch('online_feedback.native.save_torch', side_effect=persist):
+                    receipt = self.native.prepare_feedback(record, self.path)
+        self.assertEqual(receipt['teacher_preparation_s'], 3)
+        self.assertEqual(receipt['feature_persistence_s'], 20)
+        self.assertEqual(random_draws(), expected_draws)
+
+    def test_evaluation_short_response_and_overlength_cannot_supply_features(self):
+        extractor = Mock()
+        with fake_dflash(extract_context_feature=extractor):
+            evaluation = {**serving_record(), 'purpose': 'evaluation'}
+            with self.assertRaisesRegex(ValueError, 'benchmark'):
+                self.native.prepare_feedback(evaluation, self.path)
+            receipt = self.native.prepare_feedback(serving_record(response=[2]), self.path)
+            self.assertEqual(receipt['status'], 'ineligible_short_response')
+            self.native.context_limit = 4
+            with self.assertRaisesRegex(ValueError, 'full feedback'):
+                self.native.prepare_feedback(serving_record(), self.path)
+        self.assertFalse(self.path.exists())
+        extractor.assert_not_called()
+
+    def test_nonfinite_features_are_rejected(self):
+        record = serving_record()
+        extractor, _, _, _ = self.install_target(record)
+        extractor.side_effect = lambda *args: torch.full((1, 5, 3), float('nan'))
+        with fake_dflash(extract_context_feature=extractor):
+            with self.assertRaises(FloatingPointError):
+                self.native.prepare_feedback(record, self.path)
+        self.assertFalse(self.path.exists())
+
+
+if __name__ == '__main__':
+    unittest.main()

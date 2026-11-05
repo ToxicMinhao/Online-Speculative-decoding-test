@@ -1,0 +1,103 @@
+{
+  "status": "capacity_passed_after_parent_scoped_cleanup_launch_gates_remain",
+  "utc": "2026-11-03T08:55:19.692528+00:00",
+  "scope": "Read-only phase-based additional-write budget and fresh capacity observation after parent-scoped cleanup. No remote mutation by this reviewer. The sealed production preflight must remeasure current storage/jobs, preserve reserve and enforce compact/compiler growth limits before and during model work.",
+  "weight_file_bytes": 2097259104,
+  "weight_tensor_bytes": 2097252864,
+  "max_sequence_rows": 2272,
+  "responses_per_event": 128,
+  "hidden_features_row_bytes": 49152,
+  "ids_and_mask_row_bytes": 12,
+  "row_bytes": 49164,
+  "full_raw_or_prepared_pool_bytes": 14297677824,
+  "one_packet_overlap_bytes": 111700608,
+  "terminal_row_safety_bytes": 49164,
+  "phase_tensor_peaks_bytes": {
+    "capture": 24783973344,
+    "incremental_preparation": 24895723116,
+    "state_atomic_save": 31075750656,
+    "successor_export_and_publication": 33173009760,
+    "declared_conservative_superposition": 33284759532
+  },
+  "tensor_margin_fraction": 0.05,
+  "tensor_peak_with_margin_bytes": 34948997509,
+  "compact_bytes": 8589934592,
+  "compiler_growth_bytes": 4294967296,
+  "workspace_bytes": 2147483648,
+  "reserve_bytes": 8589934592,
+  "required_initial_free_bytes": 58571317637,
+  "observed_free_before_cleanup_bytes": 45086593024,
+  "shortfall_bytes": 13484724613,
+  "potential_verified_redundancy_bytes_not_counted": 18881150976,
+  "hypothetical_excess_after_exact_reclaim_bytes_not_admission": 5396426363,
+  "phase_lifecycle": {
+    "capture": "One new initial payload, current complete state (3W), current export (W), and all 128 native raw responses. Existing historical controls are already charged in measured free space and must be reused by path, not recopied.",
+    "preparation": "Same 5W persistent state/export occupancy. Validate every prepared packet before retiring its own raw capture and terminal tensor. Full initial raw pool plus one prepared packet and a terminal-row safety bound.",
+    "state_atomic_save": "Initial W + predecessor complete state 3W + pending successor complete state 3W + predecessor export W + prepared pool. Hardlinked aliases count only once.",
+    "export_publication": "Initial W + predecessor complete state 3W + successor complete state 3W + predecessor export W + successor export W + prepared pool. Retire predecessor and prepared inputs only after validated successor state/export/publication; 9W bound.",
+    "no_cumulative_event_features": "Prior prepared pool is retired after the validated boundary before capturing the next event. No previous feature pool or pending save remains uncharged."
+  },
+  "observed_old_compact_allocated_bytes": {
+    "campaign_001/arms/K": {
+      "files": 39343,
+      "logical_bytes": 4144666707,
+      "allocated_unique_inode_bytes": 4236623872
+    },
+    "campaign_001/arms/K_HALF": {
+      "files": 39343,
+      "logical_bytes": 4161074221,
+      "allocated_unique_inode_bytes": 4252921856
+    },
+    "campaign_001/evaluation/final": {
+      "files": 24586,
+      "logical_bytes": 794364694,
+      "allocated_unique_inode_bytes": 867868672
+    },
+    "campaign_001": {
+      "files": 115576,
+      "logical_bytes": 9900199820,
+      "allocated_unique_inode_bytes": 10182750208
+    },
+    "sealed": {
+      "files": 13,
+      "logical_bytes": 25089671,
+      "allocated_unique_inode_bytes": 25120768
+    },
+    "final_report": {
+      "files": 10,
+      "logical_bytes": 21130817,
+      "allocated_unique_inode_bytes": 21151744
+    }
+  },
+  "observed_existing_cache_allocated_bytes": {
+    "/data/sources/minhao/.cache/torch": 0,
+    "/data/sources/minhao/.cache/torch_extensions": 0,
+    "/data/sources/minhao/.cache/torchinductor": 1069465600,
+    "/data/sources/minhao/.cache/triton": 2092703744,
+    "/data/sources/minhao/.cache/cuda": 0,
+    "/data/sources/minhao/.cache/sglang": 35897344,
+    "/data/sources/minhao/.cache/flashinfer": 32526336,
+    "/data/sources/minhao/.cache/tvm-ffi": 3657728
+  },
+  "existing_cache_total_bytes": 3234250752,
+  "compact_justification": "Old K arm compact allocation 4,236,623,872 bytes. One arm plus half the shared final-evaluation and other campaign compact payload, sealed inputs and report gives ~5,129,498,624 bytes before new objective diagnostics. Declared 8 GiB adds ~3.46 GB bounded headroom. Preserve all required evidence; monitor growth and stop on exceedance rather than lowering allowances.",
+  "compiler_justification": "Existing qualified caches occupy 3,234,250,752 bytes. A declared additional 4 GiB is larger than this current footprint and reuses fixed model/runtime geometry, while allowing new objective compilation. This is a monitored allowance, not a guarantee on future compiler behavior.",
+  "verification_limits": [
+    "Not a measured future peak; tensor layout and lifecycle must match implementation.",
+    "5% tensor headroom covers serialization and complete-state metadata overhead, not unbounded retained tensors.",
+    "A second export staging copy or second pending state is not covered.",
+    "No GPU/host training memory peak inferred from storage sizing.",
+    "No old results, failure evidence, needed models/environments or K58 control selected for deletion.",
+    "No additional staging transfer is budgeted; compact retrieval must have separately checked destination capacity."
+  ],
+  "model_work": 0,
+  "remote_mutations": 0,
+  "post_cleanup_observation": {
+    "utc": "2026-11-03T08:56:21.100552+00:00",
+    "free_bytes": 63967506432,
+    "required_bytes": 58571317637,
+    "excess_beyond_budget_including_reserve_bytes": 5396188795,
+    "fresh_read_only_observation": true,
+    "parent_cleanup_report": "Exactly three freshly verified duplicate KP qualification POST_STATE copies; all retained local copies and compact evidence preserved. Parent owns maintenance_001/RESULT.json."
+  }
+}

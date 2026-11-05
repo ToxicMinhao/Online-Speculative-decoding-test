@@ -1,0 +1,447 @@
+{
+  "status": "passed",
+  "model_work": 0,
+  "no_production_analysis_imports": true,
+  "authorship": "Same agent authored production data/evaluation/statistics/report modules. Separate reconstruction with disclosed overlap; not blind or GPU replication.",
+  "root": "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_vfd_second_pass_20261104/retrieved_001/evidence/production_001",
+  "effects_computed": true,
+  "reconstructed": {
+    "request_count": 200,
+    "execution_count": 2000,
+    "method_totals": {
+      "FULL": {
+        "verification_calls": 8872,
+        "accepted_draft_tokens": 51065,
+        "committed_progress": 59752,
+        "output_tokens": 59952,
+        "request_latency_s": 151.991131442599,
+        "native_generate_s": 149.23871148191392,
+        "cache_maintenance_s": 0.07424923405051231,
+        "accepted_tokens_per_call": 5.755748422001804,
+        "committed_progress_per_call": 6.7348963029756534,
+        "calls_per_1000_output_tokens": 147.985054710435,
+        "cap_hits": 1,
+        "eos_responses": 199,
+        "mean_request_ms": 759.955657212995
+      },
+      "ONCE": {
+        "verification_calls": 9008,
+        "accepted_draft_tokens": 50920,
+        "committed_progress": 59752,
+        "output_tokens": 59952,
+        "request_latency_s": 154.39937535393983,
+        "native_generate_s": 151.50027865637094,
+        "cache_maintenance_s": 0.07337515614926815,
+        "accepted_tokens_per_call": 5.652753108348135,
+        "committed_progress_per_call": 6.6332149200710475,
+        "calls_per_1000_output_tokens": 150.25353616226315,
+        "cap_hits": 1,
+        "eos_responses": 199,
+        "mean_request_ms": 771.9968767696992
+      },
+      "RANDOM64": {
+        "verification_calls": 8946,
+        "accepted_draft_tokens": 50995,
+        "committed_progress": 59752,
+        "output_tokens": 59952,
+        "request_latency_s": 153.27433278318495,
+        "native_generate_s": 150.45772199705243,
+        "cache_maintenance_s": 0.07337993755936623,
+        "accepted_tokens_per_call": 5.700312989045384,
+        "committed_progress_per_call": 6.679186228482003,
+        "calls_per_1000_output_tokens": 149.21937550040033,
+        "cap_hits": 1,
+        "eos_responses": 199,
+        "mean_request_ms": 766.3716639159247
+      },
+      "STATIC64": {
+        "verification_calls": 8916,
+        "accepted_draft_tokens": 51023,
+        "committed_progress": 59752,
+        "output_tokens": 59952,
+        "request_latency_s": 152.65595866553485,
+        "native_generate_s": 149.92392013035715,
+        "cache_maintenance_s": 0.07431823294609785,
+        "accepted_tokens_per_call": 5.722633467922836,
+        "committed_progress_per_call": 6.7016599371915655,
+        "calls_per_1000_output_tokens": 148.71897518014413,
+        "cap_hits": 1,
+        "eos_responses": 199,
+        "mean_request_ms": 763.2797933276743
+      },
+      "PROGRESS64": {
+        "verification_calls": 8945,
+        "accepted_draft_tokens": 50995,
+        "committed_progress": 59752,
+        "output_tokens": 59952,
+        "request_latency_s": 153.25457708351314,
+        "native_generate_s": 150.39811428263783,
+        "cache_maintenance_s": 0.07349192164838314,
+        "accepted_tokens_per_call": 5.700950251537171,
+        "committed_progress_per_call": 6.679932923420906,
+        "calls_per_1000_output_tokens": 149.2026954897251,
+        "cap_hits": 1,
+        "eos_responses": 199,
+        "mean_request_ms": 766.2728854175657
+      }
+    },
+    "comparisons": {
+      "PROGRESS64_vs_FULL": {
+        "call_reduction": {
+          "point_pct": -0.822813345356181,
+          "ci95_pct": [
+            -1.5487858221246806,
+            -0.1153216475941208
+          ],
+          "undefined_bootstrap_draws": 0,
+          "candidate_sum": 8945.0,
+          "reference_sum": 8872.0
+        },
+        "request_latency_s_reduction": {
+          "point_pct": -0.8312627381100128,
+          "ci95_pct": [
+            -1.5383657382892733,
+            -0.14634046191743877
+          ],
+          "undefined_bootstrap_draws": 0,
+          "candidate_sum": 153.25457708351314,
+          "reference_sum": 151.991131442599
+        },
+        "native_generate_s_reduction": {
+          "point_pct": -0.7768780561097373,
+          "ci95_pct": [
+            -1.4816196665977568,
+            -0.0939100455294391
+          ],
+          "undefined_bootstrap_draws": 0,
+          "candidate_sum": 150.39811428263783,
+          "reference_sum": 149.23871148191392
+        },
+        "cache_maintenance_s_reduction": {
+          "point_pct": 1.0199598848574851,
+          "ci95_pct": [
+            -0.14958936252090954,
+            2.190416335209333
+          ],
+          "undefined_bootstrap_draws": 0,
+          "candidate_sum": 0.07349192164838314,
+          "reference_sum": 0.07424923405051231
+        },
+        "request_wins": 70,
+        "request_regressions": 101,
+        "request_ties": 29,
+        "request_denominator": 200,
+        "gross_calls_saved": 145,
+        "gross_calls_added": 218
+      },
+      "PROGRESS64_vs_STATIC64": {
+        "call_reduction": {
+          "point_pct": -0.32525796321220923,
+          "ci95_pct": [
+            -0.9908545266403632,
+            0.35572568857873105
+          ],
+          "undefined_bootstrap_draws": 0,
+          "candidate_sum": 8945.0,
+          "reference_sum": 8916.0
+        },
+        "request_latency_s_reduction": {
+          "point_pct": -0.39213563834074705,
+          "ci95_pct": [
+            -1.0424768335222638,
+            0.26176966497084586
+          ],
+          "undefined_bootstrap_draws": 0,
+          "candidate_sum": 153.25457708351314,
+          "reference_sum": 152.65595866553485
+        },
+        "native_generate_s_reduction": {
+          "point_pct": -0.3162898567942847,
+          "ci95_pct": [
+            -0.9624026211158916,
+            0.34380349745487304
+          ],
+          "undefined_bootstrap_draws": 0,
+          "candidate_sum": 150.39811428263783,
+          "reference_sum": 149.92392013035715
+        },
+        "cache_maintenance_s_reduction": {
+          "point_pct": 1.1118554154994769,
+          "ci95_pct": [
+            -0.032240686613347676,
+            2.2238725932230206
+          ],
+          "undefined_bootstrap_draws": 0,
+          "candidate_sum": 0.07349192164838314,
+          "reference_sum": 0.07431823294609785
+        },
+        "request_wins": 72,
+        "request_regressions": 87,
+        "request_ties": 41,
+        "request_denominator": 200,
+        "gross_calls_saved": 148,
+        "gross_calls_added": 177
+      },
+      "PROGRESS64_vs_RANDOM64": {
+        "call_reduction": {
+          "point_pct": 0.011178180192260356,
+          "ci95_pct": [
+            -0.7028711874194037,
+            0.7461153970692673
+          ],
+          "undefined_bootstrap_draws": 0,
+          "candidate_sum": 8945.0,
+          "reference_sum": 8946.0
+        },
+        "request_latency_s_reduction": {
+          "point_pct": 0.01288911151206662,
+          "ci95_pct": [
+            -0.6986578009236613,
+            0.7437696352185893
+          ],
+          "undefined_bootstrap_draws": 0,
+          "candidate_sum": 153.25457708351314,
+          "reference_sum": 153.27433278318495
+        },
+        "native_generate_s_reduction": {
+          "point_pct": 0.03961758401192128,
+          "ci95_pct": [
+            -0.6542776564918139,
+            0.7556607151687528
+          ],
+          "undefined_bootstrap_draws": 0,
+          "candidate_sum": 150.39811428263783,
+          "reference_sum": 150.45772199705243
+        },
+        "cache_maintenance_s_reduction": {
+          "point_pct": -0.152608591314646,
+          "ci95_pct": [
+            -1.2215542859919286,
+            0.9267289088264814
+          ],
+          "undefined_bootstrap_draws": 0,
+          "candidate_sum": 0.07349192164838314,
+          "reference_sum": 0.07337993755936623
+        },
+        "request_wins": 79,
+        "request_regressions": 80,
+        "request_ties": 41,
+        "request_denominator": 200,
+        "gross_calls_saved": 175,
+        "gross_calls_added": 174
+      },
+      "PROGRESS64_vs_ONCE": {
+        "call_reduction": {
+          "point_pct": 0.6993783303730083,
+          "ci95_pct": [
+            -0.13527796336468717,
+            1.5319255894197916
+          ],
+          "undefined_bootstrap_draws": 0,
+          "candidate_sum": 8945.0,
+          "reference_sum": 9008.0
+        },
+        "request_latency_s_reduction": {
+          "point_pct": 0.741452656659007,
+          "ci95_pct": [
+            -0.07956386240592862,
+            1.5574171874494118
+          ],
+          "undefined_bootstrap_draws": 0,
+          "candidate_sum": 153.25457708351314,
+          "reference_sum": 154.39937535393983
+        },
+        "native_generate_s_reduction": {
+          "point_pct": 0.7274998986853376,
+          "ci95_pct": [
+            -0.08101889732822798,
+            1.5381881711061285
+          ],
+          "undefined_bootstrap_draws": 0,
+          "candidate_sum": 150.39811428263783,
+          "reference_sum": 151.50027865637094
+        },
+        "cache_maintenance_s_reduction": {
+          "point_pct": -0.15913492419348074,
+          "ci95_pct": [
+            -1.2564004955435932,
+            0.9330396816066443
+          ],
+          "undefined_bootstrap_draws": 0,
+          "candidate_sum": 0.07349192164838314,
+          "reference_sum": 0.07337515614926815
+        },
+        "request_wins": 92,
+        "request_regressions": 82,
+        "request_ties": 26,
+        "request_denominator": 200,
+        "gross_calls_saved": 243,
+        "gross_calls_added": 180
+      },
+      "RANDOM64_vs_FULL": {
+        "call_reduction": {
+          "point_pct": -0.8340847610459861,
+          "ci95_pct": [
+            -1.6444806835305705,
+            -0.04538685235220293
+          ],
+          "undefined_bootstrap_draws": 0,
+          "candidate_sum": 8946.0,
+          "reference_sum": 8872.0
+        },
+        "request_latency_s_reduction": {
+          "point_pct": -0.8442606673209525,
+          "ci95_pct": [
+            -1.6381430138642876,
+            -0.07720483004226893
+          ],
+          "undefined_bootstrap_draws": 0,
+          "candidate_sum": 153.27433278318495,
+          "reference_sum": 151.991131442599
+        },
+        "native_generate_s_reduction": {
+          "point_pct": -0.8168192441719384,
+          "ci95_pct": [
+            -1.6037634053141336,
+            -0.05229004798933687
+          ],
+          "undefined_bootstrap_draws": 0,
+          "candidate_sum": 150.45772199705243,
+          "reference_sum": 149.23871148191392
+        },
+        "cache_maintenance_s_reduction": {
+          "point_pct": 1.1707817626168406,
+          "ci95_pct": [
+            -0.022999591526859212,
+            2.343804334112275
+          ],
+          "undefined_bootstrap_draws": 0,
+          "candidate_sum": 0.07337993755936623,
+          "reference_sum": 0.07424923405051231
+        },
+        "request_wins": 71,
+        "request_regressions": 91,
+        "request_ties": 38,
+        "request_denominator": 200,
+        "gross_calls_saved": 160,
+        "gross_calls_added": 234
+      },
+      "ONCE_vs_FULL": {
+        "call_reduction": {
+          "point_pct": -1.5329125338142404,
+          "ci95_pct": [
+            -2.441061423859816,
+            -0.6106135200105144
+          ],
+          "undefined_bootstrap_draws": 0,
+          "candidate_sum": 9008.0,
+          "reference_sum": 8872.0
+        },
+        "request_latency_s_reduction": {
+          "point_pct": -1.5844634410464522,
+          "ci95_pct": [
+            -2.4739540384295675,
+            -0.6897179932384742
+          ],
+          "undefined_bootstrap_draws": 0,
+          "candidate_sum": 154.39937535393983,
+          "reference_sum": 151.991131442599
+        },
+        "native_generate_s_reduction": {
+          "point_pct": -1.515402506494496,
+          "ci95_pct": [
+            -2.404994943506285,
+            -0.6203124193075802
+          ],
+          "undefined_bootstrap_draws": 0,
+          "candidate_sum": 151.50027865637094,
+          "reference_sum": 149.23871148191392
+        },
+        "cache_maintenance_s_reduction": {
+          "point_pct": 1.177221438607063,
+          "ci95_pct": [
+            -0.07929838939343872,
+            2.3839945796982516
+          ],
+          "undefined_bootstrap_draws": 0,
+          "candidate_sum": 0.07337515614926815,
+          "reference_sum": 0.07424923405051231
+        },
+        "request_wins": 65,
+        "request_regressions": 115,
+        "request_ties": 20,
+        "request_denominator": 200,
+        "gross_calls_saved": 166,
+        "gross_calls_added": 302
+      }
+    },
+    "interpretation": {
+      "decision": "otherwise",
+      "preferred_policy": null,
+      "simpler_dominating_arms": [],
+      "efficiency_qualified_arms": [],
+      "scoring_mechanism_established_against_both_selectors": false,
+      "automatic_followup_authorized": false
+    }
+  },
+  "native_blocks_recounted": 89374,
+  "execution_commit": "05e4b30488fb267a196edb1a81a5f6aaf613a838",
+  "work": {
+    "physical": {
+      "feedback_generations": 512,
+      "teacher_preparations": 512,
+      "optimizer_steps": 1664,
+      "training_presentations": 3328,
+      "scoring_forwards": 1408
+    },
+    "logical_optimizer_steps": {
+      "FULL": 512,
+      "ONCE": 256,
+      "RANDOM64": 384,
+      "STATIC64": 384,
+      "PROGRESS64": 384
+    },
+    "qualification": {
+      "training_presentations": 4,
+      "backwards": 4,
+      "optimizer_steps": 2,
+      "scoring_forwards": 8
+    },
+    "logical_updater_seconds": {
+      "FULL": 1414.155987618491,
+      "ONCE": 700.5739327091724,
+      "RANDOM64": 1053.034989606589,
+      "STATIC64": 1087.2256164513528,
+      "PROGRESS64": 1110.6966296751052
+    },
+    "missing_reference_generations": 58
+  },
+  "bootstrap": {
+    "seed": 20261104,
+    "generator": "PCG64",
+    "draws": 10000,
+    "paired_requests": 200,
+    "repeat_means": 2,
+    "quantiles": "linear 2.5/97.5",
+    "shared_draws": true,
+    "index_bytes_sha256": "f8f71a292595fc8506f8400108b24cb4287f401ac9a035058a791f983672dcd4"
+  },
+  "compared_with_published_summary": true,
+  "archive_identity_gate": true,
+  "interpretation_limits": "Conditional on one seed and four common-feedback events. No serving speed claim from updater savings; control intervals are descriptive and unadjusted. No automatic tuning or extension.",
+  "statistical_fallacy_coverage": {
+    "Simpson": "Per-arm sums and each repeat retained; no causal subgroup explanation inferred.",
+    "Ecological": "Pooled latency reduction is not an average individual speedup.",
+    "Berkson": "Sealed train-disjoint panel is conditional on available historical inventories, not general population sampling.",
+    "Collider": "No outcome-conditioned filtering or post-hoc covariate adjustment.",
+    "Base_rate": "Not a diagnostic classification study; counts retain their request denominators.",
+    "Regression_to_mean": "Static/random/once controls retained; score movement alone is not proof of causal benefit.",
+    "Survivorship": "All2000 executions required; capped requests retained; any invalid/incomplete work prevents effects.",
+    "Look_elsewhere": "One primary and all declared descriptive controls reported.",
+    "Forking_paths": "Presealed analysis digest and fixed seed/draw/interpolation verified.",
+    "Correlation_causation": "Endpoint comparison does not isolate each scored response contribution or broad mechanism.",
+    "Reverse_causality": "Scoring precedes sealed endpoint; no endpoint feedback used for selection."
+  },
+  "checks": 646094,
+  "source_file_count": 4058
+}

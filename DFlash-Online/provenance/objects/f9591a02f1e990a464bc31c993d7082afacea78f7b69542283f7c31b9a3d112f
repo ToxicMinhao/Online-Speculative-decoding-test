@@ -1,0 +1,44 @@
+"""CPU-only selection and immutable-artifact checks."""
+from pathlib import Path
+import tempfile
+import unittest
+
+from prepare_windows import normalized, save, select_next
+
+
+class SelectionTests(unittest.TestCase):
+    def test_continue_original_order_without_shuffle(self):
+        selected, skipped = select_next(['a', 'b', 'c', 'd', 'e'], 2, [], 3)
+        self.assertEqual(selected, [2, 3, 4])
+        self.assertEqual(skipped, [])
+
+    def test_skip_both_panels_and_deduplicate_original_and_new(self):
+        questions = ['old', 'panel one', 'old', 'new', 'new ', 'panel two', 'last']
+        selected, skipped = select_next(questions, 1, ['panel one', 'panel two'], 2)
+        self.assertEqual(selected, [3, 6])
+        self.assertEqual([row['dataset_index'] for row in skipped], [1, 2, 4, 5])
+
+    def test_normalization_blocks_unicode_and_whitespace_duplicates(self):
+        self.assertEqual(normalized('A\u00a0 \nＢ'), 'A B')
+        selected, skipped = select_next(['A B', 'A\u00a0Ｂ', 'other'], 1, [], 1)
+        self.assertEqual(selected, [2])
+        self.assertEqual(skipped[0]['dataset_index'], 1)
+
+    def test_exhaustion_is_explicit(self):
+        with self.assertRaisesRegex(ValueError, 'Insufficient'):
+            select_next(['old', 'heldout'], 1, ['heldout'], 1)
+
+    def test_idempotent_save_rejects_replacement(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / 'artifact.json'
+            save(path, {'fixed': 1})
+            before = path.read_bytes()
+            save(path, {'fixed': 1})
+            self.assertEqual(path.read_bytes(), before)
+            with self.assertRaisesRegex(ValueError, 'Refusing'):
+                save(path, {'fixed': 2})
+            self.assertEqual(path.read_bytes(), before)
+
+
+if __name__ == '__main__':
+    unittest.main()

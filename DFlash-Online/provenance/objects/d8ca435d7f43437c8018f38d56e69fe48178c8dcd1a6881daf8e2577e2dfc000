@@ -1,0 +1,158 @@
+"""Synchronous orchestration. The caller owns prompts and conversation history.
+
+Only actual serving records enter the buffer. Evaluation is read-only and cannot
+supply feedback. No text round trip is used for training or checkpoint comparisons.
+"""
+from pathlib import Path
+import time
+from .buffer import FeedbackBuffer
+from .native import atomic_json, token_sha256
+
+
+class OnlineController:
+    def __init__(self, backend, trainer, output_root, *, buffer_capacity=8):
+        self.backend, self.trainer = backend, trainer
+        self.root = Path(output_root)
+        self.buffer = FeedbackBuffer(self.root / 'feedback_buffer', capacity=buffer_capacity)
+
+    def serve(self, prompt_ids, *, request_id, session_id, request_index, max_new_tokens, collect_feedback=True):
+        started = time.perf_counter()
+        record = self.backend.generate(prompt_ids, max_new_tokens=max_new_tokens,
+                    request_id=request_id, session_id=session_id, request_index=request_index,
+                    purpose='serving', save_to=self.root/'serving'/f'{request_id}.json')
+        generated = time.perf_counter()
+        if collect_feedback:
+            self.buffer.add(record)
+        completed = time.perf_counter()
+        atomic_json(self.root/'serving'/f'{request_id}.costs.json', {
+            'serve_call_s':completed-started, 'buffer_persistence_s':completed-generated,
+            'generation_validation_and_recording_s':generated-started,
+            'native_request_latency_s':record.get('metadata',{}).get('request_latency_s'),
+            'cost_receipt_write_is_diagnostic':True})
+        return record
+
+    def update(self, event_id, count, *, passes=2):
+        started = time.perf_counter()
+        event = self.buffer.seal_event(event_id, count)
+        try:
+            paths, preparation = [], []
+            for record in self.buffer.records(event['record_ids']):
+                path = self.root/'features'/f"{record['record_id']}.pt"
+                receipt = self.backend.prepare_feedback(record, path)
+                # A short response is recorded; it must not be silently replaced
+                # by a resampled response or an empty optimization objective.
+                if receipt.get('eligible') is False or receipt.get('status') == 'ineligible_short_response':
+                    raise ValueError('No eligible training anchors: ' + record['record_id'])
+                paths.append(path); preparation.append(receipt)
+            update = self.trainer.train_event(event_id, paths, passes=passes)
+            activation = self.backend.publish(update['checkpoint_path'])
+            receipt = {'event_id':event_id,'preparation':preparation,'training':update,'activation':activation}
+            atomic_json(self.root/'events'/f'{event_id}.json', receipt)
+            self.buffer.commit_event(event_id, self.backend.checkpoint_id, receipt)
+        except BaseException as error:
+            self.buffer.fail_event(event_id, f'{type(error).__name__}: {error}')
+            raise
+        total = {'update_call_s':time.perf_counter()-started,
+                 'includes':'buffer seal, teacher replay/persistence, training/export, activation and commit',
+                 'cost_receipt_write_is_diagnostic':True}
+        atomic_json(self.root/'events'/f'{event_id}.costs.json',total)
+        return receipt
+
+    def recover_publication(self, event_id):
+        """Publish one already committed trainer event without any learning/replay.
+
+        This is intentionally restricted to the latest complete event and the
+        qualified single-file HF draft export. Unresolved training is refused.
+        """
+        import json
+        import re
+        import torch
+        from safetensors import safe_open
+        from .training import file_sha, _plain_path, require
+        require(isinstance(event_id, str) and re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9_.-]*', event_id), 'Safe recovery event ID required')
+        started = time.perf_counter()
+        event = self.buffer.event(event_id)
+        require(event['status'] in ('sealed', 'failed'), 'Only unresolved publication can recover')
+        recovery_path = self.root / 'events' / (event_id + '.recovery.json')
+        require(not recovery_path.exists(), 'Recovery receipt already exists; review partial recovery rather than overwrite')
+        require(self.trainer is not None, 'Restored trainer is required')
+        status = self.trainer.status()
+        require(not status['closed'] and not status['failed'] and status['accumulation_remainder'] == 0, 'Trainer is not at a successful durable boundary')
+        require(self.trainer.events and self.trainer.events[-1]['event_id'] == event_id, 'Recovery must match latest completed trainer event')
+        event_dir = _plain_path(self.trainer.events_root / event_id)
+        result_path = _plain_path(event_dir / 'RESULT.json')
+        result_sha = file_sha(result_path)
+        update = json.loads(result_path.read_text())
+        require(update['status'] == 'completed' and update['event_id'] == event_id, 'Training result is incomplete or mismatched')
+        require(all(update.get(key) == value for key, value in self.trainer.events[-1].items()), 'Restored event ledger differs from durable result')
+        require(status['completed_events'] == [row['event_id'] for row in self.trainer.events]
+                and update['counters'] == {'global_step': status['global_step'], 'presentations': status['presentations'],
+                    'completed_events': len(self.trainer.events)}, 'Trainer event cursor/counters differ')
+        require(update['end_step'] == status['global_step'] and update['response_presentations'] == len(event['record_ids']) * update['passes'], 'Training extent differs from feedback event')
+        latest = _plain_path(self.trainer.latest)
+        require(str(latest) == update['full_state_path'] == status['full_state_path'], 'Recovery checkpoint path differs')
+        latest_stat = (latest.stat().st_ino, latest.stat().st_size, latest.stat().st_mtime_ns, latest.stat().st_ctime_ns)
+        require(file_sha(latest) == update['full_state_sha256'], 'Durable full checkpoint differs from completed training')
+        require((latest.stat().st_ino, latest.stat().st_size, latest.stat().st_mtime_ns, latest.stat().st_ctime_ns) == latest_stat, 'Full checkpoint changed during validation')
+        require(file_sha(self.trainer.config_path) == self.trainer.config_sha256, 'Trainer configuration changed')
+        records = self.buffer.records(event['record_ids'])
+        require([row['record_id'] for row in update['features']] == event['record_ids'], 'Training records differ from sealed feedback')
+        preparation = []
+        for record, feature in zip(records, update['features']):
+            prompt, response = record['prompt_ids'], record['response_ids']
+            require(feature['input_sha256'] == token_sha256(prompt + response)
+                    and feature['response_sha256'] == token_sha256(response)
+                    and feature['prompt_length'] == len(prompt) and feature['length'] == len(prompt) + len(response)
+                    and feature['response_tokens'] == len(response), 'Training token identities differ from canonical feedback')
+            path = _plain_path(feature['path'])
+            require(path == _plain_path(self.root / 'features' / (record['record_id'] + '.pt'))
+                    and path.stat().st_size == feature['bytes'] and file_sha(path) == feature['sha256'], 'Retained feedback feature changed')
+            receipt_path = _plain_path(path.with_suffix('.json'))
+            receipt = json.loads(receipt_path.read_text())
+            require(receipt['record_id'] == record['record_id'] and receipt['input_sha256'] == feature['input_sha256']
+                    and receipt['response_sha256'] == feature['response_sha256']
+                    and receipt['feature_sha256'] == feature['sha256'] and receipt['status'] == 'prepared', 'Teacher preparation receipt differs')
+            preparation.append(receipt)
+        export = _plain_path(update['checkpoint_path'])
+        require(export == _plain_path(event_dir / 'export') and str(export) == update['export_path'], 'Export is not this completed event')
+        weights = _plain_path(export / 'model.safetensors')
+        require([p.name for p in export.glob('*.safetensors')] == ['model.safetensors'], 'Recovery supports the qualified single-file export')
+        expected = self.trainer.bundle.draft_model.state_dict()
+        with safe_open(str(weights), framework='pt', device='cpu') as saved:
+            require(set(saved.keys()) == set(expected), 'Export state keys differ from restored draft')
+            for name, parameter in expected.items():
+                tensor = saved.get_tensor(name)
+                require(tensor.dtype == parameter.dtype and tuple(tensor.shape) == tuple(parameter.shape)
+                        and torch.equal(tensor, parameter.detach().cpu()), 'Export tensor differs from restored trained draft: ' + name)
+        bindings = {p.name: file_sha(_plain_path(p)) for p in (export / 'config.json', weights)}
+        proof = {'kind': 'publication_only_v1', 'event_before': event, 'retrained': False, 'feedback_replayed': False,
+                 'full_state_sha256': update['full_state_sha256'], 'trainer_result_sha256': result_sha,
+                 'export_files': bindings, 'export_tensor_match': True, 'export_tensor_count': len(expected),
+                 'trainer_status_before': status, 'new_optimizer_steps': 0, 'new_response_presentations': 0}
+        activation = self.backend.publish(export)
+        require(self.trainer.status() == status, 'Publication changed trainer cursor')
+        require((latest.stat().st_ino, latest.stat().st_size, latest.stat().st_mtime_ns, latest.stat().st_ctime_ns) == latest_stat
+                and file_sha(result_path) == result_sha, 'Durable training artifacts changed during publication')
+        require(all(file_sha(export / name) == digest for name, digest in bindings.items()), 'Export changed during publication')
+        receipt = {'event_id': event_id, 'preparation': preparation, 'training': update, 'activation': activation,
+                   'publication_recovery': proof, 'recovery_call_s_before_commit': time.perf_counter() - started}
+        # Keep the historical failed result and normal event receipt untouched.
+        atomic_json(recovery_path, receipt)
+        self.buffer.recover_commit_event(event_id, self.backend.checkpoint_id, receipt, expected_event=event)
+        return receipt
+
+    def evaluate(self, prompt_ids, *, canonical_response_ids, label, max_new_tokens):
+        # Do not call serve(), prepare_feedback(), buffer.add() or trainer here.
+        before = self.trainer.status() if self.trainer is not None else None
+        record = self.backend.generate(prompt_ids, max_new_tokens=max_new_tokens,
+                    request_id=label, session_id='evaluation', request_index=1,
+                    purpose='evaluation', save_to=self.root/'evaluation'/f'{label}.json')
+        result = {'label':label, 'record':record,
+                  'same_input':record['prompt_ids']==list(prompt_ids),
+                  'output_equal':record['response_ids']==list(canonical_response_ids),
+                  'canonical_response_sha256':token_sha256(canonical_response_ids),
+                  'learning_unchanged':before==(self.trainer.status() if self.trainer is not None else None)}
+        atomic_json(self.root/'evaluation'/f'{label}.comparison.json', result)
+        if not result['same_input'] or not result['output_equal'] or not result['learning_unchanged']:
+            raise ValueError('Invalid checkpoint replay; preserved comparison: ' + label)
+        return result

@@ -1,0 +1,237 @@
+"""One native SGLang generation → OSD update → publication qualification.
+
+This uses two disclosed responses and one update event. It does not launch the
+128-response campaign, test adaptation efficacy, or modify the selected recipe.
+Run the main process on the training GPU; the isolated worker owns serving GPU 0.
+"""
+
+import argparse
+import json
+import os
+from pathlib import Path
+import shutil
+import time
+import traceback
+
+from .controller import OnlineController
+from .qualify import PROMPTS, assert_state_equal, check_saved_training_state
+from .recipe import load_event_config
+from .storage import write_json
+from .training import SpecForgeEventTrainer
+
+
+def check_recipe(config_path):
+    """Record and check the selected recipe before applying the small event override."""
+    config, recipe = load_event_config(config_path)
+    actual = {
+        "optimizer": recipe.optimizer,
+        "learning_rate": config.training.learning_rate,
+        "weight_decay": recipe.weight_decay,
+        "shuffle_responses": recipe.shuffle_responses,
+        "kl_precision": recipe.kl_precision,
+        "attention_backend": config.training.attention_backend,
+        "accumulation_steps": config.training.accumulation_steps,
+        "num_anchors": config.training.num_anchors,
+        "responses_per_event": recipe.responses_per_event,
+        "passes_per_event": recipe.passes_per_event,
+        "max_events": recipe.max_events,
+        "max_steps": config.training.max_steps,
+        "seed": config.training.seed,
+    }
+    expected = {
+        "optimizer": "bf16_adamw", "learning_rate": 3e-4,
+        "weight_decay": 0.01, "shuffle_responses": True,
+        "kl_precision": "bfloat16", "attention_backend": "flex_attention",
+        "accumulation_steps": 2, "num_anchors": 512,
+        "responses_per_event": 128, "passes_per_event": 2,
+        "max_events": 58, "max_steps": 7424, "seed": 17,
+    }
+    assert_state_equal(actual, expected, "selected_recipe")
+    return actual
+
+
+def admit_storage(root, draft_path):
+    """Budget the first event only; no old state exists during its atomic save."""
+    released_bytes = sum(path.stat().st_size for path in Path(draft_path).glob("*.safetensors"))
+    if not released_bytes:
+        raise ValueError("Released draft safetensors are required for storage admission")
+    # BF16 parameters and two BF16 Adam moments, plus one HF export. The pending
+    # state is renamed, not copied. A 5% serialization allowance and 2 GiB of
+    # feedback/compiler work space supplement the required 8 GiB free reserve.
+    checkpoint_bytes = (4 * released_bytes * 105 + 99) // 100
+    budget = {
+        "scope": "one fresh event; no second event or old checkpoint overlap",
+        "released_safetensors_bytes": released_bytes,
+        "state_and_export_bytes_with_allowance": checkpoint_bytes,
+        "feedback_and_compile_allowance_bytes": 2 * 2**30,
+        "reserve_bytes": 8 * 2**30,
+        "free_bytes": shutil.disk_usage(root).free,
+    }
+    budget["required_bytes"] = checkpoint_bytes + 10 * 2**30
+    budget["admitted"] = budget["free_bytes"] >= budget["required_bytes"]
+    write_json(root / "STORAGE_ADMISSION.json", budget)
+    if not budget["admitted"]:
+        raise ValueError("Insufficient storage for the single update and reserve")
+    return budget
+
+
+def exercise_loop(controller, inputs, root, summary, *, released_checkpoint):
+    """Exercise the public loop; CPU doubles test its ordering and failure gates."""
+    backend = controller.backend
+
+    for index, prompt_ids in enumerate(inputs[:2], start=1):
+        record = controller.serve(
+            prompt_ids, request_id=f"qualification_{index}", session_id="qualification",
+            request_index=index, max_new_tokens=128,
+        )
+        summary["serving"].append(record)
+        replay = controller.evaluate(
+            prompt_ids, canonical_response_ids=record["response_ids"],
+            label=f"capture_disabled_{index}", max_new_tokens=128,
+        )
+        summary["replays"].append(replay)
+        assert_state_equal(
+            replay["record"]["metadata"]["verification_calls"],
+            record["metadata"]["verification_calls"], "capture_disabled_verification_calls",
+        )
+        write_json(root / "PROGRESS.json", summary)
+
+    # A one-token cap finishes from prefill alone. This replay supplies no feedback.
+    short = backend.generate(
+        inputs[0], max_new_tokens=1, request_id="prefill_only", session_id="evaluation",
+        request_index=1, purpose="evaluation", save_to=root / "prefill_only.json",
+    )
+    summary["prefill_only"] = short
+    assert_state_equal(short["response_ids"], summary["serving"][0]["response_ids"][:1],
+                       "prefill_only_output")
+    assert_state_equal(short["metadata"]["verification_calls"], 0, "prefill_only_verifications")
+
+    event = controller.update("event_1", count=2, passes=2)
+    summary["event"] = event
+    training = event["training"]
+    assert_state_equal(training["optimizer_steps"], 2, "optimizer_steps")
+    assert_state_equal(training["response_presentations"], 4, "response_presentations")
+    checkpoint = training["checkpoint_path"]
+    summary["publication"] = backend.check_weights(checkpoint)
+    write_json(root / "PROGRESS.json", summary)
+    assert_state_equal(summary["publication"]["all_equal"], True, "native_publication")
+
+    # All three executions use the same fixed input. Switching weights must
+    # invalidate affected caches; no evaluation enters the feedback buffer.
+    reference = backend.generate(
+        inputs[2], max_new_tokens=128, request_id="updated", session_id="evaluation",
+        request_index=1, purpose="evaluation", save_to=root / "updated.json",
+    )
+    summary["updated_reference"] = reference
+    summary["frozen_activation"] = backend.publish(released_checkpoint)
+    summary["frozen_weights"] = backend.check_weights(released_checkpoint)
+    write_json(root / "PROGRESS.json", summary)
+    assert_state_equal(summary["frozen_weights"]["all_equal"], True, "frozen_reset")
+    summary["replays"].append(controller.evaluate(
+        inputs[2], canonical_response_ids=reference["response_ids"],
+        label="frozen", max_new_tokens=128,
+    ))
+    summary["reload_activation"] = backend.publish(checkpoint)
+    summary["reloaded_weights"] = backend.check_weights(checkpoint)
+    write_json(root / "PROGRESS.json", summary)
+    assert_state_equal(summary["reloaded_weights"]["all_equal"], True, "reloaded_publication")
+    reloaded = controller.evaluate(
+        inputs[2], canonical_response_ids=reference["response_ids"],
+        label="updated_reloaded", max_new_tokens=128,
+    )
+    summary["replays"].append(reloaded)
+    assert_state_equal(reloaded["record"]["metadata"]["verification_calls"],
+                       reference["metadata"]["verification_calls"], "reloaded_verification_calls")
+    assert_state_equal(controller.buffer.pending(), [], "pending_feedback")
+    summary["trainer_status"] = controller.trainer.status()
+    assert_state_equal(summary["trainer_status"]["global_step"], 2, "final_optimizer_steps")
+    assert_state_equal(summary["trainer_status"]["presentations"], 4, "final_presentations")
+    assert_state_equal(summary["trainer_status"]["completed_events"], ["event_1"], "events")
+    write_json(root / "PROGRESS.json", summary)
+
+
+def run(args):
+    import torch
+    from accelerate.utils import set_seed
+    from .sglang_backend import SGLangDFlashBackend
+
+    root = Path(args.output).absolute()
+    root.mkdir(parents=True, exist_ok=False)
+    started = time.perf_counter()
+    backend = trainer = None
+    summary = {"status": "running", "serving": [], "replays": []}
+    try:
+        summary["storage"] = admit_storage(root, args.draft)
+        summary["recipe"] = check_recipe(args.config)
+        shutil.copyfile(args.config, root / "config.yaml")
+        prompts = [*PROMPTS[:2], PROMPTS[4]]
+        write_json(root / "PLAN.json", {
+            "kind": "infrastructure qualification, not an efficacy experiment",
+            "serving_generations": 2, "capture_disabled_generations": 6,
+            "events": 1, "optimizer_steps": 2, "response_presentations": 4,
+            "event_override": {"responses": 2, "passes": 2},
+            "max_new_tokens": 128, "prefill_only_cap": 1,
+            "block_size": 16, "context_limit": 2048, "seed": 17,
+            "training_objective": "osd", "training_reduction": "response_mean",
+            "prompts": prompts, "target": args.target, "draft": args.draft,
+            "worker_python": args.worker_python, "serving_gpu": args.serving_gpu,
+            "training_gpu_visibility": os.environ.get("CUDA_VISIBLE_DEVICES"),
+        })
+        set_seed(17)
+        torch.cuda.reset_peak_memory_stats()
+        backend = SGLangDFlashBackend(
+            args.target, args.draft, worker_python=args.worker_python,
+            output_root=root / "native", serving_gpu=args.serving_gpu,
+            context_limit=2048, block_size=16,
+        )
+        summary["model_loading_s"] = backend.loading_s
+        inputs = [backend.render([{"role": "user", "content": text}]) for text in prompts]
+        write_json(root / "INPUTS.json", {"prompts": prompts, "input_ids": inputs})
+        trainer = SpecForgeEventTrainer(args.config, root / "trainer", objective="osd")
+        controller = OnlineController(backend, trainer, root / "loop", buffer_capacity=2)
+        exercise_loop(controller, inputs, root, summary, released_checkpoint=args.draft)
+
+        # Qualification-only comparison: replays must leave parameters, optimizer
+        # moments and RNG exactly as saved after the one training event.
+        saved = torch.load(trainer.latest, map_location="cpu", weights_only=False, mmap=True)
+        check_saved_training_state(trainer, saved)
+        summary["evaluation_state_preservation"] = {
+            "weights_equal": True, "optimizer_equal": True, "rng_equal": True,
+            "counters_equal": True,
+        }
+        summary["status"] = "qualified"
+    except BaseException as error:
+        summary["status"] = "failed"
+        summary["error"] = {
+            "type": type(error).__name__, "message": str(error),
+            "traceback": traceback.format_exc(),
+        }
+        raise
+    finally:
+        summary["wall_s"] = time.perf_counter() - started
+        summary["training_peak_cuda_allocated_bytes"] = torch.cuda.max_memory_allocated()
+        summary["training_peak_cuda_reserved_bytes"] = torch.cuda.max_memory_reserved()
+        summary["free_bytes_after"] = shutil.disk_usage(root).free
+        write_json(root / "RESULT.json", summary)
+        try:
+            if trainer is not None:
+                trainer.close()
+        finally:
+            if backend is not None:
+                backend.close()
+        print(json.dumps({"status": summary["status"], "output": str(root)}), flush=True)
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--target", required=True)
+    parser.add_argument("--draft", required=True)
+    parser.add_argument("--config", required=True)
+    parser.add_argument("--worker-python", required=True)
+    parser.add_argument("--serving-gpu", default="0")
+    parser.add_argument("--output", required=True)
+    run(parser.parse_args())
+
+
+if __name__ == "__main__":
+    main()

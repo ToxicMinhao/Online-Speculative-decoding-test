@@ -1,0 +1,186 @@
+{
+  "status": "passed",
+  "checked_utc": "2026-11-01T01:36:24.366725+00:00",
+  "execution_source": {
+    "commit": "19ee22faf985e0576d287eaa8c8624b5a44b46f5",
+    "dirty": false,
+    "source_path": "/data/sources/minhao/DFlash-Online",
+    "repository": "https://github.com/ToxicMinhao/Online-Speculative-decoding-test"
+  },
+  "exit_code": 0,
+  "files": [
+    {
+      "path": "/data/sources/minhao/runs/dflash_o_half_matched_lr_20261031/production_002/campaign_001/seed_17/O_HALF/initial_state.pt",
+      "bytes": 2097297985,
+      "inode": 2691432586,
+      "nlink": 1
+    },
+    {
+      "path": "/data/sources/minhao/runs/dflash_o_half_matched_lr_20261031/production_002/campaign_001/seed_17/O_HALF/events/event_002/training_state.pt",
+      "bytes": 6292573211,
+      "inode": 2691432619,
+      "nlink": 1
+    },
+    {
+      "path": "/data/sources/minhao/runs/dflash_o_half_matched_lr_20261031/production_002/campaign_001/seed_17/O_HALF/events/event_002/export/model.safetensors",
+      "bytes": 2097259104,
+      "inode": 1085231507,
+      "nlink": 1
+    },
+    {
+      "path": "/data/sources/minhao/runs/dflash_o_half_matched_lr_20261031/production_002/campaign_001/seed_17/O_HALF/events/event_004/training_state.pt",
+      "bytes": 6293290523,
+      "inode": 2691432638,
+      "nlink": 2
+    },
+    {
+      "path": "/data/sources/minhao/runs/dflash_o_half_matched_lr_20261031/production_002/campaign_001/seed_17/O_HALF/events/event_004/export/model.safetensors",
+      "bytes": 2097259104,
+      "inode": 1085253577,
+      "nlink": 1
+    },
+    {
+      "path": "/data/sources/minhao/runs/dflash_o_half_matched_lr_20261031/production_002/campaign_001/seed_29/O_HALF/initial_state.pt",
+      "bytes": 2097297985,
+      "inode": 3101295658,
+      "nlink": 1
+    },
+    {
+      "path": "/data/sources/minhao/runs/dflash_o_half_matched_lr_20261031/production_002/campaign_001/seed_29/O_HALF/events/event_002/training_state.pt",
+      "bytes": 6292573275,
+      "inode": 3101303165,
+      "nlink": 1
+    },
+    {
+      "path": "/data/sources/minhao/runs/dflash_o_half_matched_lr_20261031/production_002/campaign_001/seed_29/O_HALF/events/event_002/export/model.safetensors",
+      "bytes": 2097259104,
+      "inode": 4030525498,
+      "nlink": 1
+    },
+    {
+      "path": "/data/sources/minhao/runs/dflash_o_half_matched_lr_20261031/production_002/campaign_001/seed_29/O_HALF/events/event_004/training_state.pt",
+      "bytes": 6293290587,
+      "inode": 3101318269,
+      "nlink": 2
+    },
+    {
+      "path": "/data/sources/minhao/runs/dflash_o_half_matched_lr_20261031/production_002/campaign_001/seed_29/O_HALF/events/event_004/export/model.safetensors",
+      "bytes": 2097259104,
+      "inode": 3281497937,
+      "nlink": 1
+    }
+  ],
+  "retirements": [
+    {
+      "status": "completed",
+      "seed": 17,
+      "retired_event": 1,
+      "successor_event": 2,
+      "files": {
+        "/data/sources/minhao/runs/dflash_o_half_matched_lr_20261031/production_002/campaign_001/seed_17/O_HALF/events/event_001/training_state.pt": {
+          "bytes": 6292209499,
+          "sha256": "4dcb83f646831fc332b4236f8c5427e72abd13a6233b5d784e0e8ef9aeeef38a"
+        },
+        "/data/sources/minhao/runs/dflash_o_half_matched_lr_20261031/production_002/campaign_001/seed_17/O_HALF/events/event_001/export/model.safetensors": {
+          "bytes": 2097259104,
+          "sha256": "35b7938e001ded898091909edc240ab91ada1f82d9b50ef000b1a391a1164565"
+        }
+      },
+      "successor_proof": {
+        "/data/sources/minhao/runs/dflash_o_half_matched_lr_20261031/production_002/campaign_001/seed_17/resume_002_O_HALF/SAVED_ENDPOINT.json": {
+          "bytes": 490,
+          "sha256": "59691dc39e40a5b19bb5606bc59ee3aba4487e28b4069bd84a01c4d0696d954d"
+        }
+      },
+      "before_free_bytes": 64703516672,
+      "reason": "Verified own successor; sealed rolling odd-event retention",
+      "lost_capability": "Exact odd-event optimizer resume and serving export; not archived",
+      "retained": "All receipts, RNG/anchor bindings, initial/event2/event4 full states and exports",
+      "after_free_bytes": 73092984832
+    },
+    {
+      "status": "completed",
+      "seed": 17,
+      "retired_event": 3,
+      "successor_event": 4,
+      "files": {
+        "/data/sources/minhao/runs/dflash_o_half_matched_lr_20261031/production_002/campaign_001/seed_17/O_HALF/events/event_003/training_state.pt": {
+          "bytes": 6292939355,
+          "sha256": "ac8970c75bf39dafea507d6bf2e2459b2fbb0795165632c87e3065e2fe630c5d"
+        },
+        "/data/sources/minhao/runs/dflash_o_half_matched_lr_20261031/production_002/campaign_001/seed_17/O_HALF/events/event_003/export/model.safetensors": {
+          "bytes": 2097259104,
+          "sha256": "0583853848f5d3f79b40b93104f1eebca9698545b8db66f60fc7574acebce3ea"
+        }
+      },
+      "successor_proof": {
+        "/data/sources/minhao/runs/dflash_o_half_matched_lr_20261031/production_002/campaign_001/seed_17/resume_004_O_HALF/SAVED_ENDPOINT.json": {
+          "bytes": 491,
+          "sha256": "b98b761db68172c785fbc44971cdd4422cbd0360b46d97476cdbd3c738d21920"
+        }
+      },
+      "before_free_bytes": 56234397696,
+      "reason": "Verified own successor; sealed rolling odd-event retention",
+      "lost_capability": "Exact odd-event optimizer resume and serving export; not archived",
+      "retained": "All receipts, RNG/anchor bindings, initial/event2/event4 full states and exports",
+      "after_free_bytes": 64624599040
+    },
+    {
+      "status": "completed",
+      "seed": 29,
+      "retired_event": 1,
+      "successor_event": 2,
+      "files": {
+        "/data/sources/minhao/runs/dflash_o_half_matched_lr_20261031/production_002/campaign_001/seed_29/O_HALF/events/event_001/training_state.pt": {
+          "bytes": 6292209499,
+          "sha256": "2d50b90b79d019c958f6effbc28935a4221e44271b1b110b3429029c2632c3de"
+        },
+        "/data/sources/minhao/runs/dflash_o_half_matched_lr_20261031/production_002/campaign_001/seed_29/O_HALF/events/event_001/export/model.safetensors": {
+          "bytes": 2097259104,
+          "sha256": "cb1a105f9944876461e2d6acaeacee240dbb78e430e2754015c71e3361dbfcc0"
+        }
+      },
+      "successor_proof": {
+        "/data/sources/minhao/runs/dflash_o_half_matched_lr_20261031/production_002/campaign_001/seed_29/resume_002_O_HALF/SAVED_ENDPOINT.json": {
+          "bytes": 490,
+          "sha256": "8b76cbf7e9dd536febeaa1eeae25f82430e0c045d49a4a82400712d83806e053"
+        }
+      },
+      "before_free_bytes": 45563232256,
+      "reason": "Verified own successor; sealed rolling odd-event retention",
+      "lost_capability": "Exact odd-event optimizer resume and serving export; not archived",
+      "retained": "All receipts, RNG/anchor bindings, initial/event2/event4 full states and exports",
+      "after_free_bytes": 53952700416
+    },
+    {
+      "status": "completed",
+      "seed": 29,
+      "retired_event": 3,
+      "successor_event": 4,
+      "files": {
+        "/data/sources/minhao/runs/dflash_o_half_matched_lr_20261031/production_002/campaign_001/seed_29/O_HALF/events/event_003/training_state.pt": {
+          "bytes": 6292939483,
+          "sha256": "751fc62cbd67202848b9c215f8096ac76566558c6635cbf7afdf9855d4ac90df"
+        },
+        "/data/sources/minhao/runs/dflash_o_half_matched_lr_20261031/production_002/campaign_001/seed_29/O_HALF/events/event_003/export/model.safetensors": {
+          "bytes": 2097259104,
+          "sha256": "c25749d1b98a1ef62e580c5435af546ac2c4f99cf20bae3c5f15b469acebe454"
+        }
+      },
+      "successor_proof": {
+        "/data/sources/minhao/runs/dflash_o_half_matched_lr_20261031/production_002/campaign_001/seed_29/resume_004_O_HALF/SAVED_ENDPOINT.json": {
+          "bytes": 491,
+          "sha256": "7bf05a1e118959c38fa17b2ba87d51a59d3c731f68284b0c6eab9a7fdc636149"
+        }
+      },
+      "before_free_bytes": 37096128512,
+      "reason": "Verified own successor; sealed rolling odd-event retention",
+      "lost_capability": "Exact odd-event optimizer resume and serving export; not archived",
+      "retained": "All receipts, RNG/anchor bindings, initial/event2/event4 full states and exports",
+      "after_free_bytes": 45486329856
+    }
+  ],
+  "free_bytes": 45355716608,
+  "gpu_processes": [],
+  "scope": "Fresh existence/size/hardlink check plus completed retirement receipts. Full new tensor equality/hashes were checked at saved endpoints; original artifacts were rehashed by passed postflight. No independent tensor re-decoding here."
+}

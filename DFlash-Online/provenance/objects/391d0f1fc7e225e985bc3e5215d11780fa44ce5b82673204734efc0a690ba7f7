@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -u
+guard_root=/data/sources/minhao/runs/dflash_prefix_preservation_guard_20261027
+date -u +%FT%TZ > "$guard_root/STARTED.utc"
+timeout --signal=TERM --kill-after=120s 10800 bash "$guard_root/run_campaign.sh" > "$guard_root/launch.log" 2>&1
+guard_status=$?
+printf '%s\n' "$guard_status" > "$guard_root/EXIT_CODE"
+date -u +%FT%TZ > "$guard_root/FINISHED.utc"
+exit "$guard_status"

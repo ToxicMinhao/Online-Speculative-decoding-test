@@ -1,0 +1,1 @@
+These are the exact local retained-evidence audit/report scripts for KRC events3/4. They perform no model work. Run with the retained research-directory layout and private raw artifacts; reports record the separate scientific execution revision. Do not replace the execution-time tool snapshots under provenance/run_tools.

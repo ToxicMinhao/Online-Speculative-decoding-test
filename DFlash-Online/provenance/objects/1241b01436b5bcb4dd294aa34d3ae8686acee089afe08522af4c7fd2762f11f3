@@ -1,0 +1,104 @@
+"""Local walkthrough lifecycle: native serving and training take turns on CUDA.
+
+The upstream trainer remains unchanged. Its complete saved optimizer, scheduler,
+model and RNG state is restored between events; no live DDP module is moved.
+This lifecycle has CPU contract tests, not a qualified Fenrir GPU memory bound.
+"""
+from pathlib import Path
+import copy
+import gc
+import time
+
+from .native import preserve_rng
+from .training import SCHEMA, SpecForgeEventTrainer
+
+
+class PhasedEventTrainer:
+    def __init__(self, config_path, output_root, backend, reduction='response_mean'):
+        self.config_path, self.output_root = Path(config_path), Path(output_root).absolute()
+        self.native, self.reduction = backend, reduction
+        self.latest = self.output_root / 'training_state.pt'
+        events = self.output_root / 'events'
+        if (self.latest.exists() or (self.output_root / 'training_state.pending.pt').exists()
+                or (events.exists() and any(events.iterdir()))):
+            raise ValueError('Phased walkthrough requires a fresh trainer root; existing state needs explicit recovery')
+        self._active, self._closed, self._failed, self._busy = None, False, False, False
+        self._status = dict(schema_version=SCHEMA, closed=False, failed=False,
+            global_step=0, presentations=0, completed_events=[], reduction=reduction,
+            accumulation_remainder=0, horizon=None, full_state_path=None)
+
+    def status(self):
+        return copy.deepcopy({**self._status, 'closed': self._closed, 'failed': self._failed})
+
+    def _move_native(self, device):
+        # Transfers preserve dtype and cannot consume the next training sample's RNG.
+        with preserve_rng():
+            self.native.assert_target_unchanged()
+            self.native.torch.cuda.synchronize(self.native.device)
+            self.native.target.to(device)
+            self.native.draft.to(device)
+            self.native.torch.cuda.synchronize(self.native.device)
+            self.native.assert_target_unchanged()
+
+    def _release_cuda(self):
+        gc.collect()
+        self.native.torch.cuda.empty_cache()
+
+    def train_event(self, event_id, feature_paths, passes=2):
+        if self._closed or self._failed or self._busy:
+            raise ValueError('Phased trainer is closed, failed, or already active')
+        has_events = bool(self._status['completed_events'])
+        if self.latest.exists() != has_events:
+            self._failed = True
+            raise ValueError('Saved trainer state disappeared or appeared outside this session')
+        self._busy = True
+        started = time.perf_counter()
+        try:
+            self._move_native('cpu')
+            self._release_cuda()
+            parked = time.perf_counter()
+            self._active = SpecForgeEventTrainer(self.config_path, self.output_root,
+                resume_state=self.latest if has_events else None, reduction=self.reduction)
+            if has_events:
+                restored = self._active.status()
+                for key in ('global_step', 'presentations', 'completed_events', 'reduction', 'accumulation_remainder'):
+                    if restored[key] != self._status[key]:
+                        raise ValueError('Restored trainer cursor differs: ' + key)
+            loaded = time.perf_counter()
+            receipt = self._active.train_event(event_id, feature_paths, passes=passes)
+            self._status = copy.deepcopy(self._active.status())
+            trained = time.perf_counter()
+            self._active.close()
+            self._active = None
+            self._release_cuda()
+            released = time.perf_counter()
+            self._move_native(self.native.device)
+            restored = time.perf_counter()
+            # The original immutable trainer RESULT.json is not rewritten.
+            return {**receipt, 'phase_costs': {
+                'native_to_cpu_s': parked-started, 'trainer_load_or_resume_s': loaded-parked,
+                'train_event_call_s': trained-loaded, 'trainer_close_s': released-trained,
+                'native_to_cuda_s': restored-released, 'phase_call_s': restored-started,
+                'resumed_full_state': has_events, 'persistent_optimizer_state': True}}
+        except BaseException:
+            self._failed = True
+            # Never attempt another native restore after failure. Exception
+            # frames can retain GPU state and make a second transfer fail too.
+            if self._active is not None:
+                try:
+                    self._active.close()
+                except BaseException:
+                    pass
+                else:
+                    self._active = None
+            raise
+        finally:
+            self._busy = False
+
+    def close(self):
+        if self._closed:
+            return
+        if self._active is not None:
+            self._active.close()
+            self._active = None
+        self._closed = True

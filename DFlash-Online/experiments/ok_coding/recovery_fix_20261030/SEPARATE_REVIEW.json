@@ -1,0 +1,104 @@
+{
+  "origin_skill": "ARS-Codex3.24.0 experiment-agent",
+  "origin_mode": "validate",
+  "date": "2026-10-30",
+  "reviewer": "pr20_recovery_review; separate same-team reviewer",
+  "verification_status": "VERIFIED focused CPU recovery/storage only",
+  "verdict": "passed_with_limits",
+  "unresolved_actionable_findings": [],
+  "base_commit": "5ec126a189170235b8e89e390261904ddc691dcc",
+  "git_head_at_review": "a0ba4c23e28bef6a16d79866b251fb1b6c480358",
+  "reviewed_files": {
+    "DFlash-Online/experiments/ok_coding/attempts.py": {
+      "bytes": 1025,
+      "sha256": "e25826ed03e3209ed5fc709697150bd2c57d69a634b3fa561324ddc3a18ea602"
+    },
+    "DFlash-Online/experiments/ok_coding/recovery.py": {
+      "bytes": 9064,
+      "sha256": "e8d201d1012e9323698a9f0c10db12709fed65428c2e8aae2ce45b03d7e1b756"
+    },
+    "DFlash-Online/experiments/ok_coding/resume_storage.py": {
+      "bytes": 11394,
+      "sha256": "a3acc44e501aa99515d8245fcaff3d88700354c24c3b5bab5f611d804a3b25ce"
+    },
+    "DFlash-Online/experiments/ok_coding/campaign.py": {
+      "bytes": 30880,
+      "sha256": "efa021a2ed9ae69f352f4da428f605f9d4a3a8a1961c88022ce678a6b1761a68"
+    },
+    "DFlash-Online/experiments/ok_coding/preflight.py": {
+      "bytes": 8089,
+      "sha256": "4bbd378528a0c855c120d979979dae0ac51cf2df484e9ef3e06b784731c688c1"
+    },
+    "DFlash-Online/experiments/ok_coding/run_a800.sh": {
+      "bytes": 2252,
+      "sha256": "7abcf25a15e18a09fdb68e9272398c0c72eeaf6da266ab2beef8baebd794333f"
+    },
+    "DFlash-Online/experiments/ok_coding/README.md": {
+      "bytes": 9744,
+      "sha256": "c87eec06b9129d5f75045c5f7b86d9c8f0a101f5f401d96b3b127ca52c5199ac"
+    },
+    "DFlash-Online/tests/test_ok_coding_recovery.py": {
+      "bytes": 24083,
+      "sha256": "ae88e598c648aa7eb31222033b25387b1f376e51e745c8c325e3e8f7eb22faa4"
+    },
+    "DFlash-Online/tests/test_ok_coding_resume_storage.py": {
+      "bytes": 14687,
+      "sha256": "fd53ccc066d6b613eedce116b3c15da177b6ac201ace943de8ba1113a015eb04"
+    }
+  },
+  "independent_final_tests": [
+    {
+      "suite": "test_ok_coding_recovery",
+      "tests": 4,
+      "seconds": 24.717,
+      "exit_code": 0
+    },
+    {
+      "suite": "test_ok_coding_resume_storage",
+      "tests": 14,
+      "seconds": 0.057,
+      "exit_code": 0
+    }
+  ],
+  "other_checks": [
+    "bash -n experiments/ok_coding/run_a800.sh passed",
+    "contract.py/training.py/storage.py and upstream backend/training unchanged versus base commit"
+  ],
+  "resolved_findings": [
+    {
+      "finding": "Unbound rolling export file could pass recovery and be counted for future retirement",
+      "resolution": "Recovery rejects unbound export entries; candidate accounting requires identity binding; final production existing-allocation credit is always zero"
+    },
+    {
+      "finding": "Unshared extents do not establish immediate physical release under open file descriptors or mappings",
+      "resolution": "Removed FIEMAP proof and positive-credit branch; production grants zero existing-allocation retirement credit"
+    }
+  ],
+  "storage": {
+    "fresh_required_bytes": 366710105681,
+    "published_available_bytes": 150373031936,
+    "fresh_admission_remains_blocked": true,
+    "hypothetical_completed_seed17_remaining_required_bytes": 209627864400,
+    "existing_retirement_credit_bytes": 0,
+    "future_response_cap": 2048,
+    "compiler_allowance_bytes": 17179869184,
+    "compact_workspace_bytes": 4294967296,
+    "reserve_bytes": 8589934592,
+    "slack_fraction": 0.1
+  },
+  "scientific_gpu_work": 0,
+  "remote_operations": 0,
+  "source_edits_by_reviewer": 0,
+  "fallacy_scan": {
+    "coverage": "11/11 considered",
+    "applicability": "No inferential statistical claims; deterministic implementation review"
+  },
+  "limits": [
+    "CPU fixtures replace model/configuration/runtime/machine probes and scientific model/subprocess work; real directory/admission/boundary/skip decisions execute",
+    "Success fixture resumes through next event feedback/preparation and O job, then deliberately stops at next K dispatch; not a complete native campaign rerun",
+    "Positive existing-retirement credit is unsupported; conservative admission may reject otherwise physically feasible continuations",
+    "Source hash manifest, not the old commit seal, binds the reviewed modified files",
+    "No A800 admission, native model initialization, GPU execution, or scientific efficacy validation"
+  ],
+  "implementation_commit": "a0ba4c23e28bef6a16d79866b251fb1b6c480358"
+}

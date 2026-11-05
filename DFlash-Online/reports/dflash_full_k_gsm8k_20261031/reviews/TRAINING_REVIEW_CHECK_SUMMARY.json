@@ -1,0 +1,50 @@
+{
+  "status": "passed",
+  "verification_status": "ANALYZED",
+  "execution_source": "0698eeb2ddd97b9e2ac6953989dc82acbc0a1e34",
+  "main_checks": 1846975,
+  "addendum_checks": 2905,
+  "cross_file_checks": [
+    {
+      "arm": "K",
+      "comparison": "independent reconstructed exposure == final_report/EXPOSURE.json",
+      "passed": true
+    },
+    {
+      "arm": "K",
+      "comparison": "final_report/COSTS.json == campaign/TRAINING_AUDIT.json costs",
+      "passed": true
+    },
+    {
+      "arm": "K_HALF",
+      "comparison": "independent reconstructed exposure == final_report/EXPOSURE.json",
+      "passed": true
+    },
+    {
+      "arm": "K_HALF",
+      "comparison": "final_report/COSTS.json == campaign/TRAINING_AUDIT.json costs",
+      "passed": true
+    }
+  ],
+  "combined_conditions": 1849884,
+  "failures": [],
+  "independent_audit_source": {
+    "review_20261102/training_review.py": {
+      "bytes": 22116,
+      "sha256": "e3b98b046ae18e09c2ea0df8cc2fa72847dc6e6fa38088ce6ae2cc738baa5698"
+    },
+    "review_20261102/training_receipt_addendum.py": {
+      "bytes": 5327,
+      "sha256": "e60511b8f0227d74a22ee1e3d52238a54636066fd54bc8acf4fac8d865a97362"
+    }
+  },
+  "limitations": [
+    "No independent GPU reproduction.",
+    "No tensor deserialization or tensor-file rehash; initial/final existence and saved final sizes/inodes checked.",
+    "Original runtime/model qualification receipts remain the source for numerical compatibility.",
+    "Final raw-evaluation/bootstrap arithmetic belongs to a separate reviewer."
+  ],
+  "scientific_state_modified": false,
+  "extra_gpu_work": 0,
+  "remote_files_written": 0
+}

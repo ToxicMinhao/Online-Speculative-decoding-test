@@ -1,0 +1,39 @@
+{
+  "status": "repaired_cpu_tests_pass",
+  "base_publication": "e2629d1df56a1ccfa7dbc057c96a8251c810ce4e",
+  "execution_commit": null,
+  "finding": "Strict native tuple contract was compared directly with JSON arrays; construction/migration would reject correct source metadata before training.",
+  "affected_fields": [
+    "dflash_target_layer_ids",
+    "specforge_step_options",
+    "specforge_model_provenance"
+  ],
+  "confirmed_sources": [
+    "training/specforge/algorithms/dflash/providers.py:70",
+    "training/specforge/algorithms/common/providers.py:338",
+    "training/specforge/algorithms/common/providers.py:342",
+    "training/specforge/training/provenance.py:model_resume_provenance"
+  ],
+  "repair": "Decode only the three pinned tuple-valued transport fields, including nested provenance tuples; retain typed runtime/source/checkpoint contracts and unchanged exact comparator.",
+  "scientific_protocol_change": false,
+  "optimizer_or_objective_change": false,
+  "tolerance_change": false,
+  "historical_validator_change": false,
+  "cpu_tests": 14,
+  "cpu_test_wall_s": 16.748,
+  "log": "/home/minhao2/EAGLE_SPEC/research/dflash_o_half_matched_lr_20261031/TRAINING_JSON_TRANSPORT_TESTS.log",
+  "actual_state_check_helper": "/home/minhao2/EAGLE_SPEC/research/dflash_o_half_matched_lr_20261031/check_actual_initial_migration.py",
+  "actual_state_check_status": "Prepared for parent CPU invocation; not run by this subagent",
+  "remote_operations": 0,
+  "gpu_model_work": 0,
+  "files": {
+    "experiments/o_half_matched_lr/training.py": {
+      "sha256": "b68a6259f56ad2fb0987d6ab7691c5eac5a7272182613785d079c811822998a2",
+      "bytes": 21303
+    },
+    "tests/test_o_half_matched_lr_training.py": {
+      "sha256": "138a35e78506a843ef775f90c4338f2d4a49d4262f8d5dbec9a8dc0ab9136eda",
+      "bytes": 18871
+    }
+  }
+}

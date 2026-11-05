@@ -1,0 +1,34 @@
+"""Question-only selection controls; no model or tokenizer required."""
+import random
+import unittest
+from prepare_panel import select_questions
+
+
+class SelectionTests(unittest.TestCase):
+    def test_source_ids_cross_split_normalized_text_and_prompt_dedup(self):
+        questions=['excluded by id','same\ttext','ＳＡＭＥ  TEXT','fresh one','fresh two','fresh\n one','another']
+        selected,excluded,eligible=select_questions(questions,excluded_test_ids={0},
+            excluded_normalized={'same text':{'original_feedback'},'SAME TEXT':{'continuation_feedback'}},
+            seed=17,count=3)
+        self.assertEqual(eligible,[3,4,6])
+        self.assertEqual(set(selected),{3,4,6})
+        self.assertEqual([r['source_row'] for r in excluded],[0,1,2,5])
+        self.assertIn('normalized_question_matches_continuation_feedback',excluded[2]['reasons'])
+        self.assertEqual(excluded[3]['reasons'],['duplicate_normalized_test_question'])
+
+    def test_seeded_selection_is_reproducible_and_preserves_global_rng(self):
+        questions=[f'q{i}' for i in range(100)]
+        before=random.getstate()
+        first=select_questions(questions,excluded_test_ids={3,8},excluded_normalized={},seed=20261028,count=64)
+        second=select_questions(questions,excluded_test_ids={3,8},excluded_normalized={},seed=20261028,count=64)
+        self.assertEqual(first,second)
+        self.assertEqual(random.getstate(),before)
+        self.assertEqual(len(set(first[0])),64)
+        self.assertFalse(set(first[0]) & {3,8})
+
+    def test_insufficient_pool_stops_without_substitution(self):
+        with self.assertRaisesRegex(ValueError,'Not enough'):
+            select_questions(['only'],excluded_test_ids=set(),excluded_normalized={},count=64)
+
+
+if __name__=='__main__':unittest.main()

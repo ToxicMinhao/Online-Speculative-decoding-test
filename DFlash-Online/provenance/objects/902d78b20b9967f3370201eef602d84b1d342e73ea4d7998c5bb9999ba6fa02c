@@ -1,0 +1,66 @@
+"""Install only the reviewed repair and fork the prior immutable input seal."""
+import hashlib
+import json
+from pathlib import Path
+import shutil
+import sys
+
+
+def identity(path):
+    path = Path(path)
+    with path.open('rb') as stream:
+        digest = hashlib.file_digest(stream, 'sha256').hexdigest()
+    return dict(bytes=path.stat().st_size, sha256=digest)
+
+
+def prepare(root):
+    root = Path(root)
+    prior = root.parent
+    code = Path('/data/sources/minhao/DFlash-Online')
+    seal = json.loads((prior / 'sealed/SEAL.json').read_text())
+    for path, expected in seal['files'].items():
+        if identity(path) != expected:
+            raise ValueError('Prior sealed input changed before repair: ' + path)
+    changes = json.loads((root / 'SOURCE_UPDATE.json').read_text())
+    backups = root / 'source_before'
+    backups.mkdir(exist_ok=False)
+    receipts = {}
+    for name, expected in changes.items():
+        source = root / 'source_update' / name
+        target = code / name
+        if identity(source) != expected:
+            raise ValueError('Staged repair changed: ' + name)
+        backup = backups / name
+        backup.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(target, backup)
+        before = identity(target)
+        shutil.copy2(source, target)
+        after = identity(target)
+        if after != expected:
+            raise ValueError('Installed repair differs: ' + name)
+        receipts[name] = dict(before=before, after=after)
+        seal['files'][str(target)] = after
+    (root / 'INSTALL_RECEIPT.json').write_text(json.dumps(receipts, indent=2) + '\n')
+    sealed = root / 'sealed'
+    sealed.mkdir(exist_ok=False)
+    for name in ('config.yaml', 'MODEL_PIN.json', 'RUNTIME_PIN.json', 'TRAINING_PIN.json'):
+        shutil.copy2(prior / 'sealed' / name, sealed / name)
+    plan = json.loads((prior / 'sealed/PLAN.json').read_text())
+    plan.update(config=str(sealed / 'config.yaml'), scope='qualification only',
+                main=dict(optimizer_steps=0, presentations=0),
+                probes=dict(response_evaluations=0), evaluation=dict(generations=0),
+                compiler=dict(donated_buffer=False, before='all startup/model compilation'),
+                prior_completed_temporary_steps=2)
+    (sealed / 'PLAN.json').write_text(json.dumps(plan, indent=2) + '\n')
+    paths = list(sealed.iterdir()) + [p for p in root.iterdir() if p.is_file() and p.suffix in ('.py', '.sh', '.json')]
+    paths.extend((prior / 'campaign_001').rglob('*.json'))
+    for path in paths:
+        seal['files'][str(path)] = identity(path)
+    seal['parent_seal'] = str(prior / 'sealed/SEAL.json')
+    seal['scope'] = 'repaired qualification only; prior failure preserved'
+    (sealed / 'SEAL.json').write_text(json.dumps(seal, indent=2) + '\n')
+    print(json.dumps(dict(status='sealed', installed=len(changes), files=len(seal['files']))))
+
+
+if __name__ == '__main__':
+    prepare(sys.argv[1])

@@ -1,0 +1,391 @@
+"""CPU-only behavioral tests for durable, exact-token feedback ownership."""
+from pathlib import Path
+import copy
+import hashlib
+import json
+import multiprocessing
+import tempfile
+import unittest
+from unittest.mock import patch
+
+import online_feedback.buffer as buffer_module
+
+from online_feedback.buffer import (
+    FeedbackBuffer, FeedbackError, BufferFullError, BufferCorruptionError, token_sha256,
+)
+
+
+def record(index=0, *, session="s", record_id=None, purpose="serving"):
+    return {
+        "record_id": record_id or f"{session}-{index}",
+        "session_id": session,
+        "request_index": index,
+        "checkpoint_id": "released",
+        "purpose": purpose,
+        "prompt_ids": [101, 102, 7],
+        "response_ids": [31, 2],
+        "finish_reason": "eos",
+        "stop_token_ids": [2, 3],
+        "max_new_tokens": 4,
+        "metadata": {"source": "native", "nested": {"calls": 1}},
+    }
+
+
+def competing_add(root, index, capacity, results):
+    try:
+        buffer = FeedbackBuffer(Path(root), capacity)
+        buffer.add(record(index, session=f"worker-{index}"))
+        results.put("added")
+    except BufferFullError:
+        results.put("full")
+    except Exception as exc:
+        results.put(type(exc).__name__ + ":" + str(exc))
+
+
+class FeedbackBufferTests(unittest.TestCase):
+    def setUp(self):
+        self.temp = tempfile.TemporaryDirectory(prefix="feedback_buffer_test_")
+        self.root = Path(self.temp.name) / "feedback"
+
+    def tearDown(self):
+        self.temp.cleanup()
+
+    def buffer(self, capacity=8):
+        return FeedbackBuffer(self.root, capacity)
+
+    def record_path(self, record_id):
+        return self.root / "records" / (hashlib.sha256(record_id.encode()).hexdigest() + ".json")
+
+    def mutate_json(self, path, mutate):
+        content = json.loads(path.read_text())
+        mutate(content)
+        path.write_text(json.dumps(content))
+
+    def test_new_nested_directory_entries_are_fsynced(self):
+        nested_root = Path(self.temp.name) / "new-run" / "events" / "feedback"
+        with patch("online_feedback.buffer._fsync_dir", wraps=buffer_module._fsync_dir) as sync:
+            FeedbackBuffer(nested_root, 1).add(record())
+        synced = {call.args[0] for call in sync.call_args_list}
+        for path in (Path(self.temp.name), nested_root.parent.parent,
+                     nested_root.parent, nested_root, nested_root / "records"):
+            self.assertIn(path, synced)
+
+    def test_existing_unsynced_ancestor_chain_is_not_assumed_durable(self):
+        # Another creator can stop after mkdir but before its own fsync calls.
+        nested_root = Path(self.temp.name) / "concurrent" / "events" / "feedback"
+        nested_root.mkdir(parents=True)
+        with patch("online_feedback.buffer._fsync_dir", wraps=buffer_module._fsync_dir) as sync:
+            FeedbackBuffer(nested_root, 1).add(record())
+        synced = {call.args[0] for call in sync.call_args_list}
+        for parent in nested_root.absolute().parents:
+            self.assertIn(parent, synced)
+
+    def test_exact_tokens_and_metadata_survive_restart_without_aliasing(self):
+        buffer = self.buffer()
+        original = record()
+        expected = copy.deepcopy(original)
+        returned = buffer.add(original)
+        original["prompt_ids"][0] = 999
+        returned["metadata"]["nested"]["calls"] = 999
+        reopened = self.buffer()
+        self.assertEqual(reopened.pending(), [expected])
+        reopened.pending()[0]["response_ids"][0] = 999
+        self.assertEqual(reopened.records(["s-0"]), [expected])
+        envelope = json.loads(self.record_path("s-0").read_text())
+        for field in ("prompt_ids", "response_ids"):
+            expected_hash = hashlib.sha256(
+                json.dumps(expected[field], separators=(",", ":")).encode()
+            ).hexdigest()
+            self.assertEqual(envelope[field.replace("_ids", "_sha256")], expected_hash)
+
+    def test_public_token_hash_matches_trainer_convention(self):
+        ids = [0, 151643, 7]
+        expected = hashlib.sha256(b"[0,151643,7]").hexdigest()
+        self.assertEqual(token_sha256(ids), expected)
+        self.assertEqual(token_sha256([]), hashlib.sha256(b"[]").hexdigest())
+        for invalid in ([True], [-1], [1.5], (1, 2)):
+            with self.subTest(ids=invalid), self.assertRaises(FeedbackError):
+                token_sha256(invalid)
+        buffer = self.buffer()
+        buffer.add(record())
+        envelope = json.loads(self.record_path("s-0").read_text())
+        self.assertEqual(envelope["input_sha256"],
+                         token_sha256(record()["prompt_ids"] + record()["response_ids"]))
+
+    def test_capacity_one_and_committed_records_retained(self):
+        buffer = self.buffer(1)
+        buffer.add(record(0))
+        with self.assertRaises(BufferFullError):
+            buffer.add(record(1))
+        event = buffer.seal_event("e0", 1)
+        self.assertEqual(event["record_ids"], ["s-0"])
+        self.assertEqual(buffer.pending(), [])
+        with self.assertRaises(BufferFullError):
+            buffer.add(record(1))
+        buffer.commit_event("e0", "checkpoint-1", {"published": True})
+        buffer.add(record(1))
+        self.assertEqual([r["record_id"] for r in buffer.pending()], ["s-1"])
+        self.assertEqual(buffer.records(["s-0", "s-1"]), [record(0), record(1)])
+
+    def test_capacity_eight_and_earliest_ordered_reservation(self):
+        buffer = self.buffer(8)
+        for index in range(8):
+            buffer.add(record(index))
+        with self.assertRaises(BufferFullError):
+            buffer.add(record(8))
+        event = buffer.seal_event("batch", 8)
+        self.assertEqual(event["record_ids"], [f"s-{i}" for i in range(8)])
+        self.assertEqual(buffer.pending(), [])
+        reopened = self.buffer()
+        self.assertEqual(reopened.event("batch"), event)
+        self.assertEqual(reopened.records(event["record_ids"]), [record(i) for i in range(8)])
+
+    def test_partial_event_reserves_only_earliest_and_blocks_later_event(self):
+        buffer = self.buffer()
+        for index in range(3):
+            buffer.add(record(index))
+        self.assertEqual(buffer.seal_event("first", 2)["record_ids"], ["s-0", "s-1"])
+        self.assertEqual(buffer.pending(), [record(2)])
+        with self.assertRaises(FeedbackError):
+            buffer.seal_event("second", 1)
+        buffer.commit_event("first", "c1", {})
+        self.assertEqual(buffer.seal_event("second", 1)["record_ids"], ["s-2"])
+
+    def test_failed_event_never_requeues_or_replays_on_restart(self):
+        buffer = self.buffer()
+        buffer.add(record(0))
+        buffer.add(record(1))
+        buffer.seal_event("unknown-partial", 1)
+        failed = buffer.fail_event("unknown-partial", "optimizer outcome unknown")
+        self.assertEqual(failed["status"], "failed")
+        reopened = self.buffer()
+        self.assertEqual(reopened.pending(), [record(1)])
+        self.assertEqual(reopened.event("unknown-partial"), failed)
+        with self.assertRaises(FeedbackError):
+            reopened.seal_event("retry", 1)
+        with self.assertRaises(FeedbackError):
+            reopened.commit_event("unknown-partial", "guessed", {})
+        self.assertEqual(reopened.records(["s-0"]), [record(0)])
+
+    def test_failed_records_still_count_toward_capacity(self):
+        buffer = self.buffer(1)
+        buffer.add(record())
+        buffer.seal_event("e", 1)
+        buffer.fail_event("e", "failed after starting")
+        with self.assertRaises(BufferFullError):
+            self.buffer(1).add(record(1))
+
+    def test_successful_commit_is_idempotent_but_cannot_change(self):
+        buffer = self.buffer()
+        buffer.add(record())
+        buffer.seal_event("e", 1)
+        receipt = {"optimizer_step": 2, "checkpoint_sha256": "abc"}
+        committed = buffer.commit_event("e", "c", receipt)
+        reopened = self.buffer()
+        self.assertEqual(reopened.commit_event("e", "c", receipt), committed)
+        with self.assertRaises(FeedbackError):
+            reopened.commit_event("e", "different", receipt)
+        with self.assertRaises(FeedbackError):
+            reopened.fail_event("e", "late error")
+        with self.assertRaises(FeedbackError):
+            reopened.seal_event("e", 1)
+
+    def test_evaluation_never_enters_buffer(self):
+        buffer = self.buffer()
+        for purpose in ("evaluation", "diagnostic", "source_replay", ""):
+            with self.subTest(purpose=purpose), self.assertRaises(FeedbackError):
+                buffer.add(record(purpose=purpose))
+        self.assertEqual(buffer.pending(), [])
+        self.assertEqual(list((self.root / "records").iterdir()), [])
+
+    def test_duplicate_record_rejected_even_after_commit(self):
+        buffer = self.buffer()
+        buffer.add(record())
+        before = self.record_path("s-0").read_bytes()
+        with self.assertRaises(FeedbackError):
+            buffer.add(record())
+        buffer.seal_event("e", 1)
+        buffer.commit_event("e", "c", {})
+        with self.assertRaises(FeedbackError):
+            buffer.add(record())
+        self.assertEqual(self.record_path("s-0").read_bytes(), before)
+
+    def test_request_indices_must_increase_per_session_but_may_skip(self):
+        buffer = self.buffer()
+        buffer.add(record(2))
+        buffer.add(record(4))
+        for index in (1, 2, 3, 4):
+            with self.subTest(index=index), self.assertRaises(FeedbackError):
+                buffer.add(record(index, record_id=f"different-{index}"))
+        buffer.add(record(0, session="other"))
+        self.assertEqual([r["request_index"] for r in buffer.pending()], [2, 4, 0])
+
+    def test_reordered_and_duplicate_retrieval_rejected(self):
+        buffer = self.buffer()
+        buffer.add(record(0))
+        buffer.add(record(1))
+        for ids in (["s-1", "s-0"], ["s-0", "s-0"]):
+            with self.subTest(ids=ids), self.assertRaises(FeedbackError):
+                buffer.records(ids)
+        with self.assertRaises(KeyError):
+            buffer.records(["absent"])
+        with self.assertRaises(KeyError):
+            buffer.event("absent")
+
+    def test_token_types_and_empty_arrays_are_rejected_without_writes(self):
+        buffer = self.buffer()
+        patches = [
+            {"prompt_ids": []}, {"response_ids": []}, {"response_ids": [True, 2]},
+            {"prompt_ids": [-1]}, {"response_ids": [1.0, 2]},
+            {"stop_token_ids": [2, 2]}, {"stop_token_ids": [False]},
+            {"prompt_ids": (1, 2)}, {"response_ids": [2**63, 2]},
+            {"request_index": True}, {"max_new_tokens": 0},
+        ]
+        for changes in patches:
+            invalid = record()
+            invalid.update(changes)
+            with self.subTest(changes=changes), self.assertRaises(FeedbackError):
+                buffer.add(invalid)
+        self.assertEqual(buffer.pending(), [])
+
+    def test_eos_and_length_contracts(self):
+        buffer = self.buffer()
+        patches = [
+            {"finish_reason": "eos", "response_ids": [31, 32]},
+            {"response_ids": [2, 31, 2]},
+            {"finish_reason": "length"},
+            {"finish_reason": "length", "max_new_tokens": 2},
+            {"response_ids": [31, 32, 33, 34, 2]},
+            {"finish_reason": "cancelled"},
+        ]
+        for changes in patches:
+            invalid = record()
+            invalid.update(changes)
+            with self.subTest(changes=changes), self.assertRaises(FeedbackError):
+                buffer.add(invalid)
+        capped = record()
+        capped.update(response_ids=[31, 32], finish_reason="length", max_new_tokens=2)
+        buffer.add(capped)
+        eos_at_cap = record(1)
+        eos_at_cap["max_new_tokens"] = 2
+        buffer.add(eos_at_cap)
+        one_token = record(2)
+        one_token["response_ids"] = [2]
+        # Eligibility and response-only training masks belong to the runner.
+        buffer.add(one_token)
+        self.assertEqual(buffer.pending(), [capped, eos_at_cap, one_token])
+
+    def test_buffer_does_not_accept_or_invent_training_masks(self):
+        buffer = self.buffer()
+        invalid = record()
+        invalid["loss_mask"] = [0, 1]
+        with self.assertRaises(FeedbackError):
+            buffer.add(invalid)
+        buffer.add(record())
+        self.assertEqual(set(buffer.pending()[0]), set(record()))
+
+    def test_metadata_must_be_finite_json(self):
+        buffer = self.buffer()
+        for metadata in ([1], {"x": float("nan")}, {1: "key"}, {"x": object()}):
+            invalid = record()
+            invalid["metadata"] = metadata
+            with self.subTest(metadata=repr(metadata)), self.assertRaises(FeedbackError):
+                buffer.add(invalid)
+
+    def test_configuration_mismatch_and_invalid_counts_fail(self):
+        buffer = self.buffer(1)
+        with self.assertRaises(FeedbackError):
+            FeedbackBuffer(self.root, 8)
+        for capacity in (0, -1, True, 1.0):
+            with self.subTest(capacity=capacity), self.assertRaises(FeedbackError):
+                FeedbackBuffer(self.root, capacity)
+        buffer.add(record())
+        for count in (0, -1, True, 2):
+            with self.subTest(count=count), self.assertRaises(FeedbackError):
+                buffer.seal_event("e", count)
+
+    def test_record_corruption_detected_during_read_and_restart(self):
+        buffer = self.buffer()
+        buffer.add(record())
+        self.mutate_json(self.record_path("s-0"), lambda obj: obj["record"]["prompt_ids"].append(99))
+        with self.assertRaises(BufferCorruptionError):
+            buffer.pending()
+        with self.assertRaises(BufferCorruptionError):
+            self.buffer()
+
+    def test_token_hash_corruption_detected(self):
+        buffer = self.buffer()
+        buffer.add(record())
+        self.mutate_json(self.record_path("s-0"), lambda obj: obj.update(response_sha256="0" * 64))
+        with self.assertRaises(BufferCorruptionError):
+            buffer.records(["s-0"])
+
+    def test_state_corruption_detected(self):
+        buffer = self.buffer()
+        buffer.add(record())
+        self.mutate_json(self.root / "state.json", lambda obj: obj["state"]["order"].clear())
+        with self.assertRaises(BufferCorruptionError):
+            buffer.pending()
+
+    def test_missing_record_fails_closed(self):
+        buffer = self.buffer()
+        buffer.add(record())
+        self.record_path("s-0").unlink()
+        with self.assertRaises(BufferCorruptionError):
+            self.buffer()
+
+    def test_interrupted_add_preserves_orphan_and_requires_explicit_recovery(self):
+        buffer = self.buffer()
+        with patch.object(buffer, "_save", side_effect=OSError("simulated state-write failure")):
+            with self.assertRaises(OSError):
+                buffer.add(record())
+        self.assertTrue(self.record_path("s-0").exists())
+        with self.assertRaises(BufferCorruptionError):
+            self.buffer()
+
+    def test_interrupted_transition_retains_previous_state(self):
+        buffer = self.buffer()
+        buffer.add(record())
+        sealed = buffer.seal_event("e", 1)
+        with patch("online_feedback.buffer.os.replace", side_effect=OSError("simulated replace failure")):
+            with self.assertRaises(OSError):
+                buffer.commit_event("e", "c", {})
+        self.assertEqual(self.buffer().event("e"), sealed)
+        self.assertEqual(self.buffer().pending(), [])
+
+    def test_duplicate_json_keys_and_symlink_records_are_rejected(self):
+        buffer = self.buffer()
+        buffer.add(record())
+        path = self.record_path("s-0")
+        original = path.read_text()
+        path.write_text('{"record": null,' + original.lstrip()[1:])
+        with self.assertRaises(BufferCorruptionError):
+            buffer.pending()
+        path.write_text(original)
+        moved = self.root / "elsewhere.json"
+        path.rename(moved)
+        path.symlink_to(moved)
+        with self.assertRaises(BufferCorruptionError):
+            buffer.pending()
+
+    def test_process_lock_prevents_lost_updates_and_capacity_overflow(self):
+        # Distinct sessions intentionally avoid relying on process launch order.
+        self.buffer(8)
+        context = multiprocessing.get_context("fork")
+        results = context.Queue()
+        workers = [context.Process(target=competing_add,
+                                   args=(str(self.root), i, 8, results)) for i in range(12)]
+        for worker in workers:
+            worker.start()
+        for worker in workers:
+            worker.join(15)
+            self.assertEqual(worker.exitcode, 0)
+        outcomes = [results.get(timeout=5) for _ in workers]
+        self.assertEqual(outcomes.count("added"), 8, outcomes)
+        self.assertEqual(outcomes.count("full"), 4, outcomes)
+        self.assertEqual(len(self.buffer(8).pending()), 8)
+
+
+if __name__ == "__main__":
+    unittest.main()
+

@@ -1,0 +1,153 @@
+"""Reproduce the tiny CPU O/U/P comparison against the preserved implementation."""
+import argparse
+import copy
+from contextlib import nullcontext
+from datetime import datetime, timezone
+import hashlib
+import importlib
+import json
+import os
+from pathlib import Path
+import sys
+import time
+import types
+from unittest import mock
+
+
+def main():
+    review_root = Path(__file__).resolve().parent
+    run_root = review_root.parent
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--current", type=Path, default=run_root / "worktree")
+    parser.add_argument(
+        "--previous", type=Path,
+        default=run_root.parent / "dflash_prefix_ranking_one_event_20261025/worktree",
+    )
+    parser.add_argument(
+        "--training", type=Path, default=Path("/home/minhao2/DFlash-Research/training"),
+    )
+    parser.add_argument("--output", type=Path, default=review_root / "OLD_NEW_COMPATIBILITY.json")
+    args = parser.parse_args()
+    current, previous, training = (path.resolve() for path in (args.current, args.previous, args.training))
+    os.environ["CUDA_VISIBLE_DEVICES"] = ""
+    os.environ["OMP_NUM_THREADS"] = "1"
+    os.environ["MKL_NUM_THREADS"] = "1"
+    sys.dont_write_bytecode = True
+    sys.path[:0] = [str(current), str(current / "tests"), str(training), str(current / "inference")]
+
+    import torch
+    from online_feedback.objective import TargetObjectiveModel
+    from online_feedback.rng import capture_rng, restore_rng
+    from test_objective_integration import tiny_author, parameter_gradients
+    from test_osd_objective import osd_batch
+    from test_training_contract import trees_equal
+
+    # Import the previous package under a separate namespace, including its own
+    # ranking/rng/projected-target helpers rather than reusing the current ones.
+    package_name = "_review_previous_online_feedback"
+    package = types.ModuleType(package_name)
+    package.__path__ = [str(previous / "online_feedback")]
+    package.__package__ = package_name
+    sys.modules[package_name] = package
+    previous_objective = importlib.import_module(package_name + ".objective")
+
+    assert not torch.cuda.is_initialized(), "CUDA initialized before CPU comparison"
+    torch.set_num_threads(1)
+    started = time.perf_counter()
+    author = tiny_author(dtype=torch.bfloat16)
+    initial_rng = capture_rng()
+    source_paths = [Path(__file__).resolve()]
+    for root in (current, previous):
+        source_paths.extend(root / "online_feedback" / name for name in (
+            "objective.py", "training.py", "ranking.py", "rng.py", "projected_target.py",
+        ))
+    source_paths.extend(current / "tests" / name for name in (
+        "test_objective_integration.py", "test_osd_objective.py", "test_training_contract.py",
+    ))
+    source_paths.extend(training / "specforge" / name for name in (
+        "core/chunking.py", "training/controller.py",
+    ))
+    report = {
+        "status": "running", "started_utc": datetime.now(timezone.utc).isoformat(),
+        "python": sys.executable, "torch_version": torch.__version__,
+        "current_worktree": str(current), "previous_worktree": str(previous),
+        "training_dependency": str(training),
+        "fixture": {"attention_backend": author.attention_backend,
+                    "model_dtype": "bfloat16", "loss_precision": "bfloat16",
+                    "block_size": author.block_size, "num_anchors": author.num_anchors,
+                    "objective_chunk_blocks": author.objective_chunk_blocks},
+        "source_sha256": {str(path): hashlib.sha256(path.read_bytes()).hexdigest()
+                          for path in source_paths},
+        "arms": {}, "injected_prefix_arms": {},
+        "optimizer_steps": 0, "generation_calls": 0,
+        "limitation": "Tiny eager CPU forward/backward fixtures; no optimizer or resume execution, GPU/Flex qualification, full event, or efficacy evidence.",
+    }
+    ordinary_gradients = None
+    cases = [("real_reference", arm) for arm in ("osd", "osd_uniform", "osd_prefix")]
+    cases += [("injected_prefix", arm) for arm in ("osd_uniform", "osd_prefix")]
+    for case, arm in cases:
+        outputs = []
+        identity_checks, reference_registration_checks = [], []
+        for cls in (previous_objective.TargetObjectiveModel, TargetObjectiveModel):
+            model = cls(copy.deepcopy(author), arm, loss_precision="bfloat16")
+            identities = {name: id(parameter) for name, parameter in model.named_parameters()}
+            restore_rng(initial_rng)
+            model.begin_event()
+            identity_checks.append(identities == {
+                name: id(parameter) for name, parameter in model.named_parameters()
+            })
+            def protected_fixture(*prefix_arguments):
+                # Inject a nonempty, seed-excluding prefix on alternating blocks
+                # to compare active arithmetic independently of random labels.
+                prefix = prefix_arguments[-1] > 0
+                prefix[:, 1::2] = False
+                return prefix
+
+            selection = (mock.patch.object(model, "_reference_prefix", side_effect=protected_fixture)
+                         if case == "injected_prefix" else nullcontext())
+            with selection:
+                loss, accuracy, metrics = model(**osd_batch(model))
+                loss.backward()
+            outputs.append({"loss": loss.detach(), "accuracy": accuracy,
+                            "metrics": metrics, "gradients": parameter_gradients(model),
+                            "rng": capture_rng()})
+            reference_registration_checks.append(
+                not any("reference" in name for name in model.state_dict())
+            )
+            model.end_event()
+            assert model.reference is None
+            assert not torch.cuda.is_initialized()
+        checks = {name + "_exact": trees_equal(outputs[0][name], outputs[1][name])
+                  for name in outputs[0]}
+        checks["registered_parameter_identities_preserved"] = all(identity_checks)
+        checks["reference_absent_from_registered_state"] = all(reference_registration_checks)
+        sums = outputs[1]["metrics"]["sum_metrics"]
+        prefix_count = float(sums.get("reference_prefix_positions", 0))
+        if arm == "osd":
+            ordinary_gradients = outputs[1]["gradients"]
+        if case == "injected_prefix":
+            checks["nonempty_injected_prefix"] = prefix_count > 0
+            checks["positive_auxiliary_numerator"] = (
+                float(outputs[1]["metrics"]["ratio_metrics"]["ranking_loss"][0]) > 0
+            )
+            checks["gradients_differ_from_ordinary_O"] = not trees_equal(
+                ordinary_gradients, outputs[1]["gradients"],
+            )
+        assert all(checks.values()), (case, arm, checks)
+        destination = "injected_prefix_arms" if case == "injected_prefix" else "arms"
+        report[destination][arm] = {
+            "case": case,
+            "checks": checks, "loss": float(outputs[1]["loss"]),
+            "gradient_tensor_count": len(outputs[1]["gradients"]),
+            "reference_prefix_positions": prefix_count,
+        }
+        print(case + "/" + arm + ": " + ", ".join(name + "=PASS" for name in checks), flush=True)
+    report.update(status="passed", elapsed_seconds=time.perf_counter() - started,
+                  cuda_initialized=torch.cuda.is_initialized(), backward_calls=10)
+    assert report["cuda_initialized"] is False
+    args.output.write_text(json.dumps(report, indent=2) + "\n")
+    print("CUDA initialized: False; JSON: " + str(args.output.resolve()), flush=True)
+
+
+if __name__ == "__main__":
+    main()

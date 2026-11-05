@@ -1,0 +1,337 @@
+{
+  "status": "passed",
+  "verification_status": "ANALYZED",
+  "created_utc": "2026-10-29T09:43:44.877712+00:00",
+  "scope": "Read-only raw evaluation arithmetic and interpretation review; no model or remote execution. Source/state/retention evidence is reviewed separately.",
+  "independence": "Pre-outcome separate stdlib calculation path, written by the evaluator/report author; same-team shared-context review, not an external, blinded or independently replicated GPU experiment.",
+  "scientific_execution_commit": "04fac901f7af5478b62ff730833c026637ddd2cd",
+  "analysis_and_recovery_commit": "1cfb44fa3989e5ed2c5e13805007bb20f22189f8",
+  "checks": 1356407,
+  "issues": [],
+  "native_executions": 1920,
+  "verification_blocks": 89541,
+  "valid_request_endpoints": 320,
+  "panels": 5,
+  "consumed_input_files": 1948,
+  "exact_checks": [
+    "all six balanced execution slots per request",
+    "native token/posterior/commit identity and EOS or cap termination",
+    "raw versus stop-clipped versus native acceptance counters",
+    "seed-excluded committed progress and bounds",
+    "repeat-consistent count vectors",
+    "retained F/K1 canonical or first fresh O8 repeat0 canonical",
+    "report per-request/repeat/panel/curve/summary arithmetic"
+  ],
+  "denominators": "One validated repeat-0 count trajectory per request and arm; three-repeat means for timings; panels separate.",
+  "independent_interpretations": {
+    "development": {
+      "classification": "positive_at_all_measured_endpoints",
+      "event4_reduction_pct": 1.736806947227789,
+      "event6_reduction_pct": 3.103103103103103,
+      "event8_reduction_pct": 1.1667810569663692,
+      "event4_to8_change_percentage_points": -0.5700258902614197,
+      "scope": "Net endpoint comparison; no monotonicity, causal-training-age or seed robustness claim"
+    },
+    "additional": {
+      "classification": "positive_at_all_measured_endpoints",
+      "event4_reduction_pct": 2.3003194888178915,
+      "event6_reduction_pct": 0.7777057679844459,
+      "event8_reduction_pct": 1.5589477102955505,
+      "event4_to8_change_percentage_points": -0.741371778522341,
+      "scope": "Net endpoint comparison; no monotonicity, causal-training-age or seed robustness claim"
+    },
+    "fresh": {
+      "event8_call_reduction_pct": 3.33667000333667,
+      "valid_requests": 64,
+      "scope": "Fresh panel at fixed event8 only; no event4/6 extrapolation"
+    }
+  },
+  "repeat_comparisons": [
+    {
+      "event": 6,
+      "panel": "development",
+      "repeat": 0,
+      "request_latency_s_O": 52.044853784143925,
+      "request_latency_s_K": 50.345811638981104,
+      "request_latency_s_K_reduction_pct": 3.2645728090804127,
+      "native_generate_s_O": 50.76936882175505,
+      "native_generate_s_K": 49.21602383069694,
+      "native_generate_s_K_reduction_pct": 3.05961060203784,
+      "cache_maintenance_s_O": 0.050582462921738625,
+      "cache_maintenance_s_K": 0.0361812561750412,
+      "cache_maintenance_s_K_reduction_pct": 28.47075036456613
+    },
+    {
+      "event": 6,
+      "panel": "development",
+      "repeat": 1,
+      "request_latency_s_O": 51.992718076333404,
+      "request_latency_s_K": 50.346730429679155,
+      "request_latency_s_K_reduction_pct": 3.1658041886513457,
+      "native_generate_s_O": 50.72901165112853,
+      "native_generate_s_K": 49.21046694740653,
+      "native_generate_s_K_reduction_pct": 2.9934442921247375,
+      "cache_maintenance_s_O": 0.03502769023180008,
+      "cache_maintenance_s_K": 0.03866877034306526,
+      "cache_maintenance_s_K_reduction_pct": -10.394862142407575
+    },
+    {
+      "event": 6,
+      "panel": "development",
+      "repeat": 2,
+      "request_latency_s_O": 51.99945471994579,
+      "request_latency_s_K": 50.333128333091736,
+      "request_latency_s_K_reduction_pct": 3.2045074238343663,
+      "native_generate_s_O": 50.73526098951697,
+      "native_generate_s_K": 49.20764645002782,
+      "native_generate_s_K_reduction_pct": 3.0109523627064596,
+      "cache_maintenance_s_O": 0.03796994872391224,
+      "cache_maintenance_s_K": 0.030570300295948982,
+      "cache_maintenance_s_K_reduction_pct": 19.48817071565651
+    },
+    {
+      "event": 6,
+      "panel": "additional",
+      "repeat": 0,
+      "request_latency_s_O": 53.22692986764014,
+      "request_latency_s_K": 52.92715465463698,
+      "request_latency_s_K_reduction_pct": 0.563202149266569,
+      "native_generate_s_O": 52.285203374922276,
+      "native_generate_s_K": 51.9018095638603,
+      "native_generate_s_K_reduction_pct": 0.7332740169580497,
+      "cache_maintenance_s_O": 0.03849374130368233,
+      "cache_maintenance_s_K": 0.04463551566004753,
+      "cache_maintenance_s_K_reduction_pct": -15.955254408533367
+    },
+    {
+      "event": 6,
+      "panel": "additional",
+      "repeat": 1,
+      "request_latency_s_O": 53.24652587249875,
+      "request_latency_s_K": 52.93034123443067,
+      "request_latency_s_K_reduction_pct": 0.5938127096314201,
+      "native_generate_s_O": 52.286696802824736,
+      "native_generate_s_K": 51.90417311526835,
+      "native_generate_s_K_reduction_pct": 0.7315889336037011,
+      "cache_maintenance_s_O": 0.05026675574481487,
+      "cache_maintenance_s_K": 0.044632438570261,
+      "cache_maintenance_s_K_reduction_pct": 11.2088339322258
+    },
+    {
+      "event": 6,
+      "panel": "additional",
+      "repeat": 2,
+      "request_latency_s_O": 53.21243550255895,
+      "request_latency_s_K": 52.984082570299506,
+      "request_latency_s_K_reduction_pct": 0.42913452485830894,
+      "native_generate_s_O": 52.27275790832937,
+      "native_generate_s_K": 51.92616817727685,
+      "native_generate_s_K_reduction_pct": 0.6630408360322821,
+      "cache_maintenance_s_O": 0.038366423919796944,
+      "cache_maintenance_s_K": 0.07726658880710602,
+      "cache_maintenance_s_K_reduction_pct": -101.39116684064142
+    },
+    {
+      "event": 8,
+      "panel": "development",
+      "repeat": 0,
+      "request_latency_s_O": 50.301080647856,
+      "request_latency_s_K": 49.86501330696046,
+      "request_latency_s_K_reduction_pct": 0.866914458455318,
+      "native_generate_s_O": 49.1670313347131,
+      "native_generate_s_K": 48.61229915730655,
+      "native_generate_s_K_reduction_pct": 1.1282604671209735,
+      "cache_maintenance_s_O": 0.04189268685877323,
+      "cache_maintenance_s_K": 0.04178234003484249,
+      "cache_maintenance_s_K_reduction_pct": 0.26340354893620616
+    },
+    {
+      "event": 8,
+      "panel": "development",
+      "repeat": 1,
+      "request_latency_s_O": 50.31242006085813,
+      "request_latency_s_K": 49.88482604548335,
+      "request_latency_s_K_reduction_pct": 0.8498776541807371,
+      "native_generate_s_O": 49.17656299285591,
+      "native_generate_s_K": 48.61732668057084,
+      "native_generate_s_K_reduction_pct": 1.1372008905264654,
+      "cache_maintenance_s_O": 0.03935509920120239,
+      "cache_maintenance_s_K": 0.05107031762599945,
+      "cache_maintenance_s_K_reduction_pct": -29.767980928985004
+    },
+    {
+      "event": 8,
+      "panel": "development",
+      "repeat": 2,
+      "request_latency_s_O": 50.305907264351845,
+      "request_latency_s_K": 49.8804564345628,
+      "request_latency_s_K_reduction_pct": 0.8457273766147314,
+      "native_generate_s_O": 49.17153053916991,
+      "native_generate_s_K": 48.62092771008611,
+      "native_generate_s_K_reduction_pct": 1.1197593872844605,
+      "cache_maintenance_s_O": 0.0424625389277935,
+      "cache_maintenance_s_K": 0.04997057840228081,
+      "cache_maintenance_s_K_reduction_pct": -17.681560415533653
+    },
+    {
+      "event": 8,
+      "panel": "additional",
+      "repeat": 0,
+      "request_latency_s_O": 52.90182294137776,
+      "request_latency_s_K": 52.126951940357685,
+      "request_latency_s_K_reduction_pct": 1.4647340260443082,
+      "native_generate_s_O": 51.96619838103652,
+      "native_generate_s_K": 51.18508436717093,
+      "native_generate_s_K_reduction_pct": 1.503119408770594,
+      "cache_maintenance_s_O": 0.03784164786338806,
+      "cache_maintenance_s_K": 0.0463571734726429,
+      "cache_maintenance_s_K_reduction_pct": -22.503051769829614
+    },
+    {
+      "event": 8,
+      "panel": "additional",
+      "repeat": 1,
+      "request_latency_s_O": 52.92085252329707,
+      "request_latency_s_K": 52.118167417123914,
+      "request_latency_s_K_reduction_pct": 1.5167652596295493,
+      "native_generate_s_O": 51.9774896427989,
+      "native_generate_s_K": 51.179814487695694,
+      "native_generate_s_K_reduction_pct": 1.5346550219816526,
+      "cache_maintenance_s_O": 0.03819718584418297,
+      "cache_maintenance_s_K": 0.03699606843292713,
+      "cache_maintenance_s_K_reduction_pct": 3.144518070403226
+    },
+    {
+      "event": 8,
+      "panel": "additional",
+      "repeat": 2,
+      "request_latency_s_O": 52.89140950143337,
+      "request_latency_s_K": 52.184700513258576,
+      "request_latency_s_K_reduction_pct": 1.336150794309318,
+      "native_generate_s_O": 51.95659475028515,
+      "native_generate_s_K": 51.20126551017165,
+      "native_generate_s_K_reduction_pct": 1.453769716325282,
+      "cache_maintenance_s_O": 0.03623915649950504,
+      "cache_maintenance_s_K": 0.0854099877178669,
+      "cache_maintenance_s_K_reduction_pct": -135.68425970133558
+    },
+    {
+      "event": 8,
+      "panel": "fresh",
+      "repeat": 0,
+      "request_latency_s_O": 51.65043634176254,
+      "request_latency_s_K": 49.98922136425972,
+      "request_latency_s_K_reduction_pct": 3.2162651376473055,
+      "native_generate_s_O": 50.75452188774943,
+      "native_generate_s_K": 49.12913887016475,
+      "native_generate_s_K_reduction_pct": 3.2024398164550507,
+      "cache_maintenance_s_O": 0.03751024231314659,
+      "cache_maintenance_s_K": 0.04799575358629227,
+      "cache_maintenance_s_K_reduction_pct": -27.953728439314062
+    },
+    {
+      "event": 8,
+      "panel": "fresh",
+      "repeat": 1,
+      "request_latency_s_O": 51.660569386556745,
+      "request_latency_s_K": 49.96908915229142,
+      "request_latency_s_K_reduction_pct": 3.274219108211163,
+      "native_generate_s_O": 50.75241865962744,
+      "native_generate_s_K": 49.11664395779371,
+      "native_generate_s_K_reduction_pct": 3.223047777888371,
+      "cache_maintenance_s_O": 0.03874119929969311,
+      "cache_maintenance_s_K": 0.0377657487988472,
+      "cache_maintenance_s_K_reduction_pct": 2.5178634592596008
+    },
+    {
+      "event": 8,
+      "panel": "fresh",
+      "repeat": 2,
+      "request_latency_s_O": 51.64691540971398,
+      "request_latency_s_K": 50.00577303394675,
+      "request_latency_s_K_reduction_pct": 3.177619346185692,
+      "native_generate_s_O": 50.75450266338885,
+      "native_generate_s_K": 49.12936216592789,
+      "native_generate_s_K_reduction_pct": 3.2019631996773303,
+      "cache_maintenance_s_O": 0.03593652509152889,
+      "cache_maintenance_s_K": 0.06170857138931751,
+      "cache_maintenance_s_K_reduction_pct": -71.71546562208853
+    }
+  ],
+  "timing_direction": "All 15 pooled request-time and all 15 pooled native-generation comparisons favor K. Cache-maintenance directions are mixed and are retained separately.",
+  "fallacy_scan": [
+    {
+      "name": "Simpson\u2019s paradox",
+      "assessment": "Panels and endpoints remain separate; each of the five measured strata favors K in pooled calls and both primary timing measures. No combined-panel claim is used."
+    },
+    {
+      "name": "Ecological fallacy",
+      "assessment": "Paired request wins/losses/ties and gross savings/regressions are retained; a positive pooled reduction does not mean every request improved."
+    },
+    {
+      "name": "Berkson\u2019s paradox",
+      "assessment": "The fixed eligible task/domain and exclusion recipe limit generalization; the fresh panel is new data from that recipe, not a new model, task family, or training seed."
+    },
+    {
+      "name": "Collider bias",
+      "assessment": "No performance-based request filtering is applied. All 320 request-endpoint pairs and all 1,920 executions pass, so no outcome-dependent validity cohort is selected."
+    },
+    {
+      "name": "Base-rate neglect",
+      "assessment": "All pooled reductions expose summed O denominators. Per-request percentages are not averaged to obtain the primary result."
+    },
+    {
+      "name": "Regression to the mean",
+      "assessment": "Endpoints and panels were fixed before outcomes, with matched O/K comparisons; this does not convert a nonmonotonic curve into a causal training-age effect."
+    },
+    {
+      "name": "Survivorship bias",
+      "assessment": "Complete six-slot coverage is present for every request-endpoint. Operational stop/transfer failures are preserved separately; they are not represented as scientific retries or discarded bad endpoints."
+    },
+    {
+      "name": "Look-elsewhere effect",
+      "assessment": "All five prespecified event/panel strata and all three timing repeats are shown; no best-repeat or best-panel selection and no significance claim."
+    },
+    {
+      "name": "Garden of forking paths",
+      "assessment": "The audit script hash matches its pre-outcome readiness receipt. No denominator, timing aggregation or endpoint rule changed after reading outcomes."
+    },
+    {
+      "name": "Correlation versus causation",
+      "assessment": "These are measurements of one controlled continuation. The curve alone does not establish a general training-duration effect or adaptation-inclusive asynchronous speedup."
+    },
+    {
+      "name": "Reverse causality",
+      "assessment": "Checkpoint order precedes evaluation and no reverse-direction causal inference is made; observational curve shape is not assigned a mechanism."
+    }
+  ],
+  "limits": [
+    "No inferential statistics or seed-robustness claim.",
+    "Fresh panel adds held-out requests, not independent training trajectories.",
+    "No historical latency learning curve.",
+    "Native and cache timers are nested; no kernel-cost or asynchronous-deployment breakdown is inferred.",
+    "Event4 arithmetic uses sealed retained counts; independent source/state provenance is a separate review."
+  ],
+  "bound_files": {
+    "independent_raw_analysis.py": {
+      "bytes": 28575,
+      "sha256": "7775b1d10681492017ed6664bc03f0541787304361ff48c559b9d506c0faf17b"
+    },
+    "INDEPENDENT_RAW_AUDIT_READY.json": {
+      "bytes": 1766,
+      "sha256": "fa1215d2f84f965f5548c82769f406b050ab7b6586e2c4b9b5b450aabd20b510"
+    },
+    "independent_raw_audit/AUDIT.json": {
+      "bytes": 553914,
+      "sha256": "98603d7d22e570681720f41121ab8a951643ef1fd452afefb65cfd0e3f3c8f90"
+    },
+    "analysis/REPORT.md": {
+      "bytes": 5439,
+      "sha256": "d772482574404a4f632a35965df304d5a6d25447ebc1f768b0bab928162ead7b"
+    },
+    "HANDOFF.txt": {
+      "bytes": 4008,
+      "sha256": "932e0d1a690ee7b78658fc44dd948a6992e4f36adbe1b866e799f41a19ace3ee"
+    }
+  }
+}

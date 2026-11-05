@@ -1,0 +1,43 @@
+{
+  "inference": {
+    "upstream": "https://github.com/z-lab/dflash.git",
+    "commit": "07ebd93db9f472af339b644bb70221ad8428328a",
+    "tree": "4d9cfcc4740f5ff27d1ed0e42173a182df78a941",
+    "path": "inference"
+  },
+  "training": {
+    "upstream": "https://github.com/sgl-project/SpecForge.git",
+    "commit": "1839aae30003e3573d00979eb1edd57347b3578c",
+    "tree": "9ee1de584d96f975b798438e0b7dfa43676cb8d2",
+    "path": "training",
+    "local_changes": [
+      {
+        "path": "scripts/prepare_hidden_states.py",
+        "purpose": "Honor --cache-dir for Dataset.from_generator; keep generated cache outside clean source."
+      }
+    ]
+  },
+  "status": "Retrospective publication of actual A800 DFlash-Online source after completed experiments through KRC2_OFF on 2026-10-28. No new scientific execution in this publication pass.",
+  "environment": {
+    "training": {
+      "python": "3.12.15",
+      "torch": "2.13.0+cu130",
+      "transformers": "5.12.1"
+    },
+    "native_serving": {
+      "python": "3.12.14",
+      "torch": "2.9.1+cu130",
+      "transformers": "4.57.1",
+      "source": "external_runtime/UPSTREAM.json"
+    },
+    "authoritative_run_pins": "configs/runs/INDEX.json"
+  },
+  "historical_foundation_manifest": "provenance/live_capture/SOURCES.json",
+  "capture": "provenance/live_capture/CAPTURE.json",
+  "exact_local_patches": {
+    "inference": "provenance/live_capture/inference.patch",
+    "training": "provenance/live_capture/training.patch"
+  },
+  "history": "provenance/INDEX.json",
+  "source_only_publication": "Model tensors, recovery states, private inputs/outputs and teacher features are external."
+}

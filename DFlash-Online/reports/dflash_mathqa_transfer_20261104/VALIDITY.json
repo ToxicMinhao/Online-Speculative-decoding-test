@@ -1,0 +1,517 @@
+{
+  "endpoint": {
+    "status": "passed",
+    "errors": [],
+    "progress": {
+      "status": "completed",
+      "planned_generations": 9216,
+      "attempted_generations": 9216,
+      "returned_generations": 9216,
+      "activation_s": 235.16835584118962,
+      "weight_validation_s": 9.862608794122934,
+      "publications": 139,
+      "optimizer_steps": 0,
+      "feedback_collections": 0,
+      "teacher_preparations": 0,
+      "extra_generations": 0,
+      "automatic_retry": false,
+      "completed_valid_generations": 9216,
+      "invalid_generations": 0,
+      "pending_canonical_generations": 0,
+      "unknown_generation_attempts": 0,
+      "unattempted_generations": 0,
+      "interrupted_attempt": null,
+      "evaluation_wall_s": 13050.616088131443
+    },
+    "model_work": 0
+  },
+  "historical_controls": {
+    "status": "passed",
+    "errors": [],
+    "rows": [
+      {
+        "request_id": "eval_00001",
+        "repeat": 0,
+        "method": "O",
+        "checkpoint_id": "/data/sources/minhao/runs/dflash_online_osd_rerun_20261023/campaign_001/trainer/events/event_058/export",
+        "prompt_tokens": 67,
+        "output_tokens": 181,
+        "cap_hit": false,
+        "verification_calls": 23,
+        "accepted_draft_tokens": 157,
+        "committed_progress": 180,
+        "request_latency_s": 0.5680886562913656,
+        "native_generate_s": 0.4771729093044996,
+        "finish_reason": "eos",
+        "cache_maintenance_s": 0.08703199587762356,
+        "seed": 17,
+        "event": 58,
+        "phase": "control",
+        "block_ordinal": -1,
+        "panel_ordinal": 0,
+        "position": 0,
+        "label": "historical_control_O",
+        "original_index": 1,
+        "record_path": "/data/sources/minhao/runs/dflash_mathqa_transfer_20261104/production_002/campaign_001/evaluation/controls/historical_control_O.json",
+        "structural_errors": [],
+        "errors": [],
+        "validation_status": "valid",
+        "valid_measurement": true
+      },
+      {
+        "request_id": "eval_00001",
+        "repeat": 0,
+        "method": "K",
+        "checkpoint_id": "/data/sources/minhao/runs/dflash_full_k_gsm8k_20261031/production_002/campaign_001/arms/K/trainer/events/event_058/export",
+        "prompt_tokens": 67,
+        "output_tokens": 181,
+        "cap_hit": false,
+        "verification_calls": 23,
+        "accepted_draft_tokens": 158,
+        "committed_progress": 180,
+        "request_latency_s": 0.4005870781838894,
+        "native_generate_s": 0.396428395062685,
+        "finish_reason": "eos",
+        "cache_maintenance_s": 0.0006842296570539474,
+        "seed": 17,
+        "event": 58,
+        "phase": "control",
+        "block_ordinal": -1,
+        "panel_ordinal": 0,
+        "position": 1,
+        "label": "historical_control_K",
+        "original_index": 1,
+        "record_path": "/data/sources/minhao/runs/dflash_mathqa_transfer_20261104/production_002/campaign_001/evaluation/controls/historical_control_K.json",
+        "structural_errors": [],
+        "errors": [],
+        "validation_status": "valid",
+        "valid_measurement": true
+      },
+      {
+        "request_id": "eval_00001",
+        "repeat": 0,
+        "method": "KPLUS",
+        "checkpoint_id": "/data/sources/minhao/runs/dflash_kplus_20261103/production_001/campaign_001/arms/KPLUS/trainer/events/event_058/export",
+        "prompt_tokens": 67,
+        "output_tokens": 181,
+        "cap_hit": false,
+        "verification_calls": 22,
+        "accepted_draft_tokens": 159,
+        "committed_progress": 180,
+        "request_latency_s": 0.3831381853669882,
+        "native_generate_s": 0.37933130748569965,
+        "finish_reason": "eos",
+        "cache_maintenance_s": 0.0006583277136087418,
+        "seed": 17,
+        "event": 58,
+        "phase": "control",
+        "block_ordinal": -1,
+        "panel_ordinal": 0,
+        "position": 2,
+        "label": "historical_control_KPLUS",
+        "original_index": 1,
+        "record_path": "/data/sources/minhao/runs/dflash_mathqa_transfer_20261104/production_002/campaign_001/evaluation/controls/historical_control_KPLUS.json",
+        "structural_errors": [],
+        "errors": [],
+        "validation_status": "valid",
+        "valid_measurement": true
+      }
+    ],
+    "progress": {
+      "status": "completed",
+      "planned_generations": 3,
+      "attempted_generations": 3,
+      "returned_generations": 3,
+      "activation_s": 6.316216962412,
+      "weight_validation_s": 11.030615348368883,
+      "publications": 3,
+      "optimizer_steps": 0,
+      "feedback_collections": 0,
+      "teacher_preparations": 0,
+      "extra_generations": 0,
+      "automatic_retry": false,
+      "completed_valid_generations": 3,
+      "invalid_generations": 0,
+      "pending_canonical_generations": 0,
+      "unknown_generation_attempts": 0,
+      "unattempted_generations": 0,
+      "interrupted_attempt": null,
+      "evaluation_wall_s": 19.21042829565704
+    },
+    "model_work": 0
+  },
+  "admission": {
+    "PREFLIGHT": {
+      "status": "passed",
+      "postflight": false,
+      "model_work": 0,
+      "seal": {
+        "status": "passed",
+        "files_checked": 2634,
+        "execution_source": {
+          "commit": "12583640baf2210f767e108e3632c0e5f9b8caaa",
+          "dirty": false,
+          "repository": "https://github.com/ToxicMinhao/Online-Speculative-decoding-test",
+          "branch": "codex/mathqa-serving-transfer"
+        }
+      },
+      "plan": {
+        "status": "passed",
+        "budget": {
+          "timed_generations": 9216,
+          "historical_control_generations": 3,
+          "total_generations": 9219,
+          "optimizer_steps": 0,
+          "feedback_collections": 0,
+          "teacher_preparations": 0,
+          "extra_warmup_generations": 0
+        },
+        "balance": {
+          "orders": [
+            {
+              "order": [
+                "K",
+                "KPLUS",
+                "O"
+              ],
+              "count": 8
+            },
+            {
+              "order": [
+                "K",
+                "O",
+                "KPLUS"
+              ],
+              "count": 8
+            },
+            {
+              "order": [
+                "KPLUS",
+                "K",
+                "O"
+              ],
+              "count": 8
+            },
+            {
+              "order": [
+                "KPLUS",
+                "O",
+                "K"
+              ],
+              "count": 8
+            },
+            {
+              "order": [
+                "O",
+                "K",
+                "KPLUS"
+              ],
+              "count": 8
+            },
+            {
+              "order": [
+                "O",
+                "KPLUS",
+                "K"
+              ],
+              "count": 8
+            }
+          ],
+          "each_order_count": 8,
+          "block_repeat_orders": 48,
+          "generations": 9216
+        }
+      },
+      "exports": {
+        "O": {
+          "path": "/data/sources/minhao/runs/dflash_online_osd_rerun_20261023/campaign_001/trainer/events/event_058/export",
+          "files": {
+            "config.json": {
+              "bytes": 1211,
+              "sha256": "5749d96966f9ce7e6a9662c9f482b8aa0d461845fb6b9ce09ac2c08311fab2aa",
+              "inode": 1216164649,
+              "device": 2066,
+              "mtime_ns": 1792846706283935675,
+              "resolved": "/data/sources/minhao/runs/dflash_online_osd_rerun_20261023/campaign_001/trainer/events/event_058/export/config.json"
+            },
+            "model.safetensors": {
+              "bytes": 2097259104,
+              "sha256": "796ec9d486046d43a2b91bd0ddf32b33eb3183b7d924e9dd9ab6bc4c6b0d0856",
+              "inode": 1216164647,
+              "device": 2066,
+              "mtime_ns": 1792846706282935658,
+              "resolved": "/data/sources/minhao/runs/dflash_online_osd_rerun_20261023/campaign_001/trainer/events/event_058/export/model.safetensors"
+            }
+          },
+          "unchanged": true
+        },
+        "K": {
+          "path": "/data/sources/minhao/runs/dflash_full_k_gsm8k_20261031/production_002/campaign_001/arms/K/trainer/events/event_058/export",
+          "files": {
+            "config.json": {
+              "bytes": 1211,
+              "sha256": "5749d96966f9ce7e6a9662c9f482b8aa0d461845fb6b9ce09ac2c08311fab2aa",
+              "inode": 202198682,
+              "device": 2066,
+              "mtime_ns": 1793557616567745884,
+              "resolved": "/data/sources/minhao/runs/dflash_full_k_gsm8k_20261031/production_002/campaign_001/arms/K/trainer/events/event_058/export/config.json"
+            },
+            "model.safetensors": {
+              "bytes": 2097259104,
+              "sha256": "47a3112244fdbdc17e01c470c55bf1913b302b194fbf99d1e13239c642df859b",
+              "inode": 202198681,
+              "device": 2066,
+              "mtime_ns": 1793557616566745868,
+              "resolved": "/data/sources/minhao/runs/dflash_full_k_gsm8k_20261031/production_002/campaign_001/arms/K/trainer/events/event_058/export/model.safetensors"
+            }
+          },
+          "unchanged": true
+        },
+        "KPLUS": {
+          "path": "/data/sources/minhao/runs/dflash_kplus_20261103/production_001/campaign_001/arms/KPLUS/trainer/events/event_058/export",
+          "files": {
+            "config.json": {
+              "bytes": 1211,
+              "sha256": "5749d96966f9ce7e6a9662c9f482b8aa0d461845fb6b9ce09ac2c08311fab2aa",
+              "inode": 1277565676,
+              "device": 2066,
+              "mtime_ns": 1793728747144826671,
+              "resolved": "/data/sources/minhao/runs/dflash_kplus_20261103/production_001/campaign_001/arms/KPLUS/trainer/events/event_058/export/config.json"
+            },
+            "model.safetensors": {
+              "bytes": 2097259104,
+              "sha256": "4bd8e872e4b3976b0da257f0b181f0f27c8b369e2faf386d7d833de9a1c87d67",
+              "inode": 1277565675,
+              "device": 2066,
+              "mtime_ns": 1793728747143826654,
+              "resolved": "/data/sources/minhao/runs/dflash_kplus_20261103/production_001/campaign_001/arms/KPLUS/trainer/events/event_058/export/model.safetensors"
+            }
+          },
+          "unchanged": true
+        }
+      },
+      "runtime": {
+        "python_version": "3.12.14",
+        "torch": "2.9.1+cu130",
+        "transformers": "4.57.1",
+        "cuda": "13.0",
+        "native_runtime_sha256": {
+          "speculative/dflash_worker.py": "9397402f5cfbf60b00b7d27d551e5e9e1b605be9b084d028d4ddda76c475dc8c",
+          "speculative/dflash_info.py": "9c7ac23a1bf0840eec8218f02f2adbfc3e419099cd19822137ce5c6e0e902218",
+          "layers/logits_processor.py": "5c6c54bec37b941652e29908c773a756fe6c86f99932ab80043672a1eaa0f086",
+          "models/qwen3.py": "e23ee8af21eac46685852854a5fe585cf58477d4a1f8047887d6afeefaf8e32d",
+          "models/dflash.py": "d4fcfe005a1acc51a4938d038e1dbc1a2c8ff245842f4253338527335b2327b2",
+          "entrypoints/engine.py": "2bcd4b04c325d4ed65f867490c5bac9e915e02f05471c83dacb5a4a097cf1f2a",
+          "server_args.py": "bd60199803698e4ffe6dc44499a8d42be73f42db28056cb6750411523cf56c04"
+        }
+      },
+      "hardware": {
+        "status": "passed",
+        "gpus": [
+          {
+            "index": 0,
+            "name": "NVIDIA A800 80GB PCIe",
+            "total_mib": 81920,
+            "used_mib": 0
+          },
+          {
+            "index": 1,
+            "name": "NVIDIA A800 80GB PCIe",
+            "total_mib": 81920,
+            "used_mib": 0
+          }
+        ],
+        "active_compute_processes": [],
+        "cuda_context_created": false
+      },
+      "quiescence": {
+        "status": "passed",
+        "transfers": [],
+        "training": [],
+        "foreign_gpu_processes": [],
+        "allowed_worker_pids": []
+      },
+      "available_host_bytes": 134959624192,
+      "storage": {
+        "status": "passed",
+        "free_bytes": 68736811008,
+        "required_bytes": 65216016930,
+        "initial_admission": true
+      },
+      "wall_s": 49.62463856302202
+    },
+    "POSTFLIGHT": {
+      "status": "passed",
+      "postflight": true,
+      "model_work": 0,
+      "seal": {
+        "status": "passed",
+        "files_checked": 2634,
+        "execution_source": {
+          "commit": "12583640baf2210f767e108e3632c0e5f9b8caaa",
+          "dirty": false,
+          "repository": "https://github.com/ToxicMinhao/Online-Speculative-decoding-test",
+          "branch": "codex/mathqa-serving-transfer"
+        }
+      },
+      "plan": {
+        "status": "passed",
+        "budget": {
+          "timed_generations": 9216,
+          "historical_control_generations": 3,
+          "total_generations": 9219,
+          "optimizer_steps": 0,
+          "feedback_collections": 0,
+          "teacher_preparations": 0,
+          "extra_warmup_generations": 0
+        },
+        "balance": {
+          "orders": [
+            {
+              "order": [
+                "K",
+                "KPLUS",
+                "O"
+              ],
+              "count": 8
+            },
+            {
+              "order": [
+                "K",
+                "O",
+                "KPLUS"
+              ],
+              "count": 8
+            },
+            {
+              "order": [
+                "KPLUS",
+                "K",
+                "O"
+              ],
+              "count": 8
+            },
+            {
+              "order": [
+                "KPLUS",
+                "O",
+                "K"
+              ],
+              "count": 8
+            },
+            {
+              "order": [
+                "O",
+                "K",
+                "KPLUS"
+              ],
+              "count": 8
+            },
+            {
+              "order": [
+                "O",
+                "KPLUS",
+                "K"
+              ],
+              "count": 8
+            }
+          ],
+          "each_order_count": 8,
+          "block_repeat_orders": 48,
+          "generations": 9216
+        }
+      },
+      "exports": {
+        "O": {
+          "path": "/data/sources/minhao/runs/dflash_online_osd_rerun_20261023/campaign_001/trainer/events/event_058/export",
+          "files": {
+            "config.json": {
+              "bytes": 1211,
+              "sha256": "5749d96966f9ce7e6a9662c9f482b8aa0d461845fb6b9ce09ac2c08311fab2aa",
+              "inode": 1216164649,
+              "device": 2066,
+              "mtime_ns": 1792846706283935675,
+              "resolved": "/data/sources/minhao/runs/dflash_online_osd_rerun_20261023/campaign_001/trainer/events/event_058/export/config.json"
+            },
+            "model.safetensors": {
+              "bytes": 2097259104,
+              "sha256": "796ec9d486046d43a2b91bd0ddf32b33eb3183b7d924e9dd9ab6bc4c6b0d0856",
+              "inode": 1216164647,
+              "device": 2066,
+              "mtime_ns": 1792846706282935658,
+              "resolved": "/data/sources/minhao/runs/dflash_online_osd_rerun_20261023/campaign_001/trainer/events/event_058/export/model.safetensors"
+            }
+          },
+          "unchanged": true
+        },
+        "K": {
+          "path": "/data/sources/minhao/runs/dflash_full_k_gsm8k_20261031/production_002/campaign_001/arms/K/trainer/events/event_058/export",
+          "files": {
+            "config.json": {
+              "bytes": 1211,
+              "sha256": "5749d96966f9ce7e6a9662c9f482b8aa0d461845fb6b9ce09ac2c08311fab2aa",
+              "inode": 202198682,
+              "device": 2066,
+              "mtime_ns": 1793557616567745884,
+              "resolved": "/data/sources/minhao/runs/dflash_full_k_gsm8k_20261031/production_002/campaign_001/arms/K/trainer/events/event_058/export/config.json"
+            },
+            "model.safetensors": {
+              "bytes": 2097259104,
+              "sha256": "47a3112244fdbdc17e01c470c55bf1913b302b194fbf99d1e13239c642df859b",
+              "inode": 202198681,
+              "device": 2066,
+              "mtime_ns": 1793557616566745868,
+              "resolved": "/data/sources/minhao/runs/dflash_full_k_gsm8k_20261031/production_002/campaign_001/arms/K/trainer/events/event_058/export/model.safetensors"
+            }
+          },
+          "unchanged": true
+        },
+        "KPLUS": {
+          "path": "/data/sources/minhao/runs/dflash_kplus_20261103/production_001/campaign_001/arms/KPLUS/trainer/events/event_058/export",
+          "files": {
+            "config.json": {
+              "bytes": 1211,
+              "sha256": "5749d96966f9ce7e6a9662c9f482b8aa0d461845fb6b9ce09ac2c08311fab2aa",
+              "inode": 1277565676,
+              "device": 2066,
+              "mtime_ns": 1793728747144826671,
+              "resolved": "/data/sources/minhao/runs/dflash_kplus_20261103/production_001/campaign_001/arms/KPLUS/trainer/events/event_058/export/config.json"
+            },
+            "model.safetensors": {
+              "bytes": 2097259104,
+              "sha256": "4bd8e872e4b3976b0da257f0b181f0f27c8b369e2faf386d7d833de9a1c87d67",
+              "inode": 1277565675,
+              "device": 2066,
+              "mtime_ns": 1793728747143826654,
+              "resolved": "/data/sources/minhao/runs/dflash_kplus_20261103/production_001/campaign_001/arms/KPLUS/trainer/events/event_058/export/model.safetensors"
+            }
+          },
+          "unchanged": true
+        }
+      },
+      "runtime": {
+        "python_version": "3.12.14",
+        "torch": "2.9.1+cu130",
+        "transformers": "4.57.1",
+        "cuda": "13.0",
+        "native_runtime_sha256": {
+          "speculative/dflash_worker.py": "9397402f5cfbf60b00b7d27d551e5e9e1b605be9b084d028d4ddda76c475dc8c",
+          "speculative/dflash_info.py": "9c7ac23a1bf0840eec8218f02f2adbfc3e419099cd19822137ce5c6e0e902218",
+          "layers/logits_processor.py": "5c6c54bec37b941652e29908c773a756fe6c86f99932ab80043672a1eaa0f086",
+          "models/qwen3.py": "e23ee8af21eac46685852854a5fe585cf58477d4a1f8047887d6afeefaf8e32d",
+          "models/dflash.py": "d4fcfe005a1acc51a4938d038e1dbc1a2c8ff245842f4253338527335b2327b2",
+          "entrypoints/engine.py": "2bcd4b04c325d4ed65f867490c5bac9e915e02f05471c83dacb5a4a097cf1f2a",
+          "server_args.py": "bd60199803698e4ffe6dc44499a8d42be73f42db28056cb6750411523cf56c04"
+        }
+      },
+      "storage": {
+        "status": "passed",
+        "free_bytes": 66794266624,
+        "required_bytes": 8589934592,
+        "initial_admission": false
+      },
+      "wall_s": 48.930799074471
+    }
+  },
+  "errors": []
+}

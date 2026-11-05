@@ -1,0 +1,663 @@
+{
+  "execution_git_commit": "04fac901f7af5478b62ff730833c026637ddd2cd",
+  "execution_history": {
+    "scientific_execution_commit": "04fac901f7af5478b62ff730833c026637ddd2cd",
+    "operational_recoveries": [
+      {
+        "receipt": "recovery_001/RECOVERY.json",
+        "scientific_execution_commit": "04fac901f7af5478b62ff730833c026637ddd2cd",
+        "recovery_execution_commit": "1cfb44fa3989e5ed2c5e13805007bb20f22189f8",
+        "start_event": 6,
+        "end_event": 8,
+        "native_output": "/data/sources/minhao/runs/dflash_ok_events_5_8_20261029/campaign_001/native_recovery_001"
+      }
+    ],
+    "execution_segments": [
+      {
+        "execution_commit": "04fac901f7af5478b62ff730833c026637ddd2cd",
+        "phase": "original_through_idle_event5",
+        "wall_s": 2750.2765267845243,
+        "backend_loading_s": 21.757294053211808
+      },
+      {
+        "execution_commit": "1cfb44fa3989e5ed2c5e13805007bb20f22189f8",
+        "phase": "manual_event5_boundary_resume6_through8",
+        "wall_s": 6245.311254806817,
+        "backend_loading_s": 26.014849981293082
+      }
+    ],
+    "summed_segment_wall_s": 8995.58778159134,
+    "summed_segment_backend_loading_s": 47.77214403450489,
+    "recorded_campaign_wall_s": 8995.58778159134,
+    "campaign_wall_matches_segment_sum": true,
+    "timing_scope": "Sum of recorded campaign process segments, including their idle waits; gaps between stopped and restarted processes are excluded. Segment timers overlap their contained phase timers and must not be added to them."
+  },
+  "receipts": [
+    {
+      "path": "COMPLETED_STATE_RETIREMENT.json",
+      "bytes": 6431,
+      "sha256": "16ffc577d5166aa4c6fc3762ef45f9ebc715f6b31d8b026249f00fb5a6e2da89"
+    },
+    {
+      "path": "EXECUTION_SOURCE.json",
+      "bytes": 287,
+      "sha256": "cfb9362b39a3695e853ff2c6d3f82c9b624c480310c41ab1ee7a0f1b90b6344a"
+    },
+    {
+      "path": "GRADIENT_RETIREMENT.json",
+      "bytes": 11043,
+      "sha256": "1216753fb535cab61ae98afa9fd1ad7ac8ceb8b6f4c5d62df6ec6cdfb887e696"
+    },
+    {
+      "path": "GRADIENT_RETIREMENT_ELIGIBILITY.json",
+      "bytes": 16142,
+      "sha256": "ca0f1b7c18bff9365d18f6fec20c08881b0c74b14ec5435897d7d6aaac2a2131"
+    },
+    {
+      "path": "INDEPENDENT_PEAK_STORAGE_BUDGET.json",
+      "bytes": 3953,
+      "sha256": "df1d94699cf35f3c3d1e218c504aabc0b263fe7448609d58c54d598d51938598"
+    },
+    {
+      "path": "MANUAL_IDLE_STOP.json",
+      "bytes": 946,
+      "sha256": "9a348f41bc70069bac0198bffaf4cbf5aeb33cd3237d05149d0becd0f0924a9a"
+    },
+    {
+      "path": "MANUAL_STOP.json",
+      "bytes": 589,
+      "sha256": "6c621afc4f657a275b959c41327ee67da6a0c2d1d98d336d7fdec7392cbaf28b"
+    },
+    {
+      "path": "POSTFLIGHT.json",
+      "bytes": 4432,
+      "sha256": "5cbf39cf9ced04b55dd20e332fa48db70cc5da4c82de327a9827cb47f3e95863"
+    },
+    {
+      "path": "PREFLIGHT.json",
+      "bytes": 5538,
+      "sha256": "24608244e2ac49c189b136bf03fdeff5657b7ea4f438bb50449ec507c08f8adf"
+    },
+    {
+      "path": "RETRIEVAL_MANIFEST.json",
+      "bytes": 1379315,
+      "sha256": "0cb427e69fa565fa00a70e7860596418c8f047b91b04b54301f0d47bfd34683d"
+    },
+    {
+      "path": "SOURCE_AVAILABILITY.json",
+      "bytes": 215,
+      "sha256": "dfd2308c0fb81307bf5182eaa809d6486106fdb289e4ef8b9040ea8b3134765e"
+    },
+    {
+      "path": "STORAGE_ADMISSION.json",
+      "bytes": 665,
+      "sha256": "ed2d395ba6c5574b4c88f94a102e7ba2be3c5f828b97ffccfce2bd65a184146e"
+    },
+    {
+      "path": "STORAGE_DUPLICATE_INVENTORY.json",
+      "bytes": 5223,
+      "sha256": "45df4532635a04021d2e535be95d2737bb463e952026d8e8b97f84934574d652"
+    },
+    {
+      "path": "STORAGE_MAINTENANCE.json",
+      "bytes": 4112,
+      "sha256": "34418adbdc4d8d1f4fab794b57acc33bd2dc1491b489c893d2ec8c2b1dddb505"
+    },
+    {
+      "path": "VERIFIED_DUPLICATE_RETIREMENT.json",
+      "bytes": 13898,
+      "sha256": "7422648ef3f28ceeab4a25b6bb46e798ed642dce7ef4be589bd84e0f4179b9c2"
+    },
+    {
+      "path": "campaign_001/COSTS.json",
+      "bytes": 26106,
+      "sha256": "d60082d2d364497b6fb4de5667bf016ae31a4996313c853cde46a5569aa60760"
+    },
+    {
+      "path": "campaign_001/CURRENT_PARENTS.json",
+      "bytes": 733,
+      "sha256": "df04638d7e26c16a6ba6acd3e55c250e586581a9bcd044fd681df9627696bfdd"
+    },
+    {
+      "path": "campaign_001/K/events/event_005/RESULT.json",
+      "bytes": 2948549,
+      "sha256": "65a84a50a6290de9f3bdcdc5a949a7b0799d7ba0d3764cb3a167d6a0ff4c37c7"
+    },
+    {
+      "path": "campaign_001/K/events/event_006/RESULT.json",
+      "bytes": 2825578,
+      "sha256": "c48fe965b86e991958c382277bd48cf4061ce18b3497c5254d2b13c79ee305eb"
+    },
+    {
+      "path": "campaign_001/K/events/event_007/RESULT.json",
+      "bytes": 3008532,
+      "sha256": "bca8a5fa49999d044c8215604f80e44317e6c41d83429dc2dffd261346aa3afb"
+    },
+    {
+      "path": "campaign_001/K/events/event_008/RESULT.json",
+      "bytes": 2865163,
+      "sha256": "fc3508b69e1bcbb5a7d8699cbfe940e425dc8a0fa4a73ad9d53a4329b95b3783"
+    },
+    {
+      "path": "campaign_001/O/events/event_005/RESULT.json",
+      "bytes": 2664900,
+      "sha256": "957cfb3a546eb1a36445b54fa20d1651476012f1200b1f8c4a56365b706a6a8d"
+    },
+    {
+      "path": "campaign_001/O/events/event_006/RESULT.json",
+      "bytes": 2541936,
+      "sha256": "4ce99c764187684edfdb52d8c9ba08a6d7762038de4097609deab28d92d75b7c"
+    },
+    {
+      "path": "campaign_001/O/events/event_007/RESULT.json",
+      "bytes": 2724779,
+      "sha256": "16b4214f1311d2732f8f20d5ee218aa3556e18dba4fbb522cdcf6b851c880c21"
+    },
+    {
+      "path": "campaign_001/O/events/event_008/RESULT.json",
+      "bytes": 2581646,
+      "sha256": "d7fdb46414fa4cbf632add4a48268ff9fe7c19d0cf1dfef5132504930ec89c46"
+    },
+    {
+      "path": "campaign_001/PLAN_CHECK.json",
+      "bytes": 533,
+      "sha256": "60e2ea964a0c88d5fbfddf5cd4c7e03f108327d9afdb9ceed34ef0d2dc34f6f9"
+    },
+    {
+      "path": "campaign_001/STATUS.json",
+      "bytes": 4895,
+      "sha256": "61e21fa5fb1ce2d87cf291558d6efe23029644fd3946dad04c69c64819d426cc"
+    },
+    {
+      "path": "campaign_001/resume_005_K/CLOSED.json",
+      "bytes": 479,
+      "sha256": "80053a21ca3e679841c6481ef85e2d595100457550e73760b8292def4f5b561d"
+    },
+    {
+      "path": "campaign_001/resume_005_K/COSTS.json",
+      "bytes": 817,
+      "sha256": "d6d81ea5c7e626a2ac6a9ebcf056dfb376c9b3da7c61da658976191e78419225"
+    },
+    {
+      "path": "campaign_001/resume_005_K/EVENT_CHECK.json",
+      "bytes": 322,
+      "sha256": "accc715ca75a2ab5c00d0e472692327002524262e3381362a74b25610e4de131"
+    },
+    {
+      "path": "campaign_001/resume_005_K/LIVE.json",
+      "bytes": 225,
+      "sha256": "093dd840420ed0609c4e0ae104bff5b914dad93d916eeccf3739e7ae9c92da0f"
+    },
+    {
+      "path": "campaign_001/resume_005_K/LIVE_BOUNDARY.json",
+      "bytes": 201,
+      "sha256": "a5e8cf213f3667e9c4583dadf81bcaea84cffa583acc1f88dc4343ab726ce664"
+    },
+    {
+      "path": "campaign_001/resume_005_K/SAVED.json",
+      "bytes": 691,
+      "sha256": "d3b156db357ead24b771873bb1c672866d46112ab63935aafa69281161339a54"
+    },
+    {
+      "path": "campaign_001/resume_005_K/SAVED_ENDPOINT.json",
+      "bytes": 555,
+      "sha256": "6ebcb385c9b5d8b5e5e6e460f67115425ed45aa6fbfb74e3e4ab43a281865d14"
+    },
+    {
+      "path": "campaign_001/resume_005_K/STATE_IDENTITIES.json",
+      "bytes": 660,
+      "sha256": "6e3b171244dc2574f54c528ea3008ca84c394f1609d8c569bdaff452aae84a67"
+    },
+    {
+      "path": "campaign_001/resume_005_O/CLOSED.json",
+      "bytes": 467,
+      "sha256": "bac810b2e13c3e6ee4a480b3b19dec244fd64b7fa8f6bddcc2c8102fe12f92fd"
+    },
+    {
+      "path": "campaign_001/resume_005_O/COSTS.json",
+      "bytes": 781,
+      "sha256": "83133fb614ef2275dcf3cb6ebe122572df8c55a478c590f028298908d580dee7"
+    },
+    {
+      "path": "campaign_001/resume_005_O/EVENT_CHECK.json",
+      "bytes": 311,
+      "sha256": "4a532b1690f73a4997697880462ab294632ea87d631e4f2ec39b35e24bb8eed7"
+    },
+    {
+      "path": "campaign_001/resume_005_O/LIVE.json",
+      "bytes": 225,
+      "sha256": "e4e0189dc5733bf131d49b2f844019ad865439633660a2b29df51782d944ed14"
+    },
+    {
+      "path": "campaign_001/resume_005_O/LIVE_BOUNDARY.json",
+      "bytes": 201,
+      "sha256": "a5e8cf213f3667e9c4583dadf81bcaea84cffa583acc1f88dc4343ab726ce664"
+    },
+    {
+      "path": "campaign_001/resume_005_O/SAVED.json",
+      "bytes": 680,
+      "sha256": "53c8ac9b2324a10c06f3eabc450aa7c78bfb2508b2eefba538a56693a3c36cca"
+    },
+    {
+      "path": "campaign_001/resume_005_O/SAVED_ENDPOINT.json",
+      "bytes": 543,
+      "sha256": "16e8ff910e183e3480ce9f46ad2bd3cf84f3fb6db99b153d1b2ecac5584c2fbe"
+    },
+    {
+      "path": "campaign_001/resume_005_O/STATE_IDENTITIES.json",
+      "bytes": 660,
+      "sha256": "2ef051053bd0199ea22cb6919d1c8cefa86489ab03ddfc4ed460882c9c66c317"
+    },
+    {
+      "path": "campaign_001/resume_006_K/CLOSED.json",
+      "bytes": 496,
+      "sha256": "bef935547632ac412dbcffc79e77c5a6df31b20280cee598406e926752e4dabb"
+    },
+    {
+      "path": "campaign_001/resume_006_K/COSTS.json",
+      "bytes": 818,
+      "sha256": "316cfccc503b85e9ff070ef3b460336cfd4f2bb164febfd07aeccf569c567405"
+    },
+    {
+      "path": "campaign_001/resume_006_K/EVENT_CHECK.json",
+      "bytes": 322,
+      "sha256": "35707fa4025a2fd594dd67434c0e36970108a4a63960dd2182eb651839fe0f37"
+    },
+    {
+      "path": "campaign_001/resume_006_K/LIVE.json",
+      "bytes": 224,
+      "sha256": "081efaade0e67a485b8bf74650e6db6f6fb9fb05a8739e0f17ff203ca1e24082"
+    },
+    {
+      "path": "campaign_001/resume_006_K/LIVE_BOUNDARY.json",
+      "bytes": 201,
+      "sha256": "06869b40a8a9755b7356afe819fe6ee3d022d06e4f53fd05d43cca89c315fba8"
+    },
+    {
+      "path": "campaign_001/resume_006_K/SAVED.json",
+      "bytes": 688,
+      "sha256": "4a0a00e83297a34dc8ec64aeeee9fe51c323d2792fba5dd9c570a34f70898913"
+    },
+    {
+      "path": "campaign_001/resume_006_K/SAVED_ENDPOINT.json",
+      "bytes": 572,
+      "sha256": "4af3bc0b52a7ae3eb97616f7255ac3c0f62920abc03ee506d15b367081c63492"
+    },
+    {
+      "path": "campaign_001/resume_006_K/STATE_IDENTITIES.json",
+      "bytes": 677,
+      "sha256": "2291be2a233753de8805607e96b833780901e74ad71ac3bb296b15f1e62e84d7"
+    },
+    {
+      "path": "campaign_001/resume_006_O/CLOSED.json",
+      "bytes": 484,
+      "sha256": "f68352dffd92571015bc8756ef78510cbd8660972878653da645ec66ef348af2"
+    },
+    {
+      "path": "campaign_001/resume_006_O/COSTS.json",
+      "bytes": 777,
+      "sha256": "e4a7e150e8e1fd471cf47a5934c1f9cc62a9c230f0f0a379981822c0b83d8b06"
+    },
+    {
+      "path": "campaign_001/resume_006_O/EVENT_CHECK.json",
+      "bytes": 311,
+      "sha256": "3ef38e3a840cb319ffb617e90853db1c5724ceb20e227b0170935fa95255c723"
+    },
+    {
+      "path": "campaign_001/resume_006_O/LIVE.json",
+      "bytes": 225,
+      "sha256": "6520d44605e0e504159923bd34a438dce79797d038e98acc67cfa8e49ae2cc0a"
+    },
+    {
+      "path": "campaign_001/resume_006_O/LIVE_BOUNDARY.json",
+      "bytes": 201,
+      "sha256": "06869b40a8a9755b7356afe819fe6ee3d022d06e4f53fd05d43cca89c315fba8"
+    },
+    {
+      "path": "campaign_001/resume_006_O/SAVED.json",
+      "bytes": 677,
+      "sha256": "ebf088ac9b671f0f928c6507c45d5ac53357f30d7d03abc710873dbe8e1cea47"
+    },
+    {
+      "path": "campaign_001/resume_006_O/SAVED_ENDPOINT.json",
+      "bytes": 560,
+      "sha256": "cc0d6ef9bfeff4079b6abaebb738f15650aeb5be2da91a98d7086430eb7a81b6"
+    },
+    {
+      "path": "campaign_001/resume_006_O/STATE_IDENTITIES.json",
+      "bytes": 677,
+      "sha256": "1904e5fedb55205aa340630f7900b9816655db849d098be7931481dc7af2bd63"
+    },
+    {
+      "path": "campaign_001/resume_007_K/CLOSED.json",
+      "bytes": 513,
+      "sha256": "025995a6693caf0352d5ee5539e799c0dc6868fa2100e14751c1756d8be3b0e4"
+    },
+    {
+      "path": "campaign_001/resume_007_K/COSTS.json",
+      "bytes": 818,
+      "sha256": "ddbf25ce67f88259d23266041e0179ad60fc9e3430ed3f4c5e7a535059167ffd"
+    },
+    {
+      "path": "campaign_001/resume_007_K/EVENT_CHECK.json",
+      "bytes": 322,
+      "sha256": "f117cd3b4245cb4c55957b06e92bd83b98b8ca6c5b8de29aa96f76069f073ddc"
+    },
+    {
+      "path": "campaign_001/resume_007_K/LIVE.json",
+      "bytes": 226,
+      "sha256": "7d3aa104f9a80287d75a5ec403e3ec9c78719bce04a558efc7220194a8526388"
+    },
+    {
+      "path": "campaign_001/resume_007_K/LIVE_BOUNDARY.json",
+      "bytes": 201,
+      "sha256": "61e835a4cc56aec957b1dd2428afdb892632102016a461ba17800be5e19752fd"
+    },
+    {
+      "path": "campaign_001/resume_007_K/SAVED.json",
+      "bytes": 705,
+      "sha256": "ebeadda0169ca5936230e9bea6601d44c380ca2795b058f769a9798e5ef6d8d4"
+    },
+    {
+      "path": "campaign_001/resume_007_K/SAVED_ENDPOINT.json",
+      "bytes": 555,
+      "sha256": "83ebb3486a77361a2ded4b051794cbc54ae718a9ba9bc0c9513b3be41e273dd7"
+    },
+    {
+      "path": "campaign_001/resume_007_K/STATE_IDENTITIES.json",
+      "bytes": 660,
+      "sha256": "827ec072da0d59d6a79c341251d4845df3a406622e43f531b943d6f031a1aa51"
+    },
+    {
+      "path": "campaign_001/resume_007_O/CLOSED.json",
+      "bytes": 501,
+      "sha256": "f1f4e437d89958964b84a64e84d78afdb8dee153160b7e00ded3f05c7774a327"
+    },
+    {
+      "path": "campaign_001/resume_007_O/COSTS.json",
+      "bytes": 779,
+      "sha256": "4f799602cdb10c8aba1036c731aebb6107090e767dc2a1795b2db243c066759a"
+    },
+    {
+      "path": "campaign_001/resume_007_O/EVENT_CHECK.json",
+      "bytes": 311,
+      "sha256": "8dee2f5fb4d52cc64618d760f7cdce26186caa9f6bef4b35c48f3ae6991a411c"
+    },
+    {
+      "path": "campaign_001/resume_007_O/LIVE.json",
+      "bytes": 225,
+      "sha256": "4fe6432498d030009a9363ceee59c69c00c640e07ccf61ad46e3dd835bdb2218"
+    },
+    {
+      "path": "campaign_001/resume_007_O/LIVE_BOUNDARY.json",
+      "bytes": 201,
+      "sha256": "61e835a4cc56aec957b1dd2428afdb892632102016a461ba17800be5e19752fd"
+    },
+    {
+      "path": "campaign_001/resume_007_O/SAVED.json",
+      "bytes": 694,
+      "sha256": "df4d70e6047429460652d7d9c31cf24fb6b840eb7fbd96cfd954a5679ae147ec"
+    },
+    {
+      "path": "campaign_001/resume_007_O/SAVED_ENDPOINT.json",
+      "bytes": 543,
+      "sha256": "63953b7bfea1d9d82299cb91616d9e66e19b1a049fc6036e15e896ce68e0f215"
+    },
+    {
+      "path": "campaign_001/resume_007_O/STATE_IDENTITIES.json",
+      "bytes": 660,
+      "sha256": "a3595311186568f7450a82ff9cc859e96d69fd00373bc221d2d15890dc812868"
+    },
+    {
+      "path": "campaign_001/resume_008_K/CLOSED.json",
+      "bytes": 531,
+      "sha256": "648f71a33ef043f7fa5271b25e77c26007025b744d68f222cdccd80f0c47763b"
+    },
+    {
+      "path": "campaign_001/resume_008_K/COSTS.json",
+      "bytes": 819,
+      "sha256": "321e382e72422ee1ce5b80e96fa70eb269b76a046f3f6652354ef39ecb7e5e4e"
+    },
+    {
+      "path": "campaign_001/resume_008_K/EVENT_CHECK.json",
+      "bytes": 323,
+      "sha256": "12db4f2bb54cdb3da80ddb2bce7b67962df3b09f9b17b5834b34abf7bbd54d56"
+    },
+    {
+      "path": "campaign_001/resume_008_K/LIVE.json",
+      "bytes": 226,
+      "sha256": "f6226de9c75bdc3dc797eafee5afa7ce733f8935bfde4d57c764dde6a5d0629a"
+    },
+    {
+      "path": "campaign_001/resume_008_K/LIVE_BOUNDARY.json",
+      "bytes": 202,
+      "sha256": "8f29b08593050f6a4cc5d8b70246ca3ce9defaef7fd7450df98078055718cba4"
+    },
+    {
+      "path": "campaign_001/resume_008_K/SAVED.json",
+      "bytes": 688,
+      "sha256": "7b2d228fcad088b5901df55b75a9b59a96a88e2880fc22f1651b47846353c8b1"
+    },
+    {
+      "path": "campaign_001/resume_008_K/SAVED_ENDPOINT.json",
+      "bytes": 574,
+      "sha256": "028f69037b48fd7a84043439e0fedaa24345e3b3fc12c7d975aa16886dd731ff"
+    },
+    {
+      "path": "campaign_001/resume_008_K/STATE_IDENTITIES.json",
+      "bytes": 677,
+      "sha256": "1fbeef355423f0e721266c5fb53e5adffcc6672ff42be5873cc2bd3fd4b921f2"
+    },
+    {
+      "path": "campaign_001/resume_008_O/CLOSED.json",
+      "bytes": 519,
+      "sha256": "98c38b49d1037d3bb9f50f9f9686801bc4e4adfbf3139ac9551f9572dd352ac9"
+    },
+    {
+      "path": "campaign_001/resume_008_O/COSTS.json",
+      "bytes": 776,
+      "sha256": "141315d2a70951ee697a816b08d050448ec1ce65c328d102bba0021534cb068e"
+    },
+    {
+      "path": "campaign_001/resume_008_O/EVENT_CHECK.json",
+      "bytes": 312,
+      "sha256": "ee6ff21c419b3106032d8dec2bc21fc039e920c3144f2504e49c09479987dfd7"
+    },
+    {
+      "path": "campaign_001/resume_008_O/LIVE.json",
+      "bytes": 225,
+      "sha256": "b903875d1a2cdc0f728ddf402db6a4ac607f01e70f323c709b7c1e98f2fc38f9"
+    },
+    {
+      "path": "campaign_001/resume_008_O/LIVE_BOUNDARY.json",
+      "bytes": 202,
+      "sha256": "8f29b08593050f6a4cc5d8b70246ca3ce9defaef7fd7450df98078055718cba4"
+    },
+    {
+      "path": "campaign_001/resume_008_O/SAVED.json",
+      "bytes": 676,
+      "sha256": "fb7d40dd4e48dc1a907503a945ce6475e370e2fb8efc39002b4b25ed5df105cd"
+    },
+    {
+      "path": "campaign_001/resume_008_O/SAVED_ENDPOINT.json",
+      "bytes": 562,
+      "sha256": "e19f3d07c26979ba7e9d0b1e22db6879c331e8e4f148f184cb9ca5e768d05419"
+    },
+    {
+      "path": "campaign_001/resume_008_O/STATE_IDENTITIES.json",
+      "bytes": 677,
+      "sha256": "1938878b772f16ebe42c6fba7ce11e7d490c85d27c6f86cd8d9d3e0da0803bb9"
+    },
+    {
+      "path": "campaign_001/retention/FINAL.json",
+      "bytes": 249749,
+      "sha256": "12a7d7bf066fc6b2cc4a3af59997dc465f44bfdf3f7bc327634af1ef80e70257"
+    },
+    {
+      "path": "campaign_001/retention/event_005_K_training_STORAGE.json",
+      "bytes": 364,
+      "sha256": "687976bf972d01fbbec5e0c85de3f89e7bbbef5d5eeafc643f181faa4b7bfbbe"
+    },
+    {
+      "path": "campaign_001/retention/event_005_LOCAL_RETENTION.json",
+      "bytes": 61292,
+      "sha256": "908159a74fce655a72f2a00e59a4fd0346529efeccfa48dcfc14b68c5fb3f88a"
+    },
+    {
+      "path": "campaign_001/retention/event_005_O_training_STORAGE.json",
+      "bytes": 364,
+      "sha256": "6c080a08d2dd08bc35ce26fe26729af847e9b6e9aaa27456049834a34b0fa1a7"
+    },
+    {
+      "path": "campaign_001/retention/event_005_REQUEST.json",
+      "bytes": 61164,
+      "sha256": "957fb0e674fcd6b019cadab360e542a6d60ff46a6f97c87a3e654966f43fd0f8"
+    },
+    {
+      "path": "campaign_001/retention/event_005_collection_STORAGE.json",
+      "bytes": 329,
+      "sha256": "1b56199398915921ef610882b6f77e741e28987d787caf329ce2928cecbbc755"
+    },
+    {
+      "path": "campaign_001/retention/event_005_preparation_STORAGE.json",
+      "bytes": 347,
+      "sha256": "3c3238c292d6acc84057455b31a641a9d1d147e8d9970667e9cc2a258a67944b"
+    },
+    {
+      "path": "campaign_001/retention/event_006_K_training_STORAGE.json",
+      "bytes": 364,
+      "sha256": "2a86e47b80d6fd781e8852bbcc666e32ce29155c60efddd041d3ea95659ab96b"
+    },
+    {
+      "path": "campaign_001/retention/event_006_LOCAL_RETENTION.json",
+      "bytes": 63287,
+      "sha256": "d60ede6ba08466ffe4fdee3033e59867fc0036502a0f72cd8dc34e77c5f70541"
+    },
+    {
+      "path": "campaign_001/retention/event_006_O_training_STORAGE.json",
+      "bytes": 364,
+      "sha256": "bb0eb87b91f2757617eb4a3fa9267c7f98302a23a0391e61b6921bd9ca5e7afc"
+    },
+    {
+      "path": "campaign_001/retention/event_006_collection_STORAGE.json",
+      "bytes": 329,
+      "sha256": "9b5a6bebf5dab2fd681a44ac75d515aa6ea0d57a0a63d0e29fe91f7081087956"
+    },
+    {
+      "path": "campaign_001/retention/event_006_preparation_STORAGE.json",
+      "bytes": 347,
+      "sha256": "3a85ffc5ac7e43391076206c7a880780b018e996a14142716356961ee54029b4"
+    },
+    {
+      "path": "campaign_001/retention/event_007_K_training_STORAGE.json",
+      "bytes": 364,
+      "sha256": "f141d8c7e24c42d5b22134bcce929025fbcd37b12447b816423ba58f85aa5f20"
+    },
+    {
+      "path": "campaign_001/retention/event_007_LOCAL_RETENTION.json",
+      "bytes": 62980,
+      "sha256": "9932624db8bdcce8ff38a0edfe5770a380a02adba20cb80e85496ae7b743d177"
+    },
+    {
+      "path": "campaign_001/retention/event_007_O_training_STORAGE.json",
+      "bytes": 364,
+      "sha256": "a4e3a4529f77868c063932c4570e40b2eed737ee00c60152b162bd1b33680231"
+    },
+    {
+      "path": "campaign_001/retention/event_007_collection_STORAGE.json",
+      "bytes": 329,
+      "sha256": "3409ef252c7f1220d586fcdc7e62a9c62d037c3e6f10004934cf02bcf522c197"
+    },
+    {
+      "path": "campaign_001/retention/event_007_preparation_STORAGE.json",
+      "bytes": 347,
+      "sha256": "d907e89e1865309fa838ea835362aa2796156be4a0d1fb5c7d4106f789d7843e"
+    },
+    {
+      "path": "campaign_001/retention/event_008_K_training_STORAGE.json",
+      "bytes": 364,
+      "sha256": "a25913478653cd52c585d4fe47dda51e90f581401d493c616e03ef4464266366"
+    },
+    {
+      "path": "campaign_001/retention/event_008_LOCAL_RETENTION.json",
+      "bytes": 63296,
+      "sha256": "b85c12f7d64ee7ae699ba6a45db087e7be0cc9b65d690b2aba17fe66024529ae"
+    },
+    {
+      "path": "campaign_001/retention/event_008_O_training_STORAGE.json",
+      "bytes": 364,
+      "sha256": "e48178c4d16206ca41abac62e0d78cf0d20132362effebf9fb7d201f1f31cf75"
+    },
+    {
+      "path": "campaign_001/retention/event_008_collection_STORAGE.json",
+      "bytes": 329,
+      "sha256": "d9bdf87ddefed84289c7f48cb01fb2e951dc6c54b6b131dee8b6bf65d08d1a96"
+    },
+    {
+      "path": "campaign_001/retention/event_008_preparation_STORAGE.json",
+      "bytes": 347,
+      "sha256": "bb69899773469f18d8760b9d1e67e06cd26159c9e33bb94ba58db35e5a6237ee"
+    },
+    {
+      "path": "recovery_001/ORIGINAL_COSTS.json",
+      "bytes": 6945,
+      "sha256": "af81aa2e59d5b185dd92f5bfbe9575c452fee866dbb0639d103f26c0973dd66d"
+    },
+    {
+      "path": "recovery_001/ORIGINAL_STATUS.json",
+      "bytes": 1482,
+      "sha256": "0a02ed1661d61049dcf9f67766830b185ad01d90e035f40b940962ebe06449f5"
+    },
+    {
+      "path": "recovery_001/RECOVERY.json",
+      "bytes": 5217,
+      "sha256": "12d65e3ca8b49d187510fd3d8b56dbf18203a959fb0613bcffd29bc0d9c0c248"
+    },
+    {
+      "path": "recovery_001/SOURCE_POSTFLIGHT.json",
+      "bytes": 349,
+      "sha256": "41387ba6dd9e0bcf52fcbf0620cc6005a76b440201c40096ccb2a297356bf50e"
+    },
+    {
+      "path": "sealed/MODEL_PIN.json",
+      "bytes": 3397,
+      "sha256": "197e71a9be3bf5410d76de09eb53135e7c446b37e2530fb81d106e15bbdb9a05"
+    },
+    {
+      "path": "sealed/PLAN.json",
+      "bytes": 2188172,
+      "sha256": "f8392fad503cd7efb7d6435cbfb0c58fd25b032cee6639b22cd74532e70733c0"
+    },
+    {
+      "path": "sealed/PLAN_CHECK.json",
+      "bytes": 533,
+      "sha256": "60e2ea964a0c88d5fbfddf5cd4c7e03f108327d9afdb9ceed34ef0d2dc34f6f9"
+    },
+    {
+      "path": "sealed/RECOVERY_SOURCE.json",
+      "bytes": 579,
+      "sha256": "098b86f34b4bae835f7549df53bb627076b7ebfc7378c8675c799422fd5fbdee"
+    },
+    {
+      "path": "sealed/REMOTE_INPUT_IDENTITIES.json",
+      "bytes": 1763,
+      "sha256": "a48a1ff5cc2e84d02fe8889e7e7e9444348ee029b96f4863ce35c1506b813c5a"
+    },
+    {
+      "path": "sealed/RUNTIME_PIN.json",
+      "bytes": 2792,
+      "sha256": "53c15d9d0770a000ce7f510c84c7fa83c564d6fa36903163c485041bc03b97ec"
+    },
+    {
+      "path": "sealed/SEAL.json",
+      "bytes": 199131,
+      "sha256": "bbe4cd8015861d9e3675f735d0bbeaa3dc120a65ac1cb2f82437139329f51c40"
+    },
+    {
+      "path": "sealed/TRAINING_PIN.json",
+      "bytes": 246,
+      "sha256": "7526acdf471c0867267c6de09e60a6a1c2474b35a26f3fa376af84d2b7e0f512"
+    }
+  ],
+  "scope": "Byte identities of retained source/input/launch/state/work receipts. Receipt contents and execution commands remain in the named artifacts; this index does not duplicate private arrays or independently rerun state restoration."
+}

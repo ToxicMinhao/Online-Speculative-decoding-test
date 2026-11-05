@@ -1,0 +1,73 @@
+{
+  "status": "passed",
+  "model_work": 0,
+  "postflight": true,
+  "phase": "postflight",
+  "seal": {
+    "status": "passed",
+    "files_checked": 2746,
+    "execution_source": {
+      "commit": "d10521a1aa7d256bb75b37a6aae07586ae7cc8b3",
+      "dirty": false,
+      "source_path": "/data/sources/minhao/DFlash-Online",
+      "repository": "https://github.com/ToxicMinhao/Online-Speculative-decoding-test"
+    }
+  },
+  "plan": {
+    "status": "passed",
+    "budget": {
+      "optimizer_steps": 2048,
+      "presentations": 4096,
+      "reference_forwards": 2048,
+      "evaluation": 3072,
+      "feedback": 0,
+      "terminal_teacher_forwards": 0
+    },
+    "qualification": {
+      "forwards": 8,
+      "backwards": 8,
+      "reference_forwards": 6,
+      "optimizer_steps": 4,
+      "generations": 0
+    }
+  },
+  "configs": {
+    "17/K_HALF": {
+      "bytes": 1555,
+      "sha256": "09ffa88051f764352f00db908dacf417db6e7ad9745117098740f8a7c34e28d6"
+    },
+    "17/KP": {
+      "bytes": 1546,
+      "sha256": "b085417b544951fd12403695bc7a7715053a6c15933aebe1ecdb4fc28725a0c2"
+    },
+    "29/K_HALF": {
+      "bytes": 1555,
+      "sha256": "7b7a45c6457d6cd6b1c06eb1f86248d5d707c765af70b9067e23685948db0680"
+    },
+    "29/KP": {
+      "bytes": 1546,
+      "sha256": "f0d9528bd45e3ae5159da78c1bdf8a443d21712c30ed2400ef575050780cea3b"
+    }
+  },
+  "native_runtime": {
+    "python_version": "3.12.14",
+    "torch": "2.9.1+cu130",
+    "transformers": "4.57.1",
+    "cuda": "13.0",
+    "native_runtime_sha256": {
+      "speculative/dflash_worker.py": "9397402f5cfbf60b00b7d27d551e5e9e1b605be9b084d028d4ddda76c475dc8c",
+      "speculative/dflash_info.py": "9c7ac23a1bf0840eec8218f02f2adbfc3e419099cd19822137ce5c6e0e902218",
+      "layers/logits_processor.py": "5c6c54bec37b941652e29908c773a756fe6c86f99932ab80043672a1eaa0f086",
+      "models/qwen3.py": "e23ee8af21eac46685852854a5fe585cf58477d4a1f8047887d6afeefaf8e32d",
+      "models/dflash.py": "d4fcfe005a1acc51a4938d038e1dbc1a2c8ff245842f4253338527335b2327b2",
+      "entrypoints/engine.py": "2bcd4b04c325d4ed65f867490c5bac9e915e02f05471c83dacb5a4a097cf1f2a",
+      "server_args.py": "bd60199803698e4ffe6dc44499a8d42be73f42db28056cb6750411523cf56c04"
+    }
+  },
+  "training_runtime": {
+    "python": "3.12.15",
+    "torch": "2.13.0+cu130",
+    "transformers": "5.12.1"
+  },
+  "wall_s": 168.30237760581076
+}

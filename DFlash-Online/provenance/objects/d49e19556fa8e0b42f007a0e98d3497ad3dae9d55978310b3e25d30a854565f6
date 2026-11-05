@@ -1,0 +1,36 @@
+"""Repeat the bounded guard qualification; this entry point cannot train G."""
+import json
+from pathlib import Path
+import sys
+import time
+import traceback
+
+from online_feedback.storage import write_json
+from experiments.prefix_guard.qualify import run_qualification
+
+
+def run(root):
+    root = Path(root)
+    plan = json.loads((root / 'sealed/PLAN.json').read_text())
+    output = root / 'execution_001'
+    output.mkdir(exist_ok=False)
+    started = time.perf_counter()
+    status = dict(status='running', phase='qualification', main_optimizer_steps=0,
+                  generations=0, automatic_retry=False,
+                  prior_attempt_completed_temporary_steps=2)
+    write_json(output / 'STATUS.json', status)
+    try:
+        result = run_qualification(plan['config'], plan['ordinary_receipt'],
+                                   plan['pinned_initial'], output / 'qualification')
+        status.update(status='passed', phase='qualification_complete',
+                      new_temporary_steps=result['counts']['temporary_optimizer_step_completed'])
+    except BaseException as error:
+        status.update(status='failed', error=repr(error), traceback=traceback.format_exc())
+        raise
+    finally:
+        status['wall_s'] = time.perf_counter() - started
+        write_json(output / 'STATUS.json', status)
+
+
+if __name__ == '__main__':
+    run(sys.argv[1])

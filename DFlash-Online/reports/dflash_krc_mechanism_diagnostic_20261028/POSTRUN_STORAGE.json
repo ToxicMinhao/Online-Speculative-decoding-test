@@ -1,0 +1,30 @@
+{
+  "purpose": "Remove verified redundant transport archives after completed evidence retrieval",
+  "free_before_bytes": 22514900992,
+  "removed": [
+    {
+      "path": "/data/sources/minhao/runs/dflash_krc_mechanism_diagnostic_20261028/source_bundle.tar.gz",
+      "sha256": "d7734bb5f7fcba78371af95fc60e8d17238b95b22df259eb408859addd47b1a2",
+      "bytes": 49990,
+      "retained_local": "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_krc_mechanism_diagnostic_20261028/source_bundle.tar.gz",
+      "reason": "Byte-identical local archive retained and compact extraction verified",
+      "lost_capability": "None; only redundant transport copy"
+    },
+    {
+      "path": "/data/sources/minhao/runs/dflash_krc_mechanism_diagnostic_20261028/compact_evidence.tar.gz",
+      "sha256": "6d1724b3d7ab8a04db915ddda34617d49896c687b909681ab6d58a21a31a024e",
+      "bytes": 59964618,
+      "retained_local": "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_krc_mechanism_diagnostic_20261028/compact_evidence.tar.gz",
+      "reason": "Byte-identical local archive retained and compact extraction verified",
+      "lost_capability": "None; only redundant transport copy"
+    }
+  ],
+  "unavailable": [],
+  "free_after_bytes": 22574919680,
+  "gpu_state": [
+    "0, 0 MiB, 0 %",
+    "1, 0 MiB, 0 %"
+  ],
+  "status": "completed",
+  "maintenance_note": "An initial transport-cleanup command found no unqualified python executable and exited before writes; this command uses the pinned interpreter. No scientific job was retried."
+}

@@ -1,0 +1,135 @@
+"""Read-only payload qualification and compact metadata export; NEVER unlinks input."""
+import gc, hashlib, json, os, shutil, time
+from pathlib import Path
+import numpy as np
+import torch
+
+root=Path('/data/sources/minhao/runs/dflash_online_foundation_20261022/storage_extra')
+plan=json.loads((root/'PLAN.json').read_text())
+out=root/'metadata';out.mkdir(exist_ok=True)
+allowed=[np.dtype,np.ndarray,np.core.multiarray._reconstruct,type(np.dtype('uint32'))]
+source_root=Path('/data/sources/minhao/EAGLE_SPEC/research/dflash_baseline_learning_curve_20261020/execution_001')
+native_root=(source_root/'attempt_001/native').resolve()
+def sha(path):
+ h=hashlib.sha256()
+ with Path(path).open('rb') as stream:
+  for block in iter(lambda:stream.read(8*1024*1024),b''):h.update(block)
+ return h.hexdigest()
+def sync_dir(path):
+ fd=os.open(path,os.O_RDONLY)
+ try:os.fsync(fd)
+ finally:os.close(fd)
+def atomic_json(path,value):
+ temporary=path.with_suffix('.pending.json')
+ with temporary.open('x') as stream:
+  json.dump(value,stream,indent=2,allow_nan=False);stream.write('\n');stream.flush();os.fsync(stream.fileno())
+ os.replace(temporary,path);sync_dir(path.parent)
+def equal(a,b):
+ if isinstance(a,torch.Tensor):return isinstance(b,torch.Tensor) and torch.equal(a,b)
+ if isinstance(a,np.ndarray):return isinstance(b,np.ndarray) and np.array_equal(a,b)
+ if isinstance(a,dict):return isinstance(b,dict) and a.keys()==b.keys() and all(equal(v,b[k]) for k,v in a.items())
+ if isinstance(a,(tuple,list)):return type(a)==type(b) and len(a)==len(b) and all(equal(x,y) for x,y in zip(a,b))
+ return type(a)==type(b) and a==b
+def live_uses(path):
+ matches=[]
+ target=str(path.resolve())
+ for proc in Path('/proc').iterdir():
+  if not proc.name.isdigit() or int(proc.name)==os.getpid():continue
+  try:
+   command=(proc/'cmdline').read_bytes().replace(b'\x00',b' ').decode(errors='replace')
+   if target in command:matches.append({'pid':int(proc.name),'kind':'command_line_contains_exact_path'})
+   for fd in (proc/'fd').iterdir():
+    try:
+     if str(fd.resolve())==target:matches.append({'pid':int(proc.name),'kind':'open_fd'})
+    except (FileNotFoundError,PermissionError):pass
+   if target in (proc/'maps').read_text():matches.append({'pid':int(proc.name),'kind':'memory_mapping'})
+  except (PermissionError,FileNotFoundError,ProcessLookupError):pass
+ return matches
+assert (source_root/'EXIT_CODE').read_text().strip()=='0'
+reserve=8*2**30
+receipt={'schema_version':1,'status':'preparing_no_deletion','input_plan_sha256':sha(root/'PLAN.json'),
+ 'free_before':shutil.disk_usage(root).free,'reserve_bytes':reserve,'prepared':[],
+ 'lost_capability_if_retired':plan['lost_capability_if_retired'],
+ 'dependency_scope':plan['dependency_scope'],'source_exit_code':0,
+ 'current_pid':os.getpid(),'cuda_visible_devices':os.environ.get('CUDA_VISIBLE_DEVICES'),
+ 'no_cuda_execution':True,'deleted_paths':[]}
+assert receipt['free_before']>reserve+16*2**20
+for c in plan['candidates']:
+ p=Path(c['path']);before=p.stat()
+ assert p.resolve().is_relative_to(native_root) and not p.is_symlink()
+ assert before.st_nlink==1 and before.st_size==c['qualified_bytes']
+ assert sha(p)==c['qualified_sha256']
+ uses=live_uses(p);assert not uses,uses
+ group_root=p.parent.parent
+ training=group_root/'TRAINING_RESULT.json'
+ assert training.stat().st_size==c['original_training_result']['bytes']
+ assert sha(training)==c['original_training_result']['sha256']
+ training_result=json.loads(training.read_text());assert training_result['status']=='passed'
+ q=group_root/'TRAINING_QUIESCENT.json';quiet=json.loads(q.read_text())
+ assert quiet['status']=='passed' and quiet['training_quiescent'] is True and quiet['trainer_processes']==[]
+ expected_quiet=next(x for x in plan['all_original_compact_evidence_rehashed'] if x['path'].endswith('/'+c['group']+'/TRAINING_QUIESCENT.json'))
+ assert q.stat().st_size==expected_quiet['bytes'] and sha(q)==expected_quiet['sha256']
+ retained=[]
+ for name,meta in c['retained_serving_checkpoint']['files'].items():
+  path=Path(c['retained_serving_checkpoint']['path'])/name
+  assert path.is_file() and not path.is_symlink() and path.stat().st_size==meta['bytes'] and sha(path)==meta['sha256']
+  retained.append({'path':str(path),**meta})
+ with torch.serialization.safe_globals(allowed):
+  data=torch.load(p,map_location='cpu',mmap=True,weights_only=True)
+ assert data['schema_version']=='dflash_fixed_feedback_learning_curve_v1'
+ assert data['includes_draft'] is False and data['optimizer_steps']==8
+ assert data['checkpoint_sha256']==c['retained_serving_checkpoint']['checkpoint_identity_sha256']
+ assert set(data['optimizer'])=={'state','param_groups'}
+ removed=[]
+ for key,state in data['optimizer']['state'].items():
+  assert set(state)=={'step','exp_avg','exp_avg_sq'}
+  assert isinstance(state['step'],torch.Tensor) and state['step'].numel()==1
+  for field in ('exp_avg','exp_avg_sq'):
+   tensor=state.pop(field)
+   assert isinstance(tensor,torch.Tensor) and tensor.device.type=='cpu'
+   removed.append({'parameter_id':str(key),'field':field,'shape':list(tensor.shape),
+    'dtype':str(tensor.dtype),'numel':tensor.numel(),'bytes':tensor.numel()*tensor.element_size()})
+   del tensor
+ assert len(removed)==116 and len(data['optimizer']['state'])==58
+ compact=out/(c['group']+'_U2_without_adam_moments.pt')
+ assert not compact.exists()
+ temp=compact.with_suffix('.pending')
+ with temp.open('xb') as stream:
+  torch.save(data,stream);stream.flush();os.fsync(stream.fileno())
+ with torch.serialization.safe_globals(allowed):
+  loaded=torch.load(temp,map_location='cpu',weights_only=True)
+ assert equal(data,loaded)
+ os.replace(temp,compact);sync_dir(out)
+ after=p.stat()
+ assert (before.st_dev,before.st_ino,before.st_size,before.st_mtime_ns)==(after.st_dev,after.st_ino,after.st_size,after.st_mtime_ns)
+ row={'group':c['group'],'path':str(p),'original_sha256':c['qualified_sha256'],
+  'bytes':before.st_size,'allocated_bytes':before.st_blocks*512,'stat_dev':before.st_dev,'stat_ino':before.st_ino,
+  'stat_mtime_ns':before.st_mtime_ns,'metadata_path':str(compact),'metadata_bytes':compact.stat().st_size,
+  'metadata_sha256':sha(compact),'all_retained_values_reloaded_equal':True,
+  'removed_tensors':removed,'removed_tensor_bytes':sum(x['bytes'] for x in removed),
+  'live_uses':uses,'retained_serving_files':retained,
+  'original_result_sha256':sha(training),'quiescence_sha256':sha(q),
+  'original_state_still_exists':p.exists(),'status':'prepared_no_deletion'}
+ receipt['prepared'].append(row)
+ atomic_json(root/'PREPARED.json',receipt)
+ print(c['group']+' U2 compact metadata and retained weights verified; original still present',flush=True)
+ del data,loaded;gc.collect()
+expected_result=next(x for x in plan['all_original_compact_evidence_rehashed'] if x['path'].endswith('/attempt_001/RESULT.json'))
+actual_result=source_root/'attempt_001/RESULT.json'
+assert actual_result.stat().st_size==expected_result['bytes'] and sha(actual_result)==expected_result['sha256']
+receipt['campaign_result_sha256']=expected_result['sha256']
+receipt['status']='all_prepared_no_deletion'
+receipt['free_after_prepare']=shutil.disk_usage(root).free
+reclaim=sum(x['allocated_bytes'] for x in receipt['prepared'])
+receipt['potential_reclaim_allocated_bytes']=reclaim
+receipt['potential_reclaim_gib']=reclaim/2**30
+receipt['provides_12_decimal_GB']=reclaim>=12_000_000_000
+receipt['provides_12_GiB']=reclaim>=12*2**30
+receipt['potential_free_after_root_retirement']=receipt['free_after_prepare']+reclaim
+receipt['potential_write_budget_after_8GiB_reserve']=receipt['potential_free_after_root_retirement']-reserve
+receipt['old_one_full_training_state_bytes']=14680869736
+receipt['atomic_two_state_overlap_bytes']=2*14680869736
+receipt['requires_root_fresh_destructive_admission']=True
+atomic_json(root/'PREPARED.json',receipt)
+print(json.dumps({k:receipt[k] for k in ('status','potential_reclaim_allocated_bytes','potential_reclaim_gib','free_after_prepare','potential_free_after_root_retirement','potential_write_budget_after_8GiB_reserve','provides_12_decimal_GB','provides_12_GiB')}),flush=True)
+

@@ -1,0 +1,162 @@
+"""Prepared campaign components. GPU qualification is a separate review stage.
+
+The training functions reuse online_feedback; the evaluator reuses the native
+four-arm checker. There is deliberately no automatic GPU launch on import or
+command-line entry point in this implementation-only delivery.
+"""
+
+import csv
+import json
+from pathlib import Path
+import shutil
+import time
+
+from online_feedback.storage import write_json
+from experiments.prefix_ranking.controlled_startup import ControlledStartup
+from experiments.prefix_ranking.evaluate import evaluate as evaluate_checkpoints
+from experiments.prefix_ranking.run import check_training
+
+ARMS = ('O', 'C', 'K', 'A')
+OBJECTIVES = {'C': 'osd_ce', 'K': 'osd_first_error', 'A': 'osd_ce_first_error'}
+COMPARISONS = (('K', 'O'), ('A', 'C'), ('C', 'O'), ('A', 'K'))
+QUALIFICATION_GATES = (
+    'ordinary_compatibility', 'ce_probability_arithmetic',
+    'first_error_alignment', 'all_selected_loss_and_gradients',
+    'excluded_prediction_gradients', 'fresh_state_rng_schedule', 'memory_fit',
+)
+
+
+def require_qualification(receipt):
+    """An old ranking qualification cannot qualify these three new objectives."""
+    if (receipt.get('scope') != 'first_error_OCKA' or receipt.get('status') != 'passed'
+            or any(receipt.get('checks', {}).get(name) is not True for name in QUALIFICATION_GATES)):
+        raise ValueError('A separate passed O/C/K/A GPU qualification is required')
+
+
+class FirstErrorStartup(ControlledStartup):
+    """Reuse qualified startup machinery, then prepare fresh C/K/A states."""
+
+    def prepare(self, trainer, root):
+        expected = tuple(OBJECTIVES.values())
+        if (not self._warmup_done or len(self._prepared) >= len(expected)
+                or trainer.objective != expected[len(self._prepared)]):
+            raise RuntimeError('Discard process warmup, then prepare fresh C/K/A in order')
+        if trainer.bundle.model.ranking_enabled or trainer.bundle.model.reference is not None:
+            raise RuntimeError('C/K/A must not create a reference or auxiliary loss')
+        started = time.perf_counter()
+        initial = self.driver.validate_fresh(trainer, self.pinned, Path(root))
+        del initial
+        self._prepared.append(trainer.objective)
+        receipt = dict(exact_pinned_initial_state=True, full_rng_restored_after_construction=True,
+                       inherited_warmup_state=False, reference_created=False,
+                       wall_s=time.perf_counter() - started)
+        write_json(Path(root) / 'RESULT.json', receipt)
+        return receipt
+
+
+def storage_budget(root, draft):
+    """Three states/exports, initial evidence, failure overlap, staging, reserve."""
+    model_bytes = sum(path.stat().st_size for path in Path(draft).glob('*.safetensors'))
+    budget = dict(model_bytes=model_bytes, state_export_initial_bytes=int(16 * model_bytes * 1.10),
+                  failure_overlap_bytes=int(4 * model_bytes * 1.10), staging_bytes=8 * 2**30,
+                  reserve_bytes=8 * 2**30, free_bytes=shutil.disk_usage(root).free)
+    budget['required_bytes'] = sum(budget[key] for key in (
+        'state_export_initial_bytes', 'failure_overlap_bytes', 'staging_bytes', 'reserve_bytes'))
+    budget['admitted'] = model_bytes > 0 and budget['free_bytes'] >= budget['required_bytes']
+    write_json(Path(root) / 'STORAGE_ADMISSION.json', budget)
+    if not budget['admitted']:
+        raise RuntimeError('The three-arm peak-storage budget does not fit')
+    return budget
+
+
+def train_arm(config, ordinary, root, arm, *, startup):
+    """One fresh event, exact original presentations/anchors, always close it."""
+    import torch
+    from online_feedback.training import SpecForgeEventTrainer
+
+    root = Path(root)
+    objective = OBJECTIVES[arm]
+    if torch.cuda.is_available():
+        torch.cuda.init()
+        torch.cuda.reset_peak_memory_stats()
+    started = time.perf_counter()
+    trainer = SpecForgeEventTrainer(config, root / arm, objective=objective,
+                                    ranking_lambda=0.0, reduction='response_mean')
+    loading_s = time.perf_counter() - started
+    try:
+        initialization = startup.prepare(trainer, root / arm / 'initialization')
+        status = trainer.status()
+        if status['global_step'] or status['presentations'] or status['completed_events'] or status['accumulation_remainder']:
+            raise RuntimeError('Each arm must start with fresh released weights and optimizer')
+        write_json(root / f'{arm}_INITIAL.json', dict(status, controlled_initialization=initialization))
+        started = time.perf_counter()
+        receipt = trainer.train_event('event_001', [Path(row['path']) for row in ordinary['features']],
+                                      passes=2, presentation_schedule=ordinary)
+        event_wall_s = time.perf_counter() - started
+        check_training(receipt, trainer.status(), objective)
+        costs = dict(loading_s=loading_s, initialization_s=initialization['wall_s'],
+                     event_wall_s=event_wall_s, **receipt['costs'],
+                     objective_work=receipt['objective_work'],
+                     selection_totals=receipt['selection_totals'],
+                     new_feedback_generations=0, new_teacher_preparation_s=0.0,
+                     peak_allocated_bytes=torch.cuda.max_memory_allocated() if torch.cuda.is_initialized() else 0,
+                     peak_reserved_bytes=torch.cuda.max_memory_reserved() if torch.cuda.is_initialized() else 0)
+        write_json(root / f'{arm}_COSTS.json', costs)
+        return receipt['checkpoint_path'], costs
+    except BaseException as error:
+        trainer.failed = True
+        failure = dict(error=repr(error), status=trainer.status())
+        if hasattr(startup, 'save_failure'):
+            try:
+                startup.save_failure(trainer, root / arm / 'failure_state.pt')
+                failure['state_path'] = str(root / arm / 'failure_state.pt')
+            except BaseException as capture_error:
+                failure['capture_error'] = repr(capture_error)
+        write_json(root / f'{arm}_FAILURE.json', failure)
+        raise
+    finally:
+        trainer.close()
+        write_json(root / f'{arm}_CLOSED.json', trainer.status())
+
+
+def train_new_arms(config, ordinary, root, *, startup, qualification):
+    """Call only after the reviewed native checks, in the qualified process."""
+    require_qualification(qualification)
+    checkpoints, costs = {'O': ordinary['checkpoint_path']}, {}
+    for arm in OBJECTIVES:
+        checkpoints[arm], costs[arm] = train_arm(config, ordinary, root, arm, startup=startup)
+    return checkpoints, costs
+
+
+def evaluate(backend, requests, checkpoints, root, *, ordinary_counts, qualification_requests=8):
+    """Fresh O/C/K/A timings. Retained F is a canonical/count-only reference."""
+    root = Path(root)
+    if root.exists():
+        raise FileExistsError(root)
+    try:
+        return evaluate_checkpoints(backend, requests, checkpoints, root, ordinary_counts=ordinary_counts,
+                                    qualification_requests=qualification_requests, arms=ARMS,
+                                    comparisons=COMPARISONS, required_arms=('O',))
+    finally:
+        summary_path = root / 'report/SUMMARY.json'
+        if summary_path.exists():
+            summary = json.loads(summary_path.read_text())
+            # Use the evaluator's common valid cohort, including partial failures.
+            with (root / 'report/PER_REQUEST.csv').open() as stream:
+                valid = [row['request_id'] for row in csv.DictReader(stream) if row['valid'] == 'True']
+            summary.pop('primary_comparison', None)
+            summary['comparison_axes'] = dict(position_selection=['K_vs_O', 'A_vs_C'],
+                                               loss_choice=['C_vs_O', 'A_vs_K'])
+            write_json(summary_path, summary)
+            context = dict(source='retained first-event F measurements; not fresh latency',
+                           valid_requests=len(valid),
+                           verification_calls=sum(ordinary_counts[key]['F'] for key in valid),
+                           per_request={key: ordinary_counts[key]['F'] for key in valid})
+            write_json(root / 'report/HISTORICAL_F_COUNTS.json', context)
+            report = root / 'report/REPORT.md'
+            text = report.read_text().replace(
+                '**K versus O is primary.** Other comparisons do not replace the ordinary OSD control. ',
+                'K/O and A/C test position selection; C/O and A/K test loss choice. ')
+            report.write_text(text + '\nRetained F supplies exact canonical tokens/termination and historical '
+                              'verification counts only (HISTORICAL_F_COUNTS.json). No fresh F latency '
+                              'comparison is made.\n')

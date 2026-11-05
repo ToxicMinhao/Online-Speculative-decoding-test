@@ -1,0 +1,1395 @@
+{
+  "run_id": "dflash_online_sglang_20261023",
+  "scope": "experiment_or_implementation",
+  "binding": "Retained source variants and original per-manifest hash contracts; not a claim that all variants ran together.",
+  "sources": [
+    {
+      "sha256": "0088a410f47dfd917595a40aaf20bd1a6b1bee88076f29a1579259844cf0eb52",
+      "object": "objects/0088a410f47dfd917595a40aaf20bd1a6b1bee88076f29a1579259844cf0eb52",
+      "retained_path": "worktree/experiments/projected_target/fit_metrics.py",
+      "kind": "file"
+    },
+    {
+      "sha256": "02ce317ad98f74c3197894156afdb212dc3f3d0c25dc66b67eed545177853203",
+      "object": "objects/02ce317ad98f74c3197894156afdb212dc3f3d0c25dc66b67eed545177853203",
+      "retained_path": "worktree/tests/test_projected_target.py",
+      "kind": "file"
+    },
+    {
+      "sha256": "0c92e96961b638c09735509334d82ce4651d8892242256ad536684d33eab9faf",
+      "object": "objects/0c92e96961b638c09735509334d82ce4651d8892242256ad536684d33eab9faf",
+      "retained_path": "worktree/experiments/projected_target/fit_check.py",
+      "kind": "file"
+    },
+    {
+      "sha256": "0cb8e67b9e7698b29f91ff0eb57fa17950fa297ec77dc52ed5ccaae2fc4e1405",
+      "object": "objects/0cb8e67b9e7698b29f91ff0eb57fa17950fa297ec77dc52ed5ccaae2fc4e1405",
+      "retained_path": "worktree/tests/test_objective_integration.py",
+      "kind": "file"
+    },
+    {
+      "sha256": "14cf5eac8b3044b557c610784808ccfd155763bd1d92c52e21d903406d58058c",
+      "object": "objects/14cf5eac8b3044b557c610784808ccfd155763bd1d92c52e21d903406d58058c",
+      "retained_path": "source_install.tar.gz",
+      "kind": "tar_member",
+      "archive_member": "tests/test_sglang_binding.py"
+    },
+    {
+      "sha256": "14cf5eac8b3044b557c610784808ccfd155763bd1d92c52e21d903406d58058c",
+      "object": "objects/14cf5eac8b3044b557c610784808ccfd155763bd1d92c52e21d903406d58058c",
+      "retained_path": "source_final.tar.gz",
+      "kind": "tar_member",
+      "archive_member": "tests/test_sglang_binding.py"
+    },
+    {
+      "sha256": "14cf5eac8b3044b557c610784808ccfd155763bd1d92c52e21d903406d58058c",
+      "object": "objects/14cf5eac8b3044b557c610784808ccfd155763bd1d92c52e21d903406d58058c",
+      "retained_path": "worktree/tests/test_sglang_binding.py",
+      "kind": "file"
+    },
+    {
+      "sha256": "185778fee482c048dd263893bfe6eca1484ff0d6cd9b31ad62a194d6947157b5",
+      "object": "objects/185778fee482c048dd263893bfe6eca1484ff0d6cd9b31ad62a194d6947157b5",
+      "retained_path": "source_install.tar.gz",
+      "kind": "tar_member",
+      "archive_member": "tests/test_sglang_qualification.py"
+    },
+    {
+      "sha256": "18fff72b2c112092772e34c4ba5977d9b75d333562518352f1ad318957c10362",
+      "object": "objects/18fff72b2c112092772e34c4ba5977d9b75d333562518352f1ad318957c10362",
+      "retained_path": "worktree/experiments/projected_target/checks.py",
+      "kind": "file"
+    },
+    {
+      "sha256": "197391728a1cfff5c7392b0f736e623b0770a5f11f6341f6422264af2cdb7b33",
+      "object": "objects/197391728a1cfff5c7392b0f736e623b0770a5f11f6341f6422264af2cdb7b33",
+      "retained_path": "worktree/tests/test_osd_objective.py",
+      "kind": "file"
+    },
+    {
+      "sha256": "1aa9f9e0c3bcc0843de9df93bd8354348d9912afb148827f3e0f43e0cb165b3b",
+      "object": "objects/1aa9f9e0c3bcc0843de9df93bd8354348d9912afb148827f3e0f43e0cb165b3b",
+      "retained_path": "source_install.tar.gz",
+      "kind": "tar_member",
+      "archive_member": "tests/test_sglang_backend.py"
+    },
+    {
+      "sha256": "1db54ff085c65a25d77183b5acf74802a506afd5668744cf6d4101a3d4c05f1b",
+      "object": "objects/1db54ff085c65a25d77183b5acf74802a506afd5668744cf6d4101a3d4c05f1b",
+      "retained_path": "worktree/tests/test_osd_followup.py",
+      "kind": "file"
+    },
+    {
+      "sha256": "1f5886926a91e058452d3289c7d2a8aabdd00ccddcbd854b79b61e4986c038a6",
+      "object": "objects/1f5886926a91e058452d3289c7d2a8aabdd00ccddcbd854b79b61e4986c038a6",
+      "retained_path": "source_install.tar.gz",
+      "kind": "tar_member",
+      "archive_member": "tests/test_sglang_hooks.py"
+    },
+    {
+      "sha256": "20d5c52acad10b5522744a057da48b0c391899aa94cc30bdd15b92bcaef8f2fb",
+      "object": "objects/20d5c52acad10b5522744a057da48b0c391899aa94cc30bdd15b92bcaef8f2fb",
+      "retained_path": "source_install.tar.gz",
+      "kind": "tar_member",
+      "archive_member": "online_feedback/qualify.py"
+    },
+    {
+      "sha256": "20d5c52acad10b5522744a057da48b0c391899aa94cc30bdd15b92bcaef8f2fb",
+      "object": "objects/20d5c52acad10b5522744a057da48b0c391899aa94cc30bdd15b92bcaef8f2fb",
+      "retained_path": "source_final.tar.gz",
+      "kind": "tar_member",
+      "archive_member": "online_feedback/qualify.py"
+    },
+    {
+      "sha256": "20d5c52acad10b5522744a057da48b0c391899aa94cc30bdd15b92bcaef8f2fb",
+      "object": "objects/20d5c52acad10b5522744a057da48b0c391899aa94cc30bdd15b92bcaef8f2fb",
+      "retained_path": "worktree/online_feedback/qualify.py",
+      "kind": "file"
+    },
+    {
+      "sha256": "2703dbbd2a86389438a5169310acb3efe3a5ecdd3ff8adec7c741349f66a6171",
+      "object": "objects/2703dbbd2a86389438a5169310acb3efe3a5ecdd3ff8adec7c741349f66a6171",
+      "retained_path": "worktree/experiments/projected_target/config.yaml",
+      "kind": "file"
+    },
+    {
+      "sha256": "29ec811e599ebafd300b4f5b13da0a48e53f82723ba4d42538ea150941ff75d0",
+      "object": "objects/29ec811e599ebafd300b4f5b13da0a48e53f82723ba4d42538ea150941ff75d0",
+      "retained_path": "source_final.tar.gz",
+      "kind": "tar_member",
+      "archive_member": "tests/test_sglang_qualification.py"
+    },
+    {
+      "sha256": "29ec811e599ebafd300b4f5b13da0a48e53f82723ba4d42538ea150941ff75d0",
+      "object": "objects/29ec811e599ebafd300b4f5b13da0a48e53f82723ba4d42538ea150941ff75d0",
+      "retained_path": "worktree/tests/test_sglang_qualification.py",
+      "kind": "file"
+    },
+    {
+      "sha256": "2da98332f7f6f67bbcc8e08bf6fe8c57b60afbabf8c25c932e067856feff51bb",
+      "object": "objects/2da98332f7f6f67bbcc8e08bf6fe8c57b60afbabf8c25c932e067856feff51bb",
+      "retained_path": "source_install.tar.gz",
+      "kind": "tar_member",
+      "archive_member": "online_feedback/__init__.py"
+    },
+    {
+      "sha256": "2da98332f7f6f67bbcc8e08bf6fe8c57b60afbabf8c25c932e067856feff51bb",
+      "object": "objects/2da98332f7f6f67bbcc8e08bf6fe8c57b60afbabf8c25c932e067856feff51bb",
+      "retained_path": "source_final.tar.gz",
+      "kind": "tar_member",
+      "archive_member": "online_feedback/__init__.py"
+    },
+    {
+      "sha256": "2da98332f7f6f67bbcc8e08bf6fe8c57b60afbabf8c25c932e067856feff51bb",
+      "object": "objects/2da98332f7f6f67bbcc8e08bf6fe8c57b60afbabf8c25c932e067856feff51bb",
+      "retained_path": "worktree/online_feedback/__init__.py",
+      "kind": "file"
+    },
+    {
+      "sha256": "2f8598eaca4cb814e63ea69e791c1bdf55ba82280bfd299f9141906356b7cb87",
+      "object": "objects/2f8598eaca4cb814e63ea69e791c1bdf55ba82280bfd299f9141906356b7cb87",
+      "retained_path": "worktree/inference/dflash/model_mlx.py",
+      "kind": "file"
+    },
+    {
+      "sha256": "37ec37d581655279f156142142086f143233b49ceae3069395f4752a3cf11ef2",
+      "object": "objects/37ec37d581655279f156142142086f143233b49ceae3069395f4752a3cf11ef2",
+      "retained_path": "source_install.tar.gz",
+      "kind": "tar_member",
+      "archive_member": "online_feedback/rng.py"
+    },
+    {
+      "sha256": "37ec37d581655279f156142142086f143233b49ceae3069395f4752a3cf11ef2",
+      "object": "objects/37ec37d581655279f156142142086f143233b49ceae3069395f4752a3cf11ef2",
+      "retained_path": "source_final.tar.gz",
+      "kind": "tar_member",
+      "archive_member": "online_feedback/rng.py"
+    },
+    {
+      "sha256": "37ec37d581655279f156142142086f143233b49ceae3069395f4752a3cf11ef2",
+      "object": "objects/37ec37d581655279f156142142086f143233b49ceae3069395f4752a3cf11ef2",
+      "retained_path": "worktree/online_feedback/rng.py",
+      "kind": "file"
+    },
+    {
+      "sha256": "3b4aebba3839867f606a279fc0ca66644254905d689f4406fbbcc647035339df",
+      "object": "objects/3b4aebba3839867f606a279fc0ca66644254905d689f4406fbbcc647035339df",
+      "retained_path": "worktree/inference/dflash/model.py",
+      "kind": "file"
+    },
+    {
+      "sha256": "3c665d912752b2e7189effce6227850e29ac8bc5d1e35322603408184edbd29e",
+      "object": "objects/3c665d912752b2e7189effce6227850e29ac8bc5d1e35322603408184edbd29e",
+      "retained_path": "worktree/experiments/projected_target/run.py",
+      "kind": "file"
+    },
+    {
+      "sha256": "3f8d4ddac7fd4815f3166f2efb88810c1b0be7ff5dfd9a8c317879bc6316ba9f",
+      "object": "objects/3f8d4ddac7fd4815f3166f2efb88810c1b0be7ff5dfd9a8c317879bc6316ba9f",
+      "retained_path": "worktree/experiments/projected_target/report.py",
+      "kind": "file"
+    },
+    {
+      "sha256": "4065b3eb342d7ed4586e3fcff604a35e9f49ca0df60c947ade5ccddefe3a4b55",
+      "object": "objects/4065b3eb342d7ed4586e3fcff604a35e9f49ca0df60c947ade5ccddefe3a4b55",
+      "retained_path": "worktree/tests/test_projected_screen.py",
+      "kind": "file"
+    },
+    {
+      "sha256": "42397dfffb77086f0178cfdb660fdfeb34c5da637f95a801f187742dff0914ba",
+      "object": "objects/42397dfffb77086f0178cfdb660fdfeb34c5da637f95a801f187742dff0914ba",
+      "retained_path": "inspect_weight_change.py",
+      "kind": "file"
+    },
+    {
+      "sha256": "5242fae75018aea80160159023e957f1142fa187a1d47d6d31e88289b88c966a",
+      "object": "objects/5242fae75018aea80160159023e957f1142fa187a1d47d6d31e88289b88c966a",
+      "retained_path": "worktree/tests/test_bf16_adamw.py",
+      "kind": "file"
+    },
+    {
+      "sha256": "53ba931e85f75030fa45697f831c631e67e30ad0e8552e056b53d34eeb180f97",
+      "object": "objects/53ba931e85f75030fa45697f831c631e67e30ad0e8552e056b53d34eeb180f97",
+      "retained_path": "source_install.tar.gz",
+      "kind": "tar_member",
+      "archive_member": "online_feedback/sglang_worker.py"
+    },
+    {
+      "sha256": "58fa47335b548dbc74ed6d0f7bf4309eb57a80e5f627554cc4fa51438fdcb53f",
+      "object": "objects/58fa47335b548dbc74ed6d0f7bf4309eb57a80e5f627554cc4fa51438fdcb53f",
+      "retained_path": "source_install.tar.gz",
+      "kind": "tar_member",
+      "archive_member": "online_feedback/sglang_hooks.py"
+    },
+    {
+      "sha256": "5f628ed7f460247dcca3655b583452aa7eb3df798e2fbc06db93175e2894fd14",
+      "object": "objects/5f628ed7f460247dcca3655b583452aa7eb3df798e2fbc06db93175e2894fd14",
+      "retained_path": "worktree/inference/dflash/cli.py",
+      "kind": "file"
+    },
+    {
+      "sha256": "602c792eea81c2ba560c53873295fe8fa277dfa30713df046785ecacf9ebc306",
+      "object": "objects/602c792eea81c2ba560c53873295fe8fa277dfa30713df046785ecacf9ebc306",
+      "retained_path": "worktree/experiments/projected_target/summarize_fit.py",
+      "kind": "file"
+    },
+    {
+      "sha256": "65e2cf2688bec1aafc920551c5f0b9d7de26cdd7b9187da185219a00f25043e7",
+      "object": "objects/65e2cf2688bec1aafc920551c5f0b9d7de26cdd7b9187da185219a00f25043e7",
+      "retained_path": "source_final.tar.gz",
+      "kind": "tar_member",
+      "archive_member": "tests/test_sglang_backend.py"
+    },
+    {
+      "sha256": "65e2cf2688bec1aafc920551c5f0b9d7de26cdd7b9187da185219a00f25043e7",
+      "object": "objects/65e2cf2688bec1aafc920551c5f0b9d7de26cdd7b9187da185219a00f25043e7",
+      "retained_path": "worktree/tests/test_sglang_backend.py",
+      "kind": "file"
+    },
+    {
+      "sha256": "670271d8e681e5b47dacbe4042e116ed0c43743087ca0946db1a5ee072675a2b",
+      "object": "objects/670271d8e681e5b47dacbe4042e116ed0c43743087ca0946db1a5ee072675a2b",
+      "retained_path": "worktree/experiments/projected_target/__init__.py",
+      "kind": "file"
+    },
+    {
+      "sha256": "68da36d12d914d40dd7fd5992509a5e9ef3965c3000fee790deea3058d27784f",
+      "object": "objects/68da36d12d914d40dd7fd5992509a5e9ef3965c3000fee790deea3058d27784f",
+      "retained_path": "worktree/tests/test_osd_bf16_loss.py",
+      "kind": "file"
+    },
+    {
+      "sha256": "6b03d31015ede7e0cd4aa836e22fd680b17a4707e3b184ab9a60fd05696b9009",
+      "object": "objects/6b03d31015ede7e0cd4aa836e22fd680b17a4707e3b184ab9a60fd05696b9009",
+      "retained_path": "worktree/configs/qualification.yaml",
+      "kind": "file"
+    },
+    {
+      "sha256": "6b9c12023a3e364c37a7a9967e1bbc1494adfe180fec4badc7ccef47a34aa3cb",
+      "object": "objects/6b9c12023a3e364c37a7a9967e1bbc1494adfe180fec4badc7ccef47a34aa3cb",
+      "retained_path": "worktree/tests/test_osd_recipe.py",
+      "kind": "file"
+    },
+    {
+      "sha256": "6ef601c56e457f659bf43e656006d821bdc122d64fce4d869f6523f3c8bb7233",
+      "object": "objects/6ef601c56e457f659bf43e656006d821bdc122d64fce4d869f6523f3c8bb7233",
+      "retained_path": "worktree/experiments/projected_target/osd_followup.py",
+      "kind": "file"
+    },
+    {
+      "sha256": "746b18487d72277bed6ef9a4663e96dc4d7d3babb5ff6f93e237d4e2236e55ed",
+      "object": "objects/746b18487d72277bed6ef9a4663e96dc4d7d3babb5ff6f93e237d4e2236e55ed",
+      "retained_path": "worktree/experiments/projected_target/test_fit_check.py",
+      "kind": "file"
+    },
+    {
+      "sha256": "75a274bfb4d5339bb559f88608538b555563f2a70e909c4ceda237fc29bda46d",
+      "object": "objects/75a274bfb4d5339bb559f88608538b555563f2a70e909c4ceda237fc29bda46d",
+      "retained_path": "worktree/inference/dflash/__init__.py",
+      "kind": "file"
+    },
+    {
+      "sha256": "787ca410267741a5624cceff38755d84bd83b3eae4dcaa5de298eb09e1e31156",
+      "object": "objects/787ca410267741a5624cceff38755d84bd83b3eae4dcaa5de298eb09e1e31156",
+      "retained_path": "worktree/tests/test_osd_trainer.py",
+      "kind": "file"
+    },
+    {
+      "sha256": "78df6d9d9818b6dc72a51d46dea3dca4a4308f86a91552fd85b3514b801907a6",
+      "object": "objects/78df6d9d9818b6dc72a51d46dea3dca4a4308f86a91552fd85b3514b801907a6",
+      "retained_path": "worktree/tests/test_osd_strategy.py",
+      "kind": "file"
+    },
+    {
+      "sha256": "7f287010eca6213851462a2acc91e96ad7ffdd1ea1e8420678891e2a6734dedf",
+      "object": "objects/7f287010eca6213851462a2acc91e96ad7ffdd1ea1e8420678891e2a6734dedf",
+      "retained_path": "worktree/tests/test_utilities.py",
+      "kind": "file"
+    },
+    {
+      "sha256": "7f2f9d0b9c6cd6a523479330a774112dda6e57f481a9745dbd0474b4582d68c3",
+      "object": "objects/7f2f9d0b9c6cd6a523479330a774112dda6e57f481a9745dbd0474b4582d68c3",
+      "retained_path": "source_install.tar.gz",
+      "kind": "tar_member",
+      "archive_member": "online_feedback/sglang_backend.py"
+    },
+    {
+      "sha256": "85e123934b69569589fd6c55414176676c06992574fc87cde7a8086b08b180fd",
+      "object": "objects/85e123934b69569589fd6c55414176676c06992574fc87cde7a8086b08b180fd",
+      "retained_path": "worktree/tests/test_qualification.py",
+      "kind": "file"
+    },
+    {
+      "sha256": "87d95eaab6a16f94f595aa93446ee5b858b15d4dbcb8f25b688c6dbca4fc8155",
+      "object": "objects/87d95eaab6a16f94f595aa93446ee5b858b15d4dbcb8f25b688c6dbca4fc8155",
+      "retained_path": "source_install.tar.gz",
+      "kind": "tar_member",
+      "archive_member": "online_feedback/recipe.py"
+    },
+    {
+      "sha256": "87d95eaab6a16f94f595aa93446ee5b858b15d4dbcb8f25b688c6dbca4fc8155",
+      "object": "objects/87d95eaab6a16f94f595aa93446ee5b858b15d4dbcb8f25b688c6dbca4fc8155",
+      "retained_path": "source_final.tar.gz",
+      "kind": "tar_member",
+      "archive_member": "online_feedback/recipe.py"
+    },
+    {
+      "sha256": "87d95eaab6a16f94f595aa93446ee5b858b15d4dbcb8f25b688c6dbca4fc8155",
+      "object": "objects/87d95eaab6a16f94f595aa93446ee5b858b15d4dbcb8f25b688c6dbca4fc8155",
+      "retained_path": "worktree/online_feedback/recipe.py",
+      "kind": "file"
+    },
+    {
+      "sha256": "8abe7e46763c1cdf9e14c58d52459a99f81b9a40b7579f4024cb1661fabad464",
+      "object": "objects/8abe7e46763c1cdf9e14c58d52459a99f81b9a40b7579f4024cb1661fabad464",
+      "retained_path": "worktree/tests/test_target_event.py",
+      "kind": "file"
+    },
+    {
+      "sha256": "9157f1cdd2cb57cd24a27c4415a4c76745d013d826fafa4e4430a7d9f240f23e",
+      "object": "objects/9157f1cdd2cb57cd24a27c4415a4c76745d013d826fafa4e4430a7d9f240f23e",
+      "retained_path": "worktree/tests/test_buffer.py",
+      "kind": "file"
+    },
+    {
+      "sha256": "94772df576947ee5e5589033c4c461a7528e374a42808e7c2bea37cc3501f6a2",
+      "object": "objects/94772df576947ee5e5589033c4c461a7528e374a42808e7c2bea37cc3501f6a2",
+      "retained_path": "source_install.tar.gz",
+      "kind": "tar_member",
+      "archive_member": "online_feedback/native.py"
+    },
+    {
+      "sha256": "94772df576947ee5e5589033c4c461a7528e374a42808e7c2bea37cc3501f6a2",
+      "object": "objects/94772df576947ee5e5589033c4c461a7528e374a42808e7c2bea37cc3501f6a2",
+      "retained_path": "source_final.tar.gz",
+      "kind": "tar_member",
+      "archive_member": "online_feedback/native.py"
+    },
+    {
+      "sha256": "94772df576947ee5e5589033c4c461a7528e374a42808e7c2bea37cc3501f6a2",
+      "object": "objects/94772df576947ee5e5589033c4c461a7528e374a42808e7c2bea37cc3501f6a2",
+      "retained_path": "worktree/online_feedback/native.py",
+      "kind": "file"
+    },
+    {
+      "sha256": "94f817c71eeff059024640ed75436a72ac1861bf50d4dabaf1a673fde6f383f6",
+      "object": "objects/94f817c71eeff059024640ed75436a72ac1861bf50d4dabaf1a673fde6f383f6",
+      "retained_path": "source_install.tar.gz",
+      "kind": "tar_member",
+      "archive_member": "online_feedback/controller.py"
+    },
+    {
+      "sha256": "94f817c71eeff059024640ed75436a72ac1861bf50d4dabaf1a673fde6f383f6",
+      "object": "objects/94f817c71eeff059024640ed75436a72ac1861bf50d4dabaf1a673fde6f383f6",
+      "retained_path": "source_final.tar.gz",
+      "kind": "tar_member",
+      "archive_member": "online_feedback/controller.py"
+    },
+    {
+      "sha256": "94f817c71eeff059024640ed75436a72ac1861bf50d4dabaf1a673fde6f383f6",
+      "object": "objects/94f817c71eeff059024640ed75436a72ac1861bf50d4dabaf1a673fde6f383f6",
+      "retained_path": "worktree/online_feedback/controller.py",
+      "kind": "file"
+    },
+    {
+      "sha256": "999f67cfeb9700802b62dea9903ddf8e387edda2bc1815d67e08b7599dc06ed3",
+      "object": "objects/999f67cfeb9700802b62dea9903ddf8e387edda2bc1815d67e08b7599dc06ed3",
+      "retained_path": "record_runtime.py",
+      "kind": "file"
+    },
+    {
+      "sha256": "999f67cfeb9700802b62dea9903ddf8e387edda2bc1815d67e08b7599dc06ed3",
+      "object": "objects/999f67cfeb9700802b62dea9903ddf8e387edda2bc1815d67e08b7599dc06ed3",
+      "retained_path": "evidence/source_001/record_runtime.py",
+      "kind": "file"
+    },
+    {
+      "sha256": "9c3bfd15cdb23f0e82a3137977f72ba9e9fdb580a0d607d786c987d1b9c28d5b",
+      "object": "objects/9c3bfd15cdb23f0e82a3137977f72ba9e9fdb580a0d607d786c987d1b9c28d5b",
+      "retained_path": "source_final.tar.gz",
+      "kind": "tar_member",
+      "archive_member": "online_feedback/sglang_worker.py"
+    },
+    {
+      "sha256": "9c3bfd15cdb23f0e82a3137977f72ba9e9fdb580a0d607d786c987d1b9c28d5b",
+      "object": "objects/9c3bfd15cdb23f0e82a3137977f72ba9e9fdb580a0d607d786c987d1b9c28d5b",
+      "retained_path": "worktree/online_feedback/sglang_worker.py",
+      "kind": "file"
+    },
+    {
+      "sha256": "9c522e9be48fbb9d8394713fc66244b13a5b6defde44ec9409d4ecf2d04b28fa",
+      "object": "objects/9c522e9be48fbb9d8394713fc66244b13a5b6defde44ec9409d4ecf2d04b28fa",
+      "retained_path": "worktree/tests/test_osd_followup_report.py",
+      "kind": "file"
+    },
+    {
+      "sha256": "9ceee7d580c1f08cdfe2ba867bb9a6388e1ff25365611a8fce83a5e422d9dd1a",
+      "object": "objects/9ceee7d580c1f08cdfe2ba867bb9a6388e1ff25365611a8fce83a5e422d9dd1a",
+      "retained_path": "source_final.tar.gz",
+      "kind": "tar_member",
+      "archive_member": "online_feedback/sglang_hooks.py"
+    },
+    {
+      "sha256": "9ceee7d580c1f08cdfe2ba867bb9a6388e1ff25365611a8fce83a5e422d9dd1a",
+      "object": "objects/9ceee7d580c1f08cdfe2ba867bb9a6388e1ff25365611a8fce83a5e422d9dd1a",
+      "retained_path": "worktree/online_feedback/sglang_hooks.py",
+      "kind": "file"
+    },
+    {
+      "sha256": "a2cd3b1b0eb6194ddb65a8f4b88566e3099a2e93f4fcc2eb93858172e1b4af58",
+      "object": "objects/a2cd3b1b0eb6194ddb65a8f4b88566e3099a2e93f4fcc2eb93858172e1b4af58",
+      "retained_path": "source_install.tar.gz",
+      "kind": "tar_member",
+      "archive_member": "online_feedback/projected_target.py"
+    },
+    {
+      "sha256": "a2cd3b1b0eb6194ddb65a8f4b88566e3099a2e93f4fcc2eb93858172e1b4af58",
+      "object": "objects/a2cd3b1b0eb6194ddb65a8f4b88566e3099a2e93f4fcc2eb93858172e1b4af58",
+      "retained_path": "source_final.tar.gz",
+      "kind": "tar_member",
+      "archive_member": "online_feedback/projected_target.py"
+    },
+    {
+      "sha256": "a2cd3b1b0eb6194ddb65a8f4b88566e3099a2e93f4fcc2eb93858172e1b4af58",
+      "object": "objects/a2cd3b1b0eb6194ddb65a8f4b88566e3099a2e93f4fcc2eb93858172e1b4af58",
+      "retained_path": "worktree/online_feedback/projected_target.py",
+      "kind": "file"
+    },
+    {
+      "sha256": "a33871c2b302dab4237e4b5e3ea4793f07618a4c0229a0f2485f499215856187",
+      "object": "objects/a33871c2b302dab4237e4b5e3ea4793f07618a4c0229a0f2485f499215856187",
+      "retained_path": "worktree/tests/test_native_replay.py",
+      "kind": "file"
+    },
+    {
+      "sha256": "a371051d23d7335dff2858a55c003ef0ba0b39d305b5cb503057feb7013d8904",
+      "object": "objects/a371051d23d7335dff2858a55c003ef0ba0b39d305b5cb503057feb7013d8904",
+      "retained_path": "worktree/experiments/__init__.py",
+      "kind": "file"
+    },
+    {
+      "sha256": "ab0d96ad5333a532bf670d4a893619b675614b41f08b7cc4f68f03193f1516cc",
+      "object": "objects/ab0d96ad5333a532bf670d4a893619b675614b41f08b7cc4f68f03193f1516cc",
+      "retained_path": "worktree/tests/test_projected_report.py",
+      "kind": "file"
+    },
+    {
+      "sha256": "abb47dd9d70fbb7d2fd16a54147c6840c31b660c48d514a82e38064e1bc2317a",
+      "object": "objects/abb47dd9d70fbb7d2fd16a54147c6840c31b660c48d514a82e38064e1bc2317a",
+      "retained_path": "worktree/experiments/projected_target/test_fit_metrics.py",
+      "kind": "file"
+    },
+    {
+      "sha256": "b913e23917bef61cddbf52360e7e1126e785c2334968cd815ee30c6f4fdd4a5a",
+      "object": "objects/b913e23917bef61cddbf52360e7e1126e785c2334968cd815ee30c6f4fdd4a5a",
+      "retained_path": "worktree/tests/test_training_contract.py",
+      "kind": "file"
+    },
+    {
+      "sha256": "bd31b65069b42e0f3c4f4b498851a299a6fcff80520581c9698232755b1a96c0",
+      "object": "objects/bd31b65069b42e0f3c4f4b498851a299a6fcff80520581c9698232755b1a96c0",
+      "retained_path": "source_final.tar.gz",
+      "kind": "tar_member",
+      "archive_member": "tests/test_sglang_hooks.py"
+    },
+    {
+      "sha256": "bd31b65069b42e0f3c4f4b498851a299a6fcff80520581c9698232755b1a96c0",
+      "object": "objects/bd31b65069b42e0f3c4f4b498851a299a6fcff80520581c9698232755b1a96c0",
+      "retained_path": "worktree/tests/test_sglang_hooks.py",
+      "kind": "file"
+    },
+    {
+      "sha256": "c299c89a22fd3f1f5dacca8b35fdf116620ca5a018134c807a9dad107b26fbf9",
+      "object": "objects/c299c89a22fd3f1f5dacca8b35fdf116620ca5a018134c807a9dad107b26fbf9",
+      "retained_path": "worktree/tests/test_native_contract.py",
+      "kind": "file"
+    },
+    {
+      "sha256": "c32b59c09d7186717d38ac20653a18759cfc7691c21bf0a91a33bc5cc2ef61bf",
+      "object": "objects/c32b59c09d7186717d38ac20653a18759cfc7691c21bf0a91a33bc5cc2ef61bf",
+      "retained_path": "worktree/tests/test_controller.py",
+      "kind": "file"
+    },
+    {
+      "sha256": "c9aa30582c0b840e1993e0b832e2e023032b15197e82daeb1d87191c6a4b922e",
+      "object": "objects/c9aa30582c0b840e1993e0b832e2e023032b15197e82daeb1d87191c6a4b922e",
+      "retained_path": "source_final.tar.gz",
+      "kind": "tar_member",
+      "archive_member": "online_feedback/sglang_backend.py"
+    },
+    {
+      "sha256": "c9aa30582c0b840e1993e0b832e2e023032b15197e82daeb1d87191c6a4b922e",
+      "object": "objects/c9aa30582c0b840e1993e0b832e2e023032b15197e82daeb1d87191c6a4b922e",
+      "retained_path": "worktree/online_feedback/sglang_backend.py",
+      "kind": "file"
+    },
+    {
+      "sha256": "cdde03e0f5213e53c10a51a538f2bada24d9ee6387961872c7fd20e9b031f7b6",
+      "object": "objects/cdde03e0f5213e53c10a51a538f2bada24d9ee6387961872c7fd20e9b031f7b6",
+      "retained_path": "source_install.tar.gz",
+      "kind": "tar_member",
+      "archive_member": "online_feedback/objective.py"
+    },
+    {
+      "sha256": "cdde03e0f5213e53c10a51a538f2bada24d9ee6387961872c7fd20e9b031f7b6",
+      "object": "objects/cdde03e0f5213e53c10a51a538f2bada24d9ee6387961872c7fd20e9b031f7b6",
+      "retained_path": "source_final.tar.gz",
+      "kind": "tar_member",
+      "archive_member": "online_feedback/objective.py"
+    },
+    {
+      "sha256": "cdde03e0f5213e53c10a51a538f2bada24d9ee6387961872c7fd20e9b031f7b6",
+      "object": "objects/cdde03e0f5213e53c10a51a538f2bada24d9ee6387961872c7fd20e9b031f7b6",
+      "retained_path": "worktree/online_feedback/objective.py",
+      "kind": "file"
+    },
+    {
+      "sha256": "d061e1f092635528f13ac00d407b7aa8b8e06e3b124d17d017994e86415dbccb",
+      "object": "objects/d061e1f092635528f13ac00d407b7aa8b8e06e3b124d17d017994e86415dbccb",
+      "retained_path": "source_install.tar.gz",
+      "kind": "tar_member",
+      "archive_member": "online_feedback/qualify_sglang.py"
+    },
+    {
+      "sha256": "d19d3c1688768e13783150ce23178fcf2ed4c94d9ad7960e96f50c99d8a9d48f",
+      "object": "objects/d19d3c1688768e13783150ce23178fcf2ed4c94d9ad7960e96f50c99d8a9d48f",
+      "retained_path": "worktree/inference/dflash/benchmark.py",
+      "kind": "file"
+    },
+    {
+      "sha256": "d4fd33e0d0bc4b3ea784c26f44c65730516829dc25d1aa096318f20aff32b58e",
+      "object": "objects/d4fd33e0d0bc4b3ea784c26f44c65730516829dc25d1aa096318f20aff32b58e",
+      "retained_path": "source_install.tar.gz",
+      "kind": "tar_member",
+      "archive_member": "online_feedback/storage.py"
+    },
+    {
+      "sha256": "d4fd33e0d0bc4b3ea784c26f44c65730516829dc25d1aa096318f20aff32b58e",
+      "object": "objects/d4fd33e0d0bc4b3ea784c26f44c65730516829dc25d1aa096318f20aff32b58e",
+      "retained_path": "source_final.tar.gz",
+      "kind": "tar_member",
+      "archive_member": "online_feedback/storage.py"
+    },
+    {
+      "sha256": "d4fd33e0d0bc4b3ea784c26f44c65730516829dc25d1aa096318f20aff32b58e",
+      "object": "objects/d4fd33e0d0bc4b3ea784c26f44c65730516829dc25d1aa096318f20aff32b58e",
+      "retained_path": "worktree/online_feedback/storage.py",
+      "kind": "file"
+    },
+    {
+      "sha256": "dc7568d7c9c596efd46d6405c44f2ee4025498afa1e7c0de92bf24fee1e9ac17",
+      "object": "objects/dc7568d7c9c596efd46d6405c44f2ee4025498afa1e7c0de92bf24fee1e9ac17",
+      "retained_path": "run_qualification.sh",
+      "kind": "file"
+    },
+    {
+      "sha256": "dc7568d7c9c596efd46d6405c44f2ee4025498afa1e7c0de92bf24fee1e9ac17",
+      "object": "objects/dc7568d7c9c596efd46d6405c44f2ee4025498afa1e7c0de92bf24fee1e9ac17",
+      "retained_path": "evidence/source_001/run_qualification.sh",
+      "kind": "file"
+    },
+    {
+      "sha256": "edcca5184d0073c9359b41af566b14bf816993b1d724036380bc45f99ec8e2fa",
+      "object": "objects/edcca5184d0073c9359b41af566b14bf816993b1d724036380bc45f99ec8e2fa",
+      "retained_path": "source_install.tar.gz",
+      "kind": "tar_member",
+      "archive_member": "online_feedback/buffer.py"
+    },
+    {
+      "sha256": "edcca5184d0073c9359b41af566b14bf816993b1d724036380bc45f99ec8e2fa",
+      "object": "objects/edcca5184d0073c9359b41af566b14bf816993b1d724036380bc45f99ec8e2fa",
+      "retained_path": "source_final.tar.gz",
+      "kind": "tar_member",
+      "archive_member": "online_feedback/buffer.py"
+    },
+    {
+      "sha256": "edcca5184d0073c9359b41af566b14bf816993b1d724036380bc45f99ec8e2fa",
+      "object": "objects/edcca5184d0073c9359b41af566b14bf816993b1d724036380bc45f99ec8e2fa",
+      "retained_path": "worktree/online_feedback/buffer.py",
+      "kind": "file"
+    },
+    {
+      "sha256": "f1944d143b59adff62c368274f7c0a97adfb44f3018f94bdaea5b02c4f565588",
+      "object": "objects/f1944d143b59adff62c368274f7c0a97adfb44f3018f94bdaea5b02c4f565588",
+      "retained_path": "worktree/experiments/projected_target/osd_report.py",
+      "kind": "file"
+    },
+    {
+      "sha256": "f5511523c6c0f46d6603237622b745767c47e293b09d5370c261525a45ddd822",
+      "object": "objects/f5511523c6c0f46d6603237622b745767c47e293b09d5370c261525a45ddd822",
+      "retained_path": "evidence/qualification_001/config.yaml",
+      "kind": "file"
+    },
+    {
+      "sha256": "f5511523c6c0f46d6603237622b745767c47e293b09d5370c261525a45ddd822",
+      "object": "objects/f5511523c6c0f46d6603237622b745767c47e293b09d5370c261525a45ddd822",
+      "retained_path": "evidence/qualification_002/config.yaml",
+      "kind": "file"
+    },
+    {
+      "sha256": "f5511523c6c0f46d6603237622b745767c47e293b09d5370c261525a45ddd822",
+      "object": "objects/f5511523c6c0f46d6603237622b745767c47e293b09d5370c261525a45ddd822",
+      "retained_path": "evidence/qualification_004/config.yaml",
+      "kind": "file"
+    },
+    {
+      "sha256": "f5511523c6c0f46d6603237622b745767c47e293b09d5370c261525a45ddd822",
+      "object": "objects/f5511523c6c0f46d6603237622b745767c47e293b09d5370c261525a45ddd822",
+      "retained_path": "evidence/qualification_003/config.yaml",
+      "kind": "file"
+    },
+    {
+      "sha256": "f5511523c6c0f46d6603237622b745767c47e293b09d5370c261525a45ddd822",
+      "object": "objects/f5511523c6c0f46d6603237622b745767c47e293b09d5370c261525a45ddd822",
+      "retained_path": "worktree/configs/osd.yaml",
+      "kind": "file"
+    },
+    {
+      "sha256": "f5e096ef78ca1a5f959f50ad1599352d32e943bba871fe59447fa43b9e33afec",
+      "object": "objects/f5e096ef78ca1a5f959f50ad1599352d32e943bba871fe59447fa43b9e33afec",
+      "retained_path": "source_final.tar.gz",
+      "kind": "tar_member",
+      "archive_member": "online_feedback/qualify_sglang.py"
+    },
+    {
+      "sha256": "f5e096ef78ca1a5f959f50ad1599352d32e943bba871fe59447fa43b9e33afec",
+      "object": "objects/f5e096ef78ca1a5f959f50ad1599352d32e943bba871fe59447fa43b9e33afec",
+      "retained_path": "worktree/online_feedback/qualify_sglang.py",
+      "kind": "file"
+    },
+    {
+      "sha256": "f64f79aa16efaa8341a75a52c20d2fb3f9327c91f51e43ce6e985b02c51d32a2",
+      "object": "objects/f64f79aa16efaa8341a75a52c20d2fb3f9327c91f51e43ce6e985b02c51d32a2",
+      "retained_path": "worktree/tests/test_event_schedule.py",
+      "kind": "file"
+    },
+    {
+      "sha256": "f9f03ed9da712f1136fd1a45989afe38ab9c4fbc46c2ad47589df1776dba61d8",
+      "object": "objects/f9f03ed9da712f1136fd1a45989afe38ab9c4fbc46c2ad47589df1776dba61d8",
+      "retained_path": "worktree/tests/test_cache_compatibility.py",
+      "kind": "file"
+    },
+    {
+      "sha256": "fd4032d438f72214fd124a34e678aeef45c83457bafb0453fec364d4b211c2d5",
+      "object": "objects/fd4032d438f72214fd124a34e678aeef45c83457bafb0453fec364d4b211c2d5",
+      "retained_path": "source_install.tar.gz",
+      "kind": "tar_member",
+      "archive_member": "online_feedback/optimizer.py"
+    },
+    {
+      "sha256": "fd4032d438f72214fd124a34e678aeef45c83457bafb0453fec364d4b211c2d5",
+      "object": "objects/fd4032d438f72214fd124a34e678aeef45c83457bafb0453fec364d4b211c2d5",
+      "retained_path": "source_final.tar.gz",
+      "kind": "tar_member",
+      "archive_member": "online_feedback/optimizer.py"
+    },
+    {
+      "sha256": "fd4032d438f72214fd124a34e678aeef45c83457bafb0453fec364d4b211c2d5",
+      "object": "objects/fd4032d438f72214fd124a34e678aeef45c83457bafb0453fec364d4b211c2d5",
+      "retained_path": "worktree/online_feedback/optimizer.py",
+      "kind": "file"
+    },
+    {
+      "sha256": "fe26f64772d4cd89b37f291c37f5a2e3661b17a1b8f8a1bf0df1de6de16e40df",
+      "object": "objects/fe26f64772d4cd89b37f291c37f5a2e3661b17a1b8f8a1bf0df1de6de16e40df",
+      "retained_path": "source_install.tar.gz",
+      "kind": "tar_member",
+      "archive_member": "online_feedback/training.py"
+    },
+    {
+      "sha256": "fe26f64772d4cd89b37f291c37f5a2e3661b17a1b8f8a1bf0df1de6de16e40df",
+      "object": "objects/fe26f64772d4cd89b37f291c37f5a2e3661b17a1b8f8a1bf0df1de6de16e40df",
+      "retained_path": "source_final.tar.gz",
+      "kind": "tar_member",
+      "archive_member": "online_feedback/training.py"
+    },
+    {
+      "sha256": "fe26f64772d4cd89b37f291c37f5a2e3661b17a1b8f8a1bf0df1de6de16e40df",
+      "object": "objects/fe26f64772d4cd89b37f291c37f5a2e3661b17a1b8f8a1bf0df1de6de16e40df",
+      "retained_path": "worktree/online_feedback/training.py",
+      "kind": "file"
+    },
+    {
+      "sha256": "fef6830f4b22525a58f2a491038d3f496f637d211c5c1388dc5c84278ccee181",
+      "object": "objects/fef6830f4b22525a58f2a491038d3f496f637d211c5c1388dc5c84278ccee181",
+      "retained_path": "source_install.tar.gz",
+      "kind": "tar_member",
+      "archive_member": "online_feedback/native_replay.py"
+    },
+    {
+      "sha256": "fef6830f4b22525a58f2a491038d3f496f637d211c5c1388dc5c84278ccee181",
+      "object": "objects/fef6830f4b22525a58f2a491038d3f496f637d211c5c1388dc5c84278ccee181",
+      "retained_path": "source_final.tar.gz",
+      "kind": "tar_member",
+      "archive_member": "online_feedback/native_replay.py"
+    },
+    {
+      "sha256": "fef6830f4b22525a58f2a491038d3f496f637d211c5c1388dc5c84278ccee181",
+      "object": "objects/fef6830f4b22525a58f2a491038d3f496f637d211c5c1388dc5c84278ccee181",
+      "retained_path": "worktree/online_feedback/native_replay.py",
+      "kind": "file"
+    }
+  ],
+  "contracts": [
+    {
+      "retained_manifest": "/home/minhao2/EAGLE_SPEC/research/dflash_online_sglang_20261023/SOURCE_INSTALL.json",
+      "retained_manifest_sha256": "16bcdb5409c4226346f470f2e405974dc4571f5d75d2700ace9efbeab1005b02",
+      "pins": [
+        {
+          "source_path": "online_feedback/rng.py",
+          "sha256": "37ec37d581655279f156142142086f143233b49ceae3069395f4752a3cf11ef2",
+          "json_pointer": "online_feedback/rng.py",
+          "object": "objects/37ec37d581655279f156142142086f143233b49ceae3069395f4752a3cf11ef2",
+          "availability": "exact_bytes_archived"
+        },
+        {
+          "source_path": "online_feedback/sglang_backend.py",
+          "sha256": "7f2f9d0b9c6cd6a523479330a774112dda6e57f481a9745dbd0474b4582d68c3",
+          "json_pointer": "online_feedback/sglang_backend.py",
+          "object": "objects/7f2f9d0b9c6cd6a523479330a774112dda6e57f481a9745dbd0474b4582d68c3",
+          "availability": "exact_bytes_archived"
+        },
+        {
+          "source_path": "online_feedback/controller.py",
+          "sha256": "94f817c71eeff059024640ed75436a72ac1861bf50d4dabaf1a673fde6f383f6",
+          "json_pointer": "online_feedback/controller.py",
+          "object": "objects/94f817c71eeff059024640ed75436a72ac1861bf50d4dabaf1a673fde6f383f6",
+          "availability": "exact_bytes_archived"
+        },
+        {
+          "source_path": "online_feedback/buffer.py",
+          "sha256": "edcca5184d0073c9359b41af566b14bf816993b1d724036380bc45f99ec8e2fa",
+          "json_pointer": "online_feedback/buffer.py",
+          "object": "objects/edcca5184d0073c9359b41af566b14bf816993b1d724036380bc45f99ec8e2fa",
+          "availability": "exact_bytes_archived"
+        },
+        {
+          "source_path": "online_feedback/__init__.py",
+          "sha256": "2da98332f7f6f67bbcc8e08bf6fe8c57b60afbabf8c25c932e067856feff51bb",
+          "json_pointer": "online_feedback/__init__.py",
+          "object": "objects/2da98332f7f6f67bbcc8e08bf6fe8c57b60afbabf8c25c932e067856feff51bb",
+          "availability": "exact_bytes_archived"
+        },
+        {
+          "source_path": "online_feedback/objective.py",
+          "sha256": "cdde03e0f5213e53c10a51a538f2bada24d9ee6387961872c7fd20e9b031f7b6",
+          "json_pointer": "online_feedback/objective.py",
+          "object": "objects/cdde03e0f5213e53c10a51a538f2bada24d9ee6387961872c7fd20e9b031f7b6",
+          "availability": "exact_bytes_archived"
+        },
+        {
+          "source_path": "online_feedback/native_replay.py",
+          "sha256": "fef6830f4b22525a58f2a491038d3f496f637d211c5c1388dc5c84278ccee181",
+          "json_pointer": "online_feedback/native_replay.py",
+          "object": "objects/fef6830f4b22525a58f2a491038d3f496f637d211c5c1388dc5c84278ccee181",
+          "availability": "exact_bytes_archived"
+        },
+        {
+          "source_path": "online_feedback/training.py",
+          "sha256": "fe26f64772d4cd89b37f291c37f5a2e3661b17a1b8f8a1bf0df1de6de16e40df",
+          "json_pointer": "online_feedback/training.py",
+          "object": "objects/fe26f64772d4cd89b37f291c37f5a2e3661b17a1b8f8a1bf0df1de6de16e40df",
+          "availability": "exact_bytes_archived"
+        },
+        {
+          "source_path": "online_feedback/qualify_sglang.py",
+          "sha256": "d061e1f092635528f13ac00d407b7aa8b8e06e3b124d17d017994e86415dbccb",
+          "json_pointer": "online_feedback/qualify_sglang.py",
+          "object": "objects/d061e1f092635528f13ac00d407b7aa8b8e06e3b124d17d017994e86415dbccb",
+          "availability": "exact_bytes_archived"
+        },
+        {
+          "source_path": "online_feedback/sglang_hooks.py",
+          "sha256": "58fa47335b548dbc74ed6d0f7bf4309eb57a80e5f627554cc4fa51438fdcb53f",
+          "json_pointer": "online_feedback/sglang_hooks.py",
+          "object": "objects/58fa47335b548dbc74ed6d0f7bf4309eb57a80e5f627554cc4fa51438fdcb53f",
+          "availability": "exact_bytes_archived"
+        },
+        {
+          "source_path": "online_feedback/recipe.py",
+          "sha256": "87d95eaab6a16f94f595aa93446ee5b858b15d4dbcb8f25b688c6dbca4fc8155",
+          "json_pointer": "online_feedback/recipe.py",
+          "object": "objects/87d95eaab6a16f94f595aa93446ee5b858b15d4dbcb8f25b688c6dbca4fc8155",
+          "availability": "exact_bytes_archived"
+        },
+        {
+          "source_path": "online_feedback/qualify.py",
+          "sha256": "20d5c52acad10b5522744a057da48b0c391899aa94cc30bdd15b92bcaef8f2fb",
+          "json_pointer": "online_feedback/qualify.py",
+          "object": "objects/20d5c52acad10b5522744a057da48b0c391899aa94cc30bdd15b92bcaef8f2fb",
+          "availability": "exact_bytes_archived"
+        },
+        {
+          "source_path": "online_feedback/projected_target.py",
+          "sha256": "a2cd3b1b0eb6194ddb65a8f4b88566e3099a2e93f4fcc2eb93858172e1b4af58",
+          "json_pointer": "online_feedback/projected_target.py",
+          "object": "objects/a2cd3b1b0eb6194ddb65a8f4b88566e3099a2e93f4fcc2eb93858172e1b4af58",
+          "availability": "exact_bytes_archived"
+        },
+        {
+          "source_path": "online_feedback/native.py",
+          "sha256": "94772df576947ee5e5589033c4c461a7528e374a42808e7c2bea37cc3501f6a2",
+          "json_pointer": "online_feedback/native.py",
+          "object": "objects/94772df576947ee5e5589033c4c461a7528e374a42808e7c2bea37cc3501f6a2",
+          "availability": "exact_bytes_archived"
+        },
+        {
+          "source_path": "online_feedback/sglang_worker.py",
+          "sha256": "53ba931e85f75030fa45697f831c631e67e30ad0e8552e056b53d34eeb180f97",
+          "json_pointer": "online_feedback/sglang_worker.py",
+          "object": "objects/53ba931e85f75030fa45697f831c631e67e30ad0e8552e056b53d34eeb180f97",
+          "availability": "exact_bytes_archived"
+        },
+        {
+          "source_path": "online_feedback/optimizer.py",
+          "sha256": "fd4032d438f72214fd124a34e678aeef45c83457bafb0453fec364d4b211c2d5",
+          "json_pointer": "online_feedback/optimizer.py",
+          "object": "objects/fd4032d438f72214fd124a34e678aeef45c83457bafb0453fec364d4b211c2d5",
+          "availability": "exact_bytes_archived"
+        },
+        {
+          "source_path": "online_feedback/storage.py",
+          "sha256": "d4fd33e0d0bc4b3ea784c26f44c65730516829dc25d1aa096318f20aff32b58e",
+          "json_pointer": "online_feedback/storage.py",
+          "object": "objects/d4fd33e0d0bc4b3ea784c26f44c65730516829dc25d1aa096318f20aff32b58e",
+          "availability": "exact_bytes_archived"
+        },
+        {
+          "source_path": "tests/test_sglang_binding.py",
+          "sha256": "14cf5eac8b3044b557c610784808ccfd155763bd1d92c52e21d903406d58058c",
+          "json_pointer": "tests/test_sglang_binding.py",
+          "object": "objects/14cf5eac8b3044b557c610784808ccfd155763bd1d92c52e21d903406d58058c",
+          "availability": "exact_bytes_archived"
+        },
+        {
+          "source_path": "tests/test_sglang_backend.py",
+          "sha256": "1aa9f9e0c3bcc0843de9df93bd8354348d9912afb148827f3e0f43e0cb165b3b",
+          "json_pointer": "tests/test_sglang_backend.py",
+          "object": "objects/1aa9f9e0c3bcc0843de9df93bd8354348d9912afb148827f3e0f43e0cb165b3b",
+          "availability": "exact_bytes_archived"
+        },
+        {
+          "source_path": "tests/test_sglang_qualification.py",
+          "sha256": "185778fee482c048dd263893bfe6eca1484ff0d6cd9b31ad62a194d6947157b5",
+          "json_pointer": "tests/test_sglang_qualification.py",
+          "object": "objects/185778fee482c048dd263893bfe6eca1484ff0d6cd9b31ad62a194d6947157b5",
+          "availability": "exact_bytes_archived"
+        },
+        {
+          "source_path": "tests/test_sglang_hooks.py",
+          "sha256": "1f5886926a91e058452d3289c7d2a8aabdd00ccddcbd854b79b61e4986c038a6",
+          "json_pointer": "tests/test_sglang_hooks.py",
+          "object": "objects/1f5886926a91e058452d3289c7d2a8aabdd00ccddcbd854b79b61e4986c038a6",
+          "availability": "exact_bytes_archived"
+        }
+      ]
+    },
+    {
+      "retained_manifest": "/home/minhao2/EAGLE_SPEC/research/dflash_online_sglang_20261023/SOURCE_FINAL.json",
+      "retained_manifest_sha256": "e47371fe8f3c0198e25cf1ee36c2f927348ffa3b8453714a7c0e950935609666",
+      "pins": [
+        {
+          "source_path": "online_feedback/rng.py",
+          "sha256": "37ec37d581655279f156142142086f143233b49ceae3069395f4752a3cf11ef2",
+          "json_pointer": "online_feedback/rng.py",
+          "object": "objects/37ec37d581655279f156142142086f143233b49ceae3069395f4752a3cf11ef2",
+          "availability": "exact_bytes_archived"
+        },
+        {
+          "source_path": "online_feedback/sglang_backend.py",
+          "sha256": "c9aa30582c0b840e1993e0b832e2e023032b15197e82daeb1d87191c6a4b922e",
+          "json_pointer": "online_feedback/sglang_backend.py",
+          "object": "objects/c9aa30582c0b840e1993e0b832e2e023032b15197e82daeb1d87191c6a4b922e",
+          "availability": "exact_bytes_archived"
+        },
+        {
+          "source_path": "online_feedback/controller.py",
+          "sha256": "94f817c71eeff059024640ed75436a72ac1861bf50d4dabaf1a673fde6f383f6",
+          "json_pointer": "online_feedback/controller.py",
+          "object": "objects/94f817c71eeff059024640ed75436a72ac1861bf50d4dabaf1a673fde6f383f6",
+          "availability": "exact_bytes_archived"
+        },
+        {
+          "source_path": "online_feedback/buffer.py",
+          "sha256": "edcca5184d0073c9359b41af566b14bf816993b1d724036380bc45f99ec8e2fa",
+          "json_pointer": "online_feedback/buffer.py",
+          "object": "objects/edcca5184d0073c9359b41af566b14bf816993b1d724036380bc45f99ec8e2fa",
+          "availability": "exact_bytes_archived"
+        },
+        {
+          "source_path": "online_feedback/__init__.py",
+          "sha256": "2da98332f7f6f67bbcc8e08bf6fe8c57b60afbabf8c25c932e067856feff51bb",
+          "json_pointer": "online_feedback/__init__.py",
+          "object": "objects/2da98332f7f6f67bbcc8e08bf6fe8c57b60afbabf8c25c932e067856feff51bb",
+          "availability": "exact_bytes_archived"
+        },
+        {
+          "source_path": "online_feedback/objective.py",
+          "sha256": "cdde03e0f5213e53c10a51a538f2bada24d9ee6387961872c7fd20e9b031f7b6",
+          "json_pointer": "online_feedback/objective.py",
+          "object": "objects/cdde03e0f5213e53c10a51a538f2bada24d9ee6387961872c7fd20e9b031f7b6",
+          "availability": "exact_bytes_archived"
+        },
+        {
+          "source_path": "online_feedback/native_replay.py",
+          "sha256": "fef6830f4b22525a58f2a491038d3f496f637d211c5c1388dc5c84278ccee181",
+          "json_pointer": "online_feedback/native_replay.py",
+          "object": "objects/fef6830f4b22525a58f2a491038d3f496f637d211c5c1388dc5c84278ccee181",
+          "availability": "exact_bytes_archived"
+        },
+        {
+          "source_path": "online_feedback/training.py",
+          "sha256": "fe26f64772d4cd89b37f291c37f5a2e3661b17a1b8f8a1bf0df1de6de16e40df",
+          "json_pointer": "online_feedback/training.py",
+          "object": "objects/fe26f64772d4cd89b37f291c37f5a2e3661b17a1b8f8a1bf0df1de6de16e40df",
+          "availability": "exact_bytes_archived"
+        },
+        {
+          "source_path": "online_feedback/qualify_sglang.py",
+          "sha256": "f5e096ef78ca1a5f959f50ad1599352d32e943bba871fe59447fa43b9e33afec",
+          "json_pointer": "online_feedback/qualify_sglang.py",
+          "object": "objects/f5e096ef78ca1a5f959f50ad1599352d32e943bba871fe59447fa43b9e33afec",
+          "availability": "exact_bytes_archived"
+        },
+        {
+          "source_path": "online_feedback/sglang_hooks.py",
+          "sha256": "9ceee7d580c1f08cdfe2ba867bb9a6388e1ff25365611a8fce83a5e422d9dd1a",
+          "json_pointer": "online_feedback/sglang_hooks.py",
+          "object": "objects/9ceee7d580c1f08cdfe2ba867bb9a6388e1ff25365611a8fce83a5e422d9dd1a",
+          "availability": "exact_bytes_archived"
+        },
+        {
+          "source_path": "online_feedback/recipe.py",
+          "sha256": "87d95eaab6a16f94f595aa93446ee5b858b15d4dbcb8f25b688c6dbca4fc8155",
+          "json_pointer": "online_feedback/recipe.py",
+          "object": "objects/87d95eaab6a16f94f595aa93446ee5b858b15d4dbcb8f25b688c6dbca4fc8155",
+          "availability": "exact_bytes_archived"
+        },
+        {
+          "source_path": "online_feedback/qualify.py",
+          "sha256": "20d5c52acad10b5522744a057da48b0c391899aa94cc30bdd15b92bcaef8f2fb",
+          "json_pointer": "online_feedback/qualify.py",
+          "object": "objects/20d5c52acad10b5522744a057da48b0c391899aa94cc30bdd15b92bcaef8f2fb",
+          "availability": "exact_bytes_archived"
+        },
+        {
+          "source_path": "online_feedback/projected_target.py",
+          "sha256": "a2cd3b1b0eb6194ddb65a8f4b88566e3099a2e93f4fcc2eb93858172e1b4af58",
+          "json_pointer": "online_feedback/projected_target.py",
+          "object": "objects/a2cd3b1b0eb6194ddb65a8f4b88566e3099a2e93f4fcc2eb93858172e1b4af58",
+          "availability": "exact_bytes_archived"
+        },
+        {
+          "source_path": "online_feedback/native.py",
+          "sha256": "94772df576947ee5e5589033c4c461a7528e374a42808e7c2bea37cc3501f6a2",
+          "json_pointer": "online_feedback/native.py",
+          "object": "objects/94772df576947ee5e5589033c4c461a7528e374a42808e7c2bea37cc3501f6a2",
+          "availability": "exact_bytes_archived"
+        },
+        {
+          "source_path": "online_feedback/sglang_worker.py",
+          "sha256": "9c3bfd15cdb23f0e82a3137977f72ba9e9fdb580a0d607d786c987d1b9c28d5b",
+          "json_pointer": "online_feedback/sglang_worker.py",
+          "object": "objects/9c3bfd15cdb23f0e82a3137977f72ba9e9fdb580a0d607d786c987d1b9c28d5b",
+          "availability": "exact_bytes_archived"
+        },
+        {
+          "source_path": "online_feedback/optimizer.py",
+          "sha256": "fd4032d438f72214fd124a34e678aeef45c83457bafb0453fec364d4b211c2d5",
+          "json_pointer": "online_feedback/optimizer.py",
+          "object": "objects/fd4032d438f72214fd124a34e678aeef45c83457bafb0453fec364d4b211c2d5",
+          "availability": "exact_bytes_archived"
+        },
+        {
+          "source_path": "online_feedback/storage.py",
+          "sha256": "d4fd33e0d0bc4b3ea784c26f44c65730516829dc25d1aa096318f20aff32b58e",
+          "json_pointer": "online_feedback/storage.py",
+          "object": "objects/d4fd33e0d0bc4b3ea784c26f44c65730516829dc25d1aa096318f20aff32b58e",
+          "availability": "exact_bytes_archived"
+        },
+        {
+          "source_path": "tests/test_sglang_binding.py",
+          "sha256": "14cf5eac8b3044b557c610784808ccfd155763bd1d92c52e21d903406d58058c",
+          "json_pointer": "tests/test_sglang_binding.py",
+          "object": "objects/14cf5eac8b3044b557c610784808ccfd155763bd1d92c52e21d903406d58058c",
+          "availability": "exact_bytes_archived"
+        },
+        {
+          "source_path": "tests/test_sglang_backend.py",
+          "sha256": "65e2cf2688bec1aafc920551c5f0b9d7de26cdd7b9187da185219a00f25043e7",
+          "json_pointer": "tests/test_sglang_backend.py",
+          "object": "objects/65e2cf2688bec1aafc920551c5f0b9d7de26cdd7b9187da185219a00f25043e7",
+          "availability": "exact_bytes_archived"
+        },
+        {
+          "source_path": "tests/test_sglang_qualification.py",
+          "sha256": "29ec811e599ebafd300b4f5b13da0a48e53f82723ba4d42538ea150941ff75d0",
+          "json_pointer": "tests/test_sglang_qualification.py",
+          "object": "objects/29ec811e599ebafd300b4f5b13da0a48e53f82723ba4d42538ea150941ff75d0",
+          "availability": "exact_bytes_archived"
+        },
+        {
+          "source_path": "tests/test_sglang_hooks.py",
+          "sha256": "bd31b65069b42e0f3c4f4b498851a299a6fcff80520581c9698232755b1a96c0",
+          "json_pointer": "tests/test_sglang_hooks.py",
+          "object": "objects/bd31b65069b42e0f3c4f4b498851a299a6fcff80520581c9698232755b1a96c0",
+          "availability": "exact_bytes_archived"
+        }
+      ]
+    },
+    {
+      "retained_manifest": "/home/minhao2/EAGLE_SPEC/research/dflash_online_sglang_20261023/evidence/SOURCE_FINAL.json",
+      "retained_manifest_sha256": "e47371fe8f3c0198e25cf1ee36c2f927348ffa3b8453714a7c0e950935609666",
+      "pins": [
+        {
+          "source_path": "online_feedback/rng.py",
+          "sha256": "37ec37d581655279f156142142086f143233b49ceae3069395f4752a3cf11ef2",
+          "json_pointer": "online_feedback/rng.py",
+          "object": "objects/37ec37d581655279f156142142086f143233b49ceae3069395f4752a3cf11ef2",
+          "availability": "exact_bytes_archived"
+        },
+        {
+          "source_path": "online_feedback/sglang_backend.py",
+          "sha256": "c9aa30582c0b840e1993e0b832e2e023032b15197e82daeb1d87191c6a4b922e",
+          "json_pointer": "online_feedback/sglang_backend.py",
+          "object": "objects/c9aa30582c0b840e1993e0b832e2e023032b15197e82daeb1d87191c6a4b922e",
+          "availability": "exact_bytes_archived"
+        },
+        {
+          "source_path": "online_feedback/controller.py",
+          "sha256": "94f817c71eeff059024640ed75436a72ac1861bf50d4dabaf1a673fde6f383f6",
+          "json_pointer": "online_feedback/controller.py",
+          "object": "objects/94f817c71eeff059024640ed75436a72ac1861bf50d4dabaf1a673fde6f383f6",
+          "availability": "exact_bytes_archived"
+        },
+        {
+          "source_path": "online_feedback/buffer.py",
+          "sha256": "edcca5184d0073c9359b41af566b14bf816993b1d724036380bc45f99ec8e2fa",
+          "json_pointer": "online_feedback/buffer.py",
+          "object": "objects/edcca5184d0073c9359b41af566b14bf816993b1d724036380bc45f99ec8e2fa",
+          "availability": "exact_bytes_archived"
+        },
+        {
+          "source_path": "online_feedback/__init__.py",
+          "sha256": "2da98332f7f6f67bbcc8e08bf6fe8c57b60afbabf8c25c932e067856feff51bb",
+          "json_pointer": "online_feedback/__init__.py",
+          "object": "objects/2da98332f7f6f67bbcc8e08bf6fe8c57b60afbabf8c25c932e067856feff51bb",
+          "availability": "exact_bytes_archived"
+        },
+        {
+          "source_path": "online_feedback/objective.py",
+          "sha256": "cdde03e0f5213e53c10a51a538f2bada24d9ee6387961872c7fd20e9b031f7b6",
+          "json_pointer": "online_feedback/objective.py",
+          "object": "objects/cdde03e0f5213e53c10a51a538f2bada24d9ee6387961872c7fd20e9b031f7b6",
+          "availability": "exact_bytes_archived"
+        },
+        {
+          "source_path": "online_feedback/native_replay.py",
+          "sha256": "fef6830f4b22525a58f2a491038d3f496f637d211c5c1388dc5c84278ccee181",
+          "json_pointer": "online_feedback/native_replay.py",
+          "object": "objects/fef6830f4b22525a58f2a491038d3f496f637d211c5c1388dc5c84278ccee181",
+          "availability": "exact_bytes_archived"
+        },
+        {
+          "source_path": "online_feedback/training.py",
+          "sha256": "fe26f64772d4cd89b37f291c37f5a2e3661b17a1b8f8a1bf0df1de6de16e40df",
+          "json_pointer": "online_feedback/training.py",
+          "object": "objects/fe26f64772d4cd89b37f291c37f5a2e3661b17a1b8f8a1bf0df1de6de16e40df",
+          "availability": "exact_bytes_archived"
+        },
+        {
+          "source_path": "online_feedback/qualify_sglang.py",
+          "sha256": "f5e096ef78ca1a5f959f50ad1599352d32e943bba871fe59447fa43b9e33afec",
+          "json_pointer": "online_feedback/qualify_sglang.py",
+          "object": "objects/f5e096ef78ca1a5f959f50ad1599352d32e943bba871fe59447fa43b9e33afec",
+          "availability": "exact_bytes_archived"
+        },
+        {
+          "source_path": "online_feedback/sglang_hooks.py",
+          "sha256": "9ceee7d580c1f08cdfe2ba867bb9a6388e1ff25365611a8fce83a5e422d9dd1a",
+          "json_pointer": "online_feedback/sglang_hooks.py",
+          "object": "objects/9ceee7d580c1f08cdfe2ba867bb9a6388e1ff25365611a8fce83a5e422d9dd1a",
+          "availability": "exact_bytes_archived"
+        },
+        {
+          "source_path": "online_feedback/recipe.py",
+          "sha256": "87d95eaab6a16f94f595aa93446ee5b858b15d4dbcb8f25b688c6dbca4fc8155",
+          "json_pointer": "online_feedback/recipe.py",
+          "object": "objects/87d95eaab6a16f94f595aa93446ee5b858b15d4dbcb8f25b688c6dbca4fc8155",
+          "availability": "exact_bytes_archived"
+        },
+        {
+          "source_path": "online_feedback/qualify.py",
+          "sha256": "20d5c52acad10b5522744a057da48b0c391899aa94cc30bdd15b92bcaef8f2fb",
+          "json_pointer": "online_feedback/qualify.py",
+          "object": "objects/20d5c52acad10b5522744a057da48b0c391899aa94cc30bdd15b92bcaef8f2fb",
+          "availability": "exact_bytes_archived"
+        },
+        {
+          "source_path": "online_feedback/projected_target.py",
+          "sha256": "a2cd3b1b0eb6194ddb65a8f4b88566e3099a2e93f4fcc2eb93858172e1b4af58",
+          "json_pointer": "online_feedback/projected_target.py",
+          "object": "objects/a2cd3b1b0eb6194ddb65a8f4b88566e3099a2e93f4fcc2eb93858172e1b4af58",
+          "availability": "exact_bytes_archived"
+        },
+        {
+          "source_path": "online_feedback/native.py",
+          "sha256": "94772df576947ee5e5589033c4c461a7528e374a42808e7c2bea37cc3501f6a2",
+          "json_pointer": "online_feedback/native.py",
+          "object": "objects/94772df576947ee5e5589033c4c461a7528e374a42808e7c2bea37cc3501f6a2",
+          "availability": "exact_bytes_archived"
+        },
+        {
+          "source_path": "online_feedback/sglang_worker.py",
+          "sha256": "9c3bfd15cdb23f0e82a3137977f72ba9e9fdb580a0d607d786c987d1b9c28d5b",
+          "json_pointer": "online_feedback/sglang_worker.py",
+          "object": "objects/9c3bfd15cdb23f0e82a3137977f72ba9e9fdb580a0d607d786c987d1b9c28d5b",
+          "availability": "exact_bytes_archived"
+        },
+        {
+          "source_path": "online_feedback/optimizer.py",
+          "sha256": "fd4032d438f72214fd124a34e678aeef45c83457bafb0453fec364d4b211c2d5",
+          "json_pointer": "online_feedback/optimizer.py",
+          "object": "objects/fd4032d438f72214fd124a34e678aeef45c83457bafb0453fec364d4b211c2d5",
+          "availability": "exact_bytes_archived"
+        },
+        {
+          "source_path": "online_feedback/storage.py",
+          "sha256": "d4fd33e0d0bc4b3ea784c26f44c65730516829dc25d1aa096318f20aff32b58e",
+          "json_pointer": "online_feedback/storage.py",
+          "object": "objects/d4fd33e0d0bc4b3ea784c26f44c65730516829dc25d1aa096318f20aff32b58e",
+          "availability": "exact_bytes_archived"
+        },
+        {
+          "source_path": "tests/test_sglang_binding.py",
+          "sha256": "14cf5eac8b3044b557c610784808ccfd155763bd1d92c52e21d903406d58058c",
+          "json_pointer": "tests/test_sglang_binding.py",
+          "object": "objects/14cf5eac8b3044b557c610784808ccfd155763bd1d92c52e21d903406d58058c",
+          "availability": "exact_bytes_archived"
+        },
+        {
+          "source_path": "tests/test_sglang_backend.py",
+          "sha256": "65e2cf2688bec1aafc920551c5f0b9d7de26cdd7b9187da185219a00f25043e7",
+          "json_pointer": "tests/test_sglang_backend.py",
+          "object": "objects/65e2cf2688bec1aafc920551c5f0b9d7de26cdd7b9187da185219a00f25043e7",
+          "availability": "exact_bytes_archived"
+        },
+        {
+          "source_path": "tests/test_sglang_qualification.py",
+          "sha256": "29ec811e599ebafd300b4f5b13da0a48e53f82723ba4d42538ea150941ff75d0",
+          "json_pointer": "tests/test_sglang_qualification.py",
+          "object": "objects/29ec811e599ebafd300b4f5b13da0a48e53f82723ba4d42538ea150941ff75d0",
+          "availability": "exact_bytes_archived"
+        },
+        {
+          "source_path": "tests/test_sglang_hooks.py",
+          "sha256": "bd31b65069b42e0f3c4f4b498851a299a6fcff80520581c9698232755b1a96c0",
+          "json_pointer": "tests/test_sglang_hooks.py",
+          "object": "objects/bd31b65069b42e0f3c4f4b498851a299a6fcff80520581c9698232755b1a96c0",
+          "availability": "exact_bytes_archived"
+        }
+      ]
+    },
+    {
+      "retained_manifest": "/home/minhao2/EAGLE_SPEC/research/dflash_online_sglang_20261023/evidence/source_001/SOURCE_INSTALL.json",
+      "retained_manifest_sha256": "16bcdb5409c4226346f470f2e405974dc4571f5d75d2700ace9efbeab1005b02",
+      "pins": [
+        {
+          "source_path": "online_feedback/rng.py",
+          "sha256": "37ec37d581655279f156142142086f143233b49ceae3069395f4752a3cf11ef2",
+          "json_pointer": "online_feedback/rng.py",
+          "object": "objects/37ec37d581655279f156142142086f143233b49ceae3069395f4752a3cf11ef2",
+          "availability": "exact_bytes_archived"
+        },
+        {
+          "source_path": "online_feedback/sglang_backend.py",
+          "sha256": "7f2f9d0b9c6cd6a523479330a774112dda6e57f481a9745dbd0474b4582d68c3",
+          "json_pointer": "online_feedback/sglang_backend.py",
+          "object": "objects/7f2f9d0b9c6cd6a523479330a774112dda6e57f481a9745dbd0474b4582d68c3",
+          "availability": "exact_bytes_archived"
+        },
+        {
+          "source_path": "online_feedback/controller.py",
+          "sha256": "94f817c71eeff059024640ed75436a72ac1861bf50d4dabaf1a673fde6f383f6",
+          "json_pointer": "online_feedback/controller.py",
+          "object": "objects/94f817c71eeff059024640ed75436a72ac1861bf50d4dabaf1a673fde6f383f6",
+          "availability": "exact_bytes_archived"
+        },
+        {
+          "source_path": "online_feedback/buffer.py",
+          "sha256": "edcca5184d0073c9359b41af566b14bf816993b1d724036380bc45f99ec8e2fa",
+          "json_pointer": "online_feedback/buffer.py",
+          "object": "objects/edcca5184d0073c9359b41af566b14bf816993b1d724036380bc45f99ec8e2fa",
+          "availability": "exact_bytes_archived"
+        },
+        {
+          "source_path": "online_feedback/__init__.py",
+          "sha256": "2da98332f7f6f67bbcc8e08bf6fe8c57b60afbabf8c25c932e067856feff51bb",
+          "json_pointer": "online_feedback/__init__.py",
+          "object": "objects/2da98332f7f6f67bbcc8e08bf6fe8c57b60afbabf8c25c932e067856feff51bb",
+          "availability": "exact_bytes_archived"
+        },
+        {
+          "source_path": "online_feedback/objective.py",
+          "sha256": "cdde03e0f5213e53c10a51a538f2bada24d9ee6387961872c7fd20e9b031f7b6",
+          "json_pointer": "online_feedback/objective.py",
+          "object": "objects/cdde03e0f5213e53c10a51a538f2bada24d9ee6387961872c7fd20e9b031f7b6",
+          "availability": "exact_bytes_archived"
+        },
+        {
+          "source_path": "online_feedback/native_replay.py",
+          "sha256": "fef6830f4b22525a58f2a491038d3f496f637d211c5c1388dc5c84278ccee181",
+          "json_pointer": "online_feedback/native_replay.py",
+          "object": "objects/fef6830f4b22525a58f2a491038d3f496f637d211c5c1388dc5c84278ccee181",
+          "availability": "exact_bytes_archived"
+        },
+        {
+          "source_path": "online_feedback/training.py",
+          "sha256": "fe26f64772d4cd89b37f291c37f5a2e3661b17a1b8f8a1bf0df1de6de16e40df",
+          "json_pointer": "online_feedback/training.py",
+          "object": "objects/fe26f64772d4cd89b37f291c37f5a2e3661b17a1b8f8a1bf0df1de6de16e40df",
+          "availability": "exact_bytes_archived"
+        },
+        {
+          "source_path": "online_feedback/qualify_sglang.py",
+          "sha256": "d061e1f092635528f13ac00d407b7aa8b8e06e3b124d17d017994e86415dbccb",
+          "json_pointer": "online_feedback/qualify_sglang.py",
+          "object": "objects/d061e1f092635528f13ac00d407b7aa8b8e06e3b124d17d017994e86415dbccb",
+          "availability": "exact_bytes_archived"
+        },
+        {
+          "source_path": "online_feedback/sglang_hooks.py",
+          "sha256": "58fa47335b548dbc74ed6d0f7bf4309eb57a80e5f627554cc4fa51438fdcb53f",
+          "json_pointer": "online_feedback/sglang_hooks.py",
+          "object": "objects/58fa47335b548dbc74ed6d0f7bf4309eb57a80e5f627554cc4fa51438fdcb53f",
+          "availability": "exact_bytes_archived"
+        },
+        {
+          "source_path": "online_feedback/recipe.py",
+          "sha256": "87d95eaab6a16f94f595aa93446ee5b858b15d4dbcb8f25b688c6dbca4fc8155",
+          "json_pointer": "online_feedback/recipe.py",
+          "object": "objects/87d95eaab6a16f94f595aa93446ee5b858b15d4dbcb8f25b688c6dbca4fc8155",
+          "availability": "exact_bytes_archived"
+        },
+        {
+          "source_path": "online_feedback/qualify.py",
+          "sha256": "20d5c52acad10b5522744a057da48b0c391899aa94cc30bdd15b92bcaef8f2fb",
+          "json_pointer": "online_feedback/qualify.py",
+          "object": "objects/20d5c52acad10b5522744a057da48b0c391899aa94cc30bdd15b92bcaef8f2fb",
+          "availability": "exact_bytes_archived"
+        },
+        {
+          "source_path": "online_feedback/projected_target.py",
+          "sha256": "a2cd3b1b0eb6194ddb65a8f4b88566e3099a2e93f4fcc2eb93858172e1b4af58",
+          "json_pointer": "online_feedback/projected_target.py",
+          "object": "objects/a2cd3b1b0eb6194ddb65a8f4b88566e3099a2e93f4fcc2eb93858172e1b4af58",
+          "availability": "exact_bytes_archived"
+        },
+        {
+          "source_path": "online_feedback/native.py",
+          "sha256": "94772df576947ee5e5589033c4c461a7528e374a42808e7c2bea37cc3501f6a2",
+          "json_pointer": "online_feedback/native.py",
+          "object": "objects/94772df576947ee5e5589033c4c461a7528e374a42808e7c2bea37cc3501f6a2",
+          "availability": "exact_bytes_archived"
+        },
+        {
+          "source_path": "online_feedback/sglang_worker.py",
+          "sha256": "53ba931e85f75030fa45697f831c631e67e30ad0e8552e056b53d34eeb180f97",
+          "json_pointer": "online_feedback/sglang_worker.py",
+          "object": "objects/53ba931e85f75030fa45697f831c631e67e30ad0e8552e056b53d34eeb180f97",
+          "availability": "exact_bytes_archived"
+        },
+        {
+          "source_path": "online_feedback/optimizer.py",
+          "sha256": "fd4032d438f72214fd124a34e678aeef45c83457bafb0453fec364d4b211c2d5",
+          "json_pointer": "online_feedback/optimizer.py",
+          "object": "objects/fd4032d438f72214fd124a34e678aeef45c83457bafb0453fec364d4b211c2d5",
+          "availability": "exact_bytes_archived"
+        },
+        {
+          "source_path": "online_feedback/storage.py",
+          "sha256": "d4fd33e0d0bc4b3ea784c26f44c65730516829dc25d1aa096318f20aff32b58e",
+          "json_pointer": "online_feedback/storage.py",
+          "object": "objects/d4fd33e0d0bc4b3ea784c26f44c65730516829dc25d1aa096318f20aff32b58e",
+          "availability": "exact_bytes_archived"
+        },
+        {
+          "source_path": "tests/test_sglang_binding.py",
+          "sha256": "14cf5eac8b3044b557c610784808ccfd155763bd1d92c52e21d903406d58058c",
+          "json_pointer": "tests/test_sglang_binding.py",
+          "object": "objects/14cf5eac8b3044b557c610784808ccfd155763bd1d92c52e21d903406d58058c",
+          "availability": "exact_bytes_archived"
+        },
+        {
+          "source_path": "tests/test_sglang_backend.py",
+          "sha256": "1aa9f9e0c3bcc0843de9df93bd8354348d9912afb148827f3e0f43e0cb165b3b",
+          "json_pointer": "tests/test_sglang_backend.py",
+          "object": "objects/1aa9f9e0c3bcc0843de9df93bd8354348d9912afb148827f3e0f43e0cb165b3b",
+          "availability": "exact_bytes_archived"
+        },
+        {
+          "source_path": "tests/test_sglang_qualification.py",
+          "sha256": "185778fee482c048dd263893bfe6eca1484ff0d6cd9b31ad62a194d6947157b5",
+          "json_pointer": "tests/test_sglang_qualification.py",
+          "object": "objects/185778fee482c048dd263893bfe6eca1484ff0d6cd9b31ad62a194d6947157b5",
+          "availability": "exact_bytes_archived"
+        },
+        {
+          "source_path": "tests/test_sglang_hooks.py",
+          "sha256": "1f5886926a91e058452d3289c7d2a8aabdd00ccddcbd854b79b61e4986c038a6",
+          "json_pointer": "tests/test_sglang_hooks.py",
+          "object": "objects/1f5886926a91e058452d3289c7d2a8aabdd00ccddcbd854b79b61e4986c038a6",
+          "availability": "exact_bytes_archived"
+        }
+      ]
+    }
+  ],
+  "run_tools": [
+    {
+      "retained_path": "/home/minhao2/EAGLE_SPEC/research/dflash_online_sglang_20261023/inspect_weight_change.py",
+      "published_path": "run_tools/dflash_online_sglang_20261023/inspect_weight_change.py",
+      "sha256": "42397dfffb77086f0178cfdb660fdfeb34c5da637f95a801f187742dff0914ba",
+      "object": "objects/42397dfffb77086f0178cfdb660fdfeb34c5da637f95a801f187742dff0914ba"
+    },
+    {
+      "retained_path": "/home/minhao2/EAGLE_SPEC/research/dflash_online_sglang_20261023/record_runtime.py",
+      "published_path": "run_tools/dflash_online_sglang_20261023/record_runtime.py",
+      "sha256": "999f67cfeb9700802b62dea9903ddf8e387edda2bc1815d67e08b7599dc06ed3",
+      "object": "objects/999f67cfeb9700802b62dea9903ddf8e387edda2bc1815d67e08b7599dc06ed3"
+    },
+    {
+      "retained_path": "/home/minhao2/EAGLE_SPEC/research/dflash_online_sglang_20261023/run_qualification.sh",
+      "published_path": "run_tools/dflash_online_sglang_20261023/run_qualification.sh",
+      "sha256": "dc7568d7c9c596efd46d6405c44f2ee4025498afa1e7c0de92bf24fee1e9ac17",
+      "object": "objects/dc7568d7c9c596efd46d6405c44f2ee4025498afa1e7c0de92bf24fee1e9ac17"
+    }
+  ],
+  "config_pins": [
+    {
+      "retained_path": "/home/minhao2/EAGLE_SPEC/research/dflash_online_sglang_20261023/evidence/qualification_001/config.yaml",
+      "published_path": "config_pins/dflash_online_sglang_20261023/evidence/qualification_001/config.yaml",
+      "sha256": "f5511523c6c0f46d6603237622b745767c47e293b09d5370c261525a45ddd822",
+      "object": "objects/f5511523c6c0f46d6603237622b745767c47e293b09d5370c261525a45ddd822"
+    },
+    {
+      "retained_path": "/home/minhao2/EAGLE_SPEC/research/dflash_online_sglang_20261023/evidence/qualification_002/config.yaml",
+      "published_path": "config_pins/dflash_online_sglang_20261023/evidence/qualification_002/config.yaml",
+      "sha256": "f5511523c6c0f46d6603237622b745767c47e293b09d5370c261525a45ddd822",
+      "object": "objects/f5511523c6c0f46d6603237622b745767c47e293b09d5370c261525a45ddd822"
+    },
+    {
+      "retained_path": "/home/minhao2/EAGLE_SPEC/research/dflash_online_sglang_20261023/evidence/qualification_003/config.yaml",
+      "published_path": "config_pins/dflash_online_sglang_20261023/evidence/qualification_003/config.yaml",
+      "sha256": "f5511523c6c0f46d6603237622b745767c47e293b09d5370c261525a45ddd822",
+      "object": "objects/f5511523c6c0f46d6603237622b745767c47e293b09d5370c261525a45ddd822"
+    },
+    {
+      "retained_path": "/home/minhao2/EAGLE_SPEC/research/dflash_online_sglang_20261023/evidence/qualification_004/config.yaml",
+      "published_path": "config_pins/dflash_online_sglang_20261023/evidence/qualification_004/config.yaml",
+      "sha256": "f5511523c6c0f46d6603237622b745767c47e293b09d5370c261525a45ddd822",
+      "object": "objects/f5511523c6c0f46d6603237622b745767c47e293b09d5370c261525a45ddd822"
+    }
+  ],
+  "upstream_references": [],
+  "missing_exact_source_pins": 0
+}

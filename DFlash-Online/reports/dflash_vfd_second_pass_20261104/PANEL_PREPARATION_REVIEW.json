@@ -1,0 +1,53 @@
+{
+  "status": "prepared_and_cpu_checked",
+  "model_generations": 0,
+  "teacher_preparations": 0,
+  "optimizer_steps": 0,
+  "original_ordered_training_requests": 512,
+  "training_original_rows_digest": "96225e217881660ad04783145ebc46b9cb772a90f2ec1acaac2659e31ced5173",
+  "source_test_questions": 1319,
+  "selected_unique_requests": 200,
+  "matched_prior_use": 196,
+  "unmatched_available_inventory_rows": 4,
+  "prior_usage_claim": "train-disjoint; incomplete historical coverage is not a freshness guarantee",
+  "prior_input_inventories": 75557,
+  "unreadable_inventories": 0,
+  "original_1024_panel_overlap": 142,
+  "prompt_tokens_min": 53,
+  "prompt_tokens_max": 165,
+  "exact_PR25_canonical_reuse": 142,
+  "required_missing_reference_generations": 58,
+  "reference_scope": "142 authenticated exact rendered PR25 prompts; 58 absent from that qualified reference set, not a claim that no older records exist anywhere",
+  "raw_reference_files_freshly_authenticated": 288,
+  "no_source_answers_read": true,
+  "artifact_identities": {
+    "PANEL.json": {
+      "bytes": 579337,
+      "sha256": "e5b64bbd136b168bbc2732c930dda558a4b5843d9b75390ea361743237f961bb"
+    },
+    "TRAINING_REQUESTS.json": {
+      "bytes": 877181,
+      "sha256": "e3e6905e554352cf8a0077f79d25ccff313c63afd8b4bbf6dc8ea30894854537"
+    },
+    "HISTORY_INVENTORY.json": {
+      "bytes": 24866289,
+      "sha256": "b64c7b4f6d1b8ae37f3a4ffb2680e791f7de4e55f659a6f51690bdc068eb31ff"
+    },
+    "CANONICALS.json": {
+      "bytes": 813588,
+      "sha256": "ae16b27aa7ac14929be5ea10f29a976a291768d293ae83536f2226101eea959c"
+    },
+    "REFERENCE_MISSING.json": {
+      "bytes": 1466,
+      "sha256": "d6e2ed30808300377f640ea7ce552f1878556269102d54120f4ff166b47a800b"
+    },
+    "REFERENCE_REUSE_AUDIT.json": {
+      "bytes": 100703,
+      "sha256": "c54c34d61b82b3d04ca62c1641a9b5371fa9ec1a55d684977b88ffb764c2ac19"
+    },
+    "CANONICAL_RECHECK.json": {
+      "bytes": 37312,
+      "sha256": "46746ea6bb927a13138ffaee922789acd388a1a9e9f160b8c5b8b3f29571ca48"
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "inference": {
+    "upstream": "https://github.com/z-lab/dflash.git",
+    "commit": "07ebd93db9f472af339b644bb70221ad8428328a",
+    "tree": "4d9cfcc4740f5ff27d1ed0e42173a182df78a941",
+    "path": "inference"
+  },
+  "training": {
+    "upstream": "https://github.com/sgl-project/SpecForge.git",
+    "commit": "1839aae30003e3573d00979eb1edd57347b3578c",
+    "tree": "9ee1de584d96f975b798438e0b7dfa43676cb8d2",
+    "path": "training",
+    "local_changes": [
+      {
+        "path": "scripts/prepare_hidden_states.py",
+        "purpose": "Honor --cache-dir for Dataset.from_generator; keep generated cache outside clean source."
+      }
+    ]
+  },
+  "status": "Fenrir real training/F5-debugger/save/exact-resume/export-reload qualified on2026-10-21. User384-step job not started. Native serving and A800 training not qualified.",
+  "qualification_report": "QUALIFICATION.md",
+  "environment": {
+    "python": "3.12.15",
+    "torch": "2.13.0+cu130",
+    "transformers": "5.12.1",
+    "sglang": "0.5.18",
+    "debugpy": "1.8.22",
+    "interpreter": "/home/minhao2/.venvs/dflash-specforge/bin/python",
+    "lock": "/home/minhao2/EAGLE_SPEC/research/specforge_f5_training_20261021/requirements.lock.txt"
+  }
+}

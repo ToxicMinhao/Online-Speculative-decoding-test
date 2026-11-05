@@ -1,0 +1,362 @@
+{
+  "status": "passed",
+  "verification_status": "ANALYZED; independent compact reconstruction, not GPU replication",
+  "scope": "Read-only local source/evidence review; audit artifacts only written under run root; no Git or A800 operation",
+  "execution_commit": "c9461345189b91d241ff21590027500e6ac7dab4",
+  "validity": {
+    "windows": 20,
+    "candidate_slots": 80,
+    "valid_candidates": 80,
+    "block_rows_reconstructed": 114772,
+    "candidate_role_csv_matches": true,
+    "exact_R_K_ONLY_witnesses": 20,
+    "both_endpoint_scientific_mismatches": 0,
+    "endpoint_metadata_differences_each": 258
+  },
+  "work": {
+    "core_forwards": 2136,
+    "core_backwards": 996,
+    "Adam": 256,
+    "presentations": 512,
+    "base_forwards": 1536,
+    "base_backwards": 958,
+    "diag_forwards": 600,
+    "diag_backwards": 38,
+    "startup_forwards": 4,
+    "startup_backwards": 4,
+    "startup_Adam": 0,
+    "serving_generations": 0,
+    "feedback_collection": 0
+  },
+  "source_retrieval": {
+    "retrieved_files_verified": 403,
+    "retrieved_bytes": 1688556500,
+    "remote_preflight_files": 1720,
+    "remote_postflight_files": 1720,
+    "sealed_entries": 1720,
+    "local_sealed_counterparts_verified": 1107,
+    "unavailable_locally": 613,
+    "scope": "Local compact manifest and available counterparts rehashed independently; remote model/state/feature tensors not downloaded or independently rerun"
+  },
+  "oracle_absolute_and_relative": {
+    "2/A": {
+      "valid_blocks": 5065,
+      "K_prefix_tokens": 39493,
+      "pre_K_prefix_tokens": 37463,
+      "blocks_with_protected_errors": 25,
+      "protected_error_positions": 25,
+      "protected_positions": 37463,
+      "first_gain": 89,
+      "all_gain": 89,
+      "tie_first_gain": 22,
+      "tie_blocks": 5,
+      "first_fraction_of_all": 1.0,
+      "protected_error_block_fraction": 0.004935834155972359,
+      "all_gain_per_valid_block": 0.0175715695952616,
+      "all_gain_relative_to_K_prefix": 0.002253563922720482
+    },
+    "2/R": {
+      "valid_blocks": 4978,
+      "K_prefix_tokens": 38379,
+      "pre_K_prefix_tokens": 38339,
+      "blocks_with_protected_errors": 104,
+      "protected_error_positions": 108,
+      "protected_positions": 38339,
+      "first_gain": 291,
+      "all_gain": 301,
+      "tie_first_gain": 97,
+      "tie_blocks": 41,
+      "first_fraction_of_all": 0.9667774086378738,
+      "protected_error_block_fraction": 0.020891924467657693,
+      "all_gain_per_valid_block": 0.060466050622740054,
+      "all_gain_relative_to_K_prefix": 0.007842830714713776
+    },
+    "2/D": {
+      "valid_blocks": 5027,
+      "K_prefix_tokens": 37986,
+      "pre_K_prefix_tokens": 38036,
+      "blocks_with_protected_errors": 98,
+      "protected_error_positions": 103,
+      "protected_positions": 38036,
+      "first_gain": 253,
+      "all_gain": 258,
+      "tie_first_gain": 99,
+      "tie_blocks": 37,
+      "first_fraction_of_all": 0.9806201550387597,
+      "protected_error_block_fraction": 0.01949472846628208,
+      "all_gain_per_valid_block": 0.05132285657449771,
+      "all_gain_relative_to_K_prefix": 0.006791975991154636
+    },
+    "4/A": {
+      "valid_blocks": 4306,
+      "K_prefix_tokens": 34431,
+      "pre_K_prefix_tokens": 32783,
+      "blocks_with_protected_errors": 13,
+      "protected_error_positions": 13,
+      "protected_positions": 32783,
+      "first_gain": 56,
+      "all_gain": 56,
+      "tie_first_gain": 39,
+      "tie_blocks": 8,
+      "first_fraction_of_all": 1.0,
+      "protected_error_block_fraction": 0.0030190431955411053,
+      "all_gain_per_valid_block": 0.013005109150023224,
+      "all_gain_relative_to_K_prefix": 0.001626441288373849
+    },
+    "4/R": {
+      "valid_blocks": 4945,
+      "K_prefix_tokens": 40618,
+      "pre_K_prefix_tokens": 40647,
+      "blocks_with_protected_errors": 73,
+      "protected_error_positions": 75,
+      "protected_positions": 40647,
+      "first_gain": 290,
+      "all_gain": 298,
+      "tie_first_gain": 83,
+      "tie_blocks": 25,
+      "first_fraction_of_all": 0.9731543624161074,
+      "protected_error_block_fraction": 0.014762386248736097,
+      "all_gain_per_valid_block": 0.060262891809909,
+      "all_gain_relative_to_K_prefix": 0.0073366487764045495
+    },
+    "4/D": {
+      "valid_blocks": 4372,
+      "K_prefix_tokens": 34964,
+      "pre_K_prefix_tokens": 34952,
+      "blocks_with_protected_errors": 82,
+      "protected_error_positions": 85,
+      "protected_positions": 34952,
+      "first_gain": 175,
+      "all_gain": 182,
+      "tie_first_gain": 82,
+      "tie_blocks": 36,
+      "first_fraction_of_all": 0.9615384615384616,
+      "protected_error_block_fraction": 0.018755718206770355,
+      "all_gain_per_valid_block": 0.04162854528819762,
+      "all_gain_relative_to_K_prefix": 0.005205354078480723
+    }
+  },
+  "prediction_ratios": {
+    "2/R_FULL": {
+      "median_realized_over_proposed_norm": 0.5697567860481243,
+      "median_realized_linear_V_over_K_V": 0.7549875969639632,
+      "median_actual_V_over_K_V": 0.743939387918106,
+      "median_actual_minus_realized_linear_over_K_V": -0.044126591307743976,
+      "actual_minus_realized_linear_over_K_V_range": [
+        -0.723380095226869,
+        0.42147979001090125
+      ]
+    },
+    "2/R_HALF": {
+      "median_realized_over_proposed_norm": 0.41492591235543963,
+      "median_realized_linear_V_over_K_V": 0.9347515955309668,
+      "median_actual_V_over_K_V": 0.9025033084058585,
+      "median_actual_minus_realized_linear_over_K_V": -0.026434045549800844,
+      "actual_minus_realized_linear_over_K_V_range": [
+        -0.6196453492341584,
+        0.6502350458525814
+      ]
+    },
+    "2/D_FULL": {
+      "median_realized_over_proposed_norm": 0.5492063702326575,
+      "median_realized_linear_V_over_K_V": 0.7712348923869261,
+      "median_actual_V_over_K_V": 0.7812499989881871,
+      "median_actual_minus_realized_linear_over_K_V": 0.022316075965243157,
+      "actual_minus_realized_linear_over_K_V_range": [
+        -0.2627602339479222,
+        0.8183462787468944
+      ]
+    },
+    "4/R_FULL": {
+      "median_realized_over_proposed_norm": 0.5767189680937748,
+      "median_realized_linear_V_over_K_V": 0.7247381086040421,
+      "median_actual_V_over_K_V": 0.5960317292955755,
+      "median_actual_minus_realized_linear_over_K_V": -0.11955753466608858,
+      "actual_minus_realized_linear_over_K_V_range": [
+        -0.5806368229243134,
+        0.5081177256380957
+      ]
+    },
+    "4/R_HALF": {
+      "median_realized_over_proposed_norm": 0.4818451618890578,
+      "median_realized_linear_V_over_K_V": 0.9105772032979164,
+      "median_actual_V_over_K_V": 0.7912087717046139,
+      "median_actual_minus_realized_linear_over_K_V": -0.11807541663217651,
+      "actual_minus_realized_linear_over_K_V_range": [
+        -0.9397641347326141,
+        0.3038284601840676
+      ]
+    },
+    "4/D_FULL": {
+      "median_realized_over_proposed_norm": 0.5326190096939658,
+      "median_realized_linear_V_over_K_V": 0.782851498678056,
+      "median_actual_V_over_K_V": 0.7284689059003665,
+      "median_actual_minus_realized_linear_over_K_V": -0.0216883319227907,
+      "actual_minus_realized_linear_over_K_V_range": [
+        -0.46279313989986054,
+        0.6982821926140875
+      ]
+    }
+  },
+  "retirement": {
+    "status": "compact metadata/hash/identity/scope checks passed",
+    "remote_deletion_reexecuted": false,
+    "removed_paths": [
+      "/data/sources/minhao/runs/dflash_krc_mechanism_diagnostic_20261028/campaign_001/event_002/replay/training_state.pt",
+      "/data/sources/minhao/runs/dflash_krc_mechanism_diagnostic_20261028/campaign_001/event_002/replay/events/event_002/export/model.safetensors"
+    ],
+    "removed_bytes": 8390014587,
+    "free_before_bytes": 23529545728,
+    "free_after_bytes": 31919562752,
+    "retained_originals_match_seal": true,
+    "retained_metadata_hash_matches": true,
+    "seven_compact_evidence_files_present": true,
+    "lost_capability": "Direct load/hash reproduction of the retired serialized replay container and export tensors"
+  },
+  "costs": {
+    "campaign_wall_s": 3106.1672991570085,
+    "timer_scope": "Nested; do not sum timings as disjoint phases. Event4 startup peak inherits prior process peak and is not isolated startup memory."
+  },
+  "decision_map": [
+    {
+      "case": "damped nonzero useful displacement",
+      "judgment": "Not established",
+      "evidence": "All 20 half steps nonzero, but fitted R sums -38/+27 versus full -14/+87, and lost K R gains 89/86 versus full68/51."
+    },
+    {
+      "case": "half aliases K_ONLY",
+      "judgment": "Not observed",
+      "evidence": "No half or full candidate aliases K_ONLY; all60 nonzero directions."
+    },
+    {
+      "case": "tie-aware target",
+      "judgment": "Motivated conditional hypothesis, not selected",
+      "evidence": "Wrong ties account for180/581 first-only R oracle gain; strict negative errors account401/581. Zero hinge does not imply native correctness."
+    },
+    {
+      "case": "prioritize first blocking protected error",
+      "judgment": "Strongest conditional correction hypothesis, practical priority inconclusive",
+      "evidence": "581/599 R and1154/1184 all-role oracle gains from first-only repair, but absolute opportunity599/9923 R valid blocks=.0604 token/block."
+    },
+    {
+      "case": "reference construction",
+      "judgment": "Sensitive, no consistently superior D policy",
+      "evidence": "R_FULL cross D -8/-15; D_FULL cross R +6/-3. Gradient cosine weak/mixed; natural norm also changes."
+    },
+    {
+      "case": "proposed vs realized vs actual",
+      "judgment": "Rounding loss and residual mismatch observed",
+      "evidence": "R_FULL median norm ratios .570/.577; proposed nearzero normalizedV versus realizedlinear .755/.725 and actual .744/.596. Residual cannot uniquely identify nonlinearity versus nonsmooth/precision effects."
+    },
+    {
+      "case": "small oracle and little transfer prioritize K",
+      "judgment": "Conservative practical conclusion favored; no formal small-opportunity threshold existed",
+      "evidence": "R protected errors confined177/9923 valid block occurrences. All oracle599 is .758% of R K-prefix total78997. K adds2030/1648 net A tokens; R_FULL adds41/-10, with no positive cross-D totals."
+    },
+    {
+      "case": "large oracle failed parameter realization",
+      "judgment": "Do not claim absolute opportunity is large",
+      "evidence": "High first/all fraction measures concentration, not payoff; token replacement is not an implementable update or serving bound."
+    },
+    {
+      "case": "local useful but endpoint not",
+      "judgment": "Trajectory question remains open, no new trajectory recommended from this diagnostic alone",
+      "evidence": "No candidate continued, no serving generation, events have distinct parents and feedback."
+    }
+  ],
+  "recommendation": {
+    "verdict": "Practical value inconclusive; no replacement correction selected",
+    "priority": "Retain K as current research default; do not automatically launch a correction variant",
+    "conditional_hypothesis": "If correction is explicitly reopened, prioritize first blocking protected error before combining damping or reference changes",
+    "revision_note": "Initial relative-oracle-first interpretation was revised after inspecting absolute opportunity denominators; this is interpretive revision, not a changed acceptance gate."
+  },
+  "limitations": [
+    "Compact auditor does not regenerate logits or reload absent remote model/Adam/feature tensors.",
+    "613 sealed files have no local counterpart; remote pre/post1720 checks retained.",
+    "Overlapping anchors/windows and two trajectories are not independent replications.",
+    "D is buffered training data, not held-out data.",
+    "No new serving or training-inclusive gain measured.",
+    "Native tie and hinge residual evidence do not uniquely identify a causal numerical mechanism.",
+    "No stage advance, new variant implementation or training authorized by completion."
+  ],
+  "issues": [],
+  "report_review": {
+    "path": "/home/minhao2/EAGLE_SPEC/research/dflash_krc_mechanism_diagnostic_20261028/REPORT.md",
+    "sha256": "7e627ca361557099265303fd5cd673da555828d5822ee626ef892683dcc00c6f",
+    "status": "passed",
+    "issues": [],
+    "scope": "Final revised report reread after precise episode label, audit local/remote scope, supplement/source provenance, timer limits, postrun storage and machine/final-interpretation pointers. Numeric conclusions unchanged; all local links resolve; zero issues.",
+    "reviewed_utc": "2026-10-29T02:03:06.303090+00:00"
+  },
+  "D_gradient_no_grad_comparison": {
+    "windows_exact": 20,
+    "scope": "Own native pair V/numerator/denominator/responses exact; equality observed, not added validity gate."
+  },
+  "fallacy_scan": {
+    "Simpson paradox": "Checked: event/pass reversals retained; no grand total replaces these strata.",
+    "Ecological fallacy": "Checked: block occurrences not promoted to request or serving effects.",
+    "Berkson paradox": "Checked: windows fixed before outcomes; protected subset conditional and clearly bounded.",
+    "Collider bias": "Checked: same-state interventions; no outcome-selected window filtering.",
+    "Base rate neglect": "Checked and interpretation revised:177/9923 broken R blocks,599/78997=0.758% oracle relative to K prefix;97% concentration not payoff.",
+    "Regression to mean": "Checked: same-window K_ONLY control and predetermined windows; no extreme-window selection.",
+    "Survivorship bias": "Checked:20/20 windows80/80 valid slots included; no candidate dropped.",
+    "Look-elsewhere effect": "Checked:all four candidates and roles retained; no significance claim or retrospective winner.",
+    "Garden of forking paths": "Checked:fixed scientific gates; analysis-only consistency fixes documented before actual results; one conditional hypothesis, no tuning.",
+    "Correlation versus causation": "Checked:local candidate contrasts are same-state interventions; event differences, serving benefit and residual causal attribution remain unsupported.",
+    "Reverse causality": "Checked:explicit preK/K/candidate chronology; no training-age claim inferred from event outcomes."
+  },
+  "numerical_cost_supplement_review": {
+    "status": "passed",
+    "issues": [],
+    "json_sha256": "e566fa23b0d1d1dee9b34a26f705c2ded9c74273972ecadd95dcd7f2c450d7c4",
+    "md_sha256": "a265b478fcbfeaafc01497c306b5cfa5f3db65d1c51929a8169bb514fe405c68",
+    "scope": "Source timer nesting and independent outer/child/residual arithmetic checked. Outer totals754.086/705.793 exclude nested validation; D gradient remains bundled; episode wall excludes identity hashing/retirement. Prediction ratios agree with independent audit. Internal head/layer counts stay separate from response equivalents."
+  },
+  "report_review_history": [
+    {
+      "path": "/home/minhao2/EAGLE_SPEC/research/dflash_krc_mechanism_diagnostic_20261028/REPORT.md",
+      "sha256": "0009f5927af0f5c0263907ea17972c3eeefa7842b4061807c6437f84b7ac43ce",
+      "status": "passed",
+      "issues": [],
+      "scope": "Reviewed counts, oracle denominators, prediction ratios, pass/event tables, work/cost values and inference limits against independently reconstructed compact evidence."
+    }
+  ],
+  "review_artifact_identities": {
+    "audit_compact_independent.py": {
+      "bytes": 10119,
+      "sha256": "a64c8d10da45588703839762a651be7d6422fad5bee6f35a34fc12ddd171a4e5"
+    },
+    "INDEPENDENT_BLOCK_AUDIT.json": {
+      "bytes": 91434,
+      "sha256": "690b77fedcc94e6116285b2e67672ad0bf9d74c44517b48538d97c9b0cbf0513"
+    },
+    "INDEPENDENT_WORK_PREDICTION_AUDIT.json": {
+      "bytes": 29635,
+      "sha256": "c69547bc52cadc9d83a0b20bf01a6727423dafc0e3f477f3d20326c8ba85a7d7"
+    },
+    "INDEPENDENT_SOURCE_RETRIEVAL_AUDIT.json": {
+      "bytes": 361122,
+      "sha256": "66597302739c89f26bdd2085be9ce42f6b4f6a07668285f51f863c4ba41a5249"
+    },
+    "INDEPENDENT_DESCRIPTIVE_SUMMARY.json": {
+      "bytes": 215169,
+      "sha256": "e4782335cb00b0bda45d7a0e4d27c47ad24d51d12039c476028f654f71bcfb67"
+    },
+    "INDEPENDENT_CODE_REVIEW.json": {
+      "bytes": 8465,
+      "sha256": "45fa91a86221a48f4de6084e9ce64bf8238ce8b85cd215b40b7d00c702e59c23"
+    },
+    "ANALYSIS_SOURCE_REVIEW.json": {
+      "bytes": 5506,
+      "sha256": "2256a3a3b8437cb5b9c88f221567a5bfc5cce4212c23ec7c9d7d627d9ab4a7b1"
+    }
+  },
+  "postrun_transport_retirement_review": {
+    "status": "passed",
+    "free_after_bytes": 22574919680,
+    "retained_local_archives_rehashed": 2,
+    "retired_remote_transport_bytes": 60014608,
+    "gpu_idle_evidence": "retained POSTRUN_STORAGE receipt; no separate remote operation",
+    "receipt_sha256": "8ccc924c8b17828dbb4a9939b8f26dadcd189dcbc9e18e707ad98104167db76e"
+  }
+}

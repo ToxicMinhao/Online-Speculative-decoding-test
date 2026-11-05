@@ -1,0 +1,50 @@
+{
+  "status": "blocked_before_gpu_execution",
+  "reason": "insufficient_full_campaign_storage",
+  "implementation_commit": "5cf1c7e2e7c4a4d08d2225b58c56488578112daf",
+  "preflight_commit": "5cf1c7e2e7c4a4d08d2225b58c56488578112daf",
+  "baseline_publication": "8d5d4185976fc8d78b7d55a19928d86c7cb86e95",
+  "data_binding": "6def4832d12698fc2733e91c427db77558f3fe50e7f51063e9c2a11f9bc961af",
+  "cpu_tests": {
+    "fenrir": {
+      "passed": 40,
+      "wall_s": 20.789
+    },
+    "a800_cpu_only": {
+      "passed": 40,
+      "wall_s": 19.614
+    },
+    "reviewer_report_tests": {
+      "passed": 2,
+      "wall_s": 8.371
+    },
+    "invalid_supervisor_bounds_rejected": 5
+  },
+  "storage": {
+    "required_bytes": 366710105681,
+    "available_at_admission_bytes": 150373031936,
+    "shortfall_bytes": 216337073745,
+    "reserve_bytes": 8589934592,
+    "offload_assumed": false
+  },
+  "scientific_work": {
+    "feedback_generations": 0,
+    "terminal_teacher_forwards": 0,
+    "adam_steps": 0,
+    "presentations": 0,
+    "evaluation_generations": 0,
+    "full_model_qualification_work": 0,
+    "new_checkpoints": 0
+  },
+  "unattempted": {
+    "feedback_generations": 1024,
+    "terminal_teacher_forwards": 1024,
+    "adam_steps": 2048,
+    "presentations": 4096,
+    "evaluation_generations": 4608,
+    "complete_generations": 5632
+  },
+  "automatic_retry": false,
+  "artifacts_deleted": [],
+  "scope_changes": []
+}

@@ -1,0 +1,49 @@
+import json
+from pathlib import Path
+import tempfile
+import unittest
+from unittest.mock import patch
+
+from experiments.prefix_ranking.run import admit_storage, check_training, exposure
+
+
+class CampaignAccountingTests(unittest.TestCase):
+    def test_exact_one_event_counts_and_objective(self):
+        receipt = dict(optimizer_steps=128, response_presentations=256, start_step=0,
+                       end_step=128, passes=2, objective='osd_prefix', status='completed')
+        status = dict(global_step=128, presentations=256, completed_events=['event_001'],
+                      accumulation_remainder=0)
+        check_training(receipt, status, 'osd_prefix')
+        for key in ('optimizer_steps', 'response_presentations', 'end_step'):
+            with self.subTest(key=key), self.assertRaises(RuntimeError):
+                check_training({**receipt, key: receipt[key] - 1}, status, 'osd_prefix')
+        with self.assertRaises(RuntimeError):
+            check_training(receipt, status, 'osd_uniform')
+
+    def test_exposure_counts_accumulation_once(self):
+        records = [
+            dict(optimizer_stepped=False, metrics={'supervised_position_exposure': 15},
+                 sampled_anchors=[{'keep_mask': [[True, False]]}]),
+            dict(optimizer_stepped=True, metrics={'supervised_position_exposure': 45},
+                 sampled_anchors=[{'keep_mask': [[True, True]]}])]
+        result = exposure({'records': records})
+        self.assertEqual(result['anchors'], 3)
+        self.assertEqual(result['optimizer_boundary_metric_sums']['supervised_position_exposure'], 45)
+
+    def test_storage_includes_both_states_exports_qualification_and_reserve(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / 'model.safetensors').write_bytes(b'0' * 100)
+            with patch('experiments.prefix_ranking.run.shutil.disk_usage') as usage:
+                usage.return_value.free = 100 * 2**30
+                result = admit_storage(root, root)
+                self.assertEqual(result['state_export_and_qualification_bytes'], int(11 * 100 * 1.10))
+                self.assertEqual(result['required_bytes'], int(11 * 100 * 1.10) + 16 * 2**30)
+                usage.return_value.free = result['required_bytes'] - 1
+                with self.assertRaises(RuntimeError):
+                    admit_storage(root, root)
+                self.assertFalse(json.loads((root / 'STORAGE_ADMISSION.json').read_text())['admitted'])
+
+
+if __name__ == '__main__':
+    unittest.main()

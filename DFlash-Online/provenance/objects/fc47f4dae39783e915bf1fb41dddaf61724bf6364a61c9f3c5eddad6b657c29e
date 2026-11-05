@@ -1,0 +1,141 @@
+"""CPU-only audit of the completed fixed-panel records; no model replay."""
+import json
+import math
+from pathlib import Path
+from datetime import datetime
+
+ROOT = Path(__file__).resolve().parent
+CAMPAIGN = ROOT / 'raw/campaign_001'
+EVALUATION = CAMPAIGN / 'evaluation'
+PANEL = json.loads((ROOT.parent / 'a800_prepared/PANEL.json').read_text())['requests']
+PLAN = json.loads((CAMPAIGN / 'PLAN.json').read_text())
+ARMS = ['F', 'O', 'C-only', 'B-only']
+
+errors = []
+def check(value, label):
+    if not value:
+        errors.append(label)
+
+rows = []
+block_count = 0
+native_paths = set()
+for index, request in enumerate(PANEL):
+    counts = {arm: [] for arm in ARMS}
+    for repeat in range(3):
+        for arm in ARMS:
+            label = f'{index:04d}_r{repeat}_{arm}'
+            record = json.loads((EVALUATION / (label + '.json')).read_text())
+            meta = record['metadata']
+            response = record['response_ids']
+            check(record['prompt_ids'] == request['prompt_ids'], label + ': input')
+            check(response == request['response_ids'], label + ': output')
+            check(record['checkpoint_id'] == PLAN['arms'][arm], label + ': checkpoint')
+            check(record['purpose'] == 'evaluation', label + ': purpose')
+            check(record['max_new_tokens'] == 2048, label + ': cap')
+            check(record['stop_token_ids'] == request['stop_token_ids'], label + ': stops')
+            check(response[-1] in record['stop_token_ids'] or len(response) == 2048, label + ': termination')
+            check(not any(t in record['stop_token_ids'] for t in response[:-1]), label + ': early EOS')
+            check(record['finish_reason'] == request['finish_reason'], label + ': finish')
+            check(meta['runtime'] == 'pinned_SGLang_FA3' and meta['block_size'] == 16
+                  and meta['context_limit'] == 4096, label + ': runtime')
+            check(meta['cache_policy'] == 'idle_full_flush_before_every_request_and_publication', label + ': cache')
+            check(not meta['feedback_capture_in_timed_request'], label + ': capture')
+            native_name = Path(meta['native_trace_path']).name
+            native_paths.add(native_name)
+            native = json.loads((CAMPAIGN / 'native' / native_name).read_text())
+            check(native == meta['capture'], label + ': native receipt equality')
+            check(native['prompt_ids'] == request['prompt_ids'] and native['response_ids'] == response,
+                  label + ': native tokens')
+            check(native['status'] == 'passed' and native['native_capture_validated']
+                  and not native['collect_features'] and native['feature_bytes'] == 0,
+                  label + ': native capture contract')
+            offset = 0
+            accepted = 0
+            for b, block in enumerate(meta['trace']):
+                tag = f'{label}: block {b}'
+                proposals, target = block['draft_tokens'], block['target_argmax']
+                check(len(proposals) == 15 and len(target) == block['verify_size'] == 16, tag + ': geometry')
+                k = next((j for j in range(15) if proposals[j] != target[j]), 15)
+                expected = target[:k + 1]
+                stop = next((j + 1 for j, t in enumerate(expected) if t in record['stop_token_ids']), len(expected))
+                expected = expected[:min(stop, 2048 - 1 - offset)]
+                progress = block['committed_progress']
+                check(block['output_start'] == offset and block['anchor_token'] == response[offset], tag + ': start')
+                check(block['positions'] == list(range(len(request['prompt_ids']) + offset,
+                       len(request['prompt_ids']) + offset + 16)), tag + ': positions')
+                check(block['raw_accepted_draft_tokens_before_stop'] == k, tag + ': raw accepted')
+                check(block['committed_tokens'] == expected and len(expected) == progress, tag + ': verify rule')
+                check(block['accepted_draft_tokens'] == min(k, progress), tag + ': accepted accounting')
+                check(block['committed_tokens'] == response[offset + 1:offset + 1 + progress], tag + ': commits')
+                offset += progress
+                accepted += block['accepted_draft_tokens']
+                block_count += 1
+            check(offset == len(response) - 1 == meta['committed_progress'], label + ': progress total')
+            check(accepted == meta['accepted_draft_tokens'], label + ': accepted total')
+            check(len(meta['trace']) == meta['verification_calls'], label + ': calls')
+            for key in ['request_latency_s', 'native_generate_s']:
+                check(math.isfinite(meta[key]) and meta[key] > 0, label + ': ' + key)
+            if arm in ('F', 'O'):
+                check(meta['verification_calls'] == request['reference_calls'][arm], label + ': historical calls')
+            counts[arm].append(meta['verification_calls'])
+            rows.append({'request_latency_s': meta['request_latency_s'],
+                         'cache_maintenance_s': native['cache_maintenance_s']})
+    check(all(len(set(v)) == 1 for v in counts.values()), f'{index}: repeated counts')
+    validation = json.loads((EVALUATION / f'{index:04d}_VALIDATION.json').read_text())
+    check(validation['valid'] and all(x['valid_measurement'] and not x['errors']
+          for x in validation['measurements']), f'{index}: validity receipt')
+
+activations = [json.loads(x) for x in (EVALUATION / 'ACTIVATIONS.jsonl').read_text().splitlines()]
+check(len(activations) == 768, 'publication count')
+expected_order = []
+for index in range(64):
+    for repeat in range(3):
+        shift = (3 * index + repeat) % 4
+        expected_order.extend((index, repeat, arm) for arm in ARMS[shift:] + ARMS[:shift])
+check([(a['panel_ordinal'], a['repeat'], a['method']) for a in activations] == expected_order,
+      'publication order')
+for i, a in enumerate(activations):
+    p = a['native_status']['publication']
+    check(not a['errors'] and a['checkpoint_structure_valid'], f'publication {i}: validity')
+    check(a['checkpoint_id'] == p['checkpoint_path'] == PLAN['arms'][a['method']], f'publication {i}: path')
+    check(a['native_status']['cache_tokens'] == p['cache_after_tokens'] == 0, f'publication {i}: empty cache')
+    check(all(p[k] for k in ['helper_matches_current_layers', 'helper_norm_matches_current_layers', 'fused_enabled']),
+          f'publication {i}: helpers')
+for arm in ARMS:
+    receipt = json.loads((EVALUATION / f'WEIGHTS_{arm}.json').read_text())
+    native = receipt['native_reply']
+    check(not receipt['errors'] and native['all_equal'] and native['source_tensor_count'] == 58
+          and native['native_tensor_count'] == 43 and native['checkpoint_path'] == PLAN['arms'][arm],
+          arm + ': full native equality')
+status = json.loads((EVALUATION / 'STATUS.json').read_text())
+check(status['status'] == 'completed' and status['returned_generations'] == 768
+      and status['unknown_generation_attempts'] == status['unattempted_generations'] == 0,
+      'completed accounting')
+check(status['optimizer_steps'] == status['feedback_collections'] == 0, 'no training or feedback')
+check(len(native_paths) == 768, 'distinct native records')
+check((ROOT / 'raw/execution_001/EXIT_CODE').read_text().strip() == '0', 'supervisor exit')
+costs = json.loads((CAMPAIGN / 'COSTS.json').read_text())
+request_time = sum(r['request_latency_s'] for r in rows)
+activation = sum(a['activation_s'] for a in activations)
+check(math.isclose(activation, status['activation_s']), 'activation timer sum')
+start = datetime.fromisoformat((ROOT / 'raw/execution_001/STARTED.utc').read_text().strip().replace('Z', '+00:00'))
+end = datetime.fromisoformat((ROOT / 'raw/execution_001/FINISHED.utc').read_text().strip().replace('Z', '+00:00'))
+result = {
+    'native_record_audit': 'passed' if not errors else 'failed', 'errors': errors,
+    'requests': 64, 'generations': len(rows), 'verification_blocks_checked': block_count,
+    'all_outputs_canonical': not errors, 'all_F_O_counts_reproduce': not errors,
+    'distinct_native_records': len(native_paths), 'full_equality_arms': ARMS,
+    'timing_protocol_compliant': False,
+    'timing_caveat': 'Monitoring artifact transfers overlapped campaign; exact latency bias is unmeasured. Preserve all raw results.',
+    'costs': {**costs, 'request_latency_all_arms_all_repeats_s': request_time,
+              'activation_s': activation, 'weight_validation_s': status['weight_validation_s'],
+              'nested_request_cache_maintenance_s': sum(r['cache_maintenance_s'] for r in rows),
+              'native_activation_nested_s': sum(a['native_activation_s'] for a in activations),
+              'supervisor_wall_s': (end - start).total_seconds(),
+              'unattributed_wall_remainder_s': costs['actual_experiment_wall_s'] - request_time - activation
+                  - status['weight_validation_s'] - costs['loading_s']},
+    'scope': 'Recomputed from retained evidence only. No generation, training or timing rerun.'}
+(ROOT / 'NATIVE_VALIDITY_AUDIT.json').write_text(json.dumps(result, indent=2) + '\n')
+print(json.dumps(result, indent=2))
+if errors:
+    raise SystemExit(1)

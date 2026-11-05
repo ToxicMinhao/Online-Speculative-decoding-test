@@ -1,0 +1,498 @@
+{
+  "status": "passed_record_review",
+  "execution_commit": "d10521a1aa7d256bb75b37a6aae07586ae7cc8b3",
+  "review_scope": "Read-only same-team review of retrieved compact qualification records. No independent GPU execution or decoded tensor reexecution; large tensors were not retrieved.",
+  "published_report_audit_errors": [],
+  "independent_work_reconstruction": {
+    "forwards": 8,
+    "backwards": 8,
+    "reference_forwards": 6,
+    "optimizer_steps": 4
+  },
+  "zero_unknown_work": true,
+  "serving_or_feedback_generations": 0,
+  "new_model_work_in_this_review": 0,
+  "four_distinct_cold_case_processes": [
+    2523385,
+    2524830,
+    2526525,
+    2528255
+  ],
+  "same_physical_gpu_uuid": "c6943f33-bcd0-a724-0b35-f77af6b0a3f1",
+  "distinct_initially_empty_cache_paths": 24,
+  "features_match_sealed_order": true,
+  "anchor_arrays_exact_across_all_cases": true,
+  "initial_and_post_restore_receipts_pass": true,
+  "Q2_exactness": {
+    "weights": {
+      "exact": true,
+      "changed_parameters": 0,
+      "changed_coordinates": 0,
+      "max_abs_error": 0.0,
+      "parameters": []
+    },
+    "gradients": {
+      "exact": true,
+      "changed_parameters": 0,
+      "changed_coordinates": 0,
+      "max_abs_error": 0.0,
+      "parameters": []
+    },
+    "optimizer_exact": true,
+    "state_differences": [],
+    "losses_exact": true,
+    "anchors_exact": true,
+    "response_metrics_exact": true
+  },
+  "Q3_vs_Q1": {
+    "weights": {
+      "exact": false,
+      "changed_parameters": 37,
+      "changed_coordinates": 3120694,
+      "max_abs_error": 0.0009765625
+    },
+    "gradients": {
+      "exact": false,
+      "changed_parameters": 58,
+      "changed_coordinates": 1005622524,
+      "max_abs_error": 0.00140380859375
+    },
+    "optimizer_exact": false,
+    "state_differences": [],
+    "losses_exact": false,
+    "anchors_exact": true,
+    "response_metrics_exact": false
+  },
+  "Q4_derivative_check": {
+    "gradients": {
+      "exact": false,
+      "changed_parameters": 58,
+      "changed_coordinates": 1046762296,
+      "max_abs_error": 0.1405029296875
+    },
+    "moments": {
+      "exact": false,
+      "changed_parameters": 116,
+      "changed_coordinates": 1095401476,
+      "max_abs_error": 0.01409912109375
+    },
+    "updated_bf16_parameters": {
+      "exact": false,
+      "changed_parameters": 41,
+      "changed_coordinates": 35065175,
+      "max_abs_error": 0.0009765625
+    }
+  },
+  "cases": {
+    "Q1": {
+      "purpose": "Native K",
+      "pid": 2523385,
+      "work": {
+        "forwards": 2,
+        "backwards": 2,
+        "reference_forwards": 0,
+        "optimizer_steps": 1
+      },
+      "responses": [
+        {
+          "record_id": "coding_training_00000",
+          "loss": 0.12850810587406158,
+          "prefix_protection": {}
+        },
+        {
+          "record_id": "coding_training_00434",
+          "loss": 0.1169157475233078,
+          "prefix_protection": {}
+        }
+      ],
+      "initialization_s": 37.65583464130759,
+      "reference_setup_s": 0.0,
+      "window_s": 30.703407952561975,
+      "wall_s": 100.09424527734518,
+      "peak_allocated_bytes": 20654736896,
+      "peak_reserved_bytes": 21562916864,
+      "objective_work": {
+        "reference_setup_s": 0.0,
+        "reference_forward_s": 0.0,
+        "reference_head_s": 0.0,
+        "projection_s": 0.0,
+        "teacher_head_s": 1.6216418985277414,
+        "selection_s": 0.23582936264574528
+      },
+      "streaming_response_observation_rows": 2,
+      "serialized_restored_exact_recorded": true,
+      "frozen_changes_recorded": []
+    },
+    "Q2": {
+      "purpose": "Neutral wrapper with reference enabled",
+      "pid": 2524830,
+      "work": {
+        "forwards": 2,
+        "backwards": 2,
+        "reference_forwards": 2,
+        "optimizer_steps": 1
+      },
+      "responses": [
+        {
+          "record_id": "coding_training_00000",
+          "loss": 0.12850810587406158,
+          "prefix_protection": {
+            "k_loss": 0.12850810587406158
+          }
+        },
+        {
+          "record_id": "coding_training_00434",
+          "loss": 0.1169157475233078,
+          "prefix_protection": {
+            "k_loss": 0.1169157475233078
+          }
+        }
+      ],
+      "initialization_s": 48.794888908043504,
+      "reference_setup_s": 10.13832452148199,
+      "window_s": 37.52818092145026,
+      "wall_s": 119.24940425157547,
+      "peak_allocated_bytes": 22860826112,
+      "peak_reserved_bytes": 23737663488,
+      "objective_work": {
+        "reference_setup_s": 10.136874975636601,
+        "reference_forward_s": 11.332888923585415,
+        "reference_head_s": 0.8554820716381073,
+        "projection_s": 0.0,
+        "teacher_head_s": 1.6218094155192375,
+        "selection_s": 0.2212269902229309,
+        "extra_loss_s": 0.0,
+        "work": {
+          "reference_draft_forwards": 2,
+          "reference_layer_forwards": 10,
+          "reference_response_forwards": 2,
+          "reference_head_calls": 128,
+          "current_response_forwards": 2,
+          "current_draft_forwards": 2,
+          "current_layer_forwards": 10,
+          "current_objective_chunks": 256,
+          "current_head_calls": 256,
+          "teacher_head_calls": 256
+        },
+        "reference_binding": "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/draft"
+      },
+      "streaming_response_observation_rows": 2,
+      "serialized_restored_exact_recorded": true,
+      "frozen_changes_recorded": []
+    },
+    "Q3": {
+      "purpose": "Production KP",
+      "pid": 2526525,
+      "work": {
+        "forwards": 2,
+        "backwards": 2,
+        "reference_forwards": 2,
+        "optimizer_steps": 1
+      },
+      "responses": [
+        {
+          "record_id": "coding_training_00000",
+          "loss": 0.12941640615463257,
+          "prefix_protection": {
+            "qualification_forced_active": false,
+            "k_loss": 0.12850810587406158,
+            "protection_weight": 2263.20703125,
+            "protection_loss": 0.009082931093871593,
+            "weighted_protection_loss": 0.0009082931210286915,
+            "total_loss": 0.12941640615463257,
+            "protected_positions": 4136,
+            "active_positions": 51,
+            "active_weight": 27.94171905517578,
+            "finite": true
+          }
+        },
+        {
+          "record_id": "coding_training_00434",
+          "loss": 0.11820188164710999,
+          "prefix_protection": {
+            "qualification_forced_active": false,
+            "k_loss": 0.1169157475233078,
+            "protection_weight": 2671.860107421875,
+            "protection_loss": 0.01286131888628006,
+            "weighted_protection_loss": 0.0012861319119110703,
+            "total_loss": 0.11820188164710999,
+            "protected_positions": 5410,
+            "active_positions": 55,
+            "active_weight": 26.78464126586914,
+            "finite": true
+          }
+        }
+      ],
+      "initialization_s": 51.0122573133558,
+      "reference_setup_s": 9.916060704737902,
+      "window_s": 36.443496607244015,
+      "wall_s": 118.26085967198014,
+      "peak_allocated_bytes": 24958084096,
+      "peak_reserved_bytes": 26138902528,
+      "objective_work": {
+        "reference_setup_s": 9.915400121361017,
+        "reference_forward_s": 11.331269497051835,
+        "reference_head_s": 0.853563679382205,
+        "projection_s": 0.0,
+        "teacher_head_s": 1.6207881569862366,
+        "selection_s": 0.22769164480268955,
+        "extra_loss_s": 0.06814218871295452,
+        "work": {
+          "reference_draft_forwards": 2,
+          "reference_layer_forwards": 10,
+          "reference_response_forwards": 2,
+          "reference_head_calls": 128,
+          "current_response_forwards": 2,
+          "current_draft_forwards": 2,
+          "current_layer_forwards": 10,
+          "current_objective_chunks": 256,
+          "current_head_calls": 256,
+          "teacher_head_calls": 256
+        },
+        "reference_binding": "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/draft"
+      },
+      "streaming_response_observation_rows": 2,
+      "serialized_restored_exact_recorded": true,
+      "frozen_changes_recorded": []
+    },
+    "Q4": {
+      "purpose": "Forced-active fixture",
+      "pid": 2528255,
+      "work": {
+        "forwards": 2,
+        "backwards": 2,
+        "reference_forwards": 2,
+        "optimizer_steps": 1
+      },
+      "responses": [
+        {
+          "record_id": "coding_training_00000",
+          "loss": 0.2285081148147583,
+          "prefix_protection": {
+            "qualification_forced_active": true,
+            "k_loss": 0.12850810587406158,
+            "protection_weight": 3370.7861328125,
+            "protection_loss": 1.0,
+            "weighted_protection_loss": 0.10000000149011612,
+            "total_loss": 0.2285081148147583,
+            "protected_positions": 7602,
+            "active_positions": 7602,
+            "active_weight": 3370.784912109375,
+            "finite": true
+          }
+        },
+        {
+          "record_id": "coding_training_00434",
+          "loss": 0.21691575646400452,
+          "prefix_protection": {
+            "qualification_forced_active": true,
+            "k_loss": 0.1169157475233078,
+            "protection_weight": 3380.77490234375,
+            "protection_loss": 1.0,
+            "weighted_protection_loss": 0.10000000149011612,
+            "total_loss": 0.21691575646400452,
+            "protected_positions": 7633,
+            "active_positions": 7633,
+            "active_weight": 3380.773681640625,
+            "finite": true
+          }
+        }
+      ],
+      "initialization_s": 51.31863871216774,
+      "reference_setup_s": 9.95542398095131,
+      "window_s": 37.09627154096961,
+      "wall_s": 120.83977833762765,
+      "peak_allocated_bytes": 22860831232,
+      "peak_reserved_bytes": 23737663488,
+      "objective_work": {
+        "reference_setup_s": 9.953948855400085,
+        "reference_forward_s": 11.61400544270873,
+        "reference_head_s": 0.8543822858482599,
+        "projection_s": 0.0,
+        "teacher_head_s": 1.6207425743341446,
+        "selection_s": 0.22874684259295464,
+        "extra_loss_s": 0.0755361057817936,
+        "work": {
+          "reference_draft_forwards": 2,
+          "reference_layer_forwards": 10,
+          "reference_response_forwards": 2,
+          "reference_head_calls": 128,
+          "current_response_forwards": 2,
+          "current_draft_forwards": 2,
+          "current_layer_forwards": 10,
+          "current_objective_chunks": 256,
+          "current_head_calls": 256,
+          "teacher_head_calls": 256
+        },
+        "reference_binding": "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/draft"
+      },
+      "streaming_response_observation_rows": 2,
+      "serialized_restored_exact_recorded": true,
+      "frozen_changes_recorded": []
+    }
+  },
+  "qualification_wall_s": 546.8591510411352,
+  "maximum_allocated_bytes": 24958084096,
+  "maximum_reserved_bytes": 26138902528,
+  "review_initialized_cuda": false,
+  "interpretation": "The retained native qualification records support proceeding with the fixed campaign after resource admission; no serving efficacy has been established.",
+  "limitations": [
+    "Tensor equality is recorded by execution-time decoded comparisons. This review checks their compact receipts and control flow, not absent tensors.",
+    "Qualification timings include cold compilation, tensor comparison/persistence and disposable-state checks; they are not production overhead estimates.",
+    "Full-campaign storage admission and subsequent correctness remain separate executor checks."
+  ],
+  "artifact_identities": {
+    "qualification_001/Q1/CASE.json": {
+      "bytes": 3794,
+      "sha256": "da32fca776603b387ded4b09fb5ba09de1e82530ae8b1652a4e1dd2c4339e84c"
+    },
+    "qualification_001/Q1/EXEC.json": {
+      "bytes": 356,
+      "sha256": "4831536bfcc473d489f15b71d8a0d33c99451ec64a2e586c7d01e940464fb645"
+    },
+    "qualification_001/Q1/FEATURES.json": {
+      "bytes": 624,
+      "sha256": "78a854703528efff39eca4220ba9b2f65feb330dfe0eaf4b6847f70b3bffe1f8"
+    },
+    "qualification_001/Q1/INITIAL.json": {
+      "bytes": 147,
+      "sha256": "3a78edcef99bcf9464f38ce541f8647c0e16d3fac07c16771e54af9ba179f79c"
+    },
+    "qualification_001/Q1/POST_RESTORE.json": {
+      "bytes": 147,
+      "sha256": "9b9251036f9d55fe6e422b4b9b4f9fa4742c79395db27f5e6eb0625cc7cc689a"
+    },
+    "qualification_001/Q1/RESPONSES.json": {
+      "bytes": 39318,
+      "sha256": "d5503ae3126805f6fab5b8b96432f5907597c7691296810bc2832789056eea3a"
+    },
+    "qualification_001/Q1/RESPONSE_OBSERVATIONS.jsonl": {
+      "bytes": 2239,
+      "sha256": "65e8a0df7be8023dd599ce8b24d4fbee26611a6a0c0cde4e0a8505ffe4c84918"
+    },
+    "qualification_001/Q1/WORK.jsonl": {
+      "bytes": 578,
+      "sha256": "5bd411af7c638288adb448fcd6dc4b8b67aa9b579c562b26fa80e9359eaa608d"
+    },
+    "qualification_001/Q2/CASE.json": {
+      "bytes": 4356,
+      "sha256": "2d787e2e57aabbdccea7aa6acc4874ac5cdb97ff4ae37ba52f46a566be4978ab"
+    },
+    "qualification_001/Q2/EXEC.json": {
+      "bytes": 356,
+      "sha256": "2442f3c1e3a3a9bbb0d6a7cc69836252be38920c25418d569ce9568bd36910db"
+    },
+    "qualification_001/Q2/FEATURES.json": {
+      "bytes": 624,
+      "sha256": "78a854703528efff39eca4220ba9b2f65feb330dfe0eaf4b6847f70b3bffe1f8"
+    },
+    "qualification_001/Q2/INITIAL.json": {
+      "bytes": 147,
+      "sha256": "7cfc020789b3a9ea6ec849320023cca73d64d940530089555e92ebf1a283c7b1"
+    },
+    "qualification_001/Q2/POST_RESTORE.json": {
+      "bytes": 147,
+      "sha256": "f8d5c6a718b5dbdca2f4125992377f1bbab60e63696274e2964fc773b15f67c3"
+    },
+    "qualification_001/Q2/RESPONSES.json": {
+      "bytes": 39991,
+      "sha256": "cc23e761b7e86b190285559dce776289a9561a81043dba2e9aa1654295f33d05"
+    },
+    "qualification_001/Q2/RESPONSE_OBSERVATIONS.jsonl": {
+      "bytes": 2700,
+      "sha256": "c71ca9486a35cdb7bfca807676a73a18e3dccf5b4c77ebb2f22f051a3418be25"
+    },
+    "qualification_001/Q2/VERSUS_Q1.json": {
+      "bytes": 432,
+      "sha256": "5aa11ccb154ca627af0a10160f4f7b95b0b150c659fa58aac2d5e8546182630b"
+    },
+    "qualification_001/Q2/WORK.jsonl": {
+      "bytes": 842,
+      "sha256": "40bea5c49992f1049104d1e231a3117e54f97dbc5399434e2773292346e6f8f9"
+    },
+    "qualification_001/Q3/CASE.json": {
+      "bytes": 4370,
+      "sha256": "179bd05dadc0d9566054035b7410e2a0b236067e29d044abb0c47f53e0a78f37"
+    },
+    "qualification_001/Q3/EXEC.json": {
+      "bytes": 354,
+      "sha256": "b1de90d8b2497cefb83ac353d22ac15b5867bcba4c40a729daa8f981616da1e1"
+    },
+    "qualification_001/Q3/FEATURES.json": {
+      "bytes": 624,
+      "sha256": "78a854703528efff39eca4220ba9b2f65feb330dfe0eaf4b6847f70b3bffe1f8"
+    },
+    "qualification_001/Q3/INITIAL.json": {
+      "bytes": 146,
+      "sha256": "0f5b71f3b820538bb90d7d128eb4be4d3960e6d79a714ef838d6f6d12364eda0"
+    },
+    "qualification_001/Q3/POST_RESTORE.json": {
+      "bytes": 148,
+      "sha256": "afe9dfd1a09f17bf711eac398bd40e12ce4e5a0393a65b7192e038ad7bd8e024"
+    },
+    "qualification_001/Q3/RESPONSES.json": {
+      "bytes": 43994,
+      "sha256": "c377d600b3e0678003656c20b441713e38f12e00a5ba93597587fe423ba3b4c7"
+    },
+    "qualification_001/Q3/RESPONSE_OBSERVATIONS.jsonl": {
+      "bytes": 5211,
+      "sha256": "f75557dd1851ee39dadbd01453d9d327f751a48c4990d3e24769c73c09f38341"
+    },
+    "qualification_001/Q3/VERSUS_Q1.json": {
+      "bytes": 39684,
+      "sha256": "dc167e08a4595d439fa02f01265952c65d4752897e3e9af89fe577add30ee92b"
+    },
+    "qualification_001/Q3/WORK.jsonl": {
+      "bytes": 842,
+      "sha256": "40bea5c49992f1049104d1e231a3117e54f97dbc5399434e2773292346e6f8f9"
+    },
+    "qualification_001/Q4/CASE.json": {
+      "bytes": 4368,
+      "sha256": "e000646575c4893c6b41434c4ae6c67050e14e64482f1523ab85d81d516b937a"
+    },
+    "qualification_001/Q4/EXEC.json": {
+      "bytes": 355,
+      "sha256": "3a8d178925d1fdba7158e2d779754e2bafd0cc5b3f1c5c311e4aeb395c9e27cc"
+    },
+    "qualification_001/Q4/FEATURES.json": {
+      "bytes": 624,
+      "sha256": "78a854703528efff39eca4220ba9b2f65feb330dfe0eaf4b6847f70b3bffe1f8"
+    },
+    "qualification_001/Q4/FORCED_ACTIVE.json": {
+      "bytes": 86874,
+      "sha256": "4ee59df6f1e31a6623fcc9a6da69c29af6c3a1e086eccecee67861f39c29c87b"
+    },
+    "qualification_001/Q4/INITIAL.json": {
+      "bytes": 148,
+      "sha256": "98d573547e3dce782a28c5c4dac5e58f53e3265ee638a37b2eb9721685328ffc"
+    },
+    "qualification_001/Q4/POST_RESTORE.json": {
+      "bytes": 147,
+      "sha256": "54c4ce481755f42b1afcb4864a6a9e8530d42905f2ead14dfea89b79ecfda987"
+    },
+    "qualification_001/Q4/RESPONSES.json": {
+      "bytes": 43944,
+      "sha256": "c57fc516c99dadf6c3235fcff76143e7ea8aba694f78566d5bf78e6904def2c1"
+    },
+    "qualification_001/Q4/RESPONSE_OBSERVATIONS.jsonl": {
+      "bytes": 5161,
+      "sha256": "512c186389e1165a93a48756d92e070ba783004e619dd6927ab290375e595e8a"
+    },
+    "qualification_001/Q4/VERSUS_Q1.json": {
+      "bytes": 41263,
+      "sha256": "25ebc7fe075a2f683c9aca05c6291ddec69374c4479ea892add8bf8ac20a3502"
+    },
+    "qualification_001/Q4/WORK.jsonl": {
+      "bytes": 842,
+      "sha256": "40bea5c49992f1049104d1e231a3117e54f97dbc5399434e2773292346e6f8f9"
+    },
+    "qualification_001/QUALIFICATION.json": {
+      "bytes": 753,
+      "sha256": "8f53b7c0a140065a30fee427e3961583f1480ea65fae39d0faadeae0d1e3b9d1"
+    },
+    "qualification_001/RESULT.json": {
+      "bytes": 753,
+      "sha256": "8f53b7c0a140065a30fee427e3961583f1480ea65fae39d0faadeae0d1e3b9d1"
+    }
+  }
+}

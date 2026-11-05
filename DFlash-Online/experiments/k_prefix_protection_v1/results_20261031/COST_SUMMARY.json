@@ -1,0 +1,111 @@
+{
+  "current": {
+    "17/K_HALF": {
+      "events": 4,
+      "training_s": 1490.5844547711313,
+      "event_wall_s": 1642.6036802064627,
+      "loading_initialization_resume_validation_s": 169.32944092713296,
+      "frozen_reference_setup_s": 0.0,
+      "checkpoint_save_s": 77.82906240783632,
+      "export_s": 61.50289107859135,
+      "state_validation_hash_s": 66.87470170296729,
+      "peak_allocated_bytes": 20708042240,
+      "peak_reserved_bytes": 26172456960,
+      "loading_peak_allocated_bytes": 10880436736,
+      "loading_peak_reserved_bytes": 10926161920,
+      "objective_subtimers": {
+        "reference_setup_s": 0.0,
+        "reference_forward_s": 0.0,
+        "reference_head_s": 0.0,
+        "extra_loss_s": 0.0,
+        "teacher_head_s": 441.25258199311793,
+        "selection_s": 59.30745027028024
+      }
+    },
+    "17/KP": {
+      "events": 4,
+      "training_s": 1847.0242952313274,
+      "event_wall_s": 2000.7693857457489,
+      "loading_initialization_resume_validation_s": 202.4421470835805,
+      "frozen_reference_setup_s": 43.61311273276806,
+      "checkpoint_save_s": 81.08448622748256,
+      "export_s": 59.82477249763906,
+      "state_validation_hash_s": 66.08380680903792,
+      "peak_allocated_bytes": 22805302784,
+      "peak_reserved_bytes": 29748101120,
+      "loading_peak_allocated_bytes": 12977693184,
+      "loading_peak_reserved_bytes": 13044285440,
+      "objective_subtimers": {
+        "reference_setup_s": 43.60851254686713,
+        "reference_forward_s": 116.65869645029306,
+        "reference_head_s": 228.47165531665087,
+        "extra_loss_s": 18.58527068607509,
+        "teacher_head_s": 441.3830365650356,
+        "selection_s": 59.61786615103483
+      }
+    },
+    "29/K_HALF": {
+      "events": 4,
+      "training_s": 1492.8250755928457,
+      "event_wall_s": 1651.6547389235348,
+      "loading_initialization_resume_validation_s": 182.02619432844222,
+      "frozen_reference_setup_s": 0.0,
+      "checkpoint_save_s": 82.81501087732613,
+      "export_s": 61.66870440915227,
+      "state_validation_hash_s": 67.83598739467561,
+      "peak_allocated_bytes": 20679275520,
+      "peak_reserved_bytes": 27856470016,
+      "loading_peak_allocated_bytes": 10880436736,
+      "loading_peak_reserved_bytes": 10926161920,
+      "objective_subtimers": {
+        "reference_setup_s": 0.0,
+        "reference_forward_s": 0.0,
+        "reference_head_s": 0.0,
+        "extra_loss_s": 0.0,
+        "teacher_head_s": 441.1337368749082,
+        "selection_s": 59.81113005056977
+      }
+    },
+    "29/KP": {
+      "events": 4,
+      "training_s": 1848.318660300225,
+      "event_wall_s": 2003.820432184264,
+      "loading_initialization_resume_validation_s": 205.48958509229124,
+      "frozen_reference_setup_s": 44.856652116402984,
+      "checkpoint_save_s": 78.61690808832645,
+      "export_s": 62.91709471307695,
+      "state_validation_hash_s": 80.1932060085237,
+      "peak_allocated_bytes": 22776356864,
+      "peak_reserved_bytes": 29861347328,
+      "loading_peak_allocated_bytes": 12977693184,
+      "loading_peak_reserved_bytes": 13044285440,
+      "objective_subtimers": {
+        "reference_setup_s": 44.85249253362417,
+        "reference_forward_s": 115.30455307662487,
+        "reference_head_s": 228.4321563858539,
+        "extra_loss_s": 18.714622400701046,
+        "teacher_head_s": 441.1884220633656,
+        "selection_s": 61.04720492102206
+      }
+    }
+  },
+  "historical_K": {
+    "17": {
+      "training_s": 1486.4870554115623,
+      "event_wall_s": 1630.8895133510232,
+      "loading_initialization_resume_validation_s": 160.1930772960186,
+      "checkpoint_save_s": 72.39936100691557,
+      "export_s": 59.50579768978059
+    },
+    "29": {
+      "training_s": 1486.2791505083442,
+      "event_wall_s": 1637.6002263128757,
+      "loading_initialization_resume_validation_s": 162.50588885508478,
+      "checkpoint_save_s": 78.09375561214983,
+      "export_s": 59.12260011956096
+    }
+  },
+  "scope": "Cold native update timings; historical K is not a fresh matched overhead measurement.",
+  "timer_overlap": "Loading includes reference setup; event wall includes training/save/export; objective subtimers are included in training or loading. Do not add nested timers.",
+  "historical_source": "/data/sources/minhao/runs/dflash_ok_coding_20261030/production_002/final_report/TRAINING_COSTS.csv"
+}

@@ -1,0 +1,233 @@
+"""CPU-only orchestration checks; no model construction or native generation."""
+from collections import Counter
+from contextlib import ExitStack
+import importlib.util
+import json
+from pathlib import Path
+import sys
+import tempfile
+from types import SimpleNamespace
+import unittest
+from unittest.mock import patch
+
+import torch
+
+SPEC = importlib.util.spec_from_file_location('guard_main_campaign', Path(__file__).with_name('campaign.py'))
+campaign = importlib.util.module_from_spec(SPEC)
+SPEC.loader.exec_module(campaign)
+
+
+def save(path, value):
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(value))
+
+
+def guard_report():
+    return dict(work=dict(current_response_forwards=256, h_backward_calls=256,
+                         k_backward_calls=256, probe_response_forwards=18),
+                steps=[dict(optimizer_step=step) for step in range(1, 129)],
+                probes=[dict(optimizer_step=step, candidate=candidate, responses=[{}, {}])
+                        for step in (1, 64, 128)
+                        for candidate in ('ordinary_K', 'projected_G', 'norm_scaled_K')])
+
+
+class MainCampaignTests(unittest.TestCase):
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.tmp.cleanup)
+        self.root = Path(self.tmp.name)
+        self.qroot = self.root / 'prior_qualification'
+        config = self.root / 'sealed/config.yaml'
+        config.parent.mkdir()
+        config.write_text('qualified: unchanged\n')
+        prior_config = self.root / 'prior_config.yaml'
+        prior_config.write_bytes(config.read_bytes())
+        self.ordinary = dict(status='completed', objective='osd', passes=2,
+                             optimizer_steps=128, response_presentations=256, start_step=0, end_step=128,
+                             features=[dict(path=f'feature-{i}.pt') for i in range(128)],
+                             records=[dict(record_id=f'r{i}', **{'pass': i // 128}, sampled_anchors=[i],
+                                           optimizer_stepped=bool(i % 2), optimizer_step_after=(i + 1) // 2)
+                                      for i in range(256)])
+        self.k = dict(self.ordinary, objective='osd_first_error', checkpoint_path='retained-K')
+        self.plan = dict(config=str(config), ordinary_receipt=str(self.root / 'O.json'),
+                         k_receipt=str(self.root / 'K.json'), manifest=str(self.root / 'manifest.json'),
+                         pinned_initial=str(self.root / 'initial.pt'), qualification_reused_from=str(self.qroot),
+                         target='target', draft='draft', worker_python='worker')
+        self.qualification = dict(
+            status='passed', config=str(prior_config), ordinary_receipt=self.plan['ordinary_receipt'],
+            pinned_initial=self.plan['pinned_initial'], wall_s=242,
+            trials=[dict(label=label, status='passed') for label in ('K','G_disabled','G_enabled')],
+            runtime_compatibility=dict(effective=False, effective_at_completion=False,
+                                       effective_at_exit=False, torch_version=str(torch.__version__)),
+            work_counts=dict(temporary_optimizer_step_completed=3, response_presentations=6,
+                             qualification_k_backward_completed=6,
+                             startup_response_evaluation_completed=2, startup_backward_completed=2))
+        self.qualification['counts'] = dict(self.qualification['work_counts'])
+        save(self.qroot / 'RESULT.json', self.qualification)
+        save(self.qroot / 'BUDGET.json', dict(exact_equal=True))
+        save(self.root / 'sealed/PLAN.json', self.plan)
+        save(Path(self.plan['ordinary_receipt']), self.ordinary)
+        save(Path(self.plan['k_receipt']), self.k)
+        save(Path(self.plan['manifest']), dict(eval_requests=[dict(ordinal=i) for i in range(64)]))
+
+    def test_reuse_does_not_count_historical_steps_as_new_work(self):
+        result = campaign.load_qualification(self.plan)
+        self.assertEqual(result['counts']['temporary_optimizer_step_completed'], 3)
+        self.assertEqual(result['new_optimizer_steps'], 0)
+        self.assertTrue(result['historical_only'])
+        self.assertFalse(result['included_in_current_campaign_wall'])
+
+    def test_incomplete_qualification_is_rejected(self):
+        self.qualification['trials'][-1]['status'] = 'failed'
+        save(self.qroot / 'RESULT.json', self.qualification)
+        with self.assertRaisesRegex(ValueError, 'three repaired'):
+            campaign.load_qualification(self.plan)
+
+    def test_configuration_and_initial_pin_must_match(self):
+        Path(self.plan['config']).write_text('qualified: changed\n')
+        with self.assertRaisesRegex(ValueError, 'configuration'):
+            campaign.load_qualification(self.plan)
+        Path(self.plan['config']).write_text('qualified: unchanged\n')
+        self.plan['pinned_initial'] = 'different-initial.pt'
+        with self.assertRaisesRegex(ValueError, 'pinned_initial'):
+            campaign.load_qualification(self.plan)
+
+    def mocked_runtime(self, *, failure=False):
+        events = []
+        report = guard_report()
+        receipt = dict(self.k, prefix_guard=report, checkpoint_path='new-G',
+                       costs=dict(training_s=1), objective_work={})
+        outer = self
+
+        class Trainer:
+            def __init__(self, config, output, **options):
+                events.append(('construct_G', options))
+                self.global_step = self.presentations = 0
+                self.closed = self.failed = False
+            def train_event(self, event, features, **options):
+                events.append(('train', len(features), options['passes']))
+                outer.assertEqual(options['presentation_schedule'], outer.ordinary)
+                if failure:
+                    self.presentations = 1
+                    raise ValueError('original training failure')
+                self.global_step, self.presentations = 128, 256
+                return receipt
+            def close(self):
+                events.append('trainer_closed')
+                self.closed = True
+            def status(self):
+                return dict(closed=self.closed, failed=self.failed)
+
+        class Guard:
+            def report(self):
+                return report
+            def close(self):
+                events.append('guard_closed')
+                if failure:
+                    raise OSError('secondary close failure')
+
+        class Backend:
+            loading_s = 1
+            def __init__(self, *args, **options):
+                events.append('native_loaded')
+                outer.assertIn('trainer_closed', events)
+                outer.assertEqual((options['block_size'], options['context_limit']), (16,4096))
+            def close(self):
+                events.append('backend_closed')
+
+        class WorkLog:
+            def __init__(self, root):
+                self.counts = Counter()
+
+        def pin(root):
+            events.append('pin_false')
+            return dict(effective=False, torch_version=str(torch.__version__))
+        def require_pin():
+            outer.assertIn('pin_false', events)
+        def startup(config, ordinary, pinned, log, root):
+            events.append('startup_two_zero_steps')
+            outer.assertFalse(any(isinstance(item, tuple) and item[0]=='construct_G' for item in events))
+            log.counts.update(startup_response_evaluation_completed=2, startup_backward_completed=2)
+            return dict(status='passed', response_evaluations=2, backwards=2, optimizer_steps=0,
+                        exact_initial_state_restored=True, separate_disposable_runtime=True)
+        def initialize(trainer, pin, output):
+            events.append('fresh_initial_exact')
+            return dict(exact_pinned_initial_state=True, fresh_optimizer=True)
+        def install_guard(trainer, **options):
+            events.append('guard_installed')
+            outer.assertEqual(options['probe_steps'], (1,64,128))
+            outer.assertTrue(options['enabled'])
+            return Guard()
+        def evaluate(backend, requests, checkpoints, output):
+            events.append('evaluate_384')
+            outer.assertEqual(len(requests),64)
+            outer.assertEqual(checkpoints, {'K':'retained-K','G':'new-G'})
+            return dict(status='completed', generations=384)
+
+        modules = {
+            'online_feedback.training': SimpleNamespace(SpecForgeEventTrainer=Trainer),
+            'online_feedback.prefix_guard': SimpleNamespace(install_guard=install_guard),
+            'online_feedback.sglang_backend': SimpleNamespace(SGLangDFlashBackend=Backend),
+            'experiments.prefix_guard.qualify': SimpleNamespace(
+                WorkLog=WorkLog, pin_retained_graph_runtime=pin, require_runtime_pin=require_pin,
+                run_startup=startup, prepare_main=initialize),
+            'experiments.prefix_guard.evaluator': SimpleNamespace(evaluate=evaluate),
+        }
+        stack = ExitStack()
+        stack.enter_context(patch.dict(sys.modules, modules))
+        stack.enter_context(patch.object(campaign, 'validate_scope'))
+        stack.enter_context(patch.object(torch, 'load', return_value={'rng':'pinned'}))
+        for name in ('reset_peak_memory_stats','empty_cache'):
+            stack.enter_context(patch.object(torch.cuda, name))
+        for name in ('max_memory_allocated','max_memory_reserved'):
+            stack.enter_context(patch.object(torch.cuda, name, return_value=0))
+        return stack, events
+
+    def test_main_order_budget_and_no_qualification_repeat(self):
+        stack, events = self.mocked_runtime()
+        with stack:
+            campaign.run(self.root)
+        self.assertEqual(events[0:2], ['pin_false','startup_two_zero_steps'])
+        self.assertLess(events.index('fresh_initial_exact'), events.index('guard_installed'))
+        self.assertEqual(sum(isinstance(item,tuple) and item[0]=='train' for item in events),1)
+        self.assertEqual(events[-1], 'backend_closed')
+        output=self.root/'campaign_001'
+        status=json.loads((output/'STATUS.json').read_text())
+        costs=json.loads((output/'COSTS.json').read_text())
+        self.assertEqual((status['status'],status['main_optimizer_steps'],status['main_presentations']),
+                         ('completed',128,256))
+        self.assertEqual(costs['new_qualification_optimizer_steps'],0)
+        self.assertEqual(costs['startup']['optimizer_steps'],0)
+        self.assertEqual(costs['startup_work_counts']['startup_backward_completed'],2)
+        self.assertFalse((output/'qualification').exists())
+        self.assertFalse(torch.cuda.is_initialized())
+
+    def test_failure_preserves_original_and_stops_before_evaluation(self):
+        stack, events=self.mocked_runtime(failure=True)
+        with stack, self.assertRaisesRegex(ValueError,'original training failure'):
+            campaign.run(self.root)
+        self.assertNotIn('native_loaded',events)
+        status=json.loads((self.root/'campaign_001/STATUS.json').read_text())
+        self.assertEqual(status['status'],'failed')
+        self.assertEqual(status['main_presentations'],1)
+        self.assertEqual(status['cleanup_errors'][0]['operation'],'close_guard')
+        self.assertTrue((self.root/'campaign_001/GUARD_EVIDENCE.json').exists())
+
+    def test_invalid_reuse_stops_before_startup(self):
+        self.qualification['status']='failed'
+        save(self.qroot/'RESULT.json',self.qualification)
+        stack,events=self.mocked_runtime()
+        with stack,self.assertRaisesRegex(ValueError,'complete passed'):
+            campaign.run(self.root)
+        self.assertEqual(events,[])
+
+    def test_guard_budget_checks_remain_exact(self):
+        report=guard_report()
+        campaign.check_guard_report(report)
+        report['work']['probe_response_forwards']=19
+        with self.assertRaisesRegex(ValueError,'budget differs'):
+            campaign.check_guard_report(report)
+
+
+if __name__ == '__main__':
+    unittest.main()

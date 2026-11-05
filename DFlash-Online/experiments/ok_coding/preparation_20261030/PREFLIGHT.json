@@ -1,0 +1,435 @@
+{
+  "status": "failed",
+  "model_forwards": 0,
+  "backwards": 0,
+  "optimizer_steps": 0,
+  "generations": 0,
+  "postflight": false,
+  "explicit_resume": false,
+  "source": {
+    "status": "passed",
+    "files_checked": 2687,
+    "execution_source": {
+      "commit": "5cf1c7e2e7c4a4d08d2225b58c56488578112daf",
+      "dirty": false,
+      "repository": "https://github.com/ToxicMinhao/Online-Speculative-decoding-test",
+      "source_path": "/data/sources/minhao/DFlash-Online"
+    }
+  },
+  "plan": {
+    "status": "passed",
+    "training_requests": 512,
+    "evaluation_requests": 128,
+    "training_seeds": [
+      17,
+      29
+    ],
+    "events": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "new_budget": {
+      "feedback": 1024,
+      "terminal_teacher_forwards": 1024,
+      "optimizer_steps": 2048,
+      "presentations": 4096,
+      "evaluation": 4608,
+      "generations": 5632,
+      "optimizer_previews": 0,
+      "qualification_model_work": 0
+    },
+    "data_binding": "6def4832d12698fc2733e91c427db77558f3fe50e7f51063e9c2a11f9bc961af"
+  },
+  "configs": {
+    "17": {
+      "config": "/data/sources/minhao/runs/dflash_ok_coding_20261030/production_001/sealed/config_seed_17.yaml",
+      "identity": {
+        "bytes": 1528,
+        "sha256": "6a69adb9f919823198f9b939a231170dea7695894fa062aaf33c607548533942"
+      },
+      "native_horizon": 7424,
+      "native_max_events": 58,
+      "campaign_events": 4,
+      "seed": 17
+    },
+    "29": {
+      "config": "/data/sources/minhao/runs/dflash_ok_coding_20261030/production_001/sealed/config_seed_29.yaml",
+      "identity": {
+        "bytes": 1528,
+        "sha256": "4108c5e4eaf225dc7982706ce0d95f86b0348de49e50e51e9fb171c01ae64d47"
+      },
+      "native_horizon": 7424,
+      "native_max_events": 58,
+      "campaign_events": 4,
+      "seed": 29
+    }
+  },
+  "hardware": {
+    "status": "passed",
+    "gpus": [
+      {
+        "index": 0,
+        "name": "NVIDIA A800 80GB PCIe",
+        "total_mib": 81920,
+        "used_mib": 0
+      },
+      {
+        "index": 1,
+        "name": "NVIDIA A800 80GB PCIe",
+        "total_mib": 81920,
+        "used_mib": 0
+      }
+    ],
+    "active_compute_processes": [],
+    "cuda_context_created": false
+  },
+  "storage": {
+    "admitted": false,
+    "free_bytes": 150373031936,
+    "required_bytes": 366710105681,
+    "host_available_bytes": 137787781120,
+    "host_required_bytes": 85899345920,
+    "capacity": {
+      "mode": "retain_local",
+      "offload_assumed": false,
+      "peak_required_bytes": 366710105681,
+      "peak_phase": "seed_29_event_4_K_pending",
+      "final_incremental_payload_bytes": 302783944240,
+      "capture_and_prepared_copies": true,
+      "feedback_pools": 8,
+      "retained_endpoint_pairs": 8,
+      "retained_initial_states": 4,
+      "compiler_cache_allowance_bytes": 17179869184,
+      "compact_and_workspace_bytes": 4294967296,
+      "reserve_bytes": 8589934592,
+      "slack_fraction": 0.1,
+      "phases": [
+        {
+          "phase": "seed_17_O_initial_pending",
+          "payload_bytes": 19277128288,
+          "required_bytes": 34089743004
+        },
+        {
+          "phase": "seed_17_O_initial_saved",
+          "payload_bytes": 19277128288,
+          "required_bytes": 34089743004
+        },
+        {
+          "phase": "seed_17_K_initial_pending",
+          "payload_bytes": 21374387392,
+          "required_bytes": 36396728019
+        },
+        {
+          "phase": "seed_17_K_initial_saved",
+          "payload_bytes": 21374387392,
+          "required_bytes": 36396728019
+        },
+        {
+          "phase": "seed_17_event_1_capture",
+          "payload_bytes": 34518628612,
+          "required_bytes": 50855393361
+        },
+        {
+          "phase": "seed_17_event_1_prepared",
+          "payload_bytes": 47662869832,
+          "required_bytes": 65314058703
+        },
+        {
+          "phase": "seed_17_event_1_O_pending",
+          "payload_bytes": 58149165352,
+          "required_bytes": 76848983775
+        },
+        {
+          "phase": "seed_17_event_1_O_saved",
+          "payload_bytes": 56051906248,
+          "required_bytes": 74541998760
+        },
+        {
+          "phase": "seed_17_event_1_K_pending",
+          "payload_bytes": 66538201768,
+          "required_bytes": 86076923832
+        },
+        {
+          "phase": "seed_17_event_1_K_saved",
+          "payload_bytes": 64440942664,
+          "required_bytes": 83769938818
+        },
+        {
+          "phase": "seed_17_event_2_capture",
+          "payload_bytes": 77574072820,
+          "required_bytes": 98216381990
+        },
+        {
+          "phase": "seed_17_event_2_prepared",
+          "payload_bytes": 90707202976,
+          "required_bytes": 112662825161
+        },
+        {
+          "phase": "seed_17_event_2_O_pending",
+          "payload_bytes": 101193498496,
+          "required_bytes": 124197750233
+        },
+        {
+          "phase": "seed_17_event_2_O_saved",
+          "payload_bytes": 99096239392,
+          "required_bytes": 121890765219
+        },
+        {
+          "phase": "seed_17_event_2_K_pending",
+          "payload_bytes": 109582534912,
+          "required_bytes": 133425690291
+        },
+        {
+          "phase": "seed_17_event_2_K_saved",
+          "payload_bytes": 107485275808,
+          "required_bytes": 131118705276
+        },
+        {
+          "phase": "seed_17_event_2_evaluated_before_retirement",
+          "payload_bytes": 107485275808,
+          "required_bytes": 131118705276
+        },
+        {
+          "phase": "seed_17_event_2_rolling_retired",
+          "payload_bytes": 90707202976,
+          "required_bytes": 112662825161
+        },
+        {
+          "phase": "seed_17_event_3_capture",
+          "payload_bytes": 103818356824,
+          "required_bytes": 127085094394
+        },
+        {
+          "phase": "seed_17_event_3_prepared",
+          "payload_bytes": 116929510672,
+          "required_bytes": 141507363627
+        },
+        {
+          "phase": "seed_17_event_3_O_pending",
+          "payload_bytes": 127415806192,
+          "required_bytes": 153042288699
+        },
+        {
+          "phase": "seed_17_event_3_O_saved",
+          "payload_bytes": 125318547088,
+          "required_bytes": 150735303684
+        },
+        {
+          "phase": "seed_17_event_3_K_pending",
+          "payload_bytes": 135804842608,
+          "required_bytes": 162270228756
+        },
+        {
+          "phase": "seed_17_event_3_K_saved",
+          "payload_bytes": 133707583504,
+          "required_bytes": 159963243742
+        },
+        {
+          "phase": "seed_17_event_4_capture",
+          "payload_bytes": 146844745108,
+          "required_bytes": 174414121506
+        },
+        {
+          "phase": "seed_17_event_4_prepared",
+          "payload_bytes": 159981906712,
+          "required_bytes": 188864999271
+        },
+        {
+          "phase": "seed_17_event_4_O_pending",
+          "payload_bytes": 170468202232,
+          "required_bytes": 200399924343
+        },
+        {
+          "phase": "seed_17_event_4_O_saved",
+          "payload_bytes": 168370943128,
+          "required_bytes": 198092939328
+        },
+        {
+          "phase": "seed_17_event_4_K_pending",
+          "payload_bytes": 178857238648,
+          "required_bytes": 209627864400
+        },
+        {
+          "phase": "seed_17_event_4_K_saved",
+          "payload_bytes": 176759979544,
+          "required_bytes": 207320879386
+        },
+        {
+          "phase": "seed_17_event_4_evaluated_before_retirement",
+          "payload_bytes": 176759979544,
+          "required_bytes": 207320879386
+        },
+        {
+          "phase": "seed_17_event_4_rolling_retired",
+          "payload_bytes": 159981906712,
+          "required_bytes": 188864999271
+        },
+        {
+          "phase": "seed_29_O_initial_pending",
+          "payload_bytes": 162079165816,
+          "required_bytes": 191171984285
+        },
+        {
+          "phase": "seed_29_O_initial_saved",
+          "payload_bytes": 162079165816,
+          "required_bytes": 191171984285
+        },
+        {
+          "phase": "seed_29_K_initial_pending",
+          "payload_bytes": 164176424920,
+          "required_bytes": 193478969300
+        },
+        {
+          "phase": "seed_29_K_initial_saved",
+          "payload_bytes": 164176424920,
+          "required_bytes": 193478969300
+        },
+        {
+          "phase": "seed_29_event_1_capture",
+          "payload_bytes": 177320666140,
+          "required_bytes": 207937634642
+        },
+        {
+          "phase": "seed_29_event_1_prepared",
+          "payload_bytes": 190464907360,
+          "required_bytes": 222396299984
+        },
+        {
+          "phase": "seed_29_event_1_O_pending",
+          "payload_bytes": 200951202880,
+          "required_bytes": 233931225056
+        },
+        {
+          "phase": "seed_29_event_1_O_saved",
+          "payload_bytes": 198853943776,
+          "required_bytes": 231624240041
+        },
+        {
+          "phase": "seed_29_event_1_K_pending",
+          "payload_bytes": 209340239296,
+          "required_bytes": 243159165113
+        },
+        {
+          "phase": "seed_29_event_1_K_saved",
+          "payload_bytes": 207242980192,
+          "required_bytes": 240852180099
+        },
+        {
+          "phase": "seed_29_event_2_capture",
+          "payload_bytes": 220376110348,
+          "required_bytes": 255298623270
+        },
+        {
+          "phase": "seed_29_event_2_prepared",
+          "payload_bytes": 233509240504,
+          "required_bytes": 269745066442
+        },
+        {
+          "phase": "seed_29_event_2_O_pending",
+          "payload_bytes": 243995536024,
+          "required_bytes": 281279991514
+        },
+        {
+          "phase": "seed_29_event_2_O_saved",
+          "payload_bytes": 241898276920,
+          "required_bytes": 278973006500
+        },
+        {
+          "phase": "seed_29_event_2_K_pending",
+          "payload_bytes": 252384572440,
+          "required_bytes": 290507931572
+        },
+        {
+          "phase": "seed_29_event_2_K_saved",
+          "payload_bytes": 250287313336,
+          "required_bytes": 288200946557
+        },
+        {
+          "phase": "seed_29_event_2_evaluated_before_retirement",
+          "payload_bytes": 250287313336,
+          "required_bytes": 288200946557
+        },
+        {
+          "phase": "seed_29_event_2_rolling_retired",
+          "payload_bytes": 233509240504,
+          "required_bytes": 269745066442
+        },
+        {
+          "phase": "seed_29_event_3_capture",
+          "payload_bytes": 246620394352,
+          "required_bytes": 284167335675
+        },
+        {
+          "phase": "seed_29_event_3_prepared",
+          "payload_bytes": 259731548200,
+          "required_bytes": 298589604908
+        },
+        {
+          "phase": "seed_29_event_3_O_pending",
+          "payload_bytes": 270217843720,
+          "required_bytes": 310124529980
+        },
+        {
+          "phase": "seed_29_event_3_O_saved",
+          "payload_bytes": 268120584616,
+          "required_bytes": 307817544965
+        },
+        {
+          "phase": "seed_29_event_3_K_pending",
+          "payload_bytes": 278606880136,
+          "required_bytes": 319352470037
+        },
+        {
+          "phase": "seed_29_event_3_K_saved",
+          "payload_bytes": 276509621032,
+          "required_bytes": 317045485023
+        },
+        {
+          "phase": "seed_29_event_4_capture",
+          "payload_bytes": 289646782636,
+          "required_bytes": 331496362787
+        },
+        {
+          "phase": "seed_29_event_4_prepared",
+          "payload_bytes": 302783944240,
+          "required_bytes": 345947240552
+        },
+        {
+          "phase": "seed_29_event_4_O_pending",
+          "payload_bytes": 313270239760,
+          "required_bytes": 357482165624
+        },
+        {
+          "phase": "seed_29_event_4_O_saved",
+          "payload_bytes": 311172980656,
+          "required_bytes": 355175180609
+        },
+        {
+          "phase": "seed_29_event_4_K_pending",
+          "payload_bytes": 321659276176,
+          "required_bytes": 366710105681
+        },
+        {
+          "phase": "seed_29_event_4_K_saved",
+          "payload_bytes": 319562017072,
+          "required_bytes": 364403120667
+        },
+        {
+          "phase": "seed_29_event_4_evaluated_before_retirement",
+          "payload_bytes": 319562017072,
+          "required_bytes": 364403120667
+        },
+        {
+          "phase": "seed_29_event_4_rolling_retired",
+          "payload_bytes": 302783944240,
+          "required_bytes": 345947240552
+        }
+      ]
+    },
+    "memory_scope": "Host admission for decoded state comparisons; GPU capacity checked separately"
+  },
+  "error": "RuntimeError('Full-campaign disk/host storage admission failed')",
+  "wall_s": 0.3124022539705038
+}

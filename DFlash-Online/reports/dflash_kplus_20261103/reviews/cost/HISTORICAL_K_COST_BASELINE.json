@@ -1,0 +1,128 @@
+{
+  "status": "historical_published_K_costs_reconciled",
+  "generated_utc": "2026-11-04T00:06:27.930219+00:00",
+  "historical_execution": "0698eeb2ddd97b9e2ac6953989dc82acbc0a1e34",
+  "publication_commit": "4d94f30c42701d0f86ac04e2829c834593c16d8e",
+  "arm": "K",
+  "events": 58,
+  "recomputed_event_sums": {
+    "training_s": 18707.203304618597,
+    "checkpoint_save_s": 1161.5610811505467,
+    "export_s": 897.4908453356475,
+    "event_wall_s_before_commit": 20910.247159248218,
+    "blocking_update_s": 21735.124798046425,
+    "teacher_preparation_s": 287.3471800070256,
+    "feature_persistence_s": 322.00602067261934,
+    "activation_s": 93.9949015583843,
+    "controller_serving_s": 7204.020764591172,
+    "native_request_s": 5200.795466948301,
+    "native_generate_s": 4793.359027937055,
+    "cache_maintenance_s": 5.008058711886406,
+    "capture_host_s": 3880.848071893677,
+    "capture_persistence_s": 348.74540289863944,
+    "objective_reference_setup_s": 0.0,
+    "objective_reference_forward_s": 0.0,
+    "objective_reference_head_s": 0.0,
+    "objective_projection_s": 0.0,
+    "objective_teacher_head_s": 5932.072672909126,
+    "objective_selection_s": 762.920590987429
+  },
+  "published_arm_costs": {
+    "training_s": 18707.203304618597,
+    "checkpoint_save_s": 1161.5610811505467,
+    "export_s": 897.4908453356475,
+    "event_wall_s_before_commit": 20910.247159248218,
+    "blocking_update_s": 21735.124798046425,
+    "teacher_preparation_s": 287.3471800070256,
+    "feature_persistence_s": 322.00602067261934,
+    "activation_s": 93.9949015583843,
+    "controller_serving_s": 7204.020764591172,
+    "native_request_s": 5200.795466948301,
+    "native_generate_s": 4793.359027937055,
+    "cache_maintenance_s": 5.008058711886406,
+    "capture_host_s": 3880.848071893677,
+    "capture_persistence_s": 348.74540289863944,
+    "objective_reference_setup_s": 0.0,
+    "objective_reference_forward_s": 0.0,
+    "objective_reference_head_s": 0.0,
+    "objective_projection_s": 0.0,
+    "objective_teacher_head_s": 5932.072672909126,
+    "objective_selection_s": 762.920590987429,
+    "correctness_publication_replay_s": 7.39759755320847,
+    "correctness_capture_disabled_replay_s": 0.41533467173576355,
+    "tail_native_request_s": 31.68673632480204,
+    "tail_native_generate_s": 31.32635358721018,
+    "tail_cache_maintenance_s": 0.01517799124121666,
+    "loading_s": 42.12120636552572,
+    "online_wall_s": 31423.153652068228,
+    "initial_validation_s": 8.434784684330225,
+    "publication_validation_s": 1540.9410674758255,
+    "retention_s": 447.86230641976
+  },
+  "published_exposure": {
+    "available_position_occurrences": 54368391.0,
+    "available_position_weight": 24276321.900390625,
+    "empty_blocks": 0.0,
+    "first_error_position_1": 194139.0,
+    "first_error_position_10": 153057.0,
+    "first_error_position_11": 143499.0,
+    "first_error_position_12": 136165.0,
+    "first_error_position_13": 130452.0,
+    "first_error_position_14": 126809.0,
+    "first_error_position_15": 124478.0,
+    "first_error_position_2": 251825.0,
+    "first_error_position_3": 249654.0,
+    "first_error_position_4": 234235.0,
+    "first_error_position_5": 218398.0,
+    "first_error_position_6": 202920.0,
+    "first_error_position_7": 188667.0,
+    "first_error_position_8": 175267.0,
+    "first_error_position_9": 163301.0,
+    "loss_denominator": 18028154.56689453,
+    "main_loss_numerator": 3259984.2498550415,
+    "no_error_blocks": 1035184.0,
+    "response_presentations": 14848.0,
+    "selected_position_occurrences": 33320668.0,
+    "selected_position_weight": 18028154.56689453,
+    "supervised_position_exposure": 33320668.0,
+    "sampled_anchor_occurrences": 3728050
+  },
+  "published_completed_work": {
+    "online_generations": 7473,
+    "correctness_generations": 4,
+    "terminal_preparation_forwards": 7424,
+    "response_forwards": 14848,
+    "response_backwards": 14848,
+    "optimizer_steps": 7424,
+    "intermediate_generations": 384
+  },
+  "scope": "Historical published records re-summed locally, not newly retrieved or retimed K training. Current K+ values await verified retrieval.",
+  "limitations": [
+    "Historical archive copying overlapped K adaptation; observed costs may include I/O contention.",
+    "Historical K worker includes384 intermediate generations; KPLUS worker includes none. Worker walls are unequal operational scopes.",
+    "Own-feedback trajectories and changed diagnostics/retention can affect costs. Observed training-time difference is not an isolated causal estimate of redistribution overhead.",
+    "Tagged K+ chunk/response timers will be reported individually, inside native training; they do not establish complete incremental compute or end-to-end overhead."
+  ],
+  "files": {
+    "/home/minhao2/EAGLE_SPEC/research/dflash_online_publication_20261028/github_checkout/DFlash-Online/reports/dflash_full_k_gsm8k_20261031/COSTS.json": {
+      "bytes": 9038,
+      "sha256": "80b9a09d8f07fc6494ac67fa0226e3e03414ab7de9a981f8bd79e72d4c7f5324"
+    },
+    "/home/minhao2/EAGLE_SPEC/research/dflash_online_publication_20261028/github_checkout/DFlash-Online/reports/dflash_full_k_gsm8k_20261031/EVENT_COSTS.csv": {
+      "bytes": 37481,
+      "sha256": "933daf143c8086c862594accbbe9e44be897f198ac90a4143f4f9d8da63ebfa0"
+    },
+    "/home/minhao2/EAGLE_SPEC/research/dflash_online_publication_20261028/github_checkout/DFlash-Online/reports/dflash_full_k_gsm8k_20261031/reviews/TRAINING_COST_REVIEW.json": {
+      "bytes": 289427,
+      "sha256": "ca7f58f9154db9e39e95db3797da1618c8f6ba10d71506ea5f57ab5473f3c88a"
+    },
+    "/home/minhao2/EAGLE_SPEC/research/dflash_online_publication_20261028/github_checkout/DFlash-Online/reports/dflash_full_k_gsm8k_20261031/reviews/TRAINING_COST_REVIEW.md": {
+      "bytes": 12022,
+      "sha256": "6f0583ea86c07d1a25c26354790bc5393291db3640af123a5d6779e5e55acbfb"
+    },
+    "/home/minhao2/EAGLE_SPEC/research/dflash_online_publication_20261028/github_checkout/DFlash-Online/reports/dflash_full_k_gsm8k_20261031/EXECUTION_AND_PROVENANCE.md": {
+      "bytes": 7848,
+      "sha256": "31f88943566a878fcd1d8e30446eea0082039180e95f346e30d27fb98dbd6c0f"
+    }
+  }
+}

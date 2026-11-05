@@ -1,0 +1,27 @@
+{
+  "utc": "2026-11-04T00:18:52.363561+00:00",
+  "returncode": 0,
+  "wall_s": 12.828397708013654,
+  "command": [
+    "/data/conda_envs/minhao/dflash_specforge_20261022/bin/python",
+    "/data/sources/minhao/runs/dflash_kplus_20261103/report_recovery_001/independent_endpoint_001/endpoint_recalculate.py",
+    "/data/sources/minhao/runs/dflash_kplus_20261103/production_001",
+    "--output",
+    "/data/sources/minhao/runs/dflash_kplus_20261103/report_recovery_001/independent_endpoint_001/result_001",
+    "--analysis-recovery",
+    "/data/sources/minhao/runs/dflash_kplus_20261103/report_recovery_001/independent_endpoint_001/ANALYSIS_RECOVERY.json"
+  ],
+  "source_files": {
+    "endpoint_recalculate.py": {
+      "bytes": 31703,
+      "sha256": "a6803396f87ad9fef28960aaa17ca7f8e7c99b7e9937444893854151e0340700"
+    },
+    "ANALYSIS_RECOVERY.json": {
+      "bytes": 857,
+      "sha256": "bb0eaea2beb48c4fff81e7f95132fc0e3fcedc7c6ad1e713ebbf859ce44ac4c3"
+    }
+  },
+  "cuda_visible_devices": "",
+  "free_after_bytes": 47915618304,
+  "scope": "Separate CPU original-source audit; no model work or production file writes."
+}

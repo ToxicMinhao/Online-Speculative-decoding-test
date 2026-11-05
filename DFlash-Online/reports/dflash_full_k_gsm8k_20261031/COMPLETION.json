@@ -1,0 +1,55 @@
+{
+  "status": "completed_and_record_reviewed",
+  "execution_source": "0698eeb2ddd97b9e2ac6953989dc82acbc0a1e34",
+  "run_root": "/data/sources/minhao/runs/dflash_full_k_gsm8k_20261031/production_002",
+  "started_utc": "2026-11-01T09:43:23Z",
+  "ended_utc": "2026-11-02T06:10:50Z",
+  "wrapper_wall_s": 73647,
+  "exit_code": 0,
+  "events_per_new_arm": 58,
+  "adam_steps_per_new_arm": 7424,
+  "presentations_per_new_arm": 14848,
+  "work": {
+    "new_adam_steps": 14848,
+    "ordinary_response_forward_backwards": 29696,
+    "online_generations": 14946,
+    "terminal_preparation_forwards": 14848,
+    "intermediate_generations": 768,
+    "final_generations": 12288,
+    "inherited_correctness_generations": 8,
+    "complete_generations": 28010
+  },
+  "final_evaluation": {
+    "planned": 12288,
+    "valid": 12288,
+    "invalid": 0,
+    "unknown": 0,
+    "unattempted": 0
+  },
+  "review": {
+    "mode": "ANALYZED",
+    "evaluation_statistical_checks": 4349703,
+    "training_accounting_checks": 1849884,
+    "scientific_discrepancies": 0,
+    "independent_gpu_reproduction": false,
+    "fallacy_categories_assessed": 11
+  },
+  "limitations": [
+    "One trained seed and reused benchmark.",
+    "Full updater comparison with arm-specific feedback.",
+    "Training/capture overlapped historical archival I/O; final timed serving did not.",
+    "Checkpoints are ready during serving comparisons; no training-inclusive speedup established.",
+    "Initial/final numerical state validation uses retained live execution receipts; no real interrupted resume or new tensor decoding during review."
+  ],
+  "retention": {
+    "new_bulk_paths_retired_not_archived": 44772,
+    "initial_final_states_and_final_exports_retained": true,
+    "historical_offload_verified_paths": 10,
+    "historical_offload_total_paths": 12,
+    "historical_offload_source_paths_deleted": 0,
+    "historical_archive_status": "incomplete_after_post_campaign_copy_failure"
+  },
+  "further_experiment_started": false,
+  "research_stage_changed": false,
+  "proposed_next_action": "Separately approve one second-training-seed same-LR K/O confirmation; not authorized by completion."
+}

@@ -1,0 +1,221 @@
+"""Prepare three continuation windows locally from the original sealed stream.
+
+No generated answer, quality, acceptance, call-count or latency field participates
+in selection. Dataset reads request the question column only. No model runs.
+"""
+import hashlib
+import importlib.metadata
+import json
+from pathlib import Path
+import unicodedata
+
+
+HERE = Path(__file__).resolve().parent
+RESEARCH = HERE.parent.parent
+REVISION = '740312add88f781978c0658806c59bc2815b9866'
+TOKENIZER_REVISION = 'b968826d9c46dd6066d109eabc6255188de91218'
+TOKENIZER = Path('/home/minhao2/.cache/huggingface/hub/models--Qwen--Qwen3-8B/snapshots') / TOKENIZER_REVISION
+ORIGINAL = RESEARCH / 'dflash_online_osd_rerun_20261023/sealed/MANIFEST.json'
+ORIGINAL_SEAL = ORIGINAL.with_name('SEAL.json')
+REFERENCE = RESEARCH / 'dflash_online_osd_rerun_20261023/preparation/TRAIN_REFERENCE.jsonl'
+EVENT_ONE = RESEARCH / 'dflash_osd_one_event_20261025/sealed/MANIFEST.json'
+CURRENT_IDS = RESEARCH / 'dflash_first_error_fresh_confirmation_20261027/inventory_audit/CURRENT_STUDY_SOURCE_IDS.json'
+FRESH_PANEL = RESEARCH / 'dflash_first_error_fresh_confirmation_20261027/inventory_audit/NEW_PANEL.json'
+FRESH_AUDIT = FRESH_PANEL.with_name('SELECTION_AUDIT.json')
+SOURCE_MANIFEST = RESEARCH / 'projected_target_feasibility_20261022/data/approved/manifest.json'
+OLDER_ROWS = RESEARCH / 'adaflash_reproduction_20260930/online_analysis_001/ONLINE_ROWS.json'
+OLDER_COMPLETION = RESEARCH / 'adaflash_reproduction_20260930/online_analysis_001/receipts/online_reference_001/osd/RESULT.json'
+
+
+def require(condition, message):
+    if not condition:
+        raise ValueError(message)
+
+
+def load(path):
+    return json.loads(Path(path).read_text())
+
+
+def sha(path):
+    return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+
+
+def digest(value):
+    return hashlib.sha256(json.dumps(value, separators=(',', ':'), ensure_ascii=False).encode()).hexdigest()
+
+
+def normalized(text):
+    return ' '.join(unicodedata.normalize('NFKC', text).split())
+
+
+def select_next(questions, previous_count, excluded_questions, count):
+    """Use source order; skip panel overlap and already-seen normalized questions."""
+    prior = {normalized(text) for text in questions[:previous_count]}
+    excluded = {normalized(text) for text in excluded_questions}
+    selected, skipped = [], []
+    for index in range(previous_count, len(questions)):
+        question = normalized(questions[index])
+        reasons = []
+        if question in excluded:
+            reasons.append('evaluation_panel_question_overlap')
+        if question in prior:
+            reasons.append('duplicate_question_in_original_or_selected_training')
+        prior.add(question)
+        if reasons:
+            skipped.append({'dataset_index': index, 'reasons': reasons})
+            continue
+        selected.append(index)
+        if len(selected) == count:
+            break
+    require(len(selected) == count, 'Insufficient eligible requests in the original sealed order')
+    return selected, skipped
+
+
+def save(path, value):
+    """Idempotent outputs: a changed result never overwrites retained evidence."""
+    payload = json.dumps(value, indent=2, ensure_ascii=False) + '\n'
+    if path.exists():
+        require(path.read_text() == payload, 'Refusing to replace differing existing artifact: ' + str(path))
+    else:
+        path.write_text(payload)
+
+
+def main():
+    import pyarrow.parquet as pq
+    from transformers import AutoTokenizer
+
+    original, one, current = load(ORIGINAL), load(EVENT_ONE), load(CURRENT_IDS)
+    require(sha(ORIGINAL) == load(ORIGINAL_SEAL)['manifest_sha256'], 'Original sealed stream digest changed')
+    require(sha(EVENT_ONE) == current['source_manifest_sha256'], 'Event-one manifest identity changed')
+    require(sha(FRESH_PANEL) == load(FRESH_AUDIT)['panel_sha256'], 'Second evaluation panel identity changed')
+    train, original_128 = original['train_requests'], one['train_requests']
+    require(len(train) == 7473 and len(original_128) == 128, 'Original training count changed')
+    require(train[:128] == original_128, 'Event one is not the exact original stream prefix')
+    require(original['provenance']['dataset_revision'] == REVISION, 'Dataset revision changed')
+    require(original['policy'] == one['policy'], 'Original generation policy changed')
+    reference = [json.loads(line) for line in REFERENCE.read_text().splitlines() if line.strip()]
+    require(len(reference) == len(train), 'Reference identity inventory incomplete')
+    for index, (row, identity) in enumerate(zip(train, reference)):
+        require(row['dataset_index'] == identity['dataset_index'] == index
+                and row['request_index'] == identity['source_line_1based'] == index + 1
+                and row['dataset_id'] == identity['source_record_id']
+                and row['request_id'] == f'train_{index:05d}', 'Original order/identity mismatch')
+
+    question, sources = {}, {}
+    source_manifest = load(SOURCE_MANIFEST)
+    for split in ('train', 'test'):
+        source = source_manifest['sources']['gsm8k_' + split]
+        path = Path(source['local_path'])
+        require(source['revision'] == REVISION and sha(path) == source['sha256'], 'Pinned source identity differs')
+        question[split] = pq.read_table(path, columns=['question']).column('question').to_pylist()
+        require(len(question[split]) == source['rows'], 'Pinned source row count differs')
+        sources[split] = {'path': str(path), 'sha256': sha(path), 'rows': source['rows']}
+    require([row['source_row'] for row in current['train']] == list(range(128)), 'Initial source-row mapping differs')
+    panel_one_ids = [row['source_row'] for row in current['test']]
+    panel_two = load(FRESH_PANEL)
+    panel_two_ids = [row['original_index'] for row in panel_two]
+    require(len(set(panel_one_ids)) == len(set(panel_two_ids)) == 64
+            and not (set(panel_one_ids) & set(panel_two_ids)), 'Expected two disjoint 64-request panels')
+    panel_questions = [question['test'][index] for index in panel_one_ids + panel_two_ids]
+    selected, skipped = select_next(question['train'], 128, panel_questions, 384)
+
+    # This independent reconstruction verifies the complete chronological source
+    # mapping, not merely a guessed continuation of the initial128 source rows.
+    tokenizer = AutoTokenizer.from_pretrained(TOKENIZER, local_files_only=True)
+    matched = 0
+    for text, row in zip(question['train'], train):
+        rendered = tokenizer.apply_chat_template([{'role': 'user', 'content': text}],
+            tokenize=False, add_generation_prompt=True, enable_thinking=False)
+        ids = tokenizer.encode(rendered, add_special_tokens=False)
+        require(ids == row['prompt_ids'], f"Original source/token mapping differs at {row['dataset_index']}")
+        matched += 1
+    stop_ids = load(TOKENIZER / 'generation_config.json')['eos_token_id']
+    require(stop_ids == [151645, 151643], 'Qualified EOS IDs changed')
+    excluded_prompt_ids = {tuple(row['prompt_ids']) for row in one['eval_requests'] + panel_two}
+    selected_tokens = [tuple(train[index]['prompt_ids']) for index in selected]
+    require(len(set(selected_tokens)) == 384 and not (set(selected_tokens) & excluded_prompt_ids), 'Token-level panel overlap/duplicate')
+    require(not (set(selected_tokens) & {tuple(row['prompt_ids']) for row in original_128}), 'Initial feedback token overlap')
+
+    # Prior use is annotation only, after deterministic selection is fixed.
+    # Only request IDs, prompt hashes and completion existence are consulted.
+    older = load(OLDER_ROWS)['arms']['osd']
+    completion = load(OLDER_COMPLETION)
+    require(completion['status'] == 'passed' and completion['generated_requests'] == 7473
+            and completion['checks']['all7473_chronological_responses'] is True
+            and completion['checks']['inference_completed'] is True, 'Older execution completion not established')
+    require(len(older) == 7473, 'Older per-request identity coverage incomplete')
+    windows, requests, metadata = [], [], []
+    for offset, index in enumerate(selected):
+        retained = train[index]
+        proof = older[index]
+        require(proof['dataset_index'] == index and proof['source_record_id'] == retained['dataset_id']
+                and proof['record_sha256'] == reference[index]['record_sha256']
+                and proof['prompt_token_ids_sha256'] == digest(retained['prompt_ids'])
+                and bool(proof['generation_end_utc']), 'Older completed-use identity differs')
+        require(len(retained['prompt_ids']) + 2048 <= 2272 and retained['max_new_tokens'] == 2048,
+                'Unchanged training context/output cap does not fit selected request')
+        event_index = offset // 128 + 2
+        row = dict(retained, event_id=f'event_{event_index:03d}', stop_token_ids=stop_ids,
+                   source_id=f'gsm8k:main:train:{index}', source_split='train', source_revision=REVISION,
+                   continuation_ordinal=offset, window_ordinal=offset % 128,
+                   original_event_id=retained['event_id'], older_project_execution_verified=True)
+        requests.append(row)
+        metadata.append({'request_id': row['request_id'], 'dataset_id': row['dataset_id'],
+            'dataset_index': index, 'source_id': row['source_id'], 'event_id': row['event_id'],
+            'question_sha256': hashlib.sha256(question['train'][index].encode()).hexdigest(),
+            'normalized_question_sha256': hashlib.sha256(normalized(question['train'][index]).encode()).hexdigest(),
+            'prompt_ids_sha256': digest(row['prompt_ids']),
+            'older_execution_evidence_row': index, 'older_execution_receipt': str(OLDER_COMPLETION)})
+    for number in (2, 3, 4):
+        subset = requests[(number - 2) * 128:(number - 1) * 128]
+        windows.append({'event_index': number, 'event_id': f'event_{number:03d}', 'request_count': 128,
+                        'requests': subset})
+        save(HERE / f'WINDOW_{number:03d}.json', subset)
+    save(HERE / 'CONTINUATION_REQUESTS.json', requests)
+    save(HERE / 'WINDOWS.json', windows)
+    save(HERE / 'SELECTED_IDENTITIES.json', metadata)
+    files = [ORIGINAL, ORIGINAL_SEAL, REFERENCE, EVENT_ONE, CURRENT_IDS, FRESH_PANEL,
+             FRESH_AUDIT, SOURCE_MANIFEST, OLDER_ROWS, OLDER_COMPLETION, Path(__file__)]
+    audit = dict(schema='dflash_ok_continuation_windows_v1', selection_complete=True,
+        scientific_generations=0, model_forwards=0, local_only=True,
+        selection_rule='Continue original sealed chronological order after128; skip both evaluation panels by NFKC/whitespace-normalized question and exact prompt IDs; deduplicate against original128 and prior selected requests; take next384; no shuffle or outcome-based selection.',
+        selection_seed=None, inherited_training_seed=17,
+        original_training_requests=7473, original_prefix_matched=128,
+        reconstructed_prompt_ids_exactly_matched=matched,
+        selected_count=384, selected_dataset_indices=selected, skipped_candidates=skipped,
+        selected_request_ids=[row['request_id'] for row in requests],
+        windows=[{'event_id': row['event_id'], 'count': 128,
+                  'first_dataset_index': row['requests'][0]['dataset_index'],
+                  'last_dataset_index': row['requests'][-1]['dataset_index']} for row in windows],
+        excluded_evaluation_panels={'development_source_rows': panel_one_ids, 'confirmation_source_rows': panel_two_ids,
+                                   'total_requests': 128, 'selected_question_overlap': 0, 'selected_exact_prompt_overlap': 0},
+        freshness_scope='New to current O/K feedback trajectory only; older project use is permitted and all384 selected requests have verified older completed execution.',
+        older_executed_selected_count=384, global_freshness=False,
+        prior_use_is_not_selection_criterion=True, answers_loaded_from_parquet=False,
+        generated_outputs_or_performance_used_for_selection=False,
+        source={'dataset': 'openai/gsm8k', 'configuration': 'main', 'revision': REVISION, 'files': sources},
+        preprocessing={'question_text': 'Original source question unchanged; no reasoning suffix',
+            'messages': 'One user message, no explicit system message', 'enable_thinking': False,
+            'add_generation_prompt': True, 'tokenize_template': False, 'encode_add_special_tokens': False,
+            'prompt_ids': 'Copied exactly from original sealed full training stream, independently reconstructed for all7473'},
+        generation_contract={'max_new_tokens': 2048, 'stop_token_ids': stop_ids,
+            'train_context_limit': 2272, 'serving_context_limit': 4096, 'truncation': False,
+            'prompt_min_tokens': min(len(row['prompt_ids']) for row in requests),
+            'prompt_max_tokens': max(len(row['prompt_ids']) for row in requests)},
+        tokenizer={'repository': 'Qwen/Qwen3-8B', 'revision': TOKENIZER_REVISION, 'path': str(TOKENIZER),
+            'local_files_only': True, 'transformers_version': importlib.metadata.version('transformers'),
+            'tokenizers_version': importlib.metadata.version('tokenizers'),
+            'files_sha256': {name: sha(TOKENIZER / name) for name in
+                ['tokenizer.json', 'tokenizer_config.json', 'vocab.json', 'merges.txt', 'generation_config.json', 'config.json']}},
+        input_sha256={str(path): sha(path) for path in files},
+        output_sha256={name: sha(HERE / name) for name in
+                      ['CONTINUATION_REQUESTS.json', 'WINDOWS.json', 'SELECTED_IDENTITIES.json',
+                       'WINDOW_002.json', 'WINDOW_003.json', 'WINDOW_004.json']})
+    save(HERE / 'SELECTION_AUDIT.json', audit)
+    print(json.dumps({key: audit[key] for key in
+        ['selected_count', 'windows', 'skipped_candidates', 'reconstructed_prompt_ids_exactly_matched',
+         'older_executed_selected_count', 'generation_contract', 'output_sha256']}, indent=2))
+
+
+if __name__ == '__main__':
+    main()

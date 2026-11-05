@@ -1,0 +1,61 @@
+"""Synchronous orchestration. The caller owns prompts and conversation history.
+
+Only actual serving records enter the buffer. Evaluation is read-only and cannot
+supply feedback. No text round trip is used for training or checkpoint comparisons.
+"""
+from pathlib import Path
+from .buffer import FeedbackBuffer
+from .native import atomic_json, token_sha256
+
+
+class OnlineController:
+    def __init__(self, backend, trainer, output_root, *, buffer_capacity=8):
+        self.backend, self.trainer = backend, trainer
+        self.root = Path(output_root)
+        self.buffer = FeedbackBuffer(self.root / 'feedback_buffer', capacity=buffer_capacity)
+
+    def serve(self, prompt_ids, *, request_id, session_id, request_index, max_new_tokens, collect_feedback=True):
+        record = self.backend.generate(prompt_ids, max_new_tokens=max_new_tokens,
+                    request_id=request_id, session_id=session_id, request_index=request_index,
+                    purpose='serving', save_to=self.root/'serving'/f'{request_id}.json')
+        if collect_feedback:
+            self.buffer.add(record)
+        return record
+
+    def update(self, event_id, count, *, passes=2):
+        event = self.buffer.seal_event(event_id, count)
+        try:
+            paths, preparation = [], []
+            for record in self.buffer.records(event['record_ids']):
+                path = self.root/'features'/f"{record['record_id']}.pt"
+                receipt = self.backend.prepare_feedback(record, path)
+                # A short response is recorded; it must not be silently replaced
+                # by a resampled response or an empty optimization objective.
+                if receipt.get('eligible') is False:
+                    raise ValueError('No eligible training anchors: ' + record['record_id'])
+                paths.append(path); preparation.append(receipt)
+            update = self.trainer.train_event(event_id, paths, passes=passes)
+            activation = self.backend.publish(update['checkpoint_path'])
+            receipt = {'event_id':event_id,'preparation':preparation,'training':update,'activation':activation}
+            atomic_json(self.root/'events'/f'{event_id}.json', receipt)
+            self.buffer.commit_event(event_id, self.backend.checkpoint_id, receipt)
+            return receipt
+        except BaseException as error:
+            self.buffer.fail_event(event_id, f'{type(error).__name__}: {error}')
+            raise
+
+    def evaluate(self, prompt_ids, *, canonical_response_ids, label, max_new_tokens):
+        # Do not call serve(), prepare_feedback(), buffer.add() or trainer here.
+        before = self.trainer.status() if self.trainer is not None else None
+        record = self.backend.generate(prompt_ids, max_new_tokens=max_new_tokens,
+                    request_id=label, session_id='evaluation', request_index=1,
+                    purpose='evaluation', save_to=self.root/'evaluation'/f'{label}.json')
+        result = {'label':label, 'record':record,
+                  'same_input':record['prompt_ids']==list(prompt_ids),
+                  'output_equal':record['response_ids']==list(canonical_response_ids),
+                  'canonical_response_sha256':token_sha256(canonical_response_ids),
+                  'learning_unchanged':before==(self.trainer.status() if self.trainer is not None else None)}
+        atomic_json(self.root/'evaluation'/f'{label}.comparison.json', result)
+        if not result['same_input'] or not result['output_equal'] or not result['learning_unchanged']:
+            raise ValueError('Invalid checkpoint replay; preserved comparison: ' + label)
+        return result

@@ -1,0 +1,303 @@
+{
+  "status": "completed_and_audited",
+  "experiment": "KRC events3/4",
+  "execution_git_commit": "11b7718a04416a89025a6df69c0c33e558e5fe1b",
+  "analysis_git_commit": "ea4f289c6e18383b7560c8c4103a9d91ca3943bf",
+  "started_utc": "2026-10-28T18:28:24Z",
+  "finished_utc": "2026-10-28T19:46:15Z",
+  "supervisor_wall_s": 4671.0,
+  "exit_code": 0,
+  "work": {
+    "new_Adam_steps": 256,
+    "global_Adam_step": 512,
+    "ordinary_presentations": 512,
+    "core_response_forwards": 1536,
+    "core_backwards": 956,
+    "BF16_nonzero_corrections": 252,
+    "startup_forwards": 2,
+    "startup_backwards": 2,
+    "startup_Adam_steps": 0,
+    "planned_generations": 1152,
+    "attempted_generations": 1152,
+    "returned_generations": 1152,
+    "completed_valid_generations": 1152,
+    "invalid_generations": 0,
+    "unknown_generation_attempts": 0,
+    "unattempted_generations": 0
+  },
+  "audit": {
+    "status": "passed",
+    "issues": [],
+    "native_blocks": 54435,
+    "sealed_files": 1659,
+    "local_files_rehashed": 1053,
+    "remote_only_files": 606,
+    "retrieved_files_rehashed": 3845
+  },
+  "results": {
+    "development": {
+      "calls": {
+        "O4": 2994,
+        "K4": 2942,
+        "KRC4": 2950
+      },
+      "comparisons": {
+        "KRC4_vs_O4": {
+          "candidate": "KRC4",
+          "reference": "O4",
+          "call_reduction_pct": 1.4696058784235189,
+          "request_time_reduction_pct": 1.5959023173210962,
+          "call_request_directions": {
+            "improved": 35,
+            "regressed": 21,
+            "tied": 8
+          },
+          "call_gross_saved": 85,
+          "call_gross_extra": 41,
+          "call_net_saved": 44,
+          "latency_request_directions": {
+            "improved": 39,
+            "regressed": 25,
+            "tied": 0
+          },
+          "latency_gross_saved": 1.4965132232755423,
+          "latency_gross_extra": 0.6679804834226767,
+          "latency_net_saved": 0.8285327398528655
+        },
+        "K4_vs_O4": {
+          "candidate": "K4",
+          "reference": "O4",
+          "call_reduction_pct": 1.736806947227787,
+          "request_time_reduction_pct": 1.9262662114342022,
+          "call_request_directions": {
+            "improved": 34,
+            "regressed": 20,
+            "tied": 10
+          },
+          "call_gross_saved": 94,
+          "call_gross_extra": 42,
+          "call_net_saved": 52,
+          "latency_request_directions": {
+            "improved": 39,
+            "regressed": 25,
+            "tied": 0
+          },
+          "latency_gross_saved": 1.6859297833094997,
+          "latency_gross_extra": 0.6858844769497714,
+          "latency_net_saved": 1.0000453063597283
+        },
+        "KRC4_vs_K4": {
+          "candidate": "KRC4",
+          "reference": "K4",
+          "call_reduction_pct": -0.2719238613188235,
+          "request_time_reduction_pct": -0.33685257137789915,
+          "call_request_directions": {
+            "improved": 24,
+            "regressed": 28,
+            "tied": 12
+          },
+          "call_gross_saved": 46,
+          "call_gross_extra": 54,
+          "call_net_saved": -8,
+          "latency_request_directions": {
+            "improved": 29,
+            "regressed": 35,
+            "tied": 0
+          },
+          "latency_gross_saved": 0.7546710179497798,
+          "latency_gross_extra": 0.9261835844566426,
+          "latency_net_saved": -0.17151256650686275
+        }
+      }
+    },
+    "additional": {
+      "calls": {
+        "O4": 3130,
+        "K4": 3058,
+        "KRC4": 3071
+      },
+      "comparisons": {
+        "KRC4_vs_O4": {
+          "candidate": "KRC4",
+          "reference": "O4",
+          "call_reduction_pct": 1.8849840255591,
+          "request_time_reduction_pct": 1.813461221834789,
+          "call_request_directions": {
+            "improved": 36,
+            "regressed": 20,
+            "tied": 8
+          },
+          "call_gross_saved": 100,
+          "call_gross_extra": 41,
+          "call_net_saved": 59,
+          "latency_request_directions": {
+            "improved": 42,
+            "regressed": 22,
+            "tied": 0
+          },
+          "latency_gross_saved": 1.6888244990259407,
+          "latency_gross_extra": 0.7113217879086731,
+          "latency_net_saved": 0.9775027111172676
+        },
+        "K4_vs_O4": {
+          "candidate": "K4",
+          "reference": "O4",
+          "call_reduction_pct": 2.3003194888178924,
+          "request_time_reduction_pct": 2.362478819986402,
+          "call_request_directions": {
+            "improved": 33,
+            "regressed": 18,
+            "tied": 13
+          },
+          "call_gross_saved": 100,
+          "call_gross_extra": 28,
+          "call_net_saved": 72,
+          "latency_request_directions": {
+            "improved": 39,
+            "regressed": 25,
+            "tied": 0
+          },
+          "latency_gross_saved": 1.7297878302633756,
+          "latency_gross_extra": 0.4563503706206877,
+          "latency_net_saved": 1.2734374596426878
+        },
+        "KRC4_vs_K4": {
+          "candidate": "KRC4",
+          "reference": "K4",
+          "call_reduction_pct": -0.42511445389143976,
+          "request_time_reduction_pct": -0.5623018605105612,
+          "call_request_directions": {
+            "improved": 22,
+            "regressed": 26,
+            "tied": 16
+          },
+          "call_gross_saved": 37,
+          "call_gross_extra": 50,
+          "call_net_saved": -13,
+          "latency_request_directions": {
+            "improved": 27,
+            "regressed": 37,
+            "tied": 0
+          },
+          "latency_gross_saved": 0.614371979609132,
+          "latency_gross_extra": 0.9103067281345523,
+          "latency_net_saved": -0.29593474852542023
+        }
+      }
+    }
+  },
+  "training": [
+    {
+      "event": 3,
+      "status": "completed",
+      "start_step": 256,
+      "end_step": 384,
+      "Adam_steps": 128,
+      "ordinary_presentations": 256,
+      "ordinary_forwards": 256,
+      "ordinary_backwards": 256,
+      "ordinary_anchors": 66818,
+      "ordinary_available_occurrences": 975476,
+      "ordinary_selected_occurrences": 566927.0,
+      "reference_capture_forwards": 256,
+      "reference_replay_forwards": 256,
+      "reference_backwards": 224,
+      "reference_presentations": 256,
+      "reference_anchors": 66818,
+      "reference_available_occurrences": 975476,
+      "reference_protected_occurrences": 516445,
+      "BF16_nonzero_corrections": 127,
+      "correction_branches": "{\"applied\": 127, \"zero_violation\": 1}",
+      "event_wall_s": 693.5288815163076,
+      "training_windows_inclusive_s": 653.5778165049851,
+      "intrinsic_reference_correction_s": 296.0454528722912,
+      "integrity_checks_s": 6.703605180606246,
+      "ordinary_K_and_other_overhead_residual_s": 350.82875845208764,
+      "checkpoint_save_s": 21.10071248188615,
+      "export_s": 15.296278916299343,
+      "state_retention_s": 6.98380172252655e-05,
+      "saved_state_validation_s": 6.364926936104894,
+      "artifact_identity_s": 7.821046954020858,
+      "peak_allocated_bytes": 38230993920,
+      "peak_reserved_bytes": 40623931392,
+      "full_state_path": "/data/sources/minhao/runs/dflash_krc_events_3_4_20261028/campaign_001/KRC/events/event_003/training_state.pt",
+      "export_path": "/data/sources/minhao/runs/dflash_krc_events_3_4_20261028/campaign_001/KRC/events/event_003/export"
+    },
+    {
+      "event": 4,
+      "status": "completed",
+      "start_step": 384,
+      "end_step": 512,
+      "Adam_steps": 128,
+      "ordinary_presentations": 256,
+      "ordinary_forwards": 256,
+      "ordinary_backwards": 256,
+      "ordinary_anchors": 65996,
+      "ordinary_available_occurrences": 963417,
+      "ordinary_selected_occurrences": 554534.0,
+      "reference_capture_forwards": 256,
+      "reference_replay_forwards": 256,
+      "reference_backwards": 220,
+      "reference_presentations": 256,
+      "reference_anchors": 65996,
+      "reference_available_occurrences": 963417,
+      "reference_protected_occurrences": 504525,
+      "BF16_nonzero_corrections": 125,
+      "correction_branches": "{\"applied\": 125, \"zero_violation\": 3}",
+      "event_wall_s": 681.5681728981435,
+      "training_windows_inclusive_s": 642.8009344786406,
+      "intrinsic_reference_correction_s": 288.80577773042023,
+      "integrity_checks_s": 6.6650401167571545,
+      "ordinary_K_and_other_overhead_residual_s": 347.33011663146317,
+      "checkpoint_save_s": 20.284025294706225,
+      "export_s": 15.472578363493085,
+      "state_retention_s": 7.378309965133667e-05,
+      "saved_state_validation_s": 6.4011045806109905,
+      "artifact_identity_s": 7.846072839573026,
+      "peak_allocated_bytes": 39854878720,
+      "peak_reserved_bytes": 42488299520,
+      "full_state_path": "/data/sources/minhao/runs/dflash_krc_events_3_4_20261028/campaign_001/KRC/events/event_004/training_state.pt",
+      "export_path": "/data/sources/minhao/runs/dflash_krc_events_3_4_20261028/campaign_001/KRC/events/event_004/export"
+    }
+  ],
+  "retained_states": {
+    "event_003": [
+      {
+        "path": "/data/sources/minhao/runs/dflash_krc_events_3_4_20261028/campaign_001/KRC/events/event_003/training_state.pt",
+        "bytes": 6293206683,
+        "sha256": "66033b346717c66df8a78c8206beb8f5278b507153ad5adb3e3d0f234c453808"
+      },
+      {
+        "path": "/data/sources/minhao/runs/dflash_krc_events_3_4_20261028/campaign_001/KRC/events/event_003/export/config.json",
+        "bytes": 1211,
+        "sha256": "5749d96966f9ce7e6a9662c9f482b8aa0d461845fb6b9ce09ac2c08311fab2aa"
+      },
+      {
+        "path": "/data/sources/minhao/runs/dflash_krc_events_3_4_20261028/campaign_001/KRC/events/event_003/export/model.safetensors",
+        "bytes": 2097259104,
+        "sha256": "33374ac11f5f11eb7d4c52511503c3b88164bcf68bf1927676bdcc3f03c90bb7"
+      }
+    ],
+    "event_004": [
+      {
+        "path": "/data/sources/minhao/runs/dflash_krc_events_3_4_20261028/campaign_001/KRC/events/event_004/training_state.pt",
+        "bytes": 6293654683,
+        "sha256": "1934f9b7b162a77ef4b2333a10cbb8e92a471a9347e78b49317ee1c90becba95"
+      },
+      {
+        "path": "/data/sources/minhao/runs/dflash_krc_events_3_4_20261028/campaign_001/KRC/events/event_004/export/config.json",
+        "bytes": 1211,
+        "sha256": "5749d96966f9ce7e6a9662c9f482b8aa0d461845fb6b9ce09ac2c08311fab2aa"
+      },
+      {
+        "path": "/data/sources/minhao/runs/dflash_krc_events_3_4_20261028/campaign_001/KRC/events/event_004/export/model.safetensors",
+        "bytes": 2097259104,
+        "sha256": "3166559e3599fbb254363bef950bb40012c0675c01ed0bc057a43961a5511f8d"
+      }
+    ]
+  },
+  "interpretation": "KRC4 beats O4 on both panels, but its small event2 advantage over K reverses on both at event4. KRC improves versus its own event2 checkpoint while K improves more. This compares full correction histories on one shared-feedback trajectory, not isolated events3/4 correction or seed robustness.",
+  "stopped": true,
+  "further_events": false,
+  "stage": "Stage1 / projectNone unchanged"
+}

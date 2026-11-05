@@ -1,0 +1,218 @@
+{
+  "status": "passed",
+  "efficacy_interpretation_allowed": true,
+  "errors": [],
+  "endpoint": {
+    "request_count": 1024,
+    "method_totals": {
+      "K": {
+        "verification_calls": 43387,
+        "accepted_draft_tokens": 271387,
+        "committed_progress": 313823,
+        "output_tokens": 314847,
+        "request_latency_s": 794.7894849193592,
+        "native_generate_s": 740.4919175188988,
+        "cache_maintenance_s": 40.79662526336809,
+        "accepted_tokens_per_call": 6.255030308617789,
+        "committed_progress_per_call": 7.233111300620001,
+        "output_tokens_per_call": 7.256712840251688,
+        "output_tokens_per_s": 396.13885937600816
+      },
+      "KPLUS": {
+        "verification_calls": 43267,
+        "accepted_draft_tokens": 271522,
+        "committed_progress": 313823,
+        "output_tokens": 314847,
+        "request_latency_s": 788.2479741548499,
+        "native_generate_s": 737.2846695315093,
+        "cache_maintenance_s": 37.617919927462935,
+        "accepted_tokens_per_call": 6.275498647930293,
+        "committed_progress_per_call": 7.253172163542653,
+        "output_tokens_per_call": 7.2768391614856585,
+        "output_tokens_per_s": 399.42633577660024
+      }
+    },
+    "comparisons": {
+      "KPLUS_vs_K": {
+        "call_reduction": {
+          "point_pct": 0.27658054255883524,
+          "ci95_pct": [
+            0.00450546407597346,
+            0.5457131696371539
+          ],
+          "reference_sum": 43387,
+          "candidate_sum": 43267
+        },
+        "request_latency_s_reduction": {
+          "point_pct": 0.8230494852574766,
+          "ci95_pct": [
+            0.27258024717848056,
+            1.3797050021095718
+          ],
+          "reference_sum": 794.7894849193592,
+          "candidate_sum": 788.2479741548499
+        },
+        "request_wins": 437,
+        "request_regressions": 360,
+        "request_ties": 227,
+        "request_denominator": 1024,
+        "gross_calls_saved": 792,
+        "gross_calls_added": 672,
+        "serving_throughput_ratio": {
+          "point": 1.0082987980673506,
+          "ci95": [
+            1.0027332527867328,
+            1.0139900717414958
+          ]
+        }
+      }
+    },
+    "repeat_totals": [
+      {
+        "repeat": 0,
+        "method_totals": {
+          "K": {
+            "verification_calls": 43387,
+            "accepted_draft_tokens": 271387,
+            "committed_progress": 313823,
+            "output_tokens": 314847,
+            "request_latency_s": 793.3895165994763,
+            "native_generate_s": 740.3947050068527,
+            "cache_maintenance_s": 39.459478214383125
+          },
+          "KPLUS": {
+            "verification_calls": 43267,
+            "accepted_draft_tokens": 271522,
+            "committed_progress": 313823,
+            "output_tokens": 314847,
+            "request_latency_s": 788.9413560479879,
+            "native_generate_s": 737.8450435250998,
+            "cache_maintenance_s": 37.74366550706327
+          }
+        },
+        "request_time_reduction_pct": 0.5606528014831302
+      },
+      {
+        "repeat": 1,
+        "method_totals": {
+          "K": {
+            "verification_calls": 43387,
+            "accepted_draft_tokens": 271387,
+            "committed_progress": 313823,
+            "output_tokens": 314847,
+            "request_latency_s": 794.9964344520122,
+            "native_generate_s": 739.7288681007922,
+            "cache_maintenance_s": 41.827802104875445
+          },
+          "KPLUS": {
+            "verification_calls": 43267,
+            "accepted_draft_tokens": 271522,
+            "committed_progress": 313823,
+            "output_tokens": 314847,
+            "request_latency_s": 787.5020718257874,
+            "native_generate_s": 736.3148431628942,
+            "cache_maintenance_s": 37.78928432054818
+          }
+        },
+        "request_time_reduction_pct": 0.9426913507342483
+      },
+      {
+        "repeat": 2,
+        "method_totals": {
+          "K": {
+            "verification_calls": 43387,
+            "accepted_draft_tokens": 271387,
+            "committed_progress": 313823,
+            "output_tokens": 314847,
+            "request_latency_s": 795.9825037065893,
+            "native_generate_s": 741.3521794490516,
+            "cache_maintenance_s": 41.1025954708457
+          },
+          "KPLUS": {
+            "verification_calls": 43267,
+            "accepted_draft_tokens": 271522,
+            "committed_progress": 313823,
+            "output_tokens": 314847,
+            "request_latency_s": 788.3004945907742,
+            "native_generate_s": 737.6941219065338,
+            "cache_maintenance_s": 37.32080995477736
+          }
+        },
+        "request_time_reduction_pct": 0.965097735194298
+      }
+    ],
+    "bootstrap": {
+      "draws": 10000,
+      "seed": 20261102,
+      "generator": "PCG64",
+      "sampling": "1024 paired request indices with replacement; same indices for both endpoints/methods",
+      "percentiles": "2.5/97.5 linear",
+      "count_repeats": "verified identical, counted once",
+      "timing_repeats": "mean of three per method/request before resampling"
+    }
+  },
+  "material_passport": {
+    "mode": "validate",
+    "verification_status": "ANALYZED",
+    "execution_commit": "e0a9d3c235e1efd15404c549282d21c99243a21c",
+    "scope": "Separate CPU endpoint implementation; same-team objective authorship overlap; not independent GPU reproduction"
+  },
+  "analysis_recovery_receipt": {
+    "path": "/data/sources/minhao/runs/dflash_kplus_20261103/report_recovery_001/independent_endpoint_001/ANALYSIS_RECOVERY.json",
+    "bytes": 857,
+    "sha256": "bb0eaea2beb48c4fff81e7f95132fc0e3fcedc7c6ad1e713ebbf859ce44ac4c3"
+  },
+  "evidence": {
+    "raw_executions": 6144,
+    "native_blocks": 259962,
+    "training_work": {
+      "online_generations": 7473,
+      "correctness_generations": 4,
+      "terminal_preparation_forwards": 7424,
+      "response_forwards": 14848,
+      "response_backwards": 14848,
+      "optimizer_steps": 7424
+    },
+    "serving": {
+      "publications": 49,
+      "loaded_weight_checks": 2,
+      "batch_boundaries": 96,
+      "before_backend_and_after_final_boundaries": 2,
+      "scope": "Saved boundary receipts; no claim of continuous external-process observation"
+    },
+    "reporting_recovery": {
+      "schema": "kplus_cpu_reporting_recovery_v1",
+      "status": "completed_saved_evidence_reporting_recovery",
+      "execution_commit": "e0a9d3c235e1efd15404c549282d21c99243a21c",
+      "model_work": 0,
+      "analysis_commit": "181bf736aee231e36bd82a3bc1f73aa9f1eeb0f2",
+      "preserved_evidence": {
+        "campaign_001/STATUS.json": "c2b65df84c9ebd1334ffee8f72ac12459171d851f4b222401014c870ffc6286b",
+        "campaign_001/FINAL_AUDIT.json": "02f1a5bf34f835cae2493b58917b8a639ae5731bf23c56cd01018a57410c0a7a",
+        "EXIT_CODE": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+        "CAMPAIGN_EXIT_CODE": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+        "REPORT_EXIT_CODES": "056588d4fe497edf85b077df109edb8a99ddb40a77249e6e2ec323e3768b923a",
+        "POSTFLIGHT.json": "d12368153011b3bf55e69a44aa5863a93f324a5cd4002d3ace85ce4550eb18a6"
+      }
+    },
+    "total_complete_generations": 13621,
+    "execution_source": {
+      "commit": "e0a9d3c235e1efd15404c549282d21c99243a21c",
+      "dirty": false,
+      "source_path": "/data/sources/minhao/DFlash-Online",
+      "repository": "https://github.com/ToxicMinhao/Online-Speculative-decoding-test"
+    },
+    "historical_control_scope": "Authenticated retained count map, not new decoding of original K state tensors"
+  },
+  "conditional_claims": {
+    "call_improvement_supported_on_this_panel": true,
+    "serving_time_gain_supported_on_this_panel": true
+  },
+  "generated_utc": "2026-11-04T00:18:52.262988+00:00",
+  "wall_s": 12.635438311845064,
+  "runtime": {
+    "python": "3.12.15",
+    "numpy": "2.3.5"
+  },
+  "scope": "One fitted seed, reused panel, conditional request uncertainty; no async/training-inclusive speedup claim."
+}

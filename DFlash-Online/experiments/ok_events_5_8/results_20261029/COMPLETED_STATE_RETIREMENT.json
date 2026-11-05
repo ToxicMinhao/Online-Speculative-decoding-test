@@ -1,0 +1,141 @@
+{
+  "status": "completed",
+  "utc": "2026-10-29T07:43:07.600984+00:00",
+  "before_free_bytes": 47853060096,
+  "reason": "User authorized aggressive retention of nonessential completed optimizer states. Full final serving exports and compact results retained; this is retirement, not archival.",
+  "rows": [
+    {
+      "arm": "U",
+      "retired_path": "/data/sources/minhao/runs/dflash_prefix_ranking_execution_20261026/campaign_001/U/training_state.pt",
+      "retained_export": "/data/sources/minhao/runs/dflash_prefix_ranking_execution_20261026/campaign_001/U/events/event_001/export/model.safetensors",
+      "state_identity": {
+        "bytes": 6292177819,
+        "sha256": "5545a98c1ce57c13470fb078bbce7d93e1945cf723367b17224d2fde929a9a9c"
+      },
+      "export_identity": {
+        "bytes": 2097259104,
+        "sha256": "b14f9f28193648f50a787d7a94abda3b6c13ae2d20cab81465135e8f4ad8b51f"
+      },
+      "status": "retired",
+      "metadata_path": "/data/sources/minhao/runs/dflash_ok_events_5_8_20261029/retired_completed_state_metadata/U_metadata.pt",
+      "metadata_identity": {
+        "bytes": 372277,
+        "sha256": "ffbec93318b6d42e19cda3a701a4cb72aacea9882f4f594a016b0bd8dfa2dee2"
+      },
+      "parameter_tensors_compared": 58,
+      "export_equality": true,
+      "after_free_bytes": 54144864256
+    },
+    {
+      "arm": "P",
+      "retired_path": "/data/sources/minhao/runs/dflash_prefix_ranking_execution_20261026/campaign_001/P/training_state.pt",
+      "retained_export": "/data/sources/minhao/runs/dflash_prefix_ranking_execution_20261026/campaign_001/P/events/event_001/export/model.safetensors",
+      "state_identity": {
+        "bytes": 6292177819,
+        "sha256": "3b6ae89bdc511600c56dd9744aee4bd5fb22468d33d486f2601f426523aa2edf"
+      },
+      "export_identity": {
+        "bytes": 2097259104,
+        "sha256": "61362bb08b4fd4f2c1a6993e2ee16f42e6a911f396ea16471d11b13dbf40867d"
+      },
+      "status": "retired",
+      "metadata_path": "/data/sources/minhao/runs/dflash_ok_events_5_8_20261029/retired_completed_state_metadata/P_metadata.pt",
+      "metadata_identity": {
+        "bytes": 372277,
+        "sha256": "28c7d3a3c50f2222050f7ddd6edd43c16b8129475907ea1652a9d3cf0830d5cd"
+      },
+      "parameter_tensors_compared": 58,
+      "export_equality": true,
+      "after_free_bytes": 60436672512
+    },
+    {
+      "arm": "R",
+      "retired_path": "/data/sources/minhao/runs/dflash_reference_margin_execution_20261026/campaign_001/R/training_state.pt",
+      "retained_export": "/data/sources/minhao/runs/dflash_reference_margin_execution_20261026/campaign_001/R/events/event_001/export/model.safetensors",
+      "state_identity": {
+        "bytes": 6292214235,
+        "sha256": "2c74dad9b25e0bfadf78ea499588f6c9d8eb0a46c478de7494f89c5f980c3e80"
+      },
+      "export_identity": {
+        "bytes": 2097259104,
+        "sha256": "460df209cafa4095976ee303763bb3ce7f8d775f1efd0aafb5d14461bd9a507b"
+      },
+      "status": "retired",
+      "metadata_path": "/data/sources/minhao/runs/dflash_ok_events_5_8_20261029/retired_completed_state_metadata/R_metadata.pt",
+      "metadata_identity": {
+        "bytes": 408693,
+        "sha256": "6012a006f8a48c1295ab9fd73aef447d0aad807b8cf2d95eb269b651b0ed32fc"
+      },
+      "parameter_tensors_compared": 58,
+      "export_equality": true,
+      "after_free_bytes": 66728480768
+    },
+    {
+      "arm": "A",
+      "retired_path": "/data/sources/minhao/runs/dflash_first_error_execution_20261026/campaign_001/A/training_state.pt",
+      "retained_export": "/data/sources/minhao/runs/dflash_first_error_execution_20261026/campaign_001/A/events/event_001/export/model.safetensors",
+      "state_identity": {
+        "bytes": 6292302171,
+        "sha256": "ab9f6297c1c089996f52f0be5f80a05d374f5f51b7aeb2abf3f87a24dbbb0e0d"
+      },
+      "export_identity": {
+        "bytes": 2097259104,
+        "sha256": "5b2fd99cb05a75d73959202cec93af7830b14d9ee8e6aca7b561a2172407827a"
+      },
+      "status": "retired",
+      "metadata_path": "/data/sources/minhao/runs/dflash_ok_events_5_8_20261029/retired_completed_state_metadata/A_metadata.pt",
+      "metadata_identity": {
+        "bytes": 496629,
+        "sha256": "205db6cf56271ba99cbc0e471e4a59aa2d5159ed7451d217158e6d0616ebbe46"
+      },
+      "parameter_tensors_compared": 58,
+      "export_equality": true,
+      "after_free_bytes": 73020280832
+    },
+    {
+      "arm": "C",
+      "retired_path": "/data/sources/minhao/runs/dflash_first_error_execution_20261026/campaign_001/C/training_state.pt",
+      "retained_export": "/data/sources/minhao/runs/dflash_first_error_execution_20261026/campaign_001/C/events/event_001/export/model.safetensors",
+      "state_identity": {
+        "bytes": 6292302107,
+        "sha256": "4b045e027b7fca8594272e15928e199d2c4ebb551572c409f756e5289cc78229"
+      },
+      "export_identity": {
+        "bytes": 2097259104,
+        "sha256": "ad53ae2a9dca37c1a6e7e74c3618ac3a4d63090d77296f1674af435ef8610e92"
+      },
+      "status": "retired",
+      "metadata_path": "/data/sources/minhao/runs/dflash_ok_events_5_8_20261029/retired_completed_state_metadata/C_metadata.pt",
+      "metadata_identity": {
+        "bytes": 496629,
+        "sha256": "39dd98a143329ed4be56b394e491b86328c8993a2047ccc2ea4847a7d5d3754f"
+      },
+      "parameter_tensors_compared": 58,
+      "export_equality": true,
+      "after_free_bytes": 79312084992
+    },
+    {
+      "arm": "KC",
+      "retired_path": "/data/sources/minhao/runs/dflash_kc_event_20261027/campaign_001/KC/training_state.pt",
+      "retained_export": "/data/sources/minhao/runs/dflash_kc_event_20261027/campaign_001/KC/events/event_001/export/model.safetensors",
+      "state_identity": {
+        "bytes": 6292306395,
+        "sha256": "da7fc401956f78359f7a3b2d9326ecd8584d3a7040f4dca4643218c60c2ba1b3"
+      },
+      "export_identity": {
+        "bytes": 2097259104,
+        "sha256": "5a0f206414efb4d79af2ef21a1963c1e1a6987b47fc66e06fa151b265f341d1e"
+      },
+      "status": "retired",
+      "metadata_path": "/data/sources/minhao/runs/dflash_ok_events_5_8_20261029/retired_completed_state_metadata/KC_metadata.pt",
+      "metadata_identity": {
+        "bytes": 500983,
+        "sha256": "216a2e134af9acfed2d9589bc492ac40e45a4dabb92d461ff700400f54bbe497"
+      },
+      "parameter_tensors_compared": 58,
+      "export_equality": true,
+      "after_free_bytes": 85603889152
+    }
+  ],
+  "after_free_bytes": 85603889152
+}

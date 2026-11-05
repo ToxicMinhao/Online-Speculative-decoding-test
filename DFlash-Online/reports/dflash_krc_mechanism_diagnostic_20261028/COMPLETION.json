@@ -1,0 +1,52 @@
+{
+  "status": "completed",
+  "execution_git_commit": "c9461345189b91d241ff21590027500e6ac7dab4",
+  "analysis_git_commit": "220c62e2c52489cf114125b679ae7188eea09218",
+  "start_utc": "2026-10-29T00:44:25Z",
+  "end_utc": "2026-10-29T01:42:06Z",
+  "supervisor_seconds": 3461,
+  "campaign_seconds": 3106.1672991570085,
+  "exit_code": 0,
+  "scientific_endpoint_mismatches": {
+    "event2": 0,
+    "event4": 0
+  },
+  "valid_windows": 20,
+  "valid_candidates": 80,
+  "invalid_candidates": 0,
+  "unattempted_candidates": 0,
+  "work": {
+    "baseline_response_forwards": 1536,
+    "diagnostic_response_forwards": 600,
+    "core_response_forwards": 2136,
+    "core_response_backwards": 996,
+    "startup_response_forwards": 4,
+    "startup_response_backwards": 4,
+    "startup_Adam_steps": 0,
+    "ordinary_Adam_steps": 256,
+    "ordinary_presentations": 512,
+    "serving_generations": 0,
+    "feedback_generations": 0,
+    "authorized_budget": {
+      "ordinary_Adam_steps": 256,
+      "ordinary_presentations": 512,
+      "baseline_response_forwards": 1536,
+      "diagnostic_response_forwards": 600,
+      "core_response_forwards": 2136,
+      "maximum_response_backwards": 1064,
+      "sampled_windows": 20,
+      "candidate_slots": 80,
+      "serving_generations": 0,
+      "feedback_generations": 0,
+      "startup_maximum_forwards": 4,
+      "startup_maximum_backwards": 4,
+      "startup_Adam_steps": 0
+    },
+    "within_budget": true
+  },
+  "verified_sealed_inputs_before_after": 1720,
+  "verified_retrieved_files": 403,
+  "stop": "Diagnostic complete; no subsequent change or experiment authorized",
+  "interpretation": "Practical value inconclusive; prioritize K, no replacement correction selected",
+  "pull_request": "https://github.com/ToxicMinhao/Online-Speculative-decoding-test/pull/17"
+}

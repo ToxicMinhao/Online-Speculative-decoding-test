@@ -1,0 +1,485 @@
+"""Durable exact-token feedback queue; no tokenization or training-mask logic.
+
+Records are immutable JSON files. A locked, atomically replaced state indexes
+their order and event ownership. Failed/unfinished events remain reserved and
+block later events; recovery never guesses whether a partial update was applied.
+Hashes detect accidental corruption, not malicious rewriting of all evidence.
+"""
+from __future__ import annotations
+
+from contextlib import contextmanager
+from pathlib import Path
+import copy
+import fcntl
+import hashlib
+import json
+import math
+import os
+import tempfile
+
+
+class FeedbackError(ValueError):
+    """Invalid feedback, state, or transition; caller must not continue training."""
+
+
+class BufferFullError(FeedbackError):
+    """Outstanding feedback has reached the configured capacity."""
+
+
+class BufferCorruptionError(FeedbackError):
+    """Durable evidence is inconsistent or cannot be verified."""
+
+
+_FIELDS = {
+    "record_id", "session_id", "request_index", "checkpoint_id", "purpose",
+    "prompt_ids", "response_ids", "finish_reason", "stop_token_ids",
+    "max_new_tokens", "metadata",
+}
+_VERSION = 1
+
+
+def _json_bytes(value):
+    return json.dumps(value, sort_keys=True, separators=(",", ":"),
+                      ensure_ascii=False, allow_nan=False).encode("utf-8")
+
+
+def _digest(value):
+    return hashlib.sha256(_json_bytes(value)).hexdigest()
+
+
+def _identifier(value, name):
+    if not isinstance(value, str) or not value or len(value) > 512:
+        raise FeedbackError(f"{name} must be a nonempty string of at most 512 characters")
+    return value
+
+
+def _integer(value, name, minimum=0):
+    if type(value) is not int or value < minimum or value > 2**63 - 1:
+        raise FeedbackError(f"{name} must be an integer in [{minimum}, 2**63-1]")
+    return value
+
+
+def token_sha256(ids: list[int]) -> str:
+    """Hash exact token IDs as compact JSON, without decoding or re-encoding."""
+    if not isinstance(ids, list):
+        raise FeedbackError("token IDs must be a list")
+    for token in ids:
+        _integer(token, "token IDs")
+    return hashlib.sha256(json.dumps(ids, separators=(",", ":")).encode("utf-8")).hexdigest()
+
+
+def _json_value(value):
+    if value is None or isinstance(value, (str, bool)):
+        return
+    if type(value) is int:
+        return
+    if type(value) is float and math.isfinite(value):
+        return
+    if isinstance(value, list):
+        for item in value:
+            _json_value(item)
+        return
+    if isinstance(value, dict) and all(isinstance(k, str) for k in value):
+        for item in value.values():
+            _json_value(item)
+        return
+    raise FeedbackError("metadata and receipts must contain finite JSON values with string keys")
+
+
+def _validate_record(record):
+    if not isinstance(record, dict) or set(record) != _FIELDS:
+        raise FeedbackError(f"record fields must be exactly {sorted(_FIELDS)}")
+    for name in ("record_id", "session_id", "checkpoint_id"):
+        _identifier(record[name], name)
+    _integer(record["request_index"], "request_index")
+    _integer(record["max_new_tokens"], "max_new_tokens", 1)
+    if record["purpose"] != "serving":
+        raise FeedbackError("only serving feedback may enter the training buffer")
+    for name in ("prompt_ids", "response_ids", "stop_token_ids"):
+        tokens = record[name]
+        if not isinstance(tokens, list):
+            raise FeedbackError(f"{name} must be a list of exact integer token IDs")
+        for token in tokens:
+            _integer(token, name)
+    if not record["prompt_ids"] or not record["response_ids"]:
+        raise FeedbackError("prompt_ids and response_ids must be nonempty")
+    stops = record["stop_token_ids"]
+    if len(stops) != len(set(stops)):
+        raise FeedbackError("stop_token_ids must be unique")
+    response = record["response_ids"]
+    if len(response) > record["max_new_tokens"]:
+        raise FeedbackError("response exceeds max_new_tokens")
+    if any(token in stops for token in response[:-1]):
+        raise FeedbackError("response contains tokens after a stop token")
+    if record["finish_reason"] == "eos":
+        if response[-1] not in stops:
+            raise FeedbackError("eos response must end in a declared stop token")
+    elif record["finish_reason"] == "length":
+        if len(response) != record["max_new_tokens"] or response[-1] in stops:
+            raise FeedbackError("length response must reach the cap without a stop token")
+    else:
+        raise FeedbackError("finish_reason must be eos or length")
+    if not isinstance(record["metadata"], dict):
+        raise FeedbackError("metadata must be a dict")
+    _json_value(record["metadata"])
+    return copy.deepcopy(record)
+
+
+def _pairs_no_duplicates(pairs):
+    out = {}
+    for key, value in pairs:
+        if key in out:
+            raise BufferCorruptionError(f"duplicate JSON key: {key}")
+        out[key] = value
+    return out
+
+
+def _read_json(path):
+    try:
+        fd = os.open(path, os.O_RDONLY | getattr(os, "O_NOFOLLOW", 0))
+        with os.fdopen(fd, "r", encoding="utf-8") as stream:
+            return json.load(stream, object_pairs_hook=_pairs_no_duplicates,
+                             parse_constant=lambda value: (_ for _ in ()).throw(
+                                 BufferCorruptionError(f"invalid JSON constant {value}")))
+    except (OSError, ValueError, UnicodeError) as exc:
+        if isinstance(exc, BufferCorruptionError):
+            raise
+        raise BufferCorruptionError(f"cannot read {path.name}: {exc}") from exc
+
+
+def _fsync_dir(path):
+    fd = os.open(path, os.O_RDONLY | getattr(os, "O_DIRECTORY", 0))
+    try:
+        os.fsync(fd)
+    finally:
+        os.close(fd)
+
+
+def _mkdir_durable(path):
+    # A concurrent creator may have made existing ancestors without syncing
+    # them yet. Sync the whole chain, not just entries this process created.
+    path.mkdir(parents=True, exist_ok=True)
+    for parent in path.absolute().parents:
+        _fsync_dir(parent)
+
+
+def _atomic_json(path, value, immutable=False):
+    payload = _json_bytes(value) + b"\n"
+    fd, name = tempfile.mkstemp(prefix="." + path.name + ".", suffix=".tmp",
+                                dir=str(path.parent))
+    temporary = Path(name)
+    try:
+        with os.fdopen(fd, "wb") as stream:
+            stream.write(payload)
+            stream.flush()
+            os.fsync(stream.fileno())
+        if immutable:
+            # link is atomic and refuses replacement of an existing record.
+            os.link(temporary, path)
+            temporary.unlink()
+        else:
+            os.replace(temporary, path)
+        _fsync_dir(path.parent)
+    finally:
+        if temporary.exists():
+            temporary.unlink()
+
+
+class FeedbackBuffer:
+    """Bound outstanding records; preserve committed records as audit evidence.
+
+    Capacity counts pending, sealed, and failed records, and is pinned on disk.
+    Request indices must increase within each session; indices need not be
+    contiguous because evaluation requests are excluded. All public operations
+    hold an interprocess lock and verify record and token hashes.
+
+    event(): KeyError when absent. seal_event(): earliest pending records only;
+    one unresolved event at a time. commit_event(): only after publication, with
+    caller-supplied checkpoint/receipt; it does not itself publish or verify model
+    files. An identical repeated commit is idempotent. Failed events are terminal
+    in this API and require explicit external recovery instead of automatic replay.
+    """
+
+    def __init__(self, root: Path, capacity: int):
+        _integer(capacity, "capacity", 1)
+        self.root = Path(root)
+        self.capacity = capacity
+        _mkdir_durable(self.root)
+        if self.root.is_symlink() or not self.root.is_dir():
+            raise FeedbackError("buffer root must be a real directory")
+        self._record_dir = self.root / "records"
+        _mkdir_durable(self._record_dir)
+        if self._record_dir.is_symlink() or not self._record_dir.is_dir():
+            raise FeedbackError("record directory must be a real directory")
+        self._state_path = self.root / "state.json"
+        with self._lock():
+            if not self._state_path.exists():
+                if any(self._record_dir.iterdir()):
+                    raise BufferCorruptionError("records exist without state; explicit recovery required")
+                self._save({"schema_version": _VERSION, "capacity": capacity,
+                            "order": [], "record_hashes": {}, "events": []})
+            self._load()
+
+    @contextmanager
+    def _lock(self):
+        fd = os.open(self.root / ".lock",
+                     os.O_CREAT | os.O_RDWR | getattr(os, "O_NOFOLLOW", 0), 0o600)
+        try:
+            fcntl.flock(fd, fcntl.LOCK_EX)
+            yield
+        finally:
+            fcntl.flock(fd, fcntl.LOCK_UN)
+            os.close(fd)
+
+    def _path(self, record_id):
+        return self._record_dir / (hashlib.sha256(record_id.encode("utf-8")).hexdigest() + ".json")
+
+    def _save(self, state):
+        _atomic_json(self._state_path, {"state": state, "sha256": _digest(state)})
+
+    def _load(self):
+        envelope = _read_json(self._state_path)
+        if not isinstance(envelope, dict) or set(envelope) != {"state", "sha256"}:
+            raise BufferCorruptionError("invalid state envelope")
+        state = envelope["state"]
+        if not isinstance(state, dict) or envelope["sha256"] != _digest(state):
+            raise BufferCorruptionError("state hash mismatch")
+        if set(state) != {"schema_version", "capacity", "order", "record_hashes", "events"}:
+            raise BufferCorruptionError("invalid state fields")
+        if type(state["schema_version"]) is not int or state["schema_version"] != _VERSION:
+            raise BufferCorruptionError("unsupported state schema")
+        if type(state["capacity"]) is not int or state["capacity"] != self.capacity:
+            raise FeedbackError("buffer capacity does not match durable configuration")
+        order, hashes, events = state["order"], state["record_hashes"], state["events"]
+        if not isinstance(order, list) or not all(isinstance(i, str) for i in order):
+            raise BufferCorruptionError("invalid record order")
+        if len(set(order)) != len(order) or not isinstance(hashes, dict) or set(hashes) != set(order):
+            raise BufferCorruptionError("record index is duplicated or inconsistent")
+        actual = {p.name for p in self._record_dir.iterdir()}
+        expected = {self._path(i).name for i in order}
+        if actual != expected:
+            raise BufferCorruptionError("orphan/missing record files; explicit recovery required")
+        records = {}
+        last_index = {}
+        for record_id in order:
+            wrapped = _read_json(self._path(record_id))
+            if not isinstance(wrapped, dict) or set(wrapped) != {
+                "record", "record_sha256", "input_sha256", "prompt_sha256", "response_sha256"
+            }:
+                raise BufferCorruptionError("invalid record envelope")
+            record = wrapped["record"]
+            try:
+                _validate_record(record)
+            except FeedbackError as exc:
+                raise BufferCorruptionError(f"invalid stored record: {exc}") from exc
+            digest = _digest(record)
+            if (record["record_id"] != record_id or wrapped["record_sha256"] != digest
+                    or hashes[record_id] != digest
+                    or wrapped["input_sha256"] != token_sha256(record["prompt_ids"] + record["response_ids"])
+                    or wrapped["prompt_sha256"] != token_sha256(record["prompt_ids"])
+                    or wrapped["response_sha256"] != token_sha256(record["response_ids"])):
+                raise BufferCorruptionError(f"record/token hash mismatch: {record_id}")
+            session, index = record["session_id"], record["request_index"]
+            if index <= last_index.get(session, -1):
+                raise BufferCorruptionError("stored request indices are reordered")
+            last_index[session] = index
+            records[record_id] = record
+        if not isinstance(events, list):
+            raise BufferCorruptionError("invalid event list")
+        assigned, event_ids = [], set()
+        unresolved_seen = False
+        for event in events:
+            if not isinstance(event, dict) or set(event) != {
+                "event_id", "status", "record_ids", "checkpoint_id", "receipt", "error"
+            }:
+                raise BufferCorruptionError("invalid event fields")
+            try:
+                _identifier(event["event_id"], "event_id")
+            except FeedbackError as exc:
+                raise BufferCorruptionError(str(exc)) from exc
+            if event["event_id"] in event_ids or unresolved_seen:
+                raise BufferCorruptionError("duplicate/reordered event")
+            event_ids.add(event["event_id"])
+            ids = event["record_ids"]
+            if (not isinstance(ids, list) or not ids
+                    or not all(isinstance(i, str) for i in ids)
+                    or ids != order[len(assigned):len(assigned) + len(ids)]):
+                raise BufferCorruptionError("event membership does not follow record order")
+            assigned.extend(ids)
+            status = event["status"]
+            if status == "committed":
+                try:
+                    _identifier(event["checkpoint_id"], "checkpoint_id")
+                    if not isinstance(event["receipt"], dict):
+                        raise FeedbackError("commit receipt must be a dict")
+                    _json_value(event["receipt"])
+                except FeedbackError as exc:
+                    raise BufferCorruptionError(str(exc)) from exc
+                if event["error"] is not None:
+                    raise BufferCorruptionError("committed event has an error")
+            elif status in ("sealed", "failed"):
+                unresolved_seen = True
+                if event["checkpoint_id"] is not None or event["receipt"] is not None:
+                    raise BufferCorruptionError("uncommitted event has publication metadata")
+                if (status == "sealed" and event["error"] is not None) or (
+                    status == "failed" and (not isinstance(event["error"], str) or not event["error"])
+                ):
+                    raise BufferCorruptionError("invalid event error")
+            else:
+                raise BufferCorruptionError("invalid event status")
+        committed = sum(len(e["record_ids"]) for e in events if e["status"] == "committed")
+        if len(order) - committed > self.capacity:
+            raise BufferCorruptionError("durable outstanding records exceed capacity")
+        return state, records
+
+    @staticmethod
+    def _find(state, event_id):
+        _identifier(event_id, "event_id")
+        for event in state["events"]:
+            if event["event_id"] == event_id:
+                return event
+        raise KeyError(event_id)
+
+    @staticmethod
+    def _pending_ids(state):
+        reserved = {i for event in state["events"] for i in event["record_ids"]}
+        return [i for i in state["order"] if i not in reserved]
+
+    def add(self, record: dict):
+        """Persist an exact serving record; never overwrite duplicate IDs."""
+        record = _validate_record(record)
+        with self._lock():
+            state, existing = self._load()
+            record_id = record["record_id"]
+            if record_id in existing:
+                raise FeedbackError(f"duplicate record_id: {record_id}")
+            previous = [r["request_index"] for r in existing.values()
+                        if r["session_id"] == record["session_id"]]
+            if previous and record["request_index"] <= max(previous):
+                raise FeedbackError("request_index must increase within a session")
+            committed = sum(len(e["record_ids"]) for e in state["events"] if e["status"] == "committed")
+            if len(state["order"]) - committed >= self.capacity:
+                raise BufferFullError("outstanding feedback reached capacity")
+            digest = _digest(record)
+            wrapped = {"record": record, "record_sha256": digest,
+                       "input_sha256": token_sha256(record["prompt_ids"] + record["response_ids"]),
+                       "prompt_sha256": token_sha256(record["prompt_ids"]),
+                       "response_sha256": token_sha256(record["response_ids"])}
+            _atomic_json(self._path(record_id), wrapped, immutable=True)
+            state["order"].append(record_id)
+            state["record_hashes"][record_id] = digest
+            self._save(state)
+            return copy.deepcopy(record)
+
+    def pending(self) -> list[dict]:
+        with self._lock():
+            state, records = self._load()
+            return [copy.deepcopy(records[i]) for i in self._pending_ids(state)]
+
+    def records(self, ids) -> list[dict]:
+        if not isinstance(ids, list) or not all(isinstance(i, str) for i in ids):
+            raise FeedbackError("ids must be an ordered list of record IDs")
+        if len(set(ids)) != len(ids):
+            raise FeedbackError("duplicate requested record IDs")
+        with self._lock():
+            state, records = self._load()
+            for record_id in ids:
+                if record_id not in records:
+                    raise KeyError(record_id)
+            selected = set(ids)
+            if [i for i in state["order"] if i in selected] != ids:
+                raise FeedbackError("requested records are reordered")
+            return [copy.deepcopy(records[i]) for i in ids]
+
+    def seal_event(self, event_id, count) -> dict:
+        _identifier(event_id, "event_id")
+        _integer(count, "count", 1)
+        with self._lock():
+            state, _ = self._load()
+            if any(e["event_id"] == event_id for e in state["events"]):
+                raise FeedbackError("duplicate event_id")
+            if any(e["status"] != "committed" for e in state["events"]):
+                raise FeedbackError("an unfinished/failed event requires explicit recovery")
+            pending = self._pending_ids(state)
+            if count > len(pending):
+                raise FeedbackError("insufficient pending records")
+            event = {"event_id": event_id, "status": "sealed",
+                     "record_ids": pending[:count], "checkpoint_id": None,
+                     "receipt": None, "error": None}
+            state["events"].append(event)
+            self._save(state)
+            return copy.deepcopy(event)
+
+    def event(self, event_id):
+        with self._lock():
+            state, _ = self._load()
+            return copy.deepcopy(self._find(state, event_id))
+
+    def commit_event(self, event_id, checkpoint_id, receipt):
+        _identifier(checkpoint_id, "checkpoint_id")
+        if not isinstance(receipt, dict):
+            raise FeedbackError("receipt must be a dict")
+        _json_value(receipt)
+        with self._lock():
+            state, _ = self._load()
+            event = self._find(state, event_id)
+            if event["status"] == "committed":
+                if event["checkpoint_id"] == checkpoint_id and _json_bytes(event["receipt"]) == _json_bytes(receipt):
+                    return copy.deepcopy(event)
+                raise FeedbackError("committed event cannot be changed")
+            if event["status"] != "sealed":
+                raise FeedbackError("failed event requires explicit recovery, not commit")
+            event.update(status="committed", checkpoint_id=checkpoint_id,
+                         receipt=copy.deepcopy(receipt))
+            self._save(state)
+            return copy.deepcopy(event)
+
+    def recover_commit_event(self, event_id, checkpoint_id, receipt, *, expected_event):
+        """Explicit publication-only recovery; retain the original failure verbatim.
+
+        The controller verifies durable trainer/export/feature identities first.
+        This operation never releases records for retraining and never rewrites
+        the original failure into a fictional normal success.
+        """
+        _identifier(checkpoint_id, "checkpoint_id")
+        if not isinstance(receipt, dict) or not isinstance(expected_event, dict):
+            raise FeedbackError("recovery requires a receipt and original event")
+        _json_value(receipt); _json_value(expected_event)
+        proof = receipt.get("publication_recovery", {})
+        if (proof.get("kind") != "publication_only_v1" or proof.get("event_before") != expected_event
+                or proof.get("retrained") is not False or proof.get("feedback_replayed") is not False
+                or not proof.get("full_state_sha256") or not proof.get("export_tensor_match")):
+            raise FeedbackError("missing qualified publication-only recovery proof")
+        with self._lock():
+            state, _ = self._load()
+            event = self._find(state, event_id)
+            if event != expected_event or event["status"] not in ("sealed", "failed") or event is not state["events"][-1]:
+                raise FeedbackError("recovery event changed or is not the unresolved latest event")
+            audit_dir = self.root / "publication_recovery"
+            _mkdir_durable(audit_dir)
+            audit_path = audit_dir / (hashlib.sha256(event_id.encode()).hexdigest() + ".json")
+            audit = {"schema_version": "publication_only_recovery_v1", "event_before": copy.deepcopy(event),
+                     "checkpoint_id": checkpoint_id, "receipt": copy.deepcopy(receipt)}
+            if audit_path.exists():
+                if _read_json(audit_path) != audit:
+                    raise FeedbackError("existing recovery audit differs; explicit review required")
+            else:
+                _atomic_json(audit_path, audit, immutable=True)
+            event.update(status="committed", checkpoint_id=checkpoint_id, receipt=copy.deepcopy(receipt), error=None)
+            self._save(state)
+            return copy.deepcopy(event)
+
+    def fail_event(self, event_id, error):
+        if not isinstance(error, str) or not error:
+            raise FeedbackError("error must be a nonempty string")
+        with self._lock():
+            state, _ = self._load()
+            event = self._find(state, event_id)
+            if event["status"] == "failed" and event["error"] == error:
+                return copy.deepcopy(event)
+            if event["status"] != "sealed":
+                raise FeedbackError("only a sealed event can fail")
+            event.update(status="failed", error=error)
+            self._save(state)
+            return copy.deepcopy(event)
+

@@ -1,0 +1,103 @@
+"""Independently validate the approved data seal without loading model weights."""
+import hashlib
+import json
+from pathlib import Path
+import unicodedata
+
+import pyarrow.parquet as pq
+from transformers import AutoTokenizer
+
+
+HERE = Path(__file__).resolve().parent
+APPROVED = HERE / 'approved'
+
+
+def load(path):
+    return json.loads(path.read_text())
+
+
+def digest(path):
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def normalize(text):
+    return ' '.join(unicodedata.normalize('NFC', text).split())
+
+
+def main():
+    manifest = load(APPROVED / 'manifest.json')
+    seal = load(APPROVED / 'SEAL.json')
+    conditional = load(HERE / 'conditional_proposal/CONDITIONAL_MANIFEST.json')
+    provisional = load(HERE / 'PROVISIONAL_MANIFEST.json')
+    audit = load(APPROVED / 'prior_exclusion_audit.json')
+    assert manifest['status'] == seal['status'] == 'sealed_before_generation'
+    assert manifest['selection']['gsm8k_A_historical_reuse'] == 'user_authorized'
+    assert manifest['groups'] == conditional['groups']
+    assert [group['name'] for group in manifest['groups']] == ['gsm8k', 'codealpaca', 'sharegpt']
+    rows = [row for group in manifest['groups'] for row in group['requests']]
+    assert len(rows) == len({row['request_id'] for row in rows}) == 48
+    assert len({normalize(row['text']) for row in rows}) == 48
+    fresh = {row['request_id']: row for group in provisional['groups'] for row in group['requests']}
+    assert len(fresh) == 40
+    assert all(row == fresh[row['request_id']] for row in rows if row['request_id'] in fresh)
+    excluded = {(row['source_key'], row['source_index']) for row in audit['excluded_source_rows']}
+    assert [row['source_index'] for row in rows[:8]] == [564, 3287, 915, 2283, 6057, 3668, 7214, 6565]
+    sources = {}
+    for key, source in manifest['sources'].items():
+        path = Path(source['local_path'])
+        if key.startswith('gsm8k'):
+            sources[key] = pq.read_table(path, columns=['question']).to_pylist()
+        elif key == 'codealpaca_train':
+            sources[key] = pq.read_table(path, columns=['instruction', 'input']).to_pylist()
+        else:
+            sources[key] = load(path)
+    tokenizer = AutoTokenizer.from_pretrained(manifest['tokenizer']['local_path'], local_files_only=True)
+    for group in manifest['groups']:
+        assert [row['role'] for row in group['requests']] == ['A'] * 8 + ['B'] * 8
+        for row in group['requests']:
+            reused = group['name'] == 'gsm8k' and row['role'] == 'A'
+            assert ((row['source_key'], row['source_index']) in excluded) == reused
+            assert bool(row.get('historical_reuse')) == reused
+            source = sources[row['source_key']][row['source_index']]
+            if group['name'] == 'gsm8k':
+                assert row['source_split'] == ('train' if reused else 'test')
+                text = source['question']
+            elif group['name'] == 'codealpaca':
+                text = source['instruction'] + ('\n\n' + source['input'] if source['input'] else '')
+            else:
+                assert row['source_start_index'] == row['source_message_index'] == 0
+                assert row['source_id'] == source['id']
+                text = source['conversations'][0]['value']
+            assert row['text'] == text
+            assert row['messages'] == [{'role': 'user', 'content': text}]
+            encoded = tokenizer.apply_chat_template(row['messages'], tokenize=True,
+                                                     add_generation_prompt=True, enable_thinking=False)
+            ids = encoded['input_ids'] if hasattr(encoded, 'keys') else encoded
+            assert row['prompt_ids'] == ids
+            assert len(ids) == row['prompt_tokens'] <= 1024
+            assert len(ids) + 512 + 16 <= 2048
+    roots = [row['conversation_root_id'] for row in rows if row['domain'] == 'sharegpt']
+    assert len(roots) == len(set(roots)) == 16
+    assert seal['manifest_sha256'] == digest(APPROVED / 'manifest.json')
+    assert seal['preparation_code_sha256'] == digest(HERE / 'prepare.py')
+    assert seal['prior_exclusion_audit_sha256'] == digest(APPROVED / 'prior_exclusion_audit.json')
+    result = {
+        'status': 'passed', 'requests': 48, 'distinct_normalized_prompts': 48,
+        'groups': 3, 'roles_per_group': {'A': 8, 'B': 8},
+        'all_48_request_records_equal_conditional_proposal': True,
+        'all_40_fresh_request_records_unchanged': True,
+        'approved_gsm8k_A_rows': [row['source_index'] for row in rows[:8]],
+        'historical_exclusion_exceptions': 8, 'exceptions_only_gsm8k_A': True,
+        'heldout_requests_excluded_from_training': True,
+        'all_source_prompt_texts_match': True, 'independent_tokenizer_reencodings_match': 48,
+        'unique_sharegpt_conversation_roots': 16, 'max_prompt_tokens': max(row['prompt_tokens'] for row in rows),
+        'all_context_budgets_pass': True, 'source_answers_used': False,
+        'manifest_sha256': digest(APPROVED / 'manifest.json'),
+        'seal_sha256': digest(APPROVED / 'SEAL.json'), 'validator_sha256': digest(Path(__file__)),
+        'native_gpu_tokenizer_reencoding': 'Executor pre-generation check remains required; this validation is local CPU only.'}
+    (APPROVED / 'VALIDATION.json').write_text(json.dumps(result, indent=2) + '\n')
+    print(json.dumps(result, indent=2))
+
+
+if __name__ == '__main__':
+    main()

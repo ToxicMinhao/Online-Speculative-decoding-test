@@ -1,0 +1,227 @@
+{
+  "schema": "krc34_compact_publication_v1",
+  "status": "staged_locally_not_published",
+  "execution_git_commit": "11b7718a04416a89025a6df69c0c33e558e5fe1b",
+  "analysis_git_commit": "ea4f289c6e18383b7560c8c4103a9d91ca3943bf",
+  "builder_sha256": "3c8e8462a15b7490bc074732a69b13216816d156977f5116d7c62b5e3d20a454",
+  "publication_helper": {
+    "bytes": 10084,
+    "sha256": "7316582bdd7f03f9391b2ba10315eb9b7f8ad0d5b64a5a63dd662476e77dec3b"
+  },
+  "allowlist": [
+    "REPORT.md",
+    "SUMMARY.json",
+    "TRAINING.csv",
+    "EXECUTION_SOURCE.json",
+    "analysis/development/COMPARISONS.csv",
+    "analysis/development/EVENT_COUNT_CURVE.csv",
+    "analysis/development/PER_REQUEST.csv",
+    "analysis/development/ALL_REPEATS.csv",
+    "analysis/development/REPEAT_TOTALS.csv",
+    "analysis/additional/COMPARISONS.csv",
+    "analysis/additional/EVENT_COUNT_CURVE.csv",
+    "analysis/additional/PER_REQUEST.csv",
+    "analysis/additional/ALL_REPEATS.csv",
+    "analysis/additional/REPEAT_TOTALS.csv"
+  ],
+  "missing_files": [],
+  "original_files_unchanged": true,
+  "review_limit": "Bounded payload/credential checks passed; inspect exact final bytes and freeform errors before publication.",
+  "files": {
+    "REPORT.md": {
+      "original": {
+        "bytes": 10565,
+        "sha256": "39bb0fc6d94aad629b5c3ed39cc727cf2e41757e41665d82baabef465461da7c"
+      },
+      "public": {
+        "bytes": 11769,
+        "sha256": "6506db37b576086815957ffa94738183c4ac8b751c5558044d13ec5143e7f761"
+      },
+      "transforms": [
+        {
+          "operation": "literal_replace",
+          "old": "[sealed plan](raw/sealed/PLAN.json)",
+          "new": "sealed plan (retained private evidence; not published)",
+          "count": 1
+        },
+        {
+          "operation": "literal_replace",
+          "old": "[preflight](raw/PREFLIGHT.json)",
+          "new": "preflight (retained private evidence; not published)",
+          "count": 1
+        },
+        {
+          "operation": "literal_replace",
+          "old": "[postflight](raw/POSTFLIGHT.json)",
+          "new": "postflight (retained private evidence; not published)",
+          "count": 1
+        },
+        {
+          "operation": "literal_replace",
+          "old": "[launch script](run_campaign.sh)",
+          "new": "[launch script](https://github.com/ToxicMinhao/Online-Speculative-decoding-test/blob/11b7718a04416a89025a6df69c0c33e558e5fe1b/DFlash-Online/provenance/run_tools/dflash_krc_events_3_4_20261028/run_campaign.sh)",
+          "count": 1
+        },
+        {
+          "operation": "literal_replace",
+          "old": "[independent audit](FINAL_AUDIT.json)",
+          "new": "independent audit (full record retained privately; [compact status and integrity counts](SUMMARY.json))",
+          "count": 1
+        },
+        {
+          "operation": "literal_replace",
+          "old": "[complete costs](raw/campaign_001/COSTS.json)",
+          "new": "complete costs (full record retained privately; [compact costs](SUMMARY.json) and [event cost table](TRAINING.csv))",
+          "count": 1
+        },
+        {
+          "operation": "append",
+          "text": "\n## Public evidence availability\n\nThis public copy preserves the report\u2019s result values. Only the recorded evidence links and this availability note differ from the retained original. Compact metrics and execution identities are supplied alongside the report; the existing launch and review records remain in this report directory. Raw plans, prompts, responses, token trajectories, complete audit and runtime records, replay features, model weights and optimizer states are outside this public package. Absolute paths, usernames and host metadata are operational provenance, not public download locations. Original and public file hashes, missing compact files and the exact text transformations are recorded in [publication manifest](PUBLICATION_MANIFEST.json). The execution and analysis revisions retain their distinct roles.\n"
+        }
+      ]
+    },
+    "SUMMARY.json": {
+      "original": {
+        "bytes": 54380,
+        "sha256": "cf689ca508c97f9e3aa3868c0fc551ac7534404d6fe0b911a04cebec0c667233"
+      },
+      "public": {
+        "bytes": 54380,
+        "sha256": "cf689ca508c97f9e3aa3868c0fc551ac7534404d6fe0b911a04cebec0c667233"
+      },
+      "transforms": []
+    },
+    "TRAINING.csv": {
+      "original": {
+        "bytes": 1824,
+        "sha256": "1ddb7d4fccc8f6496ec798a0b607bae8dc37cf8fca75d9e0935c03f94ff54ae6"
+      },
+      "public": {
+        "bytes": 1824,
+        "sha256": "1ddb7d4fccc8f6496ec798a0b607bae8dc37cf8fca75d9e0935c03f94ff54ae6"
+      },
+      "transforms": []
+    },
+    "EXECUTION_SOURCE.json": {
+      "original": {
+        "bytes": 3472,
+        "sha256": "7586a2fa69aba7ff3d98447907386b4c4255fca055f1f094fc01611cbc7f65d0"
+      },
+      "public": {
+        "bytes": 3472,
+        "sha256": "7586a2fa69aba7ff3d98447907386b4c4255fca055f1f094fc01611cbc7f65d0"
+      },
+      "transforms": []
+    },
+    "analysis/development/COMPARISONS.csv": {
+      "original": {
+        "bytes": 356,
+        "sha256": "cc9ec35fd0b6faf78717f5e0b32ad230a8bad12f37b5f9b864e82a58f7c19cd6"
+      },
+      "public": {
+        "bytes": 356,
+        "sha256": "cc9ec35fd0b6faf78717f5e0b32ad230a8bad12f37b5f9b864e82a58f7c19cd6"
+      },
+      "transforms": []
+    },
+    "analysis/development/EVENT_COUNT_CURVE.csv": {
+      "original": {
+        "bytes": 109,
+        "sha256": "363c40a30b6278dc3bccac879ea19ef997d70f0c6e7a4d81042274d50de5923b"
+      },
+      "public": {
+        "bytes": 109,
+        "sha256": "363c40a30b6278dc3bccac879ea19ef997d70f0c6e7a4d81042274d50de5923b"
+      },
+      "transforms": []
+    },
+    "analysis/development/PER_REQUEST.csv": {
+      "original": {
+        "bytes": 22180,
+        "sha256": "8a168636cd8600d51e75d2e8a63ffb4d24cf20b60dcccd112ac5f63330fbbf93"
+      },
+      "public": {
+        "bytes": 22180,
+        "sha256": "8a168636cd8600d51e75d2e8a63ffb4d24cf20b60dcccd112ac5f63330fbbf93"
+      },
+      "transforms": []
+    },
+    "analysis/development/ALL_REPEATS.csv": {
+      "original": {
+        "bytes": 205561,
+        "sha256": "336cd758c6717fc413dd16c0621cb9d49c5209cda7ff6b34abe4b5f53894d5ba"
+      },
+      "public": {
+        "bytes": 205561,
+        "sha256": "336cd758c6717fc413dd16c0621cb9d49c5209cda7ff6b34abe4b5f53894d5ba"
+      },
+      "transforms": []
+    },
+    "analysis/development/REPEAT_TOTALS.csv": {
+      "original": {
+        "bytes": 743,
+        "sha256": "31feaa2ebf1f2efa4253a92377983b454d576512bd53b21f1fc06adc887d4d9e"
+      },
+      "public": {
+        "bytes": 743,
+        "sha256": "31feaa2ebf1f2efa4253a92377983b454d576512bd53b21f1fc06adc887d4d9e"
+      },
+      "transforms": []
+    },
+    "analysis/additional/COMPARISONS.csv": {
+      "original": {
+        "bytes": 360,
+        "sha256": "fd5d78f06add806f3d8952ca153d9be6c93510f66abf387b5abcf194ea9712c3"
+      },
+      "public": {
+        "bytes": 360,
+        "sha256": "fd5d78f06add806f3d8952ca153d9be6c93510f66abf387b5abcf194ea9712c3"
+      },
+      "transforms": []
+    },
+    "analysis/additional/EVENT_COUNT_CURVE.csv": {
+      "original": {
+        "bytes": 101,
+        "sha256": "0174f6484da397998b916496fc9225862bc39ad9540365463c1530381e799c73"
+      },
+      "public": {
+        "bytes": 101,
+        "sha256": "0174f6484da397998b916496fc9225862bc39ad9540365463c1530381e799c73"
+      },
+      "transforms": []
+    },
+    "analysis/additional/PER_REQUEST.csv": {
+      "original": {
+        "bytes": 22325,
+        "sha256": "2eff40b6accf8cd20a077b5da21d3dcd03871e3eec3959dd2497b75183df0648"
+      },
+      "public": {
+        "bytes": 22325,
+        "sha256": "2eff40b6accf8cd20a077b5da21d3dcd03871e3eec3959dd2497b75183df0648"
+      },
+      "transforms": []
+    },
+    "analysis/additional/ALL_REPEATS.csv": {
+      "original": {
+        "bytes": 210823,
+        "sha256": "ad68f34971b6e8910498c26101e7938472ed0d3fa0b3aca3ca7e1068a922be7a"
+      },
+      "public": {
+        "bytes": 210823,
+        "sha256": "ad68f34971b6e8910498c26101e7938472ed0d3fa0b3aca3ca7e1068a922be7a"
+      },
+      "transforms": []
+    },
+    "analysis/additional/REPEAT_TOTALS.csv": {
+      "original": {
+        "bytes": 740,
+        "sha256": "3caa910f961f2cf75bdbd51681639c707d1b8c5d636a5c8ccde58f2fcb258c37"
+      },
+      "public": {
+        "bytes": 740,
+        "sha256": "3caa910f961f2cf75bdbd51681639c707d1b8c5d636a5c8ccde58f2fcb258c37"
+      },
+      "transforms": []
+    }
+  }
+}

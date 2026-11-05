@@ -1,0 +1,91 @@
+{
+  "sidecar": {
+    "bytes": 532704,
+    "sha256": "f816831305b00ae8e141980f9773b7955ecb538721cb73aa7e8c7c8919c6d0ea"
+  },
+  "gate": {
+    "bytes": 10739,
+    "sha256": "4b5cda3a1d12a8cb455b85ad1d67c5cc970e7ad5b81c2e055a59c0ac48deef57"
+  },
+  "canonicals": {
+    "bytes": 2599400,
+    "sha256": "222e6a6a39c9ba26d2ef3e6097ed1d22d8ef0b551627b67c5670556dfddf05f5"
+  },
+  "routes": {
+    "status": "passed",
+    "mode": "FIVE",
+    "live_rounds": 0,
+    "routes": [],
+    "graph_launches": {
+      "static_three": 10474,
+      "prefix": 0,
+      "shallow": 0,
+      "deep": 0
+    },
+    "graph_setup": [
+      {
+        "graph": "static_three",
+        "warmup_executions": 2,
+        "capture_executions": 1,
+        "captured_layer_calls": [
+          1,
+          1,
+          1,
+          0,
+          0
+        ],
+        "wall_s": 0.007073488086462021
+      },
+      {
+        "graph": "prefix",
+        "warmup_executions": 2,
+        "capture_executions": 1,
+        "captured_layer_calls": [
+          1,
+          1,
+          1,
+          0,
+          0
+        ],
+        "wall_s": 0.01740727573633194
+      },
+      {
+        "graph": "shallow",
+        "warmup_executions": 2,
+        "capture_executions": 1,
+        "captured_layer_calls": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "wall_s": 0.001376073807477951
+      },
+      {
+        "graph": "deep",
+        "warmup_executions": 2,
+        "capture_executions": 1,
+        "captured_layer_calls": [
+          0,
+          0,
+          0,
+          1,
+          1
+        ],
+        "wall_s": 0.004346059635281563
+      }
+    ],
+    "original_five_unchanged": true,
+    "feature_width": 97,
+    "readout_rank": 32,
+    "audit_enabled": false,
+    "audit_records": [],
+    "head_invocations": 0,
+    "shadow_proposal_forwards": 0,
+    "shadow_vocab_projections": 0
+  },
+  "no_more_fitting": true,
+  "code_commit": "0f704167b268672d980fabe704898abf9b134c39",
+  "continuation_cost_ms": 0.5176008853595704
+}

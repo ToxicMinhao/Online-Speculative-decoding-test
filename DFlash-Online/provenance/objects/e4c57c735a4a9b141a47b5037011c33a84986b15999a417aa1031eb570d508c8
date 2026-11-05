@@ -1,0 +1,151 @@
+"""New OSD recipe integration; tiny CPU model loading uses eager attention.
+
+Full-size Flex compilation and GPU serving still need native qualification.
+"""
+import copy
+from pathlib import Path
+import unittest
+from unittest import mock
+
+import torch
+import yaml
+from pydantic import ValidationError
+import specforge.training.assembly as assembly
+
+from online_feedback.optimizer import DirectBF16AdamW
+from online_feedback.recipe import OnlineRecipe, load_event_config
+from test_training_contract import trees_equal
+import test_osd_trainer as legacy
+
+
+class OSDRecipeTests(unittest.TestCase):
+    setUpClass = classmethod(legacy.OSDTrainerTests.setUpClass.__func__)
+    tearDownClass = classmethod(legacy.OSDTrainerTests.tearDownClass.__func__)
+    trainer = legacy.OSDTrainerTests.trainer
+    saved = legacy.OSDTrainerTests.saved
+
+    def setUp(self):
+        legacy.OSDTrainerTests.setUp(self)
+        template = Path(__file__).parents[1] / 'configs/osd.yaml'
+        self.config.write_text(template.read_text())
+        # Keep real sampling/caps, BF16 loss, accumulation and optimizer. The
+        # small CPU fixture deliberately doesn't compile the GPU Flex kernel.
+        tiny_loader = assembly.build_model_bundle.side_effect
+        def configured_tiny(cfg, **kwargs):
+            bundle = tiny_loader(cfg, **kwargs)
+            bundle.model.num_anchors = cfg.training.num_anchors
+            return bundle
+        assembly.build_model_bundle.side_effect = configured_tiny
+        for index in range(2, 8):
+            raw = torch.load(self.features[index % 2], weights_only=True)
+            raw['record_id'] = f'response_{index}'
+            raw['label_binding']['record_id'] = raw['record_id']
+            path = self.root / f'feedback_{index}.pt'
+            torch.save(raw, path)
+            self.features.append(path)
+
+    def test_config_pins_requested_settings_and_keeps_legacy_defaults(self):
+        cfg, recipe = load_event_config(self.config)
+        self.assertEqual(recipe.model_dump(), dict(optimizer='bf16_adamw', weight_decay=0.01,
+                                                  shuffle_responses=True, kl_precision='bfloat16'))
+        self.assertEqual((cfg.training.learning_rate, cfg.training.lr_scheduler), (3e-4, 'constant'))
+        self.assertEqual((cfg.training.warmup_ratio, cfg.training.optimizer_cpu_offload), (0.0, False))
+        self.assertEqual((cfg.training.num_anchors, cfg.training.attention_backend), (512, 'flex_attention'))
+        self.assertEqual((cfg.training.accumulation_steps, cfg.training.max_steps), (2, 8))
+        self.assertEqual((cfg.model.torch_dtype, cfg.data.max_length), ('bfloat16', 2048))
+        old_cfg, old_recipe = load_event_config(Path(__file__).parents[1] / 'configs/qualification.yaml')
+        self.assertEqual(old_recipe, OnlineRecipe())
+        self.assertEqual(old_cfg.training.num_anchors, 64)
+        for section in ('online_feedback', 'training'):
+            bad = yaml.safe_load(self.config.read_text())
+            bad[section]['typo'] = True
+            path = self.root / f'{section}.yaml'
+            path.write_text(yaml.safe_dump(bad))
+            with self.assertRaises(ValidationError):
+                load_event_config(path)
+
+    def test_eight_responses_twice_give_eight_constant_lr_steps_and_recorded_shuffle(self):
+        trainer = self.trainer(objective='osd')
+        self.assertIsInstance(trainer.backend.optimizer, DirectBF16AdamW)
+        self.assertEqual(trainer.bundle.model.loss_dtype, torch.bfloat16)
+        source_order = list(self.features)
+        event = trainer.train_event('e1', self.features)
+        self.assertEqual(self.features, source_order)
+        self.assertEqual((event['optimizer_steps'], event['response_presentations']), (8, 16))
+        orders = [[row['record_id'] for row in event['records'] if row['pass'] == p] for p in (0, 1)]
+        expected_ids = [f'response_{i}' for i in range(8)]
+        for order in orders:
+            self.assertCountEqual(order, expected_ids)
+        self.assertNotEqual(orders[0], orders[1])
+        self.assertNotEqual(orders[0], expected_ids)
+        self.assertEqual([r['learning_rate'] for r in event['records'] if r['optimizer_stepped']], [3e-4] * 8)
+        for row in event['records']:
+            observation, = row['sampled_anchors']
+            length = 12 if int(row['record_id'].split('_')[-1]) % 2 == 0 else 10
+            anchors = observation['positions'][0]
+            self.assertEqual(len(anchors), length - 5)
+            self.assertTrue(all(4 <= anchor <= length - 2 for anchor in anchors))
+        state = self.saved(trainer)
+        self.assertEqual(state['algorithm_contract']['online_training_recipe'], trainer.recipe.model_dump())
+        self.assertEqual(state['algorithm_contract']['online_target_objective']['loss_precision'], 'bfloat16')
+        for value in trainer.backend.optimizer.optimizer.state.values():
+            self.assertEqual(value['exp_avg'].dtype, torch.bfloat16)
+            self.assertEqual(value['exp_avg_sq'].dtype, torch.bfloat16)
+
+    def test_resume_reproduces_shuffle_anchors_weights_moments_and_rng(self):
+        original = self.trainer('original', objective='osd')
+        original.train_event('e1', self.features[:4])
+        checkpoint = self.root / 'checkpoint.pt'
+        checkpoint.write_bytes(original.latest.read_bytes())
+        expected_event = original.train_event('e2', self.features[4:])
+        expected = self.saved(original)
+        resumed = self.trainer('resumed', objective='osd', resume_state=checkpoint)
+        actual_event = resumed.train_event('e2', self.features[4:])
+        actual = self.saved(resumed)
+        for key in ('draft_state_dict', 'backend', 'rng', 'global_step', 'presentations'):
+            self.assertTrue(trees_equal(expected[key], actual[key]), key)
+        for key in ('record_id', 'pass', 'sampled_anchors', 'learning_rate'):
+            self.assertEqual([r[key] for r in expected_event['records']],
+                             [r[key] for r in actual_event['records']])
+
+    def test_incompatible_recipe_is_rejected_before_model_mutation(self):
+        original = self.trainer('original', objective='osd')
+        original.train_event('e1', self.features[:2])
+        raw = yaml.safe_load(self.config.read_text())
+        raw['online_feedback']['shuffle_responses'] = False
+        self.config.write_text(yaml.safe_dump(raw))
+        destination = self.trainer('destination', objective='osd')
+        before = copy.deepcopy(destination.bundle.draft_model.state_dict())
+        with self.assertRaisesRegex(ValueError, 'Resume configuration'):
+            destination._restore(original.latest)
+        self.assertTrue(trees_equal(before, destination.bundle.draft_model.state_dict()))
+        self.assertEqual(destination.global_step, 0)
+
+    def test_512_cap_preserves_adjacent_response_eligibility(self):
+        trainer = self.trainer(objective='osd')
+        mask = torch.ones(1, 620)
+        mask[:, :4] = 0
+        mask[:, 300] = 0
+        anchors, keep = trainer.bundle.model._sample_anchor_positions(620, mask, torch.device('cpu'))
+        selected = anchors[keep]
+        self.assertEqual(selected.numel(), 512)
+        self.assertTrue(torch.all(mask[0, selected] == 1))
+        self.assertTrue(torch.all(mask[0, selected + 1] == 1))
+        raw = torch.load(self.features[0], weights_only=True)
+        batch = trainer._batch(raw)
+        for key in ('input_ids', 'loss_mask', 'hidden_states', 'target_last_hidden_states'):
+            self.assertTrue(torch.equal(raw[key], batch.tensors[key]), key)
+
+    def test_contradictory_optimizer_settings_fail_before_loading_models(self):
+        for field, value in [('lr_scheduler', 'cosine'), ('optimizer_cpu_offload', True), ('warmup_ratio', 0.1)]:
+            raw = yaml.safe_load((Path(__file__).parents[1] / 'configs/osd.yaml').read_text())
+            raw['training'][field] = value
+            self.config.write_text(yaml.safe_dump(raw))
+            assembly.build_model_bundle.reset_mock()
+            with self.assertRaisesRegex(ValueError, 'Direct BF16 AdamW requires'):
+                self.trainer(field, objective='osd')
+            assembly.build_model_bundle.assert_not_called()
+
+
+if __name__ == '__main__':
+    unittest.main()

@@ -1,0 +1,240 @@
+"""Reuse passed qualification, train one G event, then evaluate retained K/G."""
+import json
+from pathlib import Path
+import signal
+import sys
+import time
+import traceback
+
+from online_feedback.storage import write_json
+
+
+def validate_scope(manifest, ordinary, retained_k):
+    from experiments.osd_one_event.protocol import validate_manifest
+    validate_manifest(manifest)
+    expected = dict(status='completed', passes=2, optimizer_steps=128,
+                    response_presentations=256, start_step=0, end_step=128)
+    for receipt, objective in ((ordinary, 'osd'), (retained_k, 'osd_first_error')):
+        if receipt['objective'] != objective or any(receipt[k] != v for k, v in expected.items()):
+            raise ValueError('Require the completed original one-event O/K receipts')
+        if len(receipt['features']) != 128 or len(receipt['records']) != 256:
+            raise ValueError('Original feedback and presentation counts differ')
+    if retained_k['features'] != ordinary['features']:
+        raise ValueError('K must have used the original feedback pool')
+    for left, right in zip(ordinary['records'], retained_k['records'], strict=True):
+        for key in ('record_id', 'pass', 'sampled_anchors', 'optimizer_stepped', 'optimizer_step_after'):
+            if left[key] != right[key]:
+                raise ValueError('Retained schedule differs: ' + key)
+    if len(manifest['eval_requests']) != 64:
+        raise ValueError('Keep the original 64-request development panel')
+
+
+def check_event(receipt, ordinary):
+    expected = dict(status='completed', objective='osd_first_error', passes=2,
+                    response_presentations=256, optimizer_steps=128, start_step=0, end_step=128)
+    if any(receipt[k] != v for k, v in expected.items()):
+        raise ValueError('G must finish exactly one original K-objective event')
+    if receipt['features'] != ordinary['features']:
+        raise ValueError('G feedback changed')
+    for left, right in zip(receipt['records'], ordinary['records'], strict=True):
+        for key in ('record_id', 'pass', 'sampled_anchors', 'optimizer_stepped', 'optimizer_step_after'):
+            if left[key] != right[key]:
+                raise ValueError('G presentation/anchor trajectory changed: ' + key)
+
+
+def check_guard_report(report):
+    work = report['work']
+    expected = dict(current_response_forwards=256, h_backward_calls=256,
+                    k_backward_calls=256, probe_response_forwards=18)
+    if any(work[key] != value for key, value in expected.items()):
+        raise ValueError('G forward/backward or local probe budget differs')
+    if [row['optimizer_step'] for row in report['steps']] != list(range(1, 129)):
+        raise ValueError('Require one global guard decision per optimizer step')
+    expected_probes = {(step, candidate) for step in (1, 64, 128)
+                       for candidate in ('ordinary_K', 'projected_G', 'norm_scaled_K')}
+    if (len(report['probes']) != 9 or
+            {(row['optimizer_step'], row['candidate']) for row in report['probes']} != expected_probes or
+            any(len(row['responses']) != 2 for row in report['probes'])):
+        raise ValueError('Require exactly the declared 18 local response probes')
+
+
+
+def load_qualification(plan):
+    """Reuse exact repaired controls, without executing their disposable steps."""
+    root = Path(plan['qualification_reused_from'])
+    result = json.loads((root / 'RESULT.json').read_text())
+    budget = json.loads((root / 'BUDGET.json').read_text())
+    expected_counts = dict(temporary_optimizer_step_completed=3, response_presentations=6,
+                           qualification_k_backward_completed=6,
+                           startup_response_evaluation_completed=2, startup_backward_completed=2)
+    if result['status'] != 'passed' or not budget['exact_equal']:
+        raise ValueError('A complete passed repair qualification is required')
+    if [(row['label'], row['status']) for row in result['trials']] != [
+            ('K', 'passed'), ('G_disabled', 'passed'), ('G_enabled', 'passed')]:
+        raise ValueError('All three repaired native controls must have passed')
+    if any(result['work_counts'][key] != value for key, value in expected_counts.items()):
+        raise ValueError('Reused qualification accounting differs from its bounded scope')
+    runtime = result['runtime_compatibility']
+    if any(runtime[key] is not False for key in ('effective', 'effective_at_completion', 'effective_at_exit')):
+        raise ValueError('Reused qualification did not preserve the compiler pin')
+    for key in ('ordinary_receipt', 'pinned_initial'):
+        if result[key] != plan[key]:
+            raise ValueError('Reused qualification has different ' + key)
+    if Path(result['config']).read_bytes() != Path(plan['config']).read_bytes():
+        raise ValueError('Main configuration differs from the qualified configuration')
+    return dict(result, path=str(root), reused=True, new_optimizer_steps=0,
+                new_response_presentations=0, historical_only=True,
+                included_in_current_campaign_wall=False)
+
+
+def run(root):
+    import torch
+    from online_feedback.training import SpecForgeEventTrainer
+    from online_feedback.prefix_guard import install_guard
+    from online_feedback.sglang_backend import SGLangDFlashBackend
+    from experiments.prefix_guard.qualify import (
+        WorkLog, pin_retained_graph_runtime, require_runtime_pin, run_startup, prepare_main)
+    from experiments.prefix_guard.evaluator import evaluate
+
+    root = Path(root)
+    plan = json.loads((root / 'sealed/PLAN.json').read_text())
+    manifest = json.loads(Path(plan['manifest']).read_text())
+    ordinary = json.loads(Path(plan['ordinary_receipt']).read_text())
+    retained_k = json.loads(Path(plan['k_receipt']).read_text())
+    validate_scope(manifest, ordinary, retained_k)
+    output = root / 'campaign_001'
+    output.mkdir(exist_ok=False)
+    started = time.perf_counter()
+    progress = dict(status='running', phase='reusing_qualification', main_optimizer_steps=0,
+                    main_presentations=0, new_feedback_generations=0, automatic_retry=False,
+                    new_qualification_optimizer_steps=0, new_qualification_presentations=0)
+    costs = dict(new_qualification_optimizer_steps=0, new_qualification_presentations=0)
+    trainer = backend = guard = startup_log = None
+    failure = None
+    write_json(output / 'STATUS.json', progress)
+    try:
+        costs['reused_qualification'] = load_qualification(plan)
+        write_json(output / 'REUSED_QUALIFICATION.json', costs['reused_qualification'])
+        runtime_pin = pin_retained_graph_runtime(output)
+        runtime_pin.update(applied_before='disposable startup and fresh main G construction',
+                           scope='process-wide ordinary startup and main G')
+        if runtime_pin['torch_version'] != costs['reused_qualification']['runtime_compatibility']['torch_version']:
+            raise ValueError('Training Torch version differs from passed qualification')
+        costs['runtime_compatibility'] = runtime_pin
+        write_json(output / 'RUNTIME_COMPATIBILITY.json', runtime_pin)
+        progress.update(qualification='reused_passed', phase='startup')
+        write_json(output / 'STATUS.json', progress)
+
+        # Warm compiled process caches in a disposable ordinary runtime. No Adam
+        # step or guard runs here; the subsequent main trainer is constructed fresh.
+        startup_log = WorkLog(output / 'startup')
+        startup_log.trial = 'main_process_startup'
+        pinned = torch.load(plan['pinned_initial'], map_location='cpu', weights_only=False, mmap=True)
+        require_runtime_pin()
+        costs['startup'] = run_startup(plan['config'], ordinary, pinned, startup_log, output / 'startup')
+        del pinned
+        expected_startup = dict(status='passed', response_evaluations=2, backwards=2,
+                                optimizer_steps=0, exact_initial_state_restored=True,
+                                separate_disposable_runtime=True)
+        if any(costs['startup'][key] != value for key, value in expected_startup.items()):
+            raise ValueError('Main process startup must restore exactly without optimizer steps')
+        costs['startup_work_counts'] = dict(startup_log.counts)
+        progress['phase'] = 'loading_G'
+        write_json(output / 'STATUS.json', progress)
+        torch.cuda.reset_peak_memory_stats()
+        loading_started = time.perf_counter()
+        require_runtime_pin()
+        trainer = SpecForgeEventTrainer(plan['config'], output / 'G', objective='osd_first_error',
+                                        reduction='response_mean', ranking_lambda=0)
+        initialization = prepare_main(trainer, plan['pinned_initial'], output / 'initialization')
+        require_runtime_pin()
+        costs['loading_and_initialization_s'] = time.perf_counter() - loading_started
+        write_json(output / 'INITIALIZATION.json', initialization)
+        guard = install_guard(trainer, enabled=True, probe_steps=(1, 64, 128),
+                              output_dir=output / 'guard')
+        progress['phase'] = 'training_G'
+        write_json(output / 'STATUS.json', progress)
+        training_started = time.perf_counter()
+        receipt = trainer.train_event('event_001', [Path(row['path']) for row in ordinary['features']],
+                                      passes=2, presentation_schedule=ordinary)
+        costs['event_wall_s'] = time.perf_counter() - training_started
+        check_event(receipt, ordinary)
+        check_guard_report(receipt['prefix_guard'])
+        require_runtime_pin()
+        costs['event'] = receipt['costs']
+        costs['objective_work'] = receipt['objective_work']
+        costs['peak_allocated_bytes'] = torch.cuda.max_memory_allocated()
+        costs['peak_reserved_bytes'] = torch.cuda.max_memory_reserved()
+        progress.update(main_optimizer_steps=trainer.global_step,
+                        main_presentations=trainer.presentations)
+        checkpoint = receipt['checkpoint_path']
+        costs['guard'] = guard.report()
+        write_json(output / 'GUARD_EVIDENCE.json', costs['guard'])
+        guard.close()
+        trainer.close()
+        write_json(output / 'TRAINER_CLOSED.json', trainer.status())
+        trainer = None
+        guard = None
+        import gc
+        gc.collect()
+        torch.cuda.empty_cache()
+        progress['phase'] = 'loading_native'
+        write_json(output / 'STATUS.json', progress)
+        backend = SGLangDFlashBackend(plan['target'], plan['draft'],
+            worker_python=plan['worker_python'], output_root=output / 'native',
+            serving_gpu='0', context_limit=4096, block_size=16)
+        costs['backend_loading_s'] = backend.loading_s
+        progress['phase'] = 'evaluation'
+        write_json(output / 'STATUS.json', progress)
+        progress['evaluation'] = evaluate(backend, manifest['eval_requests'],
+            {'K': retained_k['checkpoint_path'], 'G': checkpoint}, output / 'evaluation')
+        progress.update(status='completed', phase='finished')
+    except BaseException as error:
+        failure = error
+        progress.update(status='failed', error=repr(error), traceback=traceback.format_exc())
+        if trainer is not None:
+            progress['trainer_at_failure'] = trainer.status()
+            progress.update(main_optimizer_steps=trainer.global_step,
+                            main_presentations=trainer.presentations)
+            trainer.failed = True
+        raise
+    finally:
+        # Preserve the original failure if cleanup also fails. The guard keeps
+        # compact diagnostics after close, even though its heavy model refs clear.
+        def cleanup(action, label):
+            try:
+                action()
+            except BaseException as error:
+                progress.setdefault('cleanup_errors', []).append(dict(operation=label, error=repr(error)))
+                if failure is not None:
+                    failure.add_note(label + ': ' + repr(error))
+                else:
+                    progress.update(status='failed', phase='cleanup', error=repr(error))
+        if startup_log is not None:
+            costs['startup_work_counts'] = dict(startup_log.counts)
+        if guard is not None:
+            costs['guard'] = guard.report()
+            write_json(output / 'GUARD_EVIDENCE.json', costs['guard'])
+            cleanup(guard.close, 'close_guard')
+        if trainer is not None:
+            cleanup(trainer.close, 'close_trainer')
+            write_json(output / 'TRAINER_CLOSED.json', trainer.status())
+        if backend is not None:
+            cleanup(backend.close, 'close_backend')
+        costs['actual_campaign_wall_s'] = time.perf_counter() - started
+        costs['accounting'] = ('Reused qualification is historical, excluded from this campaign wall time. '
+            'Two new disposable startup forward/backward evaluations use zero optimizer steps. '
+            'Training, guard and local probe work are inside event_wall_s; nested costs are not added twice. '
+            'Serving latency excludes loading/training/publication and all probes. '
+            'Feedback/features are reused, with zero new collection/preparation, not zero historical cost.')
+        write_json(output / 'COSTS.json', costs)
+        write_json(output / 'STATUS.json', progress)
+        if failure is None and progress.get('cleanup_errors'):
+            raise RuntimeError('Campaign cleanup failed; see STATUS.json')
+
+
+if __name__ == '__main__':
+    def interrupted(signum, frame):
+        raise InterruptedError('Supervisor signal ' + str(signum))
+    signal.signal(signal.SIGTERM, interrupted)
+    run(sys.argv[1])

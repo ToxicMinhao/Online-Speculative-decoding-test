@@ -1,0 +1,17 @@
+diff --git a/scripts/prepare_hidden_states.py b/scripts/prepare_hidden_states.py
+index da6a5ee..0fe221d 100644
+--- a/scripts/prepare_hidden_states.py
++++ b/scripts/prepare_hidden_states.py
+@@ -822,11 +822,7 @@ def main():
+         dataset = Dataset.from_generator(
+             generator=safe_conversations_generator,
+             gen_kwargs={"file_path": args.data_path},
+-            cache_dir=os.path.join(
+-                os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+-                "cache",
+-                "hf_dataset",
+-            ),
++            cache_dir=os.path.join(args.cache_dir, "hf_dataset"),
+             num_proc=min(args.build_dataset_num_proc, 32),
+         )
+     if args.num_samples is not None and capture_plan.loss_mask_filter is None:

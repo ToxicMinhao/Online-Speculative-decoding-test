@@ -1,0 +1,184 @@
+"""Prepare the user-authorized current-study-new panel without model execution.
+
+Prior generated results never rank or filter source questions. Historical use
+is annotated only after the fixed seed has selected 64 eligible source rows.
+"""
+import ast
+import hashlib
+import importlib.metadata
+import json
+from pathlib import Path
+import random
+import unicodedata
+
+import pyarrow.parquet as pq
+from transformers import AutoTokenizer
+
+ROOT = Path('/home/minhao2/EAGLE_SPEC')
+RESEARCH = ROOT / 'research'
+OUT = Path(__file__).resolve().parent
+REV = '740312add88f781978c0658806c59bc2815b9866'
+TOKENIZER_REV = 'b968826d9c46dd6066d109eabc6255188de91218'
+TOKENIZER = Path('/home/minhao2/.cache/huggingface/hub/models--Qwen--Qwen3-8B/snapshots') / TOKENIZER_REV
+SEED = 20261027
+SUFFIX = '\nPlease reason step by step, and put your final answer within \\boxed{}.'
+
+
+def sha(path):
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def digest(value):
+    return hashlib.sha256(json.dumps(value, separators=(',', ':'), ensure_ascii=False).encode()).hexdigest()
+
+
+def norm(text):
+    return ' '.join(unicodedata.normalize('NFKC', text).split())
+
+
+def load(path):
+    return json.loads(path.read_text())
+
+
+def save(path, value):
+    path.write_text(json.dumps(value, indent=2, ensure_ascii=False) + '\n')
+
+
+def main():
+    amendment = OUT.parent / 'FRESHNESS_AMENDMENT.md'
+    assert 'Use 64 requests new to the current O/K study' in amendment.read_text()
+    inventory_path = OUT / 'INVENTORY_AUDIT.json'
+    inventory = load(inventory_path)
+    current_path = OUT / 'CURRENT_STUDY_SOURCE_IDS.json'
+    current = load(current_path)
+    old_manifest_path = RESEARCH / 'dflash_osd_one_event_20261025/sealed/MANIFEST.json'
+    old = load(old_manifest_path)
+    assert sha(old_manifest_path) == current['source_manifest_sha256']
+    source_manifest_path = RESEARCH / 'projected_target_feasibility_20261022/data/approved/manifest.json'
+    source_manifest = load(source_manifest_path)
+    sources, question = {}, {}
+    for split in ('train', 'test'):
+        source = source_manifest['sources'][f'gsm8k_{split}']
+        path = Path(source['local_path'])
+        assert source['revision'] == REV and sha(path) == source['sha256']
+        question[split] = [r['question'] for r in pq.read_table(path, columns=['question']).to_pylist()]
+        assert len(question[split]) == source['rows']
+        sources[split] = {'path': str(path), 'sha256': sha(path), 'rows': len(question[split])}
+
+    # Include every current feedback question, every development question, and
+    # every current diagnostic input (the latter are subsets of those sets).
+    train_indices = {r['source_row'] for r in current['train']}
+    dev_indices = {r['source_row'] for r in current['test']}
+    assert len(train_indices) == 128 and len(dev_indices) == 64
+    train_text = {norm(question['train'][i]) for i in train_indices}
+    dev_text = {norm(question['test'][i]) for i in dev_indices}
+    excluded, dedup, eligible = [], set(), []
+    for index, text in enumerate(question['test']):
+        normalized = norm(text)
+        reasons = []
+        if index in dev_indices:
+            reasons.append('current_study_development_source_id')
+        if normalized in train_text:
+            reasons.append('normalized_question_matches_current_feedback')
+        if normalized in dev_text:
+            reasons.append('normalized_question_matches_current_development_or_probe')
+        if normalized in dedup:
+            reasons.append('duplicate_normalized_test_question')
+        dedup.add(normalized)
+        if reasons:
+            excluded.append({'source_row': index, 'reasons': reasons})
+        else:
+            eligible.append(index)
+    assert len(eligible) >= 64
+    shuffled = list(eligible)
+    random.Random(SEED).shuffle(shuffled)
+    selected = shuffled[:64]
+    assert len(set(selected)) == 64 and not (set(selected) & dev_indices)
+
+    # Import only the two author text-template helpers; no model loading.
+    template_source = Path('/home/minhao2/DFlash-Research/inference/dflash/benchmark.py')
+    syntax = ast.parse(template_source.read_text())
+    helpers = ast.Module(body=[node for node in syntax.body if isinstance(node, ast.FunctionDef)
+                              and node.name in {'_reasoning_kwargs', 'apply_chat_template'}], type_ignores=[])
+    namespace = {}
+    exec(compile(helpers, str(template_source), 'exec'), namespace)
+    render = namespace['apply_chat_template']
+    tokenizer = AutoTokenizer.from_pretrained(TOKENIZER, local_files_only=True)
+    generation_config = load(TOKENIZER / 'generation_config.json')
+    stop_ids = generation_config['eos_token_id'] or tokenizer.eos_token_id
+    if isinstance(stop_ids, int):
+        stop_ids = [stop_ids]
+    assert stop_ids == [151645, 151643]
+
+    def render_question(split, index, suffix):
+        text = render(tokenizer, [{'role': 'user', 'content': question[split][index] + suffix}], 'off')
+        return tokenizer.encode(text, add_special_tokens=False), text
+
+    # Reconstruct every inherited prompt ID before preparing any runnable row.
+    for split, key, suffix in (('train', 'train_requests', ''), ('test', 'eval_requests', SUFFIX)):
+        for metadata, retained in zip(current[split], old[key]):
+            assert metadata['request_id'] == retained['request_id']
+            ids, _ = render_question(split, metadata['source_row'], suffix)
+            assert ids == retained['prompt_ids'], metadata['request_id']
+
+    # Historical evidence is annotation only: selection above is already fixed.
+    prior = {}
+    for source in inventory['primary_completed_execution_sets']:
+        for index in source['source_rows']:
+            prior.setdefault(index, source['directory'])
+    for index in inventory['oct22_additional_completed_source_rows']:
+        prior.setdefault(index, 'research/projected_target_feasibility_20261022/retrieved/final_recovery/campaign_002/gsm8k/F/records/')
+    for index in inventory['async_final_additional_completed_source_rows']:
+        prior.setdefault(index, 'research/dflash_async_passes_20261006/recovery_001/retrieved_001/run_001/final_one_pass/responses.jsonl')
+    requests, source_rows = [], []
+    for ordinal, index in enumerate(selected):
+        ids, rendered = render_question('test', index, SUFFIX)
+        assert ids and len(ids) + 2048 + 16 <= 4096
+        source_id = f'gsm8k:main:test:{index}'
+        row = {
+            'request_id': f'fresh_eval_{ordinal:05d}', 'panel_ordinal': ordinal,
+            'original_index': index, 'dataset_id': source_id,
+            'prompt_ids': ids, 'stop_token_ids': stop_ids, 'max_new_tokens': 2048,
+            'source_revision': REV, 'source_split': 'test',
+            'question_sha256': hashlib.sha256(question['test'][index].encode()).hexdigest(),
+            'normalized_question_sha256': hashlib.sha256(norm(question['test'][index]).encode()).hexdigest(),
+            'prompt_ids_sha256': digest(ids),
+            'older_project_execution_verified': index in prior,
+            'older_project_execution_evidence': prior.get(index),
+        }
+        requests.append(row)
+        source_rows.append({'request_id': row['request_id'], 'source_row': index, 'question': question['test'][index], 'rendered_prompt': rendered})
+    assert len({r['normalized_question_sha256'] for r in requests}) == 64
+    assert not ({norm(question['test'][i]) for i in selected} & (train_text | dev_text))
+    panel_path = OUT / 'NEW_PANEL.json'
+    save(panel_path, requests)
+    save(OUT / 'SELECTED_QUESTIONS.json', source_rows)
+    audit = {
+        'schema': 'first_error_current_study_new_panel_v1',
+        'selection_complete': True, 'scientific_generations': 0,
+        'selection_seed': SEED, 'selected_count': 64,
+        'freshness_scope': 'New to the current one-event O/K study only; prior unrelated project execution explicitly permitted by the user amendment and disclosed per row',
+        'global_freshness': False,
+        'selection_algorithm': 'Official test rows ascending; exclude current-study source IDs and NFKC/whitespace-normalized current feedback/development/probe questions; exact normalized dedup; Python random.Random(20261027).shuffle(eligible_rows); take first64; no answer/model-output/quality/call-count/latency filtering',
+        'eligible_count': len(eligible), 'excluded_count': len(excluded),
+        'excluded_rows': excluded, 'selected_source_rows_in_order': selected,
+        'current_feedback_rows': sorted(train_indices), 'current_development_rows': sorted(dev_indices),
+        'current_diagnostic_and_qualification_scope': current['qualification_scope'],
+        'matched_retained_training_prompt_ids': 128,
+        'matched_retained_development_prompt_ids': 64,
+        'selection_older_executed_count': sum(r['older_project_execution_verified'] for r in requests),
+        'selection_older_execution_not_established_count': sum(not r['older_project_execution_verified'] for r in requests),
+        'source': {'dataset': 'openai/gsm8k', 'revision': REV, 'configuration': 'main', 'split': 'test', 'files': sources},
+        'preprocessing': {'question_text': 'Original source question unchanged', 'user_suffix': SUFFIX, 'messages': 'One user message; no explicit system message', 'reasoning': 'off', 'enable_thinking': False, 'add_generation_prompt': True, 'tokenize_template': False, 'encode_add_special_tokens': False, 'source_answers_loaded': False, 'template_helper_path': str(template_source), 'template_helper_sha256': sha(template_source)},
+        'tokenizer': {'repository': 'Qwen/Qwen3-8B', 'revision': TOKENIZER_REV, 'path': str(TOKENIZER), 'local_files_only': True, 'file_sha256': {name: sha(TOKENIZER / name) for name in ['tokenizer.json', 'tokenizer_config.json', 'vocab.json', 'merges.txt', 'generation_config.json', 'config.json']}, 'transformers_version': importlib.metadata.version('transformers'), 'tokenizers_version': importlib.metadata.version('tokenizers')},
+        'generation_contract': {'max_new_tokens': 2048, 'stop_token_ids': stop_ids, 'context_limit': 4096, 'block_size': 16, 'prompt_min_tokens': min(len(r['prompt_ids']) for r in requests), 'prompt_max_tokens': max(len(r['prompt_ids']) for r in requests), 'truncation': False, 'resampling_after_output': False},
+        'bindings': {str(p): sha(p) for p in [amendment, inventory_path, current_path, old_manifest_path, source_manifest_path, Path(__file__)]},
+        'panel_sha256': sha(panel_path),
+        'selected_questions_sha256': sha(OUT / 'SELECTED_QUESTIONS.json'),
+    }
+    save(OUT / 'SELECTION_AUDIT.json', audit)
+    print(json.dumps({k: audit[k] for k in ['eligible_count', 'excluded_count', 'selected_count', 'selected_source_rows_in_order', 'matched_retained_training_prompt_ids', 'matched_retained_development_prompt_ids', 'selection_older_executed_count', 'selection_older_execution_not_established_count', 'generation_contract', 'panel_sha256']}, indent=2))
+
+
+if __name__ == '__main__':
+    main()

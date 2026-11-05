@@ -1,0 +1,150 @@
+{
+  "status": "ANALYZED",
+  "review_type": "Separate read-only interpretation/source review and independent aggregate CSV arithmetic",
+  "execution_commit": "19ee22faf985e0576d287eaa8c8624b5a44b46f5",
+  "created_utc": "2026-11-01T01:38:53.155328+00:00",
+  "blocking_findings": [],
+  "scope_limits": [
+    "Reviewer authored archive.py/evaluation.py earlier; this is separate from report/statistics implementation, not an independent end-to-end implementation.",
+    "No GPU rerun, remote calls, training, recovery-tensor decoding, full raw-native audit, or bootstrap recomputation performed in this review.",
+    "Reported bootstrap endpoints are source/contract reviewed here; a separate raw/statistical auditor reconstructs them."
+  ],
+  "checks_performed": [
+    "combined: five call totals and eight point effects/win-loss-tie/gross totals agree",
+    "17: five call totals and eight point effects/win-loss-tie/gross totals agree",
+    "29: five call totals and eight point effects/win-loss-tie/gross totals agree"
+  ],
+  "paired_rows": 256,
+  "method_calls": {
+    "combined": {
+      "F": 16300,
+      "O": 16379,
+      "K": 16303,
+      "O_HALF": 16042,
+      "K_HALF": 15865
+    },
+    "17": {
+      "F": 8150,
+      "O": 8177,
+      "K": 8140,
+      "O_HALF": 8035,
+      "K_HALF": 7949
+    },
+    "29": {
+      "F": 8150,
+      "O": 8202,
+      "K": 8163,
+      "O_HALF": 8007,
+      "K_HALF": 7916
+    }
+  },
+  "decision": {
+    "branch": "A",
+    "primary_point_pct": 1.1033536965465607,
+    "reported_ci95_pct": [
+      0.45478794436844744,
+      1.8058519261441812
+    ],
+    "seed_points_pct": [
+      1.0703173615432493,
+      1.1365055576370686
+    ],
+    "true_effect_above_0_5_percent_established": false
+  },
+  "prelaunch_repairs": {
+    "tuple_transport": "Exactly three pinned tuple-valued provider fields decoded from JSON; strict native state comparators unchanged; both real initial states pass CPU-only migration.",
+    "deployment": "35 missing committed PR21 publication files caused production_001 CPU preflight stop with zero model work. Copied exact files; production_002 uses same 19ee22f execution and passes all2790sealedidentities."
+  },
+  "fallacy_scan": {
+    "Simpson paradox": "Checked: pooled primary and both fixed-seed directions are positive; all seed tables remain visible.",
+    "Ecological fallacy": "Checked: 256 seed/request outcomes are descriptive; bootstrap uses 128 joint request identities, not independent seed replicas.",
+    "Berkson/selection bias": "Caution retained: this reused panel already informed K_HALF choice; report calls the result development/ablation evidence.",
+    "Collider bias": "No outcome-conditioned filtering or adjustment is claimed; canonical and count gates are correctness conditions, not efficacy selection.",
+    "Base rate neglect": "Not a diagnostic-accuracy analysis; raw calls, wins/losses/ties and denominators are given.",
+    "Regression to mean": "Caution retained: selected provisional K_HALF is assessed on reused inputs; no fresh confirmation claim.",
+    "Survivorship bias": "Completion records account for all 1072 generations and eight training jobs; failed pre-model admission remains separately preserved.",
+    "Look elsewhere": "Primary prespecified; secondary intervals explicitly descriptive/unadjusted. No multiplicity-adjusted claim.",
+    "Forking paths": "Fixed handoff, source seal and endpoints; two launch repairs did not change scientific settings or work budget.",
+    "Correlation/causation": "Endpoint objective comparison is supported; no isolated selection/normalization, gradient-conflict, preservation, latency or deployment cause is claimed.",
+    "Reverse causality": "The training precedes fixed endpoint evaluation; no claim that observed outcomes selected training data or settings."
+  },
+  "delivery_notes": [
+    "Final narrative should include the preserved pre-model repair lineage; generated raw REPORT.md does not currently narrate it.",
+    "State that both lower-LR recipes improve their own full-LR controls, while K_HALF retains a further matched-LR advantage; do not claim an interaction from its interval spanning zero.",
+    "Keep one next recommendation: a separately agreed bounded portability/online-setting check of fixed K_HALF, not automatic new execution."
+  ],
+  "files": {
+    "/home/minhao2/EAGLE_SPEC/research/dflash_o_half_matched_lr_20261031/HANDOFF.txt": {
+      "bytes": 27085,
+      "sha256": "e4c39ec53ed1951141d2e76e30a66910094dbdd9255960e11a56d2431cb55d04"
+    },
+    "/home/minhao2/EAGLE_SPEC/research/dflash_o_half_matched_lr_20261031/JSON_TRANSPORT_REPAIR_REVIEW.md": {
+      "bytes": 3064,
+      "sha256": "8a6410501412a0b5c0f14afe240fd332e85f67cede2afd0dd23bb8630893eead"
+    },
+    "/home/minhao2/EAGLE_SPEC/research/dflash_o_half_matched_lr_20261031/DEPLOYMENT_REPAIR.json": {
+      "bytes": 979,
+      "sha256": "01130423254fa9bfc6c9032e8ebd5b69a1afaa9dd1d1fb7ce6385825834205c4"
+    },
+    "/home/minhao2/EAGLE_SPEC/research/dflash_o_half_matched_lr_20261031/production_001/PREFLIGHT.json": {
+      "bytes": 164,
+      "sha256": "69bd8c5e78c6ea089195efb091749c856e27cdc912db164f20f7ef099fc5c7ce"
+    },
+    "/home/minhao2/EAGLE_SPEC/research/dflash_o_half_matched_lr_20261031/production_001/DEPLOYMENT_DIAGNOSIS_V2.json": {
+      "bytes": 6106,
+      "sha256": "20dbdbedda8de8c4bc7ba118bd6cfb9d084a62a4cf79401ef3611386507d2ea0"
+    },
+    "/home/minhao2/EAGLE_SPEC/research/dflash_o_half_matched_lr_20261031/preparation_001/O_HALF_INITIAL_MIGRATION.json": {
+      "bytes": 4942,
+      "sha256": "8a46272f1208495a4aadf735155831f2640e7736bad7c5269a93674f971c77f4"
+    },
+    "/home/minhao2/EAGLE_SPEC/research/dflash_o_half_matched_lr_20261031/production_002/LAUNCH.json": {
+      "bytes": 859,
+      "sha256": "c11afe2c7c0c6ca27370a47c78305978c6e9d682b97bca32342b22611f72b043"
+    },
+    "/home/minhao2/EAGLE_SPEC/research/dflash_o_half_matched_lr_20261031/compact_evidence_001/final_report/REPORT.md": {
+      "bytes": 9096,
+      "sha256": "1c542449c3cbbbd9f64a1c307d50bdb9874e8dbde361bc63805324c0c98cf673"
+    },
+    "/home/minhao2/EAGLE_SPEC/research/dflash_o_half_matched_lr_20261031/compact_evidence_001/final_report/SUMMARY.json": {
+      "bytes": 61972,
+      "sha256": "83d3d127c3b5484aac9504aac8909d36937332a0934be9986457496a42e44878"
+    },
+    "/home/minhao2/EAGLE_SPEC/research/dflash_o_half_matched_lr_20261031/compact_evidence_001/final_report/PAIRED_REQUESTS.csv": {
+      "bytes": 342554,
+      "sha256": "424964c9e41686cd679b3cc10df87e2b201f05412f51e9157ba0e4234b74eda8"
+    },
+    "/home/minhao2/EAGLE_SPEC/research/dflash_o_half_matched_lr_20261031/compact_evidence_001/final_report/COST_SUMMARY.json": {
+      "bytes": 4943,
+      "sha256": "acbd945cb70d0b00304d6c70a8ab41abc01b590cbd4af1a64995cd8dc978f430"
+    },
+    "/home/minhao2/EAGLE_SPEC/research/dflash_o_half_matched_lr_20261031/compact_evidence_001/POSTFLIGHT.json": {
+      "bytes": 1801,
+      "sha256": "a0b70779442fdd5d551bd7f7305e46188820a74c9b4b338f3d517f5088acbcbe"
+    },
+    "/home/minhao2/EAGLE_SPEC/research/dflash_o_half_matched_lr_20261031/compact_evidence_001/RETRIEVAL_RESULT.json": {
+      "bytes": 605,
+      "sha256": "dca588c1819e37b9a2fa8f3d9ec7622118d0cffaad42b784184b8f90b4fdee82"
+    },
+    "/home/minhao2/EAGLE_SPEC/research/dflash_online_publication_20261028/github_checkout/DFlash-Online/experiments/o_half_matched_lr/report.py": {
+      "bytes": 34282,
+      "sha256": "fbbbe5361a39f541f1a51379dca422c9c9217455c92ba0fb964bf10ba9fccd7b"
+    },
+    "/home/minhao2/EAGLE_SPEC/research/dflash_online_publication_20261028/github_checkout/DFlash-Online/experiments/o_half_matched_lr/statistics.py": {
+      "bytes": 10680,
+      "sha256": "c3413ce630b15ec68e1628d06ee9f02e577c154fa0f944145cf2baaf5c72f2f2"
+    },
+    "/home/minhao2/EAGLE_SPEC/research/dflash_online_publication_20261028/github_checkout/DFlash-Online/experiments/o_half_matched_lr/training.py": {
+      "bytes": 21303,
+      "sha256": "b68a6259f56ad2fb0987d6ab7691c5eac5a7272182613785d079c811822998a2"
+    },
+    "/home/minhao2/EAGLE_SPEC/research/dflash_online_publication_20261028/github_checkout/DFlash-Online/experiments/o_half_matched_lr/archive.py": {
+      "bytes": 13651,
+      "sha256": "ce5ce084950eb02711daac09ac060910a894e2db3a58589cfd8241065511234d"
+    },
+    "/home/minhao2/EAGLE_SPEC/research/dflash_online_publication_20261028/github_checkout/DFlash-Online/experiments/o_half_matched_lr/evaluation.py": {
+      "bytes": 14950,
+      "sha256": "b089a4c6206127902a153a5485e1cbf991fe6525f3ebfb19154b33b50cd8c7d7"
+    }
+  }
+}

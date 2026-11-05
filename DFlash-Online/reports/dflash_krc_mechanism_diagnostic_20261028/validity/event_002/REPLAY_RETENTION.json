@@ -1,0 +1,58 @@
+{
+  "status": "completed",
+  "event_number": 2,
+  "exact_decoded_scientific_state": true,
+  "retained_originals": [
+    {
+      "path": "/data/sources/minhao/runs/dflash_krc_continuation_20261028/campaign_001/KRC2/training_state.pt",
+      "bytes": 6292755483,
+      "sha256": "ac6861a87f51e0607f6dabaa262b8eb84ff2195036f8bc341b1161891c4d25d6"
+    },
+    {
+      "path": "/data/sources/minhao/runs/dflash_krc_continuation_20261028/campaign_001/KRC2/events/event_002/export/config.json",
+      "bytes": 1211,
+      "sha256": "5749d96966f9ce7e6a9662c9f482b8aa0d461845fb6b9ce09ac2c08311fab2aa"
+    },
+    {
+      "path": "/data/sources/minhao/runs/dflash_krc_continuation_20261028/campaign_001/KRC2/events/event_002/export/model.safetensors",
+      "bytes": 2097259104,
+      "sha256": "89e12d038799a4b8c2de24fc2e783fc9a075f4d8574528d4e512b1d96004efa9"
+    }
+  ],
+  "regenerated_artifacts_to_retire": [
+    {
+      "path": "/data/sources/minhao/runs/dflash_krc_mechanism_diagnostic_20261028/campaign_001/event_002/replay/training_state.pt",
+      "bytes": 6292755483,
+      "sha256": "97539402b77aadd071ce66f121be007289bebc6f31dea92286ac1f5000d2c87c"
+    },
+    {
+      "path": "/data/sources/minhao/runs/dflash_krc_mechanism_diagnostic_20261028/campaign_001/event_002/replay/events/event_002/export/model.safetensors",
+      "bytes": 2097259104,
+      "sha256": "89e12d038799a4b8c2de24fc2e783fc9a075f4d8574528d4e512b1d96004efa9"
+    }
+  ],
+  "retained_metadata": {
+    "path": "/data/sources/minhao/runs/dflash_krc_mechanism_diagnostic_20261028/campaign_001/event_002/DECODED_REPLAY_METADATA.json",
+    "bytes": 14867,
+    "sha256": "0a8ea7546dd479cc5d67365e91fdf3ece67c59c802de9d08831bb6c674b9524c"
+  },
+  "retained_evidence": [
+    "/data/sources/minhao/runs/dflash_krc_mechanism_diagnostic_20261028/campaign_001/event_002/ENDPOINT_EQUALITY.json",
+    "/data/sources/minhao/runs/dflash_krc_mechanism_diagnostic_20261028/campaign_001/event_002/SAVED_STATE_CHECK.json",
+    "/data/sources/minhao/runs/dflash_krc_mechanism_diagnostic_20261028/campaign_001/event_002/ORIGINAL_ENDPOINT_CHECK.json",
+    "/data/sources/minhao/runs/dflash_krc_mechanism_diagnostic_20261028/campaign_001/event_002/LIVE_ENDPOINT.json",
+    "/data/sources/minhao/runs/dflash_krc_mechanism_diagnostic_20261028/campaign_001/event_002/TRAINING_CHECK.json",
+    "/data/sources/minhao/runs/dflash_krc_mechanism_diagnostic_20261028/campaign_001/event_002/CORRECTION_EVIDENCE.json",
+    "/data/sources/minhao/runs/dflash_krc_mechanism_diagnostic_20261028/campaign_001/event_002/REPLAY_STATE_IDENTITIES.json"
+  ],
+  "reason": "Verified regenerated scientific duplicate; original complete KRC2 remains unchanged",
+  "recovery": "Original endpoint scientific fields plus DECODED_REPLAY_METADATA reproduce decoded replay state",
+  "lost_capability": "Direct load/hash reproduction of the retired serialized replay container and export tensors",
+  "free_before_bytes": 23529545728,
+  "removed_paths": [
+    "/data/sources/minhao/runs/dflash_krc_mechanism_diagnostic_20261028/campaign_001/event_002/replay/training_state.pt",
+    "/data/sources/minhao/runs/dflash_krc_mechanism_diagnostic_20261028/campaign_001/event_002/replay/events/event_002/export/model.safetensors"
+  ],
+  "free_after_bytes": 31919562752,
+  "wall_s": 16.324096774682403
+}

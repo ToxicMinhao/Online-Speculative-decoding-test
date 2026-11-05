@@ -1,0 +1,416 @@
+"""Persistent event adapter over the pinned SpecForge DFlash training spine.
+
+No target projection method is introduced here. Response-mean reduction is an
+explicit adapter; upstream_weight_mean preserves the author's additive ratio.
+Restart files retain upstream draft/backend payloads in one atomic file, plus
+an event ledger and Python/NumPy RNG. Resume uses this adapter, not the CLI's
+fixed-dataset epoch cursor. The upstream HF exporter consumes the same file.
+"""
+from __future__ import annotations
+from dataclasses import replace
+from pathlib import Path
+import hashlib
+import json
+import math
+import os
+import random
+import re
+import time
+
+SCHEMA = 'specforge_event_trainer_v1'
+REDUCTIONS = {'response_mean', 'upstream_weight_mean'}
+
+
+def require(ok, message):
+    if not ok: raise ValueError(message)
+
+
+def file_sha(path):
+    h = hashlib.sha256()
+    with Path(path).open('rb') as stream:
+        for block in iter(lambda: stream.read(4 * 2**20), b''): h.update(block)
+    return h.hexdigest()
+
+
+def token_sha(ids):
+    return hashlib.sha256(json.dumps(list(ids), separators=(',', ':')).encode()).hexdigest()
+
+
+def _plain_path(path):
+    path = Path(path).absolute()
+    for part in (path, *path.parents): require(not part.is_symlink(), 'Symlink is not an event artifact: ' + str(part))
+    return path
+
+
+def validate_feature(raw, *, max_length, hidden_width=None, vocab_size=None):
+    """Validate before normalization: the upstream normalizer can truncate."""
+    import torch
+    require(isinstance(raw, dict), 'Feature must be a dictionary')
+    for key in ('input_ids', 'loss_mask', 'hidden_states', 'record_id', 'prompt_length', 'input_sha256', 'response_sha256'):
+        require(key in raw, 'Missing feature field: ' + key)
+    ids, mask, hidden = raw['input_ids'], raw['loss_mask'], raw['hidden_states']
+    require(isinstance(ids, torch.Tensor) and ids.ndim == 2 and ids.shape[0] == 1 and ids.dtype == torch.int64, 'input_ids must be int64 [1,L]')
+    length = ids.shape[1]
+    require(0 < length <= max_length, 'Whole feature sequence exceeds cap; truncation is forbidden')
+    require(isinstance(mask, torch.Tensor) and tuple(mask.shape) == (1, length), 'loss_mask must be [1,L]')
+    prompt = raw['prompt_length']
+    require(type(prompt) is int and 1 <= prompt <= length - 2, 'Need a prompt and at least two adjacent response tokens')
+    require(bool((mask[:, :prompt] == 0).all()) and bool((mask[:, prompt:] == 1).all()), 'Mask must be prompt-zero and complete-response-one')
+    require(isinstance(hidden, torch.Tensor) and hidden.ndim == 3 and tuple(hidden.shape[:2]) == (1, length) and hidden.is_floating_point(), 'hidden_states must be floating [1,L,H]')
+    require(hidden_width is None or hidden.shape[2] == hidden_width, 'Target feature width differs from draft contract')
+    require(bool(torch.isfinite(hidden).all()), 'Target features contain nonfinite values')
+    require(bool((ids >= 0).all()) and (vocab_size is None or bool((ids < vocab_size).all())), 'Token outside vocabulary')
+    require(isinstance(raw['record_id'], str) and bool(raw['record_id']), 'Nonempty record identity required')
+    tokens = ids[0].tolist()
+    require(raw['input_sha256'] == token_sha(tokens), 'Input-token identity differs')
+    require(raw['response_sha256'] == token_sha(tokens[prompt:]), 'Response-token identity differs')
+    if 'target_last_hidden_states' in raw:
+        last = raw['target_last_hidden_states']
+        require(isinstance(last, torch.Tensor) and last.ndim == 3 and tuple(last.shape[:2]) == (1, length) and
+                last.is_floating_point() and bool(torch.isfinite(last).all()), 'Invalid optional final target features')
+    return {'record_id': raw['record_id'], 'length': length, 'prompt_length': prompt, 'response_tokens': length - prompt,
+            'adjacent_response_positions': length - prompt - 1, 'input_sha256': raw['input_sha256'], 'response_sha256': raw['response_sha256']}
+
+
+class ReductionAdapter:
+    """Delegate one author forward, changing only the declared loss reduction."""
+    def __init__(self, strategy, reduction):
+        require(reduction in REDUCTIONS, 'Unknown loss reduction')
+        self.strategy, self.reduction = strategy, reduction
+    def __getattr__(self, name): return getattr(self.strategy, name)
+    def forward_loss(self, batch, ctx=None):
+        require(batch.tensors['input_ids'].shape[0] == 1, 'Response mean requires batch size one')
+        out = self.strategy.forward_loss(batch, ctx)
+        ratios = dict(out.ratio_metrics)
+        if out.loss_terms is not None: ratios['author_weighted_objective'] = out.loss_terms
+        sums = {**out.sum_metrics, 'response_presentations': out.loss.detach().new_ones(())}
+        terms = (out.loss, out.loss.detach().new_ones(())) if self.reduction == 'response_mean' else out.loss_terms
+        require(terms is not None, 'Author additive objective terms unavailable')
+        return replace(out, loss_terms=terms, ratio_metrics=ratios, sum_metrics=sums)
+
+
+def _sync_dir(path):
+    fd = os.open(path, os.O_RDONLY)
+    try: os.fsync(fd)
+    finally: os.close(fd)
+
+
+def _json_new(path, value):
+    with path.open('x') as stream:
+        json.dump(value, stream, indent=2, sort_keys=True); stream.write('\n'); stream.flush(); os.fsync(stream.fileno())
+    _sync_dir(path.parent)
+
+
+def _rng_extra():
+    import numpy as np
+    import torch
+    return {'python': random.getstate(), 'numpy': np.random.get_state(),
+            'cuda_all': torch.cuda.get_rng_state_all() if torch.cuda.is_initialized() else []}
+
+
+def _restore_extra(value):
+    import numpy as np
+    import torch
+    random.setstate(value['python']); np.random.set_state(value['numpy'])
+    if value.get('cuda_all'):
+        require(len(value['cuda_all']) == torch.cuda.device_count(), 'Visible accelerator count differs on resume')
+        torch.cuda.set_rng_state_all(value['cuda_all'])
+
+
+def _value_sha(value):
+    """Type-aware streaming digest, avoiding a concatenated model/state copy."""
+    import torch
+    import numpy as np
+    digest = hashlib.sha256()
+    def mark(tag, data=b''):
+        digest.update(tag.encode() + b':' + str(len(data)).encode() + b':' + data + b';')
+    def walk(item):
+        if isinstance(item, torch.Tensor):
+            mark('tensor', json.dumps([str(item.dtype), list(item.shape)]).encode())
+            flat = item.detach().reshape(-1)
+            for start in range(0, flat.numel(), 2**20):
+                digest.update(flat[start:start+2**20].contiguous().cpu().view(torch.uint8).numpy().tobytes())
+            mark('end_tensor')
+        elif isinstance(item, np.ndarray):
+            mark('ndarray', json.dumps([str(item.dtype), list(item.shape)]).encode());mark('bytes', item.tobytes())
+        elif isinstance(item, dict):
+            mark('dict', str(len(item)).encode())
+            for key in sorted(item, key=lambda key: (type(key).__name__, repr(key))): walk(key);walk(item[key])
+        elif isinstance(item, (tuple, list)):
+            mark(type(item).__name__, str(len(item)).encode())
+            for entry in item: walk(entry)
+        elif item is None or isinstance(item, (bool, int, float, str)):
+            mark(type(item).__name__, repr(item).encode())
+        elif isinstance(item, np.generic): walk(item.item())
+        else: raise TypeError('Unsupported restart fingerprint value: ' + type(item).__name__)
+    walk(value)
+    return digest.hexdigest()
+
+
+class SpecForgeEventTrainer:
+    def __init__(self, config_path, output_root, resume_state=None, reduction='response_mean'):
+        require(reduction in REDUCTIONS, 'Unknown loss reduction')
+        self.config_path, self.output_root = _plain_path(config_path), _plain_path(output_root)
+        self.config_sha256 = file_sha(self.config_path)
+        self.reduction, self.events, self.global_step, self.presentations = reduction, [], 0, 0
+        self.closed, self.failed, self._owns_distributed = False, False, False
+        self.output_root.mkdir(parents=True, exist_ok=True)
+        self.latest = self.output_root / 'training_state.pt'
+        self.pending_state = self.output_root / 'training_state.pending.pt'
+        self.events_root = self.output_root / 'events'; self.events_root.mkdir(exist_ok=True)
+        require(not self.pending_state.exists(), 'Uncommitted full state exists; manual recovery required')
+        require(resume_state is not None or not self.latest.exists(), 'Existing trainer state requires explicit resume')
+        self._build_runtime()
+        if resume_state is not None: self._restore(_plain_path(resume_state))
+        committed = {row['event_id'] for row in self.events}
+        require(all(path.name in committed for path in self.events_root.iterdir()), 'Uncommitted event directory exists; do not silently replay it')
+
+    def _build_runtime(self):
+        import torch
+        import torch.distributed as dist
+        from accelerate.utils import set_seed
+        from specforge.config import load_config
+        from specforge.application import resolve_run
+        from specforge.training.assembly import build_model_bundle, _optimizer_factory
+        from specforge.training.backend import FSDPTrainingBackend, ParallelConfig
+        from specforge.training.controller import TrainerCore
+        self.cfg = load_config(str(self.config_path))
+        cfg = self.cfg
+        require(cfg.training.strategy == 'dflash' and cfg.training.batch_size == 1, 'Only DFlash batch-one event training is qualified')
+        require(cfg.training.fsdp_sharding == 'NO_SHARD' and cfg.training.tp_size == cfg.training.sp_ulysses_size == cfg.training.sp_ring_size == 1, 'Initial event adapter requires one process and NO_SHARD')
+        self.horizon = cfg.training.total_steps or cfg.training.max_steps
+        require(type(self.horizon) is int and self.horizon > 0, 'Pin a positive training.total_steps or max_steps independent of buffer size')
+        if cfg.training.max_steps is not None: require(cfg.training.max_steps == self.horizon, 'Event horizon and max_steps differ')
+        self.accumulation = cfg.training.accumulation_steps
+        require(type(self.accumulation) is int and self.accumulation > 0, 'Positive accumulation required')
+        self.max_length = cfg.data.max_length
+        require(cfg.training.loss_type == 'dflash' and cfg.training.lk_loss_type is None, 'Foundation adapter currently qualifies standard DFlash hard-token CE only')
+        set_seed(cfg.training.seed)
+        os.environ['FSDP_SHARDING'] = cfg.training.fsdp_sharding
+        if not dist.is_initialized():
+            from specforge.cli import _bootstrap_single_process_env
+            from specforge.distributed import init_distributed
+            _bootstrap_single_process_env()
+            require(int(os.environ['WORLD_SIZE']) == 1, 'Single-process event adapter only')
+            init_distributed(timeout=cfg.training.dist_timeout, tp_size=1, sp_ulysses_size=1, sp_ring_size=1)
+            self._owns_distributed = True
+        require(dist.get_world_size() == 1, 'Single-process event adapter only')
+        resolved = resolve_run(cfg)
+        self.bundle = build_model_bundle(cfg, algorithm=resolved.algorithm)
+        factory = _optimizer_factory(cfg); factory.configure_total_steps(self.horizon)
+        parallel = ParallelConfig.from_distributed(tp_size=1, sp_ulysses_size=1, sp_ring_size=1, sharding_strategy=cfg.training.fsdp_sharding)
+        self.backend = FSDPTrainingBackend(parallel, optimizer_factory=factory)
+        wrapped = self.backend.prepare_model(self.bundle.model, optimizer_target=self.bundle.model.draft_model)
+        self.author_strategy = resolved.algorithm.providers.step.build(wrapped, target_head=self.bundle.target_head, **self.bundle.strategy_kwargs)
+        self.strategy = ReductionAdapter(self.author_strategy, self.reduction)
+        self.core = TrainerCore(self.strategy, self.backend, accumulation_steps=self.accumulation)
+        self.hidden_width = self.bundle.target_hidden_size * len(self.bundle.draft_model.target_layer_ids)
+        self.vocab_size = self.bundle.target_vocab_size
+        self.contract = dict(self.bundle.strategy_kwargs.resume_contract)
+        self._anchor_observations = []
+        self._original_sampler = self.bundle.model._sample_anchor_positions
+        def observed_sampler(*args, **kwargs):
+            anchors, keep = self._original_sampler(*args, **kwargs)
+            self._anchor_observations.append({'positions': anchors.detach().cpu().tolist(), 'keep_mask': keep.detach().cpu().tolist()})
+            return anchors, keep
+        self.bundle.model._sample_anchor_positions = observed_sampler
+        self.bundle.model.train()
+
+    def _parameter_audit(self):
+        """Exact frozen bytes and model/master norms; all diagnostic cost is charged."""
+        import torch
+        draft = {id(p) for p in self.bundle.draft_model.parameters() if p.requires_grad}
+        actual = {id(p) for p in self.backend.optimizer.model_params}
+        require(draft == actual and draft, 'Optimizer must contain exactly trainable draft parameters')
+        frozen = []; seen = set()
+        modules = [('model', self.bundle.model)]
+        target_head = getattr(self.bundle, 'target_head', None)
+        if target_head is not None: modules.append(('target_head', target_head))
+        for prefix, module in modules:
+            for name, param in module.named_parameters():
+                if id(param) in seen: continue
+                seen.add(id(param))
+                if id(param) in draft: continue
+                require(not param.requires_grad and param.grad is None, 'Non-draft target parameter is trainable or has gradients: ' + name)
+                digest = hashlib.sha256()
+                flat = param.detach().reshape(-1)
+                for start in range(0, flat.numel(), 2**20):
+                    digest.update(flat[start:start+2**20].contiguous().cpu().view(torch.uint8).numpy().tobytes())
+                frozen.append({'name': prefix + '.' + name, 'shape': list(param.shape), 'dtype': str(param.dtype), 'sha256': digest.hexdigest()})
+        def norm(params):
+            sums = {}
+            for param in params:
+                flat = param.detach().reshape(-1)
+                key = str(param.device)
+                subtotal = sums.setdefault(key, torch.zeros((), device=param.device, dtype=torch.float64))
+                for start in range(0, flat.numel(), 2**20):
+                    chunk = flat[start:start+2**20].float()
+                    subtotal.add_(torch.sum(chunk * chunk, dtype=torch.float64))
+            result = math.sqrt(sum(float(value.cpu()) for value in sums.values()))
+            require(math.isfinite(result), 'Nonfinite parameter norm')
+            return result
+        return {'frozen_parameters': frozen, 'optimizer_draft_parameter_tensors': len(draft),
+                'draft_l2_norm': norm(self.backend.optimizer.model_params),
+                'fp32_master_l2_norm': norm(self.backend.optimizer.fp32_params)}
+
+    def _restore(self, path):
+        import torch
+        # CPU Adam can retain loaded moment storage. Avoid mmap so replacing
+        # the latest checkpoint cannot pin an unlinked 14 GiB file inode.
+        state = torch.load(path, map_location='cpu', weights_only=False)
+        require(state.get('event_schema') == SCHEMA and state['config_sha256'] == self.config_sha256 and
+                state['reduction'] == self.reduction and state['world_size'] == 1 and state['accumulation_remainder'] == 0,
+                'Resume identity/reduction/boundary differs')
+        require(state['algorithm_contract'] == self.contract and state['horizon'] == self.horizon and
+                state['accumulation_steps'] == self.accumulation, 'Resume algorithm/schedule differs')
+        self.bundle.draft_model.load_state_dict(state['draft_state_dict'], strict=True)
+        self.backend.load_state_dict(state['backend'])
+        _restore_extra(state['extra_rng'])
+        self.global_step, self.presentations, self.events = state['global_step'], state['presentations'], state['events']
+        self.core._micro = self.presentations
+        require(self.core.accumulation_remainder == 0 and self.global_step * self.accumulation == self.presentations,
+                'Resume counters do not form complete optimizer windows')
+
+    def status(self):
+        return {'schema_version': SCHEMA, 'closed': self.closed, 'failed': self.failed, 'global_step': self.global_step,
+                'presentations': self.presentations, 'completed_events': [x['event_id'] for x in self.events],
+                'reduction': self.reduction, 'accumulation_remainder': self._closed_remainder if self.closed else self.core.accumulation_remainder,
+                'horizon': self.horizon, 'full_state_path': str(self.latest) if self.latest.exists() else None}
+
+    def state_fingerprint(self):
+        """Exact restart audit; compare ``hashes`` and charge diagnostic_s separately."""
+        require(not self.closed and not self.failed, 'Fingerprint requires a live successful trainer')
+        require(self.core.accumulation_remainder == 0, 'Fingerprint requires optimizer boundary')
+        start = time.perf_counter()
+        hashes = {'draft': _value_sha(self.bundle.draft_model.state_dict()),
+                  'optimizer_masters_scheduler': _value_sha(self.backend.optimizer.state_dict()),
+                  'rng': _value_sha({'backend': self.backend._rng_state(), 'extra': _rng_extra()}),
+                  'counters_contract': _value_sha({'global_step': self.global_step, 'presentations': self.presentations,
+                       'events': [row['event_id'] for row in self.events], 'accumulation_remainder': self.core.accumulation_remainder,
+                       'config_sha256': self.config_sha256, 'algorithm_contract': self.contract, 'reduction': self.reduction})}
+        return {'hashes': hashes, 'diagnostic_s': time.perf_counter() - start}
+
+    def _load_feature(self, path, expected_sha=None):
+        import torch
+        path = _plain_path(path)
+        sha = file_sha(path)
+        require(expected_sha is None or sha == expected_sha, 'Feature changed during event')
+        raw = torch.load(path, map_location='cpu', weights_only=True)
+        meta = validate_feature(raw, max_length=self.max_length, hidden_width=self.hidden_width, vocab_size=self.vocab_size)
+        return raw, {**meta, 'path': str(path), 'bytes': path.stat().st_size, 'sha256': sha}
+
+    def _batch(self, raw):
+        from specforge.algorithms.common.hidden_states_data import normalize_offline_sample
+        from specforge.runtime.contracts import TrainBatch
+        tensors = normalize_offline_sample({**raw, 'input_ids': raw['input_ids'][0], 'loss_mask': raw['loss_mask'][0]}, self.max_length)
+        if 'target_last_hidden_states' in raw: tensors['target_last_hidden_states'] = raw['target_last_hidden_states']
+        return TrainBatch(sample_ids=[raw['record_id']], strategy='dflash', tensors=tensors,
+                          metadata={'input_sha256': raw['input_sha256'], 'response_sha256': raw['response_sha256']})
+
+    def train_event(self, event_id: str, feature_paths: list[Path], passes: int = 2):
+        import torch
+        from specforge.training.strategies.base import StepContext
+        wall = time.perf_counter()
+        require(not self.closed and not self.failed, 'Trainer is closed or failed; restore a reviewed committed state')
+        require(isinstance(event_id, str) and re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9_.-]*', event_id), 'Safe nonempty event ID required')
+        require(event_id not in {row['event_id'] for row in self.events}, 'Duplicate event refused')
+        require(type(passes) is int and passes > 0 and feature_paths, 'Nonempty feedback and positive passes required')
+        require(self.core.accumulation_remainder == 0, 'Event must start at optimizer boundary')
+        count = len(feature_paths) * passes
+        require(count % self.accumulation == 0, 'Event would leave an accumulation remainder; no silent drop/flush')
+        require(self.global_step + count // self.accumulation <= self.horizon, 'Event exceeds fixed optimizer horizon')
+        features = [self._load_feature(path)[1] for path in feature_paths]
+        require(len({row['record_id'] for row in features}) == len(features), 'Duplicate response records within event')
+        require(file_sha(self.config_path) == self.config_sha256, 'Configuration changed during trainer lifetime')
+        audit_start = time.perf_counter(); parameters_before = self._parameter_audit()
+        diagnostics_s = time.perf_counter() - audit_start
+        event_dir = self.events_root / event_id
+        require(not event_dir.exists(), 'Existing event directory cannot be replayed')
+        event_dir.mkdir()
+        _json_new(event_dir / 'PENDING.json', {'event_id': event_id, 'features': features, 'passes': passes, 'start_step': self.global_step})
+        training_s = 0.0; rows = []; start_step = self.global_step
+        try:
+            for pass_index in range(passes):
+                for feature in features:
+                    raw, _ = self._load_feature(feature['path'], feature['sha256'])
+                    self._anchor_observations.clear()
+                    before_rng = self.backend._rng_state()
+                    before_hash = hashlib.sha256(before_rng['torch'].numpy().tobytes()).hexdigest()
+                    step_start = time.perf_counter()
+                    result = self.core.train_step(self._batch(raw), StepContext(global_step=self.global_step, total_steps=self.horizon, collect_detailed_metrics=True))
+                    metrics = result.materialize_metrics()  # synchronizes measured training boundary
+                    elapsed = time.perf_counter() - step_start; training_s += elapsed
+                    require(all(math.isfinite(float(x)) for x in metrics.values()), 'Nonfinite training metric')
+                    self.presentations += 1
+                    if result.optimizer_stepped: self.global_step += 1
+                    rows.append({'record_id': feature['record_id'], 'pass': pass_index, 'optimizer_step_after': self.global_step,
+                                 'optimizer_stepped': result.optimizer_stepped, 'metrics': metrics, 'training_s': elapsed,
+                                 'cpu_rng_before_sha256': before_hash, 'sampled_anchors': list(self._anchor_observations)})
+            require(self.core.accumulation_remainder == 0, 'Publication with incomplete optimizer window forbidden')
+            audit_start = time.perf_counter(); parameters_after = self._parameter_audit()
+            diagnostics_s += time.perf_counter() - audit_start
+            require(parameters_before['frozen_parameters'] == parameters_after['frozen_parameters'], 'Frozen target parameters changed during event')
+            event = {'parameter_audit': {'before': parameters_before, 'after': parameters_after, 'frozen_unchanged': True,
+                      'draft_l2_norm_change': parameters_after['draft_l2_norm'] - parameters_before['draft_l2_norm'],
+                      'fp32_master_l2_norm_change': parameters_after['fp32_master_l2_norm'] - parameters_before['fp32_master_l2_norm']}, 'event_id': event_id, 'features': features, 'passes': passes, 'response_presentations': count,
+                     'start_step': start_step, 'end_step': self.global_step, 'optimizer_steps': self.global_step - start_step,
+                     'reduction': self.reduction, 'gradient_denominator': 'responses per accumulation window' if self.reduction == 'response_mean' else 'sum of author sampled-position weights',
+                     'records': rows}
+            save_start = time.perf_counter()
+            full = self.backend.state_dict()
+            state = {'event_schema': SCHEMA, 'draft_state_dict': self.strategy.checkpoint_state_filter(full['model']),
+                     'backend': {'optimizer': full['optimizer'], 'rng': full['rng']}, 'extra_rng': _rng_extra(),
+                     'global_step': self.global_step, 'presentations': self.presentations, 'events': self.events + [event],
+                     'strategy': 'dflash', 'run_id': self.cfg.run_id, 'world_size': 1, 'config_sha256': self.config_sha256,
+                     'algorithm_contract': self.contract, 'reduction': self.reduction, 'accumulation_steps': self.accumulation,
+                     'accumulation_remainder': 0, 'horizon': self.horizon}
+            require(not self.pending_state.exists(), 'Pending checkpoint already exists')
+            with self.pending_state.open('xb') as stream:
+                torch.save(state, stream); stream.flush(); os.fsync(stream.fileno())
+            _sync_dir(self.output_root)
+            save_s = time.perf_counter() - save_start
+            export = event_dir / 'export'
+            export_start = time.perf_counter()
+            from specforge.export.to_hf import export_to_hf
+            config_json = Path(self.cfg.model.draft_model_config)
+            if config_json.is_dir(): config_json /= 'config.json'
+            export_to_hf(str(self.pending_state), str(config_json), str(export), embedding_source=self.cfg.model.target_model_path,
+                         embedding_key=self.cfg.model.embedding_key)
+            for path in export.iterdir():
+                if path.is_file():
+                    with path.open('rb') as stream: os.fsync(stream.fileno())
+            _sync_dir(export); _sync_dir(event_dir)
+            export_s = time.perf_counter() - export_start
+            # Export materializes a new model and can consume RNG. Publication
+            # must not change the next author's anchor draw or resume behavior.
+            self.backend._set_rng_state(full['rng']); _restore_extra(state['extra_rng'])
+            receipt = {**event, 'status': 'completed', 'checkpoint_path': str(export), 'export_path': str(export),
+                       'full_state_path': str(self.latest), 'full_state_sha256': file_sha(self.pending_state),
+                       'costs': {'parameter_audit_s': diagnostics_s, 'training_s': training_s, 'checkpoint_save_s': save_s, 'export_s': export_s,
+                                 'event_wall_s_before_commit': time.perf_counter() - wall},
+                       'counters': {'global_step': self.global_step, 'presentations': self.presentations, 'completed_events': len(self.events) + 1}}
+            _json_new(event_dir / 'RESULT.json', receipt)
+            os.replace(self.pending_state, self.latest); _sync_dir(self.output_root)
+            self.events.append(event)
+            return receipt
+        except BaseException as error:
+            self.failed = True
+            _json_new(event_dir / 'FAILED.json', {'error_type': type(error).__name__, 'message': str(error),
+                      'global_step': self.global_step, 'presentations': self.presentations, 'automatic_retry': False})
+            raise
+
+    def close(self):
+        if self.closed: return
+        require(self.core.accumulation_remainder == 0 or self.failed, 'Cannot silently close partial accumulated gradients')
+        if hasattr(self, '_original_sampler'): self.bundle.model._sample_anchor_positions = self._original_sampler
+        self._closed_remainder = self.core.accumulation_remainder
+        self.closed = True
+        if self._owns_distributed:
+            from specforge.distributed import destroy_distributed
+            destroy_distributed(abort=self.failed)
+        for name in ('core', 'strategy', 'author_strategy', 'backend', 'bundle', '_original_sampler'):
+            if hasattr(self, name): delattr(self, name)
+        import gc
+        import torch
+        gc.collect()
+        if torch.cuda.is_initialized(): torch.cuda.empty_cache()

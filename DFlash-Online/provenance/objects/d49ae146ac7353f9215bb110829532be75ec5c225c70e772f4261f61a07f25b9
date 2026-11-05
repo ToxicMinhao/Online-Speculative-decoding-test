@@ -1,0 +1,177 @@
+"""Qualify U/P, train one event each, then compare four available checkpoints."""
+
+import argparse
+import json
+from pathlib import Path
+import shutil
+import signal
+import time
+import traceback
+
+from online_feedback.storage import write_json
+
+
+def admit_storage(root, draft):
+    """Both arm states/exports, disposable qualification state and working space."""
+    model_bytes = sum(p.stat().st_size for p in Path(draft).glob('*.safetensors'))
+    # Two BF16 parameter+Adam states and two exports = 8 model copies. A further
+    # three copies cover disposable qualification state, with serialization slack.
+    budget = {
+        'model_bytes': model_bytes, 'state_export_and_qualification_bytes': int(11 * model_bytes * 1.10),
+        'compiler_logs_and_staging_bytes': 8 * 2**30, 'reserve_bytes': 8 * 2**30,
+        'free_bytes': shutil.disk_usage(root).free,
+    }
+    budget['required_bytes'] = sum(budget[k] for k in (
+        'state_export_and_qualification_bytes', 'compiler_logs_and_staging_bytes', 'reserve_bytes'))
+    budget['admitted'] = model_bytes > 0 and budget['free_bytes'] >= budget['required_bytes']
+    write_json(Path(root) / 'STORAGE_ADMISSION.json', budget)
+    if not budget['admitted']:
+        raise RuntimeError('Peak storage budget plus reserve does not fit')
+    return budget
+
+
+def check_training(receipt, status, objective):
+    expected = dict(optimizer_steps=128, response_presentations=256, start_step=0, end_step=128,
+                    passes=2, objective=objective, status='completed')
+    if any(receipt.get(k) != v for k, v in expected.items()):
+        raise RuntimeError('U/P one-event receipt disagrees with fixed accounting')
+    if (status['global_step'] != 128 or status['presentations'] != 256
+            or status['completed_events'] != ['event_001'] or status['accumulation_remainder'] != 0):
+        raise RuntimeError('U/P trainer counters disagree with one event')
+
+
+def exposure(receipt):
+    """Intermediate accumulation rows must not count the same response twice."""
+    stepped = [r for r in receipt['records'] if r['optimizer_stepped']]
+    return {
+        'anchors': sum(sum(sum(row) for row in draw['keep_mask'])
+                       for r in receipt['records'] for draw in r['sampled_anchors']),
+        'optimizer_boundary_metric_sums': {
+            key: sum(r['metrics'].get(key, 0) for r in stepped)
+            for key in ('supervised_position_exposure', 'reference_prefix_positions',
+                        'reference_prefix_weight', 'ranking_coefficient_weight')},
+        'note': 'Metrics at optimizer boundaries aggregate the two response presentations.'}
+
+
+def train_arm(config, ordinary, root, arm):
+    import torch
+    from online_feedback.training import SpecForgeEventTrainer
+
+    objective = {'U': 'osd_uniform', 'P': 'osd_prefix'}[arm]
+    torch.cuda.init()
+    torch.cuda.reset_peak_memory_stats()
+    started = time.perf_counter()
+    trainer = SpecForgeEventTrainer(config, root / arm, objective=objective,
+                                    ranking_lambda=1.0, reduction='response_mean')
+    loading = time.perf_counter() - started
+    try:
+        initial = trainer.status()
+        if initial['global_step'] or initial['presentations'] or initial['completed_events']:
+            raise RuntimeError('Every new arm must start from released weights and fresh state')
+        write_json(root / f'{arm}_INITIAL.json', initial)
+        started = time.perf_counter()
+        receipt = trainer.train_event('event_001', [Path(f['path']) for f in ordinary['features']],
+                                      passes=2, presentation_schedule=ordinary)
+        event_wall = time.perf_counter() - started
+        status = trainer.status()
+        check_training(receipt, status, objective)
+        costs = {
+            'loading_s': loading, 'event_wall_s': event_wall, **receipt['costs'],
+            'objective_work': receipt['objective_work'], 'exposure': exposure(receipt),
+            'peak_allocated_bytes': torch.cuda.max_memory_allocated(),
+            'peak_reserved_bytes': torch.cuda.max_memory_reserved(),
+            'teacher_preparation_s': 0.0, 'new_feedback_generations': 0,
+            'reference_cost_is_nested_in_event_wall': True,
+        }
+        write_json(root / f'{arm}_COSTS.json', costs)
+        return receipt['checkpoint_path'], costs
+    finally:
+        trainer.close()
+        write_json(root / f'{arm}_CLOSED.json', trainer.status())
+
+
+def run(args):
+    from online_feedback.qualify_sglang import check_recipe
+    from online_feedback.recipe import load_event_config
+    from online_feedback.sglang_backend import SGLangDFlashBackend
+    from experiments.osd_one_event.protocol import validate_manifest
+    from .qualify import run_qualification
+    from .evaluate import evaluate
+    from .protocol import load_ordinary_counts
+
+    started = time.perf_counter()
+    root = Path(args.output)
+    root.mkdir(parents=True, exist_ok=False)
+    manifest = json.loads(Path(args.manifest).read_text())
+    validate_manifest(manifest)
+    ordinary = json.loads(Path(args.ordinary_receipt).read_text())
+    config, _ = load_event_config(args.config)
+    check_recipe(args.config)
+    draft, target = config.model.draft_checkpoint_path, config.model.target_model_path
+    admit_storage(root, draft)
+    shutil.copy2(args.config, root / 'config.yaml')
+    write_json(root / 'MANIFEST.json', manifest)
+    ordinary_counts = load_ordinary_counts(args.ordinary_measurements, manifest['eval_requests'])
+    progress = {'status': 'running', 'phase': 'gpu_qualification', 'main_optimizer_steps': 0,
+                'main_response_presentations': 0, 'new_feedback_generations': 0,
+                'new_teacher_preparation_forwards': 0, 'automatic_retry': False}
+    costs = {}
+    backend = None
+    write_json(root / 'STATUS.json', progress)
+    try:
+        qualification = run_qualification(args.config, args.ordinary_receipt, root / 'qualification')
+        if qualification['status'] != 'passed':
+            raise RuntimeError('GPU qualification did not pass')
+        progress['qualification'] = qualification
+        print('GPU qualification passed. Temporary states discarded; starting independent U/P events.', flush=True)
+        checkpoints = {'F': str(draft), 'O': ordinary['checkpoint_path']}
+        for arm in ('U', 'P'):
+            progress['phase'] = 'training_' + arm
+            write_json(root / 'STATUS.json', progress)
+            checkpoints[arm], costs[arm] = train_arm(args.config, ordinary, root, arm)
+            progress['main_optimizer_steps'] += 128
+            progress['main_response_presentations'] += 256
+            write_json(root / 'COSTS.json', costs)
+        progress['phase'] = 'loading_native'
+        write_json(root / 'STATUS.json', progress)
+        backend = SGLangDFlashBackend(target, draft, worker_python=args.worker_python,
+            output_root=root / 'native', serving_gpu=args.serving_gpu, context_limit=4096, block_size=16)
+        costs['backend_loading_s'] = backend.loading_s
+        progress['phase'] = 'capture_disabled_evaluation'
+        write_json(root / 'STATUS.json', progress)
+        print('All training closed. Beginning 768 capture-disabled replays; no transfers during timing.', flush=True)
+        progress['evaluation'] = evaluate(backend, manifest['eval_requests'], checkpoints,
+            root / 'evaluation', ordinary_counts=ordinary_counts)
+        progress.update(status='completed', phase='finished')
+    except BaseException as error:
+        progress.update(status='failed', error_type=type(error).__name__, error=str(error),
+                        traceback=traceback.format_exc())
+        raise
+    finally:
+        if backend is not None:
+            backend.close()
+        costs['actual_campaign_wall_s'] = time.perf_counter() - started
+        costs['free_bytes_after'] = shutil.disk_usage(root).free
+        costs['accounting'] = ('Arm event_wall_s includes reference computation, gradients, checkpoint '
+            'persistence and export; do not add nested costs again. Loading and qualification are separate. '
+            'Reused feedback and teacher preparation have zero new cost, not zero historical cost. '
+            'Evaluation request latency excludes training and checkpoint publication. Evaluation switches '
+            'are diagnostic costs, not deployment updates. No concurrent training or feedback capture.')
+        write_json(root / 'COSTS.json', costs)
+        write_json(root / 'STATUS.json', progress)
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    for arg in ('config', 'manifest', 'ordinary-receipt', 'ordinary-measurements', 'output', 'worker-python'):
+        parser.add_argument('--' + arg, required=True)
+    parser.add_argument('--serving-gpu', default='0')
+    args = parser.parse_args()
+    def interrupted(signum, frame):
+        raise RuntimeError(f'Interrupted by signal {signum}')
+    signal.signal(signal.SIGTERM, interrupted)
+    run(args)
+
+
+if __name__ == '__main__':
+    main()

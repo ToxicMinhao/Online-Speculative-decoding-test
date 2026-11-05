@@ -1,0 +1,781 @@
+{
+  "status": "passed",
+  "utc": "2026-11-04T18:39:30.316308+00:00",
+  "errors": [],
+  "initial_state": {
+    "identity": {
+      "path": "/data/sources/minhao/runs/dflash_kplus_20261103/production_001/campaign_001/arms/KPLUS/trainer/initial_state.pt",
+      "bytes": 2097298177,
+      "allocated_bytes": 2097299456,
+      "sha256": "87d8e011ccf76fbf6fe352847e75b6c806fdbdec2f4386606742c2bcb43fac8d",
+      "mtime_ns": 1793697013465777525,
+      "inode": 1268064362,
+      "nlink": 1
+    },
+    "original_K_identity": {
+      "path": "/data/sources/minhao/runs/dflash_full_k_gsm8k_20261031/production_002/campaign_001/arms/K/trainer/initial_state.pt",
+      "bytes": 2097297409,
+      "allocated_bytes": 2097299456,
+      "sha256": "8888e94fe1794b575c86536b3b12119e3c58de37bb871f17da10c012024c5e5e",
+      "mtime_ns": 1793526341305550738,
+      "inode": 2553214650,
+      "nlink": 1
+    },
+    "keys": [
+      "event_schema",
+      "draft_state_dict",
+      "backend",
+      "rng",
+      "global_step",
+      "presentations",
+      "events",
+      "strategy",
+      "run_id",
+      "world_size",
+      "config_text",
+      "algorithm_contract",
+      "reduction",
+      "accumulation_steps",
+      "horizon"
+    ],
+    "event_schema": "specforge_event_trainer_v2",
+    "events": [],
+    "global_step": 0,
+    "presentations": 0,
+    "adam_state_entries": 0,
+    "optimizer_payload_keys": [
+      "recipe",
+      "optimizer_state_dict"
+    ],
+    "optimizer_param_groups": [
+      {
+        "lr": 0.0003,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "eps": 1e-08,
+        "weight_decay": 0.01,
+        "amsgrad": false,
+        "maximize": false,
+        "foreach": null,
+        "capturable": false,
+        "differentiable": false,
+        "fused": null,
+        "decoupled_weight_decay": true,
+        "params": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57
+        ]
+      }
+    ],
+    "released_weights_exact": true,
+    "parameter_tensors": 58,
+    "parameter_bytes": 2097252864,
+    "rng_equal_original_K": true,
+    "rng_keys": [
+      "python",
+      "numpy",
+      "torch",
+      "cuda"
+    ],
+    "cuda_rng_states": 1,
+    "rng_digest": "4d9872eb745c435476c8369ef4da117532277d1b3f061b845c51f2a1bf8e73ad",
+    "algorithm_contract": {
+      "dflash_draft_num_hidden_layers": 5,
+      "dflash_target_layer_ids": [
+        1,
+        9,
+        17,
+        25,
+        33
+      ],
+      "dflash_block_size": 16,
+      "dflash_mask_token_id": 151669,
+      "dflash_attention_backend": "flex_attention",
+      "dflash_num_anchors": 512,
+      "dflash_loss_decay_gamma": 7.0,
+      "dflash_loss_type": "dflash",
+      "dflash_dpace_alpha": 0.5,
+      "dflash_lk_loss_type": null,
+      "dflash_kl_scale": 1.0,
+      "dflash_kl_decay": 1.0,
+      "specforge_step_options": [],
+      "specforge_model_provenance": [
+        [
+          "capture_layers",
+          [
+            1,
+            9,
+            17,
+            25,
+            33
+          ]
+        ],
+        [
+          "draft_config",
+          [
+            "directory-stat-v2",
+            "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/draft",
+            [
+              [
+                "sha256",
+                "config.json",
+                1099,
+                "9834d608c9ca53d5548b415471ae9e8ebc9aab6cedfc2a7af95b6bd097373102"
+              ],
+              [
+                "stat",
+                "model.safetensors",
+                2097259104,
+                1792657020491604397
+              ]
+            ]
+          ]
+        ],
+        [
+          "draft_revision",
+          null
+        ],
+        [
+          "embedding_key",
+          "model.embed_tokens.weight"
+        ],
+        [
+          "input_modality",
+          "text"
+        ],
+        [
+          "lm_head_key",
+          "lm_head.weight"
+        ],
+        [
+          "load_target_embedding",
+          true
+        ],
+        [
+          "source_identity_format",
+          "stat-v2"
+        ],
+        [
+          "target_model",
+          [
+            "directory-stat-v2",
+            "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/target",
+            [
+              [
+                "sha256",
+                "config.json",
+                728,
+                "f7c4eadfbbf522470667b797a3c89be2524832d2d599797248dc304fff447c30"
+              ],
+              [
+                "sha256",
+                "generation_config.json",
+                239,
+                "2325da0f15bb848e018c5ae071b7943332e9f871d6b60e2ed22ca97d4cb993d2"
+              ],
+              [
+                "stat",
+                "model-00001-of-00005.safetensors",
+                3996250744,
+                1792657064173347728
+              ],
+              [
+                "stat",
+                "model-00002-of-00005.safetensors",
+                3993160032,
+                1792657059033260259
+              ],
+              [
+                "stat",
+                "model-00003-of-00005.safetensors",
+                3959604768,
+                1792657077840580303
+              ],
+              [
+                "stat",
+                "model-00004-of-00005.safetensors",
+                3187841392,
+                1792656974908828716
+              ],
+              [
+                "stat",
+                "model-00005-of-00005.safetensors",
+                1244659840,
+                1792656703412208665
+              ],
+              [
+                "sha256",
+                "model.safetensors.index.json",
+                32878,
+                "f9fdbcb91c23971c13ec5d5f2573d2349e8f61f2f049371ec699281748fdb1bc"
+              ],
+              [
+                "sha256",
+                "tokenizer.json",
+                11422654,
+                "aeb13307a71acd8fe81861d94ad54ab689df773318809eed3cbe794b4492dae4"
+              ],
+              [
+                "sha256",
+                "tokenizer_config.json",
+                9732,
+                "d5d09f07b48c3086c508b30d1c9114bd1189145b74e982a265350c923acd8101"
+              ],
+              [
+                "sha256",
+                "vocab.json",
+                2776833,
+                "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910"
+              ]
+            ]
+          ]
+        ],
+        [
+          "target_revision",
+          null
+        ],
+        [
+          "torch_dtype",
+          "bfloat16"
+        ],
+        [
+          "vocab_mapping",
+          null
+        ]
+      ],
+      "online_target_objective": {
+        "name": "osd_first_error",
+        "version": 1,
+        "main_loss": "forward_kl",
+        "loss_precision": "bfloat16",
+        "probability_arithmetic": "teacher_softmax_forward_kl",
+        "teacher": "frozen_target_predecessor_hidden",
+        "canonical_labels": "saved_verified_target_greedy_tokens",
+        "selection": "current_correct_prefix_including_first_error",
+        "selection_predictions": "detached_current_training_forward_argmax",
+        "eos_token_ids": [
+          151645,
+          151643
+        ],
+        "reference": null,
+        "denominator_epsilon": 1e-06
+      },
+      "online_training_recipe": {
+        "optimizer": "bf16_adamw",
+        "weight_decay": 0.01,
+        "shuffle_responses": true,
+        "kl_precision": "bfloat16",
+        "responses_per_event": 128,
+        "passes_per_event": 2,
+        "max_events": 58
+      },
+      "kplus_full_gsm8k_v1": {
+        "schema": "kplus_full_gsm8k_v1",
+        "arm": "KPLUS",
+        "training_seed": 17,
+        "binding": "264651b09411c065415546d8545e4e34515507a01fb84a50421bb8bf06ae3b3b",
+        "learning_rate": 0.0003,
+        "maximum_events": 58,
+        "initialization": "released_seed17_exact_original_K_initial_scientific_state",
+        "feedback": "own_fresh_native_responses",
+        "reference": null,
+        "redistribution": {
+          "name": "kplus_first_error_redistribution_v1",
+          "base_objective": "osd_first_error",
+          "redistribution_fraction": 0.5,
+          "priorities": [
+            1,
+            2
+          ],
+          "priority2": "immediate_valid_canonical_successor_matches_current_argmax",
+          "pooling": "all_sampled_blocks_in_one_response",
+          "numerator": "N_K + 0.5*(W1*N2-W2*N1)/(W1+2*W2)",
+          "neutral_branch": "original_N_K_for_no_errors_or_one_priority_class",
+          "denominator": "unchanged_native_selected_weight_sum_plus_1e-6",
+          "mass_conservation_rtol": 2e-06,
+          "mass_conservation_atol": 2e-07,
+          "additional_model_forwards": 0,
+          "additional_vocabulary_projections": 0
+        }
+      }
+    },
+    "config_text": "model:\n  target_model_path: /data/sources/minhao/models/qwen3_dflash_foundation_20261022/target\n  draft_model_config: /data/sources/minhao/models/qwen3_dflash_foundation_20261022/draft\n  draft_checkpoint_path: /data/sources/minhao/models/qwen3_dflash_foundation_20261022/draft\n  target_backend: sglang\n  embedding_key: model.embed_tokens.weight\n  lm_head_key: lm_head.weight\n  torch_dtype: bfloat16\n  use_liger_kernel: false\ndata:\n  hidden_states_path: /data/sources/minhao/runs/dflash_online_foundation_20261022/features\n  max_length: 2272\n  chat_template: qwen\n  dataloader_num_workers: 0\n  cache_dir: /data/sources/minhao/.cache/dflash_online_foundation\ntraining:\n  strategy: dflash\n  num_epochs: 1\n  max_steps: 7424\n  batch_size: 1\n  accumulation_steps: 2\n  fsdp_sharding: NO_SHARD\n  optimizer_cpu_offload: false\n  learning_rate: 0.0003\n  lr_scheduler: constant\n  warmup_ratio: 0.0\n  max_grad_norm: 1.0\n  attention_backend: flex_attention\n  num_anchors: 512\n  objective_chunk_blocks: 8\n  loss_type: dflash\n  lk_loss_type: null\n  loss_decay_gamma: 7.0\n  log_interval: 1\n  dist_timeout: 30\n  seed: 17\ntracking:\n  report_to: none\nrun_id: kplus-full-gsm8k\noutput_dir: /data/sources/minhao/runs/dflash_kplus_20261103/production_001/campaign_001/arms/KPLUS\ndeployment:\n  mode: local_colocated\n  trainer:\n    nnodes: 1\n    nproc_per_node: 1\nonline_feedback:\n  responses_per_event: 128\n  passes_per_event: 2\n  max_events: 58\n  optimizer: bf16_adamw\n  weight_decay: 0.01\n  shuffle_responses: true\n  kl_precision: bfloat16\n",
+    "horizon": 7424,
+    "accumulation_steps": 2,
+    "reduction": "response_mean"
+  },
+  "seals": {
+    "PLAN.json": {
+      "path": "/data/sources/minhao/runs/dflash_kplus_20261103/production_001/sealed/PLAN.json",
+      "bytes": 2972632,
+      "allocated_bytes": 2973696,
+      "sha256": "5ec9d5cdee6fc44a7e90541fd0f3c746b2bfc12cf792a530785b6b6eabf6a342",
+      "mtime_ns": 1793696726292258000,
+      "inode": 2172840986,
+      "nlink": 1,
+      "matches_local": true
+    },
+    "ORIGINAL_MANIFEST.json": {
+      "path": "/data/sources/minhao/runs/dflash_kplus_20261103/production_001/sealed/ORIGINAL_MANIFEST.json",
+      "bytes": 10868762,
+      "allocated_bytes": 10870784,
+      "sha256": "764fa339938a240259949040134581a2231de542b7c799af5a7eb85c5ea1dbd4",
+      "mtime_ns": 1793503227046556500,
+      "inode": 2172840985,
+      "nlink": 1,
+      "matches_local": true
+    },
+    "ORIGINAL_CONFIG.yaml": {
+      "path": "/data/sources/minhao/runs/dflash_kplus_20261103/production_001/sealed/ORIGINAL_CONFIG.yaml",
+      "bytes": 1517,
+      "allocated_bytes": 4096,
+      "sha256": "f71fb286701392e0c80af0915be406c3ccf71b2c15b612f9757357bea7fcf081",
+      "mtime_ns": 1793503227906569500,
+      "inode": 2172840984,
+      "nlink": 1,
+      "matches_local": true
+    },
+    "config_KPLUS.yaml": {
+      "path": "/data/sources/minhao/runs/dflash_kplus_20261103/production_001/sealed/config_KPLUS.yaml",
+      "bytes": 1517,
+      "allocated_bytes": 4096,
+      "sha256": "2d2ac94816a8c8d794c7943c091d799fe604807467be6161a77b89037246db3e",
+      "mtime_ns": 1793696726001253600,
+      "inode": 2172840991,
+      "nlink": 1,
+      "matches_local": true
+    },
+    "CANONICALS.json": {
+      "path": "/data/sources/minhao/runs/dflash_kplus_20261103/production_001/sealed/CANONICALS.json",
+      "bytes": 4040590,
+      "allocated_bytes": 4042752,
+      "sha256": "065f3fae37d49dfa448f362108ad5befbd50406934ce2cdcd1dd0e3be4c8ae6c",
+      "mtime_ns": 1793503232044632200,
+      "inode": 2172840980,
+      "nlink": 1,
+      "matches_local": true
+    },
+    "MODEL_PIN.json": {
+      "path": "/data/sources/minhao/runs/dflash_kplus_20261103/production_001/sealed/MODEL_PIN.json",
+      "bytes": 3397,
+      "allocated_bytes": 4096,
+      "sha256": "197e71a9be3bf5410d76de09eb53135e7c446b37e2530fb81d106e15bbdb9a05",
+      "mtime_ns": 1793326205322036300,
+      "inode": 2172840982,
+      "nlink": 1,
+      "matches_local": true
+    },
+    "RUNTIME_PIN.json": {
+      "path": "/data/sources/minhao/runs/dflash_kplus_20261103/production_001/sealed/RUNTIME_PIN.json",
+      "bytes": 2792,
+      "allocated_bytes": 4096,
+      "sha256": "53c15d9d0770a000ce7f510c84c7fa83c564d6fa36903163c485041bc03b97ec",
+      "mtime_ns": 1793326205322036300,
+      "inode": 2172840988,
+      "nlink": 1,
+      "matches_local": true
+    },
+    "TRAINING_PIN.json": {
+      "path": "/data/sources/minhao/runs/dflash_kplus_20261103/production_001/sealed/TRAINING_PIN.json",
+      "bytes": 246,
+      "allocated_bytes": 4096,
+      "sha256": "7526acdf471c0867267c6de09e60a6a1c2474b35a26f3fa376af84d2b7e0f512",
+      "mtime_ns": 1793326205322036300,
+      "inode": 2172840990,
+      "nlink": 1,
+      "matches_local": true
+    },
+    "SEAL.json": {
+      "path": "/data/sources/minhao/runs/dflash_kplus_20261103/production_001/sealed/SEAL.json",
+      "bytes": 647554,
+      "allocated_bytes": 651264,
+      "sha256": "0cfd7465d9bcdd8b4f83c654e829b61b4b2d54813e99b44ac76556c9e5aad55d",
+      "mtime_ns": 1793696726510261300,
+      "inode": 2172840989,
+      "nlink": 1,
+      "matches_local": true
+    }
+  },
+  "stream": {
+    "count": 512,
+    "unique_ids": 512,
+    "first_request_id": "train_00000",
+    "last_request_id": "train_00511",
+    "event_counts": {
+      "event_001": 128,
+      "event_002": 128,
+      "event_003": 128,
+      "event_004": 128
+    },
+    "max_prompt_tokens": 183,
+    "ordered_512_sha256": "96225e217881660ad04783145ebc46b9cb772a90f2ec1acaac2659e31ced5173",
+    "dataset_revision": "740312add88f781978c0658806c59bc2815b9866"
+  },
+  "models": {
+    "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/target/.gitattributes": {
+      "path": "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/target/.gitattributes",
+      "bytes": 1570,
+      "allocated_bytes": 4096,
+      "sha256": "34448b82c17d60fec9b65b1f093c115ddbaadc04beb1b0140b6bfed2e012a930",
+      "mtime_ns": 1792656510434924775,
+      "inode": 1179432433,
+      "nlink": 1,
+      "matches_pin": true
+    },
+    "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/target/LICENSE": {
+      "path": "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/target/LICENSE",
+      "bytes": 11343,
+      "allocated_bytes": 12288,
+      "sha256": "832dd9e00a68dd83b3c3fb9f5588dad7dcf337a0db50f7d9483f310cd292e92e",
+      "mtime_ns": 1792656510497925847,
+      "inode": 1179432434,
+      "nlink": 1,
+      "matches_pin": true
+    },
+    "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/target/README.md": {
+      "path": "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/target/README.md",
+      "bytes": 16660,
+      "allocated_bytes": 20480,
+      "sha256": "0f36caaff9c2516411a7738db384606263ba653c1e63e61d72f511606164d5a6",
+      "mtime_ns": 1785275686000000000,
+      "inode": 1092489116,
+      "nlink": 1,
+      "matches_pin": true
+    },
+    "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/target/config.json": {
+      "path": "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/target/config.json",
+      "bytes": 728,
+      "allocated_bytes": 4096,
+      "sha256": "f7c4eadfbbf522470667b797a3c89be2524832d2d599797248dc304fff447c30",
+      "mtime_ns": 1792656510563926970,
+      "inode": 1179432437,
+      "nlink": 1,
+      "matches_pin": true
+    },
+    "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/target/generation_config.json": {
+      "path": "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/target/generation_config.json",
+      "bytes": 239,
+      "allocated_bytes": 4096,
+      "sha256": "2325da0f15bb848e018c5ae071b7943332e9f871d6b60e2ed22ca97d4cb993d2",
+      "mtime_ns": 1785275686000000000,
+      "inode": 1092489117,
+      "nlink": 1,
+      "matches_pin": true
+    },
+    "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/target/merges.txt": {
+      "path": "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/target/merges.txt",
+      "bytes": 1671853,
+      "allocated_bytes": 1675264,
+      "sha256": "8831e4f1a044471340f7c0a83d7bd71306a5b867e95fd870f74d0c5308a904d5",
+      "mtime_ns": 1785275686000000000,
+      "inode": 1092489113,
+      "nlink": 1,
+      "matches_pin": true
+    },
+    "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/target/model-00001-of-00005.safetensors": {
+      "path": "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/target/model-00001-of-00005.safetensors",
+      "bytes": 3996250744,
+      "allocated_bytes": 3996258304,
+      "sha256": "31d6a825ae35f11fb85b195b4c42c146c051e446433125a215336abdf95cbf5f",
+      "mtime_ns": 1792657064173347728,
+      "inode": 1179432436,
+      "nlink": 1,
+      "matches_pin": true
+    },
+    "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/target/model-00002-of-00005.safetensors": {
+      "path": "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/target/model-00002-of-00005.safetensors",
+      "bytes": 3993160032,
+      "allocated_bytes": 3993165824,
+      "sha256": "5991236cea6fe21f3d43cab0f0e84448734fbbe0789816202989f2ddc9d18282",
+      "mtime_ns": 1792657059033260259,
+      "inode": 1179432435,
+      "nlink": 1,
+      "matches_pin": true
+    },
+    "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/target/model-00003-of-00005.safetensors": {
+      "path": "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/target/model-00003-of-00005.safetensors",
+      "bytes": 3959604768,
+      "allocated_bytes": 3959611392,
+      "sha256": "c5185c4794be2d8a9784d5753c9922db38df478ce11f9ed0b415b7304d896836",
+      "mtime_ns": 1792657077840580303,
+      "inode": 1179432444,
+      "nlink": 1,
+      "matches_pin": true
+    },
+    "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/target/model-00004-of-00005.safetensors": {
+      "path": "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/target/model-00004-of-00005.safetensors",
+      "bytes": 3187841392,
+      "allocated_bytes": 3187847168,
+      "sha256": "b5ee7de71fbf17db3d5704e0c8f2bc7d005ca9e1d7ca2aeb19827b0cfcaa917a",
+      "mtime_ns": 1792656974908828716,
+      "inode": 1179432446,
+      "nlink": 1,
+      "matches_pin": true
+    },
+    "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/target/model-00005-of-00005.safetensors": {
+      "path": "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/target/model-00005-of-00005.safetensors",
+      "bytes": 1244659840,
+      "allocated_bytes": 1244663808,
+      "sha256": "20c2d6366ab85c90786ccdd829cd2b9e7d30ef3b2ebbb998280e7e4014b542ff",
+      "mtime_ns": 1792656703412208665,
+      "inode": 1179432445,
+      "nlink": 1,
+      "matches_pin": true
+    },
+    "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/target/model.safetensors.index.json": {
+      "path": "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/target/model.safetensors.index.json",
+      "bytes": 32878,
+      "allocated_bytes": 36864,
+      "sha256": "f9fdbcb91c23971c13ec5d5f2573d2349e8f61f2f049371ec699281748fdb1bc",
+      "mtime_ns": 1785275686000000000,
+      "inode": 1092489115,
+      "nlink": 1,
+      "matches_pin": true
+    },
+    "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/target/tokenizer.json": {
+      "path": "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/target/tokenizer.json",
+      "bytes": 11422654,
+      "allocated_bytes": 11423744,
+      "sha256": "aeb13307a71acd8fe81861d94ad54ab689df773318809eed3cbe794b4492dae4",
+      "mtime_ns": 1785275687000000000,
+      "inode": 1092489114,
+      "nlink": 1,
+      "matches_pin": true
+    },
+    "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/target/tokenizer_config.json": {
+      "path": "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/target/tokenizer_config.json",
+      "bytes": 9732,
+      "allocated_bytes": 12288,
+      "sha256": "d5d09f07b48c3086c508b30d1c9114bd1189145b74e982a265350c923acd8101",
+      "mtime_ns": 1785275686000000000,
+      "inode": 1092489118,
+      "nlink": 1,
+      "matches_pin": true
+    },
+    "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/target/vocab.json": {
+      "path": "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/target/vocab.json",
+      "bytes": 2776833,
+      "allocated_bytes": 2777088,
+      "sha256": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910",
+      "mtime_ns": 1792656706225256535,
+      "inode": 1178061717,
+      "nlink": 1,
+      "matches_pin": true
+    },
+    "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/draft/config.json": {
+      "path": "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/draft/config.json",
+      "bytes": 1099,
+      "allocated_bytes": 4096,
+      "sha256": "9834d608c9ca53d5548b415471ae9e8ebc9aab6cedfc2a7af95b6bd097373102",
+      "mtime_ns": 1792656706780265979,
+      "inode": 1178062437,
+      "nlink": 1,
+      "matches_pin": true
+    },
+    "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/draft/dflash.py": {
+      "path": "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/draft/dflash.py",
+      "bytes": 12340,
+      "allocated_bytes": 16384,
+      "sha256": "17ab761ba665a41965b27bdc3a1c6795d1b07b285ec1f0789ad146f2ee9c1cc5",
+      "mtime_ns": 1792656707318275134,
+      "inode": 1178062461,
+      "nlink": 1,
+      "matches_pin": true
+    },
+    "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/draft/model.safetensors": {
+      "path": "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/draft/model.safetensors",
+      "bytes": 2097259104,
+      "allocated_bytes": 2097262592,
+      "sha256": "c702878094f38ad5843e6ac40b327720b3147ffbf669a5d9ca1974865ca6c080",
+      "mtime_ns": 1792657020491604397,
+      "inode": 1178062557,
+      "nlink": 1,
+      "matches_pin": true
+    },
+    "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/draft/modeling_dflash.py": {
+      "path": "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/draft/modeling_dflash.py",
+      "bytes": 13271,
+      "allocated_bytes": 16384,
+      "sha256": "d2b61a1fa5d469830c2285b552d75773274943fae5ac66dc2713beddea338528",
+      "mtime_ns": 1792656978575891118,
+      "inode": 1248004097,
+      "nlink": 1,
+      "matches_pin": true
+    },
+    "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/draft/utils.py": {
+      "path": "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/draft/utils.py",
+      "bytes": 5731,
+      "allocated_bytes": 8192,
+      "sha256": "00b91431932c94b87443d9e2c0cf4d743846bd6c9666c9c736008df7bbd0faf1",
+      "mtime_ns": 1792656979065899457,
+      "inode": 1248004125,
+      "nlink": 1,
+      "matches_pin": true
+    }
+  },
+  "native_runtime": {
+    "speculative/dflash_worker.py": {
+      "path": "/data/conda_envs/minhao/adaflash_author/lib/python3.12/site-packages/sglang/srt/speculative/dflash_worker.py",
+      "bytes": 70132,
+      "allocated_bytes": 73728,
+      "sha256": "9397402f5cfbf60b00b7d27d551e5e9e1b605be9b084d028d4ddda76c475dc8c",
+      "mtime_ns": 1790748822558035398,
+      "inode": 2215053238,
+      "nlink": 1,
+      "matches_pin": true
+    },
+    "speculative/dflash_info.py": {
+      "path": "/data/conda_envs/minhao/adaflash_author/lib/python3.12/site-packages/sglang/srt/speculative/dflash_info.py",
+      "bytes": 26689,
+      "allocated_bytes": 28672,
+      "sha256": "9c7ac23a1bf0840eec8218f02f2adbfc3e419099cd19822137ce5c6e0e902218",
+      "mtime_ns": 1790748822557035382,
+      "inode": 2215053235,
+      "nlink": 1,
+      "matches_pin": true
+    },
+    "layers/logits_processor.py": {
+      "path": "/data/conda_envs/minhao/adaflash_author/lib/python3.12/site-packages/sglang/srt/layers/logits_processor.py",
+      "bytes": 48560,
+      "allocated_bytes": 49152,
+      "sha256": "5c6c54bec37b941652e29908c773a756fe6c86f99932ab80043672a1eaa0f086",
+      "mtime_ns": 1790748822434033341,
+      "inode": 2215051645,
+      "nlink": 1,
+      "matches_pin": true
+    },
+    "models/qwen3.py": {
+      "path": "/data/conda_envs/minhao/adaflash_author/lib/python3.12/site-packages/sglang/srt/models/qwen3.py",
+      "bytes": 21785,
+      "allocated_bytes": 24576,
+      "sha256": "e23ee8af21eac46685852854a5fe585cf58477d4a1f8047887d6afeefaf8e32d",
+      "mtime_ns": 1790748822542035133,
+      "inode": 2215053043,
+      "nlink": 1,
+      "matches_pin": true
+    },
+    "models/dflash.py": {
+      "path": "/data/conda_envs/minhao/adaflash_author/lib/python3.12/site-packages/sglang/srt/models/dflash.py",
+      "bytes": 17763,
+      "allocated_bytes": 20480,
+      "sha256": "d4fcfe005a1acc51a4938d038e1dbc1a2c8ff245842f4253338527335b2327b2",
+      "mtime_ns": 1790748822525034851,
+      "inode": 2215052863,
+      "nlink": 1,
+      "matches_pin": true
+    },
+    "entrypoints/engine.py": {
+      "path": "/data/conda_envs/minhao/adaflash_author/lib/python3.12/site-packages/sglang/srt/entrypoints/engine.py",
+      "bytes": 48073,
+      "allocated_bytes": 49152,
+      "sha256": "2bcd4b04c325d4ed65f867490c5bac9e915e02f05471c83dacb5a4a097cf1f2a",
+      "mtime_ns": 1790748822421033126,
+      "inode": 2215051466,
+      "nlink": 1,
+      "matches_pin": true
+    },
+    "server_args.py": {
+      "path": "/data/conda_envs/minhao/adaflash_author/lib/python3.12/site-packages/sglang/srt/server_args.py",
+      "bytes": 281952,
+      "allocated_bytes": 282624,
+      "sha256": "bd60199803698e4ffe6dc44499a8d42be73f42db28056cb6750411523cf56c04",
+      "mtime_ns": 1790748822395032695,
+      "inode": 2832995962,
+      "nlink": 1,
+      "matches_pin": true
+    }
+  },
+  "training_environment": {
+    "python": "3.12.15",
+    "torch": "2.13.0+cu130",
+    "transformers": "5.12.1"
+  },
+  "retained_sizes": {
+    "campaign_001/arms/KPLUS/trainer/events/event_058/training_state.pt": {
+      "bytes": 6349421915,
+      "allocated_bytes": 6349422592,
+      "inode": 1275185775,
+      "nlink": 2
+    },
+    "campaign_001/arms/KPLUS/trainer/training_state.pt": {
+      "bytes": 6349421915,
+      "allocated_bytes": 6349422592,
+      "inode": 1275185775,
+      "nlink": 2
+    },
+    "campaign_001/arms/KPLUS/trainer/events/event_058/export/model.safetensors": {
+      "bytes": 2097259104,
+      "allocated_bytes": 2097262592,
+      "inode": 1277565675,
+      "nlink": 1
+    }
+  },
+  "free_bytes": 66799550464,
+  "jobs": [],
+  "gpu_compute_processes": "",
+  "cuda_initialized": false,
+  "peak_rss_bytes": 4753821696,
+  "wall_s": 21.774578489363194,
+  "model_forwards": 0,
+  "optimizer_steps": 0,
+  "source_mutations": 0,
+  "all_seals_match_local": true
+}
