@@ -1,0 +1,115 @@
+{
+  "status": "complete",
+  "accounting": {
+    "planned": 2304,
+    "returned": 2304,
+    "valid": 2304,
+    "invalid": 0,
+    "unknown": 0,
+    "unattempted": 0,
+    "excess_work": 0,
+    "complete_paired_requests": 384
+  },
+  "comparison": {
+    "ADAPTIVE_vs_FIVE": {
+      "point_pct": -0.8084014269725825,
+      "ci95_pct": [
+        -0.9915198580808954,
+        -0.6417508389591786
+      ],
+      "call_reduction_pct": -0.5204414346626551,
+      "request_time_wins_losses_ties": {
+        "loss": 355,
+        "win": 29
+      }
+    },
+    "ADAPTIVE_vs_THREE": {
+      "point_pct": 55.84822998032757,
+      "ci95_pct": [
+        54.86723453442621,
+        57.05507255059953
+      ],
+      "call_reduction_pct": 58.30472326258843,
+      "request_time_wins_losses_ties": {
+        "win": 384
+      }
+    },
+    "THREE_vs_FIVE": {
+      "point_pct": -128.32244637543639,
+      "ci95_pct": [
+        -134.7444913729219,
+        -123.37197302418019
+      ]
+    }
+  },
+  "execution_order_errors": [],
+  "interpretation": "FINAL is fit-disjoint but previously exposed to the project; this is a frozen-checkpoint depth screen, not online recalibration",
+  "arm_totals": {
+    "FIVE": {
+      "request_latency_s": 265.6632522037253,
+      "native_generate_s": 264.7728798817843,
+      "decode_round_wall_s": 254.17798322904855,
+      "cache_maintenance_s": 0.18266774900257587,
+      "verification_calls": 15948,
+      "accepted_draft_tokens": 101983,
+      "committed_progress": 117931,
+      "output_tokens": 118315,
+      "shallow_rounds": 0,
+      "deep_rounds": 15948,
+      "accepted_per_call": 6.394720341108603,
+      "progress_per_call": 7.394720341108603,
+      "shallow_exit_fraction": 0.0,
+      "repeat_request_latency_s": [
+        265.9074321873486,
+        265.41907222010195
+      ]
+    },
+    "THREE": {
+      "request_latency_s": 606.5688365520909,
+      "native_generate_s": 605.6243276447058,
+      "decode_round_wall_s": 590.740588623099,
+      "cache_maintenance_s": 0.1927729519084096,
+      "verification_calls": 38448,
+      "accepted_draft_tokens": 79483,
+      "committed_progress": 117931,
+      "output_tokens": 118315,
+      "shallow_rounds": 38448,
+      "deep_rounds": 0,
+      "accepted_per_call": 2.0672856845609653,
+      "progress_per_call": 3.0672856845609653,
+      "shallow_exit_fraction": 1.0,
+      "repeat_request_latency_s": [
+        607.0839869845659,
+        606.053686119616
+      ]
+    },
+    "ADAPTIVE": {
+      "request_latency_s": 267.810877725482,
+      "native_generate_s": 266.91218756418675,
+      "decode_round_wall_s": 256.29455095063895,
+      "cache_maintenance_s": 0.18407293781638145,
+      "verification_calls": 16031,
+      "accepted_draft_tokens": 101900,
+      "committed_progress": 117931,
+      "output_tokens": 118315,
+      "shallow_rounds": 335,
+      "deep_rounds": 15696,
+      "accepted_per_call": 6.356434408333853,
+      "progress_per_call": 7.356434408333853,
+      "shallow_exit_fraction": 0.0208970120391741,
+      "repeat_request_latency_s": [
+        268.0338230933994,
+        267.58793235756457
+      ]
+    }
+  },
+  "decision": "prefer_FIVE",
+  "scientific_criterion_passed": false,
+  "practical_two_pct_vs_FIVE_point_reached": false,
+  "bootstrap": {
+    "draws": 10000,
+    "seed": 20261105,
+    "unit": "question with all arms and both repeats",
+    "interval": "two-sided percentile 95%, linear quantiles"
+  }
+}

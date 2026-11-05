@@ -1,0 +1,250 @@
+{
+  "verification_status": "ANALYZED: local retained-evidence recomputation; no GPU rerun",
+  "execution_commit": "0f704167b268672d980fabe704898abf9b134c39",
+  "authorship": "Same-team review by readout implementation author; not independent replication",
+  "source": "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_block_depth_20261105/full_retrieved_002/full_production_002",
+  "checks_passed": 7715,
+  "errors": [],
+  "groups": [
+    {
+      "group": 1,
+      "counters": {
+        "global_step": 128,
+        "presentations": 256,
+        "completed_events": 1
+      },
+      "boundary_check": {
+        "status": "passed",
+        "differences": {
+          "readout": [],
+          "export": [],
+          "optimizer": [],
+          "rng": [],
+          "counters": []
+        },
+        "state_path": "/data/sources/minhao/runs/dflash_block_depth_20261105/full_production_002/readout/group_001/trainer/training_state.pt",
+        "export_path": "/data/sources/minhao/runs/dflash_block_depth_20261105/full_production_002/readout/group_001/trainer/events/group_001/export",
+        "global_step": 128,
+        "presentations": 256,
+        "frozen_parameter_versions_unchanged": true
+      },
+      "resume_check": {
+        "status": "fresh_seed17"
+      },
+      "mean_response_loss_by_pass": [
+        1.815766902640462,
+        1.410796396434307
+      ],
+      "costs": {
+        "training_s": 86.54535026475787,
+        "checkpoint_save_s": 0.033562423661351204,
+        "export_s": 0.0015706438571214676,
+        "event_wall_s_before_commit": 91.93303181603551
+      },
+      "initialization_s": 24.94308931566775,
+      "worker_wall_s": 116.9545660186559,
+      "actual_module_work": {
+        "frozen_prefix_forwards": 256,
+        "backbone_layer_1_forwards": 256,
+        "backbone_layer_2_forwards": 256,
+        "backbone_layer_3_forwards": 256,
+        "sidecar_forwards": 256,
+        "vocabulary_projections": 8192
+      }
+    },
+    {
+      "group": 2,
+      "counters": {
+        "global_step": 256,
+        "presentations": 512,
+        "completed_events": 2
+      },
+      "boundary_check": {
+        "status": "passed",
+        "differences": {
+          "readout": [],
+          "export": [],
+          "optimizer": [],
+          "rng": [],
+          "counters": []
+        },
+        "state_path": "/data/sources/minhao/runs/dflash_block_depth_20261105/full_production_002/readout/group_002/trainer/training_state.pt",
+        "export_path": "/data/sources/minhao/runs/dflash_block_depth_20261105/full_production_002/readout/group_002/trainer/events/group_002/export",
+        "global_step": 256,
+        "presentations": 512,
+        "frozen_parameter_versions_unchanged": true
+      },
+      "resume_check": {
+        "status": "passed",
+        "state_path": "/data/sources/minhao/runs/dflash_block_depth_20261105/full_production_002/readout/group_001/trainer/training_state.pt",
+        "readout_exact": {
+          "A": true,
+          "B": true,
+          "norm.weight": true
+        },
+        "global_step": 128,
+        "presentations": 256,
+        "optimizer_exact": true,
+        "rng_exact": true,
+        "optimizer_loaded_without_reset": true,
+        "rng_restored_without_reseed": true
+      },
+      "mean_response_loss_by_pass": [
+        1.3526403401046991,
+        1.2260749847628176
+      ],
+      "costs": {
+        "training_s": 83.05219058692455,
+        "checkpoint_save_s": 0.0561410877853632,
+        "export_s": 0.0015568807721138,
+        "event_wall_s_before_commit": 86.16153831407428
+      },
+      "initialization_s": 22.594331009313464,
+      "worker_wall_s": 108.83544475771487,
+      "actual_module_work": {
+        "frozen_prefix_forwards": 256,
+        "backbone_layer_1_forwards": 256,
+        "backbone_layer_2_forwards": 256,
+        "backbone_layer_3_forwards": 256,
+        "sidecar_forwards": 256,
+        "vocabulary_projections": 8192
+      }
+    },
+    {
+      "group": 3,
+      "counters": {
+        "global_step": 384,
+        "presentations": 768,
+        "completed_events": 3
+      },
+      "boundary_check": {
+        "status": "passed",
+        "differences": {
+          "readout": [],
+          "export": [],
+          "optimizer": [],
+          "rng": [],
+          "counters": []
+        },
+        "state_path": "/data/sources/minhao/runs/dflash_block_depth_20261105/full_production_002/readout/group_003/trainer/training_state.pt",
+        "export_path": "/data/sources/minhao/runs/dflash_block_depth_20261105/full_production_002/readout/group_003/trainer/events/group_003/export",
+        "global_step": 384,
+        "presentations": 768,
+        "frozen_parameter_versions_unchanged": true
+      },
+      "resume_check": {
+        "status": "passed",
+        "state_path": "/data/sources/minhao/runs/dflash_block_depth_20261105/full_production_002/readout/group_002/trainer/training_state.pt",
+        "readout_exact": {
+          "A": true,
+          "B": true,
+          "norm.weight": true
+        },
+        "global_step": 256,
+        "presentations": 512,
+        "optimizer_exact": true,
+        "rng_exact": true,
+        "optimizer_loaded_without_reset": true,
+        "rng_restored_without_reseed": true
+      },
+      "mean_response_loss_by_pass": [
+        1.300156340468675,
+        1.201022697146982
+      ],
+      "costs": {
+        "training_s": 82.54182395525277,
+        "checkpoint_save_s": 0.08668658882379532,
+        "export_s": 0.0018482282757759094,
+        "event_wall_s_before_commit": 85.73454630747437
+      },
+      "initialization_s": 22.87379398010671,
+      "worker_wall_s": 108.69647246785462,
+      "actual_module_work": {
+        "frozen_prefix_forwards": 256,
+        "backbone_layer_1_forwards": 256,
+        "backbone_layer_2_forwards": 256,
+        "backbone_layer_3_forwards": 256,
+        "sidecar_forwards": 256,
+        "vocabulary_projections": 8192
+      }
+    }
+  ],
+  "exposure": {
+    "available_position_occurrences": 714583.0,
+    "selected_position_occurrences": 169351.0,
+    "no_error_blocks": 205.0,
+    "empty_blocks": 0.0,
+    "kplus_priority1_error_count": 27184.0,
+    "kplus_priority2_error_count": 21763.0,
+    "anchors": 49152
+  },
+  "loss_range": [
+    0.6066907644271851,
+    3.3138325214385986
+  ],
+  "gradient_norm_range": [
+    0.78125,
+    4.59375
+  ],
+  "changed_steps": 384,
+  "change_counts": {
+    "A": {
+      "steps_with_changes": 383,
+      "coordinate_change_occurrences": 36237339
+    },
+    "B": {
+      "steps_with_changes": 384,
+      "coordinate_change_occurrences": 42728644
+    },
+    "norm.weight": {
+      "steps_with_changes": 13,
+      "coordinate_change_occurrences": 13
+    }
+  },
+  "costs": {
+    "native_loading_s": 19.756577715277672,
+    "readout_group_1_collection_s": 96.17553389258683,
+    "readout_group_2_collection_s": 90.38735708780587,
+    "readout_group_3_collection_s": 101.07620703428984,
+    "gate_collection_reconstruction_fit_s": 219.4361898638308,
+    "missing_canonical_s": 55.269712153822184,
+    "final_endpoint_wall_s": 2304.146787084639,
+    "campaign_wall_s": 3267.3219520207494,
+    "readout_training_s": 252.1393648069352,
+    "readout_worker_wall_s": 334.4864832442254,
+    "readout_initialization_s": 70.41121430508792,
+    "readout_checkpoint_save_s": 0.17639010027050972,
+    "readout_export_s": 0.004975752905011177,
+    "readout_launch_s": 345.39246850833297,
+    "retirement_s": 1.835392540320754
+  },
+  "peak_cuda_allocated_bytes": 6204037120,
+  "peak_cuda_reserved_bytes": 7113539584,
+  "retirement": {
+    "receipt_count": 387,
+    "path_count": 1152,
+    "total_bytes": 12606855808,
+    "by_kind": {
+      "consumed_readout_teacher_features": {
+        "count": 384,
+        "bytes": 6302229440
+      },
+      "native_capture": {
+        "count": 384,
+        "bytes": 6284369600
+      },
+      "terminal_feature": {
+        "count": 384,
+        "bytes": 20256768
+      }
+    }
+  },
+  "limits": [
+    "Selected occurrences are direct KL loss positions; overlapping anchors are not unique tokens.",
+    "Matched successor is detached weighting evidence, not an additional supervised position. Priority1 combines unavailable and mismatching successors; separate availability denominator was not retained.",
+    "Pass-mean losses use changing anchors and current masks, not fixed-anchor pre/post source-fit comparisons.",
+    "Training ordinary RMSNorm versus native fused residual RMSNorm is mathematically aligned, not asserted bitwise equivalent or identified as a cause.",
+    "Costs are nested; no kernel-level breakdown or training-inclusive speedup is established.",
+    "Retired tensors are not archived; compact states, anchors, tokens and evidence remain."
+  ]
+}

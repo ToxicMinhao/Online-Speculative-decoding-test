@@ -1,0 +1,42 @@
+{
+  "schema": "block_depth_manifests_v1",
+  "study_id": "vfd_depth35_gsm8k_v1",
+  "dataset_revision": "740312add88f781978c0658806c59bc2815b9866",
+  "tokenizer_revision": "b968826d9c46dd6066d109eabc6255188de91218",
+  "selection": {
+    "hash_serialization": "vfd_depth35_gsm8k_v1|split|gsm8k:split:source_row",
+    "encoding": "UTF-8",
+    "digest": "SHA-256",
+    "order": "ascending hexadecimal digest, then source ID",
+    "deduplication": "canonical source-row order; normalized question/rendered prompt and token IDs",
+    "normalization": "NFKC + casefold + collapsed whitespace",
+    "outcomes_used": false,
+    "historical_exposure_affects_selection": false,
+    "source_answers_used": false,
+    "fit_disjoint": true,
+    "globally_fresh_claim": false
+  },
+  "preprocessing": {
+    "enable_thinking": false,
+    "add_generation_prompt": true,
+    "training_prompt": "raw source question",
+    "evaluation_suffix": "\nPlease reason step by step, and put your final answer within \\boxed{}.",
+    "output_cap": 2048,
+    "serving_context_limit": 4096,
+    "training_context_limit": 2272,
+    "truncate_prompts": false,
+    "include_valid_generation_cap_hits": true
+  },
+  "eligible_counts": {
+    "train": 7473,
+    "test": 1319
+  },
+  "exclusions": [],
+  "partition_counts": {
+    "READOUT": 384,
+    "GATE": 128,
+    "FINAL": 384
+  },
+  "exact_private_manifest": "/home/minhao2/EAGLE_SPEC/research/dflash_block_depth_20261105/prepared_001/MANIFESTS.json",
+  "raw_tokens_and_answers_published": false
+}
