@@ -8,7 +8,8 @@ from unittest import mock
 
 from experiments.block_depth.full_campaign import lean_record
 from experiments.block_depth.endpoint import validate_execution
-from experiments.block_depth.reconstruct import validate_source
+from experiments.block_depth.reconstruct import validate_source, replay_request
+from types import SimpleNamespace
 
 
 def request():
@@ -29,6 +30,22 @@ def native_result(trace=False):
 
 
 class FullBoundaryTests(unittest.TestCase):
+    def test_reconstruction_binds_native_vocabulary_and_termination_configuration(self):
+        class Sampling(SimpleNamespace):
+            def normalize(self, tokenizer):
+                self.stop_strs = []
+                self.stop_regex_strs = []
+        record = dict(prompt_ids=[7, 8], stop_token_ids=[99], max_new_tokens=2048)
+        req = replay_request(SimpleNamespace, Sampling, record, SimpleNamespace(vocab_size=100))
+        self.assertEqual(req.vocab_size, 100)
+        self.assertFalse(99 > req.vocab_size or 99 < 0)
+        self.assertEqual(req.eos_token_ids, {99})
+        self.assertEqual(req.origin_input_ids, [7, 8])
+        self.assertEqual(req.sampling_params.max_new_tokens, 2048)
+        self.assertFalse(req.sampling_params.ignore_eos)
+        self.assertEqual(req.sampling_params.stop_strs, [])
+        self.assertEqual(req.sampling_params.stop_regex_strs, [])
+
     def test_final_uses_lean_api_outer_timer_and_exact_saved_tokens(self):
         backend = mock.Mock()
         backend._call.return_value = native_result()

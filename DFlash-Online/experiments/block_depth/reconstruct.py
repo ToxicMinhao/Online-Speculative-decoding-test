@@ -23,6 +23,20 @@ def validate_source(record):
     return prompt, response, trace
 
 
+def replay_request(request_type, sampling_type, record, model_config):
+    """Supply the model vocabulary boundary used by native EOS validation."""
+    sampling = sampling_type(temperature=0, top_p=1, top_k=1,
+        max_new_tokens=record['max_new_tokens'],
+        stop_token_ids=record['stop_token_ids'], ignore_eos=False)
+    # Native scheduling normally normalizes absent string/regex stops to empty
+    # lists before Req.check_finished. This exact-token replay has no text stops.
+    sampling.normalize(None)
+    return request_type(rid='depth_feedback_reconstruction', origin_input_text='',
+        origin_input_ids=record['prompt_ids'], vocab_size=model_config.vocab_size,
+        eos_token_ids=set(record['stop_token_ids']),
+        sampling_params=sampling)
+
+
 def reconstruct(self, record, outputfile):
     import torch
     from sglang.srt.managers.schedule_batch import Req, ScheduleBatch
@@ -47,11 +61,7 @@ def reconstruct(self, record, outputfile):
     capture = RequestCapture(prompt, destination.with_suffix('.capture.json'), True)
     capture.cache_maintenance_s = flush_idle(self)
     try:
-        req = Req(rid='depth_feedback_reconstruction', origin_input_text='',
-            origin_input_ids=prompt, eos_token_ids=set(record['stop_token_ids']),
-            sampling_params=SamplingParams(temperature=0, top_p=1, top_k=1,
-                max_new_tokens=record['max_new_tokens'],
-                stop_token_ids=record['stop_token_ids'], ignore_eos=False))
+        req = replay_request(Req, SamplingParams, record, runner.model_config)
         req.fill_ids = list(prompt)
         req.extend_input_len = len(prompt)
         cache = RadixCache(CacheInitParams(disable=False,

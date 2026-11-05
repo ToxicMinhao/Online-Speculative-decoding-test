@@ -118,13 +118,16 @@ def make_plan(qualification_plan, manifests, canonical_audit, pricing, *,
 def validate_plan(plan):
     fixed = dict(schema="block_depth_full_v1", stage="readout_gate_final", checkpoint_path=str(EXPORT),
                  target_path=str(TARGET), worker_python=WORKER_PYTHON, training_python=TRAINING_PYTHON,
-                 output_root=str(OUTPUT_ROOT), source_root=str(SOURCE_ROOT), serving=SERVING,
+                 source_root=str(SOURCE_ROOT), serving=SERVING,
                  storage=capacity_plan(), qualification_code_commit=QUALIFICATION_COMMIT,
                  no_test_calibration=True, automatic_retry=False, stop_after="full_FINAL_report",
                  readout_groups=READOUT_GROUPS, analysis=ANALYSIS, numerical=NUMERICAL)
     for key, expected in fixed.items():
         if plan.get(key) != expected:
             raise ValueError("Full experiment fixed contract changed: " + key)
+    output = Path(plan["output_root"])
+    if output.parent != OUTPUT_ROOT.parent or not re.fullmatch(r"full_production_\d{3}", output.name):
+        raise ValueError("Require a separate numbered full-run destination")
     if not re.fullmatch(r"[0-9a-f]{40}", plan.get("code_commit", "")):
         raise ValueError("Pin a complete published execution commit")
     if plan["budget"] != work_budget(plan["budget"]["reused_canonicals"]):
