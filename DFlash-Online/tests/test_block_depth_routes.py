@@ -178,8 +178,65 @@ class NativeRouteTests(unittest.TestCase):
         self.assertEqual((indices[0], indices[-1]), (0, 138))
 
 
+    def test_fitted_sidecar_preserves_pointers_five_and_rng(self):
+        routes, batch, calls, originals, heads = fixture()
+        expected_five = routes.original_forward(batch).logits_output.hidden_states.clone()
+        pointers = {k: v.data_ptr() for k, v in routes.readout.state_dict().items()}
+        before_rng = torch.get_rng_state().clone()
+        fitted = {k: v.clone() for k, v in routes.readout.state_dict().items()}
+        fitted["B"].fill_(0.05)
+        gate = dict(folded_weight=[0.1] * 97, folded_intercept=-1.,
+                    kappa_ms_per_token=0.2, continuation_cost_ms=0.5)
+        receipt = routes.load_fitted(fitted, gate)
+        self.assertTrue(receipt["graph_parameter_storage_preserved"])
+        self.assertEqual(pointers, {k: v.data_ptr() for k, v in routes.readout.state_dict().items()})
+        self.assertTrue(all(not p.requires_grad for p in routes.readout.parameters()))
+        self.assertTrue(torch.equal(before_rng, torch.get_rng_state()))
+        self.assertIs(routes.runner.forward, routes.original_forward)
+        actual = routes.runner.forward(batch).logits_output.hidden_states
+        torch.testing.assert_close(actual, expected_five, atol=0, rtol=0)
+        torch.testing.assert_close(routes.gate.weight, torch.full((97,), 0.1))
+
+    def test_fitted_sidecar_rejects_dtype_and_shape_changes_before_copy(self):
+        routes, *_ = fixture()
+        before = copy.deepcopy(routes.readout.state_dict())
+        malformed = copy.deepcopy(before)
+        malformed["A"] = malformed["A"].double()
+        with self.assertRaisesRegex(ValueError, "shape/precision"):
+            routes.load_fitted(malformed)
+        for name, value in routes.readout.state_dict().items():
+            self.assertTrue(torch.equal(value, before[name]))
+
+    def test_final_routes_do_not_keep_detailed_route_records(self):
+        routes, batch, *_ = fixture()
+        routes.set_mode("ALTERNATE", record_routes=False)
+        for _ in range(3):
+            routes.runner.forward(batch)
+        self.assertEqual(routes.routes, [])
+        self.assertEqual(routes.round_index, 3)
+        self.assertEqual(routes.last_route, 3)
+
+    def test_static_three_exposes_same_features_without_an_extra_forward(self):
+        routes, batch, calls, *_ = fixture()
+        routes.proposal(batch, "THREE")
+        features = routes.gate.feature_vector(routes.segments.static_rank_features, batch.seq_lens[0])
+        self.assertEqual(tuple(features.shape), (97,))
+        self.assertEqual(calls, [1, 2, 3])
+
+
+    def test_prefill_only_gate_response_has_explicit_zero_replay_work(self):
+        routes, *_ = fixture()
+        record = dict(record_id="single", response_ids=[999], metadata={
+            "trace": [], "committed_progress": 0, "behavior": "FIVE"})
+        with tempfile.TemporaryDirectory() as directory:
+            receipt = routes.calibrate_completed_request(record, output_path=Path(directory) / "empty.json")
+        self.assertEqual(receipt["rows"], [])
+        self.assertEqual(receipt["accounting"]["planned_draft_forwards"], 0)
+        self.assertEqual(receipt["restoration_status"], "passed")
+
+
 class ReplayRestoreTests(unittest.TestCase):
-    def run_profile_fixture(self, directory, fail_at=None):
+    def run_profile_fixture(self, directory, fail_at=None, calibration=False):
         path = Path(directory) / "profile.json"
         cache = [(torch.arange(256 * 2).reshape(256, 2).float() + 1000 * layer,
                   torch.arange(256 * 2).reshape(256, 2).float() + 2000 * layer)
@@ -224,7 +281,7 @@ class ReplayRestoreTests(unittest.TestCase):
         def proposal(batch, mode):
             # A timed execution must have a durable pending marker before work.
             pending = json.loads(path.read_text())["active_operation"]
-            self.assertIn(pending["kind"], {"warmup", "timed_route"})
+            self.assertIn(pending["kind"], {"warmup", "timed_route", "gate_route"})
             call_count[0] += 1
             for key, value in cache:
                 key[batch.out_cache_loc] = -100
@@ -235,9 +292,10 @@ class ReplayRestoreTests(unittest.TestCase):
                 raise RuntimeError("fixture GPU interruption")
             return torch.arange(15), 5 if mode in {"FIVE", "ADAPTIVE5"} else 3
         controller = SimpleNamespace(worker=worker, runner=runner, model=SimpleNamespace(layers=layers),
-            segments=SimpleNamespace(prepare=lambda batch: None), proposal=proposal,
+            segments=SimpleNamespace(prepare=lambda batch: None, static_rank_features=torch.ones(16, 32)),
+            gate=DepthGate("cpu"), proposal=proposal,
             receipt=lambda: {"fixture": True})
-        blocks = [dict(output_start=start, draft_tokens=list(range(15)),
+        blocks = [dict(output_start=start, draft_tokens=list(range(15)), committed_progress=1,
                        positions=list(range(20 + start, 36 + start))) for start in (0, 8)]
         modules = {
             "sglang.srt.model_executor.forward_batch_info": SimpleNamespace(
@@ -248,12 +306,14 @@ class ReplayRestoreTests(unittest.TestCase):
         with mock.patch.dict(sys.modules, modules), mock.patch.object(torch.cuda, "synchronize"):
             if fail_at is None:
                 result = profile_completed_request(controller, list(range(20)), list(range(50)),
-                    blocks, "fixture", 0, path)
+                    blocks, "fixture", 0, path,
+                    calibration={"behavior": "FIVE", "stop_token_ids": [999]} if calibration else None)
                 self.assertEqual(result["status"], "passed")
             else:
                 with self.assertRaisesRegex(RuntimeError, "fixture GPU interruption"):
                     profile_completed_request(controller, list(range(20)), list(range(50)),
-                        blocks, "fixture", 0, path)
+                        blocks, "fixture", 0, path,
+                    calibration={"behavior": "FIVE", "stop_token_ids": [999]} if calibration else None)
         receipt = json.loads(path.read_text())
         self.assertEqual(receipt["restoration_status"], "passed")
         self.assertTrue(all(receipt["restoration_checks"].values()))
@@ -280,6 +340,30 @@ class ReplayRestoreTests(unittest.TestCase):
         self.assertEqual(receipt["accounting"]["unknown_timed_measurements"], 1)
         self.assertEqual(receipt["accounting"]["unattempted_timed_measurements"], 30)
         self.assertEqual(receipt["active_operation"]["kind"], "timed_route")
+
+
+    def test_gate_replay_is_paired_and_keeps_exact_cache_restoration(self):
+        with tempfile.TemporaryDirectory() as directory:
+            receipt = self.run_profile_fixture(directory, calibration=True)
+        self.assertEqual(receipt["accounting"]["returned_draft_forwards"], 4)
+        self.assertEqual(receipt["accounting"]["new_complete_generations"], 0)
+        self.assertEqual(receipt["warmups"], [])
+        self.assertEqual(receipt["measurements"], [])
+        self.assertEqual(len(receipt["rows"]), 2)
+        for row in receipt["rows"]:
+            self.assertTrue(row["valid"])
+            self.assertEqual(len(row["features"]), 97)
+            self.assertEqual((row["p3"], row["p5"]), (1, 1))
+            self.assertEqual(row["observed_rounds"], 2)
+            self.assertEqual(row["sampled_rounds"], 2)
+
+    def test_failed_gate_replay_retains_unknown_work_and_cache_restoration(self):
+        with tempfile.TemporaryDirectory() as directory:
+            receipt = self.run_profile_fixture(directory, fail_at=2, calibration=True)
+        self.assertEqual(receipt["accounting"]["returned_draft_forwards"], 1)
+        self.assertEqual(receipt["accounting"]["unknown_draft_forwards"], 1)
+        self.assertEqual(receipt["accounting"]["unattempted_draft_forwards"], 2)
+        self.assertEqual(receipt["restoration_status"], "passed")
 
 
 if __name__ == "__main__":

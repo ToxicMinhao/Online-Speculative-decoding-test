@@ -53,10 +53,15 @@ class DepthGate(nn.Module):
         self.register_buffer("kappa_ms_per_token", torch.ones((), device=device, dtype=torch.float32))
         self.register_buffer("continue_cost_ms", torch.zeros((), device=device, dtype=torch.float32))
 
-    def forward(self, rank_features, prefix_length):
+    @staticmethod
+    def feature_vector(rank_features, prefix_length):
         proposals = rank_features[1:16].float()
         features = torch.cat((proposals[:3].mean(0), proposals[3:7].mean(0),
                               proposals[7:15].mean(0), torch.log1p(prefix_length.float()).reshape(1)))
+        return features
+
+    def forward(self, rank_features, prefix_length):
+        features = self.feature_vector(rank_features, prefix_length)
         predicted_progress = features @ self.weight + self.intercept
         return self.kappa_ms_per_token * predicted_progress - self.continue_cost_ms
 
@@ -84,7 +89,8 @@ class EagerSegments:
         self.launches["static_three"] += 1
         model, readout = self.controller.model, self.controller.readout
         hidden, residual = run_layers(model, self.batch, 0, 3, self.batch.input_embeds.clone())
-        return readout.finish(*readout.features(hidden, residual))
+        normalized, self.static_rank_features = readout.features(hidden, residual)
+        return readout.finish(normalized, self.static_rank_features)
 
     def prefix(self):
         self.launches["prefix"] += 1
@@ -186,7 +192,8 @@ class CudaSegments(EagerSegments):
     def _static_three_body(self):
         hidden, residual = run_layers(self.controller.model, self.batch, 0, 3,
                                       self.batch.input_embeds)
-        return self.controller.readout.finish(*self.controller.readout.features(hidden, residual))
+        normalized, self.static_rank_features = self.controller.readout.features(hidden, residual)
+        return self.controller.readout.finish(normalized, self.static_rank_features)
 
     def _prefix_body(self):
         self.hidden, self.residual = run_layers(self.controller.model, self.batch, 0, 3,
@@ -244,15 +251,18 @@ class DepthRoutes:
         self.before_round = None
         self.routes = []
         self.audit = False
+        self.record_routes = True
+        self.last_route = None
         self.audit_records = []
         self.audit_output_path = None
         self.head_invocations = 0
         self.original_head = worker._greedy_sample_from_vocab_parallel_head
 
-    def set_mode(self, mode, audit=False):
+    def set_mode(self, mode, audit=False, record_routes=True):
         if mode not in MODES:
             raise ValueError("Unknown depth route: " + str(mode))
         self.mode, self.round_index = mode, 0
+        self.record_routes, self.last_route = record_routes, None
         self.routes.clear()
         self.audit_records.clear()
         self.head_invocations = 0
@@ -283,7 +293,9 @@ class DepthRoutes:
             if not valid:
                 raise RuntimeError("Forced-five differs from native FIVE at identical live prefix")
         output, route = self._forward(batch, self.mode, *args, **kwargs)
-        self.routes.append(route)
+        self.last_route = route
+        if self.record_routes:
+            self.routes.append(route)
         self.round_index += 1
         return output
 
@@ -344,6 +356,62 @@ class DepthRoutes:
         return profile_completed_request(self, record["prompt_ids"], record["response_ids"],
             record["metadata"]["trace"], record["record_id"], prompt_ordinal, output_path)
 
+    @torch.no_grad()
+    def load_fitted(self, sidecar_state, gate_coefficients=None):
+        """Copy only frozen sidecar values; captured graph storage stays valid."""
+        destination = self.readout.state_dict()
+        if set(sidecar_state) != set(destination):
+            raise ValueError("Sidecar must contain exactly norm.weight, A and B")
+        for name, value in sidecar_state.items():
+            expected = destination[name]
+            if value.shape != expected.shape or value.dtype != expected.dtype:
+                raise ValueError("Fitted sidecar shape/precision differs: " + name)
+            if not bool(torch.isfinite(value).all()):
+                raise ValueError("Nonfinite fitted sidecar: " + name)
+        pointers = {name: value.data_ptr() for name, value in destination.items()}
+        self.readout.load_state_dict(sidecar_state, strict=True)
+        self.readout.requires_grad_(False).eval()
+        if gate_coefficients is not None:
+            bindings = {"weight": "folded_weight", "intercept": "folded_intercept",
+                        "kappa_ms_per_token": "kappa_ms_per_token",
+                        "continue_cost_ms": "continuation_cost_ms"}
+            for destination_name, source_name in bindings.items():
+                buffer = getattr(self.gate, destination_name)
+                value = torch.as_tensor(gate_coefficients[source_name], dtype=buffer.dtype,
+                                        device=buffer.device)
+                if value.shape != buffer.shape or not bool(torch.isfinite(value).all()):
+                    raise ValueError("Invalid fitted gate coefficient: " + source_name)
+                buffer.copy_(value)
+        self.gate.requires_grad_(False).eval()
+        same_storage = all(value.data_ptr() == pointers[name]
+                           for name, value in self.readout.state_dict().items())
+        if not same_storage:
+            raise RuntimeError("Fitted readout replaced captured graph parameter storage")
+        return {"status": "passed", "sidecar_frozen": True,
+                "gate_loaded": gate_coefficients is not None,
+                "graph_parameter_storage_preserved": same_storage,
+                "original_five_unchanged": self.mode != "FIVE" or
+                                           self.runner.forward == self.original_forward}
+
+    def calibrate_completed_request(self, record, *, output_path):
+        if not record["metadata"]["trace"]:
+            if len(record["response_ids"]) != 1 or record["metadata"]["committed_progress"] != 0:
+                raise ValueError("Missing GATE trace for a nonempty decode trajectory")
+            from online_feedback.storage import write_json
+            receipt = dict(status="passed", phase="GATE", request_id=record["record_id"],
+                behavior=record["metadata"]["behavior"], rows=[], proposal_evaluations=[],
+                sampled_round_indices=[], native_rounds=0, restoration_status="passed",
+                restoration_checks={"no_native_cache_operations": True},
+                accounting=dict(planned_draft_forwards=0, returned_draft_forwards=0,
+                                unknown_draft_forwards=0, unattempted_draft_forwards=0,
+                                paired_rows=0, new_complete_generations=0, teacher_forwards=0))
+            write_json(output_path, receipt)
+            return receipt
+        return profile_completed_request(self, record["prompt_ids"], record["response_ids"],
+            record["metadata"]["trace"], record["record_id"], record["request_index"], output_path,
+            calibration={"behavior": record["metadata"]["behavior"],
+                         "stop_token_ids": record["stop_token_ids"]})
+
     def close(self):
         self.runner.forward = self.original_forward
         self.worker._greedy_sample_from_vocab_parallel_head = self.original_head
@@ -375,7 +443,7 @@ def _restore_tensor_fields(value, saved):
 
 @torch.inference_mode()
 def profile_completed_request(controller, prompt_ids, response_ids, blocks, request_id,
-                              prompt_ordinal, output_path=None):
+                              prompt_ordinal, output_path=None, *, calibration=None):
     """Replay recorded FIVE starts while its completed request's KV still exists.
 
     Call at idle immediately after online_finish and before the next cache flush.
@@ -388,6 +456,7 @@ def profile_completed_request(controller, prompt_ids, response_ids, blocks, requ
     from online_feedback.storage import write_json
 
     worker, runner = controller.worker, controller.runner
+    from .gate import select_gate_starts, progress_for_proposals
     if worker.page_size != 1 or worker.use_compact_draft_cache:
         raise RuntimeError("Idle prefix replay requires the qualified full-context page-size-one cache")
     pool, allocator = runner.req_to_token_pool, runner.token_to_kv_pool_allocator
@@ -422,13 +491,18 @@ def profile_completed_request(controller, prompt_ids, response_ids, blocks, requ
                            for name in ("raw_bs", "raw_num_token", "bs", "_replay_ntpb")}
     started = time.perf_counter()
     slots, overwritten = None, None
+    sampled = (select_gate_starts(request_id, len(blocks)) if calibration is not None
+               else selected_round_indices(len(blocks)))
     receipt = {"request_id": request_id, "prompt_ordinal": prompt_ordinal,
-               "native_rounds": len(blocks), "sampled_round_indices": selected_round_indices(len(blocks)),
+               "native_rounds": len(blocks), "sampled_round_indices": sampled,
                "timing_scope": "Native graph preparation, route dispatch and one vocabulary projection; "
                                "shared committed-KV append and allocator setup excluded",
                "source": "Exact retained post-completion native FIVE committed KV, before next flush",
                "warmups": [], "measurements": [], "parity": [], "status": "running",
                "active_operation": None, "restoration_status": "pending"}
+    if calibration is not None:
+        receipt.update(phase="GATE", behavior=calibration["behavior"], rows=[],
+                       proposal_evaluations=[], timing_scope="Untimed paired GATE draft forwards")
     try:
         slots = allocator.alloc(committed_length + 16)
         if slots is None:
@@ -474,6 +548,40 @@ def profile_completed_request(controller, prompt_ids, response_ids, blocks, requ
             receipt["active_operation"] = None
             if ordinal == 0:
                 receipt["scratch_and_graph_setup_s"] = time.perf_counter() - first_setup
+            if calibration is not None:
+                proposals = {}
+                for route in ("FIVE", "THREE"):
+                    receipt["active_operation"] = {"kind": "gate_route", "round_index": block_index,
+                                                   "route": route}
+                    if output_path is not None:
+                        write_json(output_path, receipt)
+                    tokens, _ = controller.proposal(batch, route)
+                    proposals[route] = tokens.cpu().tolist()
+                    receipt["proposal_evaluations"].append({"round_index": block_index, "route": route})
+                    receipt["active_operation"] = None
+                # Static THREE already computed A u; pooling adds no model forward.
+                features = controller.gate.feature_vector(controller.segments.static_rank_features,
+                    batch.seq_lens[0]).cpu().tolist()
+                suffix = response_ids[int(block["output_start"]) + 1:]
+                progress = {route: progress_for_proposals(values, suffix, calibration["stop_token_ids"])
+                            for route, values in proposals.items()}
+                behavior = calibration["behavior"]
+                valid = (proposals[behavior] == expected and
+                         progress[behavior]["committed_progress"] == int(block["committed_progress"]))
+                row_result = {"request_id": request_id, "round_index": block_index,
+                              "features": features, "p3": progress["THREE"]["committed_progress"],
+                              "p5": progress["FIVE"]["committed_progress"],
+                              "observed_rounds": len(blocks), "sampled_rounds": len(sampled),
+                              "prefix_length": anchor, "behavior": behavior, "valid": valid,
+                              "proposals": proposals, "progress": progress,
+                              "retained_proposals": expected,
+                              "retained_progress": int(block["committed_progress"])}
+                receipt["rows"].append(row_result)
+                if output_path is not None:
+                    write_json(output_path, receipt)
+                if not valid:
+                    raise RuntimeError("GATE behavior reconstruction differs in proposals or progress")
+                continue
             routes = ("FIVE", "THREE", "ADAPTIVE3", "ADAPTIVE5")
             for mode in routes:
                 receipt["active_operation"] = {"kind": "warmup", "block_index": block_index, "mode": mode}
@@ -578,6 +686,16 @@ def profile_completed_request(controller, prompt_ids, response_ids, blocks, requ
                 receipt["accounting"]["planned_timed_measurements"]
                 - receipt["accounting"]["returned_timed_measurements"]
                 - receipt["accounting"]["unknown_timed_measurements"])
+            if calibration is not None:
+                attempted = len(receipt["proposal_evaluations"])
+                unknown = int(active is not None and active["kind"] == "gate_route")
+                receipt["accounting"] = {
+                    "planned_draft_forwards": 2 * len(sampled),
+                    "returned_draft_forwards": attempted, "unknown_draft_forwards": unknown,
+                    "unattempted_draft_forwards": 2 * len(sampled) - attempted - unknown,
+                    "paired_rows": len(receipt["rows"]), "interrupted_operation": active,
+                    "new_complete_generations": 0, "teacher_forwards": 0,
+                }
             if output_path is not None:
                 write_json(output_path, receipt)
     return receipt

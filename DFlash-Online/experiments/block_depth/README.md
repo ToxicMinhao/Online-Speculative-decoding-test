@@ -71,3 +71,33 @@ transfers while collecting route prices. Preserve any failed attempt.
 This milestone has 16 READOUT completions, at most 16 extra qualification
 completions, zero optimizer steps and zero FINAL completions. It neither tests
 the trained gate's endpoint benefit nor establishes online recalibration value.
+# Authorized full endpoint
+
+`run_full.sh PLAN_ROOT` runs the separately sealed continuation after successful
+native skip qualification and pricing. `full_campaign.py` reuses the first16
+READOUT answers by replaying their exact retained target inputs; it collects the
+remaining368, prepares native teacher features, and fits only the sidecar for
+three128-response groups (768presentations /384AdamW steps). Groups continue
+their own compact sidecar/Adam/RNG state. Consumed teacher tensors retire only
+after successor verification; tokens, anchor/exposure metadata and receipts stay.
+
+`readout_training.py` uses the existing SpecForge/native K+ objective, BF16
+optimizer, masks, conditioning, attention, normalization and sampling. Its frozen
+three-layer view leaves the original five-layer object unchanged. Native serving
+uses fused residual RMSNorm while training uses its qualified residual-complete
+representation; this does not claim bitwise equivalence between training and
+serving kernels. Static THREE and adaptive shallow inference share one readout.
+
+The128 alternating GATE behaviors supply signed matched-start progress labels.
+`gate.py` fits the fixed97-feature weighted ridge rule; κ uses synchronized native
+decode-round timing on64 FIVE behaviors. The previously priced continuation cost
+is fixed. Fitted tensors are copied in-place into graph-bound buffers, then frozen.
+
+`endpoint.py` seals24blocks×16questions×3paths×2sweeps =2,304 FINAL completions.
+Only lightweight route/native counters remain in timing. Native accepted counts
+follow committed-progress-minus-one; full committed progress is also reported.
+Complete-request latency is primary; the no-extra-sync host round subcounter may
+omit trailing device completion. Missing canonical references are counted
+separately, with no new feedback or fitting. Final decision requires both paired
+95% lower confidence limits above zero;2%over FIVE remains a separate practical
+target. No retries, tuning or efficacy-based early stops are introduced.
