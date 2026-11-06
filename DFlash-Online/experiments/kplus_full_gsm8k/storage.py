@@ -45,8 +45,8 @@ def capacity_plan(weight_bytes):
                 offload_assumed=False)
 
 
-def boundary_files(root):
-    base = Path(root) / 'campaign_001/arms/KPLUS'
+def boundary_files(root, *, arm='KPLUS'):
+    base = Path(root) / 'campaign_001/arms' / arm
     paths = [base / 'trainer/initial_state.pt']
     for receipt in sorted((base / 'boundaries').glob('event_[0-9][0-9][0-9].json')):
         boundary = json.loads(receipt.read_text())
@@ -107,10 +107,10 @@ def compiler_growth(root):
                 compiler_growth_bytes=max(0, current['allocated_bytes'] - baseline['allocated_bytes']))
 
 
-def admit(root, plan, *, receipt_path=None):
+def admit(root, plan, *, receipt_path=None, arm='KPLUS'):
     root = _inside(root, root, directory=True)
     compiler = compiler_growth(root)
-    present = allocated_bytes(_inside(path, root) for path in boundary_files(root))
+    present = allocated_bytes(_inside(path, root) for path in boundary_files(root, arm=arm))
     compact_paths = [root]
     for path in root.rglob('*'):
         if path.is_symlink():
@@ -136,8 +136,8 @@ def admit(root, plan, *, receipt_path=None):
     return result
 
 
-def check_growth(root, plan):
-    return admit(root, plan)
+def check_growth(root, plan, *, arm='KPLUS'):
+    return admit(root, plan, arm=arm)
 
 
 def _retire(root, receipt_path, candidates, compact_paths, *, reason, retained):
@@ -251,7 +251,7 @@ def retire_redundant_features(record, prepared_receipt, root, event_root):
 
 
 def retire_event(root, event_root, records, receipt, previous_export,
-                 previous_boundary, current_boundary):
+                 previous_boundary, current_boundary, *, arm='KPLUS'):
     event_root = _inside(event_root, root, directory=True)
     training = receipt['training']
     event_id = training['event_id']
@@ -292,4 +292,4 @@ def retire_event(root, event_root, records, receipt, previous_export,
                    reason='Complete successor state/export validated and native publication passed.',
                    retained={'current_state': current_boundary['state'],
                              'current_weights': current_boundary['weights'],
-                             'initial_state': str(Path(root) / 'campaign_001/arms/KPLUS/trainer/initial_state.pt')})
+                             'initial_state': str(Path(root) / 'campaign_001/arms' / arm / 'trainer/initial_state.pt')})
