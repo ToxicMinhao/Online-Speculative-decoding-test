@@ -417,6 +417,13 @@ class TargetObjectiveModel(OnlineDFlashModel):
         guard = getattr(self, "prefix_guard", None)
         if guard is not None:
             guard.begin_response(input_ids, hidden_states, loss_mask, anchors, keep, labels, weights)
+        point_loss = getattr(self, 'point_loss_extension', None)
+        prepare_response = getattr(point_loss, 'prepare_response', None)
+        if prepare_response is not None:
+            # Some point losses require the whole response's weight sum before
+            # projection chunking. Each response's backward finishes before the
+            # next response is prepared; checkpoint recomputation reuses it.
+            prepare_response(weights)
         terms = checkpointed_chunk_reduce(
             self._chunk_loss, output_hidden, reference_hidden, labels, weights, teacher_hidden,
             chunk_size=self.objective_chunk_blocks, dim=1, checkpoint=True,
