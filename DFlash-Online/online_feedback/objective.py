@@ -1,7 +1,7 @@
 """Hard-CE, projected-target and OSD objectives on author DFlash blocks.
 
-Sampling, conditioning and the trainable backbone remain in SpecForge. Only the
-labels supplied to the weighted vocabulary loss change between objectives.
+Sampling, conditioning and the trainable backbone remain in SpecForge. The
+weighted vocabulary objective is selected explicitly by each experiment.
 """
 import copy
 import math
@@ -140,7 +140,8 @@ class TargetObjectiveModel(OnlineDFlashModel):
                 -1, labels.unsqueeze(-1),
             ).squeeze(-1)
         elif self.is_osd:
-            # T=1, pure teacher forward KL; the teacher is never differentiated.
+            # T=1; ordinary OSD uses pure teacher forward KL. An explicitly
+            # installed point loss shares the frozen teacher projection.
             # Checkpoint recomputation also enters this timer, so it is included.
             with torch.no_grad():
                 _synchronize(teacher_hidden)
@@ -149,7 +150,13 @@ class TargetObjectiveModel(OnlineDFlashModel):
                 _synchronize(teacher_logits)
                 self.costs['teacher_head_s'] = self.costs.get('teacher_head_s', 0.0) + (
                     time.perf_counter() - started)
-                teacher_probability = F.softmax(teacher_logits, dim=-1)
+                point_loss = getattr(self, 'point_loss_extension', None)
+                if point_loss is None:
+                    teacher_probability = F.softmax(teacher_logits, dim=-1)
+            if point_loss is not None:
+                # Only the position loss changes. Sampling, teacher alignment,
+                # response masks and weights remain the native OSD path.
+                return point_loss.chunk_terms(logits, teacher_logits, labels, weights)
             token_loss = F.kl_div(
                 F.log_softmax(logits, dim=-1), teacher_probability, reduction='none',
             ).sum(dim=-1)
@@ -453,6 +460,11 @@ class TargetObjectiveModel(OnlineDFlashModel):
                 'selection_rate': (statistics[1], statistics[0]),
             })
         metrics['sum_metrics'].update(redistribution_metrics)
+        point_loss = getattr(self, 'point_loss_extension', None)
+        if point_loss is not None:
+            sums, ratios = point_loss.response_metrics(terms, denominator)
+            metrics['sum_metrics'].update(sums)
+            metrics['ratio_metrics'].update(ratios)
         if guard is not None:
             preservation = guard.finish_response(terms[5], terms[6])
             metrics['ratio_metrics']['prefix_preservation_H'] = (

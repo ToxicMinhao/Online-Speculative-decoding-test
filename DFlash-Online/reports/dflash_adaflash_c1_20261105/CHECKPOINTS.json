@@ -1,0 +1,102 @@
+{
+  "execution_source": {
+    "commit": "681336c5e5c5caa0aa67560e46ffe83ce81e9351",
+    "dirty": false,
+    "source_path": "/data/sources/minhao/DFlash-Online",
+    "repository": "https://github.com/ToxicMinhao/Online-Speculative-decoding-test"
+  },
+  "configuration": {
+    "binding": "794063a2982b66c35be61d20e1b0ebcd1188a2d289c175b75d27568701855067",
+    "configs": {
+      "A": "/data/sources/minhao/runs/dflash_adaflash_c1_20261105/production_001/sealed/config_A.yaml"
+    },
+    "original_config": "/data/sources/minhao/runs/dflash_adaflash_c1_20261105/production_001/sealed/ORIGINAL_CONFIG.yaml",
+    "loss": {
+      "name": "adaflash_paper_opd_v1",
+      "main_loss": "0.8_teacher_argmax_ce_plus_0.2_entry_clipped_reverse_kl",
+      "temperature": 1.0,
+      "ce_fraction": 0.8,
+      "reverse_kl_fraction": 0.2,
+      "entry_cap": 0.01,
+      "clipping_scope": "each_vocabulary_entry_before_vocabulary_sum",
+      "negative_entries": "unchanged",
+      "cap_equality_derivative": "torch_clamp_max_native",
+      "teacher": "frozen_target_predecessor_hidden",
+      "ce_labels": "current_frozen_teacher_projection_argmax",
+      "draft_projection_precision": "bfloat16",
+      "teacher_projection_precision": "bfloat16",
+      "probability_arithmetic": "bfloat16_stable_log_softmax_then_exp",
+      "entry_arithmetic_and_vocabulary_sum": "bfloat16",
+      "position_weight_and_response_reduction_precision": "float32",
+      "selection": "all_native_osd_valid_response_proposals_excluding_seed",
+      "position_decay_and_response_denominator": "unchanged_native_osd",
+      "denominator_epsilon": 1e-06,
+      "reference_model": null,
+      "adaptive_length_head": false,
+      "public_trainer_variant_reproduced": false
+    },
+    "model_pin": "sealed/MODEL_PIN.json",
+    "runtime_pin": "sealed/RUNTIME_PIN.json",
+    "training_pin": "sealed/TRAINING_PIN.json"
+  },
+  "checkpoints": {
+    "O": {
+      "path": "/data/sources/minhao/runs/dflash_online_osd_rerun_20261023/campaign_001/trainer/events/event_058/export",
+      "files": {
+        "config.json": {
+          "bytes": 1211,
+          "sha256": "5749d96966f9ce7e6a9662c9f482b8aa0d461845fb6b9ce09ac2c08311fab2aa",
+          "inode": 1216164649,
+          "device": 2066,
+          "mtime_ns": 1792846706283935675,
+          "resolved": "/data/sources/minhao/runs/dflash_online_osd_rerun_20261023/campaign_001/trainer/events/event_058/export/config.json"
+        },
+        "model.safetensors": {
+          "bytes": 2097259104,
+          "sha256": "796ec9d486046d43a2b91bd0ddf32b33eb3183b7d924e9dd9ab6bc4c6b0d0856",
+          "inode": 1216164647,
+          "device": 2066,
+          "mtime_ns": 1792846706282935658,
+          "resolved": "/data/sources/minhao/runs/dflash_online_osd_rerun_20261023/campaign_001/trainer/events/event_058/export/model.safetensors"
+        }
+      },
+      "identity_evidence": "Retained export manifest checked by successful preflight and postflight"
+    },
+    "KPLUS": {
+      "path": "/data/sources/minhao/runs/dflash_kplus_20261103/production_001/campaign_001/arms/KPLUS/trainer/events/event_058/export",
+      "files": {
+        "config.json": {
+          "bytes": 1211,
+          "sha256": "5749d96966f9ce7e6a9662c9f482b8aa0d461845fb6b9ce09ac2c08311fab2aa",
+          "inode": 1277565676,
+          "device": 2066,
+          "mtime_ns": 1793728747144826671,
+          "resolved": "/data/sources/minhao/runs/dflash_kplus_20261103/production_001/campaign_001/arms/KPLUS/trainer/events/event_058/export/config.json"
+        },
+        "model.safetensors": {
+          "bytes": 2097259104,
+          "sha256": "4bd8e872e4b3976b0da257f0b181f0f27c8b369e2faf386d7d833de9a1c87d67",
+          "inode": 1277565675,
+          "device": 2066,
+          "mtime_ns": 1793728747143826654,
+          "resolved": "/data/sources/minhao/runs/dflash_kplus_20261103/production_001/campaign_001/arms/KPLUS/trainer/events/event_058/export/model.safetensors"
+        }
+      },
+      "identity_evidence": "Retained export manifest checked by successful preflight and postflight"
+    },
+    "A": {
+      "path": "/data/sources/minhao/runs/dflash_adaflash_c1_20261105/production_001/campaign_001/arms/A/trainer/events/event_058/export",
+      "files": {
+        "config.json": {
+          "bytes": 1211,
+          "sha256": "5749d96966f9ce7e6a9662c9f482b8aa0d461845fb6b9ce09ac2c08311fab2aa"
+        },
+        "model.safetensors": {
+          "bytes": 2097259104,
+          "sha256": "f5c8e02c66c916ffbdaf032145ebf5bb2ca0e3dc9e2c902d1f12abf73d573adb"
+        }
+      },
+      "identity_evidence": "Fresh CPU file hashing after successful campaign; saved native state/export equality check also passed"
+    }
+  }
+}
