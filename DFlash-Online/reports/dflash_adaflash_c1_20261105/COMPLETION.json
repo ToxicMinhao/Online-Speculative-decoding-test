@@ -1,0 +1,92 @@
+{
+  "status": "completed_and_analyzed",
+  "execution_commit": "681336c5e5c5caa0aa67560e46ffe83ce81e9351",
+  "started_utc": "2026-11-06T00:14:09Z",
+  "completed_utc": "2026-11-06T11:07:41Z",
+  "wrapper_wall_s": 39212,
+  "events": 58,
+  "optimizer_steps": 7424,
+  "response_presentations": 14848,
+  "online_generations": 7473,
+  "correctness_generations": 4,
+  "timed_generations": 9216,
+  "total_complete_generations": 16693,
+  "validity": "all_prescribed_executions_valid",
+  "primary": {
+    "call_reduction": {
+      "point_pct": 4.02812590111572,
+      "ci95_pct": [
+        3.6760325093146067,
+        4.3891706201762535
+      ],
+      "undefined_bootstrap_draws": 0,
+      "candidate_sum": 43267.0,
+      "reference_sum": 45083.0
+    },
+    "request_wins": 687,
+    "request_regressions": 195,
+    "request_ties": 142,
+    "request_denominator": 1024,
+    "gross_calls_saved": 2181,
+    "gross_calls_added": 365,
+    "request_latency_s_reduction": {
+      "point_pct": 4.028450118131566,
+      "ci95_pct": [
+        3.3288757870379886,
+        4.734649874868704
+      ],
+      "undefined_bootstrap_draws": 0,
+      "candidate_sum": 783.7418368533254,
+      "reference_sum": 816.6397623233497
+    },
+    "native_generate_s_reduction": {
+      "point_pct": 4.075866621888357,
+      "ci95_pct": [
+        3.6008825984985653,
+        4.561712178902841
+      ],
+      "undefined_bootstrap_draws": 0,
+      "candidate_sum": 734.9236338815342,
+      "reference_sum": 766.1509236519536
+    },
+    "cache_maintenance_s_reduction": {
+      "point_pct": 1.5914069507304895,
+      "ci95_pct": [
+        -11.876447800562433,
+        13.567902981342304
+      ],
+      "undefined_bootstrap_draws": 0,
+      "candidate_sum": 35.452836548909545,
+      "reference_sum": 36.02615935293337
+    }
+  },
+  "audits": {
+    "endpoint": {
+      "file": "reviews/endpoint/AUDIT.json",
+      "status": "passed",
+      "checks": 3016692,
+      "failures": {}
+    },
+    "training": {
+      "file": "reviews/training/AUDIT_FULL.json",
+      "status": "passed",
+      "checks": 8321740,
+      "failures": []
+    },
+    "statistics": {
+      "file": "reviews/statistics/STATISTICS_AUDIT.json",
+      "status": "passed",
+      "checks": 204139,
+      "failures": []
+    }
+  },
+  "scope": "Same-team retained-record analysis, not an independent GPU reproduction",
+  "extra_model_work_during_review": 0,
+  "retirement": {
+    "paths": 22386,
+    "retained_compact_files": 59864,
+    "intermediate_event_resume": "unavailable for events1..57",
+    "retired_features": "not archived"
+  },
+  "raw_evidence_root": "/data/sources/minhao/runs/dflash_adaflash_c1_20261105/production_001"
+}
