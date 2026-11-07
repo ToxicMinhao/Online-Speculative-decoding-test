@@ -1,0 +1,352 @@
+{
+  "status": "passed",
+  "model_work": 0,
+  "postflight": true,
+  "qualification_only": false,
+  "seal": {
+    "status": "passed",
+    "files_checked": 3245,
+    "execution_source": {
+      "commit": "7dac02b0fc6686d7129c5d29699ee9bfe5be2e7a",
+      "dirty": false,
+      "source_path": "/data/sources/minhao/DFlash-Online",
+      "repository": "https://github.com/ToxicMinhao/Online-Speculative-decoding-test"
+    }
+  },
+  "plan": {
+    "status": "passed",
+    "manifest": {
+      "counts": {
+        "train_requests": 7473,
+        "feedback_requests": 7424,
+        "serve_only_requests": 49,
+        "events": 58,
+        "responses_per_event": 128,
+        "eval_requests": 1024
+      },
+      "cap_policy": "fixed2048",
+      "train_context_limit": 2272,
+      "serving_context_limit": 4096,
+      "train_output_cap_min": 2048,
+      "train_output_cap_max": 2048,
+      "train_prompt_tokens_max": 224,
+      "eval_prompt_tokens_max": 215
+    },
+    "budget": {
+      "training_events": 58,
+      "optimizer_steps": 7424,
+      "response_presentations": 14848,
+      "response_forwards": 14848,
+      "response_backwards": 14848,
+      "online_generations": 7473,
+      "terminal_preparation_forwards": 7424,
+      "intermediate_generations": 0,
+      "final_generations": 12288,
+      "correctness_generations": 4,
+      "total_generations": 19765,
+      "disposable_optimizer_steps": 6,
+      "baseline_optimizer_steps": 0
+    },
+    "balance": {
+      "orders": [
+        {
+          "order": [
+            "A",
+            "AREPO",
+            "KPLUS",
+            "O"
+          ],
+          "count": 2
+        },
+        {
+          "order": [
+            "A",
+            "AREPO",
+            "O",
+            "KPLUS"
+          ],
+          "count": 2
+        },
+        {
+          "order": [
+            "A",
+            "KPLUS",
+            "AREPO",
+            "O"
+          ],
+          "count": 2
+        },
+        {
+          "order": [
+            "A",
+            "KPLUS",
+            "O",
+            "AREPO"
+          ],
+          "count": 2
+        },
+        {
+          "order": [
+            "A",
+            "O",
+            "AREPO",
+            "KPLUS"
+          ],
+          "count": 2
+        },
+        {
+          "order": [
+            "A",
+            "O",
+            "KPLUS",
+            "AREPO"
+          ],
+          "count": 2
+        },
+        {
+          "order": [
+            "AREPO",
+            "A",
+            "KPLUS",
+            "O"
+          ],
+          "count": 2
+        },
+        {
+          "order": [
+            "AREPO",
+            "A",
+            "O",
+            "KPLUS"
+          ],
+          "count": 2
+        },
+        {
+          "order": [
+            "AREPO",
+            "KPLUS",
+            "A",
+            "O"
+          ],
+          "count": 2
+        },
+        {
+          "order": [
+            "AREPO",
+            "KPLUS",
+            "O",
+            "A"
+          ],
+          "count": 2
+        },
+        {
+          "order": [
+            "AREPO",
+            "O",
+            "A",
+            "KPLUS"
+          ],
+          "count": 2
+        },
+        {
+          "order": [
+            "AREPO",
+            "O",
+            "KPLUS",
+            "A"
+          ],
+          "count": 2
+        },
+        {
+          "order": [
+            "KPLUS",
+            "A",
+            "AREPO",
+            "O"
+          ],
+          "count": 2
+        },
+        {
+          "order": [
+            "KPLUS",
+            "A",
+            "O",
+            "AREPO"
+          ],
+          "count": 2
+        },
+        {
+          "order": [
+            "KPLUS",
+            "AREPO",
+            "A",
+            "O"
+          ],
+          "count": 2
+        },
+        {
+          "order": [
+            "KPLUS",
+            "AREPO",
+            "O",
+            "A"
+          ],
+          "count": 2
+        },
+        {
+          "order": [
+            "KPLUS",
+            "O",
+            "A",
+            "AREPO"
+          ],
+          "count": 2
+        },
+        {
+          "order": [
+            "KPLUS",
+            "O",
+            "AREPO",
+            "A"
+          ],
+          "count": 2
+        },
+        {
+          "order": [
+            "O",
+            "A",
+            "AREPO",
+            "KPLUS"
+          ],
+          "count": 2
+        },
+        {
+          "order": [
+            "O",
+            "A",
+            "KPLUS",
+            "AREPO"
+          ],
+          "count": 2
+        },
+        {
+          "order": [
+            "O",
+            "AREPO",
+            "A",
+            "KPLUS"
+          ],
+          "count": 2
+        },
+        {
+          "order": [
+            "O",
+            "AREPO",
+            "KPLUS",
+            "A"
+          ],
+          "count": 2
+        },
+        {
+          "order": [
+            "O",
+            "KPLUS",
+            "A",
+            "AREPO"
+          ],
+          "count": 2
+        },
+        {
+          "order": [
+            "O",
+            "KPLUS",
+            "AREPO",
+            "A"
+          ],
+          "count": 2
+        }
+      ],
+      "each_order_count": 2,
+      "block_repeat_orders": 48,
+      "each_method_per_position_per_repeat": 4,
+      "generations": 12288
+    }
+  },
+  "retained_exports": {
+    "O": {
+      "path": "/data/sources/minhao/runs/dflash_online_osd_rerun_20261023/campaign_001/trainer/events/event_058/export",
+      "unchanged": true
+    },
+    "KPLUS": {
+      "path": "/data/sources/minhao/runs/dflash_kplus_20261103/production_001/campaign_001/arms/KPLUS/trainer/events/event_058/export",
+      "unchanged": true
+    },
+    "A": {
+      "path": "/data/sources/minhao/runs/dflash_adaflash_c1_20261105/production_001/campaign_001/arms/A/trainer/events/event_058/export",
+      "unchanged": true
+    }
+  },
+  "config": null,
+  "native_runtime": {
+    "python_version": "3.12.14",
+    "torch": "2.9.1+cu130",
+    "transformers": "4.57.1",
+    "cuda": "13.0",
+    "native_runtime_sha256": {
+      "speculative/dflash_worker.py": "9397402f5cfbf60b00b7d27d551e5e9e1b605be9b084d028d4ddda76c475dc8c",
+      "speculative/dflash_info.py": "9c7ac23a1bf0840eec8218f02f2adbfc3e419099cd19822137ce5c6e0e902218",
+      "layers/logits_processor.py": "5c6c54bec37b941652e29908c773a756fe6c86f99932ab80043672a1eaa0f086",
+      "models/qwen3.py": "e23ee8af21eac46685852854a5fe585cf58477d4a1f8047887d6afeefaf8e32d",
+      "models/dflash.py": "d4fcfe005a1acc51a4938d038e1dbc1a2c8ff245842f4253338527335b2327b2",
+      "entrypoints/engine.py": "2bcd4b04c325d4ed65f867490c5bac9e915e02f05471c83dacb5a4a097cf1f2a",
+      "server_args.py": "bd60199803698e4ffe6dc44499a8d42be73f42db28056cb6750411523cf56c04"
+    }
+  },
+  "training_runtime": {
+    "python": "3.12.15",
+    "torch": "2.13.0+cu130",
+    "transformers": "5.12.1"
+  },
+  "storage": {
+    "status": "passed",
+    "free_bytes": 149804408832,
+    "required_additional_and_reserve_bytes": 143023783219,
+    "validated_existing_tensor_bytes": 10527870976,
+    "compact_bytes": 6013444096,
+    "accounting": "st_blocks*512; unique device/inode including directory metadata",
+    "no_future_deletion_credit": true,
+    "plan": {
+      "weight_bytes": 2097259104,
+      "state_weight_equivalents": 9,
+      "feature_peak_bytes": 14409427596,
+      "tensor_peak_bytes": 33284759532,
+      "tensor_peak_with_margin_bytes": 34948997509,
+      "compact_bytes": 109583715246,
+      "compiler_bytes": 4294967296,
+      "workspace_bytes": 2147483648,
+      "reserve_bytes": 8589934592,
+      "required_initial_free_bytes": 159565098291,
+      "lifecycle": "incremental durable preparation; validated event retirement",
+      "offload_assumed": false,
+      "raw_bytes_per_generation": 5327030,
+      "raw_budget_generations": 19765,
+      "metadata_and_log_allowance_bytes": 4294967296,
+      "qualification_optimizer_steps": 6
+    },
+    "compiler_baseline_path": "/data/sources/minhao/runs/dflash_adaflash_arepo_20261107/production_001/COMPILER_BASELINE.json",
+    "compiler_cache_directories": {
+      "TORCH_HOME": "/data/sources/minhao/.cache/torch",
+      "TORCH_EXTENSIONS_DIR": "/data/sources/minhao/.cache/torch_extensions",
+      "TORCHINDUCTOR_CACHE_DIR": "/data/sources/minhao/.cache/torchinductor",
+      "TVM_FFI_CACHE_DIR": "/data/sources/minhao/.cache/tvm-ffi",
+      "TRITON_CACHE_DIR": "/data/sources/minhao/.cache/triton",
+      "CUDA_CACHE_PATH": "/data/sources/minhao/.cache/cuda",
+      "SGLANG_CACHE_DIR": "/data/sources/minhao/.cache/sglang",
+      "FLASHINFER_CACHE": "/data/sources/minhao/.cache/flashinfer"
+    },
+    "compiler_baseline_allocated_bytes": 3365732352,
+    "compiler_current_allocated_bytes": 3365732352,
+    "compiler_growth_bytes": 0
+  },
+  "wall_s": 28.451828667894006
+}

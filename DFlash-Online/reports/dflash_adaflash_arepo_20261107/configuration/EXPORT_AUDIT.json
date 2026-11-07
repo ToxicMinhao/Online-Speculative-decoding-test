@@ -1,0 +1,52 @@
+{
+  "status": "passed",
+  "model_work": 0,
+  "checkpoints": {
+    "O": "/data/sources/minhao/runs/dflash_online_osd_rerun_20261023/campaign_001/trainer/events/event_058/export",
+    "KPLUS": "/data/sources/minhao/runs/dflash_kplus_20261103/production_001/campaign_001/arms/KPLUS/trainer/events/event_058/export",
+    "A": "/data/sources/minhao/runs/dflash_adaflash_c1_20261105/production_001/campaign_001/arms/A/trainer/events/event_058/export"
+  },
+  "exports": {
+    "O": {
+      "path": "/data/sources/minhao/runs/dflash_online_osd_rerun_20261023/campaign_001/trainer/events/event_058/export",
+      "files": {
+        "config.json": {
+          "bytes": 1211,
+          "sha256": "5749d96966f9ce7e6a9662c9f482b8aa0d461845fb6b9ce09ac2c08311fab2aa"
+        },
+        "model.safetensors": {
+          "bytes": 2097259104,
+          "sha256": "796ec9d486046d43a2b91bd0ddf32b33eb3183b7d924e9dd9ab6bc4c6b0d0856"
+        }
+      }
+    },
+    "KPLUS": {
+      "path": "/data/sources/minhao/runs/dflash_kplus_20261103/production_001/campaign_001/arms/KPLUS/trainer/events/event_058/export",
+      "files": {
+        "config.json": {
+          "bytes": 1211,
+          "sha256": "5749d96966f9ce7e6a9662c9f482b8aa0d461845fb6b9ce09ac2c08311fab2aa"
+        },
+        "model.safetensors": {
+          "bytes": 2097259104,
+          "sha256": "4bd8e872e4b3976b0da257f0b181f0f27c8b369e2faf386d7d833de9a1c87d67"
+        }
+      }
+    },
+    "A": {
+      "path": "/data/sources/minhao/runs/dflash_adaflash_c1_20261105/production_001/campaign_001/arms/A/trainer/events/event_058/export",
+      "files": {
+        "config.json": {
+          "bytes": 1211,
+          "sha256": "5749d96966f9ce7e6a9662c9f482b8aa0d461845fb6b9ce09ac2c08311fab2aa"
+        },
+        "model.safetensors": {
+          "bytes": 2097259104,
+          "sha256": "f5c8e02c66c916ffbdaf032145ebf5bb2ca0e3dc9e2c902d1f12abf73d573adb"
+        }
+      }
+    }
+  },
+  "source": "/data/sources/minhao/runs/dflash_adaflash_c1_20261105/production_001",
+  "scope": "fresh exact export identities; historical manifest comparison performed locally"
+}
