@@ -199,6 +199,12 @@ class TargetObjectiveModel(OnlineDFlashModel):
                 (token_loss * selected_weights).sum(), selected_weights.sum(),
                 correct, eligible.sum().float(), statistics,
             )
+            role_loss = getattr(self, 'role_loss_extension', None)
+            if role_loss is not None:
+                return role_loss.chunk_terms(
+                    logits, teacher_logits, token_loss, proposals, labels, weights,
+                    selection, terms, self.eos_token_ids,
+                )
             redistribution = getattr(self, 'first_error_redistribution', None)
             if redistribution is not None:
                 _synchronize(token_loss)
@@ -378,6 +384,12 @@ class TargetObjectiveModel(OnlineDFlashModel):
         redistribution = getattr(self, 'first_error_redistribution', None)
         if redistribution is not None:
             redistribution.validate_response(input_ids)
+        role_loss = getattr(self, 'role_loss_extension', None)
+        if role_loss is not None:
+            role_loss.validate_response(input_ids)
+            if any(getattr(self, name, None) is not None for name in (
+                    'first_error_redistribution', 'point_loss_extension', 'prefix_guard')):
+                raise ValueError('Role loss cannot combine objective extensions')
         if (self.objective == 'projected' or self.ranking_enabled) and self.reference is None:
             raise RuntimeError('Begin the event before using a reference-dependent objective')
         if self.uses_teacher and target_last_hidden_states is None:
@@ -424,6 +436,8 @@ class TargetObjectiveModel(OnlineDFlashModel):
             # projection chunking. Each response's backward finishes before the
             # next response is prepared; checkpoint recomputation reuses it.
             prepare_response(weights)
+        if role_loss is not None:
+            role_loss.prepare_response(weights)
         terms = checkpointed_chunk_reduce(
             self._chunk_loss, output_hidden, reference_hidden, labels, weights, teacher_hidden,
             chunk_size=self.objective_chunk_blocks, dim=1, checkpoint=True,
@@ -441,7 +455,10 @@ class TargetObjectiveModel(OnlineDFlashModel):
             # Apply the author's epsilon once per response, not once per chunk.
             denominator = denominator + 1e-6
         reduce_response = getattr(point_loss, 'reduce_response', None)
-        if reduce_response is None:
+        if role_loss is not None:
+            loss = role_loss.reduce_response(terms, denominator)
+            loss_terms = (loss, loss.new_ones(()))
+        elif reduce_response is None:
             loss = loss_sum / denominator.clamp_min(torch.finfo(torch.float32).tiny)
             loss_terms = (loss_sum, denominator.detach())
         else:
@@ -469,7 +486,8 @@ class TargetObjectiveModel(OnlineDFlashModel):
                 'main_loss_numerator': loss_sum.detach(),
                 'loss_denominator': denominator.detach(),
             })
-            loss_name = 'canonical_ce' if self.objective in CE_OBJECTIVES else 'forward_kl'
+            loss_name = ('native_selected_forward_kl' if role_loss is not None else
+                         'canonical_ce' if self.objective in CE_OBJECTIVES else 'forward_kl')
             metrics['ratio_metrics'].update({
                 loss_name: (loss_sum.detach(), denominator.detach()),
                 'selection_rate': (statistics[1], statistics[0]),
@@ -478,6 +496,10 @@ class TargetObjectiveModel(OnlineDFlashModel):
         point_loss = getattr(self, 'point_loss_extension', None)
         if point_loss is not None:
             sums, ratios = point_loss.response_metrics(terms, denominator)
+            metrics['sum_metrics'].update(sums)
+            metrics['ratio_metrics'].update(ratios)
+        if role_loss is not None:
+            sums, ratios = role_loss.response_metrics(terms, denominator)
             metrics['sum_metrics'].update(sums)
             metrics['ratio_metrics'].update(ratios)
         if guard is not None:
