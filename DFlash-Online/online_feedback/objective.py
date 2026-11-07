@@ -440,12 +440,20 @@ class TargetObjectiveModel(OnlineDFlashModel):
         if self.is_osd:
             # Apply the author's epsilon once per response, not once per chunk.
             denominator = denominator + 1e-6
-        loss = loss_sum / denominator.clamp_min(torch.finfo(torch.float32).tiny)
+        reduce_response = getattr(point_loss, 'reduce_response', None)
+        if reduce_response is None:
+            loss = loss_sum / denominator.clamp_min(torch.finfo(torch.float32).tiny)
+            loss_terms = (loss_sum, denominator.detach())
+        else:
+            # Released AdaFlash reduces CE and already-normalized RKL before
+            # mixing them. Dividing that mixture again changes its arithmetic.
+            loss = reduce_response(terms, denominator)
+            loss_terms = (loss, loss.new_ones(()))
         accuracy = correct / positions.clamp_min(1)
         metrics = {
-            'loss_terms': (loss_sum, denominator.detach()),
+            'loss_terms': loss_terms,
             'accuracy_denom': positions.detach(),
-            'ratio_metrics': {'objective_loss': (loss_sum.detach(), denominator.detach())},
+            'ratio_metrics': {'objective_loss': (loss_terms[0].detach(), loss_terms[1])},
             'sum_metrics': {'supervised_position_exposure': positions.detach()},
         }
         if self.objective in NEW_OBJECTIVES:

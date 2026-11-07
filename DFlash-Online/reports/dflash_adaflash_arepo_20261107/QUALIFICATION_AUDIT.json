@@ -1,0 +1,72 @@
+{
+  "verification_status": "ANALYZED",
+  "execution_commit": "7dac02b0fc6686d7129c5d29699ee9bfe5be2e7a",
+  "source_root": "/data/sources/minhao/runs/dflash_adaflash_arepo_20261107/production_001/qualification",
+  "scope": "Read-only JSON audit; no model execution or independent GPU replication",
+  "authorship_overlap": "Auditor implemented the loss and some CPU tests; independent record recomputation is not independent authorship",
+  "qualification_status": "passed",
+  "pairs": [
+    {
+      "pair": 1,
+      "positions": 11400,
+      "clipped_positions": 1478,
+      "minimum_positive_probability": 1.125862283931428e-26,
+      "aggregate_checks": 18,
+      "all_checks_passed": true,
+      "gradient_differing_coordinates": 0,
+      "displacement_differing_coordinates": 0,
+      "optimizer_differences": 0,
+      "rng_differences": 0,
+      "response_differences": 0,
+      "zero_probabilities": 0
+    },
+    {
+      "pair": 2,
+      "positions": 6630,
+      "clipped_positions": 2588,
+      "minimum_positive_probability": 5.428372769879244e-25,
+      "aggregate_checks": 18,
+      "all_checks_passed": true,
+      "gradient_differing_coordinates": 0,
+      "displacement_differing_coordinates": 0,
+      "optimizer_differences": 0,
+      "rng_differences": 0,
+      "response_differences": 0,
+      "zero_probabilities": 0
+    },
+    {
+      "pair": 3,
+      "positions": 7125,
+      "clipped_positions": 2226,
+      "minimum_positive_probability": 4.4428646182047385e-26,
+      "aggregate_checks": 18,
+      "all_checks_passed": true,
+      "gradient_differing_coordinates": 0,
+      "displacement_differing_coordinates": 0,
+      "optimizer_differences": 0,
+      "rng_differences": 0,
+      "response_differences": 0,
+      "zero_probabilities": 0
+    }
+  ],
+  "independent_scalar_checks": 54,
+  "all_checks_passed": true,
+  "branches": 6,
+  "exact_initial_restorations": 6,
+  "adam_steps": 6,
+  "core_forward_backward_pairs": 12,
+  "startup_forward_backward_pairs": 2,
+  "fixture_forward_backward_pairs": 6,
+  "uncompleted_branches": 0,
+  "wall_s": 242.27588609606028,
+  "peak_cuda_allocated_bytes": 23290610176,
+  "clipped_unique_occurrences": 6292,
+  "available_unique_occurrences": 25155,
+  "legacy_label_mapping": {
+    "paper_entry": "literal_source",
+    "repo_position": "ported_loss"
+  },
+  "interpretation": "Native equality on fixed qualification cases; no endpoint efficacy or future numerical-finiteness conclusion",
+  "main_storage_admitted_by_auditor": false,
+  "fallacy_scan": "11/11 checked; no inferential tests or efficacy claims in this qualification"
+}
