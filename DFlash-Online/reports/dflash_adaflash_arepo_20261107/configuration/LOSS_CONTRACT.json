@@ -1,0 +1,40 @@
+{
+  "name": "released_adaflash_loss_v1",
+  "source_commit": "478bf0ff7a3a5232b13d0f14e752d5fe1da0b718",
+  "source_path": "pipeline/training/rkl_model.py",
+  "source_lines": [
+    168,
+    207
+  ],
+  "source_sha256": "21e88533318991abb7165e9d1235f64f81c3ec269fa5f3a27c3fc7a43529fe24",
+  "temperature": 1.0,
+  "ce_fraction": 0.8,
+  "reverse_kl_fraction": 0.19999999999999996,
+  "normalized_position_cap": 0.01,
+  "ce": "F.cross_entropy(draft_logits,teacher_argmax,reduction=none)",
+  "draft_probability": "F.softmax(native_bfloat16_logits/T)",
+  "teacher_probability": "F.log_softmax(teacher_logits.float()/T).to(draft_dtype)",
+  "rkl": "F.kl_div(detached_log_p_teacher,p_draft,reduction=none)",
+  "reduction": "vocabulary_sum; multiply_T_squared; inplace_divide_full_D; position_clamp; weight_sum; late_0.8_CE_plus_0.2_RKL",
+  "response_denominator": "full_flat_response_weights.sum()+1e-6",
+  "projection_chunking": "shared_memory_chunking; global_response_denominator",
+  "reference_model": null,
+  "adaptive_length_head": false,
+  "nonfinite_policy": "stop_before_optimizer; never stabilize or accept NaN parity",
+  "tolerances": {
+    "scalar_loss": {
+      "rtol": 2e-06,
+      "atol": 2e-06
+    },
+    "bfloat16_logits_gradient": {
+      "rtol": 0.0,
+      "atol": 0.0
+    },
+    "bfloat16_parameter_update": {
+      "rtol": 0.0,
+      "atol": 0.0
+    },
+    "cap_decisions": "exact",
+    "nonfinite_policy": "stop_before_optimizer; never stabilize or accept NaN parity"
+  }
+}

@@ -1,0 +1,83 @@
+{
+  "status": "passed",
+  "verification_status": "ANALYZED",
+  "source_commit": "7dac02b0fc6686d7129c5d29699ee9bfe5be2e7a",
+  "evidence_root": "/data/sources/minhao/runs/dflash_adaflash_arepo_20261107/production_001",
+  "authorship": "Same-team auditor implemented loss and part of qualification; no independent GPU replication.",
+  "check_count": 402173,
+  "passed_check_count": 402173,
+  "failed_checks": [],
+  "missing_evidence": [],
+  "actual_main_work": {
+    "attempts": {
+      "online_generations": 7473,
+      "correctness_generations": 4,
+      "terminal_preparation_forwards": 7424,
+      "response_forwards": 14848,
+      "response_backwards": 14848,
+      "optimizer_steps": 7424
+    },
+    "completed": {
+      "online_generations": 7473,
+      "correctness_generations": 4,
+      "terminal_preparation_forwards": 7424,
+      "response_forwards": 14848,
+      "response_backwards": 14848,
+      "optimizer_steps": 7424
+    },
+    "unknown": {
+      "online_generations": 0,
+      "correctness_generations": 0,
+      "terminal_preparation_forwards": 0,
+      "response_forwards": 0,
+      "response_backwards": 0,
+      "optimizer_steps": 0
+    }
+  },
+  "exposure": {
+    "anchor_slots": 3728050,
+    "active_anchors": 3728050,
+    "supervised_position_exposure": 54368391.0,
+    "adaflash_repo_ce_numerator": 23329323.695611954,
+    "adaflash_repo_rkl_loss": 54675.962966904044,
+    "adaflash_repo_normalized_rkl_before_cap": 85009.10172693431,
+    "adaflash_repo_clipped_positions": 11559628.0,
+    "adaflash_repo_available_positions": 54368391.0,
+    "adaflash_repo_probability_zeros": 0.0,
+    "adaflash_repo_probability_entries": 9062800076800.0,
+    "adaflash_repo_nonfinite_entries": 0.0,
+    "adaflash_repo_teacher_argmax_canonical_mismatches": 616.0,
+    "adaflash_response_count": 14848.0,
+    "adaflash_repo_response_count": 14848.0,
+    "adaflash_repo_full_response_denominator": 24276320.137451172,
+    "adaflash_repo_loss": 22043.71079250425,
+    "presentations": 14848
+  },
+  "retirement": {
+    "prepared_feature": 7424,
+    "removed_bytes": 599331995491,
+    "previous_state": 57,
+    "previous_export": 57
+  },
+  "cost_totals": {
+    "checkpoint_save_s": 1094.2658968418837,
+    "event_wall_s_before_commit": 21215.281640579924,
+    "export_s": 808.707118216902,
+    "feature_persistence_s": 338.8371001780033,
+    "publication_validation_s": 1401.2582502700388,
+    "retention_s": 536.8674572631717,
+    "teacher_preparation_s": 288.25653792731464,
+    "training_s": 19164.221256392077,
+    "update_call_s": 22170.553578505293,
+    "activation_s": 89.72233903035522,
+    "native_activation_s": 19.2862817235291
+  },
+  "worker_wall_s": 31668.327263278887,
+  "limitations": [
+    "JSON records attest past tensor validation; this audit does not reload tensor states.",
+    "Full-response denominator consistency is checked from retained scalar/ratio records, not reconstructed activations.",
+    "Probability zeros count all projected logits; available/capped counts cover eligible position occurrences.",
+    "Event timers and component timers nest; do not add all cost columns.",
+    "Historical O/K+/paper-A training costs are contextual, not fresh matched measurements."
+  ]
+}

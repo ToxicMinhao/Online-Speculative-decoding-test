@@ -1,0 +1,152 @@
+{
+  "status": "passed",
+  "extra_checks": [
+    {
+      "check": "independent_cost_sum:training_s",
+      "passed": true
+    },
+    {
+      "check": "independent_cost_sum:update_call_s",
+      "passed": true
+    },
+    {
+      "check": "independent_cost_sum:checkpoint_save_s",
+      "passed": true
+    },
+    {
+      "check": "independent_cost_sum:export_s",
+      "passed": true
+    },
+    {
+      "check": "independent_cost_sum:teacher_preparation_s",
+      "passed": true
+    },
+    {
+      "check": "independent_cost_sum:feature_persistence_s",
+      "passed": true
+    },
+    {
+      "check": "independent_cost_sum:activation_s",
+      "passed": true
+    },
+    {
+      "check": "independent_cost_sum:native_activation_s",
+      "passed": true
+    },
+    {
+      "check": "independent_cost_sum:publication_validation_s",
+      "passed": true
+    },
+    {
+      "check": "independent_cost_sum:retention_s",
+      "passed": true
+    },
+    {
+      "check": "independent_event_exposure_sum:anchor_slots",
+      "passed": true
+    },
+    {
+      "check": "independent_event_exposure_sum:active_anchors",
+      "passed": true
+    },
+    {
+      "check": "independent_event_exposure_sum:supervised_position_exposure",
+      "passed": true
+    },
+    {
+      "check": "independent_event_exposure_sum:adaflash_repo_ce_numerator",
+      "passed": true
+    },
+    {
+      "check": "independent_event_exposure_sum:adaflash_repo_rkl_loss",
+      "passed": true
+    },
+    {
+      "check": "independent_event_exposure_sum:adaflash_repo_normalized_rkl_before_cap",
+      "passed": true
+    },
+    {
+      "check": "independent_event_exposure_sum:adaflash_repo_clipped_positions",
+      "passed": true
+    },
+    {
+      "check": "independent_event_exposure_sum:adaflash_repo_available_positions",
+      "passed": true
+    },
+    {
+      "check": "independent_event_exposure_sum:adaflash_repo_probability_zeros",
+      "passed": true
+    },
+    {
+      "check": "independent_event_exposure_sum:adaflash_repo_probability_entries",
+      "passed": true
+    },
+    {
+      "check": "independent_event_exposure_sum:adaflash_repo_nonfinite_entries",
+      "passed": true
+    },
+    {
+      "check": "independent_event_exposure_sum:adaflash_repo_teacher_argmax_canonical_mismatches",
+      "passed": true
+    },
+    {
+      "check": "independent_event_exposure_sum:adaflash_response_count",
+      "passed": true
+    },
+    {
+      "check": "independent_event_exposure_sum:adaflash_repo_response_count",
+      "passed": true
+    },
+    {
+      "check": "independent_event_exposure_sum:adaflash_repo_full_response_denominator",
+      "passed": true
+    },
+    {
+      "check": "independent_event_exposure_sum:adaflash_repo_loss",
+      "passed": true
+    },
+    {
+      "check": "independent_event_exposure_sum:presentations",
+      "passed": true
+    },
+    {
+      "check": "inventory:7424_preparation_retirement_receipts",
+      "passed": true
+    },
+    {
+      "check": "inventory:7424_preparation_equivalence_receipts",
+      "passed": true
+    }
+  ],
+  "source": "REMOTE_AUDIT_001.json plus completed remote inventory; local full archive verification pending",
+  "clipped_fraction": 0.2126167022305295,
+  "teacher_argmax_mismatch_fraction": 1.133011274878449e-05,
+  "teacher_head_s": 5935.4291226528585,
+  "objective_work_totals": {
+    "draft_forwards": 14848,
+    "layer_forwards": 74240,
+    "objective_chunks": 944660,
+    "vocabulary_head_calls": 1889320,
+    "response_forwards": 14848
+  },
+  "retained_tensor_paths": [
+    {
+      "path": "campaign_001/arms/AREPO/trainer/initial_state.pt",
+      "bytes": 2097298625
+    },
+    {
+      "path": "campaign_001/arms/AREPO/trainer/training_state.pt",
+      "bytes": 6333305563
+    },
+    {
+      "path": "campaign_001/arms/AREPO/trainer/events/event_058/training_state.pt",
+      "bytes": 6333305563
+    },
+    {
+      "path": "campaign_001/arms/AREPO/trainer/events/event_058/export/model.safetensors",
+      "bytes": 2097259104
+    }
+  ],
+  "preparation_receipt_inventory_count": 7424,
+  "equivalence_receipt_inventory_count": 7424
+}
