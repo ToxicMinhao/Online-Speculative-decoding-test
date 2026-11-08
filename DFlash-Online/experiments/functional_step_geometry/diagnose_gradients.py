@@ -190,7 +190,8 @@ def diagnose_native_case(case):
     return receipt
 
 
-def run(plan_path, *, case_runner=diagnose_native_case, work_limits=None):
+def run(plan_path, *, case_runner=diagnose_native_case, work_limits=None,
+        case_preparer=None):
     plan = json.loads(Path(plan_path).read_text())
     root = Path(plan['output'])
     root.mkdir(parents=True, exist_ok=False)
@@ -242,23 +243,30 @@ def run(plan_path, *, case_runner=diagnose_native_case, work_limits=None):
         named = dict(trainer.bundle.draft_model.named_parameters())
         parameters = tuple(named[name] for name in names)
         hook.active_parameters = parameters
-        response, receipt['fixture'] = load_response(trainer, plan['feature'], plan['presentations'])
+        if case_preparer is None:
+            response, receipt['fixture'] = load_response(trainer, plan['feature'], plan['presentations'])
         native = torch.load(plan['native_endpoint'], map_location='cpu', weights_only=False, mmap=True)
         if native['global_step'] != 513 or before['global_step'] != 512:
             raise ValueError('Diagnostic endpoints are not the retained first ordinary step')
         with isolated_geometry_runtime(trainer.bundle.model):
-            # Finish all parameter copies before retaining a live pre-state graph.
-            trainer.bundle.draft_model.load_state_dict(native['weights'], strict=True)
-            with work.operation('response_forward'):
-                native_hidden = hook.forward_hidden(response, 'diagnostic_native', grad=False).detach()
-            trainer.bundle.draft_model.load_state_dict(before['weights'], strict=True)
-            pre_forward_rng = capture_rng()
-            pre_forward_runtime = runtime_state(trainer.bundle.model)
-            with work.operation('response_forward'):
-                hidden = hook.forward_hidden(response, 'diagnostic_prestate', grad=True)
-            case = RetainedGradientCase(hook, response, native_hidden, hidden,
-                parameters, names, work, root, pre_forward_rng, pre_forward_runtime)
-            del hidden, native_hidden
+            if case_preparer is None:
+                # Finish parameter copies before retaining a live pre-state graph.
+                trainer.bundle.draft_model.load_state_dict(native['weights'], strict=True)
+                with work.operation('response_forward'):
+                    native_hidden = hook.forward_hidden(response, 'diagnostic_native', grad=False).detach()
+                trainer.bundle.draft_model.load_state_dict(before['weights'], strict=True)
+                pre_forward_rng = capture_rng()
+                pre_forward_runtime = runtime_state(trainer.bundle.model)
+                with work.operation('response_forward'):
+                    hidden = hook.forward_hidden(response, 'diagnostic_prestate', grad=True)
+                case = RetainedGradientCase(hook, response, native_hidden, hidden,
+                    parameters, names, work, root, pre_forward_rng, pre_forward_runtime)
+                del hidden, native_hidden
+            else:
+                case, preparation = case_preparer(trainer=trainer, hook=hook,
+                    plan=plan, work=work, root=root, parameters=parameters,
+                    names=names, before=before, native=native)
+                receipt.update(preparation)
             receipt.update(case_runner(case))
             del case
         receipt['optimizer_objects_and_versions_unchanged'] = versions == optimizer_versions(optimizer)
