@@ -1,0 +1,1931 @@
+{
+  "status": "passed",
+  "verification_status": "ANALYZED",
+  "checks": 576496,
+  "check_groups": {
+    "input": 6,
+    "trajectory": 6,
+    "initialization": 12,
+    "work": 114,
+    "retention": 24,
+    "event": 144,
+    "observations": 12312,
+    "publication": 24,
+    "boundary": 54,
+    "feedback": 15414,
+    "presentation": 9264,
+    "anchors": 18432,
+    "features": 6144,
+    "finite_numeric": 485376,
+    "exposure": 6144,
+    "mass": 6144,
+    "window": 9216,
+    "physical_work": 72,
+    "report_match": 376,
+    "feedback_pairing": 3072,
+    "diagnostics": 304,
+    "diagnostic_pairing": 3840,
+    "total": 2
+  },
+  "errors": [],
+  "total_work": {
+    "online_generations": 3072,
+    "correctness_generations": 8,
+    "terminal_preparation_forwards": 3072,
+    "response_forwards": 6144,
+    "response_backwards": 6144,
+    "optimizer_steps": 3072
+  },
+  "diagnostic_work": {
+    "completed_preparations": 32,
+    "target_prefill_forwards": 32,
+    "target_verification_replay_forwards": 1838,
+    "terminal_target_forwards": 32,
+    "draft_response_forwards": 224,
+    "vocabulary_projection_calls": 224
+  },
+  "trajectories": {
+    "gsm8k/KPLUS": {
+      "steps": 512,
+      "presentations": 1024,
+      "feedback": 512,
+      "active_anchors": 264848,
+      "clipped_steps": 0,
+      "gradient_norm_mean": 0.40343284606933594,
+      "gradient_norm_max": 0.96484375,
+      "sum_metrics": {
+        "supervised_position_exposure": 2216221.0,
+        "available_position_occurrences": 3865887.0,
+        "selected_position_occurrences": 2216221.0,
+        "available_position_weight": 1725624.1225585938,
+        "selected_position_weight": 1231690.4100341797,
+        "no_error_blocks": 60088.0,
+        "empty_blocks": 0.0,
+        "first_error_position_1": 15533.0,
+        "first_error_position_2": 20230.0,
+        "first_error_position_3": 20332.0,
+        "first_error_position_4": 18897.0,
+        "first_error_position_5": 17270.0,
+        "first_error_position_6": 15826.0,
+        "first_error_position_7": 14644.0,
+        "first_error_position_8": 13243.0,
+        "first_error_position_9": 12160.0,
+        "first_error_position_10": 11153.0,
+        "first_error_position_11": 10254.0,
+        "first_error_position_12": 9594.0,
+        "first_error_position_13": 8953.0,
+        "first_error_position_14": 8507.0,
+        "first_error_position_15": 8164.0,
+        "main_loss_numerator": 268330.520362854,
+        "loss_denominator": 1231690.4100341797,
+        "kplus_N_K": 273222.5877227783,
+        "kplus_S": 1231690.4100341797,
+        "kplus_W1": 71176.53560829163,
+        "kplus_W2": 33526.239224910736,
+        "kplus_N1": 138232.90114974976,
+        "kplus_N2": 46048.12243127823,
+        "kplus_N_new": 268330.520362854,
+        "kplus_priority1_error_count": 141473.0,
+        "kplus_priority2_error_count": 63287.0,
+        "kplus_coefficient1": 899.495728135109,
+        "kplus_coefficient2": 1286.9914561510086,
+        "kplus_first_error_weight_after": 104702.77516365051,
+        "kplus_conservation_error": 0.0001888275146484375,
+        "kplus_error_weight_moved": 8406.385399460793,
+        "kplus_error_weight_moved_share": 82.19251910597086,
+        "kplus_mixed_response": 1024.0,
+        "kplus_response_count": 1024.0,
+        "role_loss_response_count": 1024.0,
+        "role_loss_full_denominator": 1725624.1225585938,
+        "role_loss_selected_denominator": 1231690.4100341797,
+        "role_loss_full_to_selected_ratio": 1448.0815834999084,
+        "role_loss_prefix_weight": 1126987.6339416504,
+        "role_loss_error_weight": 104702.774974823,
+        "role_loss_value": 233.65056467056274
+      },
+      "pooled_ratios": {
+        "objective_loss": {
+          "numerator": 268330.520362854,
+          "denominator": 1231690.4100341797,
+          "value": 0.21785549207564892
+        },
+        "forward_kl": {
+          "numerator": 268330.520362854,
+          "denominator": 1231690.4100341797,
+          "value": 0.21785549207564892
+        },
+        "selection_rate": {
+          "numerator": 2216221.0,
+          "denominator": 3865887.0,
+          "value": 0.5732761976746863
+        },
+        "role_loss_selected_fraction": {
+          "numerator": 2216221.0,
+          "denominator": 3865887.0,
+          "value": 0.5732761976746863
+        },
+        "role_loss_full_to_selected": {
+          "numerator": 1725624.1225585938,
+          "denominator": 1231690.4100341797,
+          "value": 1.4010209939936995
+        },
+        "role_loss_priority2_fraction": {
+          "numerator": 63287.0,
+          "denominator": 204760.0,
+          "value": 0.30907892166438755
+        }
+      },
+      "peak_allocated_bytes": 20674430464,
+      "peak_reserved_bytes": 24087887872,
+      "costs": {
+        "training_s": 1367.6876875162125,
+        "checkpoint_save_s": 67.98105485364795,
+        "export_s": 56.69905772805214,
+        "event_wall_s_before_commit": 1502.3562571033835
+      }
+    },
+    "gsm8k/MIX": {
+      "steps": 512,
+      "presentations": 1024,
+      "feedback": 512,
+      "active_anchors": 264848,
+      "clipped_steps": 128,
+      "gradient_norm_mean": 0.9048385620117188,
+      "gradient_norm_max": 1.671875,
+      "sum_metrics": {
+        "supervised_position_exposure": 2217514.0,
+        "available_position_occurrences": 3865887.0,
+        "selected_position_occurrences": 2217514.0,
+        "available_position_weight": 1725624.1225585938,
+        "selected_position_weight": 1232371.3936157227,
+        "no_error_blocks": 60045.0,
+        "empty_blocks": 0.0,
+        "first_error_position_1": 15531.0,
+        "first_error_position_2": 20433.0,
+        "first_error_position_3": 19953.0,
+        "first_error_position_4": 18607.0,
+        "first_error_position_5": 17211.0,
+        "first_error_position_6": 15910.0,
+        "first_error_position_7": 14619.0,
+        "first_error_position_8": 13299.0,
+        "first_error_position_9": 12297.0,
+        "first_error_position_10": 11236.0,
+        "first_error_position_11": 10476.0,
+        "first_error_position_12": 9644.0,
+        "first_error_position_13": 8961.0,
+        "first_error_position_14": 8477.0,
+        "first_error_position_15": 8149.0,
+        "main_loss_numerator": 346482.39097595215,
+        "loss_denominator": 1232371.3936157227,
+        "kplus_N_K": 346482.39097595215,
+        "kplus_S": 1232371.3936157227,
+        "kplus_W1": 74527.59032917023,
+        "kplus_W2": 30018.18178153038,
+        "kplus_N1": 193117.13185882568,
+        "kplus_N2": 51616.082003593445,
+        "kplus_N_new": 339491.38846588135,
+        "kplus_priority1_error_count": 147297.0,
+        "kplus_priority2_error_count": 57506.0,
+        "kplus_coefficient1": 911.0847494006157,
+        "kplus_coefficient2": 1310.169499874115,
+        "kplus_first_error_weight_after": 104545.77237129211,
+        "kplus_conservation_error": 0.000240325927734375,
+        "kplus_error_weight_moved": 8076.031841516495,
+        "kplus_error_weight_moved_share": 78.7190854921937,
+        "kplus_mixed_response": 1024.0,
+        "kplus_response_count": 1024.0,
+        "role_loss_prefix_positions": 2012711.0,
+        "role_loss_error_positions": 204803.0,
+        "role_loss_prefix_weight": 1127825.6138153076,
+        "role_loss_error_weight": 104545.77193450928,
+        "role_loss_prefix_mixture_positions": 2012711.0,
+        "role_loss_error_mixture_positions": 204803.0,
+        "role_loss_prefix_capped_positions": 6920.0,
+        "role_loss_error_capped_positions": 54501.0,
+        "role_loss_probability_zeros": 0.0,
+        "role_loss_probability_entries": 336920207104.0,
+        "role_loss_nonfinite_entries": 0.0,
+        "role_loss_teacher_argmax_canonical_mismatches": 6.0,
+        "role_loss_prefix_teacher_argmax_canonical_mismatches": 2.0,
+        "role_loss_error_teacher_argmax_canonical_mismatches": 4.0,
+        "role_loss_normalized_rkl_before_cap": 874.3000966608524,
+        "role_loss_response_count": 1024.0,
+        "role_loss_full_denominator": 1725623.9819335938,
+        "role_loss_selected_denominator": 1232371.3936157227,
+        "role_loss_full_to_selected_ratio": 1447.284165263176,
+        "role_loss_prefix_fkl_numerator": 101749.17573070526,
+        "role_loss_ce_numerator": 357177.5839614868,
+        "role_loss_clipped_rkl_numerator": 659.1612034142017,
+        "role_loss_prefix_component": 0.0,
+        "role_loss_ce_component": 247.76127208769321,
+        "role_loss_rkl_component": 188.5330222994089,
+        "role_loss_value": 436.2942938953638
+      },
+      "pooled_ratios": {
+        "objective_loss": {
+          "numerator": 436.2942938953638,
+          "denominator": 1024.0,
+          "value": 0.4260686463821912
+        },
+        "native_selected_forward_kl": {
+          "numerator": 346482.39097595215,
+          "denominator": 1232371.3936157227,
+          "value": 0.28115095235973325
+        },
+        "selection_rate": {
+          "numerator": 2217514.0,
+          "denominator": 3865887.0,
+          "value": 0.5736106616670379
+        },
+        "role_loss_selected_fraction": {
+          "numerator": 2217514.0,
+          "denominator": 3865887.0,
+          "value": 0.5736106616670379
+        },
+        "role_loss_full_to_selected": {
+          "numerator": 1725623.9819335938,
+          "denominator": 1232371.3936157227,
+          "value": 1.4002467039345095
+        },
+        "role_loss_priority2_fraction": {
+          "numerator": 57506.0,
+          "denominator": 204803.0,
+          "value": 0.2807869025356074
+        },
+        "role_loss_prefix_cap_fraction": {
+          "numerator": 6920.0,
+          "denominator": 2012711.0,
+          "value": 0.003438148845015504
+        },
+        "role_loss_error_cap_fraction": {
+          "numerator": 54501.0,
+          "denominator": 204803.0,
+          "value": 0.26611426590430803
+        },
+        "role_loss_probability_zero_fraction": {
+          "numerator": 0.0,
+          "denominator": 336920207104.0,
+          "value": 0.0
+        },
+        "role_loss_teacher_canonical_mismatch_fraction": {
+          "numerator": 6.0,
+          "denominator": 2217514.0,
+          "value": 2.7057326357353323e-06
+        }
+      },
+      "peak_allocated_bytes": 20718860288,
+      "peak_reserved_bytes": 23743954944,
+      "costs": {
+        "training_s": 1548.7396010570228,
+        "checkpoint_save_s": 70.59656997025013,
+        "export_s": 59.302422653883696,
+        "event_wall_s_before_commit": 1688.7121419142932
+      }
+    },
+    "gsm8k/ROLE": {
+      "steps": 512,
+      "presentations": 1024,
+      "feedback": 512,
+      "active_anchors": 264848,
+      "clipped_steps": 0,
+      "gradient_norm_mean": 0.4529533386230469,
+      "gradient_norm_max": 0.921875,
+      "sum_metrics": {
+        "supervised_position_exposure": 2230234.0,
+        "available_position_occurrences": 3865887.0,
+        "selected_position_occurrences": 2230234.0,
+        "available_position_weight": 1725624.1225585938,
+        "selected_position_weight": 1237227.5891113281,
+        "no_error_blocks": 60690.0,
+        "empty_blocks": 0.0,
+        "first_error_position_1": 14995.0,
+        "first_error_position_2": 19973.0,
+        "first_error_position_3": 20100.0,
+        "first_error_position_4": 18720.0,
+        "first_error_position_5": 17252.0,
+        "first_error_position_6": 15847.0,
+        "first_error_position_7": 14462.0,
+        "first_error_position_8": 13288.0,
+        "first_error_position_9": 12334.0,
+        "first_error_position_10": 11228.0,
+        "first_error_position_11": 10374.0,
+        "first_error_position_12": 9690.0,
+        "first_error_position_13": 9036.0,
+        "first_error_position_14": 8608.0,
+        "first_error_position_15": 8251.0,
+        "main_loss_numerator": 283170.9875717163,
+        "loss_denominator": 1237227.5891113281,
+        "kplus_N_K": 283170.9875717163,
+        "kplus_S": 1237227.5891113281,
+        "kplus_W1": 70842.81346988678,
+        "kplus_W2": 32916.37568950653,
+        "kplus_N1": 145346.6228199005,
+        "kplus_N2": 46594.294563770294,
+        "kplus_N_new": 277831.07944488525,
+        "kplus_priority1_error_count": 141751.0,
+        "kplus_priority2_error_count": 62407.0,
+        "kplus_coefficient1": 900.7918174862862,
+        "kplus_coefficient2": 1289.5836343765259,
+        "kplus_first_error_weight_after": 103759.18921089172,
+        "kplus_conservation_error": 0.0001068115234375,
+        "kplus_error_weight_moved": 8291.958307027817,
+        "kplus_error_weight_moved_share": 81.84293645247817,
+        "kplus_mixed_response": 1024.0,
+        "kplus_response_count": 1024.0,
+        "role_loss_prefix_positions": 2026076.0,
+        "role_loss_error_positions": 204158.0,
+        "role_loss_prefix_weight": 1133468.3860473633,
+        "role_loss_error_weight": 103759.18913459778,
+        "role_loss_prefix_mixture_positions": 0.0,
+        "role_loss_error_mixture_positions": 204158.0,
+        "role_loss_prefix_capped_positions": 0.0,
+        "role_loss_error_capped_positions": 55091.0,
+        "role_loss_probability_zeros": 0.0,
+        "role_loss_probability_entries": 31018949888.0,
+        "role_loss_nonfinite_entries": 0.0,
+        "role_loss_teacher_argmax_canonical_mismatches": 4.0,
+        "role_loss_prefix_teacher_argmax_canonical_mismatches": 0.0,
+        "role_loss_error_teacher_argmax_canonical_mismatches": 4.0,
+        "role_loss_normalized_rkl_before_cap": 633.1850951313972,
+        "role_loss_response_count": 1024.0,
+        "role_loss_full_denominator": 1725623.9819335938,
+        "role_loss_selected_denominator": 1237227.5891113281,
+        "role_loss_full_to_selected_ratio": 1442.4418692588806,
+        "role_loss_prefix_fkl_numerator": 91230.0704612732,
+        "role_loss_ce_numerator": 245330.90683746338,
+        "role_loss_clipped_rkl_numerator": 435.2583715170622,
+        "role_loss_prefix_component": 76.2502058930695,
+        "role_loss_ce_component": 170.51114616170526,
+        "role_loss_rkl_component": 124.60492423176765,
+        "role_loss_value": 371.3662766367197
+      },
+      "pooled_ratios": {
+        "objective_loss": {
+          "numerator": 371.3662766367197,
+          "denominator": 1024.0,
+          "value": 0.3626623795280466
+        },
+        "native_selected_forward_kl": {
+          "numerator": 283170.9875717163,
+          "denominator": 1237227.5891113281,
+          "value": 0.22887542281134504
+        },
+        "selection_rate": {
+          "numerator": 2230234.0,
+          "denominator": 3865887.0,
+          "value": 0.5769009802924917
+        },
+        "role_loss_selected_fraction": {
+          "numerator": 2230234.0,
+          "denominator": 3865887.0,
+          "value": 0.5769009802924917
+        },
+        "role_loss_full_to_selected": {
+          "numerator": 1725623.9819335938,
+          "denominator": 1237227.5891113281,
+          "value": 1.3947506482401264
+        },
+        "role_loss_priority2_fraction": {
+          "numerator": 62407.0,
+          "denominator": 204158.0,
+          "value": 0.30567991457596566
+        },
+        "role_loss_prefix_cap_fraction": {
+          "numerator": 0.0,
+          "denominator": 0.0,
+          "value": null
+        },
+        "role_loss_error_cap_fraction": {
+          "numerator": 55091.0,
+          "denominator": 204158.0,
+          "value": 0.26984492402942817
+        },
+        "role_loss_probability_zero_fraction": {
+          "numerator": 0.0,
+          "denominator": 31018949888.0,
+          "value": 0.0
+        },
+        "role_loss_teacher_canonical_mismatch_fraction": {
+          "numerator": 4.0,
+          "denominator": 2230234.0,
+          "value": 1.7935337726893232e-06
+        }
+      },
+      "peak_allocated_bytes": 20674176512,
+      "peak_reserved_bytes": 23943184384,
+      "costs": {
+        "training_s": 1491.915215799585,
+        "checkpoint_save_s": 68.72195202484727,
+        "export_s": 58.30125166475773,
+        "event_wall_s_before_commit": 1629.0849888548255
+      }
+    },
+    "mathqa/KPLUS": {
+      "steps": 512,
+      "presentations": 1024,
+      "feedback": 512,
+      "active_anchors": 383056,
+      "clipped_steps": 0,
+      "gradient_norm_mean": 0.26961421966552734,
+      "gradient_norm_max": 0.6171875,
+      "sum_metrics": {
+        "supervised_position_exposure": 3479056.0,
+        "available_position_occurrences": 5649919.0,
+        "selected_position_occurrences": 3479056.0,
+        "available_position_weight": 2512522.954711914,
+        "selected_position_weight": 1868213.6246490479,
+        "no_error_blocks": 107759.0,
+        "empty_blocks": 0.0,
+        "first_error_position_1": 19774.0,
+        "first_error_position_2": 26190.0,
+        "first_error_position_3": 26032.0,
+        "first_error_position_4": 24218.0,
+        "first_error_position_5": 22277.0,
+        "first_error_position_6": 20633.0,
+        "first_error_position_7": 18966.0,
+        "first_error_position_8": 17575.0,
+        "first_error_position_9": 16353.0,
+        "first_error_position_10": 15431.0,
+        "first_error_position_11": 14595.0,
+        "first_error_position_12": 13865.0,
+        "first_error_position_13": 13349.0,
+        "first_error_position_14": 13052.0,
+        "first_error_position_15": 12987.0,
+        "main_loss_numerator": 318606.561542511,
+        "loss_denominator": 1868213.6246490479,
+        "kplus_N_K": 323768.13705444336,
+        "kplus_S": 1868213.6246490479,
+        "kplus_W1": 91078.89817619324,
+        "kplus_W2": 45991.1836066246,
+        "kplus_N1": 145889.17446041107,
+        "kplus_N2": 52928.78121495247,
+        "kplus_N_new": 318606.561542511,
+        "kplus_priority1_error_count": 186483.0,
+        "kplus_priority2_error_count": 88814.0,
+        "kplus_coefficient1": 894.0209242105484,
+        "kplus_coefficient2": 1276.0418473482132,
+        "kplus_first_error_weight_after": 137070.08181381226,
+        "kplus_conservation_error": 8.58306884765625e-05,
+        "kplus_error_weight_moved": 11205.360317885876,
+        "kplus_error_weight_moved_share": 83.72431990876794,
+        "kplus_mixed_response": 1024.0,
+        "kplus_response_count": 1024.0,
+        "role_loss_response_count": 1024.0,
+        "role_loss_full_denominator": 2512522.954711914,
+        "role_loss_selected_denominator": 1868213.6246490479,
+        "role_loss_full_to_selected_ratio": 1385.245548248291,
+        "role_loss_prefix_weight": 1731143.5414886475,
+        "role_loss_error_weight": 137070.08172798157,
+        "role_loss_value": 180.24935066327453
+      },
+      "pooled_ratios": {
+        "objective_loss": {
+          "numerator": 318606.561542511,
+          "denominator": 1868213.6246490479,
+          "value": 0.17054075472892594
+        },
+        "forward_kl": {
+          "numerator": 318606.561542511,
+          "denominator": 1868213.6246490479,
+          "value": 0.17054075472892594
+        },
+        "selection_rate": {
+          "numerator": 3479056.0,
+          "denominator": 5649919.0,
+          "value": 0.6157709517605474
+        },
+        "role_loss_selected_fraction": {
+          "numerator": 3479056.0,
+          "denominator": 5649919.0,
+          "value": 0.6157709517605474
+        },
+        "role_loss_full_to_selected": {
+          "numerator": 2512522.954711914,
+          "denominator": 1868213.6246490479,
+          "value": 1.3448799010787122
+        },
+        "role_loss_priority2_fraction": {
+          "numerator": 88814.0,
+          "denominator": 275297.0,
+          "value": 0.3226115794941463
+        }
+      },
+      "peak_allocated_bytes": 20732897280,
+      "peak_reserved_bytes": 23425187840,
+      "costs": {
+        "training_s": 1963.8304956778884,
+        "checkpoint_save_s": 70.48172542825341,
+        "export_s": 55.240644032135606,
+        "event_wall_s_before_commit": 2109.3059597630054
+      }
+    },
+    "mathqa/MIX": {
+      "steps": 512,
+      "presentations": 1024,
+      "feedback": 512,
+      "active_anchors": 383056,
+      "clipped_steps": 22,
+      "gradient_norm_mean": 0.7054328918457031,
+      "gradient_norm_max": 1.5,
+      "sum_metrics": {
+        "supervised_position_exposure": 3480222.0,
+        "available_position_occurrences": 5649919.0,
+        "selected_position_occurrences": 3480222.0,
+        "available_position_weight": 2512522.954711914,
+        "selected_position_weight": 1869016.1685943604,
+        "no_error_blocks": 107438.0,
+        "empty_blocks": 0.0,
+        "first_error_position_1": 19976.0,
+        "first_error_position_2": 26096.0,
+        "first_error_position_3": 25719.0,
+        "first_error_position_4": 23933.0,
+        "first_error_position_5": 22245.0,
+        "first_error_position_6": 20683.0,
+        "first_error_position_7": 19079.0,
+        "first_error_position_8": 17655.0,
+        "first_error_position_9": 16335.0,
+        "first_error_position_10": 15617.0,
+        "first_error_position_11": 14671.0,
+        "first_error_position_12": 14136.0,
+        "first_error_position_13": 13534.0,
+        "first_error_position_14": 13029.0,
+        "first_error_position_15": 12910.0,
+        "main_loss_numerator": 446915.67515563965,
+        "loss_denominator": 1869016.1685943604,
+        "kplus_N_K": 446915.67515563965,
+        "kplus_S": 1869016.1685943604,
+        "kplus_W1": 95960.51898288727,
+        "kplus_W2": 41032.493010520935,
+        "kplus_N1": 209527.60681533813,
+        "kplus_N2": 61666.02278792858,
+        "kplus_N_new": 439611.9543685913,
+        "kplus_priority1_error_count": 195216.0,
+        "kplus_priority2_error_count": 80402.0,
+        "kplus_coefficient1": 907.1240270137787,
+        "kplus_coefficient2": 1302.2480545043945,
+        "kplus_first_error_weight_after": 136993.01220607758,
+        "kplus_conservation_error": 0.00015544891357421875,
+        "kplus_error_weight_moved": 10805.653014183044,
+        "kplus_error_weight_moved_share": 80.34178738109767,
+        "kplus_mixed_response": 1024.0,
+        "kplus_response_count": 1024.0,
+        "role_loss_prefix_positions": 3204604.0,
+        "role_loss_error_positions": 275618.0,
+        "role_loss_prefix_weight": 1732023.1220245361,
+        "role_loss_error_weight": 136993.0111989975,
+        "role_loss_prefix_mixture_positions": 3204604.0,
+        "role_loss_error_mixture_positions": 275618.0,
+        "role_loss_prefix_capped_positions": 1918.0,
+        "role_loss_error_capped_positions": 27035.0,
+        "role_loss_probability_zeros": 0.0,
+        "role_loss_probability_entries": 528771009792.0,
+        "role_loss_nonfinite_entries": 0.0,
+        "role_loss_teacher_argmax_canonical_mismatches": 47.0,
+        "role_loss_prefix_teacher_argmax_canonical_mismatches": 1.0,
+        "role_loss_error_teacher_argmax_canonical_mismatches": 46.0,
+        "role_loss_normalized_rkl_before_cap": 633.7844182252884,
+        "role_loss_response_count": 1024.0,
+        "role_loss_full_denominator": 2512522.274230957,
+        "role_loss_selected_denominator": 1869016.1685943604,
+        "role_loss_full_to_selected_ratio": 1383.669226527214,
+        "role_loss_prefix_fkl_numerator": 175722.04691886902,
+        "role_loss_ce_numerator": 447891.1241950989,
+        "role_loss_clipped_rkl_numerator": 570.9063939154148,
+        "role_loss_prefix_component": 0.0,
+        "role_loss_ce_component": 201.59880397468805,
+        "role_loss_rkl_component": 156.19619476422668,
+        "role_loss_value": 357.7949984818697
+      },
+      "pooled_ratios": {
+        "objective_loss": {
+          "numerator": 357.7949984818697,
+          "denominator": 1024.0,
+          "value": 0.3494091782049509
+        },
+        "native_selected_forward_kl": {
+          "numerator": 446915.67515563965,
+          "denominator": 1869016.1685943604,
+          "value": 0.2391181428311311
+        },
+        "selection_rate": {
+          "numerator": 3480222.0,
+          "denominator": 5649919.0,
+          "value": 0.6159773264006085
+        },
+        "role_loss_selected_fraction": {
+          "numerator": 3480222.0,
+          "denominator": 5649919.0,
+          "value": 0.6159773264006085
+        },
+        "role_loss_full_to_selected": {
+          "numerator": 2512522.274230957,
+          "denominator": 1869016.1685943604,
+          "value": 1.3443020539092294
+        },
+        "role_loss_priority2_fraction": {
+          "numerator": 80402.0,
+          "denominator": 275618.0,
+          "value": 0.2917153451516229
+        },
+        "role_loss_prefix_cap_fraction": {
+          "numerator": 1918.0,
+          "denominator": 3204604.0,
+          "value": 0.0005985138881434336
+        },
+        "role_loss_error_cap_fraction": {
+          "numerator": 27035.0,
+          "denominator": 275618.0,
+          "value": 0.09808865894099805
+        },
+        "role_loss_probability_zero_fraction": {
+          "numerator": 0.0,
+          "denominator": 528771009792.0,
+          "value": 0.0
+        },
+        "role_loss_teacher_canonical_mismatch_fraction": {
+          "numerator": 47.0,
+          "denominator": 3480222.0,
+          "value": 1.3504885607872142e-05
+        }
+      },
+      "peak_allocated_bytes": 20816111104,
+      "peak_reserved_bytes": 23305650176,
+      "costs": {
+        "training_s": 2229.811984974891,
+        "checkpoint_save_s": 72.40954631380737,
+        "export_s": 56.11583225801587,
+        "event_wall_s_before_commit": 2377.859577126801
+      }
+    },
+    "mathqa/ROLE": {
+      "steps": 512,
+      "presentations": 1024,
+      "feedback": 512,
+      "active_anchors": 383056,
+      "clipped_steps": 0,
+      "gradient_norm_mean": 0.34346961975097656,
+      "gradient_norm_max": 0.68359375,
+      "sum_metrics": {
+        "supervised_position_exposure": 3489772.0,
+        "available_position_occurrences": 5649919.0,
+        "selected_position_occurrences": 3489772.0,
+        "available_position_weight": 2512522.954711914,
+        "selected_position_weight": 1873215.2461090088,
+        "no_error_blocks": 107882.0,
+        "empty_blocks": 0.0,
+        "first_error_position_1": 19167.0,
+        "first_error_position_2": 25836.0,
+        "first_error_position_3": 25859.0,
+        "first_error_position_4": 24124.0,
+        "first_error_position_5": 22262.0,
+        "first_error_position_6": 20829.0,
+        "first_error_position_7": 19053.0,
+        "first_error_position_8": 17844.0,
+        "first_error_position_9": 16417.0,
+        "first_error_position_10": 15544.0,
+        "first_error_position_11": 14632.0,
+        "first_error_position_12": 14055.0,
+        "first_error_position_13": 13479.0,
+        "first_error_position_14": 13047.0,
+        "first_error_position_15": 13026.0,
+        "main_loss_numerator": 340482.33226776123,
+        "loss_denominator": 1873215.2461090088,
+        "kplus_N_K": 340482.33226776123,
+        "kplus_S": 1873215.2461090088,
+        "kplus_W1": 91197.3738822937,
+        "kplus_W2": 45118.84971618652,
+        "kplus_N1": 153853.2283320427,
+        "kplus_N2": 54420.49995446205,
+        "kplus_N_new": 335066.8489494324,
+        "kplus_priority1_error_count": 187460.0,
+        "kplus_priority2_error_count": 87714.0,
+        "kplus_coefficient1": 895.7779669165611,
+        "kplus_coefficient2": 1279.5559314489365,
+        "kplus_first_error_weight_after": 136316.22341537476,
+        "kplus_conservation_error": 1.621246337890625e-05,
+        "kplus_error_weight_moved": 11093.039237618446,
+        "kplus_error_weight_moved_share": 83.25096379593015,
+        "kplus_mixed_response": 1024.0,
+        "kplus_response_count": 1024.0,
+        "role_loss_prefix_positions": 3214598.0,
+        "role_loss_error_positions": 275174.0,
+        "role_loss_prefix_weight": 1736898.9932556152,
+        "role_loss_error_weight": 136316.2237739563,
+        "role_loss_prefix_mixture_positions": 0.0,
+        "role_loss_error_mixture_positions": 275174.0,
+        "role_loss_prefix_capped_positions": 0.0,
+        "role_loss_error_capped_positions": 25592.0,
+        "role_loss_probability_zeros": 0.0,
+        "role_loss_probability_entries": 41808836864.0,
+        "role_loss_nonfinite_entries": 0.0,
+        "role_loss_teacher_argmax_canonical_mismatches": 41.0,
+        "role_loss_prefix_teacher_argmax_canonical_mismatches": 2.0,
+        "role_loss_error_teacher_argmax_canonical_mismatches": 39.0,
+        "role_loss_normalized_rkl_before_cap": 429.3285645172,
+        "role_loss_response_count": 1024.0,
+        "role_loss_full_denominator": 2512522.274230957,
+        "role_loss_selected_denominator": 1873215.2461090088,
+        "role_loss_full_to_selected_ratio": 1381.29354596138,
+        "role_loss_prefix_fkl_numerator": 132208.60364818573,
+        "role_loss_ce_numerator": 294251.90994262695,
+        "role_loss_clipped_rkl_numerator": 373.0459192097187,
+        "role_loss_prefix_component": 73.23898951895535,
+        "role_loss_ce_component": 132.75221844855696,
+        "role_loss_rkl_component": 102.25306687131524,
+        "role_loss_value": 308.244275636971
+      },
+      "pooled_ratios": {
+        "objective_loss": {
+          "numerator": 308.244275636971,
+          "denominator": 1024.0,
+          "value": 0.3010198004267295
+        },
+        "native_selected_forward_kl": {
+          "numerator": 340482.33226776123,
+          "denominator": 1873215.2461090088,
+          "value": 0.18176359229138336
+        },
+        "selection_rate": {
+          "numerator": 3489772.0,
+          "denominator": 5649919.0,
+          "value": 0.6176676161198064
+        },
+        "role_loss_selected_fraction": {
+          "numerator": 3489772.0,
+          "denominator": 5649919.0,
+          "value": 0.6176676161198064
+        },
+        "role_loss_full_to_selected": {
+          "numerator": 2512522.274230957,
+          "denominator": 1873215.2461090088,
+          "value": 1.341288610291796
+        },
+        "role_loss_priority2_fraction": {
+          "numerator": 87714.0,
+          "denominator": 275174.0,
+          "value": 0.31875831292200574
+        },
+        "role_loss_prefix_cap_fraction": {
+          "numerator": 0.0,
+          "denominator": 0.0,
+          "value": null
+        },
+        "role_loss_error_cap_fraction": {
+          "numerator": 25592.0,
+          "denominator": 275174.0,
+          "value": 0.0930029726645686
+        },
+        "role_loss_probability_zero_fraction": {
+          "numerator": 0.0,
+          "denominator": 41808836864.0,
+          "value": 0.0
+        },
+        "role_loss_teacher_canonical_mismatch_fraction": {
+          "numerator": 41.0,
+          "denominator": 3489772.0,
+          "value": 1.1748618534391359e-05
+        }
+      },
+      "peak_allocated_bytes": 20771316224,
+      "peak_reserved_bytes": 23429382144,
+      "costs": {
+        "training_s": 2128.170205043629,
+        "checkpoint_save_s": 72.99208721891046,
+        "export_s": 55.91831347718835,
+        "event_wall_s_before_commit": 2276.450117588043
+      }
+    }
+  },
+  "feedback_differences": {
+    "gsm8k/MIX_vs_KPLUS": {
+      "requests": 512,
+      "token_or_termination_differences": 0,
+      "request_ids": []
+    },
+    "gsm8k/ROLE_vs_KPLUS": {
+      "requests": 512,
+      "token_or_termination_differences": 0,
+      "request_ids": []
+    },
+    "gsm8k/ROLE_vs_MIX": {
+      "requests": 512,
+      "token_or_termination_differences": 0,
+      "request_ids": []
+    },
+    "mathqa/MIX_vs_KPLUS": {
+      "requests": 512,
+      "token_or_termination_differences": 0,
+      "request_ids": []
+    },
+    "mathqa/ROLE_vs_KPLUS": {
+      "requests": 512,
+      "token_or_termination_differences": 0,
+      "request_ids": []
+    },
+    "mathqa/ROLE_vs_MIX": {
+      "requests": 512,
+      "token_or_termination_differences": 0,
+      "request_ids": []
+    }
+  },
+  "sampling_differences": {
+    "gsm8k/MIX_vs_KPLUS": {
+      "presentations": 1024,
+      "different_order_or_anchors": 0
+    },
+    "gsm8k/ROLE_vs_KPLUS": {
+      "presentations": 1024,
+      "different_order_or_anchors": 0
+    },
+    "gsm8k/ROLE_vs_MIX": {
+      "presentations": 1024,
+      "different_order_or_anchors": 0
+    },
+    "mathqa/MIX_vs_KPLUS": {
+      "presentations": 1024,
+      "different_order_or_anchors": 0
+    },
+    "mathqa/ROLE_vs_KPLUS": {
+      "presentations": 1024,
+      "different_order_or_anchors": 0
+    },
+    "mathqa/ROLE_vs_MIX": {
+      "presentations": 1024,
+      "different_order_or_anchors": 0
+    }
+  },
+  "diagnostics": {
+    "gsm8k/KPLUS": {
+      "valid_proposals": 1874,
+      "initial_prefix": 819,
+      "event2_prefix": 846,
+      "event4_prefix": 869,
+      "original_first_error": 108,
+      "event2_broken_prefix": 25,
+      "event4_broken_prefix": 20,
+      "event2_repair_with_prefix_intact": 31,
+      "event4_repair_with_prefix_intact": 34,
+      "event2_gained_prefix_tokens": 109,
+      "event4_gained_prefix_tokens": 133,
+      "repair_persists": 20,
+      "event2_gain_fully_persists": 17,
+      "persisted_gain_tokens": 64,
+      "lost_gain_tokens": 45
+    },
+    "gsm8k/MIX": {
+      "valid_proposals": 1874,
+      "initial_prefix": 819,
+      "event2_prefix": 845,
+      "event4_prefix": 875,
+      "original_first_error": 108,
+      "event2_broken_prefix": 29,
+      "event4_broken_prefix": 25,
+      "event2_repair_with_prefix_intact": 29,
+      "event4_repair_with_prefix_intact": 31,
+      "event2_gained_prefix_tokens": 133,
+      "event4_gained_prefix_tokens": 148,
+      "repair_persists": 20,
+      "event2_gain_fully_persists": 17,
+      "persisted_gain_tokens": 95,
+      "lost_gain_tokens": 38
+    },
+    "gsm8k/ROLE": {
+      "valid_proposals": 1874,
+      "initial_prefix": 819,
+      "event2_prefix": 826,
+      "event4_prefix": 839,
+      "original_first_error": 108,
+      "event2_broken_prefix": 25,
+      "event4_broken_prefix": 24,
+      "event2_repair_with_prefix_intact": 28,
+      "event4_repair_with_prefix_intact": 32,
+      "event2_gained_prefix_tokens": 94,
+      "event4_gained_prefix_tokens": 106,
+      "repair_persists": 20,
+      "event2_gain_fully_persists": 16,
+      "persisted_gain_tokens": 60,
+      "lost_gain_tokens": 34
+    },
+    "mathqa/KPLUS": {
+      "valid_proposals": 1861,
+      "initial_prefix": 992,
+      "event2_prefix": 1041,
+      "event4_prefix": 1074,
+      "original_first_error": 102,
+      "event2_broken_prefix": 21,
+      "event4_broken_prefix": 20,
+      "event2_repair_with_prefix_intact": 28,
+      "event4_repair_with_prefix_intact": 34,
+      "event2_gained_prefix_tokens": 117,
+      "event4_gained_prefix_tokens": 164,
+      "repair_persists": 22,
+      "event2_gain_fully_persists": 18,
+      "persisted_gain_tokens": 89,
+      "lost_gain_tokens": 28
+    },
+    "mathqa/MIX": {
+      "valid_proposals": 1861,
+      "initial_prefix": 992,
+      "event2_prefix": 1014,
+      "event4_prefix": 1021,
+      "original_first_error": 102,
+      "event2_broken_prefix": 26,
+      "event4_broken_prefix": 26,
+      "event2_repair_with_prefix_intact": 34,
+      "event4_repair_with_prefix_intact": 36,
+      "event2_gained_prefix_tokens": 122,
+      "event4_gained_prefix_tokens": 140,
+      "repair_persists": 26,
+      "event2_gain_fully_persists": 21,
+      "persisted_gain_tokens": 97,
+      "lost_gain_tokens": 25
+    },
+    "mathqa/ROLE": {
+      "valid_proposals": 1861,
+      "initial_prefix": 992,
+      "event2_prefix": 1042,
+      "event4_prefix": 1045,
+      "original_first_error": 102,
+      "event2_broken_prefix": 21,
+      "event4_broken_prefix": 20,
+      "event2_repair_with_prefix_intact": 32,
+      "event4_repair_with_prefix_intact": 30,
+      "event2_gained_prefix_tokens": 111,
+      "event4_gained_prefix_tokens": 141,
+      "repair_persists": 20,
+      "event2_gain_fully_persists": 17,
+      "persisted_gain_tokens": 77,
+      "lost_gain_tokens": 34
+    }
+  },
+  "retirement_kinds": {
+    "prepared_feature": 3072,
+    "previous_state": 18,
+    "previous_export": 12
+  },
+  "source_files": {
+    "sealed/PLAN.json": {
+      "bytes": 1529377,
+      "sha256": "9e6bedc1bb14c7992df1b35f78f02f865086a464e620da007934f334bda6b8f1"
+    },
+    "results/TRAINING.json": {
+      "bytes": 559288,
+      "sha256": "8425b9760ca6ddc0fd891e899c7d8c3aca1c3d1be74cd4d871c0851a7bde6f32"
+    },
+    "results/DIAGNOSTICS.json": {
+      "bytes": 594419,
+      "sha256": "aa5dd87a8edafd4d5701ac4adc4f613c8436963662419f769655c5a5f5532a88"
+    },
+    "sealed/gsm8k/TRAINING.json": {
+      "bytes": 1279907,
+      "sha256": "1acc321ff0696e47025a1bc3e5109c84cb77715dfa1a6919e7d2c58b610c49e9"
+    },
+    "sealed/gsm8k/PANEL.json": {
+      "bytes": 751313,
+      "sha256": "85f9e163445616c2cd8b37895f068d42e929a6d7f746f2ccd72b9bbb9b00d9cd"
+    },
+    "campaign_001/trajectories/gsm8k/KPLUS/STATUS.json": {
+      "bytes": 14341,
+      "sha256": "f0ba557acb483c3a1a00bd2c7e42a7d734d4a36d87baf96f9b25ea7283803340"
+    },
+    "campaign_001/trajectories/gsm8k/KPLUS/trainer/INITIAL_CHECK.json": {
+      "bytes": 1486,
+      "sha256": "94830955b21d1be3fd494636133cb187d2ed0b37bdc15a92e7df7c659f015549"
+    },
+    "campaign_001/trajectories/gsm8k/KPLUS/WORK.jsonl": {
+      "bytes": 493156,
+      "sha256": "2b8a18a430290f7653370978c2f2b7177ed875ab0a8085bcbed027a5b65ace7a"
+    },
+    "campaign_001/trajectories/gsm8k/KPLUS/trainer/events/event_001/RESULT.json": {
+      "bytes": 7055464,
+      "sha256": "537335810d987f9255e0b5430ecfed29525e5ac6e1a01aec2fdca77bfc016008"
+    },
+    "campaign_001/trajectories/gsm8k/KPLUS/trainer/events/event_001/RESPONSE_OBSERVATIONS.jsonl": {
+      "bytes": 1311358,
+      "sha256": "64dcfebc7e596d5d26c746e63d1a497460a59a6386c0d00b05f8cb989d24ab81"
+    },
+    "campaign_001/trajectories/gsm8k/KPLUS/trainer/events/event_001/WINDOW_OBSERVATIONS.jsonl": {
+      "bytes": 29520,
+      "sha256": "36f355a013383f90fcb9416d83008f858892d73e3bd7191f7e9d2c41f30a8e4e"
+    },
+    "campaign_001/trajectories/gsm8k/KPLUS/boundaries/event_001.json": {
+      "bytes": 1992,
+      "sha256": "3f91ffd555b9978f6ecba74bda60c560578d90e7272dfa73f0e0eb3b7348fa44"
+    },
+    "campaign_001/trajectories/gsm8k/KPLUS/events/event_001/PUBLICATION_CHECK.json": {
+      "bytes": 2773,
+      "sha256": "1cb485999d53cf00daf325784545b5b3eca2ddce042a26c54026518709d0c9d2"
+    },
+    "campaign_001/trajectories/gsm8k/KPLUS/events/event_001/loop/feedback_buffer/state.json": {
+      "bytes": 32525684,
+      "sha256": "7124d5ac0bc9abc5217c0505538a1e145b1d4ead4ce056d0d5a7d9634059d210"
+    },
+    "campaign_001/trajectories/gsm8k/KPLUS/events/event_001/RESOURCE_COSTS.json": {
+      "bytes": 3534,
+      "sha256": "13525cf79d96c07922552fc12e8faaf43648e8df29e06d04f3ba69e806b11e45"
+    },
+    "campaign_001/trajectories/gsm8k/KPLUS/events/event_001/RETIREMENT.json": {
+      "bytes": 347687,
+      "sha256": "479db4d717e49080ef7954c6c5600ebab6c4e804bba2b3af8644a190ec9fef79"
+    },
+    "campaign_001/trajectories/gsm8k/KPLUS/trainer/events/event_002/RESULT.json": {
+      "bytes": 7207327,
+      "sha256": "50502aff7058fb38f7eb34ee594a71395203e8c789a79ea705cc69f1bde73b02"
+    },
+    "campaign_001/trajectories/gsm8k/KPLUS/trainer/events/event_002/RESPONSE_OBSERVATIONS.jsonl": {
+      "bytes": 1331804,
+      "sha256": "81473241cc30bda7be8ac35ae69f9adff82f91c0f5187bb30f6d008a74df107c"
+    },
+    "campaign_001/trajectories/gsm8k/KPLUS/trainer/events/event_002/WINDOW_OBSERVATIONS.jsonl": {
+      "bytes": 29661,
+      "sha256": "952820b101246faee8657039fc208cb6fe632eb094a37996dae650703f9384e3"
+    },
+    "campaign_001/trajectories/gsm8k/KPLUS/boundaries/event_002.json": {
+      "bytes": 1991,
+      "sha256": "0888dd23648e75e0500a81dabc9a1b8cff58a69943db8be07557b1847cf9479c"
+    },
+    "campaign_001/trajectories/gsm8k/KPLUS/events/event_002/PUBLICATION_CHECK.json": {
+      "bytes": 2792,
+      "sha256": "40d40b4856b6da928fa0b0ef7d4f61325e5976ebcefe1d1bfb3b355b06799bf1"
+    },
+    "campaign_001/trajectories/gsm8k/KPLUS/events/event_002/loop/feedback_buffer/state.json": {
+      "bytes": 33483967,
+      "sha256": "f8b2061d9ebbdeb760944eed42763d095d603bd9366624db2a9fe7d42a5dc579"
+    },
+    "campaign_001/trajectories/gsm8k/KPLUS/events/event_002/RESOURCE_COSTS.json": {
+      "bytes": 395,
+      "sha256": "e188d72f7242feec9ff6832f1ac8fcf4d53d47640cd283241ae4ae24327e4e56"
+    },
+    "campaign_001/trajectories/gsm8k/KPLUS/events/event_002/RETIREMENT.json": {
+      "bytes": 347040,
+      "sha256": "bdc646c9ebd79832a5c33e4c1da148a514e340dc7298ed53bd66eda63d03b105"
+    },
+    "campaign_001/trajectories/gsm8k/KPLUS/trainer/events/event_003/RESULT.json": {
+      "bytes": 7194646,
+      "sha256": "bbf57d7611db53deaa25d3f435ee1e7128ffb239ee09ecec6b144e98aca1644a"
+    },
+    "campaign_001/trajectories/gsm8k/KPLUS/trainer/events/event_003/RESPONSE_OBSERVATIONS.jsonl": {
+      "bytes": 1329147,
+      "sha256": "efe23f8e4269109433a58f18a4628adad3534c0763f85e6a2cd3248230b38247"
+    },
+    "campaign_001/trajectories/gsm8k/KPLUS/trainer/events/event_003/WINDOW_OBSERVATIONS.jsonl": {
+      "bytes": 29647,
+      "sha256": "873cf075a2497478e6780f29c2e83c1c57994d79d5af91439448df1dcb361469"
+    },
+    "campaign_001/trajectories/gsm8k/KPLUS/boundaries/event_003.json": {
+      "bytes": 1992,
+      "sha256": "d92d4525debc46f5f65c864e739f00016651f637fb1c2893bae833ca5a3f7890"
+    },
+    "campaign_001/trajectories/gsm8k/KPLUS/events/event_003/PUBLICATION_CHECK.json": {
+      "bytes": 2811,
+      "sha256": "1371408cc6cf0194c02d369786adafd144dd9c470b26c5e28a67fe8825181568"
+    },
+    "campaign_001/trajectories/gsm8k/KPLUS/events/event_003/loop/feedback_buffer/state.json": {
+      "bytes": 32497267,
+      "sha256": "07be78737a78adc45c461bc953557611d6dfd7f62a54a99246e1ee58d46292d9"
+    },
+    "campaign_001/trajectories/gsm8k/KPLUS/events/event_003/RESOURCE_COSTS.json": {
+      "bytes": 395,
+      "sha256": "d630866cdb33f2e80e1e9164bc9b5216e31cb91ed47dbacd026f986f71ad2888"
+    },
+    "campaign_001/trajectories/gsm8k/KPLUS/events/event_003/RETIREMENT.json": {
+      "bytes": 346265,
+      "sha256": "6699a9bc47b3fbf358cf3c395f6efda6a6c477187c77131a915db3d9750de20a"
+    },
+    "campaign_001/trajectories/gsm8k/KPLUS/trainer/events/event_004/RESULT.json": {
+      "bytes": 7132541,
+      "sha256": "00e4c5745ffd3ffb3b6429aa27060e0ccee48f3d4f5567201e4c6079cef6abab"
+    },
+    "campaign_001/trajectories/gsm8k/KPLUS/trainer/events/event_004/RESPONSE_OBSERVATIONS.jsonl": {
+      "bytes": 1322749,
+      "sha256": "23a0c8485cc6461e9bb69c20077c6a73afb92698d4483079b596d3f76d66dd17"
+    },
+    "campaign_001/trajectories/gsm8k/KPLUS/trainer/events/event_004/WINDOW_OBSERVATIONS.jsonl": {
+      "bytes": 29655,
+      "sha256": "d326ece7276104f82251ab26161a414a5bfc6362c888a4f7e2a29da3fa9bfbf1"
+    },
+    "campaign_001/trajectories/gsm8k/KPLUS/boundaries/event_004.json": {
+      "bytes": 1993,
+      "sha256": "484f034301508e51c41b866d9ff38bbe3f9be99442cbdf448404fbf697fc15b8"
+    },
+    "campaign_001/trajectories/gsm8k/KPLUS/events/event_004/PUBLICATION_CHECK.json": {
+      "bytes": 2831,
+      "sha256": "b45f64b63b94a678875a34d0e38e622332cbcdcccbd622fad44f4b48c09d31d4"
+    },
+    "campaign_001/trajectories/gsm8k/KPLUS/events/event_004/loop/feedback_buffer/state.json": {
+      "bytes": 33031421,
+      "sha256": "c6ac8152410671fff66825ad8cae0395aae97635148552f8e31d72c14ffc5def"
+    },
+    "campaign_001/trajectories/gsm8k/KPLUS/events/event_004/RESOURCE_COSTS.json": {
+      "bytes": 395,
+      "sha256": "0ac7e4586265ccf232d98619022d765761bebbdb0eebb1b006b0cec05b28ce26"
+    },
+    "campaign_001/trajectories/gsm8k/KPLUS/events/event_004/RETIREMENT.json": {
+      "bytes": 347028,
+      "sha256": "268387f5e81072013c694c5cb0e504f36e56776b81e52f18c4990b3e183a343c"
+    },
+    "campaign_001/trajectories/gsm8k/KPLUS/FINAL_STATE_CHECK.json": {
+      "bytes": 1198,
+      "sha256": "f303a831ed5c69a1defd099c1d40ccd220884e4c7f7d7d64aa8e65a37a55970b"
+    },
+    "campaign_001/trajectories/gsm8k/MIX/STATUS.json": {
+      "bytes": 17378,
+      "sha256": "b65ae0dba6d42b788f494918c1cf403bab9988e0052e8125ffe52184a244a7e0"
+    },
+    "campaign_001/trajectories/gsm8k/MIX/trainer/INITIAL_CHECK.json": {
+      "bytes": 2901,
+      "sha256": "6833f7557573f5811623b25e6a10806893e5694167fa45b12a4e5abae997dea4"
+    },
+    "campaign_001/trajectories/gsm8k/MIX/WORK.jsonl": {
+      "bytes": 492588,
+      "sha256": "7b3aa0579d18907a8b4c1f91ec133fdf99069dfa75e50962f82fcd38081e16bf"
+    },
+    "campaign_001/trajectories/gsm8k/MIX/trainer/events/event_001/RESULT.json": {
+      "bytes": 7762561,
+      "sha256": "c145cdb3b3dda468c04ca8d2521abc8d4acb6547713da1364a5a13faec4551ce"
+    },
+    "campaign_001/trajectories/gsm8k/MIX/trainer/events/event_001/RESPONSE_OBSERVATIONS.jsonl": {
+      "bytes": 1593135,
+      "sha256": "4358713a3549a0ce3720ff8a3cd46f6c141ca6b2eaca613bfbc7fbebe7fbb9cc"
+    },
+    "campaign_001/trajectories/gsm8k/MIX/trainer/events/event_001/WINDOW_OBSERVATIONS.jsonl": {
+      "bytes": 29358,
+      "sha256": "dd241e7b7985d63dbc87f03a0d429ddf82774f1014fc38c276a44a8574339d2f"
+    },
+    "campaign_001/trajectories/gsm8k/MIX/boundaries/event_001.json": {
+      "bytes": 3476,
+      "sha256": "27679097847acea662799f9d3e81bffd131f2394f57d77280ebc324b3de57261"
+    },
+    "campaign_001/trajectories/gsm8k/MIX/events/event_001/PUBLICATION_CHECK.json": {
+      "bytes": 2769,
+      "sha256": "e10afd8b8baad0b054b9294cfc9f86c6b0849956ed571c8ca4303aebc04a600d"
+    },
+    "campaign_001/trajectories/gsm8k/MIX/events/event_001/loop/feedback_buffer/state.json": {
+      "bytes": 33350849,
+      "sha256": "c220bb01033fa4393a6e3d9b1c3136306665a21628010a68ef6a2183d47fb89d"
+    },
+    "campaign_001/trajectories/gsm8k/MIX/events/event_001/RESOURCE_COSTS.json": {
+      "bytes": 4722,
+      "sha256": "7abb94e73ee386544f48f02a04f6d4e054f7c4523946341086ae698b6ff637fa"
+    },
+    "campaign_001/trajectories/gsm8k/MIX/events/event_001/RETIREMENT.json": {
+      "bytes": 343096,
+      "sha256": "6aeac7e93adbfe665c41238752cec827cbaba1756adbafb77324e509c373231c"
+    },
+    "campaign_001/trajectories/gsm8k/MIX/trainer/events/event_002/RESULT.json": {
+      "bytes": 7914181,
+      "sha256": "2392e53fe3caab1af0b16db0d2db2cbeee44cae21a12fc9fefe41fab812988fe"
+    },
+    "campaign_001/trajectories/gsm8k/MIX/trainer/events/event_002/RESPONSE_OBSERVATIONS.jsonl": {
+      "bytes": 1613728,
+      "sha256": "16d6f48993991b9f04c4305f3f2bded15b763af589b9e1c01dd2640ee87eb717"
+    },
+    "campaign_001/trajectories/gsm8k/MIX/trainer/events/event_002/WINDOW_OBSERVATIONS.jsonl": {
+      "bytes": 29434,
+      "sha256": "be50fdc287230037871a250c6f8c35885a18518b18ec31bf7a370555ac292bfd"
+    },
+    "campaign_001/trajectories/gsm8k/MIX/boundaries/event_002.json": {
+      "bytes": 3477,
+      "sha256": "3e3ae0534585d8c6378c5b872694d5464944abe4f45f2b49cb4137f0cdf9e090"
+    },
+    "campaign_001/trajectories/gsm8k/MIX/events/event_002/PUBLICATION_CHECK.json": {
+      "bytes": 2788,
+      "sha256": "987d6b9bcf326f9c8f1cdaf89f99131e0af22f9ba4b47e7b26f1f51c4033f2c8"
+    },
+    "campaign_001/trajectories/gsm8k/MIX/events/event_002/loop/feedback_buffer/state.json": {
+      "bytes": 34444279,
+      "sha256": "2c265d51f4459b4dc6bf70c9269a619961ecb2975a09d10248a3355974f4f47e"
+    },
+    "campaign_001/trajectories/gsm8k/MIX/events/event_002/RESOURCE_COSTS.json": {
+      "bytes": 395,
+      "sha256": "9e7bd6cda56459c9d61b4b6516803ca1913b190a5c9b245f1c609e84f8020104"
+    },
+    "campaign_001/trajectories/gsm8k/MIX/events/event_002/RETIREMENT.json": {
+      "bytes": 344708,
+      "sha256": "03776d24780a9ba65a7786465a765326385ff491762249d5b100704c6b2a000f"
+    },
+    "campaign_001/trajectories/gsm8k/MIX/trainer/events/event_003/RESULT.json": {
+      "bytes": 7902348,
+      "sha256": "9da3663977617d5356f5148cda792e0e604a2da3b513a1b92b4643c665d235b2"
+    },
+    "campaign_001/trajectories/gsm8k/MIX/trainer/events/event_003/RESPONSE_OBSERVATIONS.jsonl": {
+      "bytes": 1611304,
+      "sha256": "622039f62e4f51930eb96e07f4591a78343afeff426024151c545896efcf886e"
+    },
+    "campaign_001/trajectories/gsm8k/MIX/trainer/events/event_003/WINDOW_OBSERVATIONS.jsonl": {
+      "bytes": 29427,
+      "sha256": "799c698dede987859a01a535f049dd852b25dfac8051a7a64bb1d4a1fd5e7e28"
+    },
+    "campaign_001/trajectories/gsm8k/MIX/boundaries/event_003.json": {
+      "bytes": 3477,
+      "sha256": "ef191a57b29939937965c6b4b00ca001444f8d4b6b323603cc2e3dedaebdbabc"
+    },
+    "campaign_001/trajectories/gsm8k/MIX/events/event_003/PUBLICATION_CHECK.json": {
+      "bytes": 2807,
+      "sha256": "ce9bbfca7c7487c8b25a6bc217ee414993760204b9a7ece1a172cbf15ab2fee0"
+    },
+    "campaign_001/trajectories/gsm8k/MIX/events/event_003/loop/feedback_buffer/state.json": {
+      "bytes": 33430898,
+      "sha256": "b62512c84ac1f732c6e3d906126ed354ff2040ba328a8c68d8b58f7a255a05fb"
+    },
+    "campaign_001/trajectories/gsm8k/MIX/events/event_003/RESOURCE_COSTS.json": {
+      "bytes": 395,
+      "sha256": "24b4844ddd5a04e31dbe7367acfc7be7edbe76a032161337530b09151be1f001"
+    },
+    "campaign_001/trajectories/gsm8k/MIX/events/event_003/RETIREMENT.json": {
+      "bytes": 343938,
+      "sha256": "6bf5639a06bc6019b4bd12e6603675c0707a9e5488e3adab6b3215983695d611"
+    },
+    "campaign_001/trajectories/gsm8k/MIX/trainer/events/event_004/RESULT.json": {
+      "bytes": 7838409,
+      "sha256": "58ad4f4a06999fa3eec8fa46fd132441d0bf48f9df73f5856c5e02ababb5f7e3"
+    },
+    "campaign_001/trajectories/gsm8k/MIX/trainer/events/event_004/RESPONSE_OBSERVATIONS.jsonl": {
+      "bytes": 1603889,
+      "sha256": "5fc2541204845f12de1525ef68adf682727e314b0c2c20d80a832cfda55a6df4"
+    },
+    "campaign_001/trajectories/gsm8k/MIX/trainer/events/event_004/WINDOW_OBSERVATIONS.jsonl": {
+      "bytes": 29494,
+      "sha256": "dfea9fe84b3152218bc1727e1f4d7a6ecd9f54c77f28e91742cc565cb04187b8"
+    },
+    "campaign_001/trajectories/gsm8k/MIX/boundaries/event_004.json": {
+      "bytes": 3479,
+      "sha256": "3c2dd11a2795c5391dd466b7a1db46ecd2a0c95586cdf33d07a927fb155340c8"
+    },
+    "campaign_001/trajectories/gsm8k/MIX/events/event_004/PUBLICATION_CHECK.json": {
+      "bytes": 2827,
+      "sha256": "827ad8517bbf724787dbf724e24fedc86cf32cb13588ac51ea7037d55cb53c88"
+    },
+    "campaign_001/trajectories/gsm8k/MIX/events/event_004/loop/feedback_buffer/state.json": {
+      "bytes": 33872911,
+      "sha256": "4f4a7d31f20072e1b42912981a3093482baa1aef97904512323604abb4546f9d"
+    },
+    "campaign_001/trajectories/gsm8k/MIX/events/event_004/RESOURCE_COSTS.json": {
+      "bytes": 395,
+      "sha256": "1487c046cf5273194deac6c0b3b2fd0b1ce3775a04b31f4b61f41afef93fc1f2"
+    },
+    "campaign_001/trajectories/gsm8k/MIX/events/event_004/RETIREMENT.json": {
+      "bytes": 344696,
+      "sha256": "a35483fe3ee8e966dc52eac4b1458b21168d7a413d1492475ff83f54dda78fff"
+    },
+    "campaign_001/trajectories/gsm8k/MIX/FINAL_STATE_CHECK.json": {
+      "bytes": 2614,
+      "sha256": "d28bcd1b1cd1c240ea3dbd93cf74032dc48878c566155012561422fc99affc58"
+    },
+    "campaign_001/trajectories/gsm8k/ROLE/STATUS.json": {
+      "bytes": 17401,
+      "sha256": "335626ad56f70f0c15a314ff35b576942da3ca5e5dc51d64822d6e4e28307630"
+    },
+    "campaign_001/trajectories/gsm8k/ROLE/trainer/INITIAL_CHECK.json": {
+      "bytes": 2912,
+      "sha256": "d0407a0784cdd6c1c00664987f227cca57946cc7ee48341200839ac465df5ae6"
+    },
+    "campaign_001/trajectories/gsm8k/ROLE/WORK.jsonl": {
+      "bytes": 492588,
+      "sha256": "7b3aa0579d18907a8b4c1f91ec133fdf99069dfa75e50962f82fcd38081e16bf"
+    },
+    "campaign_001/trajectories/gsm8k/ROLE/trainer/events/event_001/RESULT.json": {
+      "bytes": 7764897,
+      "sha256": "378a7c9afdf07a1316640156caff8ffe527137b709a5a726c413cdd7df4f1343"
+    },
+    "campaign_001/trajectories/gsm8k/ROLE/trainer/events/event_001/RESPONSE_OBSERVATIONS.jsonl": {
+      "bytes": 1595777,
+      "sha256": "ed9952029a78a37567c8175544ae55eddf9c5024eddf2d6d8a9432e6f5a99a03"
+    },
+    "campaign_001/trajectories/gsm8k/ROLE/trainer/events/event_001/WINDOW_OBSERVATIONS.jsonl": {
+      "bytes": 29460,
+      "sha256": "1bf269fd5ed7dbf258f4436b0ca2156e52330b8b20bf221216a3670e266ade30"
+    },
+    "campaign_001/trajectories/gsm8k/ROLE/boundaries/event_001.json": {
+      "bytes": 3490,
+      "sha256": "5b5b5354bce7f43b5b9a960b6a1ef154c63b8e5dde8168223e2b68674df732ab"
+    },
+    "campaign_001/trajectories/gsm8k/ROLE/events/event_001/PUBLICATION_CHECK.json": {
+      "bytes": 2771,
+      "sha256": "0dc41172fd2065e84e6bf7da8714b4c4315a253a03127fedd6b4dca434220f9f"
+    },
+    "campaign_001/trajectories/gsm8k/ROLE/events/event_001/loop/feedback_buffer/state.json": {
+      "bytes": 33353700,
+      "sha256": "c3b8c179db98a3b94a0ec6f9fca64f4a422b00b0107724c9d3eabab4e9f076da"
+    },
+    "campaign_001/trajectories/gsm8k/ROLE/events/event_001/RESOURCE_COSTS.json": {
+      "bytes": 4728,
+      "sha256": "d4888b49cf4b53606935a8844ea5ce5554a0527dc888ab705335cc076d99805c"
+    },
+    "campaign_001/trajectories/gsm8k/ROLE/events/event_001/RETIREMENT.json": {
+      "bytes": 344258,
+      "sha256": "37bae4df0f1ec897ff76e799a53cbd49bd039499cca900aa71c1d7c78c883f11"
+    },
+    "campaign_001/trajectories/gsm8k/ROLE/trainer/events/event_002/RESULT.json": {
+      "bytes": 7916375,
+      "sha256": "6c3e128de49ec65bc3948cfec2982bf32aa88bd6e0efc0231197b79adcf68be3"
+    },
+    "campaign_001/trajectories/gsm8k/ROLE/trainer/events/event_002/RESPONSE_OBSERVATIONS.jsonl": {
+      "bytes": 1615979,
+      "sha256": "a2e7f91e853949d69033051875fe598bb91173540008e3db63fafc0e2f73c694"
+    },
+    "campaign_001/trajectories/gsm8k/ROLE/trainer/events/event_002/WINDOW_OBSERVATIONS.jsonl": {
+      "bytes": 29626,
+      "sha256": "93590d98214d46fe3078f7e3bf3c81be91961ef633f95fade4c5b5ed004ca805"
+    },
+    "campaign_001/trajectories/gsm8k/ROLE/boundaries/event_002.json": {
+      "bytes": 3490,
+      "sha256": "7d18131c85326133b4fa78499414db7c69c923b31baa3e1a39624b8d38abeaf7"
+    },
+    "campaign_001/trajectories/gsm8k/ROLE/events/event_002/PUBLICATION_CHECK.json": {
+      "bytes": 2790,
+      "sha256": "a20f420fadc49c10ffeac3d40142dad4ad3e4077f1f2a9cec85a30a1a64134cc"
+    },
+    "campaign_001/trajectories/gsm8k/ROLE/events/event_002/loop/feedback_buffer/state.json": {
+      "bytes": 34347703,
+      "sha256": "c444714dbb6f765fb290c8aabbebcecd39f913f4ecf933e63fafa556c9daa37e"
+    },
+    "campaign_001/trajectories/gsm8k/ROLE/events/event_002/RESOURCE_COSTS.json": {
+      "bytes": 395,
+      "sha256": "5b87bfc10c7fde0a6547608108edf7489a6d656c643974254489f3b58980e26d"
+    },
+    "campaign_001/trajectories/gsm8k/ROLE/events/event_002/RETIREMENT.json": {
+      "bytes": 345875,
+      "sha256": "adbcb28158eed8cbf9ac6d8aefbcf8f058041ed479f7d41b3c488c46eb4024b5"
+    },
+    "campaign_001/trajectories/gsm8k/ROLE/trainer/events/event_003/RESULT.json": {
+      "bytes": 7905019,
+      "sha256": "fcdde5f04b0a06401a1b2415884ce42a97a4179ae725ded07aecf9642b49f867"
+    },
+    "campaign_001/trajectories/gsm8k/ROLE/trainer/events/event_003/RESPONSE_OBSERVATIONS.jsonl": {
+      "bytes": 1613880,
+      "sha256": "0c6dba9c46b2984704b7c20e5062e70e0eba9c825e82691b54d404ff346346ac"
+    },
+    "campaign_001/trajectories/gsm8k/ROLE/trainer/events/event_003/WINDOW_OBSERVATIONS.jsonl": {
+      "bytes": 29652,
+      "sha256": "9ecc431ca986ba982ac02692107d815d0c20b164e824c746b6ccced8f133a272"
+    },
+    "campaign_001/trajectories/gsm8k/ROLE/boundaries/event_003.json": {
+      "bytes": 3490,
+      "sha256": "30054e41392c4e74af362313b0f2c1b71a4a5d10f06ac2bd05d1f5ae6c23b91a"
+    },
+    "campaign_001/trajectories/gsm8k/ROLE/events/event_003/PUBLICATION_CHECK.json": {
+      "bytes": 2809,
+      "sha256": "2a537a53f40e40f778e9120e7f4c2361408e1b215bba1eee3eeb81d13fddf805"
+    },
+    "campaign_001/trajectories/gsm8k/ROLE/events/event_003/loop/feedback_buffer/state.json": {
+      "bytes": 33455800,
+      "sha256": "7bfb0f3f09b12aecd2d7fa4aab7736008d64905fd7d864abe587956767b26d72"
+    },
+    "campaign_001/trajectories/gsm8k/ROLE/events/event_003/RESOURCE_COSTS.json": {
+      "bytes": 395,
+      "sha256": "29e20b7be6c370efce6dca88af89cda4a3e640e2679327ded2aa21ebed1479e6"
+    },
+    "campaign_001/trajectories/gsm8k/ROLE/events/event_003/RETIREMENT.json": {
+      "bytes": 344548,
+      "sha256": "8f61c596615fe63667a20f04012897d5c24ab865fc1d94bf4a7dc5aa5b30f5c1"
+    },
+    "campaign_001/trajectories/gsm8k/ROLE/trainer/events/event_004/RESULT.json": {
+      "bytes": 7840544,
+      "sha256": "3dec22e35292d97f76db48b1e81d89ef9f56c37ce59be5e3352e45b9a247c503"
+    },
+    "campaign_001/trajectories/gsm8k/ROLE/trainer/events/event_004/RESPONSE_OBSERVATIONS.jsonl": {
+      "bytes": 1606281,
+      "sha256": "8dff498ecf2fd44ae58d02ed1997c9b6ca1dbda9b3b9aa1eee513246f398554f"
+    },
+    "campaign_001/trajectories/gsm8k/ROLE/trainer/events/event_004/WINDOW_OBSERVATIONS.jsonl": {
+      "bytes": 29582,
+      "sha256": "524d7912e02661da32cd230cee5448f63a08bbf115ec5ece359dd2bdbabad534"
+    },
+    "campaign_001/trajectories/gsm8k/ROLE/boundaries/event_004.json": {
+      "bytes": 3492,
+      "sha256": "782ba99abc3fde325513c5cd92b8dcc4983faac40d5373a7d642d6d75933afd5"
+    },
+    "campaign_001/trajectories/gsm8k/ROLE/events/event_004/PUBLICATION_CHECK.json": {
+      "bytes": 2829,
+      "sha256": "0c0cecc632f62afc88574decbf609cb6e3a7b063b2a113cebcf16b1e58196d2f"
+    },
+    "campaign_001/trajectories/gsm8k/ROLE/events/event_004/loop/feedback_buffer/state.json": {
+      "bytes": 33892510,
+      "sha256": "7b805a48a44948698c7d896f338e08eb182f3a5d4c7577cbe6736ce57e675e9f"
+    },
+    "campaign_001/trajectories/gsm8k/ROLE/events/event_004/RESOURCE_COSTS.json": {
+      "bytes": 395,
+      "sha256": "595c0115dfc5b8be613509da4bc1670bf657be08af3a9998d5cfc182b4ab8df5"
+    },
+    "campaign_001/trajectories/gsm8k/ROLE/events/event_004/RETIREMENT.json": {
+      "bytes": 345862,
+      "sha256": "05fe72c4e182cebe0fc32fe07ffc8033d3413176e4a0e2c4575362cca978cfb1"
+    },
+    "campaign_001/trajectories/gsm8k/ROLE/FINAL_STATE_CHECK.json": {
+      "bytes": 2623,
+      "sha256": "3ae909b9c5bb322250ab189f9e41be0a2cd73fba09191c11783d2fbfdd89490e"
+    },
+    "sealed/mathqa/TRAINING.json": {
+      "bytes": 1381561,
+      "sha256": "15a6b3d09ef9a10f855ac0294ee1672c2c18dbd17fa22a8f352819313dbd7392"
+    },
+    "sealed/mathqa/PANEL.json": {
+      "bytes": 767921,
+      "sha256": "b00377524069f81ac84ee52d00ec695a9e0db010e3d43cba91ec5113d65dd104"
+    },
+    "campaign_001/trajectories/mathqa/KPLUS/STATUS.json": {
+      "bytes": 14365,
+      "sha256": "da2a028e7734e1a34e739fdc0bb7fba3dfb66603047212c526e940477d15b75e"
+    },
+    "campaign_001/trajectories/mathqa/KPLUS/trainer/INITIAL_CHECK.json": {
+      "bytes": 1488,
+      "sha256": "3ac97ec74feb4f64417ad627827d8f30f08d839e7c414f66981e3d9d95105106"
+    },
+    "campaign_001/trajectories/mathqa/KPLUS/WORK.jsonl": {
+      "bytes": 493156,
+      "sha256": "2b8a18a430290f7653370978c2f2b7177ed875ab0a8085bcbed027a5b65ace7a"
+    },
+    "campaign_001/trajectories/mathqa/KPLUS/trainer/events/event_001/RESULT.json": {
+      "bytes": 9450268,
+      "sha256": "2ae6ab4f3ad8d947d2f83936a822ce9ccdeb0f54240ab712ad796bebd40918d1"
+    },
+    "campaign_001/trajectories/mathqa/KPLUS/trainer/events/event_001/RESPONSE_OBSERVATIONS.jsonl": {
+      "bytes": 1638842,
+      "sha256": "28ee6921b724b607d2472831affe351ee638d54f40cc48d7e3f2a9769e52066d"
+    },
+    "campaign_001/trajectories/mathqa/KPLUS/trainer/events/event_001/WINDOW_OBSERVATIONS.jsonl": {
+      "bytes": 29621,
+      "sha256": "3f81db4a940d1810ac5442e3cdff01055a9a313941bcd270b3aa97ee2debe60b"
+    },
+    "campaign_001/trajectories/mathqa/KPLUS/boundaries/event_001.json": {
+      "bytes": 1996,
+      "sha256": "21e80c982e5bfbd8503d81aeccb0217aaf05711fbbef1ea1404dcee255fe8083"
+    },
+    "campaign_001/trajectories/mathqa/KPLUS/events/event_001/PUBLICATION_CHECK.json": {
+      "bytes": 2775,
+      "sha256": "1f21e4b1ab679f2eb37733de5786be2721a5688aecb5c2e1ecc655fc7058aa6d"
+    },
+    "campaign_001/trajectories/mathqa/KPLUS/events/event_001/loop/feedback_buffer/state.json": {
+      "bytes": 52735945,
+      "sha256": "f018f06965b1f7eb5bca97195347084624d2e968e151aeff7cbf317c97e48fb0"
+    },
+    "campaign_001/trajectories/mathqa/KPLUS/events/event_001/RESOURCE_COSTS.json": {
+      "bytes": 3503,
+      "sha256": "a4431fab606445416c91f109a26aa8d804ec678bdc4602905fe7aac23d889b82"
+    },
+    "campaign_001/trajectories/mathqa/KPLUS/events/event_001/RETIREMENT.json": {
+      "bytes": 348968,
+      "sha256": "111066ceb912da4660f83ea11ae7151b17ff1d02e85f16013c4516fdd874baac"
+    },
+    "campaign_001/trajectories/mathqa/KPLUS/trainer/events/event_002/RESULT.json": {
+      "bytes": 9328733,
+      "sha256": "020fda2058491e1eb49226a55ce2f09a3c92aa08175e3b868eb51bbd7214f892"
+    },
+    "campaign_001/trajectories/mathqa/KPLUS/trainer/events/event_002/RESPONSE_OBSERVATIONS.jsonl": {
+      "bytes": 1624339,
+      "sha256": "e39b0063d054015856272671751fb4ef66efa0212bc451af21a0a062700c530a"
+    },
+    "campaign_001/trajectories/mathqa/KPLUS/trainer/events/event_002/WINDOW_OBSERVATIONS.jsonl": {
+      "bytes": 29743,
+      "sha256": "179a171de6374241e47ef35050ea570f4e939c95b067167ee4490be7be5a17e9"
+    },
+    "campaign_001/trajectories/mathqa/KPLUS/boundaries/event_002.json": {
+      "bytes": 1996,
+      "sha256": "ba2725ee261deaeb0c95df9ecfa2045843f08717370dece3fb06f31706d84d56"
+    },
+    "campaign_001/trajectories/mathqa/KPLUS/events/event_002/PUBLICATION_CHECK.json": {
+      "bytes": 2794,
+      "sha256": "74303b80582ee19f9ee5b5df9c49288b9ea1d66cc51141ae84df2165a0bc9f07"
+    },
+    "campaign_001/trajectories/mathqa/KPLUS/events/event_002/loop/feedback_buffer/state.json": {
+      "bytes": 53096448,
+      "sha256": "f19d6a644f7bd527e45a2569f8ba6d29c2a467c1c41b143c443e07b865d49253"
+    },
+    "campaign_001/trajectories/mathqa/KPLUS/events/event_002/RESOURCE_COSTS.json": {
+      "bytes": 395,
+      "sha256": "b422f32768af13329d9b615fd13979c5bf1c9e5c43133cbaa8257773ddf99a2e"
+    },
+    "campaign_001/trajectories/mathqa/KPLUS/events/event_002/RETIREMENT.json": {
+      "bytes": 348046,
+      "sha256": "235c6a8d1708dc36b68b9a5452211639ef116cc8622cc1545ff7540bbe2c3c9b"
+    },
+    "campaign_001/trajectories/mathqa/KPLUS/trainer/events/event_003/RESULT.json": {
+      "bytes": 9829796,
+      "sha256": "6a0abf5ed3bdd2875f2ca6a1c46c93522cad79798260ac22546e73ce0e34cdb1"
+    },
+    "campaign_001/trajectories/mathqa/KPLUS/trainer/events/event_003/RESPONSE_OBSERVATIONS.jsonl": {
+      "bytes": 1691614,
+      "sha256": "e9119b96466be524982f945195715afb1aa75058b5686f3e73bb1556a0d7efc2"
+    },
+    "campaign_001/trajectories/mathqa/KPLUS/trainer/events/event_003/WINDOW_OBSERVATIONS.jsonl": {
+      "bytes": 29705,
+      "sha256": "77b2b31bceeb8ab850ce1102a7c2a423aba5afe89b00e9abcfe0b6f45e9827e0"
+    },
+    "campaign_001/trajectories/mathqa/KPLUS/boundaries/event_003.json": {
+      "bytes": 1996,
+      "sha256": "2bbd535f09269a53dec8f1f3a13c2a24b66bd7a2fa67fe1d7cd9f32bdfbc9b80"
+    },
+    "campaign_001/trajectories/mathqa/KPLUS/events/event_003/PUBLICATION_CHECK.json": {
+      "bytes": 2813,
+      "sha256": "48f5cd05fb82333379821ef6d06404c1fba622826e39d08b87b49ab4353e60f0"
+    },
+    "campaign_001/trajectories/mathqa/KPLUS/events/event_003/loop/feedback_buffer/state.json": {
+      "bytes": 57738622,
+      "sha256": "df9983c8050cca60083d650213429096af5404e810c6e2b81818c3c054f1b465"
+    },
+    "campaign_001/trajectories/mathqa/KPLUS/events/event_003/RESOURCE_COSTS.json": {
+      "bytes": 395,
+      "sha256": "98a84dbf69823ae7346b97e9c98bba056337236ec0aab3650f553cae740e659b"
+    },
+    "campaign_001/trajectories/mathqa/KPLUS/events/event_003/RETIREMENT.json": {
+      "bytes": 347552,
+      "sha256": "4cb51c01bc043f577cd8aa5fa12a267b224a84529d04317ebf6611b8dde731e3"
+    },
+    "campaign_001/trajectories/mathqa/KPLUS/trainer/events/event_004/RESULT.json": {
+      "bytes": 9754447,
+      "sha256": "c90cf624ac047e334890582517013da5a78d6ac29c37e3786e4987c1219a371d"
+    },
+    "campaign_001/trajectories/mathqa/KPLUS/trainer/events/event_004/RESPONSE_OBSERVATIONS.jsonl": {
+      "bytes": 1680834,
+      "sha256": "20e76bf3b9d7f2b43837e626c54caafbe3d6e6b0e12ee7f3404180146a2dc773"
+    },
+    "campaign_001/trajectories/mathqa/KPLUS/trainer/events/event_004/WINDOW_OBSERVATIONS.jsonl": {
+      "bytes": 29740,
+      "sha256": "1e55eb6fd81710a7873d4670af4edcb5bb72874bf1b8590eba3a8dca96afc5b2"
+    },
+    "campaign_001/trajectories/mathqa/KPLUS/boundaries/event_004.json": {
+      "bytes": 1998,
+      "sha256": "95506cec0aac5489c44e44ffea5e87da92aeafffbced4b8c1ad7e72a312fdd85"
+    },
+    "campaign_001/trajectories/mathqa/KPLUS/events/event_004/PUBLICATION_CHECK.json": {
+      "bytes": 2833,
+      "sha256": "1a65ce20c4db04ae42e50b7eb8e04e3a5ea54741e161b5e5d636bf7b946beb41"
+    },
+    "campaign_001/trajectories/mathqa/KPLUS/events/event_004/loop/feedback_buffer/state.json": {
+      "bytes": 55267421,
+      "sha256": "f9f915fe2c6e6895d6be6a94bfc226e8779988d79b58cf43bc1a30f804768162"
+    },
+    "campaign_001/trajectories/mathqa/KPLUS/events/event_004/RESOURCE_COSTS.json": {
+      "bytes": 395,
+      "sha256": "e9ffcbc4b47f5ac868dc9dd50cd91ded6bb8a06fc74f9b209aedcb5a1fa86b66"
+    },
+    "campaign_001/trajectories/mathqa/KPLUS/events/event_004/RETIREMENT.json": {
+      "bytes": 348307,
+      "sha256": "c840b3f5d56bedf3d91b2d1098ea421942bd570668fb926d205393459af0d778"
+    },
+    "campaign_001/trajectories/mathqa/KPLUS/FINAL_STATE_CHECK.json": {
+      "bytes": 1198,
+      "sha256": "06eba8e28fa9021f7b505bc8c438d91acc79faeb6563dfa99b38577bfb0d8044"
+    },
+    "campaign_001/trajectories/mathqa/MIX/STATUS.json": {
+      "bytes": 17393,
+      "sha256": "70456c3805c05f1b9b530c09ff0e37a2406c47c8dcd1c081e2f6f5895791e5f7"
+    },
+    "campaign_001/trajectories/mathqa/MIX/trainer/INITIAL_CHECK.json": {
+      "bytes": 2903,
+      "sha256": "21f924b4abc163575281a5cda268fb87d87371e40f8b077e5751ae27c9b18124"
+    },
+    "campaign_001/trajectories/mathqa/MIX/WORK.jsonl": {
+      "bytes": 492588,
+      "sha256": "7b3aa0579d18907a8b4c1f91ec133fdf99069dfa75e50962f82fcd38081e16bf"
+    },
+    "campaign_001/trajectories/mathqa/MIX/trainer/events/event_001/RESULT.json": {
+      "bytes": 10156293,
+      "sha256": "1f38e50cac55e35099186b553906d37f656f218ec13d05e0a75628171279c3e2"
+    },
+    "campaign_001/trajectories/mathqa/MIX/trainer/events/event_001/RESPONSE_OBSERVATIONS.jsonl": {
+      "bytes": 1920912,
+      "sha256": "e040ecec0d04005bc5dbf010c645f9ed6f99e56f5482f7d9d90c7613f5196042"
+    },
+    "campaign_001/trajectories/mathqa/MIX/trainer/events/event_001/WINDOW_OBSERVATIONS.jsonl": {
+      "bytes": 29384,
+      "sha256": "2148403f8a38b37705873e2464ac7abdadd4984c8ed6c0d4846b72f500a4b8b0"
+    },
+    "campaign_001/trajectories/mathqa/MIX/boundaries/event_001.json": {
+      "bytes": 3481,
+      "sha256": "6ca6ed327d2d6152d8939b31cbe430eaba1f673489a2863846f5d8b09573c2b1"
+    },
+    "campaign_001/trajectories/mathqa/MIX/events/event_001/PUBLICATION_CHECK.json": {
+      "bytes": 2771,
+      "sha256": "d136fa9e1fa967f741f60b389383ef191a20e2585edb2af9c0505ffdb9ffb537"
+    },
+    "campaign_001/trajectories/mathqa/MIX/events/event_001/loop/feedback_buffer/state.json": {
+      "bytes": 53559956,
+      "sha256": "68da3395a0e33e16ee4e23d0458dea7c14aecf32726c5238fa8913ef231169ab"
+    },
+    "campaign_001/trajectories/mathqa/MIX/events/event_001/RESOURCE_COSTS.json": {
+      "bytes": 15322,
+      "sha256": "2ff1617a78ec80248c4aa2299caa1f3fc373825318fc84bd419d1a814de2d0ee"
+    },
+    "campaign_001/trajectories/mathqa/MIX/events/event_001/RETIREMENT.json": {
+      "bytes": 344365,
+      "sha256": "fb6081bcea11f3de8da0f7edcbd140c2c55cb97000bd65f448dfbde8e3e9f015"
+    },
+    "campaign_001/trajectories/mathqa/MIX/trainer/events/event_002/RESULT.json": {
+      "bytes": 10034168,
+      "sha256": "16b8b8e4769d1bc84c9a7beea11f306ca3ba2b0c47a7b809f5cfc1282592bb4c"
+    },
+    "campaign_001/trajectories/mathqa/MIX/trainer/events/event_002/RESPONSE_OBSERVATIONS.jsonl": {
+      "bytes": 1906097,
+      "sha256": "490f883005448ce90936f87db9e43678092c626df14eae88181a188b555e713d"
+    },
+    "campaign_001/trajectories/mathqa/MIX/trainer/events/event_002/WINDOW_OBSERVATIONS.jsonl": {
+      "bytes": 29521,
+      "sha256": "ba3c9ea09268a6cda26a81e3347e4cd673b5c1cbdfba88329f4e7b3c66f2eeee"
+    },
+    "campaign_001/trajectories/mathqa/MIX/boundaries/event_002.json": {
+      "bytes": 3481,
+      "sha256": "204dfbe3b0fdb46a6841c54aaddf4e25e9591f624712f9151eb0ce23838fac9b"
+    },
+    "campaign_001/trajectories/mathqa/MIX/events/event_002/PUBLICATION_CHECK.json": {
+      "bytes": 2790,
+      "sha256": "39fd773ac57171a401081ea7d8285b16543ed01b8347610bac4f2e14d8b80631"
+    },
+    "campaign_001/trajectories/mathqa/MIX/events/event_002/loop/feedback_buffer/state.json": {
+      "bytes": 54104242,
+      "sha256": "69a9c4cdd5a6b22859030f642ec6df4dd2d5b20475782c4b51df8c22a796c1b7"
+    },
+    "campaign_001/trajectories/mathqa/MIX/events/event_002/RESOURCE_COSTS.json": {
+      "bytes": 395,
+      "sha256": "967f922b87031515234157d6b8073569a44163fa1797a0e4ff751894de4b4f37"
+    },
+    "campaign_001/trajectories/mathqa/MIX/events/event_002/RETIREMENT.json": {
+      "bytes": 345971,
+      "sha256": "65261421217aab63a1970556f6858f53d0fa38797c4b63f513872b2f0f1e5ef7"
+    },
+    "campaign_001/trajectories/mathqa/MIX/trainer/events/event_003/RESULT.json": {
+      "bytes": 10534968,
+      "sha256": "dd4a1fedb22ed0565f963da5b19ccd99a2caf2f3e8ff99ed9182d5ba3c04771c"
+    },
+    "campaign_001/trajectories/mathqa/MIX/trainer/events/event_003/RESPONSE_OBSERVATIONS.jsonl": {
+      "bytes": 1973260,
+      "sha256": "6e896ce20aaaceafe0004e59b10a8d46b32ab8cc751a45bb3e40190c9593bcb1"
+    },
+    "campaign_001/trajectories/mathqa/MIX/trainer/events/event_003/WINDOW_OBSERVATIONS.jsonl": {
+      "bytes": 29498,
+      "sha256": "191cbac05ebaceb3e23314dd648f85e7972df15400d1cc5314e513f2b758a072"
+    },
+    "campaign_001/trajectories/mathqa/MIX/boundaries/event_003.json": {
+      "bytes": 3481,
+      "sha256": "9a84d006244d8d08bdfd5e85ca1777255fe725b0ee993a814ccfe49d1b722038"
+    },
+    "campaign_001/trajectories/mathqa/MIX/events/event_003/PUBLICATION_CHECK.json": {
+      "bytes": 2809,
+      "sha256": "b176ca00c4466096f1f2f33c0eefdf27647c86f6b37473cae821c218ac9cbca0"
+    },
+    "campaign_001/trajectories/mathqa/MIX/events/event_003/loop/feedback_buffer/state.json": {
+      "bytes": 58718456,
+      "sha256": "17dad78b4db203b5801892224c60f1f2bb0b7830c67d94f50063ced513a9ce0e"
+    },
+    "campaign_001/trajectories/mathqa/MIX/events/event_003/RESOURCE_COSTS.json": {
+      "bytes": 395,
+      "sha256": "1473b9a88460dded62e1bc5c79cf9870e60e777d76f82fe6467445bff4b7bc28"
+    },
+    "campaign_001/trajectories/mathqa/MIX/events/event_003/RETIREMENT.json": {
+      "bytes": 345222,
+      "sha256": "c6c81e3302c3f98a3ac90f23f16feb67774c0c87a734005e2c1621b67a7a3066"
+    },
+    "campaign_001/trajectories/mathqa/MIX/trainer/events/event_004/RESULT.json": {
+      "bytes": 10459775,
+      "sha256": "7b5a913a5a3fd454e8c5ea500b5aa6f155c7762f47cab8c3145e3fe40e7ec759"
+    },
+    "campaign_001/trajectories/mathqa/MIX/trainer/events/event_004/RESPONSE_OBSERVATIONS.jsonl": {
+      "bytes": 1962749,
+      "sha256": "d33079e24ac5c69b048927885ef9032738086c35500b03e01ae6ecfdb4aacf46"
+    },
+    "campaign_001/trajectories/mathqa/MIX/trainer/events/event_004/WINDOW_OBSERVATIONS.jsonl": {
+      "bytes": 29530,
+      "sha256": "9fb1b3034ccef9b83c9c0029af9bbfbe8e2e0282a6c76a1d7761a8dc3948564a"
+    },
+    "campaign_001/trajectories/mathqa/MIX/boundaries/event_004.json": {
+      "bytes": 3482,
+      "sha256": "25d20e0874b6454ae13dba6efa802587e9f7ac060120558abb8b2d04faea3960"
+    },
+    "campaign_001/trajectories/mathqa/MIX/events/event_004/PUBLICATION_CHECK.json": {
+      "bytes": 2829,
+      "sha256": "987da5e7a0a1049de69e786c0c75a389e29d597463c36217d7dd6554afc66967"
+    },
+    "campaign_001/trajectories/mathqa/MIX/events/event_004/loop/feedback_buffer/state.json": {
+      "bytes": 56053472,
+      "sha256": "0b1b0dd5e7bd285e4fd02147ed019b69df78906ef90816f4f4c87dec6eab4bd5"
+    },
+    "campaign_001/trajectories/mathqa/MIX/events/event_004/RESOURCE_COSTS.json": {
+      "bytes": 395,
+      "sha256": "17efeea9157eb53e29b8bfe8839d2c39894aeb4aac1489b07253031ae273b04e"
+    },
+    "campaign_001/trajectories/mathqa/MIX/events/event_004/RETIREMENT.json": {
+      "bytes": 345971,
+      "sha256": "89aa167a9f0af93c2e7dcf9b8da4d80eb58551444e52450f10c995ee09e10fd4"
+    },
+    "campaign_001/trajectories/mathqa/MIX/FINAL_STATE_CHECK.json": {
+      "bytes": 2615,
+      "sha256": "a3472b72cf86b8269c9684574d72a6d7eebe513265f4d5ef00ef2445fa9842e5"
+    },
+    "campaign_001/trajectories/mathqa/ROLE/STATUS.json": {
+      "bytes": 17427,
+      "sha256": "6cc8510253cbd616c649595205d5d715088638239c259e5453519d1c9347c7e8"
+    },
+    "campaign_001/trajectories/mathqa/ROLE/trainer/INITIAL_CHECK.json": {
+      "bytes": 2914,
+      "sha256": "4089ab37e544518c201da11b5a2e40f862ffa3806f25b29a440fe5e0bf0b0f1c"
+    },
+    "campaign_001/trajectories/mathqa/ROLE/WORK.jsonl": {
+      "bytes": 492588,
+      "sha256": "7b3aa0579d18907a8b4c1f91ec133fdf99069dfa75e50962f82fcd38081e16bf"
+    },
+    "campaign_001/trajectories/mathqa/ROLE/trainer/events/event_001/RESULT.json": {
+      "bytes": 10158708,
+      "sha256": "8275fdf6dfb09556aa34135172cf0ecf8c3d600e2f61268e2045621682b019e3"
+    },
+    "campaign_001/trajectories/mathqa/ROLE/trainer/events/event_001/RESPONSE_OBSERVATIONS.jsonl": {
+      "bytes": 1922633,
+      "sha256": "22c5f8e7828c2a303173dfa99bc3248b58fda4f37210ff17bfa0ae5027dd6e39"
+    },
+    "campaign_001/trajectories/mathqa/ROLE/trainer/events/event_001/WINDOW_OBSERVATIONS.jsonl": {
+      "bytes": 29543,
+      "sha256": "ab29e4f8384d009891da27def504df86f48c83156a0399bdcd59616facef6ee8"
+    },
+    "campaign_001/trajectories/mathqa/ROLE/boundaries/event_001.json": {
+      "bytes": 3494,
+      "sha256": "321b1cd04ae0124aa7c0454d5702419c54fe7a44b4fcf1cba7cb43aaba24bc7a"
+    },
+    "campaign_001/trajectories/mathqa/ROLE/events/event_001/PUBLICATION_CHECK.json": {
+      "bytes": 2773,
+      "sha256": "ec5fe934fc9e2f9949719e864ceca18616077abbb3f2a3c9f6f7506116e45a31"
+    },
+    "campaign_001/trajectories/mathqa/ROLE/events/event_001/loop/feedback_buffer/state.json": {
+      "bytes": 53562906,
+      "sha256": "443b9117ff4d673a4e2c16c3dd23cf037bb813642f1c05e44cf2ead9251f65c2"
+    },
+    "campaign_001/trajectories/mathqa/ROLE/events/event_001/RESOURCE_COSTS.json": {
+      "bytes": 4738,
+      "sha256": "e1e25d5b5f3ef7151660e7b51dacf160ac7ebc3d3b74d2182aa27d070cb589d4"
+    },
+    "campaign_001/trajectories/mathqa/ROLE/events/event_001/RETIREMENT.json": {
+      "bytes": 345526,
+      "sha256": "dd0fd2e4a7e6802b59e86d5d562864c6d9ff585ece8dacac41763ae2e4cc3f77"
+    },
+    "campaign_001/trajectories/mathqa/ROLE/trainer/events/event_002/RESULT.json": {
+      "bytes": 10038585,
+      "sha256": "026edf0aff6ec4de05547f5a11c1c4bb30aa3dd707ffaa587d98d03b78fcd6c9"
+    },
+    "campaign_001/trajectories/mathqa/ROLE/trainer/events/event_002/RESPONSE_OBSERVATIONS.jsonl": {
+      "bytes": 1908842,
+      "sha256": "ecebb15d7dc0cc8317067284db426bd26d6bbea97ee68457b001685a09f4da81"
+    },
+    "campaign_001/trajectories/mathqa/ROLE/trainer/events/event_002/WINDOW_OBSERVATIONS.jsonl": {
+      "bytes": 29676,
+      "sha256": "d30713849302510d0bb54bbbd2a6d547c28171a01ca44256d273b64c319acb90"
+    },
+    "campaign_001/trajectories/mathqa/ROLE/boundaries/event_002.json": {
+      "bytes": 3494,
+      "sha256": "ee63334f9781c9df4f3cdb940e780a064bdb78d730acf9bde26dc718bd9b7ca8"
+    },
+    "campaign_001/trajectories/mathqa/ROLE/events/event_002/PUBLICATION_CHECK.json": {
+      "bytes": 2792,
+      "sha256": "d56d9a9b6430d3098037985d8d0c5e968698310efa433ffdae72837c986c683c"
+    },
+    "campaign_001/trajectories/mathqa/ROLE/events/event_002/loop/feedback_buffer/state.json": {
+      "bytes": 54019505,
+      "sha256": "80098476b0ed5d4ab34bec2526cf356ddf7d19565e0fbefeb5bfbe0be50d7090"
+    },
+    "campaign_001/trajectories/mathqa/ROLE/events/event_002/RESOURCE_COSTS.json": {
+      "bytes": 395,
+      "sha256": "8e2706ad745572de2ec576c6828e1f8307cee9437df22b98793e544512a951e7"
+    },
+    "campaign_001/trajectories/mathqa/ROLE/events/event_002/RETIREMENT.json": {
+      "bytes": 347133,
+      "sha256": "03e83ba7d308f84d7d481698afa23132f6e8533c55c302b74abc22d3bb741ac6"
+    },
+    "campaign_001/trajectories/mathqa/ROLE/trainer/events/event_003/RESULT.json": {
+      "bytes": 10539811,
+      "sha256": "7639a77b1a2f3306e7d47966260b564652e72df21b65d57fde155cf5e2216779"
+    },
+    "campaign_001/trajectories/mathqa/ROLE/trainer/events/event_003/RESPONSE_OBSERVATIONS.jsonl": {
+      "bytes": 1976086,
+      "sha256": "da514b17cea2624922151f73ee7ed26c6fa0da2c973270d6c6dfb3b8f3c0e86a"
+    },
+    "campaign_001/trajectories/mathqa/ROLE/trainer/events/event_003/WINDOW_OBSERVATIONS.jsonl": {
+      "bytes": 29648,
+      "sha256": "ce1101269b91afc2e29a26b3d23f5de4c91fabe91b8e0396ef9299e38d695c24"
+    },
+    "campaign_001/trajectories/mathqa/ROLE/boundaries/event_003.json": {
+      "bytes": 3494,
+      "sha256": "3a4a7a21d65c6ba99f2ec9c8f025e59341bd47a992007b501f100e635f238693"
+    },
+    "campaign_001/trajectories/mathqa/ROLE/events/event_003/PUBLICATION_CHECK.json": {
+      "bytes": 2811,
+      "sha256": "5231fe4b8544914c74597584deeb630e4eaf24a82be6c017fcbec392eef1017c"
+    },
+    "campaign_001/trajectories/mathqa/ROLE/events/event_003/loop/feedback_buffer/state.json": {
+      "bytes": 58664531,
+      "sha256": "e409c99d8764747046bc87fd885c6264cca0b89381a2e7b91908b3dcb60b61ec"
+    },
+    "campaign_001/trajectories/mathqa/ROLE/events/event_003/RESOURCE_COSTS.json": {
+      "bytes": 395,
+      "sha256": "c0fd8b328e90bca2cc1fab0eb3a82d7c89a0d052b817aabb086be682888f524b"
+    },
+    "campaign_001/trajectories/mathqa/ROLE/events/event_003/RETIREMENT.json": {
+      "bytes": 346389,
+      "sha256": "8f072d425cbab8c793b2f52ce750b5deb6a25c48eeaf938c822058423ea4158b"
+    },
+    "campaign_001/trajectories/mathqa/ROLE/trainer/events/event_004/RESULT.json": {
+      "bytes": 10463122,
+      "sha256": "5841237c43bea14b0bfcbccef81029865d724e6169e3f8a19e07207fd010aa74"
+    },
+    "campaign_001/trajectories/mathqa/ROLE/trainer/events/event_004/RESPONSE_OBSERVATIONS.jsonl": {
+      "bytes": 1964947,
+      "sha256": "ff872e823f7c3e7954f3688be32a5eac64f6903f5c886624f68bf56da7bdeea6"
+    },
+    "campaign_001/trajectories/mathqa/ROLE/trainer/events/event_004/WINDOW_OBSERVATIONS.jsonl": {
+      "bytes": 29686,
+      "sha256": "78bed7dc1f2236a213ac88549208c5208e5a7146ba735846b167bccace0f9e47"
+    },
+    "campaign_001/trajectories/mathqa/ROLE/boundaries/event_004.json": {
+      "bytes": 3496,
+      "sha256": "e1d3035a566c3894151d6a05aea6a07e2e4d84b36072fad5430604efd6b0de28"
+    },
+    "campaign_001/trajectories/mathqa/ROLE/events/event_004/PUBLICATION_CHECK.json": {
+      "bytes": 2831,
+      "sha256": "945e7a916d2a1b788ee26fa7bc88924f009fe9cfaab5b1d3b9b4d1055f3a1fc4"
+    },
+    "campaign_001/trajectories/mathqa/ROLE/events/event_004/loop/feedback_buffer/state.json": {
+      "bytes": 56306454,
+      "sha256": "25ede9300bf6cf01127a5c8ecb33d0189c0a69f480af1cb3ae90ee108808ec23"
+    },
+    "campaign_001/trajectories/mathqa/ROLE/events/event_004/RESOURCE_COSTS.json": {
+      "bytes": 395,
+      "sha256": "fca592fa9f9c4e24917f7cc2da3247fce59a1f60c3710897ccb21b647c6714c7"
+    },
+    "campaign_001/trajectories/mathqa/ROLE/events/event_004/RETIREMENT.json": {
+      "bytes": 347142,
+      "sha256": "6bb6d7990316d775aa93368760fa1a34b953594b631ce21b89f7cbb3e114c61d"
+    },
+    "campaign_001/trajectories/mathqa/ROLE/FINAL_STATE_CHECK.json": {
+      "bytes": 2625,
+      "sha256": "ab0b87676d72c1dffda027b6a37757646b86469d33140523ff3f1c8217402e06"
+    },
+    "campaign_001/diagnostics/gsm8k/pool/POOL.json": {
+      "bytes": 366859,
+      "sha256": "961cd1ce3c98e3b3371592748d3e12b10a25b5837006ad6bbb0d04871216a669"
+    },
+    "campaign_001/diagnostics/gsm8k/INITIAL/event_000/RESULT.json": {
+      "bytes": 211076,
+      "sha256": "9462626dedd01edfed51fe86c197d09b913018810f1583cb6a68794eb88a6a5a"
+    },
+    "campaign_001/diagnostics/gsm8k/KPLUS/event_002/RESULT.json": {
+      "bytes": 211177,
+      "sha256": "b9bca987cb9077cd0aace30f93df3d66f7676f423db10cb1f801203206ebf3bd"
+    },
+    "campaign_001/diagnostics/gsm8k/KPLUS/event_004/RESULT.json": {
+      "bytes": 211161,
+      "sha256": "b78098f56717863bc63e6a262ba59391c314f157a3d44e5705ffbbb9c9112423"
+    },
+    "campaign_001/diagnostics/gsm8k/MIX/event_002/RESULT.json": {
+      "bytes": 211155,
+      "sha256": "3d86217e0871775101fe2b96bc100d8863d563a813b5f9f0aec66c80bc251a9f"
+    },
+    "campaign_001/diagnostics/gsm8k/MIX/event_004/RESULT.json": {
+      "bytes": 211149,
+      "sha256": "621b5c2060eafa5f8ce5f56a0f0393df8ac1c3cb5e69e46902d374919330b41a"
+    },
+    "campaign_001/diagnostics/gsm8k/ROLE/event_002/RESULT.json": {
+      "bytes": 211169,
+      "sha256": "88748002acfd84ed95230cd419b7ab68655cb985b7acbbe35c8e10b59e2fe90a"
+    },
+    "campaign_001/diagnostics/gsm8k/ROLE/event_004/RESULT.json": {
+      "bytes": 211178,
+      "sha256": "3327b1850a1ddd87e41e2d4326106f50819281fa52270e3c0adb1c3cce1ad25b"
+    },
+    "campaign_001/diagnostics/mathqa/pool/POOL.json": {
+      "bytes": 502041,
+      "sha256": "1ae5a19756cdc2d8962f8bd5dea81c22dd0bd62ec084440906edc61a6a435050"
+    },
+    "campaign_001/diagnostics/mathqa/INITIAL/event_000/RESULT.json": {
+      "bytes": 210561,
+      "sha256": "ac8d5cbcfd33e850eb54eb261294f4bc993e4b1cd9f7bafe42dde8dbd103e729"
+    },
+    "campaign_001/diagnostics/mathqa/KPLUS/event_002/RESULT.json": {
+      "bytes": 210556,
+      "sha256": "8ad0b499669ea7f7fd86edef9f7c9c12ec8d9f83075dc55705a6a3cd88918e10"
+    },
+    "campaign_001/diagnostics/mathqa/KPLUS/event_004/RESULT.json": {
+      "bytes": 210598,
+      "sha256": "366a3016248b3accf0aa2bcf5079d2f3198639ee109dba1c2b33dc6931bfff22"
+    },
+    "campaign_001/diagnostics/mathqa/MIX/event_002/RESULT.json": {
+      "bytes": 210555,
+      "sha256": "1f721f8c96bf11e0b68734ce87d22b7a6a1c83e90ace34c76845f87863bc6963"
+    },
+    "campaign_001/diagnostics/mathqa/MIX/event_004/RESULT.json": {
+      "bytes": 210588,
+      "sha256": "dce10fc9435ba59e7827a5c8b384b81edc5db7970d6840b5909d67e4c0f8b0e0"
+    },
+    "campaign_001/diagnostics/mathqa/ROLE/event_002/RESULT.json": {
+      "bytes": 210562,
+      "sha256": "9db07b9d636538ae7fd07c9629fd5192926313cc19d31546ffb9b35fafc1f969"
+    },
+    "campaign_001/diagnostics/mathqa/ROLE/event_004/RESULT.json": {
+      "bytes": 210582,
+      "sha256": "97ce4f39b580df9983096351cd980c6c7e25c10005b72e0d180f72fc4c60b388"
+    }
+  },
+  "limitations": [
+    "Saved tensor-equality and RNG-restoration checks are receipts, not independently rerun tensor checks.",
+    "Prepared training tensors and rolling intermediate recoveries were retired under the admitted policy; they are not archived.",
+    "This read-only CPU audit is not a new GPU execution or independent training replication.",
+    "Identical feedback token IDs do not establish identical native hidden features.",
+    "The 128 anchors per dataset are local fixed-context measurements, not an estimator of serving speedup."
+  ]
+}

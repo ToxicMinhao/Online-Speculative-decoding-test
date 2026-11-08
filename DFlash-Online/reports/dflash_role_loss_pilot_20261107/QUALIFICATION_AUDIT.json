@@ -1,0 +1,886 @@
+{
+  "audit_version": 1,
+  "status": "passed",
+  "verdict": "No unresolved qualification/admission blocker found in the retained evidence and published source.",
+  "reviewed_at_utc": "2026-11-07T22:56:26.527356+00:00",
+  "execution_commit": "cdb640543d8fe3a43c8e63af4ccaaa002e09a599",
+  "evidence_root": "/home/minhao2/EAGLE_SPEC/research/dflash_role_loss_pilot_20261107/qualification_review_001",
+  "checks": [
+    {
+      "name": "Final qualification passed, all cases completed, no retry or production reuse",
+      "passed": true
+    },
+    {
+      "name": "Scientific states retired, no retained disposable state paths",
+      "passed": true
+    },
+    {
+      "name": "Published execution identity agrees across plan/progress/final",
+      "passed": true
+    },
+    {
+      "name": "Fixed budget and loss contracts unchanged in plan/progress/final",
+      "passed": true
+    },
+    {
+      "name": "Authorized qualification ceilings exactly match",
+      "passed": true
+    },
+    {
+      "name": "Nine input identities match sealed dependency pins",
+      "passed": true
+    },
+    {
+      "name": "Input unchanged receipt present",
+      "passed": true
+    },
+    {
+      "name": "Exactly four retained feature packets used",
+      "passed": true
+    },
+    {
+      "name": "Exactly 60 raw work records",
+      "passed": true
+    },
+    {
+      "name": "Six cases in fixed arm/pair order",
+      "passed": true
+    },
+    {
+      "name": "Every raw event matches monotonic attempted/completed counters",
+      "passed": true
+    },
+    {
+      "name": "Final work summary agrees with raw ledger and physical counters",
+      "passed": true
+    },
+    {
+      "name": "Attempted and completed counts are exactly 12/12/6",
+      "passed": true
+    },
+    {
+      "name": "KPLUS_pair_01: complete backward before next response; one Adam on second response",
+      "passed": true
+    },
+    {
+      "name": "KPLUS_pair_01: independent receipt matches final and progress",
+      "passed": true
+    },
+    {
+      "name": "KPLUS_pair_01: fresh, reset, and final initial-state receipts all exact",
+      "passed": true
+    },
+    {
+      "name": "KPLUS_pair_01: exactly two presentations and one update",
+      "passed": true
+    },
+    {
+      "name": "KPLUS_pair_01: same prescribed pair used",
+      "passed": true
+    },
+    {
+      "name": "KPLUS_pair_01: all retained scalar metrics finite",
+      "passed": true
+    },
+    {
+      "name": "KPLUS_pair_01: nonzero finite BF16 update, all 58 Adam entries, target isolated",
+      "passed": true
+    },
+    {
+      "name": "KPLUS_pair_01: actual decode exact and matching retirement identity",
+      "passed": true
+    },
+    {
+      "name": "KPLUS_pair_01: physical calls agree with baseline per-pair count",
+      "passed": true
+    },
+    {
+      "name": "KPLUS_pair_02: complete backward before next response; one Adam on second response",
+      "passed": true
+    },
+    {
+      "name": "KPLUS_pair_02: independent receipt matches final and progress",
+      "passed": true
+    },
+    {
+      "name": "KPLUS_pair_02: fresh, reset, and final initial-state receipts all exact",
+      "passed": true
+    },
+    {
+      "name": "KPLUS_pair_02: exactly two presentations and one update",
+      "passed": true
+    },
+    {
+      "name": "KPLUS_pair_02: same prescribed pair used",
+      "passed": true
+    },
+    {
+      "name": "KPLUS_pair_02: all retained scalar metrics finite",
+      "passed": true
+    },
+    {
+      "name": "KPLUS_pair_02: nonzero finite BF16 update, all 58 Adam entries, target isolated",
+      "passed": true
+    },
+    {
+      "name": "KPLUS_pair_02: actual decode exact and matching retirement identity",
+      "passed": true
+    },
+    {
+      "name": "KPLUS_pair_02: physical calls agree with baseline per-pair count",
+      "passed": true
+    },
+    {
+      "name": "MIX_pair_01: complete backward before next response; one Adam on second response",
+      "passed": true
+    },
+    {
+      "name": "MIX_pair_01: independent receipt matches final and progress",
+      "passed": true
+    },
+    {
+      "name": "MIX_pair_01: fresh, reset, and final initial-state receipts all exact",
+      "passed": true
+    },
+    {
+      "name": "MIX_pair_01: exactly two presentations and one update",
+      "passed": true
+    },
+    {
+      "name": "MIX_pair_01: same prescribed pair used",
+      "passed": true
+    },
+    {
+      "name": "MIX_pair_01: all retained scalar metrics finite",
+      "passed": true
+    },
+    {
+      "name": "MIX_pair_01: nonzero finite BF16 update, all 58 Adam entries, target isolated",
+      "passed": true
+    },
+    {
+      "name": "MIX_pair_01: actual decode exact and matching retirement identity",
+      "passed": true
+    },
+    {
+      "name": "MIX_pair_01: physical calls agree with baseline per-pair count",
+      "passed": true
+    },
+    {
+      "name": "MIX_pair_01: nonfinite probability entries absent",
+      "passed": true
+    },
+    {
+      "name": "MIX_pair_02: complete backward before next response; one Adam on second response",
+      "passed": true
+    },
+    {
+      "name": "MIX_pair_02: independent receipt matches final and progress",
+      "passed": true
+    },
+    {
+      "name": "MIX_pair_02: fresh, reset, and final initial-state receipts all exact",
+      "passed": true
+    },
+    {
+      "name": "MIX_pair_02: exactly two presentations and one update",
+      "passed": true
+    },
+    {
+      "name": "MIX_pair_02: same prescribed pair used",
+      "passed": true
+    },
+    {
+      "name": "MIX_pair_02: all retained scalar metrics finite",
+      "passed": true
+    },
+    {
+      "name": "MIX_pair_02: nonzero finite BF16 update, all 58 Adam entries, target isolated",
+      "passed": true
+    },
+    {
+      "name": "MIX_pair_02: actual decode exact and matching retirement identity",
+      "passed": true
+    },
+    {
+      "name": "MIX_pair_02: physical calls agree with baseline per-pair count",
+      "passed": true
+    },
+    {
+      "name": "MIX_pair_02: nonfinite probability entries absent",
+      "passed": true
+    },
+    {
+      "name": "ROLE_pair_01: complete backward before next response; one Adam on second response",
+      "passed": true
+    },
+    {
+      "name": "ROLE_pair_01: independent receipt matches final and progress",
+      "passed": true
+    },
+    {
+      "name": "ROLE_pair_01: fresh, reset, and final initial-state receipts all exact",
+      "passed": true
+    },
+    {
+      "name": "ROLE_pair_01: exactly two presentations and one update",
+      "passed": true
+    },
+    {
+      "name": "ROLE_pair_01: same prescribed pair used",
+      "passed": true
+    },
+    {
+      "name": "ROLE_pair_01: all retained scalar metrics finite",
+      "passed": true
+    },
+    {
+      "name": "ROLE_pair_01: nonzero finite BF16 update, all 58 Adam entries, target isolated",
+      "passed": true
+    },
+    {
+      "name": "ROLE_pair_01: actual decode exact and matching retirement identity",
+      "passed": true
+    },
+    {
+      "name": "ROLE_pair_01: physical calls agree with baseline per-pair count",
+      "passed": true
+    },
+    {
+      "name": "ROLE_pair_01: nonfinite probability entries absent",
+      "passed": true
+    },
+    {
+      "name": "ROLE_pair_02: complete backward before next response; one Adam on second response",
+      "passed": true
+    },
+    {
+      "name": "ROLE_pair_02: independent receipt matches final and progress",
+      "passed": true
+    },
+    {
+      "name": "ROLE_pair_02: fresh, reset, and final initial-state receipts all exact",
+      "passed": true
+    },
+    {
+      "name": "ROLE_pair_02: exactly two presentations and one update",
+      "passed": true
+    },
+    {
+      "name": "ROLE_pair_02: same prescribed pair used",
+      "passed": true
+    },
+    {
+      "name": "ROLE_pair_02: all retained scalar metrics finite",
+      "passed": true
+    },
+    {
+      "name": "ROLE_pair_02: nonzero finite BF16 update, all 58 Adam entries, target isolated",
+      "passed": true
+    },
+    {
+      "name": "ROLE_pair_02: actual decode exact and matching retirement identity",
+      "passed": true
+    },
+    {
+      "name": "ROLE_pair_02: physical calls agree with baseline per-pair count",
+      "passed": true
+    },
+    {
+      "name": "ROLE_pair_02: nonfinite probability entries absent",
+      "passed": true
+    },
+    {
+      "name": "No failure/error or numerical tensor files in retrieved evidence",
+      "passed": true
+    },
+    {
+      "name": "main: read-only preflight passed with exact clean source",
+      "passed": true
+    },
+    {
+      "name": "main: hardware idle and no context created",
+      "passed": true
+    },
+    {
+      "name": "main: no transfers/training/foreign GPU workers",
+      "passed": true
+    },
+    {
+      "name": "main: authenticated fresh released state, no validation passes",
+      "passed": true
+    },
+    {
+      "name": "main: storage admission inequality satisfied",
+      "passed": true
+    },
+    {
+      "name": "qualification: read-only preflight passed with exact clean source",
+      "passed": true
+    },
+    {
+      "name": "qualification: hardware idle and no context created",
+      "passed": true
+    },
+    {
+      "name": "qualification: no transfers/training/foreign GPU workers",
+      "passed": true
+    },
+    {
+      "name": "qualification: authenticated fresh released state, no validation passes",
+      "passed": true
+    },
+    {
+      "name": "qualification: storage admission inequality satisfied",
+      "passed": true
+    },
+    {
+      "name": "Standalone storage admission equals preflight storage",
+      "passed": true
+    },
+    {
+      "name": "Preflight scopes distinct",
+      "passed": true
+    },
+    {
+      "name": "Retained graph runtime compatibility set before all constructions",
+      "passed": true
+    },
+    {
+      "name": "Combined retained CPU log reports 41 and 77 passing tests, with 20 overlapping named tests",
+      "passed": true
+    },
+    {
+      "name": "experiments/role_loss_pilot/qualify.py: reviewed local source equals published execution commit",
+      "passed": true
+    },
+    {
+      "name": "experiments/role_loss_pilot/preflight.py: reviewed local source equals published execution commit",
+      "passed": true
+    },
+    {
+      "name": "experiments/role_loss_pilot/campaign.py: reviewed local source equals published execution commit",
+      "passed": true
+    },
+    {
+      "name": "experiments/role_loss_pilot/run_campaign.sh: reviewed local source equals published execution commit",
+      "passed": true
+    }
+  ],
+  "check_count": 90,
+  "work": {
+    "training_response_forward_attempted": 12,
+    "response_model_forwards": 12,
+    "draft_forwards": 12,
+    "layer_forwards_including_recompute": 60,
+    "head_forwards_including_recompute": 1872,
+    "core_backward_attempted": 12,
+    "core_backward_completed": 12,
+    "training_response_forward_completed": 12,
+    "adam_step_attempted": 6,
+    "adam_step_completed": 6
+  },
+  "cases": [
+    {
+      "case": "KPLUS_pair_01",
+      "status": "passed",
+      "records": [
+        "train_00072",
+        "train_00121"
+      ],
+      "work": {
+        "training_response_forward_attempted": 2,
+        "response_model_forwards": 2,
+        "draft_forwards": 2,
+        "layer_forwards_including_recompute": 10,
+        "head_forwards_including_recompute": 392,
+        "core_backward_attempted": 2,
+        "core_backward_completed": 2,
+        "training_response_forward_completed": 2,
+        "adam_step_attempted": 1,
+        "adam_step_completed": 1
+      },
+      "wall_s": 47.101582787930965,
+      "peak_cuda_allocated_bytes": 16491378176,
+      "changed_bf16_coordinates": 717960027,
+      "second_presentation_gradient_norm": 0.333984375
+    },
+    {
+      "case": "KPLUS_pair_02",
+      "status": "passed",
+      "records": [
+        "train_00004",
+        "train_00037"
+      ],
+      "work": {
+        "training_response_forward_attempted": 2,
+        "response_model_forwards": 2,
+        "draft_forwards": 2,
+        "layer_forwards_including_recompute": 10,
+        "head_forwards_including_recompute": 232,
+        "core_backward_attempted": 2,
+        "core_backward_completed": 2,
+        "training_response_forward_completed": 2,
+        "adam_step_attempted": 1,
+        "adam_step_completed": 1
+      },
+      "wall_s": 40.91940330155194,
+      "peak_cuda_allocated_bytes": 20452810240,
+      "changed_bf16_coordinates": 720361705,
+      "second_presentation_gradient_norm": 0.5703125
+    },
+    {
+      "case": "MIX_pair_01",
+      "status": "passed",
+      "records": [
+        "train_00072",
+        "train_00121"
+      ],
+      "work": {
+        "training_response_forward_attempted": 2,
+        "response_model_forwards": 2,
+        "draft_forwards": 2,
+        "layer_forwards_including_recompute": 10,
+        "head_forwards_including_recompute": 392,
+        "core_backward_attempted": 2,
+        "core_backward_completed": 2,
+        "training_response_forward_completed": 2,
+        "adam_step_attempted": 1,
+        "adam_step_completed": 1
+      },
+      "wall_s": 43.77955741621554,
+      "peak_cuda_allocated_bytes": 23300741120,
+      "changed_bf16_coordinates": 721489086,
+      "second_presentation_gradient_norm": 1.0390625
+    },
+    {
+      "case": "MIX_pair_02",
+      "status": "passed",
+      "records": [
+        "train_00004",
+        "train_00037"
+      ],
+      "work": {
+        "training_response_forward_attempted": 2,
+        "response_model_forwards": 2,
+        "draft_forwards": 2,
+        "layer_forwards_including_recompute": 10,
+        "head_forwards_including_recompute": 232,
+        "core_backward_attempted": 2,
+        "core_backward_completed": 2,
+        "training_response_forward_completed": 2,
+        "adam_step_attempted": 1,
+        "adam_step_completed": 1
+      },
+      "wall_s": 41.825675901025534,
+      "peak_cuda_allocated_bytes": 19680858112,
+      "changed_bf16_coordinates": 721745538,
+      "second_presentation_gradient_norm": 1.25
+    },
+    {
+      "case": "ROLE_pair_01",
+      "status": "passed",
+      "records": [
+        "train_00072",
+        "train_00121"
+      ],
+      "work": {
+        "training_response_forward_attempted": 2,
+        "response_model_forwards": 2,
+        "draft_forwards": 2,
+        "layer_forwards_including_recompute": 10,
+        "head_forwards_including_recompute": 392,
+        "core_backward_attempted": 2,
+        "core_backward_completed": 2,
+        "training_response_forward_completed": 2,
+        "adam_step_attempted": 1,
+        "adam_step_completed": 1
+      },
+      "wall_s": 42.41219135001302,
+      "peak_cuda_allocated_bytes": 23177197056,
+      "changed_bf16_coordinates": 719456360,
+      "second_presentation_gradient_norm": 0.431640625
+    },
+    {
+      "case": "ROLE_pair_02",
+      "status": "passed",
+      "records": [
+        "train_00004",
+        "train_00037"
+      ],
+      "work": {
+        "training_response_forward_attempted": 2,
+        "response_model_forwards": 2,
+        "draft_forwards": 2,
+        "layer_forwards_including_recompute": 10,
+        "head_forwards_including_recompute": 232,
+        "core_backward_attempted": 2,
+        "core_backward_completed": 2,
+        "training_response_forward_completed": 2,
+        "adam_step_attempted": 1,
+        "adam_step_completed": 1
+      },
+      "wall_s": 41.51081358641386,
+      "peak_cuda_allocated_bytes": 20452839424,
+      "changed_bf16_coordinates": 720722589,
+      "second_presentation_gradient_norm": 0.6171875
+    }
+  ],
+  "qualification_wall_s": 377.4651423059404,
+  "case_wall_sum_s": 257.54922434315085,
+  "maximum_recorded_cuda_allocated_bytes": 23300741120,
+  "storage_admission": {
+    "free_bytes": 149583163392,
+    "required_additional_and_reserve_bytes": 149061682562,
+    "headroom_above_budget_bytes": 521480830,
+    "reserve_bytes": 8589934592
+  },
+  "retirement_receipts": [
+    {
+      "status": "completed",
+      "path": "/data/sources/minhao/runs/dflash_role_loss_pilot_20261107/production_001/qualification/KPLUS_pair_01/disposable_decode.pt",
+      "identity": {
+        "bytes": 6291847723,
+        "sha256": "59705d2857973f31cc8ecc1bfa674e2fc81272283a9e09df7f1671737980abb7"
+      },
+      "free_before_bytes": 143292149760,
+      "free_after_bytes": 143292149760,
+      "reason": "Disposable exact decoded-state check complete; fresh restoration passed",
+      "lost_capability": "Disposable update tensors retired, not archived; never used by production"
+    },
+    {
+      "status": "completed",
+      "path": "/data/sources/minhao/runs/dflash_role_loss_pilot_20261107/production_001/qualification/KPLUS_pair_02/disposable_decode.pt",
+      "identity": {
+        "bytes": 6291847723,
+        "sha256": "25be6fc8ce4a7139c0db8923e1ea9ce1e35e010f3d336c1c23bc0169c164c363"
+      },
+      "free_before_bytes": 143291834368,
+      "free_after_bytes": 143291834368,
+      "reason": "Disposable exact decoded-state check complete; fresh restoration passed",
+      "lost_capability": "Disposable update tensors retired, not archived; never used by production"
+    },
+    {
+      "status": "completed",
+      "path": "/data/sources/minhao/runs/dflash_role_loss_pilot_20261107/production_001/qualification/MIX_pair_01/disposable_decode.pt",
+      "identity": {
+        "bytes": 6291847723,
+        "sha256": "a0bf76fa9a58b7e8d5054829c9e3682489a2dcb8662d9a4ef03a4e4c7cf3c3f2"
+      },
+      "free_before_bytes": 143291531264,
+      "free_after_bytes": 143291531264,
+      "reason": "Disposable exact decoded-state check complete; fresh restoration passed",
+      "lost_capability": "Disposable update tensors retired, not archived; never used by production"
+    },
+    {
+      "status": "completed",
+      "path": "/data/sources/minhao/runs/dflash_role_loss_pilot_20261107/production_001/qualification/MIX_pair_02/disposable_decode.pt",
+      "identity": {
+        "bytes": 6291847723,
+        "sha256": "3ad65980bd273faa730e20b0dd9f1ea7b0469f5319488451fd33c9741ba6a9ce"
+      },
+      "free_before_bytes": 143291523072,
+      "free_after_bytes": 143291523072,
+      "reason": "Disposable exact decoded-state check complete; fresh restoration passed",
+      "lost_capability": "Disposable update tensors retired, not archived; never used by production"
+    },
+    {
+      "status": "completed",
+      "path": "/data/sources/minhao/runs/dflash_role_loss_pilot_20261107/production_001/qualification/ROLE_pair_01/disposable_decode.pt",
+      "identity": {
+        "bytes": 6291847723,
+        "sha256": "65ef2cc9f01a4583fcd79b78d5a54e7fc63dd846a8dd9fab31ea14e67ec3c949"
+      },
+      "free_before_bytes": 143291473920,
+      "free_after_bytes": 143291473920,
+      "reason": "Disposable exact decoded-state check complete; fresh restoration passed",
+      "lost_capability": "Disposable update tensors retired, not archived; never used by production"
+    },
+    {
+      "status": "completed",
+      "path": "/data/sources/minhao/runs/dflash_role_loss_pilot_20261107/production_001/qualification/ROLE_pair_02/disposable_decode.pt",
+      "identity": {
+        "bytes": 6291847723,
+        "sha256": "277919fb3501a16be18effc1cf4314fff0f52f793c1e666fc91948cf8c253d1f"
+      },
+      "free_before_bytes": 143291420672,
+      "free_after_bytes": 143291420672,
+      "reason": "Disposable exact decoded-state check complete; fresh restoration passed",
+      "lost_capability": "Disposable update tensors retired, not archived; never used by production"
+    }
+  ],
+  "cumulative_retired_disposable_bytes": 37751086338,
+  "input_identities": {
+    "/data/sources/minhao/runs/dflash_full_k_gsm8k_20261031/production_002/sealed/config_K.yaml": {
+      "bytes": 1518,
+      "sha256": "e0f4e1abe6cb4e9742e39250495377bfe47b4c839bf69fec7b3ed020e5c5b6d0"
+    },
+    "/data/sources/minhao/runs/dflash_full_k_gsm8k_20261031/production_002/campaign_001/arms/K/trainer/initial_state.pt": {
+      "bytes": 2097297409,
+      "sha256": "8888e94fe1794b575c86536b3b12119e3c58de37bb871f17da10c012024c5e5e"
+    },
+    "/data/sources/minhao/runs/dflash_adaflash_clipping_20261106/production_001/preparation/PREPARED.json": {
+      "bytes": 260844,
+      "sha256": "04bfb9b9e144f589dde769bfb9af5283ae4f1212a9073b23cdd8eb86159c6a2a"
+    },
+    "/data/sources/minhao/runs/dflash_adaflash_clipping_20261106/production_001/preparation/features/train_00072.pt": {
+      "bytes": 22671587,
+      "sha256": "58a775bbf0da57cfa0818751255a54047c4038b81774fd16ea5d33b3f550b9fe"
+    },
+    "/data/sources/minhao/runs/dflash_adaflash_clipping_20261106/production_001/preparation/features/train_00121.pt": {
+      "bytes": 24097571,
+      "sha256": "d833c7accbfc9c6b387077b9e25c3405757854b97a3ee6f19a3723211bd9f8f5"
+    },
+    "/data/sources/minhao/runs/dflash_adaflash_clipping_20261106/production_001/preparation/features/train_00004.pt": {
+      "bytes": 11558819,
+      "sha256": "5d6e91507a4926e32563e3ac7af44c6566120d89b2b866e4cb86f6c34c070dd5"
+    },
+    "/data/sources/minhao/runs/dflash_adaflash_clipping_20261106/production_001/preparation/features/train_00037.pt": {
+      "bytes": 17360995,
+      "sha256": "83a8b4b5efc72708908e65f5e69c7821eeb7ab0bb523ee7d359d72a529be9c34"
+    },
+    "/data/sources/minhao/runs/dflash_adaflash_clipping_20261106/production_001/preparation/features/train_00041.pt": {
+      "bytes": 9985187,
+      "sha256": "c795e0bf438037a89abc437d410a7e84e2758f65c231a4a9c13ce3a0b2cb28cb"
+    },
+    "/data/sources/minhao/runs/dflash_adaflash_clipping_20261106/production_001/preparation/features/train_00060.pt": {
+      "bytes": 21589923,
+      "sha256": "367a5a10b208ab9e587def76a59bb1d382f76ac863697c4151eb06bd061304f6"
+    }
+  },
+  "reviewed_source": {
+    "experiments/role_loss_pilot/qualify.py": {
+      "commit": "cdb640543d8fe3a43c8e63af4ccaaa002e09a599",
+      "sha256": "90d14233672dc2945ddc5d8d94dfe9e23de86637976cf585caad6294e438c66f"
+    },
+    "experiments/role_loss_pilot/preflight.py": {
+      "commit": "cdb640543d8fe3a43c8e63af4ccaaa002e09a599",
+      "sha256": "6aac5184a9fb6ae2bb45ac619c6a68d5378fa00b7898007cba382b34e4141a62"
+    },
+    "experiments/role_loss_pilot/campaign.py": {
+      "commit": "cdb640543d8fe3a43c8e63af4ccaaa002e09a599",
+      "sha256": "00fe0d962651eafda3d497348b1107623612fa278bf8e9353aa2cf3a8a958ae9"
+    },
+    "experiments/role_loss_pilot/run_campaign.sh": {
+      "commit": "cdb640543d8fe3a43c8e63af4ccaaa002e09a599",
+      "sha256": "b33b5e07ef53bd902b3b958cab73389914b33d50631e23e17ea09041e7db6608"
+    }
+  },
+  "limits": [
+    "Evidence and source audit only: no GPU, remote access, model work, or replay performed by this reviewer.",
+    "Exact BF16 weights, Adam moments, gradients, decoded payload and RNG comparisons rely on the execution receipts and reviewed code. Disposable numerical tensors were retired, not archived; they cannot be independently recomputed from this retrieved package.",
+    "Remote original inputs were not rehashed by this audit. All nine saved identities independently match sealed dependency pins; unchanged-after-execution is an execution receipt.",
+    "Maximum recorded GPU memory is torch.cuda.max_memory_allocated after resetting peak statistics following each fresh trainer construction. Construction transient peaks and reserved memory are not separately measured.",
+    "Retirement free-before/free-after values are equal in all six receipts, so the receipts support unlink completion and lost replay capability, not a measured immediate free-space gain. The cumulative retired byte count is not a simultaneous peak-storage reduction.",
+    "PROGRESS.json intentionally remains running and PLAN.json is the pre-execution plan; QUALIFICATION.json is the terminal status, and all six progress case receipts match it.",
+    "No efficacy, full-trajectory stability, endpoint accuracy, or production success is established by these fixed qualification cases. This reviewer authored evaluation/diagnostics/report modules, but not the reviewed qualifier or admission implementation."
+  ],
+  "evidence_inventory": {
+    "CPU_TESTS.log": {
+      "bytes": 21412,
+      "sha256": "aac03d6c91910928703880516d5f6a0347ecbf912c710aaa92be9668a48cb071"
+    },
+    "PREFLIGHT.json": {
+      "bytes": 5565,
+      "sha256": "41964d005d63d6d1972de8a1f0dd2424dd98db3b62e5e3601b9dba743d3c6c20"
+    },
+    "QUALIFICATION_PREFLIGHT.json": {
+      "bytes": 3256,
+      "sha256": "13e10e4887994e40a2001de9874f6b2f03a27f5f08a1814e148c5ca71431c88d"
+    },
+    "STORAGE_ADMISSION.json": {
+      "bytes": 2378,
+      "sha256": "97c12391bd84e828e202334b1a6a966d80ea809a909ec462b4cacc4a8425445a"
+    },
+    "qualification/INPUT_IDENTITIES.json": {
+      "bytes": 2015,
+      "sha256": "50065154d6539e0b01782bbec1ab15009e2878bcc6cd087fefe8b5e5ca9aae94"
+    },
+    "qualification/KPLUS_pair_01/INITIAL_STATE.json": {
+      "bytes": 174,
+      "sha256": "53ab3af3be7fa6708e057c5c70aa097b8b22a62783ad1dd9e32af854c1bd6691"
+    },
+    "qualification/KPLUS_pair_01/RESET_BEFORE_DECODE_RESTORE.json": {
+      "bytes": 174,
+      "sha256": "53ab3af3be7fa6708e057c5c70aa097b8b22a62783ad1dd9e32af854c1bd6691"
+    },
+    "qualification/KPLUS_pair_01/RESTORED_INITIAL_STATE.json": {
+      "bytes": 174,
+      "sha256": "53ab3af3be7fa6708e057c5c70aa097b8b22a62783ad1dd9e32af854c1bd6691"
+    },
+    "qualification/KPLUS_pair_01/RESULT.json": {
+      "bytes": 5572,
+      "sha256": "bdadeb2cfd937be8f84d2f4b1ff44680259fbfebee8c73a5901788c9f5e13fc0"
+    },
+    "qualification/KPLUS_pair_01/RETIREMENT.json": {
+      "bytes": 548,
+      "sha256": "7856b2678774b817c2cca3c15e1b57e6ed70b02574c563323bac9914b7541725"
+    },
+    "qualification/KPLUS_pair_01/TRAINING.json": {
+      "bytes": 4206,
+      "sha256": "2454f8b3eaff62fc6df167ecf0a285e14e29fc2c01a6f50762548d2caadb399f"
+    },
+    "qualification/KPLUS_pair_02/INITIAL_STATE.json": {
+      "bytes": 174,
+      "sha256": "53ab3af3be7fa6708e057c5c70aa097b8b22a62783ad1dd9e32af854c1bd6691"
+    },
+    "qualification/KPLUS_pair_02/RESET_BEFORE_DECODE_RESTORE.json": {
+      "bytes": 174,
+      "sha256": "53ab3af3be7fa6708e057c5c70aa097b8b22a62783ad1dd9e32af854c1bd6691"
+    },
+    "qualification/KPLUS_pair_02/RESTORED_INITIAL_STATE.json": {
+      "bytes": 174,
+      "sha256": "53ab3af3be7fa6708e057c5c70aa097b8b22a62783ad1dd9e32af854c1bd6691"
+    },
+    "qualification/KPLUS_pair_02/RESULT.json": {
+      "bytes": 5559,
+      "sha256": "8f20610282ab5eb7fea4d0f916876d633ed105129212c185cc908a1732c18d63"
+    },
+    "qualification/KPLUS_pair_02/RETIREMENT.json": {
+      "bytes": 548,
+      "sha256": "05356793881ed5400fb52d9489a83c57b13dde665a92ea49f9a5d12c969f6905"
+    },
+    "qualification/KPLUS_pair_02/TRAINING.json": {
+      "bytes": 4194,
+      "sha256": "577cda0ec7c4e0344e5b8ac56652e105bdea7088ec8a421923e69043c7cdeba3"
+    },
+    "qualification/MIX_pair_01/INITIAL_STATE.json": {
+      "bytes": 174,
+      "sha256": "53ab3af3be7fa6708e057c5c70aa097b8b22a62783ad1dd9e32af854c1bd6691"
+    },
+    "qualification/MIX_pair_01/RESET_BEFORE_DECODE_RESTORE.json": {
+      "bytes": 174,
+      "sha256": "53ab3af3be7fa6708e057c5c70aa097b8b22a62783ad1dd9e32af854c1bd6691"
+    },
+    "qualification/MIX_pair_01/RESTORED_INITIAL_STATE.json": {
+      "bytes": 174,
+      "sha256": "53ab3af3be7fa6708e057c5c70aa097b8b22a62783ad1dd9e32af854c1bd6691"
+    },
+    "qualification/MIX_pair_01/RESULT.json": {
+      "bytes": 9227,
+      "sha256": "48b5977833d73cb3828edd3aa15bd42c3ff067524f58b8b1afa0f6e2bbab6fa6"
+    },
+    "qualification/MIX_pair_01/RETIREMENT.json": {
+      "bytes": 546,
+      "sha256": "7002e93de31f76a03500392fbb6174338510d4969b624c24cd319da4192d1e05"
+    },
+    "qualification/MIX_pair_01/TRAINING.json": {
+      "bytes": 7734,
+      "sha256": "72f7362f37401a28c454ca7bcbc03b943fcf96a0ced63ceb3a8d970794b83b5e"
+    },
+    "qualification/MIX_pair_02/INITIAL_STATE.json": {
+      "bytes": 174,
+      "sha256": "53ab3af3be7fa6708e057c5c70aa097b8b22a62783ad1dd9e32af854c1bd6691"
+    },
+    "qualification/MIX_pair_02/RESET_BEFORE_DECODE_RESTORE.json": {
+      "bytes": 174,
+      "sha256": "53ab3af3be7fa6708e057c5c70aa097b8b22a62783ad1dd9e32af854c1bd6691"
+    },
+    "qualification/MIX_pair_02/RESTORED_INITIAL_STATE.json": {
+      "bytes": 174,
+      "sha256": "53ab3af3be7fa6708e057c5c70aa097b8b22a62783ad1dd9e32af854c1bd6691"
+    },
+    "qualification/MIX_pair_02/RESULT.json": {
+      "bytes": 9220,
+      "sha256": "def6fff8d6b3a38659815771f80169758caee2b49ffb17f72c8358d45370bad0"
+    },
+    "qualification/MIX_pair_02/RETIREMENT.json": {
+      "bytes": 546,
+      "sha256": "f6ce2f8d4bb01af262bf9dcd15eed7bb76df43a419cacf873f360fa7b0030f2c"
+    },
+    "qualification/MIX_pair_02/TRAINING.json": {
+      "bytes": 7726,
+      "sha256": "33af1fcc9d807ca061a6e00282e3b88f91196711b27d69915a78b55c6ae806b8"
+    },
+    "qualification/PLAN.json": {
+      "bytes": 5570,
+      "sha256": "0fa4b02bc2608bb066039f2fe405814b01104c461050c79493cefa61267fc61f"
+    },
+    "qualification/PROGRESS.json": {
+      "bytes": 60911,
+      "sha256": "7e5af9325323185ad91e37f6c476b3e3802d6cd46619e6b67f11bab06e0e8647"
+    },
+    "qualification/QUALIFICATION.json": {
+      "bytes": 61510,
+      "sha256": "afb9e96f5b8d6151b17b06b94260aff90e37a56f8b7bf886721a98c6b16b7718"
+    },
+    "qualification/ROLE_pair_01/INITIAL_STATE.json": {
+      "bytes": 174,
+      "sha256": "53ab3af3be7fa6708e057c5c70aa097b8b22a62783ad1dd9e32af854c1bd6691"
+    },
+    "qualification/ROLE_pair_01/RESET_BEFORE_DECODE_RESTORE.json": {
+      "bytes": 174,
+      "sha256": "53ab3af3be7fa6708e057c5c70aa097b8b22a62783ad1dd9e32af854c1bd6691"
+    },
+    "qualification/ROLE_pair_01/RESTORED_INITIAL_STATE.json": {
+      "bytes": 174,
+      "sha256": "53ab3af3be7fa6708e057c5c70aa097b8b22a62783ad1dd9e32af854c1bd6691"
+    },
+    "qualification/ROLE_pair_01/RESULT.json": {
+      "bytes": 9219,
+      "sha256": "8a73f257c25d3826aa7952ffa84f1b41183a1579163dc2ab0d1f7e8e1ff46c36"
+    },
+    "qualification/ROLE_pair_01/RETIREMENT.json": {
+      "bytes": 547,
+      "sha256": "1f239770c3cb90c99b8a57e40ffc2d315d18b6301f9f53c2af20c5a53c3901aa"
+    },
+    "qualification/ROLE_pair_01/TRAINING.json": {
+      "bytes": 7724,
+      "sha256": "540971535b6fcbc448b42874fd562182c38f12152b6a956932b15304359aa96b"
+    },
+    "qualification/ROLE_pair_02/INITIAL_STATE.json": {
+      "bytes": 174,
+      "sha256": "53ab3af3be7fa6708e057c5c70aa097b8b22a62783ad1dd9e32af854c1bd6691"
+    },
+    "qualification/ROLE_pair_02/RESET_BEFORE_DECODE_RESTORE.json": {
+      "bytes": 174,
+      "sha256": "53ab3af3be7fa6708e057c5c70aa097b8b22a62783ad1dd9e32af854c1bd6691"
+    },
+    "qualification/ROLE_pair_02/RESTORED_INITIAL_STATE.json": {
+      "bytes": 174,
+      "sha256": "53ab3af3be7fa6708e057c5c70aa097b8b22a62783ad1dd9e32af854c1bd6691"
+    },
+    "qualification/ROLE_pair_02/RESULT.json": {
+      "bytes": 9218,
+      "sha256": "e0a17972ae13a480581bc4277dcaf0d449caccd566c01526e7425019bc948e0a"
+    },
+    "qualification/ROLE_pair_02/RETIREMENT.json": {
+      "bytes": 547,
+      "sha256": "2be354bb1a7499d835d69c70eef762d9396d6d648e7aef3a59dcf393ce7ff81b"
+    },
+    "qualification/ROLE_pair_02/TRAINING.json": {
+      "bytes": 7723,
+      "sha256": "a776317338e8b234ee6f37d5592e595a1cb65940bde2923c653c07e41ae6813a"
+    },
+    "qualification/RUNTIME_COMPATIBILITY.json": {
+      "bytes": 357,
+      "sha256": "57b622c414a717880dc57566441a9f6a247efefb9891a0ac0d9e1c710d567feb"
+    },
+    "qualification/WORK.jsonl": {
+      "bytes": 25834,
+      "sha256": "b26a92f763939abd47ffd9416d39f299f13e47fbfb8145a5d1e6c970a008ba45"
+    }
+  },
+  "sealed_dependency_pins_identity": {
+    "bytes": 2015,
+    "sha256": "430a28685c43496d0f5d2f574c0f16b0a60a586a97df9fb583cf5217ba064bfc"
+  },
+  "cpu_test_invocations": [
+    {
+      "tests": 41,
+      "wall_s": 0.677,
+      "status": "OK"
+    },
+    {
+      "tests": 77,
+      "wall_s": 43.212,
+      "status": "OK"
+    }
+  ],
+  "cpu_test_overlap": 20,
+  "cpu_distinct_test_count": 98,
+  "editorial_correction": {
+    "corrected_at_utc": "2026-11-07T22:57:37.175238+00:00",
+    "detail": "The earlier Markdown statement that the 41-test invocation was absent was incorrect. The same retrieved CPU_TESTS.log contains both invocations; this correction changes no scientific finding, work count, or qualification verdict."
+  }
+}

@@ -1,0 +1,3 @@
+# Replaying the CPU audits
+
+Scientific execution commit: `cdb640543d8fe3a43c8e63af4ccaaa002e09a599`. These independently written audit scripts ran on the private compact mirror; they perform no training or inference. Put the complete mirrored run under `retained/` beside the scripts. The native endpoint script accepts an explicit root/output argument; see its command-line help. The numerical audit requires NumPy; the other two use the Python standard library. Raw token records and tensors are intentionally not in Git. An audit receipt establishes checks against its recorded files, not an independent GPU reproduction.
