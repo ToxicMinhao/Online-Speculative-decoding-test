@@ -6,6 +6,7 @@ head arithmetic and draft backward repeatability can be distinguished.
 """
 import argparse
 from contextlib import contextmanager
+from dataclasses import dataclass
 import json
 from pathlib import Path
 import shutil
@@ -38,17 +39,18 @@ BUDGET = dict(response_forward=3, head_backward=6, draft_backward=4,
 class DiagnosticWork:
     """Persist attempts before execution and reject work beyond the fixed cap."""
 
-    def __init__(self, root):
+    def __init__(self, root, limits=None):
+        self.budget = dict(BUDGET if limits is None else limits)
         self.path = Path(root) / 'WORK.json'
         self.counts = {}
 
     def record(self, kind, status):
         key = kind + '_' + status
         count = self.counts.get(key, 0) + 1
-        if status == 'attempted' and kind in BUDGET and count > BUDGET[kind]:
+        if status == 'attempted' and kind in self.budget and count > self.budget[kind]:
             raise ValueError('Diagnostic work limit exceeded: ' + kind)
         self.counts[key] = count
-        write_json(self.path, dict(budget=BUDGET, counts=self.counts))
+        write_json(self.path, dict(budget=self.budget, counts=self.counts))
 
     @contextmanager
     def operation(self, kind):
@@ -106,15 +108,97 @@ def parameter_vjp(hidden, adjoint, parameters, work):
     return tuple(None if value is None else value.detach() for value in values)
 
 
-def run(plan_path):
+@dataclass
+class RetainedGradientCase:
+    """One authenticated two-anchor fixture and its unchanged draft graph."""
+    hook: FunctionalGeometry
+    response: dict
+    native_hidden: torch.Tensor
+    hidden: torch.Tensor
+    parameters: tuple
+    names: list
+    work: DiagnosticWork
+    root: Path
+    pre_forward_rng: dict
+    pre_forward_runtime: dict
+
+
+def diagnose_native_case(case):
+    """The original BF16 isolation, retained as a separate diagnostic case."""
+    hook, response = case.hook, case.response
+    native_hidden, hidden = case.native_hidden, case.hidden
+    # Transfer graph ownership to this case so the optional fresh-graph branch
+    # can release the old graph before restoring its runtime buffers.
+    case.native_hidden = case.hidden = None
+    parameters, names = case.parameters, case.names
+    work, root = case.work, case.root
+    pre_forward_rng, pre_forward_runtime = case.pre_forward_rng, case.pre_forward_runtime
+    receipt = {}
+    weights, proposals, mask, margins = hook._scan_reference(hidden.detach(), response, 1)
+    full_weights, full_proposals, full_mask, full_margins = hook._scan_reference(hidden.detach(), response, 0)
+    receipt['reference'] = dict(protected_occurrences=int(mask.sum()),
+        prefix_mask_exact=torch.equal(mask, full_mask),
+        proposals_exact=torch.equal(proposals, full_proposals),
+        weights=tensor_comparison(weights, full_weights),
+        margins=tensor_comparison(margins, full_margins))
+    write_json(root / 'REFERENCE.json', receipt['reference'])
+    if not receipt['reference']['prefix_mask_exact'] or not torch.equal(weights, full_weights):
+        raise ValueError('Original exact reference-mask/weight agreement did not reproduce')
+    try:
+        head, tensors = run_head_diagnostic(hook.model.lm_head,
+            hidden.detach(), native_hidden, weights, return_tensors=True,
+            work_callback=work.record)
+    except HeadDiagnosticError as error:
+        write_json(root / 'HEAD.json', error.receipt)
+        raise
+    write_json(root / 'HEAD.json', head)
+    del native_hidden
+    # Same graph, two observed head adjoints, then the identical reference
+    # adjoint again: this separates head changes from draft repeatability.
+    chunked = parameter_vjp(hidden, tensors['adjoints'][VARIANTS[0]], parameters, work)
+    full = parameter_vjp(hidden, tensors['adjoints'][REFERENCE], parameters, work)
+    receipt['parameter_comparisons'] = dict(chunked_vs_full=gradient_comparison(chunked, full, names))
+    write_json(root / 'PARAMETERS.json', receipt['parameter_comparisons'])
+    del chunked
+    repeated = parameter_vjp(hidden, tensors['adjoints'][REFERENCE], parameters, work)
+    receipt['parameter_comparisons']['same_graph_repeat'] = gradient_comparison(repeated, full, names)
+    receipt['same_graph_repeat_exact'] = not differences(repeated, full)
+    del repeated
+    # Only investigate a fresh graph if the head-local explanation does
+    # not reproduce the failed coordinate gate, or repetition differs.
+    unresolved = (receipt['parameter_comparisons']['chunked_vs_full']['status'] == 'passed'
+                  or not receipt['same_graph_repeat_exact']
+                  or head['comparisons']['initial'][VARIANTS[0]]['adjoint']['exact'])
+    receipt['fresh_graph_executed'] = unresolved
+    if unresolved:
+        saved_hidden = hidden.detach().clone()
+        del hidden
+        with preserve_rng():
+            restore_rng(pre_forward_rng)
+            restore_runtime(hook.model, pre_forward_runtime)
+            with work.operation('response_forward'):
+                replay = hook.forward_hidden(response, 'diagnostic_fresh_graph', grad=True)
+            receipt['fresh_graph_hidden'] = tensor_comparison(replay.detach(), saved_hidden)
+            repeated = parameter_vjp(replay, tensors['adjoints'][REFERENCE], parameters, work)
+        receipt['parameter_comparisons']['fresh_graph_same_adjoint'] = gradient_comparison(repeated, full, names)
+        receipt['fresh_graph_same_adjoint_exact'] = not differences(repeated, full)
+        del replay, repeated, saved_hidden
+    else:
+        del hidden
+    del full, tensors
+    write_json(root / 'PARAMETERS.json', receipt['parameter_comparisons'])
+    return receipt
+
+
+def run(plan_path, *, case_runner=diagnose_native_case, work_limits=None):
     plan = json.loads(Path(plan_path).read_text())
     root = Path(plan['output'])
     root.mkdir(parents=True, exist_ok=False)
     write_json(root / 'PLAN.json', plan)
-    work = DiagnosticWork(root)
+    work = DiagnosticWork(root, work_limits)
     started = time.perf_counter()
     receipt = dict(status='running', interpretation='diagnostic, not qualification acceptance',
-        execution_commit=plan['execution_commit'], budget=BUDGET,
+        execution_commit=plan['execution_commit'], budget=work.budget,
         tolerances=NATIVE_VJP_TOLERANCES, additional_adam_steps=0,
         startup='ordinary retained endpoint loaded; no warmup optimizer or backward')
     trainer = hook = before = None
@@ -135,6 +219,12 @@ def run(plan_path):
         original = json.loads(Path(plan['qualification_plan']).read_text())
         item = original['datasets']['gsm8k']
         pin_diagnostic_runtime(root)
+        if 'minimum_gpu_free_bytes' in plan:
+            free_gpu, total_gpu = torch.cuda.mem_get_info()
+            receipt['gpu_admission'] = dict(free_bytes=free_gpu, total_bytes=total_gpu,
+                required_free_bytes=plan['minimum_gpu_free_bytes'])
+            if free_gpu < plan['minimum_gpu_free_bytes']:
+                raise ValueError('Insufficient GPU memory for the sealed auxiliary-head test')
         torch.cuda.reset_peak_memory_stats()
         trainer = FunctionalGeometryTrainer(item['configs']['KPLUS'], root / 'trainer',
             arm='KPLUS', dataset='gsm8k', binding=original['binding'],
@@ -166,59 +256,11 @@ def run(plan_path):
             pre_forward_runtime = runtime_state(trainer.bundle.model)
             with work.operation('response_forward'):
                 hidden = hook.forward_hidden(response, 'diagnostic_prestate', grad=True)
-            weights, proposals, mask, margins = hook._scan_reference(hidden.detach(), response, 1)
-            full_weights, full_proposals, full_mask, full_margins = hook._scan_reference(hidden.detach(), response, 0)
-            receipt['reference'] = dict(protected_occurrences=int(mask.sum()),
-                prefix_mask_exact=torch.equal(mask, full_mask),
-                proposals_exact=torch.equal(proposals, full_proposals),
-                weights=tensor_comparison(weights, full_weights),
-                margins=tensor_comparison(margins, full_margins))
-            write_json(root / 'REFERENCE.json', receipt['reference'])
-            if not receipt['reference']['prefix_mask_exact'] or not torch.equal(weights, full_weights):
-                raise ValueError('Original exact reference-mask/weight agreement did not reproduce')
-            try:
-                head, tensors = run_head_diagnostic(trainer.bundle.model.lm_head,
-                    hidden.detach(), native_hidden, weights, return_tensors=True,
-                    work_callback=work.record)
-            except HeadDiagnosticError as error:
-                write_json(root / 'HEAD.json', error.receipt)
-                raise
-            write_json(root / 'HEAD.json', head)
-            del native_hidden
-            # Same graph, two observed head adjoints, then the identical reference
-            # adjoint again: this separates head changes from draft repeatability.
-            chunked = parameter_vjp(hidden, tensors['adjoints'][VARIANTS[0]], parameters, work)
-            full = parameter_vjp(hidden, tensors['adjoints'][REFERENCE], parameters, work)
-            receipt['parameter_comparisons'] = dict(chunked_vs_full=gradient_comparison(chunked, full, names))
-            write_json(root / 'PARAMETERS.json', receipt['parameter_comparisons'])
-            del chunked
-            repeated = parameter_vjp(hidden, tensors['adjoints'][REFERENCE], parameters, work)
-            receipt['parameter_comparisons']['same_graph_repeat'] = gradient_comparison(repeated, full, names)
-            receipt['same_graph_repeat_exact'] = not differences(repeated, full)
-            del repeated
-            # Only investigate a fresh graph if the head-local explanation does
-            # not reproduce the failed coordinate gate, or repetition differs.
-            unresolved = (receipt['parameter_comparisons']['chunked_vs_full']['status'] == 'passed'
-                          or not receipt['same_graph_repeat_exact']
-                          or head['comparisons']['initial'][VARIANTS[0]]['adjoint']['exact'])
-            receipt['fresh_graph_executed'] = unresolved
-            if unresolved:
-                saved_hidden = hidden.detach().clone()
-                del hidden
-                with preserve_rng():
-                    restore_rng(pre_forward_rng)
-                    restore_runtime(trainer.bundle.model, pre_forward_runtime)
-                    with work.operation('response_forward'):
-                        replay = hook.forward_hidden(response, 'diagnostic_fresh_graph', grad=True)
-                    receipt['fresh_graph_hidden'] = tensor_comparison(replay.detach(), saved_hidden)
-                    repeated = parameter_vjp(replay, tensors['adjoints'][REFERENCE], parameters, work)
-                receipt['parameter_comparisons']['fresh_graph_same_adjoint'] = gradient_comparison(repeated, full, names)
-                receipt['fresh_graph_same_adjoint_exact'] = not differences(repeated, full)
-                del replay, repeated, saved_hidden
-            else:
-                del hidden
-            del full, tensors
-            write_json(root / 'PARAMETERS.json', receipt['parameter_comparisons'])
+            case = RetainedGradientCase(hook, response, native_hidden, hidden,
+                parameters, names, work, root, pre_forward_rng, pre_forward_runtime)
+            del hidden, native_hidden
+            receipt.update(case_runner(case))
+            del case
         receipt['optimizer_objects_and_versions_unchanged'] = versions == optimizer_versions(optimizer)
         if not receipt['optimizer_objects_and_versions_unchanged']:
             raise ValueError('Diagnostic altered optimizer state')
