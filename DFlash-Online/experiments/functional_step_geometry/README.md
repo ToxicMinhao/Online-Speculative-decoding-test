@@ -69,3 +69,21 @@ If both FSG and SCALAR improve over KPLUS but FSG has no demonstrated advantage
 over SCALAR, the necessity of directional geometry remains unestablished; this
 does not establish equivalence. If SCALAR/KPLUS is also unresolved, the result is
 inconclusive. Off-fit buffered-response diagnostics are not held-out evaluation.
+
+## Recorded first qualification failure and bounded repair
+
+The initial `f834dbd` native attempt completed one ordinary Adam update, then the
+restore validator rejected a changed counter in the cached origin. PyTorch's
+optimizer loader had shared the CPU step tensor with that origin object. The
+restore wrapper now copies the backend load payload; optimizer arithmetic is
+unchanged. The original failure, checkpoint and temporary endpoint are preserved.
+
+The explicit repair runner uses a separate source/output directory. It reuses
+the already-computed ordinary endpoint and reconstructs its raw gradients with
+two additional forwards/backwards and no Adam application. It authenticates the
+retained losses, anchors, RNG, runtime and endpoint, then performs only the seven
+remaining disposable Adam steps. The old ledger is copied exactly before new
+work is appended. Worst-case cumulative additional backwards are 32, including
+the failed attempt; there is no extra retry allowance. Reconstructed gradients
+are labeled as such. Original failed-attempt physical head/chunk totals were not
+persisted and are unavailable; its response/backward/Adam counts are retained.

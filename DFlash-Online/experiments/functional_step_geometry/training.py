@@ -198,7 +198,11 @@ class FunctionalGeometryTrainer(native.FullKTrainer):
             state = torch.load(path, map_location='cpu', weights_only=False, mmap=True)
             validate_snapshot(state, **self.validation_arguments(), completed_event=self.completed_event)
         self.bundle.draft_model.load_state_dict(state['draft_state_dict'], strict=True)
-        self.backend.load_state_dict(state['backend'])
+        # AdamW may reuse same-device checkpoint tensor storage. In particular,
+        # its CPU step counters would otherwise mutate the retained origin on
+        # the first GPU step; CPU execution can also alias the BF16 moments.
+        # Give the live optimizer its own complete payload before loading it.
+        self.backend.load_state_dict(deepcopy(state['backend']))
         self.global_step, self.presentations = state['global_step'], state['presentations']
         self.events = deepcopy(state['events'])
         self.core._micro = self.presentations

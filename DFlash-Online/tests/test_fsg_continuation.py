@@ -192,7 +192,7 @@ class TinyContinuationTests(unittest.TestCase):
         if os.environ.get('FSG_TINY_CPU_CHILD')=='1':
             tiny_fixture.FullKTinyIntegrationTests.setUp(self)
 
-    def test_complete_event5_and_own_recovery_preserve_old_history(self):
+    def run_in_cpu_child(self):
         if os.environ.get('FSG_TINY_CPU_CHILD')!='1':
             root=Path(__file__).resolve().parents[1]
             env=dict(os.environ,CUDA_VISIBLE_DEVICES='',FSG_TINY_CPU_CHILD='1')
@@ -201,7 +201,10 @@ class TinyContinuationTests(unittest.TestCase):
                 __name__+'.TinyContinuationTests.'+self._testMethodName],cwd=root,env=env,
                 capture_output=True,text=True)
             self.assertEqual(result.returncode,0,result.stdout+result.stderr)
-            return
+            return True
+        return False
+
+    def build_origin(self):
         from safetensors.torch import save_file
         from experiments.full_k_gsm8k.training import live_state
         source=old.RoleLossTrainer(self.config,self.root/'source',binding=BINDING,
@@ -224,6 +227,11 @@ class TinyContinuationTests(unittest.TestCase):
         kwargs=dict(arm='KPLUS',dataset='gsm8k',binding=NEW_BINDING,
             original_config_text=self.original_config_text,origin_state=origin,
             origin_export=export,expected_cuda_rng_states=0)
+        return state,kwargs
+
+    def test_complete_event5_and_own_recovery_preserve_old_history(self):
+        if self.run_in_cpu_child(): return
+        state,kwargs=self.build_origin()
         trainer=T.FunctionalGeometryTrainer(self.config,self.root/'new',**kwargs)
         self.addCleanup(trainer.close)
         self.assertEqual(trainer.global_step,512)
@@ -243,6 +251,59 @@ class TinyContinuationTests(unittest.TestCase):
             resumed.events.extend([{},{}])
             resumed._prepare_event('event_007',self.features,2)
         resumed.close()
+        self.assertFalse(torch.cuda.is_initialized())
+
+    def test_native_step_keeps_origin_immutable_across_repeated_restore(self):
+        if self.run_in_cpu_child(): return
+        from specforge.training.strategies.base import StepContext
+        from experiments.full_k_gsm8k.training import live_state
+        from experiments.ok_coding.storage import identity
+        state,kwargs=self.build_origin()
+        trainer=T.FunctionalGeometryTrainer(self.config,self.root/'new',**kwargs)
+        self.addCleanup(trainer.close)
+        retained=deepcopy(trainer.origin)
+        disk_identity=identity(trainer.origin_path)
+        endpoints=[]
+        for attempt in range(2):
+            trainer._restore(trainer.origin_path)
+            self.assertFalse(T.differences(trainer.origin,retained))
+            origin_adam=trainer.origin['backend']['optimizer']['optimizer_state_dict']['state']
+            live_adam=trainer.backend.optimizer.state_dict()['optimizer_state_dict']['state']
+            for parameter_id,moments in origin_adam.items():
+                for name in ('step','exp_avg','exp_avg_sq'):
+                    self.assertNotEqual(live_adam[parameter_id][name].data_ptr(),moments[name].data_ptr())
+            for name,parameter in trainer.bundle.draft_model.named_parameters():
+                self.assertNotEqual(parameter.data_ptr(),trainer.origin['draft_state_dict'][name].data_ptr())
+            trainer._active_event=f'disposable_repeat_{attempt}'
+            (trainer.events_root/trainer._active_event).mkdir()
+            trainer.bundle.model.begin_event()
+            for path in self.features[:2]:
+                raw=torch.load(path,map_location='cpu',weights_only=True)
+                result=trainer.core.train_step(trainer._batch(raw),StepContext(
+                    global_step=trainer.global_step,total_steps=trainer.horizon,
+                    collect_detailed_metrics=True))
+                trainer.presentations+=1
+                trainer.global_step+=int(result.optimizer_stepped)
+            self.assertEqual(trainer.global_step,513)
+            self.assertEqual(trainer.presentations,1026)
+            for moments in trainer.backend.optimizer.state_dict()['optimizer_state_dict']['state'].values():
+                self.assertEqual(moments['step'].item(),513)
+            # Compare the whole original payload: weights, moments, counters,
+            # recipe, RNG, contract, event history and metadata remain frozen.
+            self.assertFalse(T.differences(trainer.origin,retained))
+            self.assertEqual(identity(trainer.origin_path),disk_identity)
+            endpoints.append(deepcopy(live_state(trainer)))
+        self.assertFalse(T.differences(endpoints[0],endpoints[1]))
+        trainer._restore(trainer.origin_path)
+        self.assertEqual(trainer.global_step,512)
+        self.assertEqual(trainer.presentations,1024)
+        self.assertFalse(T.differences(trainer.origin,retained))
+        self.assertTrue(T.native.verify_live(trainer,T.migrate_origin(
+            retained,binding=NEW_BINDING,arm='KPLUS',dataset='gsm8k',
+            config_text=trainer.config_text,run_id=trainer.cfg.run_id,
+            original_config_text=self.original_config_text,
+            expected_recipe=trainer.backend.optimizer.recipe,
+            expected_cuda_rng_states=0))['exact_resume'])
         self.assertFalse(torch.cuda.is_initialized())
 
 

@@ -109,21 +109,39 @@ def set_observation_directory(trainer, label):
     trainer.work.clear()
 
 
+def physical_work(trainer):
+    """Copy physical head/layer/chunk counts before a restoration clears them."""
+    return dict(counts=dict(trainer.work), response_observations=len(trainer.response_records),
+                optimizer_window_observations=len(trainer.window_records))
+
+
 def warmup(trainer, features, work, baseline_runtime, root):
     """Two qualified startup backwards, no Adam; restore original RNG afterward."""
     from specforge.training.strategies.base import StepContext
     set_observation_directory(trainer, 'disposable_startup')
     before = scientific_state(trainer)
     trainer.bundle.model.begin_event()
-    for index, path in enumerate(features):
-        raw = torch.load(path, map_location='cpu', weights_only=True)
-        trainer._anchor_observations.clear()
-        with work.operation('additional_forward', purpose='startup'):
-            result = trainer.strategy.forward_loss(trainer._batch(raw), StepContext(
-                global_step=512, total_steps=trainer.horizon, collect_detailed_metrics=True))
-        with work.operation('additional_backward', purpose='startup'):
-            trainer.backend.backward(result.loss / 2, is_boundary=index == 1)
-        del result, raw
+    failure = None
+    receipt = dict(status='running')
+    try:
+        for index, path in enumerate(features):
+            raw = torch.load(path, map_location='cpu', weights_only=True)
+            trainer._anchor_observations.clear()
+            with work.operation('additional_forward', purpose='startup'):
+                result = trainer.strategy.forward_loss(trainer._batch(raw), StepContext(
+                    global_step=512, total_steps=trainer.horizon, collect_detailed_metrics=True))
+            with work.operation('additional_backward', purpose='startup'):
+                trainer.backend.backward(result.loss / 2, is_boundary=index == 1)
+            del result, raw
+        receipt['status'] = 'completed'
+    except BaseException as error:
+        failure = error
+        receipt.update(status='failed', error=repr(error))
+        raise
+    finally:
+        receipt['physical_work'] = physical_work(trainer)
+        cleanup(lambda: write_json(root / 'STARTUP_WORK.json', receipt), failure, receipt,
+                'startup work receipt')
     trainer.backend.optimizer.zero_grad()
     restore_rng(before['rng'])
     restore_runtime(trainer.bundle.model, baseline_runtime)
@@ -231,6 +249,7 @@ def run_case(trainer, features, label, strength, work, baseline_runtime, root, r
         if trainer.global_step != 513 or trainer.presentations != 1026 or trainer.core.accumulation_remainder:
             raise ValueError('Disposable window counters differ')
         final = scientific_state(trainer)
+        receipt['physical_work'] = physical_work(trainer)
         if reference is not None:
             persist_comparison(root / 'PRESENTATION_ANCHOR_LOSS_PARITY.json', rows, reference['rows'])
             if label == 'FSG_ZERO':
@@ -275,6 +294,9 @@ def run_case(trainer, features, label, strength, work, baseline_runtime, root, r
         receipt.update(status='failed', error=repr(error), traceback=traceback.format_exc())
         raise
     finally:
+        if 'physical_work' not in receipt:
+            cleanup(lambda: receipt.update(physical_work=physical_work(trainer)),
+                    failure, receipt, 'physical work capture')
         if hook is not None:
             cleanup(lambda: receipt.update(hook=hook.report()), failure, receipt, 'hook report')
             cleanup(hook.close, failure, receipt, 'hook close')
@@ -328,7 +350,191 @@ def check_serving(plan, dataset, cases, prepared, work, root):
             cleanup(backend.close, failure, {}, 'serving backend close')
 
 
-def run(root):
+def authenticate_failed_ordinary(previous_root, root, plan, preparation):
+    """Admit only the recorded post-Adam/pre-export failure, without resetting work."""
+    previous_root, root = Path(previous_root), Path(root)
+    if previous_root.resolve() == root.resolve():
+        raise ValueError('Recovery requires a new directory; preserve the failed attempt')
+    case = previous_root / 'qualification/gsm8k/KPLUS'
+    original_plan = json.loads((previous_root / 'sealed/PLAN.json').read_text())
+    original_preparation = json.loads((previous_root / 'qualification_feedback/PREPARATION.json').read_text())
+    repair = plan['repair']
+    if Path(repair['previous_root']).resolve() != previous_root.resolve():
+        raise ValueError('Recovery root differs from the sealed repair receipt')
+    for source in [repair['prior_work_ledger'], repair['shared_preparation'],
+                   *repair['retained_reference'].values()]:
+        if identity(source['path']) != source['identity']:
+            raise ValueError('Sealed recovery artifact changed: ' + source['path'])
+    result = json.loads((case / 'RESULT.json').read_text())
+    decoded_check = json.loads((case / 'DECODED_STATE.json').read_text())
+    startup_check = json.loads((previous_root / 'qualification/gsm8k/STARTUP_EXACT_RESTORATION.json').read_text())
+    rows = json.loads((case / 'PRESENTATIONS.json').read_text())
+    trace = result.get('traceback', '')
+    if (result.get('status') != 'failed' or result.get('case') != 'KPLUS'
+            or 'Native Adam counter differs:' not in result.get('error', '')
+            or 'restore_origin(trainer, baseline_runtime, root)' not in trace
+            or 'migrate_origin' not in trace or not decoded_check.get('exact_equal')
+            or not startup_check.get('exact_equal')):
+        raise ValueError('Retained attempt is not the authenticated post-Adam restoration failure')
+    if (len(rows) != 2 or [row['optimizer_stepped'] for row in rows] != [False, True]
+            or [row['record_id'] for row in rows] !=
+               [row['request_id'] for row in original_preparation['datasets']['gsm8k']]):
+        raise ValueError('Retained ordinary presentations do not match the prepared pair')
+    for name in ('binding', 'geometry', 'serving', 'numerical_recipe', 'qualification_budget'):
+        if differences(plan[name], original_plan[name]):
+            raise ValueError('Recovery changes the scientific plan: ' + name)
+    for dataset, source in original_plan['datasets'].items():
+        for name in ('origin_state', 'origin_state_identity', 'origin_export', 'origin_weights_identity'):
+            if differences(plan['datasets'][dataset][name], source[name]):
+                raise ValueError('Recovery changes the original dataset checkpoint')
+    if differences(preparation, original_preparation):
+        raise ValueError('Recovery must reuse the complete original preparation unchanged')
+    expected_counts = {kind + '_' + status: count
+        for kind, count in (('adam', 1), ('ordinary_forward', 2), ('ordinary_backward', 2),
+                            ('additional_forward', 2), ('additional_backward', 2))
+        for status in ('attempted', 'completed')}
+    previous_ledger = previous_root / 'QUALIFICATION_WORK.jsonl'
+    if QualificationWork(previous_ledger).summary() != expected_counts:
+        raise ValueError('Previous work is not exactly one ordinary step and two startup presentations')
+    ledger_bytes = previous_ledger.read_bytes()
+    destination = root / 'QUALIFICATION_WORK.jsonl'
+    if destination.exists():
+        raise ValueError('Recovery ledger already exists; no automatic recovery retry')
+    with destination.open('xb') as stream:
+        stream.write(ledger_bytes)
+        stream.flush()
+        import os
+        os.fsync(stream.fileno())
+    if destination.read_bytes() != ledger_bytes:
+        raise ValueError('Cumulative work prefix copy differs')
+    payload_path = case / 'disposable_state.pt'
+    observation_path = previous_root / 'qualification/gsm8k/trainer/events/disposable_kplus/RESPONSE_OBSERVATIONS.jsonl'
+    files = (payload_path, case / 'PRESENTATIONS.json', case / 'RESULT.json',
+             case / 'DECODED_STATE.json', observation_path, previous_ledger)
+    receipt = dict(status='admitted', previous_root=str(previous_root),
+        original_execution_commit=original_plan['execution_source']['commit'],
+        evidence={str(path): identity(path) for path in files},
+        ledger_prefix_bytes=len(ledger_bytes), ledger_prefix_identity=identity(previous_ledger),
+        reused_adam_steps=1, remaining_adam_steps=7, recapture_forwards=2,
+        recapture_backwards=2, recapture_adam_steps=0,
+        original_physical_head_chunk_counts='unavailable; not reconstructed from replay counts')
+    write_json(root / 'RECOVERY_ADMISSION.json', receipt)
+    return dict(root=previous_root, case=case, payload=payload_path, rows=rows,
+                observations=observation_path, receipt=receipt)
+
+
+def retained_native_view(final):
+    """The native observer runs before the caller advances its two host counters."""
+    if (final['global_step'] != 513 or final['presentations'] != 1026
+            or final['micro'] != 1026 or final['accumulation'] != 0
+            or any(value is not None for value in final['gradients'].values())):
+        raise ValueError('Retained ordinary endpoint is not a complete first qualification window')
+    for moments in final['optimizer']['optimizer_state_dict']['state'].values():
+        if float(moments['step']) != 513:
+            raise ValueError('Retained ordinary Adam counters are not all 513')
+    return dict(final, global_step=512, presentations=1025)
+
+
+def recover_ordinary_reference(trainer, features, retained, work, baseline_runtime, root):
+    """Recover raw gradients with two backwards, without repeating the saved Adam step."""
+    from specforge.training.strategies.base import StepContext
+    root.mkdir()
+    restore_origin(trainer, baseline_runtime, root)
+    set_observation_directory(trainer, 'retained_ordinary_gradient_replay')
+    trainer.bundle.model.begin_event()
+    before = scientific_state(trainer)
+    payload = torch.load(retained['payload'], map_location='cpu', weights_only=False, mmap=True)
+    persist_comparison(root / 'PAYLOAD_WEIGHT_ALIAS.json', payload['weights'], payload['draft_state_dict'])
+    final = {key: value for key, value in payload.items() if key != 'draft_state_dict'}
+    native = retained_native_view(final)
+    expected_observations = [json.loads(line) for line in retained['observations'].read_text().splitlines()]
+    work.context = dict(dataset=trainer.dataset, case='retained_ordinary_gradient_replay')
+    gradients = {}
+    replay_boundaries = 0
+    forward, backward = trainer.author_strategy.forward_loss, trainer.backend.backward
+    receipt = dict(status='running', optimizer_steps=0, response_forwards=2, backwards=2,
+                   boundary_action='capture raw gradients, native clipping/norm, clear; no Adam')
+    rows = []
+    failure = None
+    started = time.perf_counter()
+
+    def count_forward(*args, **kwargs):
+        with work.operation('additional_forward', purpose='retained_raw_gradient_replay'):
+            return forward(*args, **kwargs)
+
+    def count_backward(*args, **kwargs):
+        with work.operation('additional_backward', purpose='retained_raw_gradient_replay'):
+            return backward(*args, **kwargs)
+
+    def capture_without_adam():
+        nonlocal replay_boundaries
+        replay_boundaries += 1
+        gradients.update({name: None if parameter.grad is None else parameter.grad.detach().cpu().clone()
+                          for name, parameter in trainer.bundle.draft_model.named_parameters()})
+        norm = torch.nn.utils.clip_grad_norm_(trainer.backend.optimizer.model_params,
+            trainer.backend.optimizer.max_grad_norm, error_if_nonfinite=True)
+        trainer.backend.optimizer.zero_grad()
+        return norm.detach()
+
+    try:
+        with override(trainer.author_strategy, 'forward_loss', count_forward), \
+             override(trainer.backend, 'backward', count_backward), \
+             override(trainer.backend.optimizer, 'step', capture_without_adam):
+            for path in features:
+                raw = torch.load(path, map_location='cpu', weights_only=True)
+                trainer._anchor_observations.clear()
+                result = trainer.core.train_step(trainer._batch(raw), StepContext(
+                    global_step=512, total_steps=trainer.horizon, collect_detailed_metrics=True))
+                # optimizer_stepped is TrainerCore's boundary indicator here;
+                # the intercepted boundary never calls Adam or advances its state.
+                rows.append(dict(record_id=raw['record_id'],
+                    sampled_anchors=deepcopy(trainer._anchor_observations),
+                    metrics=result.materialize_metrics(), optimizer_stepped=result.optimizer_stepped))
+                trainer.presentations += 1
+                write_json(root / 'BOUNDARY_REPLAY_PRESENTATIONS.json', rows)
+                del raw, result
+        if replay_boundaries != 1 or trainer.global_step != 512:
+            raise ValueError('Gradient replay did not retain the single intercepted boundary')
+        receipt['physical_work'] = physical_work(trainer)
+        persist_comparison(root / 'REPLAY_ANCHORS_LOSSES.json', rows, retained['rows'])
+        actual_observations = [dict(row, event_id='disposable_kplus') for row in trainer.response_records]
+        persist_comparison(root / 'REPLAY_RESPONSE_OBSERVATIONS.json', actual_observations, expected_observations)
+        after = scientific_state(trainer)
+        for name in ('weights', 'optimizer', 'gradients', 'global_step'):
+            persist_comparison(root / ('REPLAY_UNCHANGED_' + name.upper() + '.json'), after[name], before[name])
+        for name in ('rng', 'runtime'):
+            persist_comparison(root / ('REPLAY_RETAINED_' + name.upper() + '.json'), after[name], final[name])
+        del before, after
+        # Restore and export the exact already-computed endpoint. No tensor
+        # update is inferred from the newly recaptured gradients.
+        with preserve_rng():
+            restore_origin(trainer, baseline_runtime, root)
+            trainer.bundle.draft_model.load_state_dict(final['weights'], strict=True)
+            trainer.backend.optimizer.load_state_dict(deepcopy(final['optimizer']))
+            trainer.global_step, trainer.presentations = final['global_step'], final['presentations']
+            trainer.core._micro = final['micro']
+            restore_runtime(trainer.bundle.model, final['runtime'])
+            restore_rng(final['rng'])
+            persist_comparison(root / 'RETAINED_LIVE_RESTORE.json', scientific_state(trainer), final)
+            export = root / 'export'
+            receipt['export_verification'] = export_disposable_state(trainer, retained['payload'], export, payload)
+        receipt.update(status='passed', case='KPLUS', export=str(export),
+            optimizer_steps=0, reused_optimizer_steps=1, presentations=2,
+            original_case=str(retained['case']), exact_retained_endpoint=True)
+        return dict(final=final, native=native, gradients=gradients, rows=retained['rows']), receipt
+    except BaseException as error:
+        failure = error
+        receipt.update(status='failed', error=repr(error), traceback=traceback.format_exc())
+        raise
+    finally:
+        if 'physical_work' not in receipt:
+            cleanup(lambda: receipt.update(physical_work=physical_work(trainer)), failure, receipt,
+                    'gradient replay physical work')
+        receipt.update(wall_s=time.perf_counter()-started, work=work.summary())
+        cleanup(lambda: write_json(root / 'RESULT.json', receipt), failure, receipt, 'gradient replay result')
+
+
+def run(root, *, resume_from_failed_ordinary=None):
     root = Path(root)
     output = root / 'qualification'
     output.mkdir(exist_ok=False)
@@ -336,9 +542,13 @@ def run(root):
     preparation = json.loads((root / 'qualification_feedback/PREPARATION.json').read_text())
     if preparation['status'] != 'completed':
         raise ValueError('The sealed new-feedback preparation is incomplete')
+    retained = (authenticate_failed_ordinary(resume_from_failed_ordinary, root, plan, preparation)
+                if resume_from_failed_ordinary is not None else None)
     work = QualificationWork(root / 'QUALIFICATION_WORK.jsonl')
     summary = dict(status='running', execution_commit=plan['execution_source']['commit'],
                    limits=LIMITS, datasets={}, main_pilot_started=False, automatic_retry=False)
+    if retained is not None:
+        summary['recovery'] = retained['receipt']
     started = time.perf_counter()
     trainer = None
     failure = None
@@ -362,7 +572,13 @@ def run(root):
             reference = None
             cases = []
             summary['datasets'][dataset] = dict(cases=cases)
-            for label, strength in CASES:
+            remaining_cases = CASES
+            if retained is not None and dataset == 'gsm8k':
+                reference, case = recover_ordinary_reference(trainer, features, retained, work,
+                    baseline_runtime, directory / 'KPLUS')
+                cases.append(case)
+                remaining_cases = CASES[1:]
+            for label, strength in remaining_cases:
                 capture, case = run_case(trainer, features, label, strength, work,
                     baseline_runtime, directory / label, reference)
                 if reference is None:
@@ -397,5 +613,8 @@ def run(root):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('root')
-    result = run(parser.parse_args().root)
+    parser.add_argument('--resume-from-failed-ordinary', type=Path,
+                        help='Original failed qualification root; reuse its sole completed Adam endpoint')
+    arguments = parser.parse_args()
+    result = run(arguments.root, resume_from_failed_ordinary=arguments.resume_from_failed_ordinary)
     print(json.dumps({key: result[key] for key in ('status', 'wall_s', 'work')}))
