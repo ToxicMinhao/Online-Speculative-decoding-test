@@ -1,0 +1,54 @@
+{
+  "status": "failed",
+  "execution_commit": "cdb4989026f6fa4e818ff70ae993945b008bbd76",
+  "limits": {
+    "adam": 8,
+    "ordinary_forward": 16,
+    "ordinary_backward": 16,
+    "additional_forward": 96,
+    "additional_backward": 32,
+    "serving_generation": 8
+  },
+  "work": {
+    "adam_attempted": 3,
+    "adam_completed": 3,
+    "additional_backward_attempted": 12,
+    "additional_backward_completed": 12,
+    "additional_forward_attempted": 18,
+    "additional_forward_completed": 18,
+    "ordinary_backward_attempted": 6,
+    "ordinary_backward_completed": 6,
+    "ordinary_forward_attempted": 6,
+    "ordinary_forward_completed": 6
+  },
+  "main_pilot_started": false,
+  "automatic_retry": false,
+  "error": "ValueError('Native chunked/unchunked oracle failed; preserved diagnostics')",
+  "wall_s": 299.93348260968924,
+  "peak_cuda_allocated_bytes": 22771712512,
+  "peak_cuda_reserved_bytes": 26822574080,
+  "original_execution_commit": "f834dbd0da553d6231e39a4b5ff7a3b10a5dd623",
+  "cpu_tests": 109,
+  "native_vjp": {
+    "status": "failed",
+    "tolerances": {
+      "rtol": 0.016,
+      "atol": 1e-05,
+      "maximum_relative_l2": 0.016
+    },
+    "violations": 356523,
+    "relative_l2": 0.006396847958779833,
+    "discrepancy_norm": 0.05719758735815681,
+    "chunked_norm": 8.937428784447725,
+    "unchunked_norm": 8.941526784242495
+  },
+  "coordinate_count": 1048626432,
+  "violating_tensors": 55,
+  "shared_feedback_generations": 4,
+  "teacher_preparations": 4,
+  "prepared_packets_reused_without_recollection": true,
+  "postflight_status": "passed",
+  "sealed_files_checked": 3402,
+  "qualification_serving_generations": 0,
+  "main_updates": 0
+}

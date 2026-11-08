@@ -87,3 +87,13 @@ work is appended. Worst-case cumulative additional backwards are 32, including
 the failed attempt; there is no extra retry allowance. Reconstructed gradients
 are labeled as such. Original failed-attempt physical head/chunk totals were not
 persisted and are unavailable; its response/backward/Adam counts are retained.
+
+## Native outcome, November 8
+
+The repair passed 109 CPU tests and GSM8K exact strength-zero state neutrality.
+Qualification then stopped at the small native auxiliary-gradient oracle:
+356,523 of 1,048,626,432 coordinates exceed the fixed tolerance, despite global
+relative L2 discrepancy of 0.639685% passing its separate 1.6% ceiling. The cause
+is unresolved. No tolerance was relaxed and the pilot remains unstarted. See
+[the qualification report](../../reports/dflash_functional_step_geometry_20261108/QUALIFICATION_REPORT.md)
+for cumulative work, preserved failures and checks not reached.

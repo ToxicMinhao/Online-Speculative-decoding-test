@@ -1,0 +1,63 @@
+{
+  "execution_commit": "cdb4989026f6fa4e818ff70ae993945b008bbd76",
+  "review_type": "same-team source and retained-record audits; authorship overlap disclosed",
+  "native_qualification": "failed",
+  "reviews": [
+    {
+      "name": "QUALIFICATION_MATH_REVIEW",
+      "status": "analyzed_no_blocking_source_finding",
+      "artifact_sha256": "ed439c74fc3569a33e540a0a2d1a46ec731ceb2cfd8c264b1348576f9b849d16",
+      "same_team": true,
+      "authorship_overlap": true,
+      "new_gpu_executions": 0
+    },
+    {
+      "name": "QUALIFICATION_SCOPE_REVIEW",
+      "status": "no_new_source_level_qualification_blocker_found",
+      "artifact_sha256": "7f4fe16b9aa12d8f5a3d5c5c6a321ad4f45f4860a158d691f1c1f0b216c978d0",
+      "same_team": true,
+      "authorship_overlap": true,
+      "new_gpu_executions": 0
+    },
+    {
+      "name": "NATIVE_FAILURE_MATH_REVIEW",
+      "status": "blocked_native_coordinate_tolerance",
+      "artifact_sha256": "7b82c9967d00f6441c44ff417003569319cf2bdf7bb75ee52fac8407782947fa",
+      "same_team": true,
+      "authorship_overlap": true,
+      "new_gpu_executions": 0
+    },
+    {
+      "name": "NATIVE_FAILURE_SOURCE_REVIEW",
+      "status": "ANALYZED_NOT_REPRODUCED",
+      "artifact_sha256": "91c59637366f38acea9b1533538690809c26a69f9bbedc58c24e4b3ac5e9b8ec",
+      "same_team": true,
+      "authorship_overlap": true,
+      "new_gpu_executions": 0
+    },
+    {
+      "name": "NATIVE_WORK_REVIEW",
+      "status": "work_state_and_source_audit_passed_qualification_itself_failed",
+      "artifact_sha256": "4def572152995913af3c5805786e38b1388bff0fca0c13f0c8cbc05a73e9489f",
+      "same_team": true,
+      "authorship_overlap": true,
+      "new_gpu_executions": 0
+    }
+  ],
+  "no_new_model_execution": true,
+  "raw_and_private_evidence_not_uploaded": true,
+  "native_work_audit_checks": 173,
+  "fallacy_scan": {
+    "Simpson paradox": "Not an aggregate efficacy comparison; per-parameter groups and global gradient norms remain separate.",
+    "Ecological fallacy": "Coordinate failures are not treated as request-level or algorithm-level failure rates.",
+    "Berkson paradox": "Fixed first-two-anchor fixture; no outcome-based case selection or population association claim.",
+    "Collider bias": "No conditioning-on-outcome inference; exact support checks are correctness gates.",
+    "Base rate neglect": "All coordinate and tensor denominators reported; nonzero-coordinate denominator is unavailable.",
+    "Regression to mean": "No retry or retuning after an extreme discrepancy; no pre/post improvement claim.",
+    "Survivorship bias": "Failed case and all unattempted cases retained; no selective exclusion.",
+    "Look-elsewhere effect": "Fixed numerical gates applied without post-result threshold selection; parameter distribution is descriptive.",
+    "Garden of forking paths": "No tolerance, algorithm, sample or runtime modification after observing the failure.",
+    "Correlation versus causation": "BF16/head/backward causes remain hypotheses; proposed isolation not executed.",
+    "Reverse causality": "No directional causal association is inferred from the discrepancy or one rejected candidate."
+  }
+}
