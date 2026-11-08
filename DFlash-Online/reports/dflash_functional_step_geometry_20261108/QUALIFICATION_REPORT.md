@@ -104,3 +104,7 @@ No efficacy estimates, p-values or confidence intervals were produced. Checks of
 Lower protected KL is partly enforced and cannot establish success. For eventual evaluation: **if both FSG and SCALAR improve over KPLUS, but FSG has no demonstrated advantage over SCALAR, the necessity of directional geometry remains unestablished. This does not establish equivalence between them.** If SCALAR's improvement over KPLUS is also unresolved, the result is inconclusive. Off-fit buffered-response diagnostics remain training diagnostics, not held-out evidence.
 
 **Decision:** keep the pilot stopped. Preserve this numerical failure and resolve the auxiliary-gradient discrepancy before completing native qualification. No performance conclusion or mechanism revision follows from this result.
+
+## November 8 follow-up: retained-gradient diagnosis
+
+The authorized zero-Adam diagnostic localized the numerical discrepancy to BF16 head batching; the original qualification remains failed. See [diagnostic report](GRADIENT_DIAGNOSTIC_REPORT.md) and its execution commit `41db7e31c3c80ee3220e5d919be327039caf2fb9`. No algorithm/tolerance change or main pilot followed.

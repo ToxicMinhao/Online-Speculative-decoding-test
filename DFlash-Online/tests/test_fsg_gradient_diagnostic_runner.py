@@ -17,6 +17,20 @@ from online_feedback.rng import capture_rng, preserve_rng
 
 
 class DiagnosticWorkTests(unittest.TestCase):
+    def test_runtime_pin_receipt_names_this_diagnostic_without_changing_pin(self):
+        native = dict(effective=False, requested=False, torch_version='qualified',
+                      applied_before='old qualification label', scope='old cases')
+        with tempfile.TemporaryDirectory() as directory:
+            with mock.patch.object(diagnostic, 'pin_retained_graph_runtime', return_value=native):
+                receipt = diagnostic.pin_diagnostic_runtime(directory)
+            saved = json.loads((Path(directory) / 'RUNTIME_COMPATIBILITY.json').read_text())
+            self.assertEqual(saved, receipt)
+            self.assertIs(saved['effective'], False)
+            self.assertIs(saved['requested'], False)
+            self.assertEqual(saved['torch_version'], 'qualified')
+            self.assertEqual(saved['applied_before'], 'one retained-origin trainer construction')
+            self.assertIn('zero-Adam', saved['scope'])
+
     def test_attempt_is_durable_before_call_and_failure_remains_charged(self):
         with tempfile.TemporaryDirectory() as directory:
             work = diagnostic.DiagnosticWork(directory)
@@ -238,7 +252,7 @@ class RunnerCleanupTests(unittest.TestCase):
                     ('restore_runtime', mock.Mock(side_effect=RuntimeError('secondary restore failure'))),
                     ('optimizer_versions', mock.Mock(return_value=[])),
                     ('load_response', mock.Mock(side_effect=primary)),
-                    ('pin_retained_graph_runtime', mock.Mock()),
+                    ('pin_diagnostic_runtime', mock.Mock()),
                 ):
                     patches.enter_context(mock.patch.object(diagnostic, name, replacement))
                 patches.enter_context(mock.patch.object(torch.cuda, 'reset_peak_memory_stats'))

@@ -66,6 +66,15 @@ def forbid_step(*args, **kwargs):
     raise RuntimeError('Optimizer applications are forbidden in this diagnostic')
 
 
+def pin_diagnostic_runtime(root):
+    """Reuse the qualified pin with labels specific to this zero-update run."""
+    receipt = pin_retained_graph_runtime(root)
+    receipt.update(applied_before='one retained-origin trainer construction',
+                   scope='zero-Adam head and draft VJP diagnosis; no startup backwards')
+    write_json(Path(root) / 'RUNTIME_COMPATIBILITY.json', receipt)
+    return receipt
+
+
 def load_response(trainer, feature_path, presentations_path):
     raw = torch.load(feature_path, map_location='cpu', weights_only=False)
     validity = validate_feature(raw, max_length=trainer.max_length)
@@ -125,7 +134,7 @@ def run(plan_path):
             raise ValueError('Retained diagnostic dependency changed')
         original = json.loads(Path(plan['qualification_plan']).read_text())
         item = original['datasets']['gsm8k']
-        pin_retained_graph_runtime(root)
+        pin_diagnostic_runtime(root)
         torch.cuda.reset_peak_memory_stats()
         trainer = FunctionalGeometryTrainer(item['configs']['KPLUS'], root / 'trainer',
             arm='KPLUS', dataset='gsm8k', binding=original['binding'],
