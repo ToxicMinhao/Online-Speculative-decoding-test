@@ -1,0 +1,367 @@
+{
+  "WORK_RESULT_REVIEW": {
+    "verification_status": "ANALYZED",
+    "audit_kind": "read-only retained artifact and source-flow audit; no new execution",
+    "execution_commit": "1c72903a811de457cbda10da178aac8cc25d19e1",
+    "author_overlap": "Same-team contributor to continuation, sealing, and tests; not independent GPU replication.",
+    "retrieval": {
+      "files": 69,
+      "bytes": 8573794,
+      "hash_mismatches": [],
+      "scope": "Independent local rehash of compact receipts; full remote dependency hashes are attested by pre/postflight receipts."
+    },
+    "work": {
+      "prior": {
+        "adam_attempted": 3,
+        "adam_completed": 3,
+        "ordinary_forward_attempted": 6,
+        "ordinary_forward_completed": 6,
+        "ordinary_backward_attempted": 6,
+        "ordinary_backward_completed": 6,
+        "additional_forward_attempted": 18,
+        "additional_forward_completed": 18,
+        "additional_backward_attempted": 12,
+        "additional_backward_completed": 12
+      },
+      "delta": {
+        "additional_forward_attempted": 16,
+        "additional_forward_completed": 16,
+        "additional_backward_attempted": 8,
+        "additional_backward_completed": 8,
+        "ordinary_forward_attempted": 2,
+        "ordinary_forward_completed": 2,
+        "ordinary_backward_attempted": 2,
+        "ordinary_backward_completed": 2
+      },
+      "cumulative": {
+        "adam_attempted": 3,
+        "adam_completed": 3,
+        "additional_backward_attempted": 20,
+        "additional_backward_completed": 20,
+        "additional_forward_attempted": 34,
+        "additional_forward_completed": 34,
+        "ordinary_backward_attempted": 8,
+        "ordinary_backward_completed": 8,
+        "ordinary_forward_attempted": 8,
+        "ordinary_forward_completed": 8
+      },
+      "prior_ledger_exact_byte_prefix": true,
+      "prior_bytes": 11767,
+      "current_bytes": 20193,
+      "additional_ledger_rows": 56,
+      "remaining_adam_applications": 5,
+      "remaining_serving_generations": 8,
+      "cumulative_core_adam_steps": 3,
+      "new_feedback_generations": 0,
+      "prior_shared_feedback_generations": 4,
+      "new_teacher_preparations": 0,
+      "prior_teacher_preparations": 4,
+      "main_pilot_started": false,
+      "delta_breakdown": {
+        "retained_ordinary_gradient_replay": {
+          "additional_response_forwards": 2,
+          "additional_backwards": 2
+        },
+        "same_layout_oracle": {
+          "additional_response_forwards": 5,
+          "additional_backwards": 2
+        },
+        "synthetic_resource_fixture": {
+          "additional_response_forwards": 9,
+          "additional_backwards": 4
+        },
+        "incomplete_scalar": {
+          "ordinary_response_forwards": 2,
+          "ordinary_backwards": 2,
+          "adam_applications": 0
+        }
+      },
+      "physical_delta": {
+        "draft_forwards": 18,
+        "layer_forwards": 90,
+        "vocabulary_head_calls": 1804,
+        "checkpoint_proxy_calls": 388,
+        "objective_chunks": 188,
+        "note": "These overlap logical forward/backward counts; do not sum as independent model passes. Copied historical FSG_ZERO counts are excluded."
+      }
+    },
+    "new_gates": {
+      "same_layout": {
+        "status": "passed",
+        "anchors": 9,
+        "chunks": [
+          8,
+          1
+        ],
+        "protected_occurrences": 30,
+        "coordinate_violations": 0,
+        "relative_l2": 0.0,
+        "risk_absolute_difference": 0.0,
+        "tolerances": {
+          "rtol": 0.016,
+          "atol": 1e-05,
+          "maximum_relative_l2": 0.016
+        }
+      },
+      "resource": {
+        "status": "passed",
+        "anchors": [
+          512,
+          512
+        ],
+        "sequence_lengths": [
+          2272,
+          2272
+        ],
+        "simultaneous_vjp_vectors": 4,
+        "scientific_feedback": false,
+        "representative_accepted_fsg_evidence": false
+      }
+    },
+    "failure": {
+      "case": "GSM8K SCALAR",
+      "stage": "ordinary-gradient exact parity before native Adam; not scalar correction",
+      "differing_tensors": 49,
+      "compared_tensors": 58,
+      "differing_coordinates": 155364420,
+      "compared_coordinates": 1048626432,
+      "maximum_absolute_error": 0.00048828125,
+      "discrepancy_l2": 0.0016444962594889566,
+      "nonfinite_coordinates": 0,
+      "cause": "Not established by retained receipts; separate investigation required.",
+      "partial_presentations_file_rows": 1,
+      "actual_response_observations": 2
+    },
+    "state": {
+      "initial_resume": "Exact own KPLUS4 at 512 steps, 1024 presentations, no seed or optimizer reset.",
+      "ordinary_replay": "Exact unchanged weights/optimizer/gradients/global step; anchors, losses, RNG and runtime match retained evidence.",
+      "reused_endpoint": "Exact retained 513 endpoint restored and re-exported; no repeated Adam.",
+      "oracle_final_snapshot": {
+        "exact": true,
+        "tensors": 239,
+        "coordinates": 3145885306
+      },
+      "scalar_failure": "Pre-Adam gate fails. No committed SCALAR endpoint or new recovery exists. Final full live-state snapshot after this failure is unavailable; partial disposable accumulation is not resumable evidence.",
+      "dependency_checks_before_and_after": 3520,
+      "postflight_status": "passed"
+    },
+    "elapsed_and_resources": {
+      "supervisor_start_utc": "2026-11-09T01:03:35Z",
+      "supervisor_end_utc": "2026-11-09T01:08:55Z",
+      "supervisor_wall_seconds": 320,
+      "qualification_runner_seconds": 175.95601116865873,
+      "preflight_seconds": 49.66732555627823,
+      "postflight_seconds": 49.60501059703529,
+      "cpu_tests": 158,
+      "cpu_test_seconds": 30.543,
+      "peak_cuda_allocated_bytes": 47017778688,
+      "peak_cuda_reserved_bytes": 48563748864,
+      "free_disk_before_bytes": 57933275136,
+      "free_disk_after_bytes": 55835496448,
+      "required_qualification_storage_bytes": 42949672960,
+      "pilot_storage_admitted": false,
+      "cost_rule": "Nested case/oracle/hook costs are components, not additive to total runner time; historical reused-case costs are not new work."
+    },
+    "pending": [
+      "GSM8K SCALAR gradient-parity cause and successful completion",
+      "All four MathQA disposable Adam cases and its independent formula check",
+      "All eight native serving generations",
+      "Representative nontrivial accepted correction requirement",
+      "Complete main pilot integrations, including 16-window diagnostics, and explicit pilot storage admission"
+    ],
+    "interpretation_categories": {
+      "Simpson paradox": "No pooled dataset outcome is reported; only GSM8K was reached. MathQA remains unexecuted.",
+      "ecological fallacy": "A numerical fixture pass is not evidence of request-level serving improvement.",
+      "Berkson bias": "This is a fixed qualification case, not a selected set of successful trained models.",
+      "collider bias": "Conditioning on reaching the oracle cannot establish efficacy; the later SCALAR failure remains visible.",
+      "base-rate neglect": "Report all eight scheduled Adam applications and eight serving checks; only three prior Adam applications are complete and serving is zero.",
+      "regression to mean": "No claim that the revised pass improves performance or resolves the earlier cross-layout error.",
+      "survivorship bias": "Retain original failure, current failure, and all pending MathQA/serving work.",
+      "look-elsewhere effect": "No algorithm or tolerance was tuned in this audit; the separately authorized comparison change is explicit.",
+      "forking paths": "Native same-layout qualification replaces one acceptance comparison; historical cross-layout failures remain failed.",
+      "causal attribution": "The SCALAR ordinary-gradient mismatch is observed before Adam/correction; its cause is not established by these receipts.",
+      "reverse causality": "No end-task performance outcome is available, so none can explain or validate correction geometry."
+    },
+    "conclusion": "Revised qualification is incomplete/failed; independent GSM same-layout formula and synthetic maximum-shape resource checks pass. No pilot or efficacy conclusion is justified.",
+    "budget_followup_limit": "Eight ordinary forwards/backwards remain, all allocated to the four MathQA cases; repeating failed SCALAR requires additional accounted work or genuinely resumable state, which compact receipts do not contain.",
+    "public_report_check": "Work totals, scientific limits and maintenance claims agree. Fresh A800 cleanup and final idle-GPU receipts now available; supplementary to original 69-file compact audit.",
+    "maintenance_supplement": {
+      "outside_original_69_file_manifest": true,
+      "a800_cleanup": {
+        "path": "/data/sources/minhao/fsg_source_20261109_revised/source.tar.gz",
+        "bytes": 21435734,
+        "sha256": "353ce4bca97d3607e6424d3721a7f7e717f56296514663b9521a8945d4123f4f",
+        "reason": "Redundant source transport archive; published commit and authenticated extracted source retained",
+        "source_commit": "1c72903a811de457cbda10da178aac8cc25d19e1",
+        "before_free_bytes": 55835467776,
+        "utc": "2026-11-09T01:15:46.812128+00:00",
+        "scientific_replay_lost": false,
+        "after_free_bytes": 55856906240
+      },
+      "fenrir_cleanup": {
+        "path": "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_functional_step_geometry_20261108/revised_qualification_001/source.tar.gz",
+        "bytes": 21435734,
+        "sha256": "353ce4bca97d3607e6424d3721a7f7e717f56296514663b9521a8945d4123f4f",
+        "reason": "Redundant transport archive; published1c72903 commit and source checkout retained",
+        "before_free_bytes": 7521099776,
+        "scientific_replay_lost": false,
+        "utc": "2026-11-09T01:15:47.101876+00:00",
+        "after_free_bytes": 7542542336
+      },
+      "final_remote_status": {
+        "utc": "2026-11-09T01:17:53.882232+00:00",
+        "free_bytes": 55856902144,
+        "gpu": "0, 0 MiB, 0 %\n1, 0 MiB, 0 %\n",
+        "gpu_processes": ""
+      },
+      "checks": {
+        "archive_identities_match": true,
+        "both_declare_no_replay_lost": true,
+        "post_exit_gpus_idle": true
+      },
+      "audit_limit": "Deleted archives were not independently rehashed after deletion; recorded identities and matching receipts were checked."
+    }
+  },
+  "NUMERICAL_RESULT_REVIEW": {
+    "status": "ANALYZED",
+    "execution_commit": "1c72903a811de457cbda10da178aac8cc25d19e1",
+    "scope": "Read-only local source and compact numerical evidence audit; review files only written",
+    "authorship_overlap": "Reviewer authored same_layout_oracle and earlier geometry helpers; same-team review, no independent GPU replication",
+    "oracle": {
+      "status": "passed",
+      "parameter_tensors": 58,
+      "coordinate_violations": 0,
+      "discrepancy_norm": 0.0,
+      "relative_l2": 0.0,
+      "weights_exact": true,
+      "masks_exact": true,
+      "production_c": 0.28226443087590225,
+      "independent_c": 0.28226443087590225,
+      "risk_absolute_difference": 0.0,
+      "fixture_chunks": [
+        8,
+        1
+      ]
+    },
+    "resource": {
+      "status": "passed",
+      "input_lengths": [
+        2272,
+        2272
+      ],
+      "anchor_counts": [
+        512,
+        512
+      ],
+      "simultaneous_vectors": 4,
+      "gradient_bytes": 8389011456,
+      "peak_allocated_bytes": 47017778688,
+      "peak_reserved_bytes": 48563748864,
+      "synthetic_only": true
+    },
+    "ordinary_gradient_failure": {
+      "tensors": 58,
+      "coordinates": 1048626432,
+      "differing_tensors": 49,
+      "differing_coordinates": 155364420,
+      "nonfinite_coordinates": 0,
+      "maximum_absolute_error": 0.00048828125,
+      "discrepancy_l2": 0.0016444962594889566,
+      "relative_l2": null,
+      "criterion": "exact ordinary-gradient equality, not auxiliary VJP tolerance"
+    },
+    "state_checks": {
+      "same_layout_restored": true,
+      "resource_restored": true,
+      "aggregate_scientific_exact": true
+    },
+    "source_findings": {
+      "explicit_precision_setting_leak_found": false,
+      "concrete_restoration_bug_found": false,
+      "scoped_mutations": "Modes, parameters, buffers, fixed-anchor sampler and named cache fields restored by enclosing helpers; RNG preserved; no Adam in either helper.",
+      "unmeasured_state": "Process-global compilation/kernel caches and allocator state; influence unproven.",
+      "external_runtime_limit": "Exact external training-runtime implementation was not independently inspected in this audit; the local publication training tree is not treated as that runtime."
+    },
+    "report_review": {
+      "path": "REPORT.md",
+      "material_misstatement_found": false,
+      "required_changes": []
+    },
+    "interpretation": "Auxiliary same-layout formula gate passes on bounded GSM8K fixture. Separate ordinary-gradient exactness fails before Adam. Qualification incomplete, pilot unstarted; no demonstrated source bug or kernel cause.",
+    "fallacy_scan": {
+      "checked": 11,
+      "categories": {
+        "Simpson paradox": "Separate oracle, resource and ordinary-control outcomes; no pooled inference.",
+        "Ecological fallacy": "One bounded fixture does not establish global qualification or efficacy.",
+        "Berkson paradox": "Retained deterministic anchors and synthetic resource fixture are disclosed; no population claim.",
+        "Collider bias": "No conditioning-based association or effect estimate.",
+        "Base rate neglect": "All checked coordinates and tensor denominators retained; no diagnostic prevalence inference.",
+        "Regression to mean": "New physical-layout criterion is an explicit protocol revision, not evidence of learning improvement.",
+        "Survivorship bias": "New failure and every unexecuted case remain visible; old failures preserved.",
+        "Look elsewhere": "No selection of successful metrics to override failed ordinary control.",
+        "Garden of forking paths": "Revised numerical contract sealed before execution; no post-outcome tolerance change.",
+        "Correlation versus causation": "Intervening auxiliary/resource work is not established as the cause of later gradient mismatch.",
+        "Reverse causality": "Failure precedes SCALAR Adam and scalar proposal; no scalar-effect attribution."
+      }
+    }
+  },
+  "SCALAR_GRADIENT_FAILURE_SOURCE_REVIEW": {
+    "review_status": "ANALYZED_FROM_RETAINED_EVIDENCE",
+    "source_commit": "1c72903",
+    "author_overlap": true,
+    "new_gpu_work": 0,
+    "algorithm_or_tolerance_change": false,
+    "confirmed_implementation_cause": null,
+    "ordinary_rows_exact_excluding_event_id": true,
+    "compared_parameter_tensors": 58,
+    "compared_coordinates": 1048626432,
+    "differing_tensors": 49,
+    "differing_coordinates": 155364420,
+    "maximum_absolute_error": 0.00048828125,
+    "discrepancy_l2": 0.0016444962594889566,
+    "nonfinite_coordinates": 0,
+    "exact_tensors": [
+      "state.layers.4.mlp.down_proj.weight",
+      "state.layers.4.mlp.gate_proj.weight",
+      "state.layers.4.mlp.up_proj.weight",
+      "state.layers.4.post_attention_layernorm.weight",
+      "state.layers.4.self_attn.k_norm.weight",
+      "state.layers.4.self_attn.o_proj.weight",
+      "state.layers.4.self_attn.q_norm.weight",
+      "state.layers.4.self_attn.v_proj.weight",
+      "state.norm.weight"
+    ],
+    "final_layer_differences": [
+      {
+        "parameter": "state.layers.4.self_attn.k_proj.weight",
+        "coordinates": 469,
+        "maximum_absolute_error": 4.76837158203125e-07
+      },
+      {
+        "parameter": "state.layers.4.self_attn.q_proj.weight",
+        "coordinates": 3191,
+        "maximum_absolute_error": 1.1920928955078125e-07
+      },
+      {
+        "parameter": "state.layers.4.input_layernorm.weight",
+        "coordinates": 2,
+        "maximum_absolute_error": 1.1920928955078125e-07
+      }
+    ],
+    "restored_auxiliary_state_exact": true,
+    "cumulative_work": {
+      "adam_attempted": 3,
+      "adam_completed": 3,
+      "additional_backward_attempted": 20,
+      "additional_backward_completed": 20,
+      "additional_forward_attempted": 34,
+      "additional_forward_completed": 34,
+      "ordinary_backward_attempted": 8,
+      "ordinary_backward_completed": 8,
+      "ordinary_forward_attempted": 8,
+      "ordinary_forward_completed": 8
+    },
+    "hypothesis": "First-use/reference versus later compiled runtime or attention-backward sensitivity; source defect and first divergent operator not established",
+    "stopping_point": "Qualification incomplete; no GPU retry, mechanism conclusion or weakened exact gate"
+  }
+}

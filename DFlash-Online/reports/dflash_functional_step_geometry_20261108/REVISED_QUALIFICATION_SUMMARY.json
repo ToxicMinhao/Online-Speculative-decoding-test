@@ -1,0 +1,127 @@
+{
+  "status": "qualification_incomplete",
+  "execution_commit": "1c72903a811de457cbda10da178aac8cc25d19e1",
+  "main_pilot_started": false,
+  "policy": {
+    "name": "independent_same_layout_bf16_v1",
+    "production_head_chunk_blocks": 8,
+    "native_fixture_anchor_count": 9,
+    "atol": 1e-05,
+    "rtol": 0.016,
+    "maximum_relative_l2": 0.016,
+    "historical_cross_layout": "failed_original_criterion_retained_as_sensitivity",
+    "norm_guard": "unchanged",
+    "risk_guard": "unchanged"
+  },
+  "historical_cross_layout": "failed original criterion; retained as sensitivity diagnostic",
+  "independent_same_layout": {
+    "dataset": "gsm8k",
+    "anchors": 9,
+    "head_chunks": [
+      8,
+      1
+    ],
+    "status": "passed",
+    "gradient_comparison": {
+      "status": "passed",
+      "violations": 0,
+      "relative_l2": 0.0,
+      "discrepancy_norm": 0.0
+    },
+    "coordinate_denominator": 1048626432,
+    "proposals_exact": true,
+    "prefix_mask_exact": true,
+    "weights_exact": true,
+    "energy": [
+      0.28226443087590225,
+      0.28226443087590225
+    ],
+    "risk_difference": 0.0,
+    "state_restored": true
+  },
+  "maximum_resource": {
+    "status": "passed",
+    "anchors_per_response": [
+      512,
+      512
+    ],
+    "input_lengths": [
+      2272,
+      2272
+    ],
+    "simultaneous_parameter_vjps": 4,
+    "peak_allocated_bytes": 47017778688,
+    "peak_reserved_bytes": 48563748864,
+    "synthetic_fixture": true,
+    "scientific_acceptance_or_transfer_evidence": false,
+    "state_restored": true
+  },
+  "failed_check": {
+    "name": "SCALAR ordinary native gradient exactness",
+    "before_adam": true,
+    "tensors_differing": 49,
+    "tensors_compared": 58,
+    "coordinates_differing": 155364420,
+    "coordinates_compared": 1048626432,
+    "maximum_absolute_error": 0.00048828125,
+    "discrepancy_l2": 0.0016444962594889566,
+    "relative_l2": null,
+    "relative_l2_reason": "reference gradient norm not retained by exact comparator",
+    "nonfinite_coordinates": 0,
+    "both_response_observations_equal_except_event_label": true,
+    "cause": "unresolved; no demonstrated algorithm or implementation defect",
+    "confirmed_procedural_asymmetry": "Recaptured K+ reference uses first two fresh-process training backwards as startup; SCALAR runs after independent oracle/resource workload. Original qualification used a separate discarded warm-up."
+  },
+  "new_work": {
+    "additional_forward_attempted": 16,
+    "additional_forward_completed": 16,
+    "additional_backward_attempted": 8,
+    "additional_backward_completed": 8,
+    "ordinary_forward_attempted": 2,
+    "ordinary_forward_completed": 2,
+    "ordinary_backward_attempted": 2,
+    "ordinary_backward_completed": 2,
+    "adam_attempted": 0,
+    "adam_completed": 0,
+    "serving_generation_attempted": 0,
+    "serving_generation_completed": 0
+  },
+  "cumulative_work": {
+    "adam_attempted": 3,
+    "adam_completed": 3,
+    "additional_backward_attempted": 20,
+    "additional_backward_completed": 20,
+    "additional_forward_attempted": 34,
+    "additional_forward_completed": 34,
+    "ordinary_backward_attempted": 8,
+    "ordinary_backward_completed": 8,
+    "ordinary_forward_attempted": 8,
+    "ordinary_forward_completed": 8
+  },
+  "new_adam_steps": 0,
+  "new_generations": 0,
+  "not_executed": [
+    "SCALAR Adam/proposal/norm/KL/own-state check",
+    "MathQA all native cases and formula oracle",
+    "eight native serving checks",
+    "main pilot"
+  ],
+  "timing": {
+    "supervisor_seconds": 320,
+    "qualification_runner_seconds": 175.95601116865873,
+    "preflight_seconds": 49.66732555627823,
+    "postflight_seconds": 49.60501059703529
+  },
+  "storage": {
+    "postflight_free_bytes": 55835496448,
+    "reserve_bytes": 8589934592
+  },
+  "integrity": {
+    "preflight_sealed_files": 3520,
+    "postflight_sealed_files": 3520,
+    "compact_files": 69,
+    "compact_bytes": 8573794,
+    "verified_local_copies": true
+  },
+  "cpu_tests": 158
+}
