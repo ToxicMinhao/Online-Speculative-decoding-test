@@ -173,7 +173,8 @@ def export_disposable_state(trainer, checkpoint_path, export_path, payload):
     return receipt
 
 
-def run_case(trainer, features, label, strength, work, baseline_runtime, root, reference):
+def run_case(trainer, features, label, strength, work, baseline_runtime, root, reference,
+             *, oracle_runner=None):
     from specforge.training.strategies.base import StepContext
     root.mkdir()
     work.context = dict(dataset=trainer.dataset, case=label)
@@ -200,7 +201,7 @@ def run_case(trainer, features, label, strength, work, baseline_runtime, root, r
                 del state
         elif phase == 'committed' and label == 'FSG':
             from .native_oracles import run_oracles
-            capture['oracles'] = run_oracles(active_hook, root / 'oracles')
+            capture['oracles'] = (oracle_runner or run_oracles)(active_hook, root / 'oracles')
 
     ordinary_step = trainer.backend.optimizer.step
 
