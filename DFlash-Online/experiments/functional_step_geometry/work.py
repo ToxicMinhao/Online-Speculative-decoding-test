@@ -20,8 +20,12 @@ LIMITS = {
 class QualificationWork:
     """Append before model work so an interrupted attempt still consumes budget."""
 
-    def __init__(self, path):
+    def __init__(self, path, *, limits=None):
         self.path = Path(path)
+        self.limits = dict(LIMITS if limits is None else limits)
+        if (self.limits.keys() != LIMITS.keys()
+                or any(type(value) is not int or value < 0 for value in self.limits.values())):
+            raise ValueError('Qualification limits must name every work category with integer ceilings')
         self.path.parent.mkdir(parents=True, exist_ok=True)
         self.counts = Counter()
         self.context = {}
@@ -31,8 +35,8 @@ class QualificationWork:
                 self.counts[(row['kind'], row['status'])] += 1
 
     def record(self, kind, status, **details):
-        if status == 'attempted' and kind in LIMITS:
-            if self.counts[(kind, status)] >= LIMITS[kind]:
+        if status == 'attempted' and kind in self.limits:
+            if self.counts[(kind, status)] >= self.limits[kind]:
                 raise RuntimeError('Qualification ceiling reached before ' + kind)
         row = dict(time=time.time(), kind=kind, status=status,
                    **self.context, **details)
