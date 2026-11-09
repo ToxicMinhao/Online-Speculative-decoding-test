@@ -233,6 +233,99 @@ def replay_fixture(root):
 
 
 class OrdinaryRecoveryTests(unittest.TestCase):
+    def test_stale_resume_plan_stops_before_output_or_ledger_admission(self):
+        from experiments.functional_step_geometry import resume_qualification
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            (root / 'sealed').mkdir()
+            (root / 'sealed/PLAN.json').write_text(json.dumps({'revised_qualification': {}}))
+            with mock.patch.object(resume_qualification, 'admit_resume') as admission, \
+                 mock.patch.object(resume_qualification, 'FunctionalGeometryTrainer') as trainer, \
+                 self.assertRaisesRegex(ValueError, 'fresh qualification plan'):
+                resume_qualification.run(root)
+            admission.assert_not_called()
+            trainer.assert_not_called()
+            self.assertFalse((root / 'qualification').exists())
+            self.assertFalse((root / 'QUALIFICATION_WORK.jsonl').exists())
+
+    def test_warmed_recovery_requires_separate_startup_declaration(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            work = QualificationWork(root / 'work.jsonl')
+            with mock.patch.object(qualify, 'warmup') as warmup, \
+                 mock.patch.object(qualify, 'recover_ordinary_reference') as recover:
+                for contract in (None, {}, dict(qualify.REFERENCE_STARTUP, additional_backward=0)):
+                    with self.subTest(contract=contract), self.assertRaisesRegex(ValueError, 'separate'):
+                        qualify.recover_warmed_ordinary_reference(None, ['a', 'b'], {},
+                            work, {}, root, startup_contract=contract)
+            warmup.assert_not_called()
+            recover.assert_not_called()
+            self.assertFalse((root / 'reference_startup').exists())
+            self.assertEqual(work.summary(), {})
+
+    def test_discarded_startup_restores_before_reference_capture_without_adam(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            torch.manual_seed(17)
+            trainer, paths = replay_fixture(root)
+            origin = qualify.scientific_state(trainer)
+            runtime = qualify.runtime_state(trainer.bundle.model)
+            work = QualificationWork(root / 'work.jsonl')
+
+            def restore(_trainer, _runtime, _root):
+                trainer.backend.optimizer.zero_grad()
+                trainer.core._ratio_totals.clear()
+                trainer.core._sum_totals.clear()
+                trainer._anchor_observations.clear()
+                trainer.response_records.clear()
+                trainer.window_records.clear()
+                trainer.work.clear()
+                qualify.restore_runtime(trainer.bundle.model, runtime)
+                restore_rng(origin['rng'])
+
+            def recover(actual_trainer, actual_paths, retained, actual_work, baseline, destination):
+                self.assertIs(actual_trainer, trainer)
+                self.assertEqual(actual_paths, paths)
+                self.assertEqual(destination, root / 'KPLUS')
+                self.assertFalse(qualify.differences(qualify.scientific_state(trainer), origin))
+                self.assertFalse(trainer.response_records)
+                self.assertTrue(json.loads((root / 'reference_startup/STARTUP_EXACT_RESTORATION.json')
+                                          .read_text())['exact_equal'])
+                return {'gradients': 'new reference only'}, {'status': 'reference starts now'}
+
+            with mock.patch.object(qualify, 'restore_origin', side_effect=restore), \
+                 mock.patch.object(qualify, 'recover_ordinary_reference', side_effect=recover) as recapture, \
+                 mock.patch.object(trainer.backend.optimizer.optimizer, 'step',
+                                   side_effect=AssertionError('Adam forbidden')) as adam:
+                reference, _ = qualify.recover_warmed_ordinary_reference(trainer, paths, {},
+                    work, runtime, root, startup_contract=dict(qualify.REFERENCE_STARTUP))
+            recapture.assert_called_once()
+            adam.assert_not_called()
+            self.assertEqual(reference, {'gradients': 'new reference only'})
+            self.assertEqual(work.summary()['additional_forward_completed'], 2)
+            self.assertEqual(work.summary()['additional_backward_completed'], 2)
+            self.assertNotIn('adam_attempted', work.summary())
+            self.assertEqual(json.loads((root / 'reference_startup/CONTRACT.json').read_text()),
+                             qualify.REFERENCE_STARTUP)
+
+    def test_failed_startup_never_captures_reference(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            trainer, paths = replay_fixture(root)
+            runtime = qualify.runtime_state(trainer.bundle.model)
+            work = QualificationWork(root / 'work.jsonl')
+            with mock.patch.object(trainer.strategy, 'forward_loss',
+                                   side_effect=ValueError('startup forward failed')), \
+                 mock.patch.object(qualify, 'recover_ordinary_reference') as recover, \
+                 self.assertRaisesRegex(ValueError, 'startup forward failed'):
+                qualify.recover_warmed_ordinary_reference(trainer, paths, {}, work, runtime,
+                    root, startup_contract=dict(qualify.REFERENCE_STARTUP))
+            recover.assert_not_called()
+            self.assertEqual(work.summary()['additional_forward_failed'], 1)
+            self.assertNotIn('additional_backward_attempted', work.summary())
+            self.assertEqual(json.loads((root / 'reference_startup/STARTUP_WORK.json').read_text())
+                             ['status'], 'failed')
+
     def test_native_observer_metadata_view_does_not_change_saved_endpoint(self):
         final = dict(global_step=513, presentations=1026, micro=1026, accumulation=0,
             gradients={'p': None}, optimizer={'optimizer_state_dict': {'state': {0: {'step': torch.tensor(513.)}}}})

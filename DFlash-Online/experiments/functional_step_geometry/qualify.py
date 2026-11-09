@@ -29,6 +29,11 @@ from .work import QualificationWork, LIMITS
 CASES = (('KPLUS', None), ('FSG_ZERO', 0.), ('FSG', 1.), ('SCALAR', 1.))
 CACHE_FIELDS = ('_cached_block_mask', '_cached_seq_len', '_cached_bsz',
                 'max_seq_len_cached', 'original_max_seq_len')
+REFERENCE_STARTUP = dict(
+    name='discarded_two_response_startup_before_reference_v1',
+    additional_forward=2, additional_backward=2, adam=0,
+    reference_capture_is_startup=False,
+)
 
 
 def cleanup(action, failure, receipt, label):
@@ -151,6 +156,25 @@ def warmup(trainer, features, work, baseline_runtime, root):
     persist_comparison(root / 'STARTUP_EXACT_RESTORATION.json', scientific_state(trainer), before)
     restore_origin(trainer, baseline_runtime, root)
     del before
+
+
+def recover_warmed_ordinary_reference(trainer, features, retained, work,
+                                     baseline_runtime, root, *, startup_contract):
+    """Discard startup gradients before measuring the ordinary reference.
+
+    The caller must separately admit these two forwards/backwards. They do not
+    replace reference recapture or erase work from earlier failed attempts.
+    """
+    if startup_contract != REFERENCE_STARTUP or len(features) != 2:
+        raise ValueError('Declare the separate two-response reference startup before recovery')
+    root = Path(root)
+    startup_root = root / 'reference_startup'
+    startup_root.mkdir()
+    write_json(startup_root / 'CONTRACT.json', startup_contract)
+    work.context = dict(dataset=trainer.dataset, case='discarded_reference_startup')
+    warmup(trainer, features, work, baseline_runtime, startup_root)
+    return recover_ordinary_reference(trainer, features, retained, work,
+                                      baseline_runtime, root / 'KPLUS')
 
 
 def export_disposable_state(trainer, checkpoint_path, export_path, payload):

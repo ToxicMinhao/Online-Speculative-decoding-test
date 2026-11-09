@@ -18,7 +18,8 @@ from experiments.prefix_guard.qualify import pin_retained_graph_runtime, persist
 from online_feedback.functional_geometry import FunctionalGeometry
 from online_feedback.storage import write_json
 from .diagnose_bf16_consequences import load_window
-from .qualify import (CASES, check_serving, cleanup, physical_work, recover_ordinary_reference,
+from .qualify import (CASES, REFERENCE_STARTUP, check_serving, cleanup, physical_work,
+    recover_warmed_ordinary_reference,
     restore_origin, run_case, runtime_state, scientific_state, warmup)
 from .training import FunctionalGeometryTrainer
 from .work import LIMITS, QualificationWork
@@ -172,8 +173,11 @@ def correction_activity(datasets):
 
 def run(root):
     root = Path(root)
-    output = root/'qualification'; output.mkdir(exist_ok=False)
     plan = json.loads((root/'sealed/PLAN.json').read_text())
+    startup = plan.get('revised_qualification', {}).get('reference_startup')
+    if startup != REFERENCE_STARTUP:
+        raise ValueError('A fresh qualification plan must separately admit discarded reference startup')
+    output = root/'qualification'; output.mkdir(exist_ok=False)
     preparation = json.loads((root/'qualification_feedback/PREPARATION.json').read_text())
     prior, work = admit_resume(plan, root)
     summary = dict(status='running', execution_commit=plan['execution_source']['commit'],
@@ -199,10 +203,10 @@ def run(root):
             remaining = CASES
             if dataset == 'gsm8k':
                 retained = retained_reference(plan)
-                # This two-backward native replay both warms the retained graph
-                # and recaptures raw ordinary gradients; it performs no Adam step.
-                reference, ordinary = recover_ordinary_reference(trainer, features,
-                    retained, work, baseline, directory/'KPLUS')
+                # Startup gradients are discarded before measuring the reference.
+                # Its extra two forwards/backwards are admitted separately.
+                reference, ordinary = recover_warmed_ordinary_reference(trainer, features,
+                    retained, work, baseline, directory, startup_contract=startup)
                 zero, fsg = reuse_gsm_cases(plan, prior, ordinary)
                 cases.extend((ordinary, zero, fsg))
                 summary['datasets'][dataset]['oracles'] = restored_gsm_oracles(
