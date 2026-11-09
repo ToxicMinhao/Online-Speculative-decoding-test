@@ -117,12 +117,15 @@ class AdmissionAndControllerTests(unittest.TestCase):
         temporary=tempfile.TemporaryDirectory();self.addCleanup(temporary.cleanup)
         self.root=Path(temporary.name)
         self.plan=dict(execution_source=dict(commit='a'*40),binding='b'*64,
+            realization_revision='norm_feasible_bf16_r1',
             main_budget=MAIN_BUDGET,diagnostic_budget=DIAGNOSTIC_BUDGET,
+            startup_budget=dict(response_forwards=24,backwards=24,optimizer_steps=0),
             pilot_admission=str(self.root/'gate.json'),
             diagnostic_factory='experiments.functional_step_geometry.pilot:diagnostic_pairs',
             main_storage=dict(required_initial_free_bytes=1,no_future_deletion_credit=True))
         self.receipt=dict(status='passed',pilot_permitted=True,execution_commit='a'*40,binding='b'*64,
-            checks={name:True for name in P.REQUIRED_GATES},nontrivial_accepted_fsg_cases=1)
+            checks={name:True for name in P.REQUIRED_GATES},nontrivial_accepted_fsg_cases=1,
+            scalar_matching_exercised_cases=1,realization_revision='norm_feasible_bf16_r1')
         write_json(self.root/'gate.json',self.receipt)
         write_json(self.root/'sealed/PLAN.json',self.plan)
 

@@ -12,7 +12,7 @@ import shutil
 import time
 
 from online_feedback.storage import write_json
-from .contract import ARMS, DATASETS, EVENTS, MAIN_BUDGET, DIAGNOSTIC_BUDGET
+from .contract import ARMS, DATASETS, EVENTS, MAIN_BUDGET, DIAGNOSTIC_BUDGET, REALIZATION_R1
 from .data import verify_shared_packets
 
 REQUIRED_GATES = ('native_formula_both_datasets', 'native_state', 'serving', 'resource')
@@ -99,8 +99,13 @@ def require_pilot_admission(plan, root):
             or receipt.get('binding') != plan['binding']
             or any(receipt.get('checks', {}).get(name) is not True for name in REQUIRED_GATES)
             or type(receipt.get('nontrivial_accepted_fsg_cases')) is not int
-            or receipt['nontrivial_accepted_fsg_cases'] < 1):
+            or receipt['nontrivial_accepted_fsg_cases'] < 1
+            or receipt.get('scalar_matching_exercised_cases', 0) < 1
+            or receipt.get('realization_revision') != REALIZATION_R1
+            or plan.get('realization_revision') != REALIZATION_R1):
         raise ValueError('Pilot requires every replacement/outstanding check and a nontrivial accepted FSG case')
+    if plan.get('startup_budget') != dict(response_forwards=24, backwards=24, optimizer_steps=0):
+        raise ValueError('Declare twelve discarded two-response native startups separately')
     if plan.get('main_budget') != MAIN_BUDGET or plan.get('diagnostic_budget') != DIAGNOSTIC_BUDGET:
         raise ValueError('Main or sixteen-window diagnostic budget changed')
     factory = plan.get('diagnostic_factory')
@@ -153,7 +158,7 @@ def validate_update(result, *, dataset, arm, event, baseline=None):
     return binding
 
 
-def run(root, *, collect_shared, train_arm, evaluate_dataset):
+def run(root, *, collect_shared, train_arm, evaluate_dataset, retire_shared=None):
     """Run only the sealed causal sequence; worker failures are never retried.
 
     Operations must return completed immutable packet inventories, complete
@@ -191,6 +196,9 @@ def run(root, *, collect_shared, train_arm, evaluate_dataset):
                                 baseline=updates.get((dataset, event, 'KPLUS')) if arm != 'KPLUS' else None)
                 verify_shared_packets(pool)
                 updates[dataset, event, arm] = result
+                if arm == 'SCALAR' and retire_shared is not None:
+                    retire_shared(plan, dataset, event, pool,
+                        {name: updates[dataset, event, name] for name in ARMS})
             else:
                 final = {arm: updates[dataset, 6, arm] for arm in ARMS}
                 measured = evaluate_dataset(plan, dataset, final)

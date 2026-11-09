@@ -19,6 +19,10 @@ from .rng import preserve_rng
 from .storage import write_json
 
 
+LEGACY_REALIZATION = 'legacy_raw_norm_v0'
+FEASIBLE_REALIZATION = 'norm_feasible_bf16_r1'
+
+
 def _cleanup(action, failure, record, label):
     """Keep the first model failure authoritative if restoration also fails."""
     if failure is None:
@@ -101,12 +105,14 @@ class FunctionalGeometry:
     """One native optimizer step, one geometry proposal and one actual check."""
 
     def __init__(self, trainer, *, arm='FSG', strength=1.0, output_dir=None,
-                 observer=None, work_callback=None):
+                 observer=None, work_callback=None, realization_revision=LEGACY_REALIZATION):
         if arm not in ('FSG', 'SCALAR') or strength not in (0., 1.):
             raise ValueError('FSG uses FSG/SCALAR and sealed strength one or neutral zero')
         if (trainer.objective != 'osd_first_error' or trainer.accumulation != 2
                 or trainer.reduction != 'response_mean'):
             raise ValueError('FSG requires the qualified two-response K objective')
+        if realization_revision not in (LEGACY_REALIZATION, FEASIBLE_REALIZATION):
+            raise ValueError('Unknown functional geometry realization revision')
         self.trainer = trainer
         self.model = trainer.bundle.model
         if getattr(self.model, 'first_error_redistribution', None) is None:
@@ -116,6 +122,7 @@ class FunctionalGeometry:
                                 trainer.bundle.draft_model.named_parameters()}
         self.arm = arm
         self.strength = float(strength)
+        self.realization_revision = realization_revision
         self.output_dir = Path(output_dir) if output_dir is not None else None
         self.observer = observer
         self.work_callback = work_callback
@@ -126,6 +133,7 @@ class FunctionalGeometry:
         self.phase = 'ordinary'
         self.closed = False
         self.vocab_size = None
+        self.window_context = None
         self.original_forward = self.model._forward_draft_blocks
         self.original_step = trainer.backend.optimizer.step
         self.hooks = []
@@ -334,6 +342,91 @@ class FunctionalGeometry:
                 parameter.copy_(saved)
         self.work['state_copy_passes'] += 1
 
+    def _native_response_risks(self, references):
+        return [dict(risk_unaveraged=reference.native_risk_terms[0],
+                     absolute_sum_unaveraged=reference.native_risk_terms[1])
+                for reference in references]
+
+    def _endpoint_statistics(self):
+        statistics = geometry.endpoint_statistics(
+            self.active_parameters, self.theta0, self.theta_native)
+        statistics.update(geometry.endpoint_identities(
+            self.active_parameters, self.theta0, self.theta_native))
+        return statistics
+
+    def _filter_feasible(self, references, sketch, native_risk):
+        """Realize one feasible direction, then check only this arm's endpoint.
+
+        SCALAR measures its own hypothetical FSG target before replacing the
+        parameters. That hypothetical endpoint never receives a KL acceptance
+        decision: the scalar endpoint is the only scored candidate in that arm.
+        """
+        realization = {}
+        row = dict(sketch=sketch.statistics, responses=[ref.statistics for ref in references],
+            realization=realization, native_risk=native_risk.as_dict(),
+            native_response_risks=self._native_response_risks(references))
+        self.window_context['row'] = row
+        try:
+            with self._timed('feasible_realization_s'):
+                realization = geometry.realize_feasible_candidate(
+                    self.active_parameters, self.theta0, self.theta_native, sketch,
+                    progress=realization)
+        finally:
+            for name in ('probe_count', 'norm_scan_passes', 'construction_scan_passes',
+                         'identity_scan_passes', 'write_passes'):
+                key = 'feasibility_' + name
+                self.work[key] = self.work.get(key, 0) + realization.get(name, 0)
+        candidate = realization['candidate']
+        row.update(realization=realization, raw_fsg=realization['raw_candidate'],
+                   feasible_fsg=dict(candidate))
+
+        if self.arm == 'SCALAR':
+            target_norm = candidate['norm']
+            row['scalar_target_norm'] = target_norm
+            if target_norm == 0:
+                self.restore_endpoint(self.theta_native)
+                row.update(candidate=candidate, candidate_risk=None,
+                    candidate_response_risks=None,
+                    decision=dict(accepted=False, reason='zero_hypothetical_displacement'),
+                    committed=self._endpoint_statistics(), scalar_matching_exercised=False)
+                return row
+            with self._timed('scalar_bisection_s'):
+                candidate = geometry.scalar_match(self.active_parameters, self.theta0,
+                                                  self.theta_native, target_norm)
+                candidate.update(geometry.endpoint_identities(
+                    self.active_parameters, self.theta0, self.theta_native))
+            self.work['scalar_norm_probe_passes'] = self.work.get('scalar_norm_probe_passes', 0) + candidate['norm_scan_passes']
+            self.work['scalar_endpoint_statistic_scans'] = self.work.get('scalar_endpoint_statistic_scans', 0) + 1
+            self.work['scalar_identity_scan_passes'] = self.work.get('scalar_identity_scan_passes', 0) + 1
+            self.work['scalar_write_passes'] = self.work.get('scalar_write_passes', 0) + 1
+            row.update(scalar=candidate, scalar_matching_exercised=True)
+
+        # Exact endpoints are handled before candidate replay. A no-learning
+        # endpoint cannot qualify as nontrivial correction activity.
+        if candidate['identical_native']:
+            row.update(candidate=candidate, candidate_risk=native_risk.as_dict(),
+                candidate_response_risks=self._native_response_risks(references),
+                decision=dict(accepted=False, reason='identical_native_endpoint'),
+                committed=candidate, final_candidate_check='exact_native_risk_reuse')
+            return row
+        if candidate['identical_prestate']:
+            self.restore_endpoint(self.theta_native)
+            row.update(candidate=candidate, candidate_risk=None,
+                candidate_response_risks=None,
+                decision=dict(accepted=False, reason='rounded_to_prestate'),
+                committed=self._endpoint_statistics(), final_candidate_check='prestate_fallback')
+            return row
+
+        candidate_risk, candidate_rows = self.score_candidate(references)
+        decision = geometry.gate(candidate_risk, native_risk, candidate['norm'],
+                                 candidate['native_norm'])
+        if not decision['accepted']:
+            self.restore_endpoint(self.theta_native)
+        row.update(candidate=candidate, candidate_risk=candidate_risk.as_dict(),
+            candidate_response_risks=candidate_rows, decision=decision,
+            committed=self._endpoint_statistics(), final_candidate_check='actual_bf16_replay')
+        return row
+
     def _filter(self):
         """Build references once, propose one endpoint, then measure its risk."""
         native_hidden = [self.forward_hidden(response, 'native_candidate', grad=False).detach()
@@ -347,15 +440,27 @@ class FunctionalGeometry:
             sketch = geometry.make_sketch([row.gradients for row in references],
                 [row.c for row in references], self.theta0, self.theta_native, strength=self.strength)
         native_risk = geometry.pooled_risk([row.native_risk_terms for row in references], self.vocab_size)
+        self.window_context = dict(references=references, sketch=sketch, native_risk=native_risk)
+        if (self.realization_revision == FEASIBLE_REALIZATION
+                and self.strength != 0 and sketch.sigma != 0):
+            return self._filter_feasible(references, sketch, native_risk)
         with self._timed('candidate_formation_s'):
             candidate = geometry.write_candidate(self.active_parameters, self.theta0,
                                                   self.theta_native, sketch)
+            if self.realization_revision == FEASIBLE_REALIZATION:
+                candidate.update(geometry.endpoint_identities(
+                    self.active_parameters, self.theta0, self.theta_native))
         row = dict(sketch=sketch.statistics, responses=[ref.statistics for ref in references],
                    raw_fsg=candidate, native_risk=native_risk.as_dict())
+        self.window_context['row'] = row
         if self.strength == 0 or sketch.sigma == 0:
             row.update(decision=dict(accepted=False, reason='lambda_zero' if self.strength == 0
                                      else 'empty_sketch'), candidate_risk=native_risk.as_dict(),
                        candidate=candidate, committed=candidate)
+            if self.realization_revision == FEASIBLE_REALIZATION:
+                row.update(native_response_risks=self._native_response_risks(references),
+                           candidate_response_risks=self._native_response_risks(references),
+                           final_candidate_check='exact_native_risk_reuse')
             return row
         if candidate['norm'] > candidate['native_norm']:
             self.restore_endpoint(self.theta_native)
@@ -397,6 +502,7 @@ class FunctionalGeometry:
         with self._timed('pre_snapshot_s'):
             self.theta0 = tuple(parameter.detach().clone() for parameter in self.active_parameters)
         row = dict(global_step=self.trainer.global_step + 1, arm=self.arm, strength=self.strength,
+                   realization_revision=self.realization_revision,
                    active_parameter_names=active_names, active_tensors=len(active_names),
                    active_coordinates=sum(parameter.numel() for parameter in self.active_parameters))
         native_completed = False
@@ -410,6 +516,9 @@ class FunctionalGeometry:
             with self._timed('native_snapshot_s'):
                 self.theta_native = tuple(parameter.detach().clone() for parameter in self.active_parameters)
             native_stats = geometry.endpoint_statistics(self.active_parameters, self.theta0, self.theta_native)
+            if self.realization_revision == FEASIBLE_REALIZATION:
+                native_stats.update(geometry.endpoint_identities(
+                    self.active_parameters, self.theta0, self.theta_native))
             row['native'] = native_stats
             row['preclip_gradient_norm'] = float(result)
             self._notify('native')
@@ -424,6 +533,8 @@ class FunctionalGeometry:
             row['status'] = 'completed'
         except BaseException as error:
             failure = error
+            if self.window_context is not None:
+                row.update(self.window_context.get('row', {}))
             row.update(status='failed', error_type=type(error).__name__, error=str(error))
             if native_completed and self.theta_native:
                 _cleanup(lambda: self.restore_endpoint(self.theta_native), failure, row,
@@ -441,6 +552,7 @@ class FunctionalGeometry:
                 _cleanup(lambda: write_json(self.output_dir / f"step_{row['global_step']:06d}.json", row),
                          failure, row, 'step result write')
             self.responses.clear()
+            self.window_context = None
             self.active_parameters = self.theta0 = self.theta_native = ()
             self.phase = 'ordinary'
         return result
@@ -449,7 +561,8 @@ class FunctionalGeometry:
         work = dict(self.work)
         work['additional_response_forwards'] = work['additional_response_forwards_completed']
         work['additional_backwards'] = work['additional_backwards_completed']
-        return dict(arm=self.arm, strength=self.strength, work=work, costs=dict(self.costs),
+        return dict(arm=self.arm, strength=self.strength, realization_revision=self.realization_revision,
+                    work=work, costs=dict(self.costs),
                     forward_calls=dict(self.forward_calls), steps=list(self.steps))
 
     def close(self):
@@ -461,18 +574,21 @@ class FunctionalGeometry:
             handle.remove()
         self.hooks.clear()
         self.responses.clear()
+        self.window_context = None
         self.active_parameters = self.theta0 = self.theta_native = ()
         self.closed = True
 
 
 def install_functional_geometry(trainer, *, arm='FSG', strength=1., output_dir=None,
-                                observer=None, work_callback=None):
+                                observer=None, work_callback=None,
+                                realization_revision=LEGACY_REALIZATION):
     """Attach after exact recovery; keep existing loss/observation wrappers."""
     existing = getattr(trainer, 'functional_geometry', None)
     if existing is not None and not existing.closed:
         raise ValueError('Functional geometry is already installed')
     hook = FunctionalGeometry(trainer, arm=arm, strength=strength, output_dir=output_dir,
-                              observer=observer, work_callback=work_callback)
+                              observer=observer, work_callback=work_callback,
+                              realization_revision=realization_revision)
     trainer.functional_geometry = hook
     hook.model._forward_draft_blocks = hook.capture_forward
     trainer.backend.optimizer.step = hook.step

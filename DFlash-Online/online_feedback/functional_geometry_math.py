@@ -6,7 +6,9 @@ Geometry cotangents use FP32, while the actual risk check recomputes both
 distributions with FP64 log-softmax. These are deliberately distinct paths.
 """
 from dataclasses import dataclass
+from contextlib import contextmanager
 import math
+import time
 
 import torch
 
@@ -16,6 +18,7 @@ from .first_error import valid_prefix_mask
 MARGIN_FLOOR = 0.05
 STRENGTH = 1.0
 SCALAR_ITERATIONS = 24
+FEASIBILITY_ITERATIONS = 24
 VECTOR_CHUNK_SIZE = 262144
 GRAM_ROUNDOFF_MULTIPLIER = 64.0
 RISK_ROUNDOFF_MULTIPLIER = 16.0
@@ -375,30 +378,195 @@ def endpoint_statistics(parameters, theta0, theta_native, chunk_size=VECTOR_CHUN
 
 
 @torch.no_grad()
-def write_candidate(parameters, theta0, theta_native, sketch, chunk_size=VECTOR_CHUNK_SIZE):
-    """Write one FP32-then-native-dtype endpoint into existing Parameter objects."""
-    if sketch.strength == 0 or sketch.sigma == 0:
-        for parameter, native in zip(parameters, theta_native):
-            parameter.copy_(native)
-        stats = endpoint_statistics(parameters, theta0, theta_native, chunk_size)
-        return dict(stats, continuous_norm=stats['native_norm'],
-                    bypass='lambda_zero' if sketch.strength == 0 else 'empty_sketch')
+def candidate_chunk(old, native, sketch, parameter_index, region, alpha=1.):
+    """Rebuild the original continuous direction, then round one scaled slice.
+
+    Probes and writes share this operation. In particular, ``alpha`` never
+    scales a previously rounded endpoint's displacement.
+    """
+    delta = native[region].float() - old[region].float()
+    for gradients, normalizer, coefficient in zip(
+            sketch.gradients, sketch.normalizers, sketch.coefficients):
+        gradient = gradients[parameter_index]
+        if gradient is not None:
+            delta = delta - gradient.reshape(-1)[region].float() * float(normalizer * coefficient)
+    if alpha == 0:
+        endpoint = old[region]
+    elif alpha == 1:
+        endpoint = (old[region].float() + delta).to(old.dtype)
+    else:
+        endpoint = (old[region].float() + alpha * delta).to(old.dtype)
+    return endpoint, delta
+
+
+@torch.no_grad()
+def _write_scaled_candidate(parameters, theta0, theta_native, sketch, alpha, chunk_size):
+    """Write the shared streamed construction without changing parameter objects."""
     continuous_square = None
     for index, (parameter, old, native) in enumerate(zip(parameters, theta0, theta_native)):
         current, old, native = parameter.reshape(-1), old.reshape(-1), native.reshape(-1)
         if continuous_square is None:
             continuous_square = torch.zeros((), dtype=torch.float64, device=current.device)
         for region in _slices(current.numel(), chunk_size):
-            delta = native[region].float() - old[region].float()
-            for gradients, normalizer, coefficient in zip(sketch.gradients, sketch.normalizers, sketch.coefficients):
-                gradient = gradients[index]
-                if gradient is not None:
-                    delta = delta - gradient.reshape(-1)[region].float() * float(normalizer * coefficient)
-            continuous_square += delta.double().square().sum()
-            current[region].copy_((old[region].float() + delta).to(current.dtype))
-    finite(continuous_square, 'continuous candidate')
+            endpoint, delta = candidate_chunk(old, native, sketch, index, region, alpha)
+            scaled = delta if alpha == 1 else alpha * delta
+            continuous_square += scaled.double().square().sum()
+            current[region].copy_(endpoint)
+    continuous_norm = 0. if continuous_square is None else math.sqrt(float(continuous_square))
+    finite(continuous_norm, 'continuous candidate')
     return dict(endpoint_statistics(parameters, theta0, theta_native, chunk_size),
-                continuous_norm=math.sqrt(float(continuous_square)), bypass=None)
+                continuous_norm=continuous_norm, bypass=None)
+
+
+@torch.no_grad()
+def write_candidate(parameters, theta0, theta_native, sketch, chunk_size=VECTOR_CHUNK_SIZE):
+    """Write the historical a=1 candidate with its original arithmetic."""
+    if sketch.strength == 0 or sketch.sigma == 0:
+        for parameter, native in zip(parameters, theta_native):
+            parameter.copy_(native)
+        stats = endpoint_statistics(parameters, theta0, theta_native, chunk_size)
+        return dict(stats, continuous_norm=stats['native_norm'],
+                    bypass='lambda_zero' if sketch.strength == 0 else 'empty_sketch')
+    return _write_scaled_candidate(parameters, theta0, theta_native, sketch, 1., chunk_size)
+
+
+@torch.no_grad()
+def write_scaled_candidate(parameters, theta0, theta_native, sketch, alpha,
+                           chunk_size=VECTOR_CHUNK_SIZE):
+    """Replay a recorded R1 scale with the same construction, without searching."""
+    finite(alpha, 'feasibility scale')
+    if not 0 <= alpha <= 1:
+        raise ValueError('Feasibility scale must be in [0, 1]')
+    if sketch.strength == 0 or sketch.sigma == 0:
+        return write_candidate(parameters, theta0, theta_native, sketch, chunk_size)
+    return _write_scaled_candidate(parameters, theta0, theta_native, sketch, alpha, chunk_size)
+
+
+@torch.no_grad()
+def endpoint_identities(parameters, theta0, theta_native, chunk_size=VECTOR_CHUNK_SIZE):
+    """Compare actual native tensor values, not reconstructed displacements."""
+    counts = None
+    for parameter, old, native in zip(parameters, theta0, theta_native):
+        current, old, native = parameter.detach().reshape(-1), old.reshape(-1), native.reshape(-1)
+        if counts is None:
+            counts = torch.zeros(2, dtype=torch.int64, device=current.device)
+        for region in _slices(current.numel(), chunk_size):
+            counts[0] += (current[region] != old[region]).sum()
+            counts[1] += (current[region] != native[region]).sum()
+    a, b = [0, 0] if counts is None else counts.tolist()
+    return dict(identical_prestate=a == 0, identical_native=b == 0,
+                different_prestate_coordinates=a, different_native_coordinates=b)
+
+
+@torch.no_grad()
+def candidate_norm(theta0, theta_native, sketch, alpha, chunk_size=VECTOR_CHUNK_SIZE):
+    """Measure Q(theta0 + alpha*delta) without materializing a model-sized delta."""
+    finite(alpha, 'feasibility scale')
+    if not 0 <= alpha <= 1:
+        raise ValueError('Feasibility scale must be in [0, 1]')
+    total = None
+    for index, (old, native) in enumerate(zip(theta0, theta_native)):
+        old, native = old.reshape(-1), native.reshape(-1)
+        if total is None:
+            total = torch.zeros((), dtype=torch.float64, device=old.device)
+        for region in _slices(old.numel(), chunk_size):
+            endpoint, _ = candidate_chunk(old, native, sketch, index, region, alpha)
+            total += (endpoint.float() - old[region].float()).double().square().sum()
+    norm = 0. if total is None else math.sqrt(float(total))
+    finite(norm, 'feasibility probe norm')
+    return norm
+
+
+@torch.no_grad()
+def realize_feasible_candidate(parameters, theta0, theta_native, sketch, *,
+                               chunk_size=VECTOR_CHUNK_SIZE, progress=None):
+    """R1: retain a feasible a=1 endpoint or choose the 24-step lower bracket.
+
+    ``progress`` is an optional mutable receipt, retained even when a phase
+    fails. Completed scans and attempted probes are distinguished; an interrupted
+    write phase is not misreported as a completed tensor scan. Final endpoint/KL
+    policy belongs to the caller, after SCALAR has used its own target norm.
+    """
+    started = time.perf_counter()
+    result = {} if progress is None else progress
+    result.update(status='running', phase='inputs', raw_candidate=None, candidate=None,
+        search_ran=False, alpha=1., bracket=None, bracket_norms=None, iterations=0,
+        probe_count=0, completed_probes=0, write_attempts=0,
+        norm_scan_passes=0, construction_scan_passes=0, identity_scan_passes=0,
+        write_passes=0, bypass=None,
+        costs=dict(initial_write_s=0., probe_s=0., final_write_s=0.))
+
+    @contextmanager
+    def timed_phase(name):
+        result['phase'] = name
+        before = time.perf_counter()
+        try:
+            yield
+        finally:
+            result['costs'][name+'_s'] += time.perf_counter()-before
+
+    try:
+        finite(sketch.sigma, 'feasibility curvature scale')
+        finite(sketch.coefficients, 'feasibility coefficients')
+        for normalizer in sketch.normalizers:
+            finite(normalizer, 'feasibility normalizer')
+        with timed_phase('initial_write'):
+            result['write_attempts'] += 1
+            raw = write_candidate(parameters, theta0, theta_native, sketch, chunk_size)
+            raw.update(endpoint_identities(parameters, theta0, theta_native, chunk_size))
+        result.update(raw_candidate=raw, candidate=raw,
+            bracket=[1., 1.], bracket_norms=[raw['norm'], raw['norm']],
+            norm_scan_passes=1, construction_scan_passes=int(raw['bypass'] is None),
+            identity_scan_passes=1, write_passes=1, bypass=raw['bypass'])
+        if raw['native_norm'] == 0:
+            # The live hook bypasses before this helper. Preserve that behavior
+            # for direct numerical use too, without a feasibility search.
+            if not raw['identical_native']:
+                with timed_phase('final_write'):
+                    result['write_attempts'] += 1
+                    for parameter, native in zip(parameters, theta_native):
+                        parameter.copy_(native)
+                    candidate = endpoint_statistics(parameters, theta0, theta_native, chunk_size)
+                    candidate.update(endpoint_identities(parameters, theta0, theta_native, chunk_size))
+                result.update(candidate=candidate, norm_scan_passes=2,
+                              identity_scan_passes=2, write_passes=2)
+            result['bypass'] = 'zero_native_displacement'
+        elif not raw['bypass'] and raw['norm'] > raw['native_norm']:
+            lo, hi, lo_norm, hi_norm = 0., 1., 0., raw['norm']
+            result.update(search_ran=True, bracket=[lo, hi], bracket_norms=[lo_norm, hi_norm])
+            with timed_phase('probe'):
+                for _ in range(FEASIBILITY_ITERATIONS):
+                    mid = (lo + hi) * .5
+                    result['probe_count'] += 1
+                    result['last_probe_alpha'] = mid
+                    measured = candidate_norm(theta0, theta_native, sketch, mid, chunk_size)
+                    finite(measured, 'feasibility probe norm')
+                    result['completed_probes'] += 1
+                    result['norm_scan_passes'] += 1
+                    result['construction_scan_passes'] += 1
+                    if measured <= raw['native_norm']:
+                        lo, lo_norm = mid, measured
+                    else:
+                        hi, hi_norm = mid, measured
+                    result.update(iterations=result['completed_probes'],
+                                  bracket=[lo, hi], bracket_norms=[lo_norm, hi_norm])
+            result['alpha'] = lo
+            with timed_phase('final_write'):
+                result['write_attempts'] += 1
+                candidate = _write_scaled_candidate(parameters, theta0, theta_native, sketch, lo, chunk_size)
+                candidate.update(endpoint_identities(parameters, theta0, theta_native, chunk_size))
+                result.update(candidate=candidate, norm_scan_passes=result['norm_scan_passes']+1,
+                    construction_scan_passes=result['construction_scan_passes']+1,
+                    identity_scan_passes=2, write_passes=2)
+                if candidate['norm'] != lo_norm or candidate['norm'] > raw['native_norm']:
+                    raise ValueError('Final feasible write contradicts the measured BF16 norm bound')
+        result.update(status='completed', phase='complete')
+        return result
+    except BaseException as error:
+        result.update(status='failed', error_type=type(error).__name__, error=str(error))
+        raise
+    finally:
+        result['costs']['total_s'] = time.perf_counter()-started
 
 
 @torch.no_grad()

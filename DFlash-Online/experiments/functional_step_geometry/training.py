@@ -18,7 +18,7 @@ from online_feedback.kplus import install_kplus, kplus_contract
 from online_feedback.rng import preserve_rng, restore_rng
 from online_feedback.storage import write_json
 from online_feedback.training import SpecForgeEventTrainer
-from .contract import ARMS, DATASETS, EVENTS, SCHEMA, experiment_contract
+from .contract import ARMS, DATASETS, EVENTS, SCHEMA, LEGACY_REALIZATION, experiment_contract
 
 CONTRACT_KEY = SCHEMA
 OBJECTIVE = 'osd_first_error'
@@ -40,10 +40,11 @@ def validate_origin(state, *, dataset, original_config_text, expected_cuda_rng_s
         expected_cuda_rng_states=expected_cuda_rng_states)
 
 
-def continuation_contract(origin, *, binding, arm, dataset):
+def continuation_contract(origin, *, binding, arm, dataset, realization_revision=LEGACY_REALIZATION):
     old = origin['algorithm_contract'][historical.CONTRACT_KEY]
     result = deepcopy(origin['algorithm_contract'])
-    result[CONTRACT_KEY] = experiment_contract(binding, arm, dataset, origin_binding=old['binding'])
+    result[CONTRACT_KEY] = experiment_contract(binding, arm, dataset, origin_binding=old['binding'],
+        realization_revision=realization_revision)
     return result
 
 
@@ -71,7 +72,7 @@ def validate_event_receipt(receipt, *, arm, dataset, event_number,
 
 def validate_snapshot(state, *, origin, binding, arm, dataset, config_text,
                       original_config_text, completed_event, expected_recipe,
-                      expected_cuda_rng_states=1):
+                      expected_cuda_rng_states=1, realization_revision=LEGACY_REALIZATION):
     """Validate new boundaries with an explicitly checked metadata-only view.
 
     This does not turn event 5 into an old event 4, alter scientific tensors, or
@@ -80,7 +81,8 @@ def validate_snapshot(state, *, origin, binding, arm, dataset, config_text,
     """
     if type(completed_event) is not int or not 4 <= completed_event <= 6:
         raise ValueError('FSG complete boundary must be event 4, 5 or 6')
-    expected = continuation_contract(origin, binding=binding, arm=arm, dataset=dataset)
+    expected = continuation_contract(origin, binding=binding, arm=arm, dataset=dataset,
+        realization_revision=realization_revision)
     if differences(state['algorithm_contract'], expected):
         raise ValueError('Continuation scientific contract differs')
     if differences(state['events'][:4], origin['events']):
@@ -100,16 +102,18 @@ def validate_snapshot(state, *, origin, binding, arm, dataset, config_text,
 
 
 def migrate_origin(origin, *, binding, arm, dataset, config_text, run_id,
-                   original_config_text, expected_recipe, expected_cuda_rng_states=1):
+                   original_config_text, expected_recipe, expected_cuda_rng_states=1,
+                   realization_revision=LEGACY_REALIZATION):
     """Change only run metadata after validating the original complete recovery."""
     validate_origin(origin, dataset=dataset, original_config_text=original_config_text,
                     expected_cuda_rng_states=expected_cuda_rng_states)
     state = dict(origin, config_text=config_text, run_id=run_id,
-        algorithm_contract=continuation_contract(origin, binding=binding, arm=arm, dataset=dataset))
+        algorithm_contract=continuation_contract(origin, binding=binding, arm=arm, dataset=dataset,
+            realization_revision=realization_revision))
     validate_snapshot(state, origin=origin, binding=binding, arm=arm, dataset=dataset,
         config_text=config_text, original_config_text=original_config_text,
         completed_event=4, expected_recipe=expected_recipe,
-        expected_cuda_rng_states=expected_cuda_rng_states)
+        expected_cuda_rng_states=expected_cuda_rng_states, realization_revision=realization_revision)
     # Tensor, Adam and RNG payloads are deliberately shared read-only views until
     # loaded into the new runtime. No tensor arithmetic is part of migration.
     return state
@@ -120,12 +124,14 @@ class FunctionalGeometryTrainer(native.FullKTrainer):
 
     def __init__(self, config_path, output_root, *, arm, dataset, binding,
                  original_config_text, origin_state, origin_export,
-                 resume_state=None, completed_event=4, expected_cuda_rng_states=1):
+                 resume_state=None, completed_event=4, expected_cuda_rng_states=1,
+                 realization_revision=LEGACY_REALIZATION):
         import torch
         if (arm not in ARMS or dataset not in DATASETS or completed_event not in (4, 5, 6)
                 or (completed_event > 4) != (resume_state is not None)):
             raise ValueError('Require KPLUS4 origin, or own complete FSG event-5/6 recovery')
         self.arm, self.dataset, self.binding = arm, dataset, binding
+        self.realization_revision = realization_revision
         self.original_config_text = original_config_text
         self.expected_cuda_rng_states = expected_cuda_rng_states
         self.completed_event = completed_event
@@ -150,7 +156,8 @@ class FunctionalGeometryTrainer(native.FullKTrainer):
         del source_base[historical.CONTRACT_KEY]
         if differences(self.contract, source_base):
             raise ValueError('Constructed native runtime differs from retained KPLUS4')
-        self.contract = continuation_contract(self.origin, binding=self.binding, arm=self.arm, dataset=self.dataset)
+        self.contract = continuation_contract(self.origin, binding=self.binding, arm=self.arm, dataset=self.dataset,
+            realization_revision=self.realization_revision)
         self._install_observations()
         ordinary_forward, ordinary_step = self._native_forward, self._native_step
 
@@ -184,7 +191,8 @@ class FunctionalGeometryTrainer(native.FullKTrainer):
         return dict(origin=self.origin, binding=self.binding, arm=self.arm, dataset=self.dataset,
             config_text=self.config_text, original_config_text=self.original_config_text,
             expected_recipe=self.backend.optimizer.recipe,
-            expected_cuda_rng_states=self.expected_cuda_rng_states)
+            expected_cuda_rng_states=self.expected_cuda_rng_states,
+            realization_revision=self.realization_revision)
 
     def _restore(self, path):
         import torch
@@ -193,7 +201,8 @@ class FunctionalGeometryTrainer(native.FullKTrainer):
                 config_text=self.config_text, run_id=self.cfg.run_id,
                 original_config_text=self.original_config_text,
                 expected_recipe=self.backend.optimizer.recipe,
-                expected_cuda_rng_states=self.expected_cuda_rng_states)
+                expected_cuda_rng_states=self.expected_cuda_rng_states,
+                realization_revision=self.realization_revision)
         else:
             state = torch.load(path, map_location='cpu', weights_only=False, mmap=True)
             validate_snapshot(state, **self.validation_arguments(), completed_event=self.completed_event)
@@ -225,7 +234,8 @@ class FunctionalGeometryTrainer(native.FullKTrainer):
         if self.arm == 'KPLUS' and hook is not None:
             raise ValueError('The production KPLUS control has no geometry hook')
         if hook is not None:
-            if hook.arm != self.arm or hook.strength != 1.0 or hook.closed:
+            if (hook.arm != self.arm or hook.strength != 1.0 or hook.closed
+                    or hook.realization_revision != self.realization_revision):
                 raise ValueError('Production requires its own active geometry arm at fixed strength 1')
             hook.clear_event()
         return native.FullKTrainer._prepare_event(self, event_id, feature_paths, passes)

@@ -200,7 +200,8 @@ def export_disposable_state(trainer, checkpoint_path, export_path, payload):
 
 
 def run_case(trainer, features, label, strength, work, baseline_runtime, root, reference,
-             *, oracle_runner=None):
+             *, oracle_runner=None, realization_revision='legacy_raw_norm_v0',
+             reference_export=None):
     from specforge.training.strategies.base import StepContext
     root.mkdir()
     work.context = dict(dataset=trainer.dataset, case=label)
@@ -220,6 +221,17 @@ def run_case(trainer, features, label, strength, work, baseline_runtime, root, r
                 del capture['gradients']
         elif phase == 'native':
             state = scientific_state(trainer)
+            if reference_export is not None:
+                # R1 has retained ordinary exports, not an assumed surviving
+                # disposable optimizer payload. Authenticate the real native
+                # endpoint, then keep its moments for auxiliary isolation and
+                # the second case's ordinary-state comparison.
+                from experiments.ok_coding.training import _export_equal
+                _export_equal(dict(draft_state_dict=state['weights']), reference_export)
+                write_json(root / 'AUTHENTICATED_NATIVE_EXPORT.json',
+                    dict(status='passed', export=str(reference_export), exact_weights=True))
+                if 'native' not in reference:
+                    reference['native'] = state
             if reference is None:
                 capture['native'] = state
             else:
@@ -240,7 +252,8 @@ def run_case(trainer, features, label, strength, work, baseline_runtime, root, r
 
     if strength is not None:
         hook = install_functional_geometry(trainer, arm='SCALAR' if label == 'SCALAR' else 'FSG',
-            strength=strength, observer=observe, output_dir=root / 'geometry', work_callback=work.callback)
+            strength=strength, observer=observe, output_dir=root / 'geometry', work_callback=work.callback,
+            realization_revision=realization_revision)
     backward = trainer.backend.backward
     forward = trainer.author_strategy.forward_loss
 
@@ -279,6 +292,8 @@ def run_case(trainer, features, label, strength, work, baseline_runtime, root, r
         receipt['physical_work'] = physical_work(trainer)
         if reference is not None:
             persist_comparison(root / 'PRESENTATION_ANCHOR_LOSS_PARITY.json', rows, reference['rows'])
+            if reference_export is not None and 'final' not in reference:
+                reference['final'] = dict(reference['native'], global_step=513, presentations=1026)
             if label == 'FSG_ZERO':
                 persist_comparison(root / 'EXACT_NEUTRALITY.json', final, reference['final'])
             else:
@@ -366,7 +381,9 @@ def check_serving(plan, dataset, cases, prepared, work, root):
             records.append(record)
         receipt = dict(status='passed', generations=len(records),
             loading_s=backend.loading_s, calls={r['record_id']:r['metadata']['verification_calls'] for r in records},
-            exact_output_and_termination=True, exact_neutral_native_trajectory=True)
+            exact_output_and_termination=True,
+            exact_neutral_native_trajectory=(True if any(c['case']=='FSG_ZERO' for c in cases) else None),
+            neutral_check_performed=any(c['case']=='FSG_ZERO' for c in cases))
         write_json(root / 'SERVING_CHECK.json', receipt)
         return receipt
     except BaseException as error:

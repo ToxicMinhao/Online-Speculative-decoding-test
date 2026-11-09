@@ -1,3 +1,5 @@
+> Current authorized revision: [R1 norm-feasible BF16 realization](REALIZATION_R1.md). Its four-case supplementary qualification is separate from the retained legacy evidence. The original two-event pilot is conditional on the revised correctness/activity gates and separate storage admission.
+
 # K+ functional-step geometry: implementation and qualification
 
 This additive path keeps the native K+ response objective, accumulation, clipping
