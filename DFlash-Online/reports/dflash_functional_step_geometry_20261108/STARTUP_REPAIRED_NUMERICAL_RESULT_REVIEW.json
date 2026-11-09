@@ -1,0 +1,172 @@
+{
+  "material_passport": {
+    "workflow": "ARS experiment-agent validate",
+    "verification_status": "ANALYZED",
+    "scope": "Read-only retained-evidence audit; no new GPU execution"
+  },
+  "execution_commit": "90666a76300da2200cb2062b7bc41ee4327f0dfb",
+  "authorship_overlap": "Same-team reviewer authored math helpers, same-layout oracle and some qualification tests; not external independent replication.",
+  "status": "No numerical-result inconsistency found. Revised correctness contract passed on exercised paths; zero natural nontrivial corrections.",
+  "checks": {
+    "rehashed_compact_files": 201,
+    "exact_comparison_receipts": 59,
+    "local_assertion_groups": 327,
+    "native_reruns": 0
+  },
+  "natural_proposals": [
+    {
+      "dataset": "gsm8k",
+      "arm": "FSG",
+      "continuous_norm": 1.4559686183615994,
+      "native_norm": 1.458325859395869,
+      "rounded_norm": 1.4584726072099505,
+      "rounded_excess_percent": 0.010062758822804163,
+      "decision": {
+        "accepted": false,
+        "reason": "rounded_norm_exceeds_native"
+      },
+      "committed_identical_native": true,
+      "candidate_risk_evaluated": false,
+      "scalar_constructed": false
+    },
+    {
+      "dataset": "gsm8k",
+      "arm": "SCALAR",
+      "continuous_norm": 1.4559686183615994,
+      "native_norm": 1.458325859395869,
+      "rounded_norm": 1.4584726072099505,
+      "rounded_excess_percent": 0.010062758822804163,
+      "decision": {
+        "accepted": false,
+        "reason": "rounded_norm_exceeds_native"
+      },
+      "committed_identical_native": true,
+      "candidate_risk_evaluated": false,
+      "scalar_constructed": false
+    },
+    {
+      "dataset": "mathqa",
+      "arm": "FSG",
+      "continuous_norm": 1.1369677694155689,
+      "native_norm": 1.1423660014910397,
+      "rounded_norm": 1.1424440154990803,
+      "rounded_excess_percent": 0.006829160526367062,
+      "decision": {
+        "accepted": false,
+        "reason": "rounded_norm_exceeds_native"
+      },
+      "committed_identical_native": true,
+      "candidate_risk_evaluated": false,
+      "scalar_constructed": false
+    },
+    {
+      "dataset": "mathqa",
+      "arm": "SCALAR",
+      "continuous_norm": 1.1369677694155689,
+      "native_norm": 1.1423660014910397,
+      "rounded_norm": 1.1424440154990803,
+      "rounded_excess_percent": 0.006829160526367062,
+      "decision": {
+        "accepted": false,
+        "reason": "rounded_norm_exceeds_native"
+      },
+      "committed_identical_native": true,
+      "candidate_risk_evaluated": false,
+      "scalar_constructed": false
+    }
+  ],
+  "math_oracle": {
+    "status": "passed",
+    "chunks": [
+      8,
+      1
+    ],
+    "tolerances": {
+      "rtol": 0.016,
+      "atol": 1e-05,
+      "maximum_relative_l2": 0.016
+    },
+    "tensors": 58,
+    "coordinates": 1048626432,
+    "violations": 0,
+    "maximum_absolute_error": 0.0,
+    "relative_l2": 0.0,
+    "weights_exact": true,
+    "prestate_hidden_exact": true,
+    "c_production": 0.11398267801983027,
+    "c_reference": 0.11398267801983027,
+    "risk_difference": 0.0
+  },
+  "gsm_oracle_reused": true,
+  "resource": {
+    "reused": true,
+    "anchors": [
+      512,
+      512
+    ],
+    "sequence_lengths": [
+      2272,
+      2272
+    ],
+    "simultaneous_bf16_vjps": 4,
+    "peak_allocated_bytes": 47017778688,
+    "peak_reserved_bytes": 48563748864,
+    "synthetic_not_efficacy": true
+  },
+  "limits": [
+    "No natural scalar search or active scalar endpoint was reached; CPU construction tests only.",
+    "Candidate KL absent after norm veto, not inferred to pass or fail.",
+    "Exact tensor comparisons rely on retained native receipts; full tensors not recomputed locally.",
+    "Old cross-layout failures remain failed; no change to original tolerances or guards.",
+    "No pilot or endpoint efficacy evidence."
+  ],
+  "fallacy_scan": [
+    {
+      "category": "Simpson paradox",
+      "assessment": "Datasets remain separate; no pooled scientific performance claim."
+    },
+    {
+      "category": "Ecological fallacy",
+      "assessment": "Two natural windows do not establish population or future-event behavior."
+    },
+    {
+      "category": "Berkson bias",
+      "assessment": "Fixed retained cases; synthetic resource fixture excluded from natural activity."
+    },
+    {
+      "category": "Collider bias",
+      "assessment": "No outcome-conditioned selection or statistical adjustment."
+    },
+    {
+      "category": "Base-rate neglect",
+      "assessment": "Activity denominator explicit: zero of two natural FSG cases."
+    },
+    {
+      "category": "Regression to mean",
+      "assessment": "Repaired correctness is not presented as learning improvement."
+    },
+    {
+      "category": "Survivorship bias",
+      "assessment": "Previous failures and separately charged diagnostics preserved; reused proof labeled."
+    },
+    {
+      "category": "Look-elsewhere effect",
+      "assessment": "Both rejections and all eight serving checks included; no efficacy testing."
+    },
+    {
+      "category": "Forking paths",
+      "assessment": "Revised oracle authorized prospectively; old tolerance failures remain failed; startup repair explicit."
+    },
+    {
+      "category": "Correlation versus causation",
+      "assessment": "Guard rejection observed directly; no efficacy or defective-kernel claim."
+    },
+    {
+      "category": "Reverse causality",
+      "assessment": "Pre-state membership precedes update; later serving does not supply training data."
+    }
+  ],
+  "fallacy_categories_checked": 11,
+  "draft_report_review": "REPORT.md and SUMMARY.json numerical claims, norm percentages, work counts and cost qualifiers agree with audited records.",
+  "conclusion": "Stop before pilot as declared. Correctness passes do not demonstrate FSG usefulness or FSG/SCALAR equivalence."
+}
