@@ -139,12 +139,26 @@ def capture_window(trainer, features, label, work, baseline, root, expected_stat
         receipt['physical_work'] = physical_work(trainer)
         if hook is not None:
             receipt['capture_hook'] = hook.report()
-            cleanup(hook.close, failure, receipt, 'close capture hook')
-        cleanup(lambda: restore_origin(trainer, baseline, root), failure, receipt, 'restore origin')
-        cleanup(lambda: persist_comparison(root/'RESTORATION.json', scientific_state(trainer),
-                                          expected_state), failure, receipt, 'exact final state')
+        finalization_error = None
+        actions = ([] if hook is None else [('close capture hook', hook.close)]) + [
+            ('restore origin', lambda: restore_origin(trainer, baseline, root)),
+            ('exact final state', lambda: persist_comparison(root/'RESTORATION.json',
+                 scientific_state(trainer), expected_state))]
+        for label, action in actions:
+            try:
+                action()
+            except BaseException as error:
+                receipt.setdefault('cleanup_errors', []).append(dict(
+                    operation=label, error=repr(error), traceback=traceback.format_exc()))
+                receipt['status'] = 'failed'
+                if finalization_error is None:
+                    finalization_error = error
         receipt.update(duration_s=time.perf_counter()-started, work=dict(work.counts))
-        cleanup(lambda: write_json(root/'RESULT.json', receipt), failure, receipt, 'capture receipt')
+        cleanup(lambda: write_json(root/'RESULT.json', receipt),
+                failure or finalization_error, receipt, 'capture receipt')
+        if failure is None and finalization_error is not None:
+            raise finalization_error
+
 
 
 class AuxiliaryWork:

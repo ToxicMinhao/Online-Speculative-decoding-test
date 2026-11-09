@@ -2,7 +2,7 @@
 # Separately authorized zero-Adam startup/control diagnosis; no pilot continuation.
 set -eu
 source /data/sources/minhao/EAGLE_SPEC/setup/a800/a800_env.sh
-cd /data/sources/minhao/fsg_ordinary_debug_20261109/DFlash-Online
+cd /data/sources/minhao/fsg_ordinary_debug_20261109_002/DFlash-Online
 export PYTHONPATH="$PWD:$PWD/training:$PWD/inference:$PWD/tests"
 export PYTHONDONTWRITEBYTECODE=1 CUDA_VISIBLE_DEVICES=1
 export CONDA_PREFIX=/data/conda_envs/minhao/dflash_specforge_20261022

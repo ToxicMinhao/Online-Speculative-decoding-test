@@ -84,8 +84,9 @@ def scientific_state(trainer):
 
 
 def restore_origin(trainer, baseline_runtime, root):
+    # A deliberate pre-Adam stop leaves TrainerCore's metric totals pending.
+    # Clear this disposable window before _restore validates a clean boundary.
     trainer.backend.optimizer.zero_grad()
-    trainer._restore(trainer.origin_path)
     trainer.core._ratio_totals.clear()
     trainer.core._sum_totals.clear()
     trainer._anchor_observations.clear()
@@ -93,6 +94,7 @@ def restore_origin(trainer, baseline_runtime, root):
     trainer.window_records.clear()
     trainer.work.clear()
     trainer._presentation_schedule = None
+    trainer._restore(trainer.origin_path)
     restore_runtime(trainer.bundle.model, baseline_runtime)
     mismatch = differences(capture_rng(), trainer.origin['rng'], 'rng')
     if mismatch or trainer.global_step != 512 or trainer.presentations != 1024:

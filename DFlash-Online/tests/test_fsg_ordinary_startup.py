@@ -206,6 +206,38 @@ class OrdinaryStartupTests(unittest.TestCase):
             self.assertFalse(qualify.differences(qualify.scientific_state(trainer), origin))
             self.assertEqual(json.loads((root / 'tripwire/RESULT.json').read_text())['status'], 'failed')
 
+    def test_cleanup_failure_keeps_the_completed_capture_receipt(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            trainer, paths = replay_fixture(root)
+            baseline = qualify.runtime_state(trainer.bundle.model)
+            origin = qualify.scientific_state(trainer)
+            _, observations = manual_gradients(trainer, paths, origin, baseline)
+            calls = 0
+
+            def restore(*_):
+                nonlocal calls
+                calls += 1
+                if calls == 2:
+                    raise ValueError('restoration rejected pending metrics')
+                restore_fixture(trainer, origin, baseline)
+
+            work = DiagnosticWork(root, diagnostic.BUDGET)
+            with mock.patch.object(diagnostic, 'restore_origin', side_effect=restore), \
+                 mock.patch.object(diagnostic, 'compiler_state', return_value={}), \
+                 self.assertRaisesRegex(ValueError, 'restoration rejected'):
+                diagnostic.capture_window(trainer, paths, 'cleanup_failure', work, baseline,
+                    root / 'cleanup_failure', origin, observations)
+            receipt = json.loads((root / 'cleanup_failure/RESULT.json').read_text())
+            self.assertEqual(receipt['status'], 'failed')
+            self.assertTrue(receipt['intended_boundary_stop'])
+            self.assertEqual(len(receipt['responses']), 2)
+            self.assertEqual(receipt['cleanup_errors'][0]['operation'], 'restore origin')
+            self.assertEqual(work.counts['response_backward_completed'], 2)
+            self.assertNotIn('optimizer_step_attempted', work.counts)
+            restore_fixture(trainer, origin, baseline)
+
+
     def test_nonfinite_backward_stops_before_capture_success_and_restores(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)

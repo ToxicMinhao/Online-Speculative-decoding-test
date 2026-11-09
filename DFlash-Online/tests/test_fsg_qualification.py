@@ -57,6 +57,63 @@ class QualificationWorkTests(unittest.TestCase):
 
 
 class RuntimeRestorationTests(unittest.TestCase):
+    def test_pre_adam_stop_clears_transient_state_before_restore_validation(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            trainer, paths = replay_fixture(root)
+            baseline = qualify.runtime_state(trainer.bundle.model)
+            origin = qualify.scientific_state(trainer)
+            trainer.origin = dict(rng=origin['rng'])
+            trainer.origin_path = root / 'immutable_origin.pt'
+            trainer._active_event = 'stopped_window'
+            trainer._presentation_schedule = ['pending']
+            captured = {}
+
+            def stop_before_adam():
+                captured.update({name: parameter.grad.detach().clone()
+                    for name, parameter in trainer.bundle.draft_model.named_parameters()})
+                raise RuntimeError('deliberate pre-Adam boundary')
+
+            with mock.patch.object(trainer.backend.optimizer, 'step', side_effect=stop_before_adam), \
+                 self.assertRaisesRegex(RuntimeError, 'deliberate pre-Adam boundary'):
+                for path in paths:
+                    trainer.core.train_step(torch.load(path, weights_only=True),
+                                            StepContext(global_step=512, total_steps=7424))
+                    trainer.presentations += 1
+            # The real TrainerCore has not reached its normal post-step cleanup.
+            self.assertTrue(trainer.core._sum_totals)
+            trainer.core._ratio_totals['pending'] = (torch.tensor(1.), torch.tensor(2.))
+            self.assertTrue(any(parameter.grad is not None
+                                for parameter in trainer.backend.optimizer.model_params))
+            saved_capture = deepcopy(captured)
+            calls = []
+
+            def restore_with_live_boundary_check(path):
+                calls.append(path)
+                self.assertFalse(trainer.core._ratio_totals)
+                self.assertFalse(trainer.core._sum_totals)
+                self.assertFalse(trainer._anchor_observations)
+                self.assertFalse(trainer.response_records)
+                self.assertFalse(trainer.window_records)
+                self.assertFalse(trainer.work)
+                self.assertIsNone(trainer._presentation_schedule)
+                self.assertTrue(all(parameter.grad is None
+                                    for parameter in trainer.backend.optimizer.model_params))
+                trainer.bundle.draft_model.load_state_dict(origin['weights'])
+                trainer.backend.optimizer.load_state_dict(deepcopy(origin['optimizer']))
+                trainer.global_step = origin['global_step']
+                trainer.presentations = origin['presentations']
+                trainer.core._micro = origin['micro']
+                restore_rng(origin['rng'])
+
+            trainer._restore = restore_with_live_boundary_check
+            qualify.restore_origin(trainer, baseline, root)
+            self.assertEqual(calls, [trainer.origin_path])
+            self.assertFalse(qualify.differences(qualify.scientific_state(trainer), origin))
+            self.assertFalse(qualify.differences(captured, saved_capture))
+            self.assertTrue(captured)
+            self.assertEqual(json.loads((root / 'RESTORED.json').read_text())['status'], 'passed')
+
     def test_restoration_recovers_modes_values_and_removes_new_runtime_fields(self):
         model = TinyBlocks()
         original_buffer = model.replay_count
