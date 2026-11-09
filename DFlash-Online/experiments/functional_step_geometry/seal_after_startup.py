@@ -30,8 +30,15 @@ def seal(code, commit, output):
     previous_result = json.loads((retained/'qualification/QUALIFICATION.json').read_text())
     if previous_result['status'] != 'failed' or previous_result['work'] != PRIOR_COUNTS:
         raise ValueError('Require the latest failed qualification, including its consumed work')
+    previous_sealed = STUDY/'qualification_003/sealed'
+    old_seal = json.loads((retained/'sealed/SEAL.json').read_text())
+    for local in previous_sealed.rglob('*'):
+        if local.is_file() and local.name != 'SEAL.json':
+            expected = old_seal['files'][str(old_root/'sealed'/local.relative_to(previous_sealed))]
+            if identity(local) != expected:
+                raise ValueError(f'Previous sealed input differs: {local}')
     output.mkdir(parents=True, exist_ok=False)
-    shutil.copytree(retained/'sealed', output/'sealed',
+    shutil.copytree(previous_sealed, output/'sealed',
                     ignore=shutil.ignore_patterns('PLAN.json', 'SEAL.json'))
     plan = deepcopy(previous)
     plan.update(root=str(REMOTE_ROOT), execution_source=execution,
