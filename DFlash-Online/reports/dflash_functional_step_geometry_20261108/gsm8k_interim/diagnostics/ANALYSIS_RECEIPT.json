@@ -1,0 +1,43 @@
+{
+  "status": "completed_same_team_source_and_findings_review_passed",
+  "execution_commit": "6440e8ff5af1a845f830d65c884f6711d7e4a687",
+  "analysis_passes": 3,
+  "recorded_analysis_wall_s": [
+    0.16607639798894525,
+    0.17287633894011378,
+    0.16926786419935524
+  ],
+  "measured_core_analysis_wall_s_total": 0.5082206011284143,
+  "cost_limit": "Source inspection, table inspection and narrative preparation not separately instrumented; not all human/agent wall time.",
+  "peak_rss_kib": 63120,
+  "gpu_and_model_work": 0,
+  "cpu_tests": 6,
+  "fixed_windows_valid": 8,
+  "window_pair_candidate_rows": 160,
+  "response_candidate_rows": 320,
+  "files": {
+    "analyze.py": {
+      "bytes": 19371,
+      "sha256": "6756ce79b651328aad424db936cfd8241b07197814b639177afe2fc797f9fbb9"
+    },
+    "test_analyze.py": {
+      "bytes": 5388,
+      "sha256": "e55797d5557acb6b3b8c8765fc69d7fb5452e3345e793e288c64e565789331ae"
+    },
+    "FINDINGS.md": {
+      "bytes": 9617,
+      "sha256": "d95d2e9507f268a9184141638d1daac9901540c6cdb876454964a2b925d5a6f5"
+    },
+    "HYPOTHESES.csv": {
+      "bytes": 1830,
+      "sha256": "7a49ba056ac46264523cfb92fbf5f8d7af6f4e858dd66bee921ef77096275d03"
+    },
+    "CPU_TESTS.log": {
+      "bytes": 1060,
+      "sha256": "491ebb268b40f564c2984f3a5e10627ebad9de2e3fd132ac9f9db2ec95135a89"
+    }
+  },
+  "public_copy_replay_check": "PUBLIC_COPY_CHECK.json",
+  "reviewer": "fsg_runtime; same execution team; implementation-author overlap disclosed",
+  "review_scope": "Source, denominator/role pooling and independently recalculated per-window delta counts across all160 pair rows; not GPU replication"
+}

@@ -1,0 +1,72 @@
+{
+  "status": "passed",
+  "requests": 256,
+  "executions": 1536,
+  "errors": [],
+  "native_progress": {
+    "status": "completed",
+    "planned_generations": 1536,
+    "attempted_generations": 1536,
+    "returned_generations": 1536,
+    "activation_s": 2295.5162225961685,
+    "weight_validation_s": 8.849860174581409,
+    "publications": 1378,
+    "optimizer_steps": 0,
+    "feedback_collections": 0,
+    "teacher_preparations": 0,
+    "extra_generations": 0,
+    "automatic_retry": false,
+    "completed_valid_generations": 1536,
+    "invalid_generations": 0,
+    "pending_canonical_generations": 0,
+    "unknown_generation_attempts": 0,
+    "unattempted_generations": 0,
+    "interrupted_attempt": null,
+    "evaluation_wall_s": 3828.937653174624
+  },
+  "retained_summary_exact": true,
+  "analysis_source": "6440e8ff5af1a845f830d65c884f6711d7e4a687",
+  "checkpoint_identities": {
+    "KPLUS": {
+      "checkpoint_path": "/data/sources/minhao/runs/dflash_functional_step_geometry_20261108/pilot_r1_001/campaign_001/gsm8k/event_006/KPLUS/trainer/events/event_006/export",
+      "weights_identity": {
+        "bytes": 2097259104,
+        "sha256": "8c257620e44226c5c0469e5886224ed5d2dcf9fa2a94eddbdd10d7e36c697560"
+      },
+      "state_path": "/data/sources/minhao/runs/dflash_functional_step_geometry_20261108/pilot_r1_001/campaign_001/gsm8k/event_006/KPLUS/trainer/training_state.pt",
+      "state_identity": {
+        "bytes": 6298193179,
+        "sha256": "15ac28e1235851a15158e789af1480fd2d82535903b1dec5d992ec843c9ae3a1"
+      }
+    },
+    "FSG": {
+      "checkpoint_path": "/data/sources/minhao/runs/dflash_functional_step_geometry_20261108/pilot_r1_001/campaign_001/gsm8k/event_006/FSG/trainer/events/event_006/export",
+      "weights_identity": {
+        "bytes": 2097259104,
+        "sha256": "a4c5a19ff4069b8c4760d3a0d645c2679b74ec6b9fef2416f359ecdd15a5575f"
+      },
+      "state_path": "/data/sources/minhao/runs/dflash_functional_step_geometry_20261108/pilot_r1_001/campaign_001/gsm8k/event_006/FSG/trainer/training_state.pt",
+      "state_identity": {
+        "bytes": 6298904283,
+        "sha256": "5c4f7b4cfd708f8ee6c6b4a9ffc7e974dff1365343ca73f15b6c8a2c4092ff1d"
+      }
+    },
+    "SCALAR": {
+      "checkpoint_path": "/data/sources/minhao/runs/dflash_functional_step_geometry_20261108/pilot_r1_001/campaign_001/gsm8k/event_006/SCALAR/trainer/events/event_006/export",
+      "weights_identity": {
+        "bytes": 2097259104,
+        "sha256": "816ec20fc87616ed6028c76fa6c768aabeda997c6e8619a44f3153f81cd44d26"
+      },
+      "state_path": "/data/sources/minhao/runs/dflash_functional_step_geometry_20261108/pilot_r1_001/campaign_001/gsm8k/event_006/SCALAR/trainer/training_state.pt",
+      "state_identity": {
+        "bytes": 6298983387,
+        "sha256": "68b7cb384d4bc6be8f231acccc7873711797e4c2cd509ae75d7589a2affafdf5"
+      }
+    }
+  },
+  "boundary": "Complete request includes native generation and recorded cache maintenance; loading/activation excluded",
+  "new_model_work": 0,
+  "bootstrap_unit": "paired request, timing repeats averaged within request",
+  "wall_s": 2.9273837879300117,
+  "peak_host_rss_kib": 806936
+}
