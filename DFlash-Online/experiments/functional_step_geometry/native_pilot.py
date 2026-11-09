@@ -20,7 +20,7 @@ from experiments.ok_coding.campaign import WorkLedger, read_work, require_comple
 from experiments.ok_coding.storage import identity
 from .contract import ARMS, DATASETS, EVENTS, REALIZATION_R1
 from .data import seal_shared_packets, verify_shared_packets
-from .pilot import diagnostic_pairs, read, validate_update
+from .pilot import diagnostic_pairs, read, validate_update, pilot_authorization
 
 DIAGNOSTIC_FACTORY = 'experiments.functional_step_geometry.pilot_diagnostics:run_window_diagnostics'
 PILOT_STARTUP_BUDGET = dict(response_forwards=24, backwards=24, optimizer_steps=0)
@@ -159,6 +159,7 @@ def diagnostic_observer(trainer, pool, baseline, *, dataset, event, output, fact
         window = trainer.global_step - (event-1)*128 + 1
         if phase != 'committed' or window not in by_window:
             return
+        started = time.perf_counter()
         binding = by_window[window]
         actual_ids = [row['record_id'] for row in trainer.response_records[-2:]]
         if actual_ids != binding['fitting_ids']:
@@ -173,6 +174,8 @@ def diagnostic_observer(trainer, pool, baseline, *, dataset, event, output, fact
             result = execute(hook, [batches[key] for key in binding['fitting_ids']],
                 [batches[key] for key in binding['off_fit_ids']],
                 output=output/f'window_{window:03d}', binding=deepcopy(binding))
+        result['observer_wall_s'] = time.perf_counter()-started
+        result['observer_scope'] = 'feature loading, fixed-window diagnostics and state restoration; nested in training time'
         receipts.append(result)
         write_json(output/'RESULTS.json', receipts)
     return observe, receipts
@@ -243,6 +246,7 @@ def train_native_event(root, dataset, event, arm):
 
     root = Path(root)
     plan = read(root/'sealed/PLAN.json')
+    pilot_authorization(plan)
     if (arm not in ARMS or dataset not in DATASETS or event not in EVENTS
             or plan['realization_revision'] != REALIZATION_R1):
         raise ValueError('Require the sealed R1 dataset/arm/event')
@@ -290,6 +294,10 @@ def train_native_event(root, dataset, event, arm):
         finally:
             write_json(output/'RESOURCE_COSTS.json', finish_event_profile(profile))
         result['diagnostic_windows'] = diagnostic_results
+        diagnostic_s = sum(row['observer_wall_s'] for row in diagnostic_results)
+        result['costs'].update(diagnostic_observer_s=diagnostic_s,
+            training_excluding_diagnostic_observer_s=result['costs']['training_s']-diagnostic_s,
+            timing_scope='training_s includes ordinary + geometry + diagnostic observer; do not sum nested timers')
         validate_update(result, dataset=dataset, arm=arm, event=event, baseline=baseline)
         require_complete_work(read_work(output/'WORK.jsonl', TRAINING_WORK), TRAINING_WORK)
         if arm != 'KPLUS':

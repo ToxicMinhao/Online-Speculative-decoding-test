@@ -179,7 +179,7 @@ class AdmissionAndControllerTests(unittest.TestCase):
         budget=P.storage_estimate(2097259104,6297245019)
         self.assertTrue(budget['no_future_deletion_credit'])
         self.assertEqual(budget['retained_new_boundaries'],12)
-        self.assertEqual(budget['required_initial_free_bytes'],215899433113)
+        self.assertEqual(budget['required_initial_free_bytes'],286367339007)
 
 
 class EvaluationTests(unittest.TestCase):

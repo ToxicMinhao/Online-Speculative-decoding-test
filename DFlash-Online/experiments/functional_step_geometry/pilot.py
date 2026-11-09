@@ -80,10 +80,12 @@ def storage_estimate(weight_bytes, state_bytes):
     feature_token_bytes = 4096*6*2+12
     features = (512*2272+2272+1)*feature_token_bytes
     states = 12*(weight_bytes+state_bytes)+state_bytes+weight_bytes
-    tensor_peak = states+features
+    diagnostics = 32*weight_bytes
+    tensor_peak = states+features+diagnostics
     compact = (512+3072+512)*RAW_BYTES_PER_GENERATION+4*gib
     return dict(policy='retain_all_new_boundaries_and_shared_features',
         weight_bytes=weight_bytes, state_bytes=state_bytes,
+        diagnostic_endpoint_bytes=diagnostics, diagnostic_endpoint_pairs=16,
         tensor_peak_bytes=tensor_peak, tensor_peak_with_margin_bytes=(tensor_peak*105+99)//100,
         compact_bytes=compact, compiler_bytes=4*gib, workspace_bytes=2*gib,
         reserve_bytes=8*gib, no_future_deletion_credit=True,
@@ -91,8 +93,8 @@ def storage_estimate(weight_bytes, state_bytes):
         shared_feature_tokens=512*2272, final_checkpoints=6, retained_new_boundaries=12)
 
 
-def require_pilot_admission(plan, root):
-    """The replacement gate is explicit; old failures never turn into passes."""
+def pilot_authorization(plan):
+    """Authenticate the completed R1 gates without granting storage credit."""
     receipt = read(plan['pilot_admission'])
     if (receipt.get('status') != 'passed' or receipt.get('pilot_permitted') is not True
             or receipt.get('execution_commit') != plan['execution_source']['commit']
@@ -114,6 +116,12 @@ def require_pilot_admission(plan, root):
     module, name = factory.split(':', 1)
     if not callable(getattr(importlib.import_module(module), name)):
         raise ValueError('A real diagnostic implementation is required before main work')
+    return receipt
+
+
+def require_pilot_admission(plan, root):
+    """The replacement gate is explicit; old failures never turn into passes."""
+    receipt = pilot_authorization(plan)
     storage = plan['main_storage']
     required = storage['required_initial_free_bytes']
     free = shutil.disk_usage(root).free
