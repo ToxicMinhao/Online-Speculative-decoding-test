@@ -30,3 +30,21 @@ panels and limits remain unchanged. Qualification states never initialize it.
 All diagnostic endpoint pairs and final complete states are retained; rolling
 retirement is limited to validated superseded pilot boundaries and shared pools.
 CPU tests qualify the implementation logic, not GPU execution or learning benefit.
+
+## Recorded qualification
+
+Execution `95aeb869189da2d7d4f2109b93c05fd3bd9b7944` passed all four
+cases and four serving checks, with the exact authorized model-work counts.
+Both natural FSG cases accepted nontrivial feasible candidates. Both SCALAR
+cases exercised matching and actual final scoring, then correctly restored
+native under the existing KL deadband. This passes the activity gate without
+showing a held-out drafting benefit. See the
+[qualification report](../../reports/dflash_functional_step_geometry_20261108/BF16_REALIZATION_R1_REPORT.md).
+
+The conditional pilot retains the original budget: 512 shared feedback
+responses (four already collected), 1,536 Adam steps, 3,072 timed endpoint
+completions and 16 separately bounded diagnostic windows. Its current
+rolling-retention admission requires 188,444,277,887 bytes before launch;
+qualification admission does not grant this storage. Estimated duration after
+launch is 12–18 hours, with 15–18 hours the safer planning range if most windows
+perform the measured parameter scans. No pilot efficacy result exists yet.

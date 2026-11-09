@@ -9,10 +9,12 @@ then uses the specified 24-step BF16 norm-matching search. Both check the actual
 rounded candidate's norm and fixed-reference old-draft KL before committing.
 Adam moments remain those of ordinary K+; no master FP32 model is introduced.
 
-The current executable milestone is **bounded qualification only**. It does not
-launch the proposed events-5–6 pilot, its 16 counterfactual diagnostic windows,
-or its endpoint evaluation. The continuation/data contracts are prepared for
-that later scope. Historical PR32 guards and reports remain unchanged.
+The **R1 supplementary qualification has passed** on both retained natural
+windows: two nontrivial FSG corrections, two exercised SCALAR matches/final
+checks, and four valid serving executions. The native events-5–6 pilot and its
+16 diagnostic windows are implemented and remain conditional on a sealed
+launch plan and separate storage admission. Qualification states do not
+initialize the pilot. Historical PR32 guards and reports remain unchanged.
 
 ## Code map
 
@@ -51,9 +53,11 @@ fixed `1e-6` relative cutoff. It is a qualification fixture, not a new arm.
 The native small-anchor VJP check is pinned before execution to coordinate
 `atol=1e-5, rtol=.016` and global relative L2 discrepancy at most `.016`.
 This follows the existing BF16 qualification convention and does not change the
-native objective or its precision. A failed check is recorded, not relaxed.
+native objective or its precision. A failed check is recorded, not relaxed. The reviewer-approved replacement
+uses an independent calculation at the fixed production head layout; the old
+cross-layout failure remains a sensitivity diagnostic, not a passing check.
 
-Hard cumulative limits: 8 disposable Adam steps, 16 ordinary presentations and
+Original qualification limits (historical, not the R1 allowance): 8 disposable Adam steps, 16 ordinary presentations and
 backwards, 96 additional response forwards, 32 additional backwards, and 8
 serving generations. Startup/oracle work is included. A failed attempt still
 consumes budget. Physical head/chunk/recomputation counts are separate.
