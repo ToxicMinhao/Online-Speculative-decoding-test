@@ -1,0 +1,3774 @@
+{
+  "gsm8k": {
+    "dataset": "gsm8k",
+    "selected_requests": 64,
+    "complete_requests": 64,
+    "incomplete_requests": 0,
+    "transitions": {
+      "advance": 31,
+      "regression": 33
+    },
+    "native_endpoint_known_requests": 64,
+    "native_endpoint_total_calls4": 2761,
+    "native_endpoint_total_calls6": 2748,
+    "endpoint_call_ties": 6,
+    "endpoint_call_difference": {
+      "n": 64,
+      "mean": -0.203125,
+      "median": 0.0,
+      "minimum": -6.0,
+      "maximum": 5.0,
+      "q25": -2.0,
+      "q75": 2.0,
+      "sample_sd": 2.655809370549478,
+      "positive": 29,
+      "negative": 29,
+      "zero": 6
+    },
+    "bootstrap": {
+      "resamples": 10000,
+      "seed": 20261110,
+      "generator": "PCG64",
+      "method": "linear_percentile",
+      "unit": "full_selected_request_row",
+      "strata_recomputed_after_resampling": true
+    },
+    "sparsity_policy": "No data-selected minimum-n rule. n<2 conditional intervals are descriptive-only; report all other n, empty draws and concentration without automatic support classification.",
+    "automatic_followup_authorized": false,
+    "status": "completed",
+    "strata": {
+      "all_advances": {
+        "eligible_requests": 31,
+        "both_restart_positive_count": 0,
+        "both_restart_positive_fraction": 0.0,
+        "repair_verified_count": 31,
+        "repair_not_verified_count": 0,
+        "R4": {
+          "conditional": {
+            "n": 31,
+            "mean": -0.3870967741935484,
+            "median": 0.0,
+            "minimum": -3.0,
+            "maximum": 2.0,
+            "q25": -1.0,
+            "q75": 0.0,
+            "sample_sd": 0.8823234234995205,
+            "positive": 2,
+            "negative": 12,
+            "zero": 17
+          },
+          "unconditional": {
+            "n": 64,
+            "mean": -0.1875,
+            "median": 0.0,
+            "minimum": -3.0,
+            "maximum": 2.0,
+            "q25": 0.0,
+            "q75": 0.0,
+            "sample_sd": 0.6393200753379786,
+            "positive": 2,
+            "negative": 12,
+            "zero": 50
+          },
+          "conditional_ci95": [
+            -0.7,
+            -0.07142857142857142
+          ],
+          "conditional_interval_status": "reported_with_sample_size",
+          "unconditional_ci95": [
+            -0.34375,
+            -0.03125
+          ],
+          "empty_stratum_resamples": 0,
+          "nonempty_stratum_resamples": 10000,
+          "bootstrap_eligible_count": {
+            "n": 10000,
+            "mean": 31.0344,
+            "median": 31.0,
+            "minimum": 16.0,
+            "maximum": 44.0,
+            "q25": 28.0,
+            "q75": 34.0,
+            "sample_sd": 4.000027082616588,
+            "positive": 10000,
+            "negative": 0,
+            "zero": 0
+          },
+          "concentration": {
+            "absolute_sum": 18.0,
+            "positive_sum": 3.0,
+            "signed_sum": -12.0,
+            "largest_absolute_request": "eval_00096",
+            "largest_absolute_share": 0.16666666666666666,
+            "largest_positive_share": 0.6666666666666666,
+            "nonzero_contributors": 14
+          },
+          "leave_one_out": [
+            {
+              "request_id": "eval_00954",
+              "eligible_count": 30,
+              "conditional_mean": -0.4,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00574",
+              "eligible_count": 31,
+              "conditional_mean": -0.3870967741935484,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00096",
+              "eligible_count": 30,
+              "conditional_mean": -0.3,
+              "unconditional_mean": -0.14285714285714285
+            },
+            {
+              "request_id": "eval_00240",
+              "eligible_count": 30,
+              "conditional_mean": -0.4,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00645",
+              "eligible_count": 31,
+              "conditional_mean": -0.3870967741935484,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00600",
+              "eligible_count": 30,
+              "conditional_mean": -0.36666666666666664,
+              "unconditional_mean": -0.1746031746031746
+            },
+            {
+              "request_id": "eval_00684",
+              "eligible_count": 30,
+              "conditional_mean": -0.4,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00854",
+              "eligible_count": 31,
+              "conditional_mean": -0.3870967741935484,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00413",
+              "eligible_count": 31,
+              "conditional_mean": -0.3870967741935484,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00888",
+              "eligible_count": 31,
+              "conditional_mean": -0.3870967741935484,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00138",
+              "eligible_count": 31,
+              "conditional_mean": -0.3870967741935484,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00801",
+              "eligible_count": 30,
+              "conditional_mean": -0.4,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00116",
+              "eligible_count": 31,
+              "conditional_mean": -0.3870967741935484,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00508",
+              "eligible_count": 30,
+              "conditional_mean": -0.43333333333333335,
+              "unconditional_mean": -0.20634920634920634
+            },
+            {
+              "request_id": "eval_01014",
+              "eligible_count": 31,
+              "conditional_mean": -0.3870967741935484,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00785",
+              "eligible_count": 31,
+              "conditional_mean": -0.3870967741935484,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00229",
+              "eligible_count": 30,
+              "conditional_mean": -0.36666666666666664,
+              "unconditional_mean": -0.1746031746031746
+            },
+            {
+              "request_id": "eval_00469",
+              "eligible_count": 30,
+              "conditional_mean": -0.4,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00858",
+              "eligible_count": 31,
+              "conditional_mean": -0.3870967741935484,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00401",
+              "eligible_count": 31,
+              "conditional_mean": -0.3870967741935484,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00636",
+              "eligible_count": 30,
+              "conditional_mean": -0.4,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00670",
+              "eligible_count": 30,
+              "conditional_mean": -0.36666666666666664,
+              "unconditional_mean": -0.1746031746031746
+            },
+            {
+              "request_id": "eval_00931",
+              "eligible_count": 30,
+              "conditional_mean": -0.36666666666666664,
+              "unconditional_mean": -0.1746031746031746
+            },
+            {
+              "request_id": "eval_00733",
+              "eligible_count": 31,
+              "conditional_mean": -0.3870967741935484,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00343",
+              "eligible_count": 31,
+              "conditional_mean": -0.3870967741935484,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00220",
+              "eligible_count": 30,
+              "conditional_mean": -0.36666666666666664,
+              "unconditional_mean": -0.1746031746031746
+            },
+            {
+              "request_id": "eval_00491",
+              "eligible_count": 30,
+              "conditional_mean": -0.4,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00792",
+              "eligible_count": 31,
+              "conditional_mean": -0.3870967741935484,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00410",
+              "eligible_count": 30,
+              "conditional_mean": -0.4,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00739",
+              "eligible_count": 30,
+              "conditional_mean": -0.36666666666666664,
+              "unconditional_mean": -0.1746031746031746
+            },
+            {
+              "request_id": "eval_00133",
+              "eligible_count": 30,
+              "conditional_mean": -0.36666666666666664,
+              "unconditional_mean": -0.1746031746031746
+            },
+            {
+              "request_id": "eval_00560",
+              "eligible_count": 30,
+              "conditional_mean": -0.4666666666666667,
+              "unconditional_mean": -0.2222222222222222
+            },
+            {
+              "request_id": "eval_00641",
+              "eligible_count": 30,
+              "conditional_mean": -0.4,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00052",
+              "eligible_count": 31,
+              "conditional_mean": -0.3870967741935484,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00795",
+              "eligible_count": 30,
+              "conditional_mean": -0.4,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00030",
+              "eligible_count": 30,
+              "conditional_mean": -0.36666666666666664,
+              "unconditional_mean": -0.1746031746031746
+            },
+            {
+              "request_id": "eval_00647",
+              "eligible_count": 31,
+              "conditional_mean": -0.3870967741935484,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00611",
+              "eligible_count": 31,
+              "conditional_mean": -0.3870967741935484,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00974",
+              "eligible_count": 31,
+              "conditional_mean": -0.3870967741935484,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_01003",
+              "eligible_count": 31,
+              "conditional_mean": -0.3870967741935484,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00978",
+              "eligible_count": 30,
+              "conditional_mean": -0.4,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00278",
+              "eligible_count": 30,
+              "conditional_mean": -0.36666666666666664,
+              "unconditional_mean": -0.1746031746031746
+            },
+            {
+              "request_id": "eval_00751",
+              "eligible_count": 30,
+              "conditional_mean": -0.4,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00242",
+              "eligible_count": 31,
+              "conditional_mean": -0.3870967741935484,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00194",
+              "eligible_count": 31,
+              "conditional_mean": -0.3870967741935484,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00994",
+              "eligible_count": 30,
+              "conditional_mean": -0.4,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00621",
+              "eligible_count": 31,
+              "conditional_mean": -0.3870967741935484,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00985",
+              "eligible_count": 30,
+              "conditional_mean": -0.4,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00334",
+              "eligible_count": 31,
+              "conditional_mean": -0.3870967741935484,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00149",
+              "eligible_count": 30,
+              "conditional_mean": -0.4,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00268",
+              "eligible_count": 31,
+              "conditional_mean": -0.3870967741935484,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00727",
+              "eligible_count": 31,
+              "conditional_mean": -0.3870967741935484,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00164",
+              "eligible_count": 31,
+              "conditional_mean": -0.3870967741935484,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00500",
+              "eligible_count": 31,
+              "conditional_mean": -0.3870967741935484,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00614",
+              "eligible_count": 31,
+              "conditional_mean": -0.3870967741935484,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00414",
+              "eligible_count": 31,
+              "conditional_mean": -0.3870967741935484,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00155",
+              "eligible_count": 31,
+              "conditional_mean": -0.3870967741935484,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00200",
+              "eligible_count": 30,
+              "conditional_mean": -0.3333333333333333,
+              "unconditional_mean": -0.15873015873015872
+            },
+            {
+              "request_id": "eval_00029",
+              "eligible_count": 31,
+              "conditional_mean": -0.3870967741935484,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00874",
+              "eligible_count": 31,
+              "conditional_mean": -0.3870967741935484,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00945",
+              "eligible_count": 30,
+              "conditional_mean": -0.36666666666666664,
+              "unconditional_mean": -0.1746031746031746
+            },
+            {
+              "request_id": "eval_00168",
+              "eligible_count": 30,
+              "conditional_mean": -0.4,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00482",
+              "eligible_count": 31,
+              "conditional_mean": -0.3870967741935484,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00057",
+              "eligible_count": 30,
+              "conditional_mean": -0.4,
+              "unconditional_mean": -0.19047619047619047
+            }
+          ],
+          "loo_all_conditional_means_positive": false,
+          "loo_conditional_signs": {
+            "positive": 0,
+            "negative": 64,
+            "zero": 0,
+            "empty": 0
+          }
+        },
+        "R6": {
+          "conditional": {
+            "n": 31,
+            "mean": -0.6129032258064516,
+            "median": -1.0,
+            "minimum": -3.0,
+            "maximum": 0.0,
+            "q25": -1.0,
+            "q75": 0.0,
+            "sample_sd": 0.6672040844618539,
+            "positive": 0,
+            "negative": 17,
+            "zero": 14
+          },
+          "unconditional": {
+            "n": 64,
+            "mean": -0.296875,
+            "median": 0.0,
+            "minimum": -3.0,
+            "maximum": 0.0,
+            "q25": -1.0,
+            "q75": 0.0,
+            "sample_sd": 0.5543389456520863,
+            "positive": 0,
+            "negative": 17,
+            "zero": 47
+          },
+          "conditional_ci95": [
+            -0.8571428571428571,
+            -0.39021002710027153
+          ],
+          "conditional_interval_status": "reported_with_sample_size",
+          "unconditional_ci95": [
+            -0.4375,
+            -0.171875
+          ],
+          "empty_stratum_resamples": 0,
+          "nonempty_stratum_resamples": 10000,
+          "bootstrap_eligible_count": {
+            "n": 10000,
+            "mean": 31.0344,
+            "median": 31.0,
+            "minimum": 16.0,
+            "maximum": 44.0,
+            "q25": 28.0,
+            "q75": 34.0,
+            "sample_sd": 4.000027082616588,
+            "positive": 10000,
+            "negative": 0,
+            "zero": 0
+          },
+          "concentration": {
+            "absolute_sum": 19.0,
+            "positive_sum": 0.0,
+            "signed_sum": -19.0,
+            "largest_absolute_request": "eval_00096",
+            "largest_absolute_share": 0.15789473684210525,
+            "largest_positive_share": null,
+            "nonzero_contributors": 17
+          },
+          "leave_one_out": [
+            {
+              "request_id": "eval_00954",
+              "eligible_count": 30,
+              "conditional_mean": -0.6,
+              "unconditional_mean": -0.2857142857142857
+            },
+            {
+              "request_id": "eval_00574",
+              "eligible_count": 31,
+              "conditional_mean": -0.6129032258064516,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00096",
+              "eligible_count": 30,
+              "conditional_mean": -0.5333333333333333,
+              "unconditional_mean": -0.25396825396825395
+            },
+            {
+              "request_id": "eval_00240",
+              "eligible_count": 30,
+              "conditional_mean": -0.6333333333333333,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00645",
+              "eligible_count": 31,
+              "conditional_mean": -0.6129032258064516,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00600",
+              "eligible_count": 30,
+              "conditional_mean": -0.6,
+              "unconditional_mean": -0.2857142857142857
+            },
+            {
+              "request_id": "eval_00684",
+              "eligible_count": 30,
+              "conditional_mean": -0.6333333333333333,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00854",
+              "eligible_count": 31,
+              "conditional_mean": -0.6129032258064516,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00413",
+              "eligible_count": 31,
+              "conditional_mean": -0.6129032258064516,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00888",
+              "eligible_count": 31,
+              "conditional_mean": -0.6129032258064516,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00138",
+              "eligible_count": 31,
+              "conditional_mean": -0.6129032258064516,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00801",
+              "eligible_count": 30,
+              "conditional_mean": -0.6,
+              "unconditional_mean": -0.2857142857142857
+            },
+            {
+              "request_id": "eval_00116",
+              "eligible_count": 31,
+              "conditional_mean": -0.6129032258064516,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00508",
+              "eligible_count": 30,
+              "conditional_mean": -0.6333333333333333,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_01014",
+              "eligible_count": 31,
+              "conditional_mean": -0.6129032258064516,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00785",
+              "eligible_count": 31,
+              "conditional_mean": -0.6129032258064516,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00229",
+              "eligible_count": 30,
+              "conditional_mean": -0.6,
+              "unconditional_mean": -0.2857142857142857
+            },
+            {
+              "request_id": "eval_00469",
+              "eligible_count": 30,
+              "conditional_mean": -0.6333333333333333,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00858",
+              "eligible_count": 31,
+              "conditional_mean": -0.6129032258064516,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00401",
+              "eligible_count": 31,
+              "conditional_mean": -0.6129032258064516,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00636",
+              "eligible_count": 30,
+              "conditional_mean": -0.6333333333333333,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00670",
+              "eligible_count": 30,
+              "conditional_mean": -0.6333333333333333,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00931",
+              "eligible_count": 30,
+              "conditional_mean": -0.6,
+              "unconditional_mean": -0.2857142857142857
+            },
+            {
+              "request_id": "eval_00733",
+              "eligible_count": 31,
+              "conditional_mean": -0.6129032258064516,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00343",
+              "eligible_count": 31,
+              "conditional_mean": -0.6129032258064516,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00220",
+              "eligible_count": 30,
+              "conditional_mean": -0.6,
+              "unconditional_mean": -0.2857142857142857
+            },
+            {
+              "request_id": "eval_00491",
+              "eligible_count": 30,
+              "conditional_mean": -0.6,
+              "unconditional_mean": -0.2857142857142857
+            },
+            {
+              "request_id": "eval_00792",
+              "eligible_count": 31,
+              "conditional_mean": -0.6129032258064516,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00410",
+              "eligible_count": 30,
+              "conditional_mean": -0.6333333333333333,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00739",
+              "eligible_count": 30,
+              "conditional_mean": -0.6,
+              "unconditional_mean": -0.2857142857142857
+            },
+            {
+              "request_id": "eval_00133",
+              "eligible_count": 30,
+              "conditional_mean": -0.6,
+              "unconditional_mean": -0.2857142857142857
+            },
+            {
+              "request_id": "eval_00560",
+              "eligible_count": 30,
+              "conditional_mean": -0.6,
+              "unconditional_mean": -0.2857142857142857
+            },
+            {
+              "request_id": "eval_00641",
+              "eligible_count": 30,
+              "conditional_mean": -0.6,
+              "unconditional_mean": -0.2857142857142857
+            },
+            {
+              "request_id": "eval_00052",
+              "eligible_count": 31,
+              "conditional_mean": -0.6129032258064516,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00795",
+              "eligible_count": 30,
+              "conditional_mean": -0.6333333333333333,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00030",
+              "eligible_count": 30,
+              "conditional_mean": -0.6,
+              "unconditional_mean": -0.2857142857142857
+            },
+            {
+              "request_id": "eval_00647",
+              "eligible_count": 31,
+              "conditional_mean": -0.6129032258064516,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00611",
+              "eligible_count": 31,
+              "conditional_mean": -0.6129032258064516,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00974",
+              "eligible_count": 31,
+              "conditional_mean": -0.6129032258064516,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_01003",
+              "eligible_count": 31,
+              "conditional_mean": -0.6129032258064516,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00978",
+              "eligible_count": 30,
+              "conditional_mean": -0.6,
+              "unconditional_mean": -0.2857142857142857
+            },
+            {
+              "request_id": "eval_00278",
+              "eligible_count": 30,
+              "conditional_mean": -0.6,
+              "unconditional_mean": -0.2857142857142857
+            },
+            {
+              "request_id": "eval_00751",
+              "eligible_count": 30,
+              "conditional_mean": -0.6333333333333333,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00242",
+              "eligible_count": 31,
+              "conditional_mean": -0.6129032258064516,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00194",
+              "eligible_count": 31,
+              "conditional_mean": -0.6129032258064516,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00994",
+              "eligible_count": 30,
+              "conditional_mean": -0.6333333333333333,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00621",
+              "eligible_count": 31,
+              "conditional_mean": -0.6129032258064516,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00985",
+              "eligible_count": 30,
+              "conditional_mean": -0.6333333333333333,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00334",
+              "eligible_count": 31,
+              "conditional_mean": -0.6129032258064516,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00149",
+              "eligible_count": 30,
+              "conditional_mean": -0.6333333333333333,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00268",
+              "eligible_count": 31,
+              "conditional_mean": -0.6129032258064516,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00727",
+              "eligible_count": 31,
+              "conditional_mean": -0.6129032258064516,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00164",
+              "eligible_count": 31,
+              "conditional_mean": -0.6129032258064516,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00500",
+              "eligible_count": 31,
+              "conditional_mean": -0.6129032258064516,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00614",
+              "eligible_count": 31,
+              "conditional_mean": -0.6129032258064516,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00414",
+              "eligible_count": 31,
+              "conditional_mean": -0.6129032258064516,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00155",
+              "eligible_count": 31,
+              "conditional_mean": -0.6129032258064516,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00200",
+              "eligible_count": 30,
+              "conditional_mean": -0.6,
+              "unconditional_mean": -0.2857142857142857
+            },
+            {
+              "request_id": "eval_00029",
+              "eligible_count": 31,
+              "conditional_mean": -0.6129032258064516,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00874",
+              "eligible_count": 31,
+              "conditional_mean": -0.6129032258064516,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00945",
+              "eligible_count": 30,
+              "conditional_mean": -0.6,
+              "unconditional_mean": -0.2857142857142857
+            },
+            {
+              "request_id": "eval_00168",
+              "eligible_count": 30,
+              "conditional_mean": -0.6333333333333333,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00482",
+              "eligible_count": 31,
+              "conditional_mean": -0.6129032258064516,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00057",
+              "eligible_count": 30,
+              "conditional_mean": -0.6333333333333333,
+              "unconditional_mean": -0.30158730158730157
+            }
+          ],
+          "loo_all_conditional_means_positive": false,
+          "loo_conditional_signs": {
+            "positive": 0,
+            "negative": 64,
+            "zero": 0,
+            "empty": 0
+          }
+        },
+        "support_facts": {
+          "repeated_both_positive": false,
+          "both_conditional_ci_lower_above_zero": false,
+          "both_loo_means_stay_positive": false,
+          "descriptive_sample_size": 31,
+          "automatic_supported_verdict": false
+        }
+      },
+      "interior_advances": {
+        "eligible_requests": 31,
+        "both_restart_positive_count": 0,
+        "both_restart_positive_fraction": 0.0,
+        "repair_verified_count": 31,
+        "repair_not_verified_count": 0,
+        "R4": {
+          "conditional": {
+            "n": 31,
+            "mean": -0.3870967741935484,
+            "median": 0.0,
+            "minimum": -3.0,
+            "maximum": 2.0,
+            "q25": -1.0,
+            "q75": 0.0,
+            "sample_sd": 0.8823234234995205,
+            "positive": 2,
+            "negative": 12,
+            "zero": 17
+          },
+          "unconditional": {
+            "n": 64,
+            "mean": -0.1875,
+            "median": 0.0,
+            "minimum": -3.0,
+            "maximum": 2.0,
+            "q25": 0.0,
+            "q75": 0.0,
+            "sample_sd": 0.6393200753379786,
+            "positive": 2,
+            "negative": 12,
+            "zero": 50
+          },
+          "conditional_ci95": [
+            -0.7,
+            -0.07142857142857142
+          ],
+          "conditional_interval_status": "reported_with_sample_size",
+          "unconditional_ci95": [
+            -0.34375,
+            -0.03125
+          ],
+          "empty_stratum_resamples": 0,
+          "nonempty_stratum_resamples": 10000,
+          "bootstrap_eligible_count": {
+            "n": 10000,
+            "mean": 31.0344,
+            "median": 31.0,
+            "minimum": 16.0,
+            "maximum": 44.0,
+            "q25": 28.0,
+            "q75": 34.0,
+            "sample_sd": 4.000027082616588,
+            "positive": 10000,
+            "negative": 0,
+            "zero": 0
+          },
+          "concentration": {
+            "absolute_sum": 18.0,
+            "positive_sum": 3.0,
+            "signed_sum": -12.0,
+            "largest_absolute_request": "eval_00096",
+            "largest_absolute_share": 0.16666666666666666,
+            "largest_positive_share": 0.6666666666666666,
+            "nonzero_contributors": 14
+          },
+          "leave_one_out": [
+            {
+              "request_id": "eval_00954",
+              "eligible_count": 30,
+              "conditional_mean": -0.4,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00574",
+              "eligible_count": 31,
+              "conditional_mean": -0.3870967741935484,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00096",
+              "eligible_count": 30,
+              "conditional_mean": -0.3,
+              "unconditional_mean": -0.14285714285714285
+            },
+            {
+              "request_id": "eval_00240",
+              "eligible_count": 30,
+              "conditional_mean": -0.4,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00645",
+              "eligible_count": 31,
+              "conditional_mean": -0.3870967741935484,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00600",
+              "eligible_count": 30,
+              "conditional_mean": -0.36666666666666664,
+              "unconditional_mean": -0.1746031746031746
+            },
+            {
+              "request_id": "eval_00684",
+              "eligible_count": 30,
+              "conditional_mean": -0.4,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00854",
+              "eligible_count": 31,
+              "conditional_mean": -0.3870967741935484,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00413",
+              "eligible_count": 31,
+              "conditional_mean": -0.3870967741935484,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00888",
+              "eligible_count": 31,
+              "conditional_mean": -0.3870967741935484,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00138",
+              "eligible_count": 31,
+              "conditional_mean": -0.3870967741935484,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00801",
+              "eligible_count": 30,
+              "conditional_mean": -0.4,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00116",
+              "eligible_count": 31,
+              "conditional_mean": -0.3870967741935484,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00508",
+              "eligible_count": 30,
+              "conditional_mean": -0.43333333333333335,
+              "unconditional_mean": -0.20634920634920634
+            },
+            {
+              "request_id": "eval_01014",
+              "eligible_count": 31,
+              "conditional_mean": -0.3870967741935484,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00785",
+              "eligible_count": 31,
+              "conditional_mean": -0.3870967741935484,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00229",
+              "eligible_count": 30,
+              "conditional_mean": -0.36666666666666664,
+              "unconditional_mean": -0.1746031746031746
+            },
+            {
+              "request_id": "eval_00469",
+              "eligible_count": 30,
+              "conditional_mean": -0.4,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00858",
+              "eligible_count": 31,
+              "conditional_mean": -0.3870967741935484,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00401",
+              "eligible_count": 31,
+              "conditional_mean": -0.3870967741935484,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00636",
+              "eligible_count": 30,
+              "conditional_mean": -0.4,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00670",
+              "eligible_count": 30,
+              "conditional_mean": -0.36666666666666664,
+              "unconditional_mean": -0.1746031746031746
+            },
+            {
+              "request_id": "eval_00931",
+              "eligible_count": 30,
+              "conditional_mean": -0.36666666666666664,
+              "unconditional_mean": -0.1746031746031746
+            },
+            {
+              "request_id": "eval_00733",
+              "eligible_count": 31,
+              "conditional_mean": -0.3870967741935484,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00343",
+              "eligible_count": 31,
+              "conditional_mean": -0.3870967741935484,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00220",
+              "eligible_count": 30,
+              "conditional_mean": -0.36666666666666664,
+              "unconditional_mean": -0.1746031746031746
+            },
+            {
+              "request_id": "eval_00491",
+              "eligible_count": 30,
+              "conditional_mean": -0.4,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00792",
+              "eligible_count": 31,
+              "conditional_mean": -0.3870967741935484,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00410",
+              "eligible_count": 30,
+              "conditional_mean": -0.4,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00739",
+              "eligible_count": 30,
+              "conditional_mean": -0.36666666666666664,
+              "unconditional_mean": -0.1746031746031746
+            },
+            {
+              "request_id": "eval_00133",
+              "eligible_count": 30,
+              "conditional_mean": -0.36666666666666664,
+              "unconditional_mean": -0.1746031746031746
+            },
+            {
+              "request_id": "eval_00560",
+              "eligible_count": 30,
+              "conditional_mean": -0.4666666666666667,
+              "unconditional_mean": -0.2222222222222222
+            },
+            {
+              "request_id": "eval_00641",
+              "eligible_count": 30,
+              "conditional_mean": -0.4,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00052",
+              "eligible_count": 31,
+              "conditional_mean": -0.3870967741935484,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00795",
+              "eligible_count": 30,
+              "conditional_mean": -0.4,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00030",
+              "eligible_count": 30,
+              "conditional_mean": -0.36666666666666664,
+              "unconditional_mean": -0.1746031746031746
+            },
+            {
+              "request_id": "eval_00647",
+              "eligible_count": 31,
+              "conditional_mean": -0.3870967741935484,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00611",
+              "eligible_count": 31,
+              "conditional_mean": -0.3870967741935484,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00974",
+              "eligible_count": 31,
+              "conditional_mean": -0.3870967741935484,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_01003",
+              "eligible_count": 31,
+              "conditional_mean": -0.3870967741935484,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00978",
+              "eligible_count": 30,
+              "conditional_mean": -0.4,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00278",
+              "eligible_count": 30,
+              "conditional_mean": -0.36666666666666664,
+              "unconditional_mean": -0.1746031746031746
+            },
+            {
+              "request_id": "eval_00751",
+              "eligible_count": 30,
+              "conditional_mean": -0.4,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00242",
+              "eligible_count": 31,
+              "conditional_mean": -0.3870967741935484,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00194",
+              "eligible_count": 31,
+              "conditional_mean": -0.3870967741935484,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00994",
+              "eligible_count": 30,
+              "conditional_mean": -0.4,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00621",
+              "eligible_count": 31,
+              "conditional_mean": -0.3870967741935484,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00985",
+              "eligible_count": 30,
+              "conditional_mean": -0.4,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00334",
+              "eligible_count": 31,
+              "conditional_mean": -0.3870967741935484,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00149",
+              "eligible_count": 30,
+              "conditional_mean": -0.4,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00268",
+              "eligible_count": 31,
+              "conditional_mean": -0.3870967741935484,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00727",
+              "eligible_count": 31,
+              "conditional_mean": -0.3870967741935484,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00164",
+              "eligible_count": 31,
+              "conditional_mean": -0.3870967741935484,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00500",
+              "eligible_count": 31,
+              "conditional_mean": -0.3870967741935484,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00614",
+              "eligible_count": 31,
+              "conditional_mean": -0.3870967741935484,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00414",
+              "eligible_count": 31,
+              "conditional_mean": -0.3870967741935484,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00155",
+              "eligible_count": 31,
+              "conditional_mean": -0.3870967741935484,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00200",
+              "eligible_count": 30,
+              "conditional_mean": -0.3333333333333333,
+              "unconditional_mean": -0.15873015873015872
+            },
+            {
+              "request_id": "eval_00029",
+              "eligible_count": 31,
+              "conditional_mean": -0.3870967741935484,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00874",
+              "eligible_count": 31,
+              "conditional_mean": -0.3870967741935484,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00945",
+              "eligible_count": 30,
+              "conditional_mean": -0.36666666666666664,
+              "unconditional_mean": -0.1746031746031746
+            },
+            {
+              "request_id": "eval_00168",
+              "eligible_count": 30,
+              "conditional_mean": -0.4,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00482",
+              "eligible_count": 31,
+              "conditional_mean": -0.3870967741935484,
+              "unconditional_mean": -0.19047619047619047
+            },
+            {
+              "request_id": "eval_00057",
+              "eligible_count": 30,
+              "conditional_mean": -0.4,
+              "unconditional_mean": -0.19047619047619047
+            }
+          ],
+          "loo_all_conditional_means_positive": false,
+          "loo_conditional_signs": {
+            "positive": 0,
+            "negative": 64,
+            "zero": 0,
+            "empty": 0
+          }
+        },
+        "R6": {
+          "conditional": {
+            "n": 31,
+            "mean": -0.6129032258064516,
+            "median": -1.0,
+            "minimum": -3.0,
+            "maximum": 0.0,
+            "q25": -1.0,
+            "q75": 0.0,
+            "sample_sd": 0.6672040844618539,
+            "positive": 0,
+            "negative": 17,
+            "zero": 14
+          },
+          "unconditional": {
+            "n": 64,
+            "mean": -0.296875,
+            "median": 0.0,
+            "minimum": -3.0,
+            "maximum": 0.0,
+            "q25": -1.0,
+            "q75": 0.0,
+            "sample_sd": 0.5543389456520863,
+            "positive": 0,
+            "negative": 17,
+            "zero": 47
+          },
+          "conditional_ci95": [
+            -0.8571428571428571,
+            -0.39021002710027153
+          ],
+          "conditional_interval_status": "reported_with_sample_size",
+          "unconditional_ci95": [
+            -0.4375,
+            -0.171875
+          ],
+          "empty_stratum_resamples": 0,
+          "nonempty_stratum_resamples": 10000,
+          "bootstrap_eligible_count": {
+            "n": 10000,
+            "mean": 31.0344,
+            "median": 31.0,
+            "minimum": 16.0,
+            "maximum": 44.0,
+            "q25": 28.0,
+            "q75": 34.0,
+            "sample_sd": 4.000027082616588,
+            "positive": 10000,
+            "negative": 0,
+            "zero": 0
+          },
+          "concentration": {
+            "absolute_sum": 19.0,
+            "positive_sum": 0.0,
+            "signed_sum": -19.0,
+            "largest_absolute_request": "eval_00096",
+            "largest_absolute_share": 0.15789473684210525,
+            "largest_positive_share": null,
+            "nonzero_contributors": 17
+          },
+          "leave_one_out": [
+            {
+              "request_id": "eval_00954",
+              "eligible_count": 30,
+              "conditional_mean": -0.6,
+              "unconditional_mean": -0.2857142857142857
+            },
+            {
+              "request_id": "eval_00574",
+              "eligible_count": 31,
+              "conditional_mean": -0.6129032258064516,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00096",
+              "eligible_count": 30,
+              "conditional_mean": -0.5333333333333333,
+              "unconditional_mean": -0.25396825396825395
+            },
+            {
+              "request_id": "eval_00240",
+              "eligible_count": 30,
+              "conditional_mean": -0.6333333333333333,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00645",
+              "eligible_count": 31,
+              "conditional_mean": -0.6129032258064516,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00600",
+              "eligible_count": 30,
+              "conditional_mean": -0.6,
+              "unconditional_mean": -0.2857142857142857
+            },
+            {
+              "request_id": "eval_00684",
+              "eligible_count": 30,
+              "conditional_mean": -0.6333333333333333,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00854",
+              "eligible_count": 31,
+              "conditional_mean": -0.6129032258064516,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00413",
+              "eligible_count": 31,
+              "conditional_mean": -0.6129032258064516,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00888",
+              "eligible_count": 31,
+              "conditional_mean": -0.6129032258064516,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00138",
+              "eligible_count": 31,
+              "conditional_mean": -0.6129032258064516,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00801",
+              "eligible_count": 30,
+              "conditional_mean": -0.6,
+              "unconditional_mean": -0.2857142857142857
+            },
+            {
+              "request_id": "eval_00116",
+              "eligible_count": 31,
+              "conditional_mean": -0.6129032258064516,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00508",
+              "eligible_count": 30,
+              "conditional_mean": -0.6333333333333333,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_01014",
+              "eligible_count": 31,
+              "conditional_mean": -0.6129032258064516,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00785",
+              "eligible_count": 31,
+              "conditional_mean": -0.6129032258064516,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00229",
+              "eligible_count": 30,
+              "conditional_mean": -0.6,
+              "unconditional_mean": -0.2857142857142857
+            },
+            {
+              "request_id": "eval_00469",
+              "eligible_count": 30,
+              "conditional_mean": -0.6333333333333333,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00858",
+              "eligible_count": 31,
+              "conditional_mean": -0.6129032258064516,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00401",
+              "eligible_count": 31,
+              "conditional_mean": -0.6129032258064516,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00636",
+              "eligible_count": 30,
+              "conditional_mean": -0.6333333333333333,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00670",
+              "eligible_count": 30,
+              "conditional_mean": -0.6333333333333333,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00931",
+              "eligible_count": 30,
+              "conditional_mean": -0.6,
+              "unconditional_mean": -0.2857142857142857
+            },
+            {
+              "request_id": "eval_00733",
+              "eligible_count": 31,
+              "conditional_mean": -0.6129032258064516,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00343",
+              "eligible_count": 31,
+              "conditional_mean": -0.6129032258064516,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00220",
+              "eligible_count": 30,
+              "conditional_mean": -0.6,
+              "unconditional_mean": -0.2857142857142857
+            },
+            {
+              "request_id": "eval_00491",
+              "eligible_count": 30,
+              "conditional_mean": -0.6,
+              "unconditional_mean": -0.2857142857142857
+            },
+            {
+              "request_id": "eval_00792",
+              "eligible_count": 31,
+              "conditional_mean": -0.6129032258064516,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00410",
+              "eligible_count": 30,
+              "conditional_mean": -0.6333333333333333,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00739",
+              "eligible_count": 30,
+              "conditional_mean": -0.6,
+              "unconditional_mean": -0.2857142857142857
+            },
+            {
+              "request_id": "eval_00133",
+              "eligible_count": 30,
+              "conditional_mean": -0.6,
+              "unconditional_mean": -0.2857142857142857
+            },
+            {
+              "request_id": "eval_00560",
+              "eligible_count": 30,
+              "conditional_mean": -0.6,
+              "unconditional_mean": -0.2857142857142857
+            },
+            {
+              "request_id": "eval_00641",
+              "eligible_count": 30,
+              "conditional_mean": -0.6,
+              "unconditional_mean": -0.2857142857142857
+            },
+            {
+              "request_id": "eval_00052",
+              "eligible_count": 31,
+              "conditional_mean": -0.6129032258064516,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00795",
+              "eligible_count": 30,
+              "conditional_mean": -0.6333333333333333,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00030",
+              "eligible_count": 30,
+              "conditional_mean": -0.6,
+              "unconditional_mean": -0.2857142857142857
+            },
+            {
+              "request_id": "eval_00647",
+              "eligible_count": 31,
+              "conditional_mean": -0.6129032258064516,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00611",
+              "eligible_count": 31,
+              "conditional_mean": -0.6129032258064516,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00974",
+              "eligible_count": 31,
+              "conditional_mean": -0.6129032258064516,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_01003",
+              "eligible_count": 31,
+              "conditional_mean": -0.6129032258064516,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00978",
+              "eligible_count": 30,
+              "conditional_mean": -0.6,
+              "unconditional_mean": -0.2857142857142857
+            },
+            {
+              "request_id": "eval_00278",
+              "eligible_count": 30,
+              "conditional_mean": -0.6,
+              "unconditional_mean": -0.2857142857142857
+            },
+            {
+              "request_id": "eval_00751",
+              "eligible_count": 30,
+              "conditional_mean": -0.6333333333333333,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00242",
+              "eligible_count": 31,
+              "conditional_mean": -0.6129032258064516,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00194",
+              "eligible_count": 31,
+              "conditional_mean": -0.6129032258064516,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00994",
+              "eligible_count": 30,
+              "conditional_mean": -0.6333333333333333,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00621",
+              "eligible_count": 31,
+              "conditional_mean": -0.6129032258064516,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00985",
+              "eligible_count": 30,
+              "conditional_mean": -0.6333333333333333,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00334",
+              "eligible_count": 31,
+              "conditional_mean": -0.6129032258064516,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00149",
+              "eligible_count": 30,
+              "conditional_mean": -0.6333333333333333,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00268",
+              "eligible_count": 31,
+              "conditional_mean": -0.6129032258064516,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00727",
+              "eligible_count": 31,
+              "conditional_mean": -0.6129032258064516,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00164",
+              "eligible_count": 31,
+              "conditional_mean": -0.6129032258064516,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00500",
+              "eligible_count": 31,
+              "conditional_mean": -0.6129032258064516,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00614",
+              "eligible_count": 31,
+              "conditional_mean": -0.6129032258064516,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00414",
+              "eligible_count": 31,
+              "conditional_mean": -0.6129032258064516,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00155",
+              "eligible_count": 31,
+              "conditional_mean": -0.6129032258064516,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00200",
+              "eligible_count": 30,
+              "conditional_mean": -0.6,
+              "unconditional_mean": -0.2857142857142857
+            },
+            {
+              "request_id": "eval_00029",
+              "eligible_count": 31,
+              "conditional_mean": -0.6129032258064516,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00874",
+              "eligible_count": 31,
+              "conditional_mean": -0.6129032258064516,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00945",
+              "eligible_count": 30,
+              "conditional_mean": -0.6,
+              "unconditional_mean": -0.2857142857142857
+            },
+            {
+              "request_id": "eval_00168",
+              "eligible_count": 30,
+              "conditional_mean": -0.6333333333333333,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00482",
+              "eligible_count": 31,
+              "conditional_mean": -0.6129032258064516,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "eval_00057",
+              "eligible_count": 30,
+              "conditional_mean": -0.6333333333333333,
+              "unconditional_mean": -0.30158730158730157
+            }
+          ],
+          "loo_all_conditional_means_positive": false,
+          "loo_conditional_signs": {
+            "positive": 0,
+            "negative": 64,
+            "zero": 0,
+            "empty": 0
+          }
+        },
+        "support_facts": {
+          "repeated_both_positive": false,
+          "both_conditional_ci_lower_above_zero": false,
+          "both_loo_means_stay_positive": false,
+          "descriptive_sample_size": 31,
+          "automatic_supported_verdict": false
+        }
+      }
+    },
+    "boundary_advances": 0,
+    "inference": "Descriptive conditional decomposition; assess sparsity and conflicting signs explicitly. No latency or unique-attribution claim."
+  },
+  "mathqa": {
+    "dataset": "mathqa",
+    "selected_requests": 64,
+    "complete_requests": 64,
+    "incomplete_requests": 0,
+    "transitions": {
+      "advance": 40,
+      "regression": 24
+    },
+    "native_endpoint_known_requests": 64,
+    "native_endpoint_total_calls4": 4330,
+    "native_endpoint_total_calls6": 4252,
+    "endpoint_call_ties": 6,
+    "endpoint_call_difference": {
+      "n": 64,
+      "mean": -1.21875,
+      "median": -1.0,
+      "minimum": -9.0,
+      "maximum": 12.0,
+      "q25": -3.25,
+      "q75": 1.0,
+      "sample_sd": 4.00978465953884,
+      "positive": 19,
+      "negative": 39,
+      "zero": 6
+    },
+    "bootstrap": {
+      "resamples": 10000,
+      "seed": 20261110,
+      "generator": "PCG64",
+      "method": "linear_percentile",
+      "unit": "full_selected_request_row",
+      "strata_recomputed_after_resampling": true
+    },
+    "sparsity_policy": "No data-selected minimum-n rule. n<2 conditional intervals are descriptive-only; report all other n, empty draws and concentration without automatic support classification.",
+    "automatic_followup_authorized": false,
+    "status": "completed",
+    "strata": {
+      "all_advances": {
+        "eligible_requests": 40,
+        "both_restart_positive_count": 1,
+        "both_restart_positive_fraction": 0.025,
+        "repair_verified_count": 40,
+        "repair_not_verified_count": 0,
+        "R4": {
+          "conditional": {
+            "n": 40,
+            "mean": -0.525,
+            "median": -1.0,
+            "minimum": -2.0,
+            "maximum": 1.0,
+            "q25": -1.0,
+            "q75": 0.0,
+            "sample_sd": 0.6788942744621108,
+            "positive": 3,
+            "negative": 23,
+            "zero": 14
+          },
+          "unconditional": {
+            "n": 64,
+            "mean": -0.328125,
+            "median": 0.0,
+            "minimum": -2.0,
+            "maximum": 1.0,
+            "q25": -1.0,
+            "q75": 0.0,
+            "sample_sd": 0.5924039671689078,
+            "positive": 3,
+            "negative": 23,
+            "zero": 38
+          },
+          "conditional_ci95": [
+            -0.7272727272727273,
+            -0.30301268498942946
+          ],
+          "conditional_interval_status": "reported_with_sample_size",
+          "unconditional_ci95": [
+            -0.46875,
+            -0.1875
+          ],
+          "empty_stratum_resamples": 0,
+          "nonempty_stratum_resamples": 10000,
+          "bootstrap_eligible_count": {
+            "n": 10000,
+            "mean": 39.9554,
+            "median": 40.0,
+            "minimum": 23.0,
+            "maximum": 54.0,
+            "q25": 37.0,
+            "q75": 43.0,
+            "sample_sd": 3.881458155351049,
+            "positive": 10000,
+            "negative": 0,
+            "zero": 0
+          },
+          "concentration": {
+            "absolute_sum": 27.0,
+            "positive_sum": 3.0,
+            "signed_sum": -21.0,
+            "largest_absolute_request": "mathqa-transfer-0306",
+            "largest_absolute_share": 0.07407407407407407,
+            "largest_positive_share": 0.3333333333333333,
+            "nonzero_contributors": 26
+          },
+          "leave_one_out": [
+            {
+              "request_id": "mathqa-transfer-0633",
+              "eligible_count": 39,
+              "conditional_mean": -0.5384615384615384,
+              "unconditional_mean": -0.3333333333333333
+            },
+            {
+              "request_id": "mathqa-transfer-0882",
+              "eligible_count": 40,
+              "conditional_mean": -0.525,
+              "unconditional_mean": -0.3333333333333333
+            },
+            {
+              "request_id": "mathqa-transfer-0208",
+              "eligible_count": 39,
+              "conditional_mean": -0.5384615384615384,
+              "unconditional_mean": -0.3333333333333333
+            },
+            {
+              "request_id": "mathqa-transfer-0502",
+              "eligible_count": 39,
+              "conditional_mean": -0.5128205128205128,
+              "unconditional_mean": -0.31746031746031744
+            },
+            {
+              "request_id": "mathqa-transfer-0838",
+              "eligible_count": 40,
+              "conditional_mean": -0.525,
+              "unconditional_mean": -0.3333333333333333
+            },
+            {
+              "request_id": "mathqa-transfer-0652",
+              "eligible_count": 40,
+              "conditional_mean": -0.525,
+              "unconditional_mean": -0.3333333333333333
+            },
+            {
+              "request_id": "mathqa-transfer-0321",
+              "eligible_count": 40,
+              "conditional_mean": -0.525,
+              "unconditional_mean": -0.3333333333333333
+            },
+            {
+              "request_id": "mathqa-transfer-0983",
+              "eligible_count": 40,
+              "conditional_mean": -0.525,
+              "unconditional_mean": -0.3333333333333333
+            },
+            {
+              "request_id": "mathqa-transfer-0065",
+              "eligible_count": 40,
+              "conditional_mean": -0.525,
+              "unconditional_mean": -0.3333333333333333
+            },
+            {
+              "request_id": "mathqa-transfer-0058",
+              "eligible_count": 39,
+              "conditional_mean": -0.5128205128205128,
+              "unconditional_mean": -0.31746031746031744
+            },
+            {
+              "request_id": "mathqa-transfer-0583",
+              "eligible_count": 39,
+              "conditional_mean": -0.5641025641025641,
+              "unconditional_mean": -0.3492063492063492
+            },
+            {
+              "request_id": "mathqa-transfer-0209",
+              "eligible_count": 39,
+              "conditional_mean": -0.5384615384615384,
+              "unconditional_mean": -0.3333333333333333
+            },
+            {
+              "request_id": "mathqa-transfer-0786",
+              "eligible_count": 39,
+              "conditional_mean": -0.5128205128205128,
+              "unconditional_mean": -0.31746031746031744
+            },
+            {
+              "request_id": "mathqa-transfer-0214",
+              "eligible_count": 39,
+              "conditional_mean": -0.5384615384615384,
+              "unconditional_mean": -0.3333333333333333
+            },
+            {
+              "request_id": "mathqa-transfer-0181",
+              "eligible_count": 39,
+              "conditional_mean": -0.5128205128205128,
+              "unconditional_mean": -0.31746031746031744
+            },
+            {
+              "request_id": "mathqa-transfer-0812",
+              "eligible_count": 40,
+              "conditional_mean": -0.525,
+              "unconditional_mean": -0.3333333333333333
+            },
+            {
+              "request_id": "mathqa-transfer-0832",
+              "eligible_count": 39,
+              "conditional_mean": -0.5128205128205128,
+              "unconditional_mean": -0.31746031746031744
+            },
+            {
+              "request_id": "mathqa-transfer-0172",
+              "eligible_count": 39,
+              "conditional_mean": -0.5384615384615384,
+              "unconditional_mean": -0.3333333333333333
+            },
+            {
+              "request_id": "mathqa-transfer-0506",
+              "eligible_count": 40,
+              "conditional_mean": -0.525,
+              "unconditional_mean": -0.3333333333333333
+            },
+            {
+              "request_id": "mathqa-transfer-0958",
+              "eligible_count": 39,
+              "conditional_mean": -0.5128205128205128,
+              "unconditional_mean": -0.31746031746031744
+            },
+            {
+              "request_id": "mathqa-transfer-0294",
+              "eligible_count": 39,
+              "conditional_mean": -0.5641025641025641,
+              "unconditional_mean": -0.3492063492063492
+            },
+            {
+              "request_id": "mathqa-transfer-0091",
+              "eligible_count": 39,
+              "conditional_mean": -0.5128205128205128,
+              "unconditional_mean": -0.31746031746031744
+            },
+            {
+              "request_id": "mathqa-transfer-0120",
+              "eligible_count": 40,
+              "conditional_mean": -0.525,
+              "unconditional_mean": -0.3333333333333333
+            },
+            {
+              "request_id": "mathqa-transfer-0697",
+              "eligible_count": 39,
+              "conditional_mean": -0.5128205128205128,
+              "unconditional_mean": -0.31746031746031744
+            },
+            {
+              "request_id": "mathqa-transfer-0530",
+              "eligible_count": 39,
+              "conditional_mean": -0.5128205128205128,
+              "unconditional_mean": -0.31746031746031744
+            },
+            {
+              "request_id": "mathqa-transfer-0406",
+              "eligible_count": 40,
+              "conditional_mean": -0.525,
+              "unconditional_mean": -0.3333333333333333
+            },
+            {
+              "request_id": "mathqa-transfer-0410",
+              "eligible_count": 40,
+              "conditional_mean": -0.525,
+              "unconditional_mean": -0.3333333333333333
+            },
+            {
+              "request_id": "mathqa-transfer-0641",
+              "eligible_count": 40,
+              "conditional_mean": -0.525,
+              "unconditional_mean": -0.3333333333333333
+            },
+            {
+              "request_id": "mathqa-transfer-0649",
+              "eligible_count": 39,
+              "conditional_mean": -0.5128205128205128,
+              "unconditional_mean": -0.31746031746031744
+            },
+            {
+              "request_id": "mathqa-transfer-0076",
+              "eligible_count": 40,
+              "conditional_mean": -0.525,
+              "unconditional_mean": -0.3333333333333333
+            },
+            {
+              "request_id": "mathqa-transfer-0387",
+              "eligible_count": 39,
+              "conditional_mean": -0.5384615384615384,
+              "unconditional_mean": -0.3333333333333333
+            },
+            {
+              "request_id": "mathqa-transfer-0049",
+              "eligible_count": 39,
+              "conditional_mean": -0.5128205128205128,
+              "unconditional_mean": -0.31746031746031744
+            },
+            {
+              "request_id": "mathqa-transfer-0878",
+              "eligible_count": 39,
+              "conditional_mean": -0.5128205128205128,
+              "unconditional_mean": -0.31746031746031744
+            },
+            {
+              "request_id": "mathqa-transfer-0490",
+              "eligible_count": 39,
+              "conditional_mean": -0.5128205128205128,
+              "unconditional_mean": -0.31746031746031744
+            },
+            {
+              "request_id": "mathqa-transfer-0004",
+              "eligible_count": 39,
+              "conditional_mean": -0.5128205128205128,
+              "unconditional_mean": -0.31746031746031744
+            },
+            {
+              "request_id": "mathqa-transfer-0295",
+              "eligible_count": 40,
+              "conditional_mean": -0.525,
+              "unconditional_mean": -0.3333333333333333
+            },
+            {
+              "request_id": "mathqa-transfer-0223",
+              "eligible_count": 39,
+              "conditional_mean": -0.5128205128205128,
+              "unconditional_mean": -0.31746031746031744
+            },
+            {
+              "request_id": "mathqa-transfer-0896",
+              "eligible_count": 40,
+              "conditional_mean": -0.525,
+              "unconditional_mean": -0.3333333333333333
+            },
+            {
+              "request_id": "mathqa-transfer-0198",
+              "eligible_count": 40,
+              "conditional_mean": -0.525,
+              "unconditional_mean": -0.3333333333333333
+            },
+            {
+              "request_id": "mathqa-transfer-0647",
+              "eligible_count": 39,
+              "conditional_mean": -0.5128205128205128,
+              "unconditional_mean": -0.31746031746031744
+            },
+            {
+              "request_id": "mathqa-transfer-0060",
+              "eligible_count": 39,
+              "conditional_mean": -0.5128205128205128,
+              "unconditional_mean": -0.31746031746031744
+            },
+            {
+              "request_id": "mathqa-transfer-0698",
+              "eligible_count": 40,
+              "conditional_mean": -0.525,
+              "unconditional_mean": -0.3333333333333333
+            },
+            {
+              "request_id": "mathqa-transfer-0038",
+              "eligible_count": 39,
+              "conditional_mean": -0.5384615384615384,
+              "unconditional_mean": -0.3333333333333333
+            },
+            {
+              "request_id": "mathqa-transfer-0883",
+              "eligible_count": 39,
+              "conditional_mean": -0.5384615384615384,
+              "unconditional_mean": -0.3333333333333333
+            },
+            {
+              "request_id": "mathqa-transfer-0437",
+              "eligible_count": 39,
+              "conditional_mean": -0.5384615384615384,
+              "unconditional_mean": -0.3333333333333333
+            },
+            {
+              "request_id": "mathqa-transfer-0055",
+              "eligible_count": 40,
+              "conditional_mean": -0.525,
+              "unconditional_mean": -0.3333333333333333
+            },
+            {
+              "request_id": "mathqa-transfer-0489",
+              "eligible_count": 39,
+              "conditional_mean": -0.5384615384615384,
+              "unconditional_mean": -0.3333333333333333
+            },
+            {
+              "request_id": "mathqa-transfer-0521",
+              "eligible_count": 40,
+              "conditional_mean": -0.525,
+              "unconditional_mean": -0.3333333333333333
+            },
+            {
+              "request_id": "mathqa-transfer-0412",
+              "eligible_count": 39,
+              "conditional_mean": -0.5384615384615384,
+              "unconditional_mean": -0.3333333333333333
+            },
+            {
+              "request_id": "mathqa-transfer-0869",
+              "eligible_count": 39,
+              "conditional_mean": -0.5128205128205128,
+              "unconditional_mean": -0.31746031746031744
+            },
+            {
+              "request_id": "mathqa-transfer-0651",
+              "eligible_count": 39,
+              "conditional_mean": -0.5641025641025641,
+              "unconditional_mean": -0.3492063492063492
+            },
+            {
+              "request_id": "mathqa-transfer-0117",
+              "eligible_count": 39,
+              "conditional_mean": -0.5128205128205128,
+              "unconditional_mean": -0.31746031746031744
+            },
+            {
+              "request_id": "mathqa-transfer-0306",
+              "eligible_count": 39,
+              "conditional_mean": -0.48717948717948717,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "mathqa-transfer-1002",
+              "eligible_count": 39,
+              "conditional_mean": -0.5384615384615384,
+              "unconditional_mean": -0.3333333333333333
+            },
+            {
+              "request_id": "mathqa-transfer-0781",
+              "eligible_count": 39,
+              "conditional_mean": -0.5128205128205128,
+              "unconditional_mean": -0.31746031746031744
+            },
+            {
+              "request_id": "mathqa-transfer-0473",
+              "eligible_count": 39,
+              "conditional_mean": -0.5128205128205128,
+              "unconditional_mean": -0.31746031746031744
+            },
+            {
+              "request_id": "mathqa-transfer-0779",
+              "eligible_count": 40,
+              "conditional_mean": -0.525,
+              "unconditional_mean": -0.3333333333333333
+            },
+            {
+              "request_id": "mathqa-transfer-0054",
+              "eligible_count": 40,
+              "conditional_mean": -0.525,
+              "unconditional_mean": -0.3333333333333333
+            },
+            {
+              "request_id": "mathqa-transfer-1008",
+              "eligible_count": 39,
+              "conditional_mean": -0.5384615384615384,
+              "unconditional_mean": -0.3333333333333333
+            },
+            {
+              "request_id": "mathqa-transfer-0906",
+              "eligible_count": 40,
+              "conditional_mean": -0.525,
+              "unconditional_mean": -0.3333333333333333
+            },
+            {
+              "request_id": "mathqa-transfer-0292",
+              "eligible_count": 40,
+              "conditional_mean": -0.525,
+              "unconditional_mean": -0.3333333333333333
+            },
+            {
+              "request_id": "mathqa-transfer-0469",
+              "eligible_count": 39,
+              "conditional_mean": -0.5384615384615384,
+              "unconditional_mean": -0.3333333333333333
+            },
+            {
+              "request_id": "mathqa-transfer-0483",
+              "eligible_count": 39,
+              "conditional_mean": -0.5128205128205128,
+              "unconditional_mean": -0.31746031746031744
+            },
+            {
+              "request_id": "mathqa-transfer-0396",
+              "eligible_count": 40,
+              "conditional_mean": -0.525,
+              "unconditional_mean": -0.3333333333333333
+            }
+          ],
+          "loo_all_conditional_means_positive": false,
+          "loo_conditional_signs": {
+            "positive": 0,
+            "negative": 64,
+            "zero": 0,
+            "empty": 0
+          }
+        },
+        "R6": {
+          "conditional": {
+            "n": 40,
+            "mean": -0.7,
+            "median": -1.0,
+            "minimum": -5.0,
+            "maximum": 1.0,
+            "q25": -1.0,
+            "q75": 0.0,
+            "sample_sd": 0.9922778767136675,
+            "positive": 3,
+            "negative": 25,
+            "zero": 12
+          },
+          "unconditional": {
+            "n": 64,
+            "mean": -0.4375,
+            "median": 0.0,
+            "minimum": -5.0,
+            "maximum": 1.0,
+            "q25": -1.0,
+            "q75": 0.0,
+            "sample_sd": 0.8521681032463466,
+            "positive": 3,
+            "negative": 25,
+            "zero": 36
+          },
+          "conditional_ci95": [
+            -1.0256410256410255,
+            -0.41025641025641024
+          ],
+          "conditional_interval_status": "reported_with_sample_size",
+          "unconditional_ci95": [
+            -0.65625,
+            -0.25
+          ],
+          "empty_stratum_resamples": 0,
+          "nonempty_stratum_resamples": 10000,
+          "bootstrap_eligible_count": {
+            "n": 10000,
+            "mean": 39.9554,
+            "median": 40.0,
+            "minimum": 23.0,
+            "maximum": 54.0,
+            "q25": 37.0,
+            "q75": 43.0,
+            "sample_sd": 3.881458155351049,
+            "positive": 10000,
+            "negative": 0,
+            "zero": 0
+          },
+          "concentration": {
+            "absolute_sum": 34.0,
+            "positive_sum": 3.0,
+            "signed_sum": -28.0,
+            "largest_absolute_request": "mathqa-transfer-0306",
+            "largest_absolute_share": 0.14705882352941177,
+            "largest_positive_share": 0.3333333333333333,
+            "nonzero_contributors": 28
+          },
+          "leave_one_out": [
+            {
+              "request_id": "mathqa-transfer-0633",
+              "eligible_count": 39,
+              "conditional_mean": -0.717948717948718,
+              "unconditional_mean": -0.4444444444444444
+            },
+            {
+              "request_id": "mathqa-transfer-0882",
+              "eligible_count": 40,
+              "conditional_mean": -0.7,
+              "unconditional_mean": -0.4444444444444444
+            },
+            {
+              "request_id": "mathqa-transfer-0208",
+              "eligible_count": 39,
+              "conditional_mean": -0.717948717948718,
+              "unconditional_mean": -0.4444444444444444
+            },
+            {
+              "request_id": "mathqa-transfer-0502",
+              "eligible_count": 39,
+              "conditional_mean": -0.6923076923076923,
+              "unconditional_mean": -0.42857142857142855
+            },
+            {
+              "request_id": "mathqa-transfer-0838",
+              "eligible_count": 40,
+              "conditional_mean": -0.7,
+              "unconditional_mean": -0.4444444444444444
+            },
+            {
+              "request_id": "mathqa-transfer-0652",
+              "eligible_count": 40,
+              "conditional_mean": -0.7,
+              "unconditional_mean": -0.4444444444444444
+            },
+            {
+              "request_id": "mathqa-transfer-0321",
+              "eligible_count": 40,
+              "conditional_mean": -0.7,
+              "unconditional_mean": -0.4444444444444444
+            },
+            {
+              "request_id": "mathqa-transfer-0983",
+              "eligible_count": 40,
+              "conditional_mean": -0.7,
+              "unconditional_mean": -0.4444444444444444
+            },
+            {
+              "request_id": "mathqa-transfer-0065",
+              "eligible_count": 40,
+              "conditional_mean": -0.7,
+              "unconditional_mean": -0.4444444444444444
+            },
+            {
+              "request_id": "mathqa-transfer-0058",
+              "eligible_count": 39,
+              "conditional_mean": -0.6923076923076923,
+              "unconditional_mean": -0.42857142857142855
+            },
+            {
+              "request_id": "mathqa-transfer-0583",
+              "eligible_count": 39,
+              "conditional_mean": -0.7435897435897436,
+              "unconditional_mean": -0.4603174603174603
+            },
+            {
+              "request_id": "mathqa-transfer-0209",
+              "eligible_count": 39,
+              "conditional_mean": -0.717948717948718,
+              "unconditional_mean": -0.4444444444444444
+            },
+            {
+              "request_id": "mathqa-transfer-0786",
+              "eligible_count": 39,
+              "conditional_mean": -0.717948717948718,
+              "unconditional_mean": -0.4444444444444444
+            },
+            {
+              "request_id": "mathqa-transfer-0214",
+              "eligible_count": 39,
+              "conditional_mean": -0.6923076923076923,
+              "unconditional_mean": -0.42857142857142855
+            },
+            {
+              "request_id": "mathqa-transfer-0181",
+              "eligible_count": 39,
+              "conditional_mean": -0.6923076923076923,
+              "unconditional_mean": -0.42857142857142855
+            },
+            {
+              "request_id": "mathqa-transfer-0812",
+              "eligible_count": 40,
+              "conditional_mean": -0.7,
+              "unconditional_mean": -0.4444444444444444
+            },
+            {
+              "request_id": "mathqa-transfer-0832",
+              "eligible_count": 39,
+              "conditional_mean": -0.717948717948718,
+              "unconditional_mean": -0.4444444444444444
+            },
+            {
+              "request_id": "mathqa-transfer-0172",
+              "eligible_count": 39,
+              "conditional_mean": -0.717948717948718,
+              "unconditional_mean": -0.4444444444444444
+            },
+            {
+              "request_id": "mathqa-transfer-0506",
+              "eligible_count": 40,
+              "conditional_mean": -0.7,
+              "unconditional_mean": -0.4444444444444444
+            },
+            {
+              "request_id": "mathqa-transfer-0958",
+              "eligible_count": 39,
+              "conditional_mean": -0.6923076923076923,
+              "unconditional_mean": -0.42857142857142855
+            },
+            {
+              "request_id": "mathqa-transfer-0294",
+              "eligible_count": 39,
+              "conditional_mean": -0.717948717948718,
+              "unconditional_mean": -0.4444444444444444
+            },
+            {
+              "request_id": "mathqa-transfer-0091",
+              "eligible_count": 39,
+              "conditional_mean": -0.6923076923076923,
+              "unconditional_mean": -0.42857142857142855
+            },
+            {
+              "request_id": "mathqa-transfer-0120",
+              "eligible_count": 40,
+              "conditional_mean": -0.7,
+              "unconditional_mean": -0.4444444444444444
+            },
+            {
+              "request_id": "mathqa-transfer-0697",
+              "eligible_count": 39,
+              "conditional_mean": -0.6923076923076923,
+              "unconditional_mean": -0.42857142857142855
+            },
+            {
+              "request_id": "mathqa-transfer-0530",
+              "eligible_count": 39,
+              "conditional_mean": -0.6666666666666666,
+              "unconditional_mean": -0.4126984126984127
+            },
+            {
+              "request_id": "mathqa-transfer-0406",
+              "eligible_count": 40,
+              "conditional_mean": -0.7,
+              "unconditional_mean": -0.4444444444444444
+            },
+            {
+              "request_id": "mathqa-transfer-0410",
+              "eligible_count": 40,
+              "conditional_mean": -0.7,
+              "unconditional_mean": -0.4444444444444444
+            },
+            {
+              "request_id": "mathqa-transfer-0641",
+              "eligible_count": 40,
+              "conditional_mean": -0.7,
+              "unconditional_mean": -0.4444444444444444
+            },
+            {
+              "request_id": "mathqa-transfer-0649",
+              "eligible_count": 39,
+              "conditional_mean": -0.6923076923076923,
+              "unconditional_mean": -0.42857142857142855
+            },
+            {
+              "request_id": "mathqa-transfer-0076",
+              "eligible_count": 40,
+              "conditional_mean": -0.7,
+              "unconditional_mean": -0.4444444444444444
+            },
+            {
+              "request_id": "mathqa-transfer-0387",
+              "eligible_count": 39,
+              "conditional_mean": -0.717948717948718,
+              "unconditional_mean": -0.4444444444444444
+            },
+            {
+              "request_id": "mathqa-transfer-0049",
+              "eligible_count": 39,
+              "conditional_mean": -0.7435897435897436,
+              "unconditional_mean": -0.4603174603174603
+            },
+            {
+              "request_id": "mathqa-transfer-0878",
+              "eligible_count": 39,
+              "conditional_mean": -0.6923076923076923,
+              "unconditional_mean": -0.42857142857142855
+            },
+            {
+              "request_id": "mathqa-transfer-0490",
+              "eligible_count": 39,
+              "conditional_mean": -0.6923076923076923,
+              "unconditional_mean": -0.42857142857142855
+            },
+            {
+              "request_id": "mathqa-transfer-0004",
+              "eligible_count": 39,
+              "conditional_mean": -0.6923076923076923,
+              "unconditional_mean": -0.42857142857142855
+            },
+            {
+              "request_id": "mathqa-transfer-0295",
+              "eligible_count": 40,
+              "conditional_mean": -0.7,
+              "unconditional_mean": -0.4444444444444444
+            },
+            {
+              "request_id": "mathqa-transfer-0223",
+              "eligible_count": 39,
+              "conditional_mean": -0.6666666666666666,
+              "unconditional_mean": -0.4126984126984127
+            },
+            {
+              "request_id": "mathqa-transfer-0896",
+              "eligible_count": 40,
+              "conditional_mean": -0.7,
+              "unconditional_mean": -0.4444444444444444
+            },
+            {
+              "request_id": "mathqa-transfer-0198",
+              "eligible_count": 40,
+              "conditional_mean": -0.7,
+              "unconditional_mean": -0.4444444444444444
+            },
+            {
+              "request_id": "mathqa-transfer-0647",
+              "eligible_count": 39,
+              "conditional_mean": -0.6923076923076923,
+              "unconditional_mean": -0.42857142857142855
+            },
+            {
+              "request_id": "mathqa-transfer-0060",
+              "eligible_count": 39,
+              "conditional_mean": -0.6923076923076923,
+              "unconditional_mean": -0.42857142857142855
+            },
+            {
+              "request_id": "mathqa-transfer-0698",
+              "eligible_count": 40,
+              "conditional_mean": -0.7,
+              "unconditional_mean": -0.4444444444444444
+            },
+            {
+              "request_id": "mathqa-transfer-0038",
+              "eligible_count": 39,
+              "conditional_mean": -0.6923076923076923,
+              "unconditional_mean": -0.42857142857142855
+            },
+            {
+              "request_id": "mathqa-transfer-0883",
+              "eligible_count": 39,
+              "conditional_mean": -0.717948717948718,
+              "unconditional_mean": -0.4444444444444444
+            },
+            {
+              "request_id": "mathqa-transfer-0437",
+              "eligible_count": 39,
+              "conditional_mean": -0.6923076923076923,
+              "unconditional_mean": -0.42857142857142855
+            },
+            {
+              "request_id": "mathqa-transfer-0055",
+              "eligible_count": 40,
+              "conditional_mean": -0.7,
+              "unconditional_mean": -0.4444444444444444
+            },
+            {
+              "request_id": "mathqa-transfer-0489",
+              "eligible_count": 39,
+              "conditional_mean": -0.6923076923076923,
+              "unconditional_mean": -0.42857142857142855
+            },
+            {
+              "request_id": "mathqa-transfer-0521",
+              "eligible_count": 40,
+              "conditional_mean": -0.7,
+              "unconditional_mean": -0.4444444444444444
+            },
+            {
+              "request_id": "mathqa-transfer-0412",
+              "eligible_count": 39,
+              "conditional_mean": -0.6923076923076923,
+              "unconditional_mean": -0.42857142857142855
+            },
+            {
+              "request_id": "mathqa-transfer-0869",
+              "eligible_count": 39,
+              "conditional_mean": -0.6923076923076923,
+              "unconditional_mean": -0.42857142857142855
+            },
+            {
+              "request_id": "mathqa-transfer-0651",
+              "eligible_count": 39,
+              "conditional_mean": -0.717948717948718,
+              "unconditional_mean": -0.4444444444444444
+            },
+            {
+              "request_id": "mathqa-transfer-0117",
+              "eligible_count": 39,
+              "conditional_mean": -0.7435897435897436,
+              "unconditional_mean": -0.4603174603174603
+            },
+            {
+              "request_id": "mathqa-transfer-0306",
+              "eligible_count": 39,
+              "conditional_mean": -0.5897435897435898,
+              "unconditional_mean": -0.36507936507936506
+            },
+            {
+              "request_id": "mathqa-transfer-1002",
+              "eligible_count": 39,
+              "conditional_mean": -0.717948717948718,
+              "unconditional_mean": -0.4444444444444444
+            },
+            {
+              "request_id": "mathqa-transfer-0781",
+              "eligible_count": 39,
+              "conditional_mean": -0.6923076923076923,
+              "unconditional_mean": -0.42857142857142855
+            },
+            {
+              "request_id": "mathqa-transfer-0473",
+              "eligible_count": 39,
+              "conditional_mean": -0.6923076923076923,
+              "unconditional_mean": -0.42857142857142855
+            },
+            {
+              "request_id": "mathqa-transfer-0779",
+              "eligible_count": 40,
+              "conditional_mean": -0.7,
+              "unconditional_mean": -0.4444444444444444
+            },
+            {
+              "request_id": "mathqa-transfer-0054",
+              "eligible_count": 40,
+              "conditional_mean": -0.7,
+              "unconditional_mean": -0.4444444444444444
+            },
+            {
+              "request_id": "mathqa-transfer-1008",
+              "eligible_count": 39,
+              "conditional_mean": -0.6923076923076923,
+              "unconditional_mean": -0.42857142857142855
+            },
+            {
+              "request_id": "mathqa-transfer-0906",
+              "eligible_count": 40,
+              "conditional_mean": -0.7,
+              "unconditional_mean": -0.4444444444444444
+            },
+            {
+              "request_id": "mathqa-transfer-0292",
+              "eligible_count": 40,
+              "conditional_mean": -0.7,
+              "unconditional_mean": -0.4444444444444444
+            },
+            {
+              "request_id": "mathqa-transfer-0469",
+              "eligible_count": 39,
+              "conditional_mean": -0.717948717948718,
+              "unconditional_mean": -0.4444444444444444
+            },
+            {
+              "request_id": "mathqa-transfer-0483",
+              "eligible_count": 39,
+              "conditional_mean": -0.6923076923076923,
+              "unconditional_mean": -0.42857142857142855
+            },
+            {
+              "request_id": "mathqa-transfer-0396",
+              "eligible_count": 40,
+              "conditional_mean": -0.7,
+              "unconditional_mean": -0.4444444444444444
+            }
+          ],
+          "loo_all_conditional_means_positive": false,
+          "loo_conditional_signs": {
+            "positive": 0,
+            "negative": 64,
+            "zero": 0,
+            "empty": 0
+          }
+        },
+        "support_facts": {
+          "repeated_both_positive": false,
+          "both_conditional_ci_lower_above_zero": false,
+          "both_loo_means_stay_positive": false,
+          "descriptive_sample_size": 40,
+          "automatic_supported_verdict": false
+        }
+      },
+      "interior_advances": {
+        "eligible_requests": 40,
+        "both_restart_positive_count": 1,
+        "both_restart_positive_fraction": 0.025,
+        "repair_verified_count": 40,
+        "repair_not_verified_count": 0,
+        "R4": {
+          "conditional": {
+            "n": 40,
+            "mean": -0.525,
+            "median": -1.0,
+            "minimum": -2.0,
+            "maximum": 1.0,
+            "q25": -1.0,
+            "q75": 0.0,
+            "sample_sd": 0.6788942744621108,
+            "positive": 3,
+            "negative": 23,
+            "zero": 14
+          },
+          "unconditional": {
+            "n": 64,
+            "mean": -0.328125,
+            "median": 0.0,
+            "minimum": -2.0,
+            "maximum": 1.0,
+            "q25": -1.0,
+            "q75": 0.0,
+            "sample_sd": 0.5924039671689078,
+            "positive": 3,
+            "negative": 23,
+            "zero": 38
+          },
+          "conditional_ci95": [
+            -0.7272727272727273,
+            -0.30301268498942946
+          ],
+          "conditional_interval_status": "reported_with_sample_size",
+          "unconditional_ci95": [
+            -0.46875,
+            -0.1875
+          ],
+          "empty_stratum_resamples": 0,
+          "nonempty_stratum_resamples": 10000,
+          "bootstrap_eligible_count": {
+            "n": 10000,
+            "mean": 39.9554,
+            "median": 40.0,
+            "minimum": 23.0,
+            "maximum": 54.0,
+            "q25": 37.0,
+            "q75": 43.0,
+            "sample_sd": 3.881458155351049,
+            "positive": 10000,
+            "negative": 0,
+            "zero": 0
+          },
+          "concentration": {
+            "absolute_sum": 27.0,
+            "positive_sum": 3.0,
+            "signed_sum": -21.0,
+            "largest_absolute_request": "mathqa-transfer-0306",
+            "largest_absolute_share": 0.07407407407407407,
+            "largest_positive_share": 0.3333333333333333,
+            "nonzero_contributors": 26
+          },
+          "leave_one_out": [
+            {
+              "request_id": "mathqa-transfer-0633",
+              "eligible_count": 39,
+              "conditional_mean": -0.5384615384615384,
+              "unconditional_mean": -0.3333333333333333
+            },
+            {
+              "request_id": "mathqa-transfer-0882",
+              "eligible_count": 40,
+              "conditional_mean": -0.525,
+              "unconditional_mean": -0.3333333333333333
+            },
+            {
+              "request_id": "mathqa-transfer-0208",
+              "eligible_count": 39,
+              "conditional_mean": -0.5384615384615384,
+              "unconditional_mean": -0.3333333333333333
+            },
+            {
+              "request_id": "mathqa-transfer-0502",
+              "eligible_count": 39,
+              "conditional_mean": -0.5128205128205128,
+              "unconditional_mean": -0.31746031746031744
+            },
+            {
+              "request_id": "mathqa-transfer-0838",
+              "eligible_count": 40,
+              "conditional_mean": -0.525,
+              "unconditional_mean": -0.3333333333333333
+            },
+            {
+              "request_id": "mathqa-transfer-0652",
+              "eligible_count": 40,
+              "conditional_mean": -0.525,
+              "unconditional_mean": -0.3333333333333333
+            },
+            {
+              "request_id": "mathqa-transfer-0321",
+              "eligible_count": 40,
+              "conditional_mean": -0.525,
+              "unconditional_mean": -0.3333333333333333
+            },
+            {
+              "request_id": "mathqa-transfer-0983",
+              "eligible_count": 40,
+              "conditional_mean": -0.525,
+              "unconditional_mean": -0.3333333333333333
+            },
+            {
+              "request_id": "mathqa-transfer-0065",
+              "eligible_count": 40,
+              "conditional_mean": -0.525,
+              "unconditional_mean": -0.3333333333333333
+            },
+            {
+              "request_id": "mathqa-transfer-0058",
+              "eligible_count": 39,
+              "conditional_mean": -0.5128205128205128,
+              "unconditional_mean": -0.31746031746031744
+            },
+            {
+              "request_id": "mathqa-transfer-0583",
+              "eligible_count": 39,
+              "conditional_mean": -0.5641025641025641,
+              "unconditional_mean": -0.3492063492063492
+            },
+            {
+              "request_id": "mathqa-transfer-0209",
+              "eligible_count": 39,
+              "conditional_mean": -0.5384615384615384,
+              "unconditional_mean": -0.3333333333333333
+            },
+            {
+              "request_id": "mathqa-transfer-0786",
+              "eligible_count": 39,
+              "conditional_mean": -0.5128205128205128,
+              "unconditional_mean": -0.31746031746031744
+            },
+            {
+              "request_id": "mathqa-transfer-0214",
+              "eligible_count": 39,
+              "conditional_mean": -0.5384615384615384,
+              "unconditional_mean": -0.3333333333333333
+            },
+            {
+              "request_id": "mathqa-transfer-0181",
+              "eligible_count": 39,
+              "conditional_mean": -0.5128205128205128,
+              "unconditional_mean": -0.31746031746031744
+            },
+            {
+              "request_id": "mathqa-transfer-0812",
+              "eligible_count": 40,
+              "conditional_mean": -0.525,
+              "unconditional_mean": -0.3333333333333333
+            },
+            {
+              "request_id": "mathqa-transfer-0832",
+              "eligible_count": 39,
+              "conditional_mean": -0.5128205128205128,
+              "unconditional_mean": -0.31746031746031744
+            },
+            {
+              "request_id": "mathqa-transfer-0172",
+              "eligible_count": 39,
+              "conditional_mean": -0.5384615384615384,
+              "unconditional_mean": -0.3333333333333333
+            },
+            {
+              "request_id": "mathqa-transfer-0506",
+              "eligible_count": 40,
+              "conditional_mean": -0.525,
+              "unconditional_mean": -0.3333333333333333
+            },
+            {
+              "request_id": "mathqa-transfer-0958",
+              "eligible_count": 39,
+              "conditional_mean": -0.5128205128205128,
+              "unconditional_mean": -0.31746031746031744
+            },
+            {
+              "request_id": "mathqa-transfer-0294",
+              "eligible_count": 39,
+              "conditional_mean": -0.5641025641025641,
+              "unconditional_mean": -0.3492063492063492
+            },
+            {
+              "request_id": "mathqa-transfer-0091",
+              "eligible_count": 39,
+              "conditional_mean": -0.5128205128205128,
+              "unconditional_mean": -0.31746031746031744
+            },
+            {
+              "request_id": "mathqa-transfer-0120",
+              "eligible_count": 40,
+              "conditional_mean": -0.525,
+              "unconditional_mean": -0.3333333333333333
+            },
+            {
+              "request_id": "mathqa-transfer-0697",
+              "eligible_count": 39,
+              "conditional_mean": -0.5128205128205128,
+              "unconditional_mean": -0.31746031746031744
+            },
+            {
+              "request_id": "mathqa-transfer-0530",
+              "eligible_count": 39,
+              "conditional_mean": -0.5128205128205128,
+              "unconditional_mean": -0.31746031746031744
+            },
+            {
+              "request_id": "mathqa-transfer-0406",
+              "eligible_count": 40,
+              "conditional_mean": -0.525,
+              "unconditional_mean": -0.3333333333333333
+            },
+            {
+              "request_id": "mathqa-transfer-0410",
+              "eligible_count": 40,
+              "conditional_mean": -0.525,
+              "unconditional_mean": -0.3333333333333333
+            },
+            {
+              "request_id": "mathqa-transfer-0641",
+              "eligible_count": 40,
+              "conditional_mean": -0.525,
+              "unconditional_mean": -0.3333333333333333
+            },
+            {
+              "request_id": "mathqa-transfer-0649",
+              "eligible_count": 39,
+              "conditional_mean": -0.5128205128205128,
+              "unconditional_mean": -0.31746031746031744
+            },
+            {
+              "request_id": "mathqa-transfer-0076",
+              "eligible_count": 40,
+              "conditional_mean": -0.525,
+              "unconditional_mean": -0.3333333333333333
+            },
+            {
+              "request_id": "mathqa-transfer-0387",
+              "eligible_count": 39,
+              "conditional_mean": -0.5384615384615384,
+              "unconditional_mean": -0.3333333333333333
+            },
+            {
+              "request_id": "mathqa-transfer-0049",
+              "eligible_count": 39,
+              "conditional_mean": -0.5128205128205128,
+              "unconditional_mean": -0.31746031746031744
+            },
+            {
+              "request_id": "mathqa-transfer-0878",
+              "eligible_count": 39,
+              "conditional_mean": -0.5128205128205128,
+              "unconditional_mean": -0.31746031746031744
+            },
+            {
+              "request_id": "mathqa-transfer-0490",
+              "eligible_count": 39,
+              "conditional_mean": -0.5128205128205128,
+              "unconditional_mean": -0.31746031746031744
+            },
+            {
+              "request_id": "mathqa-transfer-0004",
+              "eligible_count": 39,
+              "conditional_mean": -0.5128205128205128,
+              "unconditional_mean": -0.31746031746031744
+            },
+            {
+              "request_id": "mathqa-transfer-0295",
+              "eligible_count": 40,
+              "conditional_mean": -0.525,
+              "unconditional_mean": -0.3333333333333333
+            },
+            {
+              "request_id": "mathqa-transfer-0223",
+              "eligible_count": 39,
+              "conditional_mean": -0.5128205128205128,
+              "unconditional_mean": -0.31746031746031744
+            },
+            {
+              "request_id": "mathqa-transfer-0896",
+              "eligible_count": 40,
+              "conditional_mean": -0.525,
+              "unconditional_mean": -0.3333333333333333
+            },
+            {
+              "request_id": "mathqa-transfer-0198",
+              "eligible_count": 40,
+              "conditional_mean": -0.525,
+              "unconditional_mean": -0.3333333333333333
+            },
+            {
+              "request_id": "mathqa-transfer-0647",
+              "eligible_count": 39,
+              "conditional_mean": -0.5128205128205128,
+              "unconditional_mean": -0.31746031746031744
+            },
+            {
+              "request_id": "mathqa-transfer-0060",
+              "eligible_count": 39,
+              "conditional_mean": -0.5128205128205128,
+              "unconditional_mean": -0.31746031746031744
+            },
+            {
+              "request_id": "mathqa-transfer-0698",
+              "eligible_count": 40,
+              "conditional_mean": -0.525,
+              "unconditional_mean": -0.3333333333333333
+            },
+            {
+              "request_id": "mathqa-transfer-0038",
+              "eligible_count": 39,
+              "conditional_mean": -0.5384615384615384,
+              "unconditional_mean": -0.3333333333333333
+            },
+            {
+              "request_id": "mathqa-transfer-0883",
+              "eligible_count": 39,
+              "conditional_mean": -0.5384615384615384,
+              "unconditional_mean": -0.3333333333333333
+            },
+            {
+              "request_id": "mathqa-transfer-0437",
+              "eligible_count": 39,
+              "conditional_mean": -0.5384615384615384,
+              "unconditional_mean": -0.3333333333333333
+            },
+            {
+              "request_id": "mathqa-transfer-0055",
+              "eligible_count": 40,
+              "conditional_mean": -0.525,
+              "unconditional_mean": -0.3333333333333333
+            },
+            {
+              "request_id": "mathqa-transfer-0489",
+              "eligible_count": 39,
+              "conditional_mean": -0.5384615384615384,
+              "unconditional_mean": -0.3333333333333333
+            },
+            {
+              "request_id": "mathqa-transfer-0521",
+              "eligible_count": 40,
+              "conditional_mean": -0.525,
+              "unconditional_mean": -0.3333333333333333
+            },
+            {
+              "request_id": "mathqa-transfer-0412",
+              "eligible_count": 39,
+              "conditional_mean": -0.5384615384615384,
+              "unconditional_mean": -0.3333333333333333
+            },
+            {
+              "request_id": "mathqa-transfer-0869",
+              "eligible_count": 39,
+              "conditional_mean": -0.5128205128205128,
+              "unconditional_mean": -0.31746031746031744
+            },
+            {
+              "request_id": "mathqa-transfer-0651",
+              "eligible_count": 39,
+              "conditional_mean": -0.5641025641025641,
+              "unconditional_mean": -0.3492063492063492
+            },
+            {
+              "request_id": "mathqa-transfer-0117",
+              "eligible_count": 39,
+              "conditional_mean": -0.5128205128205128,
+              "unconditional_mean": -0.31746031746031744
+            },
+            {
+              "request_id": "mathqa-transfer-0306",
+              "eligible_count": 39,
+              "conditional_mean": -0.48717948717948717,
+              "unconditional_mean": -0.30158730158730157
+            },
+            {
+              "request_id": "mathqa-transfer-1002",
+              "eligible_count": 39,
+              "conditional_mean": -0.5384615384615384,
+              "unconditional_mean": -0.3333333333333333
+            },
+            {
+              "request_id": "mathqa-transfer-0781",
+              "eligible_count": 39,
+              "conditional_mean": -0.5128205128205128,
+              "unconditional_mean": -0.31746031746031744
+            },
+            {
+              "request_id": "mathqa-transfer-0473",
+              "eligible_count": 39,
+              "conditional_mean": -0.5128205128205128,
+              "unconditional_mean": -0.31746031746031744
+            },
+            {
+              "request_id": "mathqa-transfer-0779",
+              "eligible_count": 40,
+              "conditional_mean": -0.525,
+              "unconditional_mean": -0.3333333333333333
+            },
+            {
+              "request_id": "mathqa-transfer-0054",
+              "eligible_count": 40,
+              "conditional_mean": -0.525,
+              "unconditional_mean": -0.3333333333333333
+            },
+            {
+              "request_id": "mathqa-transfer-1008",
+              "eligible_count": 39,
+              "conditional_mean": -0.5384615384615384,
+              "unconditional_mean": -0.3333333333333333
+            },
+            {
+              "request_id": "mathqa-transfer-0906",
+              "eligible_count": 40,
+              "conditional_mean": -0.525,
+              "unconditional_mean": -0.3333333333333333
+            },
+            {
+              "request_id": "mathqa-transfer-0292",
+              "eligible_count": 40,
+              "conditional_mean": -0.525,
+              "unconditional_mean": -0.3333333333333333
+            },
+            {
+              "request_id": "mathqa-transfer-0469",
+              "eligible_count": 39,
+              "conditional_mean": -0.5384615384615384,
+              "unconditional_mean": -0.3333333333333333
+            },
+            {
+              "request_id": "mathqa-transfer-0483",
+              "eligible_count": 39,
+              "conditional_mean": -0.5128205128205128,
+              "unconditional_mean": -0.31746031746031744
+            },
+            {
+              "request_id": "mathqa-transfer-0396",
+              "eligible_count": 40,
+              "conditional_mean": -0.525,
+              "unconditional_mean": -0.3333333333333333
+            }
+          ],
+          "loo_all_conditional_means_positive": false,
+          "loo_conditional_signs": {
+            "positive": 0,
+            "negative": 64,
+            "zero": 0,
+            "empty": 0
+          }
+        },
+        "R6": {
+          "conditional": {
+            "n": 40,
+            "mean": -0.7,
+            "median": -1.0,
+            "minimum": -5.0,
+            "maximum": 1.0,
+            "q25": -1.0,
+            "q75": 0.0,
+            "sample_sd": 0.9922778767136675,
+            "positive": 3,
+            "negative": 25,
+            "zero": 12
+          },
+          "unconditional": {
+            "n": 64,
+            "mean": -0.4375,
+            "median": 0.0,
+            "minimum": -5.0,
+            "maximum": 1.0,
+            "q25": -1.0,
+            "q75": 0.0,
+            "sample_sd": 0.8521681032463466,
+            "positive": 3,
+            "negative": 25,
+            "zero": 36
+          },
+          "conditional_ci95": [
+            -1.0256410256410255,
+            -0.41025641025641024
+          ],
+          "conditional_interval_status": "reported_with_sample_size",
+          "unconditional_ci95": [
+            -0.65625,
+            -0.25
+          ],
+          "empty_stratum_resamples": 0,
+          "nonempty_stratum_resamples": 10000,
+          "bootstrap_eligible_count": {
+            "n": 10000,
+            "mean": 39.9554,
+            "median": 40.0,
+            "minimum": 23.0,
+            "maximum": 54.0,
+            "q25": 37.0,
+            "q75": 43.0,
+            "sample_sd": 3.881458155351049,
+            "positive": 10000,
+            "negative": 0,
+            "zero": 0
+          },
+          "concentration": {
+            "absolute_sum": 34.0,
+            "positive_sum": 3.0,
+            "signed_sum": -28.0,
+            "largest_absolute_request": "mathqa-transfer-0306",
+            "largest_absolute_share": 0.14705882352941177,
+            "largest_positive_share": 0.3333333333333333,
+            "nonzero_contributors": 28
+          },
+          "leave_one_out": [
+            {
+              "request_id": "mathqa-transfer-0633",
+              "eligible_count": 39,
+              "conditional_mean": -0.717948717948718,
+              "unconditional_mean": -0.4444444444444444
+            },
+            {
+              "request_id": "mathqa-transfer-0882",
+              "eligible_count": 40,
+              "conditional_mean": -0.7,
+              "unconditional_mean": -0.4444444444444444
+            },
+            {
+              "request_id": "mathqa-transfer-0208",
+              "eligible_count": 39,
+              "conditional_mean": -0.717948717948718,
+              "unconditional_mean": -0.4444444444444444
+            },
+            {
+              "request_id": "mathqa-transfer-0502",
+              "eligible_count": 39,
+              "conditional_mean": -0.6923076923076923,
+              "unconditional_mean": -0.42857142857142855
+            },
+            {
+              "request_id": "mathqa-transfer-0838",
+              "eligible_count": 40,
+              "conditional_mean": -0.7,
+              "unconditional_mean": -0.4444444444444444
+            },
+            {
+              "request_id": "mathqa-transfer-0652",
+              "eligible_count": 40,
+              "conditional_mean": -0.7,
+              "unconditional_mean": -0.4444444444444444
+            },
+            {
+              "request_id": "mathqa-transfer-0321",
+              "eligible_count": 40,
+              "conditional_mean": -0.7,
+              "unconditional_mean": -0.4444444444444444
+            },
+            {
+              "request_id": "mathqa-transfer-0983",
+              "eligible_count": 40,
+              "conditional_mean": -0.7,
+              "unconditional_mean": -0.4444444444444444
+            },
+            {
+              "request_id": "mathqa-transfer-0065",
+              "eligible_count": 40,
+              "conditional_mean": -0.7,
+              "unconditional_mean": -0.4444444444444444
+            },
+            {
+              "request_id": "mathqa-transfer-0058",
+              "eligible_count": 39,
+              "conditional_mean": -0.6923076923076923,
+              "unconditional_mean": -0.42857142857142855
+            },
+            {
+              "request_id": "mathqa-transfer-0583",
+              "eligible_count": 39,
+              "conditional_mean": -0.7435897435897436,
+              "unconditional_mean": -0.4603174603174603
+            },
+            {
+              "request_id": "mathqa-transfer-0209",
+              "eligible_count": 39,
+              "conditional_mean": -0.717948717948718,
+              "unconditional_mean": -0.4444444444444444
+            },
+            {
+              "request_id": "mathqa-transfer-0786",
+              "eligible_count": 39,
+              "conditional_mean": -0.717948717948718,
+              "unconditional_mean": -0.4444444444444444
+            },
+            {
+              "request_id": "mathqa-transfer-0214",
+              "eligible_count": 39,
+              "conditional_mean": -0.6923076923076923,
+              "unconditional_mean": -0.42857142857142855
+            },
+            {
+              "request_id": "mathqa-transfer-0181",
+              "eligible_count": 39,
+              "conditional_mean": -0.6923076923076923,
+              "unconditional_mean": -0.42857142857142855
+            },
+            {
+              "request_id": "mathqa-transfer-0812",
+              "eligible_count": 40,
+              "conditional_mean": -0.7,
+              "unconditional_mean": -0.4444444444444444
+            },
+            {
+              "request_id": "mathqa-transfer-0832",
+              "eligible_count": 39,
+              "conditional_mean": -0.717948717948718,
+              "unconditional_mean": -0.4444444444444444
+            },
+            {
+              "request_id": "mathqa-transfer-0172",
+              "eligible_count": 39,
+              "conditional_mean": -0.717948717948718,
+              "unconditional_mean": -0.4444444444444444
+            },
+            {
+              "request_id": "mathqa-transfer-0506",
+              "eligible_count": 40,
+              "conditional_mean": -0.7,
+              "unconditional_mean": -0.4444444444444444
+            },
+            {
+              "request_id": "mathqa-transfer-0958",
+              "eligible_count": 39,
+              "conditional_mean": -0.6923076923076923,
+              "unconditional_mean": -0.42857142857142855
+            },
+            {
+              "request_id": "mathqa-transfer-0294",
+              "eligible_count": 39,
+              "conditional_mean": -0.717948717948718,
+              "unconditional_mean": -0.4444444444444444
+            },
+            {
+              "request_id": "mathqa-transfer-0091",
+              "eligible_count": 39,
+              "conditional_mean": -0.6923076923076923,
+              "unconditional_mean": -0.42857142857142855
+            },
+            {
+              "request_id": "mathqa-transfer-0120",
+              "eligible_count": 40,
+              "conditional_mean": -0.7,
+              "unconditional_mean": -0.4444444444444444
+            },
+            {
+              "request_id": "mathqa-transfer-0697",
+              "eligible_count": 39,
+              "conditional_mean": -0.6923076923076923,
+              "unconditional_mean": -0.42857142857142855
+            },
+            {
+              "request_id": "mathqa-transfer-0530",
+              "eligible_count": 39,
+              "conditional_mean": -0.6666666666666666,
+              "unconditional_mean": -0.4126984126984127
+            },
+            {
+              "request_id": "mathqa-transfer-0406",
+              "eligible_count": 40,
+              "conditional_mean": -0.7,
+              "unconditional_mean": -0.4444444444444444
+            },
+            {
+              "request_id": "mathqa-transfer-0410",
+              "eligible_count": 40,
+              "conditional_mean": -0.7,
+              "unconditional_mean": -0.4444444444444444
+            },
+            {
+              "request_id": "mathqa-transfer-0641",
+              "eligible_count": 40,
+              "conditional_mean": -0.7,
+              "unconditional_mean": -0.4444444444444444
+            },
+            {
+              "request_id": "mathqa-transfer-0649",
+              "eligible_count": 39,
+              "conditional_mean": -0.6923076923076923,
+              "unconditional_mean": -0.42857142857142855
+            },
+            {
+              "request_id": "mathqa-transfer-0076",
+              "eligible_count": 40,
+              "conditional_mean": -0.7,
+              "unconditional_mean": -0.4444444444444444
+            },
+            {
+              "request_id": "mathqa-transfer-0387",
+              "eligible_count": 39,
+              "conditional_mean": -0.717948717948718,
+              "unconditional_mean": -0.4444444444444444
+            },
+            {
+              "request_id": "mathqa-transfer-0049",
+              "eligible_count": 39,
+              "conditional_mean": -0.7435897435897436,
+              "unconditional_mean": -0.4603174603174603
+            },
+            {
+              "request_id": "mathqa-transfer-0878",
+              "eligible_count": 39,
+              "conditional_mean": -0.6923076923076923,
+              "unconditional_mean": -0.42857142857142855
+            },
+            {
+              "request_id": "mathqa-transfer-0490",
+              "eligible_count": 39,
+              "conditional_mean": -0.6923076923076923,
+              "unconditional_mean": -0.42857142857142855
+            },
+            {
+              "request_id": "mathqa-transfer-0004",
+              "eligible_count": 39,
+              "conditional_mean": -0.6923076923076923,
+              "unconditional_mean": -0.42857142857142855
+            },
+            {
+              "request_id": "mathqa-transfer-0295",
+              "eligible_count": 40,
+              "conditional_mean": -0.7,
+              "unconditional_mean": -0.4444444444444444
+            },
+            {
+              "request_id": "mathqa-transfer-0223",
+              "eligible_count": 39,
+              "conditional_mean": -0.6666666666666666,
+              "unconditional_mean": -0.4126984126984127
+            },
+            {
+              "request_id": "mathqa-transfer-0896",
+              "eligible_count": 40,
+              "conditional_mean": -0.7,
+              "unconditional_mean": -0.4444444444444444
+            },
+            {
+              "request_id": "mathqa-transfer-0198",
+              "eligible_count": 40,
+              "conditional_mean": -0.7,
+              "unconditional_mean": -0.4444444444444444
+            },
+            {
+              "request_id": "mathqa-transfer-0647",
+              "eligible_count": 39,
+              "conditional_mean": -0.6923076923076923,
+              "unconditional_mean": -0.42857142857142855
+            },
+            {
+              "request_id": "mathqa-transfer-0060",
+              "eligible_count": 39,
+              "conditional_mean": -0.6923076923076923,
+              "unconditional_mean": -0.42857142857142855
+            },
+            {
+              "request_id": "mathqa-transfer-0698",
+              "eligible_count": 40,
+              "conditional_mean": -0.7,
+              "unconditional_mean": -0.4444444444444444
+            },
+            {
+              "request_id": "mathqa-transfer-0038",
+              "eligible_count": 39,
+              "conditional_mean": -0.6923076923076923,
+              "unconditional_mean": -0.42857142857142855
+            },
+            {
+              "request_id": "mathqa-transfer-0883",
+              "eligible_count": 39,
+              "conditional_mean": -0.717948717948718,
+              "unconditional_mean": -0.4444444444444444
+            },
+            {
+              "request_id": "mathqa-transfer-0437",
+              "eligible_count": 39,
+              "conditional_mean": -0.6923076923076923,
+              "unconditional_mean": -0.42857142857142855
+            },
+            {
+              "request_id": "mathqa-transfer-0055",
+              "eligible_count": 40,
+              "conditional_mean": -0.7,
+              "unconditional_mean": -0.4444444444444444
+            },
+            {
+              "request_id": "mathqa-transfer-0489",
+              "eligible_count": 39,
+              "conditional_mean": -0.6923076923076923,
+              "unconditional_mean": -0.42857142857142855
+            },
+            {
+              "request_id": "mathqa-transfer-0521",
+              "eligible_count": 40,
+              "conditional_mean": -0.7,
+              "unconditional_mean": -0.4444444444444444
+            },
+            {
+              "request_id": "mathqa-transfer-0412",
+              "eligible_count": 39,
+              "conditional_mean": -0.6923076923076923,
+              "unconditional_mean": -0.42857142857142855
+            },
+            {
+              "request_id": "mathqa-transfer-0869",
+              "eligible_count": 39,
+              "conditional_mean": -0.6923076923076923,
+              "unconditional_mean": -0.42857142857142855
+            },
+            {
+              "request_id": "mathqa-transfer-0651",
+              "eligible_count": 39,
+              "conditional_mean": -0.717948717948718,
+              "unconditional_mean": -0.4444444444444444
+            },
+            {
+              "request_id": "mathqa-transfer-0117",
+              "eligible_count": 39,
+              "conditional_mean": -0.7435897435897436,
+              "unconditional_mean": -0.4603174603174603
+            },
+            {
+              "request_id": "mathqa-transfer-0306",
+              "eligible_count": 39,
+              "conditional_mean": -0.5897435897435898,
+              "unconditional_mean": -0.36507936507936506
+            },
+            {
+              "request_id": "mathqa-transfer-1002",
+              "eligible_count": 39,
+              "conditional_mean": -0.717948717948718,
+              "unconditional_mean": -0.4444444444444444
+            },
+            {
+              "request_id": "mathqa-transfer-0781",
+              "eligible_count": 39,
+              "conditional_mean": -0.6923076923076923,
+              "unconditional_mean": -0.42857142857142855
+            },
+            {
+              "request_id": "mathqa-transfer-0473",
+              "eligible_count": 39,
+              "conditional_mean": -0.6923076923076923,
+              "unconditional_mean": -0.42857142857142855
+            },
+            {
+              "request_id": "mathqa-transfer-0779",
+              "eligible_count": 40,
+              "conditional_mean": -0.7,
+              "unconditional_mean": -0.4444444444444444
+            },
+            {
+              "request_id": "mathqa-transfer-0054",
+              "eligible_count": 40,
+              "conditional_mean": -0.7,
+              "unconditional_mean": -0.4444444444444444
+            },
+            {
+              "request_id": "mathqa-transfer-1008",
+              "eligible_count": 39,
+              "conditional_mean": -0.6923076923076923,
+              "unconditional_mean": -0.42857142857142855
+            },
+            {
+              "request_id": "mathqa-transfer-0906",
+              "eligible_count": 40,
+              "conditional_mean": -0.7,
+              "unconditional_mean": -0.4444444444444444
+            },
+            {
+              "request_id": "mathqa-transfer-0292",
+              "eligible_count": 40,
+              "conditional_mean": -0.7,
+              "unconditional_mean": -0.4444444444444444
+            },
+            {
+              "request_id": "mathqa-transfer-0469",
+              "eligible_count": 39,
+              "conditional_mean": -0.717948717948718,
+              "unconditional_mean": -0.4444444444444444
+            },
+            {
+              "request_id": "mathqa-transfer-0483",
+              "eligible_count": 39,
+              "conditional_mean": -0.6923076923076923,
+              "unconditional_mean": -0.42857142857142855
+            },
+            {
+              "request_id": "mathqa-transfer-0396",
+              "eligible_count": 40,
+              "conditional_mean": -0.7,
+              "unconditional_mean": -0.4444444444444444
+            }
+          ],
+          "loo_all_conditional_means_positive": false,
+          "loo_conditional_signs": {
+            "positive": 0,
+            "negative": 64,
+            "zero": 0,
+            "empty": 0
+          }
+        },
+        "support_facts": {
+          "repeated_both_positive": false,
+          "both_conditional_ci_lower_above_zero": false,
+          "both_loo_means_stay_positive": false,
+          "descriptive_sample_size": 40,
+          "automatic_supported_verdict": false
+        }
+      }
+    },
+    "boundary_advances": 0,
+    "inference": "Descriptive conditional decomposition; assess sparsity and conflicting signs explicitly. No latency or unique-attribution claim."
+  }
+}

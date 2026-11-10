@@ -1,0 +1,1584 @@
+{
+  "status": "sealed_before_outcome_analysis",
+  "config": {
+    "datasets": [
+      "gsm8k",
+      "mathqa"
+    ],
+    "checkpoints": [
+      "KPLUS4",
+      "KPLUS6"
+    ],
+    "requests_per_dataset": 64,
+    "block_size": 16,
+    "draft_layers": 5,
+    "precision": "bfloat16",
+    "attention": "fa3",
+    "greedy": true,
+    "concurrency": 1,
+    "context_limit": 4096,
+    "output_cap": 2048,
+    "capture": false,
+    "optimizer_steps": 0,
+    "backwards": 0,
+    "limits": {
+      "original_completion": 256,
+      "crossed_suffix": 256,
+      "neutral_suffix": 8,
+      "draft_block": 32768
+    },
+    "gpu_seconds": 14400,
+    "bootstrap_seed": 20261110,
+    "bootstrap_resamples": 10000,
+    "source_execution_commit": "6440e8ff5af1a845f830d65c884f6711d7e4a687",
+    "source_report_commit": "f88a4f42dec8f9b01adc9b8125abd122e9428c43"
+  },
+  "source_inventory": {
+    "bytes": 1996312,
+    "sha256": "73066c61726a84ddb7ab71621a785e1bfb32be33f5ae5cd859ac946b453e7319"
+  },
+  "selected": {
+    "gsm8k": [
+      {
+        "dataset": "gsm8k",
+        "selection_rank": 0,
+        "request_id": "eval_00954",
+        "selection_sha256": "007214ca7b3731792b3edc40a440b8788c370d3673ce2d4bac9052822b0de619"
+      },
+      {
+        "dataset": "gsm8k",
+        "selection_rank": 1,
+        "request_id": "eval_00574",
+        "selection_sha256": "0106636fb9a81bf62c02c3bef021b9325b0899ada0eafb046ca0a0230132cbf6"
+      },
+      {
+        "dataset": "gsm8k",
+        "selection_rank": 2,
+        "request_id": "eval_00096",
+        "selection_sha256": "012bc608f6ad1fd7a51591d1f65e6ffd6bc55511701a0d5e435790c32bd7e32a"
+      },
+      {
+        "dataset": "gsm8k",
+        "selection_rank": 3,
+        "request_id": "eval_00240",
+        "selection_sha256": "0161a07ffb85ab74a7bdd7dba97f6ba7855b2c949cf1a421c903254f82d6672e"
+      },
+      {
+        "dataset": "gsm8k",
+        "selection_rank": 4,
+        "request_id": "eval_00645",
+        "selection_sha256": "021d49f987367f194fea7d70c0f7aa88434e586063ff4a650b941a7329920505"
+      },
+      {
+        "dataset": "gsm8k",
+        "selection_rank": 5,
+        "request_id": "eval_00600",
+        "selection_sha256": "0352929e575602eb4455ecd73d4ca939c3db35eabfd7aa1fa9e5d4828f42fd4a"
+      },
+      {
+        "dataset": "gsm8k",
+        "selection_rank": 6,
+        "request_id": "eval_00684",
+        "selection_sha256": "048944b3da9ca508028fcd4c29221400ecbef6a4ab626c1dccc2ae8339baed30"
+      },
+      {
+        "dataset": "gsm8k",
+        "selection_rank": 7,
+        "request_id": "eval_00854",
+        "selection_sha256": "088bfc4a538f1981fede320d93735c2484ce5a005358b25e6f6a66dd0b8e6d3e"
+      },
+      {
+        "dataset": "gsm8k",
+        "selection_rank": 8,
+        "request_id": "eval_00413",
+        "selection_sha256": "0ad95761dc217a7b6ea482975dc6467518b2912dcc6ad98b2ed004469845933e"
+      },
+      {
+        "dataset": "gsm8k",
+        "selection_rank": 9,
+        "request_id": "eval_00888",
+        "selection_sha256": "0afee0db9b81598500c43edd955cc57f27da2c64a8dcf1630cde44ea587c2ee1"
+      },
+      {
+        "dataset": "gsm8k",
+        "selection_rank": 10,
+        "request_id": "eval_00138",
+        "selection_sha256": "0c649bac52cab13252d41ca408ca74ee1e96fa7497dab308bfcff4bfb6d600af"
+      },
+      {
+        "dataset": "gsm8k",
+        "selection_rank": 11,
+        "request_id": "eval_00801",
+        "selection_sha256": "0d9285c0d3d5a4b3aaaec273a99a4332038cbe76cb8a50a5b98f2b7a93d19ae1"
+      },
+      {
+        "dataset": "gsm8k",
+        "selection_rank": 12,
+        "request_id": "eval_00116",
+        "selection_sha256": "108767466f7d33e3e3b1003687c2548c37c1df244829d4e81fcadc2cabf2f0b5"
+      },
+      {
+        "dataset": "gsm8k",
+        "selection_rank": 13,
+        "request_id": "eval_00508",
+        "selection_sha256": "10897e8a11a8cfe56c44421efa68a8fa031b26864bca85da8cfe81d40bac9e1b"
+      },
+      {
+        "dataset": "gsm8k",
+        "selection_rank": 14,
+        "request_id": "eval_01014",
+        "selection_sha256": "10f41266b67b6548a085dffcc214c06ec48b41987bb6840c2c05da5bb7d745b0"
+      },
+      {
+        "dataset": "gsm8k",
+        "selection_rank": 15,
+        "request_id": "eval_00785",
+        "selection_sha256": "116b46f464b444f80973cf79634c1be03363251a5a42c1b1830c61caed7834d1"
+      },
+      {
+        "dataset": "gsm8k",
+        "selection_rank": 16,
+        "request_id": "eval_00229",
+        "selection_sha256": "13ad2f11811f4f7e5464661f15e85018f939508c3be0c72598cb4dc7162812c4"
+      },
+      {
+        "dataset": "gsm8k",
+        "selection_rank": 17,
+        "request_id": "eval_00469",
+        "selection_sha256": "14442797a005bff9a8b5bf11b59651d86ef6eee9c12e4693d13d330806a296e5"
+      },
+      {
+        "dataset": "gsm8k",
+        "selection_rank": 18,
+        "request_id": "eval_00858",
+        "selection_sha256": "15f7a1ecb039c8f135a2a226c9e085139a53ae5d899a620780fa035dbebc884e"
+      },
+      {
+        "dataset": "gsm8k",
+        "selection_rank": 19,
+        "request_id": "eval_00401",
+        "selection_sha256": "193dd722d85a29f7de85653119422fe98508a8dba0aeb0708aa074cb3d9b1965"
+      },
+      {
+        "dataset": "gsm8k",
+        "selection_rank": 20,
+        "request_id": "eval_00636",
+        "selection_sha256": "193e78aa39619b6e0012fbf568f2dcc97dd2f389d078f74d9b857f187b8cd118"
+      },
+      {
+        "dataset": "gsm8k",
+        "selection_rank": 21,
+        "request_id": "eval_00670",
+        "selection_sha256": "1a33cfef633547192b0c8be3fae2554b20c9f9476901431b70d1ce9f4ff3128e"
+      },
+      {
+        "dataset": "gsm8k",
+        "selection_rank": 22,
+        "request_id": "eval_00931",
+        "selection_sha256": "1b127378fa62dbe0c6d288ef27132a930309a47f3d6acd6b7287ce8e7cfde8fc"
+      },
+      {
+        "dataset": "gsm8k",
+        "selection_rank": 23,
+        "request_id": "eval_00733",
+        "selection_sha256": "1c1537e653cea55d388f3e57a9aa1db5cf6196dff5e052cf7496b1f7630873c3"
+      },
+      {
+        "dataset": "gsm8k",
+        "selection_rank": 24,
+        "request_id": "eval_00343",
+        "selection_sha256": "1fa57c2f7b441e3d335c380f7300f31e41f2374ae51d06bce681489995b0e8f0"
+      },
+      {
+        "dataset": "gsm8k",
+        "selection_rank": 25,
+        "request_id": "eval_00220",
+        "selection_sha256": "2099d2745d494a1a50a7402ca0221a571fb2948ed283ffbdacb2f09f962feef2"
+      },
+      {
+        "dataset": "gsm8k",
+        "selection_rank": 26,
+        "request_id": "eval_00491",
+        "selection_sha256": "212e8b559e117c6c39dd4700ac477227796942118669d87c5c12a16dc240bc8c"
+      },
+      {
+        "dataset": "gsm8k",
+        "selection_rank": 27,
+        "request_id": "eval_00792",
+        "selection_sha256": "21803b6f07c1b33c8a0a0cf3b69cdda80b719ade519dfa03c327557a53bd195b"
+      },
+      {
+        "dataset": "gsm8k",
+        "selection_rank": 28,
+        "request_id": "eval_00410",
+        "selection_sha256": "22e928c3970c17515b93ac657d80e56015d2d008280728daf82682742fc7db8e"
+      },
+      {
+        "dataset": "gsm8k",
+        "selection_rank": 29,
+        "request_id": "eval_00739",
+        "selection_sha256": "26fb30921063af9d513cbad0d23e29bc4bab0dc7ec692b42579c0c1b037d06ae"
+      },
+      {
+        "dataset": "gsm8k",
+        "selection_rank": 30,
+        "request_id": "eval_00133",
+        "selection_sha256": "28c388b2c93aaa776630424ba7db56d488d7ac728b33b090caee1c00d479a52f"
+      },
+      {
+        "dataset": "gsm8k",
+        "selection_rank": 31,
+        "request_id": "eval_00560",
+        "selection_sha256": "2912e27dce08157bfe322bd333b5223baeaab3622ec577a1f7e0e2101c1d9bea"
+      },
+      {
+        "dataset": "gsm8k",
+        "selection_rank": 32,
+        "request_id": "eval_00641",
+        "selection_sha256": "29898e59ac7f032465546c0f447c88de95907b7d385061e1d97dcb457a1c9e5b"
+      },
+      {
+        "dataset": "gsm8k",
+        "selection_rank": 33,
+        "request_id": "eval_00052",
+        "selection_sha256": "29dae74350e9e064a80a973c5593939478eb637673e275fb570b09bd058af3b5"
+      },
+      {
+        "dataset": "gsm8k",
+        "selection_rank": 34,
+        "request_id": "eval_00795",
+        "selection_sha256": "29e2cdb682179172ecdd64d8e6999cfd58105745a5183af6cd768fe04463ec33"
+      },
+      {
+        "dataset": "gsm8k",
+        "selection_rank": 35,
+        "request_id": "eval_00030",
+        "selection_sha256": "2c592f5f0ce02b9e4e95334852138dbfdfd09e564e110ede0b18efbcd80e460f"
+      },
+      {
+        "dataset": "gsm8k",
+        "selection_rank": 36,
+        "request_id": "eval_00647",
+        "selection_sha256": "2ce0a33f9076c8f39c727fb0d79e833efe2995c12ff3b7b8a3f1cc487f533bd3"
+      },
+      {
+        "dataset": "gsm8k",
+        "selection_rank": 37,
+        "request_id": "eval_00611",
+        "selection_sha256": "2e0783d915e67637b57a57b689dd053ca9766fdc4070e37228026a5f0d3bc570"
+      },
+      {
+        "dataset": "gsm8k",
+        "selection_rank": 38,
+        "request_id": "eval_00974",
+        "selection_sha256": "2e31ee7d0c6206ce645434276b8c540dae057ace95f6df3c4bf5d5db45f0d841"
+      },
+      {
+        "dataset": "gsm8k",
+        "selection_rank": 39,
+        "request_id": "eval_01003",
+        "selection_sha256": "2ec0f6dd92cfaedd9fb1ff397de9cf731fa1f5ab05a2dd2f1778927895444027"
+      },
+      {
+        "dataset": "gsm8k",
+        "selection_rank": 40,
+        "request_id": "eval_00978",
+        "selection_sha256": "2f0e3399fe685c5e9cc6ff167d286b5e35978ce2f403c59d8f8d82571eb605ac"
+      },
+      {
+        "dataset": "gsm8k",
+        "selection_rank": 41,
+        "request_id": "eval_00278",
+        "selection_sha256": "318b2801ec768c851704f6b2b43bce40486a821a0fc6ee1f6ca113c804e2506a"
+      },
+      {
+        "dataset": "gsm8k",
+        "selection_rank": 42,
+        "request_id": "eval_00751",
+        "selection_sha256": "319b2bbafa62072a28aaf4c08d581b0f7571504a9091c3bef1fb4df45244c52e"
+      },
+      {
+        "dataset": "gsm8k",
+        "selection_rank": 43,
+        "request_id": "eval_00242",
+        "selection_sha256": "3208cf3e00de44e224754357a30ae78ba0af345e280db5d557cd2d01a2631f21"
+      },
+      {
+        "dataset": "gsm8k",
+        "selection_rank": 44,
+        "request_id": "eval_00194",
+        "selection_sha256": "3252e927327db0d285f5c1404d060ce5c73c5178a9e3791c751c076409bea899"
+      },
+      {
+        "dataset": "gsm8k",
+        "selection_rank": 45,
+        "request_id": "eval_00994",
+        "selection_sha256": "371b117342496d520b7f75bd6c61ed59e8d9d401212fb4e06938dab04b8d0df3"
+      },
+      {
+        "dataset": "gsm8k",
+        "selection_rank": 46,
+        "request_id": "eval_00621",
+        "selection_sha256": "37bc6800725632344415114953883d11be81e7a705cf9d370be3d6b601e36930"
+      },
+      {
+        "dataset": "gsm8k",
+        "selection_rank": 47,
+        "request_id": "eval_00985",
+        "selection_sha256": "397c9317e33d46715d73d720d7a09c921ad7a34fbbecbf7a4156d7c98c4ac76f"
+      },
+      {
+        "dataset": "gsm8k",
+        "selection_rank": 48,
+        "request_id": "eval_00334",
+        "selection_sha256": "3a40f174554e3e1b54954670ae01d4c96691fc4a5c098d6d3c010eb51a8b87cd"
+      },
+      {
+        "dataset": "gsm8k",
+        "selection_rank": 49,
+        "request_id": "eval_00149",
+        "selection_sha256": "3ba6529401e26641588f8738a194abd9070820c718b65865dfc24b939aeae0e4"
+      },
+      {
+        "dataset": "gsm8k",
+        "selection_rank": 50,
+        "request_id": "eval_00268",
+        "selection_sha256": "3e8ad7b0254108cb6d342c1329a8fba3fba233d048caeaf3c30730d781bfa151"
+      },
+      {
+        "dataset": "gsm8k",
+        "selection_rank": 51,
+        "request_id": "eval_00727",
+        "selection_sha256": "3f532b02703f692d9156ebb0c58bbdd03499ab88e309d7e3fb3e0fb17b8cf088"
+      },
+      {
+        "dataset": "gsm8k",
+        "selection_rank": 52,
+        "request_id": "eval_00164",
+        "selection_sha256": "3f84c03f5709fb827d871ca7aa7f1b910248be9ca3587767baaa24406df5d8c4"
+      },
+      {
+        "dataset": "gsm8k",
+        "selection_rank": 53,
+        "request_id": "eval_00500",
+        "selection_sha256": "3f98534fc3368e478316ff859a6bfe26e54e5cc4c13638f4a03bee95c4379b44"
+      },
+      {
+        "dataset": "gsm8k",
+        "selection_rank": 54,
+        "request_id": "eval_00614",
+        "selection_sha256": "40e945be66155797f1845feaf2e519c261031c7320d8f25940a6c8b78c61932f"
+      },
+      {
+        "dataset": "gsm8k",
+        "selection_rank": 55,
+        "request_id": "eval_00414",
+        "selection_sha256": "42f93dbe47de2957739db53dac9a176094f3edccb951115950036f9e01185d29"
+      },
+      {
+        "dataset": "gsm8k",
+        "selection_rank": 56,
+        "request_id": "eval_00155",
+        "selection_sha256": "4339957aa1b2528b701035862a51645db5c694234558db4cc1d6aac8eb4c1e48"
+      },
+      {
+        "dataset": "gsm8k",
+        "selection_rank": 57,
+        "request_id": "eval_00200",
+        "selection_sha256": "44d81d843f970286ae6cb935765400ed03ff97d9759a1f47e6de00bba6b72d7b"
+      },
+      {
+        "dataset": "gsm8k",
+        "selection_rank": 58,
+        "request_id": "eval_00029",
+        "selection_sha256": "456229a037e2c1bdd8cad21f805c2f5afad2354a1b5d6d220e14e064edb3e2d1"
+      },
+      {
+        "dataset": "gsm8k",
+        "selection_rank": 59,
+        "request_id": "eval_00874",
+        "selection_sha256": "45db4929732b38f2b5d9331f89186e15cf53dcc741d3febd63fe187bda2b66c3"
+      },
+      {
+        "dataset": "gsm8k",
+        "selection_rank": 60,
+        "request_id": "eval_00945",
+        "selection_sha256": "47e0da3d1460875a2d4b0a2a73e537ca354bd258fb6ce411496928e5c3573f5b"
+      },
+      {
+        "dataset": "gsm8k",
+        "selection_rank": 61,
+        "request_id": "eval_00168",
+        "selection_sha256": "485a236db3cb3c2ce2aaded1792d64cf6b26fb1cf6956f86a7b39abad7708b11"
+      },
+      {
+        "dataset": "gsm8k",
+        "selection_rank": 62,
+        "request_id": "eval_00482",
+        "selection_sha256": "489d4031675edfcbe422ca8f6a927ffed2889c8f672ab3982281ce774ec9837e"
+      },
+      {
+        "dataset": "gsm8k",
+        "selection_rank": 63,
+        "request_id": "eval_00057",
+        "selection_sha256": "495b49d06bf54251f6864d3387f6ba32dad701272bf97b85f2798b61b73c208e"
+      }
+    ],
+    "mathqa": [
+      {
+        "dataset": "mathqa",
+        "selection_rank": 0,
+        "request_id": "mathqa-transfer-0633",
+        "selection_sha256": "0347b8459d038c54d6aaa92aa9d3b3e6399214e51b8c77cc4b2290712812ff57"
+      },
+      {
+        "dataset": "mathqa",
+        "selection_rank": 1,
+        "request_id": "mathqa-transfer-0882",
+        "selection_sha256": "03ab28723f78602435fc874b6e80eccc645b51fc0f649d78a3eeb3a7295d08a0"
+      },
+      {
+        "dataset": "mathqa",
+        "selection_rank": 2,
+        "request_id": "mathqa-transfer-0208",
+        "selection_sha256": "05d2d30d5d53fe235693a05b8485bc5c0a4a68d8dd9ddfe7ba1d0a719b76b18b"
+      },
+      {
+        "dataset": "mathqa",
+        "selection_rank": 3,
+        "request_id": "mathqa-transfer-0502",
+        "selection_sha256": "08fcf5bc6cbb81d1def8a4e0908aa9540c507a3671290425a6150c070c62c427"
+      },
+      {
+        "dataset": "mathqa",
+        "selection_rank": 4,
+        "request_id": "mathqa-transfer-0838",
+        "selection_sha256": "09ed2722f733097bd359caa21aa4d07aa539b59a87e2c9638d76a15e1bb71de9"
+      },
+      {
+        "dataset": "mathqa",
+        "selection_rank": 5,
+        "request_id": "mathqa-transfer-0652",
+        "selection_sha256": "0a172e42a3a61835933fea37f5c536af58a4e48fa180664ae59565da900afbfe"
+      },
+      {
+        "dataset": "mathqa",
+        "selection_rank": 6,
+        "request_id": "mathqa-transfer-0321",
+        "selection_sha256": "0b48e29a507c31a98f2ec78bdd5b2ad4833d92aeee2314eff0710bf12cd09621"
+      },
+      {
+        "dataset": "mathqa",
+        "selection_rank": 7,
+        "request_id": "mathqa-transfer-0983",
+        "selection_sha256": "0b8d22c0d27f00352ab03a8f753574bdf952c0564dcd5851db45935ce1ef382d"
+      },
+      {
+        "dataset": "mathqa",
+        "selection_rank": 8,
+        "request_id": "mathqa-transfer-0065",
+        "selection_sha256": "0bc05e18c1ca373a33f860ec9f8c9338b07534f2acc0eaa25fe1fe6200d7e37b"
+      },
+      {
+        "dataset": "mathqa",
+        "selection_rank": 9,
+        "request_id": "mathqa-transfer-0058",
+        "selection_sha256": "0cb9e0047390eea3e1fafc41a00d7b661567b64d8c27c0b2711538f5bab177a4"
+      },
+      {
+        "dataset": "mathqa",
+        "selection_rank": 10,
+        "request_id": "mathqa-transfer-0583",
+        "selection_sha256": "0e8269fdfe410c29a799026c596aba6e271cdb2eb748de868d9c2d8cb44b92b7"
+      },
+      {
+        "dataset": "mathqa",
+        "selection_rank": 11,
+        "request_id": "mathqa-transfer-0209",
+        "selection_sha256": "10f2be966528b07fa5e7af415f114f1bd044827ac6bcf59a11b42d37623c47f2"
+      },
+      {
+        "dataset": "mathqa",
+        "selection_rank": 12,
+        "request_id": "mathqa-transfer-0786",
+        "selection_sha256": "11c29171227fc74c079fad422383c91b9cc1cdd8a76b88814cb0e63b898e28a1"
+      },
+      {
+        "dataset": "mathqa",
+        "selection_rank": 13,
+        "request_id": "mathqa-transfer-0214",
+        "selection_sha256": "135022516819b7d6d88f6c29bdd3e98e1931ec26f8d02ccf689b770394b6e22e"
+      },
+      {
+        "dataset": "mathqa",
+        "selection_rank": 14,
+        "request_id": "mathqa-transfer-0181",
+        "selection_sha256": "141813d7ee941661c0764eb6b2af784a77770c782a4ca1d65a72e4457bd89178"
+      },
+      {
+        "dataset": "mathqa",
+        "selection_rank": 15,
+        "request_id": "mathqa-transfer-0812",
+        "selection_sha256": "1578af01d65ddc13ad1b9e5256a684df432e21946b131a44babc5481ee20595c"
+      },
+      {
+        "dataset": "mathqa",
+        "selection_rank": 16,
+        "request_id": "mathqa-transfer-0832",
+        "selection_sha256": "15bd2d18be372deb7eb9b3c33e5377fc2f4ea3d7803a034311d71bd994454bc1"
+      },
+      {
+        "dataset": "mathqa",
+        "selection_rank": 17,
+        "request_id": "mathqa-transfer-0172",
+        "selection_sha256": "170d37279f27516ea5cf5accfe21c8b7a275911596a2d186f971c6daf1e52ecd"
+      },
+      {
+        "dataset": "mathqa",
+        "selection_rank": 18,
+        "request_id": "mathqa-transfer-0506",
+        "selection_sha256": "17aec90a4ead3a5b2fa72cbcec0cf247bd1a9e063924df6e8022fce28e553545"
+      },
+      {
+        "dataset": "mathqa",
+        "selection_rank": 19,
+        "request_id": "mathqa-transfer-0958",
+        "selection_sha256": "17dda18bc7e6bb5849cb76cf242f95cb72644c916493abdf7f67de95a3d90191"
+      },
+      {
+        "dataset": "mathqa",
+        "selection_rank": 20,
+        "request_id": "mathqa-transfer-0294",
+        "selection_sha256": "1b5807c79db50861e2f74a1c90fd44deb44f12acd286729803705423373530ff"
+      },
+      {
+        "dataset": "mathqa",
+        "selection_rank": 21,
+        "request_id": "mathqa-transfer-0091",
+        "selection_sha256": "1bcad69482f09781b96303d19dc995b319af5698bcc51c3b7ff5e4f292e62888"
+      },
+      {
+        "dataset": "mathqa",
+        "selection_rank": 22,
+        "request_id": "mathqa-transfer-0120",
+        "selection_sha256": "1c0ed5a4777c667acbb8852b4f4b91b56422dfc0eab883481856f19f78e4b3a2"
+      },
+      {
+        "dataset": "mathqa",
+        "selection_rank": 23,
+        "request_id": "mathqa-transfer-0697",
+        "selection_sha256": "1d5c3da0e9cd6274877fa1ce453f66fc7e0f3bdcd78f29e82996aa4ca6cb3841"
+      },
+      {
+        "dataset": "mathqa",
+        "selection_rank": 24,
+        "request_id": "mathqa-transfer-0530",
+        "selection_sha256": "1dd23fc2acc7e15fa0a6403a8c4e10da5370ea2c0b1fca5fc5eeb2c29c78d7d9"
+      },
+      {
+        "dataset": "mathqa",
+        "selection_rank": 25,
+        "request_id": "mathqa-transfer-0406",
+        "selection_sha256": "1fbb10bba9cedf689ec0263b344dc621991e9d46f8791b4dd4c4459085499647"
+      },
+      {
+        "dataset": "mathqa",
+        "selection_rank": 26,
+        "request_id": "mathqa-transfer-0410",
+        "selection_sha256": "273f082a1c0dd86045f59959bb5f93ce214517012c329e501fbd97f849570fa4"
+      },
+      {
+        "dataset": "mathqa",
+        "selection_rank": 27,
+        "request_id": "mathqa-transfer-0641",
+        "selection_sha256": "279fe14e84b3d02a126d7cf266ac4709036d0de23ec3692001c63704b87a506e"
+      },
+      {
+        "dataset": "mathqa",
+        "selection_rank": 28,
+        "request_id": "mathqa-transfer-0649",
+        "selection_sha256": "2900a6a8ed785464a54182057024a8f5e274e369e37025299d957102787a21c2"
+      },
+      {
+        "dataset": "mathqa",
+        "selection_rank": 29,
+        "request_id": "mathqa-transfer-0076",
+        "selection_sha256": "294b5f42112e283266c6ce8ab75d486864270e9bfa3fcbdbffab58e8e40d2491"
+      },
+      {
+        "dataset": "mathqa",
+        "selection_rank": 30,
+        "request_id": "mathqa-transfer-0387",
+        "selection_sha256": "2967ba1451bdf24aca81ddf15e6c366bf5d63aba3e8e52b39e5372439698d234"
+      },
+      {
+        "dataset": "mathqa",
+        "selection_rank": 31,
+        "request_id": "mathqa-transfer-0049",
+        "selection_sha256": "2b1bcf21e0ea8d85da589b37d94991fad4345bfc254e7b57cea68c7d2155c56d"
+      },
+      {
+        "dataset": "mathqa",
+        "selection_rank": 32,
+        "request_id": "mathqa-transfer-0878",
+        "selection_sha256": "2c8ff04f6fa6a6540338d4870ff123ddc0ce059a05366cf68612d37994efa721"
+      },
+      {
+        "dataset": "mathqa",
+        "selection_rank": 33,
+        "request_id": "mathqa-transfer-0490",
+        "selection_sha256": "2ecd2cfc05be491ccc7f11e65874101073425888aa436800b1b146af3eab55ff"
+      },
+      {
+        "dataset": "mathqa",
+        "selection_rank": 34,
+        "request_id": "mathqa-transfer-0004",
+        "selection_sha256": "31f066f3e7f2fa95e518e54524105b21ffc18fc99bbba5959f2ef237187b4e58"
+      },
+      {
+        "dataset": "mathqa",
+        "selection_rank": 35,
+        "request_id": "mathqa-transfer-0295",
+        "selection_sha256": "324e3aa260b3188b63fac715b24cab0977fa7ebba464739a7913e00cc7c29c64"
+      },
+      {
+        "dataset": "mathqa",
+        "selection_rank": 36,
+        "request_id": "mathqa-transfer-0223",
+        "selection_sha256": "3378b8c9d1466f9fc84291ed54023aa013cc1128add48deda2ee9796293037a8"
+      },
+      {
+        "dataset": "mathqa",
+        "selection_rank": 37,
+        "request_id": "mathqa-transfer-0896",
+        "selection_sha256": "339502366ffe7a482f5840ad2d703cba53ae94a8302503393231592c89b9118d"
+      },
+      {
+        "dataset": "mathqa",
+        "selection_rank": 38,
+        "request_id": "mathqa-transfer-0198",
+        "selection_sha256": "33c40206cb60d97dfed505ccc6b8cffa650c80c33af96c03b4565c1077637944"
+      },
+      {
+        "dataset": "mathqa",
+        "selection_rank": 39,
+        "request_id": "mathqa-transfer-0647",
+        "selection_sha256": "3573f5a38aefd994d7ab095713bfeb2bd1062d239472dc24c2616ef2297d2739"
+      },
+      {
+        "dataset": "mathqa",
+        "selection_rank": 40,
+        "request_id": "mathqa-transfer-0060",
+        "selection_sha256": "35810a2105af4a9cff467f80a60d43fc248b5a3370fb08c32ece03d952e226fe"
+      },
+      {
+        "dataset": "mathqa",
+        "selection_rank": 41,
+        "request_id": "mathqa-transfer-0698",
+        "selection_sha256": "397fe3c239d40ad889420c93e79410cb704ae31a76970b779ff1fbefddb9573b"
+      },
+      {
+        "dataset": "mathqa",
+        "selection_rank": 42,
+        "request_id": "mathqa-transfer-0038",
+        "selection_sha256": "39c008873b203b5908de49bfbb36e3d2c92e0767d2cb0415106020f23df5c55d"
+      },
+      {
+        "dataset": "mathqa",
+        "selection_rank": 43,
+        "request_id": "mathqa-transfer-0883",
+        "selection_sha256": "39d64f8a5e137f52bb217cd689b9fb5aa94b9f22bf38a8b17827aa5f6eda78c6"
+      },
+      {
+        "dataset": "mathqa",
+        "selection_rank": 44,
+        "request_id": "mathqa-transfer-0437",
+        "selection_sha256": "3b80f44c1c5fa8528df1ea591b06572502d4a268ea0ee3d65216fecddb911b5e"
+      },
+      {
+        "dataset": "mathqa",
+        "selection_rank": 45,
+        "request_id": "mathqa-transfer-0055",
+        "selection_sha256": "3cd16b924572d75e41781e0e633e19c448625333fb16a26a3ec57a7b5c268b27"
+      },
+      {
+        "dataset": "mathqa",
+        "selection_rank": 46,
+        "request_id": "mathqa-transfer-0489",
+        "selection_sha256": "3dbe5295d542e4e3849d4e631c57b17831fd474f5434e76b3d206a460d282f92"
+      },
+      {
+        "dataset": "mathqa",
+        "selection_rank": 47,
+        "request_id": "mathqa-transfer-0521",
+        "selection_sha256": "3de37dd5862460ceeb54212a937315e3b8b029c3023963613f98e68a3bc91ce7"
+      },
+      {
+        "dataset": "mathqa",
+        "selection_rank": 48,
+        "request_id": "mathqa-transfer-0412",
+        "selection_sha256": "3de9282dafd8debe397bf9030ab6a061ae7fd899fc36077bf8cee6a526161b71"
+      },
+      {
+        "dataset": "mathqa",
+        "selection_rank": 49,
+        "request_id": "mathqa-transfer-0869",
+        "selection_sha256": "3f77923591ea91669cc4f202c6dc5d54a18baf7e181c4637d14b0ffe53f138e6"
+      },
+      {
+        "dataset": "mathqa",
+        "selection_rank": 50,
+        "request_id": "mathqa-transfer-0651",
+        "selection_sha256": "3f83536ea25819896487992f61176894207b192a8e2dc6eab1f45da277023325"
+      },
+      {
+        "dataset": "mathqa",
+        "selection_rank": 51,
+        "request_id": "mathqa-transfer-0117",
+        "selection_sha256": "4153fffd6d4e7fa818d617fef8f9c7e4499a00da80ee110d0ed24bc46bfa9dd8"
+      },
+      {
+        "dataset": "mathqa",
+        "selection_rank": 52,
+        "request_id": "mathqa-transfer-0306",
+        "selection_sha256": "44aed67a36bead1a8f7da8c4d0e6007c714346dada57088da3136ab5dba515eb"
+      },
+      {
+        "dataset": "mathqa",
+        "selection_rank": 53,
+        "request_id": "mathqa-transfer-1002",
+        "selection_sha256": "450cf01246b31faa12480a9acab8c5d6cf904388b0d36c12b14edcf5cff16fdb"
+      },
+      {
+        "dataset": "mathqa",
+        "selection_rank": 54,
+        "request_id": "mathqa-transfer-0781",
+        "selection_sha256": "457222ad248e04dbef19cc9614cb1c921bae9c48fac78010eb85768d655733bb"
+      },
+      {
+        "dataset": "mathqa",
+        "selection_rank": 55,
+        "request_id": "mathqa-transfer-0473",
+        "selection_sha256": "45d5fb798fe1444a5962b19e22136c11e8cd3e2a670f7fab823a6c405c59ded8"
+      },
+      {
+        "dataset": "mathqa",
+        "selection_rank": 56,
+        "request_id": "mathqa-transfer-0779",
+        "selection_sha256": "466131c9ce74aa424a6b7b08227e0b6d7df6850906ae4ce77e97682d6ab4351a"
+      },
+      {
+        "dataset": "mathqa",
+        "selection_rank": 57,
+        "request_id": "mathqa-transfer-0054",
+        "selection_sha256": "49a529ca312f0b3b44c66db165ed04eab0eca932b17e0ccdf15880e48154aec9"
+      },
+      {
+        "dataset": "mathqa",
+        "selection_rank": 58,
+        "request_id": "mathqa-transfer-1008",
+        "selection_sha256": "49c7189502a68bcbb9ba6f4a7be3df5b2f666f3a93dcbfe700fe24a4a331eeb0"
+      },
+      {
+        "dataset": "mathqa",
+        "selection_rank": 59,
+        "request_id": "mathqa-transfer-0906",
+        "selection_sha256": "4a3dbb10346a53a2ba4437add0122e1f9f57e7155d2076ac3bb5eacd3bb09584"
+      },
+      {
+        "dataset": "mathqa",
+        "selection_rank": 60,
+        "request_id": "mathqa-transfer-0292",
+        "selection_sha256": "4a81f6f948fbb88a55a9c55fe5a54dd84e8b711dc6fe8e0776df9400109eef3f"
+      },
+      {
+        "dataset": "mathqa",
+        "selection_rank": 61,
+        "request_id": "mathqa-transfer-0469",
+        "selection_sha256": "4b218de159691b0536339c14a32ff7a775498d9ff0d3902d6fcae91fe12dabed"
+      },
+      {
+        "dataset": "mathqa",
+        "selection_rank": 62,
+        "request_id": "mathqa-transfer-0483",
+        "selection_sha256": "4ca1fb37d91302c81229b34b30d113f1fc88adebd8bc61c349bd7240a25a97a0"
+      },
+      {
+        "dataset": "mathqa",
+        "selection_rank": 63,
+        "request_id": "mathqa-transfer-0396",
+        "selection_sha256": "4caaf911bba5dae324a03c1a0b5aa52e15bc0dd53ff42b71070325d793f1e8e3"
+      }
+    ]
+  },
+  "execution_order": [
+    {
+      "dataset": "gsm8k",
+      "selection_rank": 0,
+      "request_id": "eval_00954",
+      "selection_sha256": "007214ca7b3731792b3edc40a440b8788c370d3673ce2d4bac9052822b0de619"
+    },
+    {
+      "dataset": "mathqa",
+      "selection_rank": 0,
+      "request_id": "mathqa-transfer-0633",
+      "selection_sha256": "0347b8459d038c54d6aaa92aa9d3b3e6399214e51b8c77cc4b2290712812ff57"
+    },
+    {
+      "dataset": "gsm8k",
+      "selection_rank": 1,
+      "request_id": "eval_00574",
+      "selection_sha256": "0106636fb9a81bf62c02c3bef021b9325b0899ada0eafb046ca0a0230132cbf6"
+    },
+    {
+      "dataset": "mathqa",
+      "selection_rank": 1,
+      "request_id": "mathqa-transfer-0882",
+      "selection_sha256": "03ab28723f78602435fc874b6e80eccc645b51fc0f649d78a3eeb3a7295d08a0"
+    },
+    {
+      "dataset": "gsm8k",
+      "selection_rank": 2,
+      "request_id": "eval_00096",
+      "selection_sha256": "012bc608f6ad1fd7a51591d1f65e6ffd6bc55511701a0d5e435790c32bd7e32a"
+    },
+    {
+      "dataset": "mathqa",
+      "selection_rank": 2,
+      "request_id": "mathqa-transfer-0208",
+      "selection_sha256": "05d2d30d5d53fe235693a05b8485bc5c0a4a68d8dd9ddfe7ba1d0a719b76b18b"
+    },
+    {
+      "dataset": "gsm8k",
+      "selection_rank": 3,
+      "request_id": "eval_00240",
+      "selection_sha256": "0161a07ffb85ab74a7bdd7dba97f6ba7855b2c949cf1a421c903254f82d6672e"
+    },
+    {
+      "dataset": "mathqa",
+      "selection_rank": 3,
+      "request_id": "mathqa-transfer-0502",
+      "selection_sha256": "08fcf5bc6cbb81d1def8a4e0908aa9540c507a3671290425a6150c070c62c427"
+    },
+    {
+      "dataset": "gsm8k",
+      "selection_rank": 4,
+      "request_id": "eval_00645",
+      "selection_sha256": "021d49f987367f194fea7d70c0f7aa88434e586063ff4a650b941a7329920505"
+    },
+    {
+      "dataset": "mathqa",
+      "selection_rank": 4,
+      "request_id": "mathqa-transfer-0838",
+      "selection_sha256": "09ed2722f733097bd359caa21aa4d07aa539b59a87e2c9638d76a15e1bb71de9"
+    },
+    {
+      "dataset": "gsm8k",
+      "selection_rank": 5,
+      "request_id": "eval_00600",
+      "selection_sha256": "0352929e575602eb4455ecd73d4ca939c3db35eabfd7aa1fa9e5d4828f42fd4a"
+    },
+    {
+      "dataset": "mathqa",
+      "selection_rank": 5,
+      "request_id": "mathqa-transfer-0652",
+      "selection_sha256": "0a172e42a3a61835933fea37f5c536af58a4e48fa180664ae59565da900afbfe"
+    },
+    {
+      "dataset": "gsm8k",
+      "selection_rank": 6,
+      "request_id": "eval_00684",
+      "selection_sha256": "048944b3da9ca508028fcd4c29221400ecbef6a4ab626c1dccc2ae8339baed30"
+    },
+    {
+      "dataset": "mathqa",
+      "selection_rank": 6,
+      "request_id": "mathqa-transfer-0321",
+      "selection_sha256": "0b48e29a507c31a98f2ec78bdd5b2ad4833d92aeee2314eff0710bf12cd09621"
+    },
+    {
+      "dataset": "gsm8k",
+      "selection_rank": 7,
+      "request_id": "eval_00854",
+      "selection_sha256": "088bfc4a538f1981fede320d93735c2484ce5a005358b25e6f6a66dd0b8e6d3e"
+    },
+    {
+      "dataset": "mathqa",
+      "selection_rank": 7,
+      "request_id": "mathqa-transfer-0983",
+      "selection_sha256": "0b8d22c0d27f00352ab03a8f753574bdf952c0564dcd5851db45935ce1ef382d"
+    },
+    {
+      "dataset": "gsm8k",
+      "selection_rank": 8,
+      "request_id": "eval_00413",
+      "selection_sha256": "0ad95761dc217a7b6ea482975dc6467518b2912dcc6ad98b2ed004469845933e"
+    },
+    {
+      "dataset": "mathqa",
+      "selection_rank": 8,
+      "request_id": "mathqa-transfer-0065",
+      "selection_sha256": "0bc05e18c1ca373a33f860ec9f8c9338b07534f2acc0eaa25fe1fe6200d7e37b"
+    },
+    {
+      "dataset": "gsm8k",
+      "selection_rank": 9,
+      "request_id": "eval_00888",
+      "selection_sha256": "0afee0db9b81598500c43edd955cc57f27da2c64a8dcf1630cde44ea587c2ee1"
+    },
+    {
+      "dataset": "mathqa",
+      "selection_rank": 9,
+      "request_id": "mathqa-transfer-0058",
+      "selection_sha256": "0cb9e0047390eea3e1fafc41a00d7b661567b64d8c27c0b2711538f5bab177a4"
+    },
+    {
+      "dataset": "gsm8k",
+      "selection_rank": 10,
+      "request_id": "eval_00138",
+      "selection_sha256": "0c649bac52cab13252d41ca408ca74ee1e96fa7497dab308bfcff4bfb6d600af"
+    },
+    {
+      "dataset": "mathqa",
+      "selection_rank": 10,
+      "request_id": "mathqa-transfer-0583",
+      "selection_sha256": "0e8269fdfe410c29a799026c596aba6e271cdb2eb748de868d9c2d8cb44b92b7"
+    },
+    {
+      "dataset": "gsm8k",
+      "selection_rank": 11,
+      "request_id": "eval_00801",
+      "selection_sha256": "0d9285c0d3d5a4b3aaaec273a99a4332038cbe76cb8a50a5b98f2b7a93d19ae1"
+    },
+    {
+      "dataset": "mathqa",
+      "selection_rank": 11,
+      "request_id": "mathqa-transfer-0209",
+      "selection_sha256": "10f2be966528b07fa5e7af415f114f1bd044827ac6bcf59a11b42d37623c47f2"
+    },
+    {
+      "dataset": "gsm8k",
+      "selection_rank": 12,
+      "request_id": "eval_00116",
+      "selection_sha256": "108767466f7d33e3e3b1003687c2548c37c1df244829d4e81fcadc2cabf2f0b5"
+    },
+    {
+      "dataset": "mathqa",
+      "selection_rank": 12,
+      "request_id": "mathqa-transfer-0786",
+      "selection_sha256": "11c29171227fc74c079fad422383c91b9cc1cdd8a76b88814cb0e63b898e28a1"
+    },
+    {
+      "dataset": "gsm8k",
+      "selection_rank": 13,
+      "request_id": "eval_00508",
+      "selection_sha256": "10897e8a11a8cfe56c44421efa68a8fa031b26864bca85da8cfe81d40bac9e1b"
+    },
+    {
+      "dataset": "mathqa",
+      "selection_rank": 13,
+      "request_id": "mathqa-transfer-0214",
+      "selection_sha256": "135022516819b7d6d88f6c29bdd3e98e1931ec26f8d02ccf689b770394b6e22e"
+    },
+    {
+      "dataset": "gsm8k",
+      "selection_rank": 14,
+      "request_id": "eval_01014",
+      "selection_sha256": "10f41266b67b6548a085dffcc214c06ec48b41987bb6840c2c05da5bb7d745b0"
+    },
+    {
+      "dataset": "mathqa",
+      "selection_rank": 14,
+      "request_id": "mathqa-transfer-0181",
+      "selection_sha256": "141813d7ee941661c0764eb6b2af784a77770c782a4ca1d65a72e4457bd89178"
+    },
+    {
+      "dataset": "gsm8k",
+      "selection_rank": 15,
+      "request_id": "eval_00785",
+      "selection_sha256": "116b46f464b444f80973cf79634c1be03363251a5a42c1b1830c61caed7834d1"
+    },
+    {
+      "dataset": "mathqa",
+      "selection_rank": 15,
+      "request_id": "mathqa-transfer-0812",
+      "selection_sha256": "1578af01d65ddc13ad1b9e5256a684df432e21946b131a44babc5481ee20595c"
+    },
+    {
+      "dataset": "gsm8k",
+      "selection_rank": 16,
+      "request_id": "eval_00229",
+      "selection_sha256": "13ad2f11811f4f7e5464661f15e85018f939508c3be0c72598cb4dc7162812c4"
+    },
+    {
+      "dataset": "mathqa",
+      "selection_rank": 16,
+      "request_id": "mathqa-transfer-0832",
+      "selection_sha256": "15bd2d18be372deb7eb9b3c33e5377fc2f4ea3d7803a034311d71bd994454bc1"
+    },
+    {
+      "dataset": "gsm8k",
+      "selection_rank": 17,
+      "request_id": "eval_00469",
+      "selection_sha256": "14442797a005bff9a8b5bf11b59651d86ef6eee9c12e4693d13d330806a296e5"
+    },
+    {
+      "dataset": "mathqa",
+      "selection_rank": 17,
+      "request_id": "mathqa-transfer-0172",
+      "selection_sha256": "170d37279f27516ea5cf5accfe21c8b7a275911596a2d186f971c6daf1e52ecd"
+    },
+    {
+      "dataset": "gsm8k",
+      "selection_rank": 18,
+      "request_id": "eval_00858",
+      "selection_sha256": "15f7a1ecb039c8f135a2a226c9e085139a53ae5d899a620780fa035dbebc884e"
+    },
+    {
+      "dataset": "mathqa",
+      "selection_rank": 18,
+      "request_id": "mathqa-transfer-0506",
+      "selection_sha256": "17aec90a4ead3a5b2fa72cbcec0cf247bd1a9e063924df6e8022fce28e553545"
+    },
+    {
+      "dataset": "gsm8k",
+      "selection_rank": 19,
+      "request_id": "eval_00401",
+      "selection_sha256": "193dd722d85a29f7de85653119422fe98508a8dba0aeb0708aa074cb3d9b1965"
+    },
+    {
+      "dataset": "mathqa",
+      "selection_rank": 19,
+      "request_id": "mathqa-transfer-0958",
+      "selection_sha256": "17dda18bc7e6bb5849cb76cf242f95cb72644c916493abdf7f67de95a3d90191"
+    },
+    {
+      "dataset": "gsm8k",
+      "selection_rank": 20,
+      "request_id": "eval_00636",
+      "selection_sha256": "193e78aa39619b6e0012fbf568f2dcc97dd2f389d078f74d9b857f187b8cd118"
+    },
+    {
+      "dataset": "mathqa",
+      "selection_rank": 20,
+      "request_id": "mathqa-transfer-0294",
+      "selection_sha256": "1b5807c79db50861e2f74a1c90fd44deb44f12acd286729803705423373530ff"
+    },
+    {
+      "dataset": "gsm8k",
+      "selection_rank": 21,
+      "request_id": "eval_00670",
+      "selection_sha256": "1a33cfef633547192b0c8be3fae2554b20c9f9476901431b70d1ce9f4ff3128e"
+    },
+    {
+      "dataset": "mathqa",
+      "selection_rank": 21,
+      "request_id": "mathqa-transfer-0091",
+      "selection_sha256": "1bcad69482f09781b96303d19dc995b319af5698bcc51c3b7ff5e4f292e62888"
+    },
+    {
+      "dataset": "gsm8k",
+      "selection_rank": 22,
+      "request_id": "eval_00931",
+      "selection_sha256": "1b127378fa62dbe0c6d288ef27132a930309a47f3d6acd6b7287ce8e7cfde8fc"
+    },
+    {
+      "dataset": "mathqa",
+      "selection_rank": 22,
+      "request_id": "mathqa-transfer-0120",
+      "selection_sha256": "1c0ed5a4777c667acbb8852b4f4b91b56422dfc0eab883481856f19f78e4b3a2"
+    },
+    {
+      "dataset": "gsm8k",
+      "selection_rank": 23,
+      "request_id": "eval_00733",
+      "selection_sha256": "1c1537e653cea55d388f3e57a9aa1db5cf6196dff5e052cf7496b1f7630873c3"
+    },
+    {
+      "dataset": "mathqa",
+      "selection_rank": 23,
+      "request_id": "mathqa-transfer-0697",
+      "selection_sha256": "1d5c3da0e9cd6274877fa1ce453f66fc7e0f3bdcd78f29e82996aa4ca6cb3841"
+    },
+    {
+      "dataset": "gsm8k",
+      "selection_rank": 24,
+      "request_id": "eval_00343",
+      "selection_sha256": "1fa57c2f7b441e3d335c380f7300f31e41f2374ae51d06bce681489995b0e8f0"
+    },
+    {
+      "dataset": "mathqa",
+      "selection_rank": 24,
+      "request_id": "mathqa-transfer-0530",
+      "selection_sha256": "1dd23fc2acc7e15fa0a6403a8c4e10da5370ea2c0b1fca5fc5eeb2c29c78d7d9"
+    },
+    {
+      "dataset": "gsm8k",
+      "selection_rank": 25,
+      "request_id": "eval_00220",
+      "selection_sha256": "2099d2745d494a1a50a7402ca0221a571fb2948ed283ffbdacb2f09f962feef2"
+    },
+    {
+      "dataset": "mathqa",
+      "selection_rank": 25,
+      "request_id": "mathqa-transfer-0406",
+      "selection_sha256": "1fbb10bba9cedf689ec0263b344dc621991e9d46f8791b4dd4c4459085499647"
+    },
+    {
+      "dataset": "gsm8k",
+      "selection_rank": 26,
+      "request_id": "eval_00491",
+      "selection_sha256": "212e8b559e117c6c39dd4700ac477227796942118669d87c5c12a16dc240bc8c"
+    },
+    {
+      "dataset": "mathqa",
+      "selection_rank": 26,
+      "request_id": "mathqa-transfer-0410",
+      "selection_sha256": "273f082a1c0dd86045f59959bb5f93ce214517012c329e501fbd97f849570fa4"
+    },
+    {
+      "dataset": "gsm8k",
+      "selection_rank": 27,
+      "request_id": "eval_00792",
+      "selection_sha256": "21803b6f07c1b33c8a0a0cf3b69cdda80b719ade519dfa03c327557a53bd195b"
+    },
+    {
+      "dataset": "mathqa",
+      "selection_rank": 27,
+      "request_id": "mathqa-transfer-0641",
+      "selection_sha256": "279fe14e84b3d02a126d7cf266ac4709036d0de23ec3692001c63704b87a506e"
+    },
+    {
+      "dataset": "gsm8k",
+      "selection_rank": 28,
+      "request_id": "eval_00410",
+      "selection_sha256": "22e928c3970c17515b93ac657d80e56015d2d008280728daf82682742fc7db8e"
+    },
+    {
+      "dataset": "mathqa",
+      "selection_rank": 28,
+      "request_id": "mathqa-transfer-0649",
+      "selection_sha256": "2900a6a8ed785464a54182057024a8f5e274e369e37025299d957102787a21c2"
+    },
+    {
+      "dataset": "gsm8k",
+      "selection_rank": 29,
+      "request_id": "eval_00739",
+      "selection_sha256": "26fb30921063af9d513cbad0d23e29bc4bab0dc7ec692b42579c0c1b037d06ae"
+    },
+    {
+      "dataset": "mathqa",
+      "selection_rank": 29,
+      "request_id": "mathqa-transfer-0076",
+      "selection_sha256": "294b5f42112e283266c6ce8ab75d486864270e9bfa3fcbdbffab58e8e40d2491"
+    },
+    {
+      "dataset": "gsm8k",
+      "selection_rank": 30,
+      "request_id": "eval_00133",
+      "selection_sha256": "28c388b2c93aaa776630424ba7db56d488d7ac728b33b090caee1c00d479a52f"
+    },
+    {
+      "dataset": "mathqa",
+      "selection_rank": 30,
+      "request_id": "mathqa-transfer-0387",
+      "selection_sha256": "2967ba1451bdf24aca81ddf15e6c366bf5d63aba3e8e52b39e5372439698d234"
+    },
+    {
+      "dataset": "gsm8k",
+      "selection_rank": 31,
+      "request_id": "eval_00560",
+      "selection_sha256": "2912e27dce08157bfe322bd333b5223baeaab3622ec577a1f7e0e2101c1d9bea"
+    },
+    {
+      "dataset": "mathqa",
+      "selection_rank": 31,
+      "request_id": "mathqa-transfer-0049",
+      "selection_sha256": "2b1bcf21e0ea8d85da589b37d94991fad4345bfc254e7b57cea68c7d2155c56d"
+    },
+    {
+      "dataset": "gsm8k",
+      "selection_rank": 32,
+      "request_id": "eval_00641",
+      "selection_sha256": "29898e59ac7f032465546c0f447c88de95907b7d385061e1d97dcb457a1c9e5b"
+    },
+    {
+      "dataset": "mathqa",
+      "selection_rank": 32,
+      "request_id": "mathqa-transfer-0878",
+      "selection_sha256": "2c8ff04f6fa6a6540338d4870ff123ddc0ce059a05366cf68612d37994efa721"
+    },
+    {
+      "dataset": "gsm8k",
+      "selection_rank": 33,
+      "request_id": "eval_00052",
+      "selection_sha256": "29dae74350e9e064a80a973c5593939478eb637673e275fb570b09bd058af3b5"
+    },
+    {
+      "dataset": "mathqa",
+      "selection_rank": 33,
+      "request_id": "mathqa-transfer-0490",
+      "selection_sha256": "2ecd2cfc05be491ccc7f11e65874101073425888aa436800b1b146af3eab55ff"
+    },
+    {
+      "dataset": "gsm8k",
+      "selection_rank": 34,
+      "request_id": "eval_00795",
+      "selection_sha256": "29e2cdb682179172ecdd64d8e6999cfd58105745a5183af6cd768fe04463ec33"
+    },
+    {
+      "dataset": "mathqa",
+      "selection_rank": 34,
+      "request_id": "mathqa-transfer-0004",
+      "selection_sha256": "31f066f3e7f2fa95e518e54524105b21ffc18fc99bbba5959f2ef237187b4e58"
+    },
+    {
+      "dataset": "gsm8k",
+      "selection_rank": 35,
+      "request_id": "eval_00030",
+      "selection_sha256": "2c592f5f0ce02b9e4e95334852138dbfdfd09e564e110ede0b18efbcd80e460f"
+    },
+    {
+      "dataset": "mathqa",
+      "selection_rank": 35,
+      "request_id": "mathqa-transfer-0295",
+      "selection_sha256": "324e3aa260b3188b63fac715b24cab0977fa7ebba464739a7913e00cc7c29c64"
+    },
+    {
+      "dataset": "gsm8k",
+      "selection_rank": 36,
+      "request_id": "eval_00647",
+      "selection_sha256": "2ce0a33f9076c8f39c727fb0d79e833efe2995c12ff3b7b8a3f1cc487f533bd3"
+    },
+    {
+      "dataset": "mathqa",
+      "selection_rank": 36,
+      "request_id": "mathqa-transfer-0223",
+      "selection_sha256": "3378b8c9d1466f9fc84291ed54023aa013cc1128add48deda2ee9796293037a8"
+    },
+    {
+      "dataset": "gsm8k",
+      "selection_rank": 37,
+      "request_id": "eval_00611",
+      "selection_sha256": "2e0783d915e67637b57a57b689dd053ca9766fdc4070e37228026a5f0d3bc570"
+    },
+    {
+      "dataset": "mathqa",
+      "selection_rank": 37,
+      "request_id": "mathqa-transfer-0896",
+      "selection_sha256": "339502366ffe7a482f5840ad2d703cba53ae94a8302503393231592c89b9118d"
+    },
+    {
+      "dataset": "gsm8k",
+      "selection_rank": 38,
+      "request_id": "eval_00974",
+      "selection_sha256": "2e31ee7d0c6206ce645434276b8c540dae057ace95f6df3c4bf5d5db45f0d841"
+    },
+    {
+      "dataset": "mathqa",
+      "selection_rank": 38,
+      "request_id": "mathqa-transfer-0198",
+      "selection_sha256": "33c40206cb60d97dfed505ccc6b8cffa650c80c33af96c03b4565c1077637944"
+    },
+    {
+      "dataset": "gsm8k",
+      "selection_rank": 39,
+      "request_id": "eval_01003",
+      "selection_sha256": "2ec0f6dd92cfaedd9fb1ff397de9cf731fa1f5ab05a2dd2f1778927895444027"
+    },
+    {
+      "dataset": "mathqa",
+      "selection_rank": 39,
+      "request_id": "mathqa-transfer-0647",
+      "selection_sha256": "3573f5a38aefd994d7ab095713bfeb2bd1062d239472dc24c2616ef2297d2739"
+    },
+    {
+      "dataset": "gsm8k",
+      "selection_rank": 40,
+      "request_id": "eval_00978",
+      "selection_sha256": "2f0e3399fe685c5e9cc6ff167d286b5e35978ce2f403c59d8f8d82571eb605ac"
+    },
+    {
+      "dataset": "mathqa",
+      "selection_rank": 40,
+      "request_id": "mathqa-transfer-0060",
+      "selection_sha256": "35810a2105af4a9cff467f80a60d43fc248b5a3370fb08c32ece03d952e226fe"
+    },
+    {
+      "dataset": "gsm8k",
+      "selection_rank": 41,
+      "request_id": "eval_00278",
+      "selection_sha256": "318b2801ec768c851704f6b2b43bce40486a821a0fc6ee1f6ca113c804e2506a"
+    },
+    {
+      "dataset": "mathqa",
+      "selection_rank": 41,
+      "request_id": "mathqa-transfer-0698",
+      "selection_sha256": "397fe3c239d40ad889420c93e79410cb704ae31a76970b779ff1fbefddb9573b"
+    },
+    {
+      "dataset": "gsm8k",
+      "selection_rank": 42,
+      "request_id": "eval_00751",
+      "selection_sha256": "319b2bbafa62072a28aaf4c08d581b0f7571504a9091c3bef1fb4df45244c52e"
+    },
+    {
+      "dataset": "mathqa",
+      "selection_rank": 42,
+      "request_id": "mathqa-transfer-0038",
+      "selection_sha256": "39c008873b203b5908de49bfbb36e3d2c92e0767d2cb0415106020f23df5c55d"
+    },
+    {
+      "dataset": "gsm8k",
+      "selection_rank": 43,
+      "request_id": "eval_00242",
+      "selection_sha256": "3208cf3e00de44e224754357a30ae78ba0af345e280db5d557cd2d01a2631f21"
+    },
+    {
+      "dataset": "mathqa",
+      "selection_rank": 43,
+      "request_id": "mathqa-transfer-0883",
+      "selection_sha256": "39d64f8a5e137f52bb217cd689b9fb5aa94b9f22bf38a8b17827aa5f6eda78c6"
+    },
+    {
+      "dataset": "gsm8k",
+      "selection_rank": 44,
+      "request_id": "eval_00194",
+      "selection_sha256": "3252e927327db0d285f5c1404d060ce5c73c5178a9e3791c751c076409bea899"
+    },
+    {
+      "dataset": "mathqa",
+      "selection_rank": 44,
+      "request_id": "mathqa-transfer-0437",
+      "selection_sha256": "3b80f44c1c5fa8528df1ea591b06572502d4a268ea0ee3d65216fecddb911b5e"
+    },
+    {
+      "dataset": "gsm8k",
+      "selection_rank": 45,
+      "request_id": "eval_00994",
+      "selection_sha256": "371b117342496d520b7f75bd6c61ed59e8d9d401212fb4e06938dab04b8d0df3"
+    },
+    {
+      "dataset": "mathqa",
+      "selection_rank": 45,
+      "request_id": "mathqa-transfer-0055",
+      "selection_sha256": "3cd16b924572d75e41781e0e633e19c448625333fb16a26a3ec57a7b5c268b27"
+    },
+    {
+      "dataset": "gsm8k",
+      "selection_rank": 46,
+      "request_id": "eval_00621",
+      "selection_sha256": "37bc6800725632344415114953883d11be81e7a705cf9d370be3d6b601e36930"
+    },
+    {
+      "dataset": "mathqa",
+      "selection_rank": 46,
+      "request_id": "mathqa-transfer-0489",
+      "selection_sha256": "3dbe5295d542e4e3849d4e631c57b17831fd474f5434e76b3d206a460d282f92"
+    },
+    {
+      "dataset": "gsm8k",
+      "selection_rank": 47,
+      "request_id": "eval_00985",
+      "selection_sha256": "397c9317e33d46715d73d720d7a09c921ad7a34fbbecbf7a4156d7c98c4ac76f"
+    },
+    {
+      "dataset": "mathqa",
+      "selection_rank": 47,
+      "request_id": "mathqa-transfer-0521",
+      "selection_sha256": "3de37dd5862460ceeb54212a937315e3b8b029c3023963613f98e68a3bc91ce7"
+    },
+    {
+      "dataset": "gsm8k",
+      "selection_rank": 48,
+      "request_id": "eval_00334",
+      "selection_sha256": "3a40f174554e3e1b54954670ae01d4c96691fc4a5c098d6d3c010eb51a8b87cd"
+    },
+    {
+      "dataset": "mathqa",
+      "selection_rank": 48,
+      "request_id": "mathqa-transfer-0412",
+      "selection_sha256": "3de9282dafd8debe397bf9030ab6a061ae7fd899fc36077bf8cee6a526161b71"
+    },
+    {
+      "dataset": "gsm8k",
+      "selection_rank": 49,
+      "request_id": "eval_00149",
+      "selection_sha256": "3ba6529401e26641588f8738a194abd9070820c718b65865dfc24b939aeae0e4"
+    },
+    {
+      "dataset": "mathqa",
+      "selection_rank": 49,
+      "request_id": "mathqa-transfer-0869",
+      "selection_sha256": "3f77923591ea91669cc4f202c6dc5d54a18baf7e181c4637d14b0ffe53f138e6"
+    },
+    {
+      "dataset": "gsm8k",
+      "selection_rank": 50,
+      "request_id": "eval_00268",
+      "selection_sha256": "3e8ad7b0254108cb6d342c1329a8fba3fba233d048caeaf3c30730d781bfa151"
+    },
+    {
+      "dataset": "mathqa",
+      "selection_rank": 50,
+      "request_id": "mathqa-transfer-0651",
+      "selection_sha256": "3f83536ea25819896487992f61176894207b192a8e2dc6eab1f45da277023325"
+    },
+    {
+      "dataset": "gsm8k",
+      "selection_rank": 51,
+      "request_id": "eval_00727",
+      "selection_sha256": "3f532b02703f692d9156ebb0c58bbdd03499ab88e309d7e3fb3e0fb17b8cf088"
+    },
+    {
+      "dataset": "mathqa",
+      "selection_rank": 51,
+      "request_id": "mathqa-transfer-0117",
+      "selection_sha256": "4153fffd6d4e7fa818d617fef8f9c7e4499a00da80ee110d0ed24bc46bfa9dd8"
+    },
+    {
+      "dataset": "gsm8k",
+      "selection_rank": 52,
+      "request_id": "eval_00164",
+      "selection_sha256": "3f84c03f5709fb827d871ca7aa7f1b910248be9ca3587767baaa24406df5d8c4"
+    },
+    {
+      "dataset": "mathqa",
+      "selection_rank": 52,
+      "request_id": "mathqa-transfer-0306",
+      "selection_sha256": "44aed67a36bead1a8f7da8c4d0e6007c714346dada57088da3136ab5dba515eb"
+    },
+    {
+      "dataset": "gsm8k",
+      "selection_rank": 53,
+      "request_id": "eval_00500",
+      "selection_sha256": "3f98534fc3368e478316ff859a6bfe26e54e5cc4c13638f4a03bee95c4379b44"
+    },
+    {
+      "dataset": "mathqa",
+      "selection_rank": 53,
+      "request_id": "mathqa-transfer-1002",
+      "selection_sha256": "450cf01246b31faa12480a9acab8c5d6cf904388b0d36c12b14edcf5cff16fdb"
+    },
+    {
+      "dataset": "gsm8k",
+      "selection_rank": 54,
+      "request_id": "eval_00614",
+      "selection_sha256": "40e945be66155797f1845feaf2e519c261031c7320d8f25940a6c8b78c61932f"
+    },
+    {
+      "dataset": "mathqa",
+      "selection_rank": 54,
+      "request_id": "mathqa-transfer-0781",
+      "selection_sha256": "457222ad248e04dbef19cc9614cb1c921bae9c48fac78010eb85768d655733bb"
+    },
+    {
+      "dataset": "gsm8k",
+      "selection_rank": 55,
+      "request_id": "eval_00414",
+      "selection_sha256": "42f93dbe47de2957739db53dac9a176094f3edccb951115950036f9e01185d29"
+    },
+    {
+      "dataset": "mathqa",
+      "selection_rank": 55,
+      "request_id": "mathqa-transfer-0473",
+      "selection_sha256": "45d5fb798fe1444a5962b19e22136c11e8cd3e2a670f7fab823a6c405c59ded8"
+    },
+    {
+      "dataset": "gsm8k",
+      "selection_rank": 56,
+      "request_id": "eval_00155",
+      "selection_sha256": "4339957aa1b2528b701035862a51645db5c694234558db4cc1d6aac8eb4c1e48"
+    },
+    {
+      "dataset": "mathqa",
+      "selection_rank": 56,
+      "request_id": "mathqa-transfer-0779",
+      "selection_sha256": "466131c9ce74aa424a6b7b08227e0b6d7df6850906ae4ce77e97682d6ab4351a"
+    },
+    {
+      "dataset": "gsm8k",
+      "selection_rank": 57,
+      "request_id": "eval_00200",
+      "selection_sha256": "44d81d843f970286ae6cb935765400ed03ff97d9759a1f47e6de00bba6b72d7b"
+    },
+    {
+      "dataset": "mathqa",
+      "selection_rank": 57,
+      "request_id": "mathqa-transfer-0054",
+      "selection_sha256": "49a529ca312f0b3b44c66db165ed04eab0eca932b17e0ccdf15880e48154aec9"
+    },
+    {
+      "dataset": "gsm8k",
+      "selection_rank": 58,
+      "request_id": "eval_00029",
+      "selection_sha256": "456229a037e2c1bdd8cad21f805c2f5afad2354a1b5d6d220e14e064edb3e2d1"
+    },
+    {
+      "dataset": "mathqa",
+      "selection_rank": 58,
+      "request_id": "mathqa-transfer-1008",
+      "selection_sha256": "49c7189502a68bcbb9ba6f4a7be3df5b2f666f3a93dcbfe700fe24a4a331eeb0"
+    },
+    {
+      "dataset": "gsm8k",
+      "selection_rank": 59,
+      "request_id": "eval_00874",
+      "selection_sha256": "45db4929732b38f2b5d9331f89186e15cf53dcc741d3febd63fe187bda2b66c3"
+    },
+    {
+      "dataset": "mathqa",
+      "selection_rank": 59,
+      "request_id": "mathqa-transfer-0906",
+      "selection_sha256": "4a3dbb10346a53a2ba4437add0122e1f9f57e7155d2076ac3bb5eacd3bb09584"
+    },
+    {
+      "dataset": "gsm8k",
+      "selection_rank": 60,
+      "request_id": "eval_00945",
+      "selection_sha256": "47e0da3d1460875a2d4b0a2a73e537ca354bd258fb6ce411496928e5c3573f5b"
+    },
+    {
+      "dataset": "mathqa",
+      "selection_rank": 60,
+      "request_id": "mathqa-transfer-0292",
+      "selection_sha256": "4a81f6f948fbb88a55a9c55fe5a54dd84e8b711dc6fe8e0776df9400109eef3f"
+    },
+    {
+      "dataset": "gsm8k",
+      "selection_rank": 61,
+      "request_id": "eval_00168",
+      "selection_sha256": "485a236db3cb3c2ce2aaded1792d64cf6b26fb1cf6956f86a7b39abad7708b11"
+    },
+    {
+      "dataset": "mathqa",
+      "selection_rank": 61,
+      "request_id": "mathqa-transfer-0469",
+      "selection_sha256": "4b218de159691b0536339c14a32ff7a775498d9ff0d3902d6fcae91fe12dabed"
+    },
+    {
+      "dataset": "gsm8k",
+      "selection_rank": 62,
+      "request_id": "eval_00482",
+      "selection_sha256": "489d4031675edfcbe422ca8f6a927ffed2889c8f672ab3982281ce774ec9837e"
+    },
+    {
+      "dataset": "mathqa",
+      "selection_rank": 62,
+      "request_id": "mathqa-transfer-0483",
+      "selection_sha256": "4ca1fb37d91302c81229b34b30d113f1fc88adebd8bc61c349bd7240a25a97a0"
+    },
+    {
+      "dataset": "gsm8k",
+      "selection_rank": 63,
+      "request_id": "eval_00057",
+      "selection_sha256": "495b49d06bf54251f6864d3387f6ba32dad701272bf97b85f2798b61b73c208e"
+    },
+    {
+      "dataset": "mathqa",
+      "selection_rank": 63,
+      "request_id": "mathqa-transfer-0396",
+      "selection_sha256": "4caaf911bba5dae324a03c1a0b5aa52e15bc0dd53ff42b71070325d793f1e8e3"
+    }
+  ]
+}

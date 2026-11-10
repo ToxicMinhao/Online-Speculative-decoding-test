@@ -1,0 +1,29 @@
+{
+  "status": "passed",
+  "records": {
+    "crossed": 256,
+    "original": 256,
+    "neutral": 8
+  },
+  "counts": {
+    "crossed_rounds": 13391,
+    "total_rounds": 27749,
+    "actual_committed_context_tokens": 197418,
+    "true_suffix_reconstruction_operations": 1081,
+    "true_suffix_reconstruction_tokens": 28922,
+    "original_rounds": 14091,
+    "original_prefill_context_operations": 512,
+    "original_prefill_context_tokens": 47776,
+    "neutral_rounds": 267,
+    "total_context_operations": 29342,
+    "total_context_tokens": 274116
+  },
+  "startup_blocks": {
+    "startup_standalone_verifier": 48,
+    "startup_draft": 3
+  },
+  "ledger_context_tokens": 274116,
+  "checks": "all520 raw record call counts + reconstruction receipts; exact aggregate match to context, target, model-load and proposal ledger categories",
+  "cpu_wall_s": 0.7840694629121572,
+  "new_model_work": 0
+}

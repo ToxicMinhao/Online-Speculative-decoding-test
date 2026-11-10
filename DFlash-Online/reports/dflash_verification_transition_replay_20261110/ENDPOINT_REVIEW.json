@@ -1,0 +1,88 @@
+{
+  "execution_commit": "d7b1311e7b2f910e935bf81b4e40282767d7540c",
+  "verification_status": "ANALYZED; independently recomputed retained CPU arithmetic, no new native execution",
+  "verdict": {
+    "gsm8k": "restart_bottleneck_not_supported",
+    "mathqa": "restart_bottleneck_not_supported"
+  },
+  "recommendation": "Under the prespecified handoff, do not pursue the proposed newly reached-start allocation pilot on these results. One MathQA counterexample establishes possibility on that request, not a recurrent positive-mean bottleneck.",
+  "mismatches": [],
+  "all_request_rows_checked": 128,
+  "original_walks_authenticated": 256,
+  "crossed_suffixes_checked": 256,
+  "neutral_suffixes_checked": 8,
+  "postflight_identity_checks": 1421,
+  "advance_repair_separation": {
+    "all_actual_advances_retained": true,
+    "gsm8k": {
+      "actual_advances": 31,
+      "verified_repairs": 31,
+      "unverified_advances": 0
+    },
+    "mathqa": {
+      "actual_advances": 40,
+      "verified_repairs": 40,
+      "unverified_advances": 0
+    },
+    "regressions": {
+      "gsm8k": {
+        "count": 33,
+        "repaired": 0,
+        "not_repaired": 33,
+        "no_valid_first_rejection": 0
+      },
+      "mathqa": {
+        "count": 24,
+        "repaired": 0,
+        "not_repaired": 19,
+        "no_valid_first_rejection": 5
+      }
+    }
+  },
+  "boundary_count": {
+    "gsm8k": 0,
+    "mathqa": 0
+  },
+  "no_divergence_count": {
+    "gsm8k": 0,
+    "mathqa": 0
+  },
+  "prior_proposal_difference_requests": {
+    "gsm8k": 54,
+    "mathqa": 30
+  },
+  "both_positive_counterexample": {
+    "dataset": "mathqa",
+    "request_id": "mathqa-transfer-0583",
+    "selection_rank": 10,
+    "C44": 10,
+    "C46": 11,
+    "C64": 11,
+    "C66": 12,
+    "R4": 1,
+    "R6": 1,
+    "remaining4": 69,
+    "remaining6": 68
+  },
+  "statistical_limits": [
+    "Intervals are the prespecified pointwise percentile bootstrap intervals, not multiplicity-adjusted familywise intervals.",
+    "Both datasets use their own complete64-row resampling; no dataset pooling, four-cell independent resampling, or individual-round resampling.",
+    "These are reused development requests and fixed checkpoint pairs, not fresh-panel, training-seed or algorithm generalization evidence.",
+    "Negative average restart effects do not mean every advance is beneficial."
+  ],
+  "authorship_disclosure": "Same-team review. Auditor authored production analysis.py; independent arithmetic script does not import that module. This is not an independent-team replication.",
+  "new_model_work": 0,
+  "fallacy_coverage": {
+    "Simpson_paradox": "Checked: datasets and prespecified interior/all strata reported separately; all advances are interior.",
+    "ecological_fallacy": "Checked: negative means not converted into every-request claim; isolated positive cases retained.",
+    "Berkson_selection": "Checked: hash-selected64 panels preserved; advance-conditioned summaries complemented by unconditional contributions.",
+    "collider_bias": "Checked: conditional checkpoint-switch effects not treated as unique causal mediation of training gains.",
+    "base_rate_neglect": "Checked: all64 denominators,31/40advances and0/1both-positive counts explicit.",
+    "regression_to_mean": "Checked: sample not selected by outcome or extremes; no causal training-gain inference from local contrast.",
+    "survivorship_bias": "Checked:128/128complete, no missing/censored requests substituted or assignedzero.",
+    "look_elsewhere": "Checked: fixed one-transition/fixedstrata outputs; soleMathQAcounterexample not promoted to mean support.",
+    "forking_paths": "Checked: unchangedselection/seed10000bootstrap/boundary16; noresult-driven threshold or exclusions.",
+    "correlation_causation": "Checked: native cross-state intervention is a conditional local contrast; not evidence allocationtraining would improve.",
+    "reverse_causality": "Checked: event4/event6comparison does not establish how presentation-level changes cause later training outcomes."
+  }
+}

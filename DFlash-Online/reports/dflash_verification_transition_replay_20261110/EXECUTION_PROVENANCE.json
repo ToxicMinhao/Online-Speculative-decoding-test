@@ -1,0 +1,40 @@
+{
+  "actual_execution_commit": "d7b1311e7b2f910e935bf81b4e40282767d7540c",
+  "clean_checkout_before_and_after": true,
+  "execution_root": "/data/sources/minhao/transition_replay_source_d7b1311/DFlash-Online",
+  "private_artifact_root": "/data/sources/minhao/runs/dflash_verification_transition_replay_20261110/diagnostic_001",
+  "control_start_utc": "2026-11-10T02:39:37Z",
+  "control_end_utc": "2026-11-10T03:01:55Z",
+  "public_source_prior_implementation_commit": "68cbbdf385162607b18ff467d08a653586a7c9e8",
+  "retrieval": {
+    "status": "passed",
+    "archive": {
+      "bytes": 15877590,
+      "sha256": "64b0b4172b46c61ba34d2576fcee49a51920b78f6e87a9005e01fc1454d915f3"
+    },
+    "files": 1971,
+    "bytes": 157281371,
+    "utc": "2026-11-10T03:04:49.821859+00:00",
+    "new_model_work": 0
+  },
+  "selected_ids_identity": {
+    "bytes": 53641,
+    "sha256": "14a1149c2e15c6bab63e2447e9bc3a78f645dff27387068d5eff194a43649d54"
+  },
+  "new_training_steps": 0,
+  "new_model_backward_passes": 0,
+  "timed_serving_comparison": false,
+  "postflight_cpu_seconds": 23.871276477351785,
+  "publication_scope": "additive reports and CPU audit; scientific execution remains d7b1311; live remote source unchanged",
+  "source_ledger_uncompressed": {
+    "bytes": 24867919,
+    "sha256": "1141c1c75f8578eb3d85fbd77d2579fcb443ae64d33d65b2e50b11cca842d10b"
+  },
+  "public_privacy": "No prompts, output token arrays, runtime tensors or IPC authentication tokens are included.",
+  "final_cpu_review_interval": {
+    "start_utc": "2026-11-10T03:04:49.821859+00:00",
+    "end_utc": "2026-11-10T03:12:03.709207+00:00",
+    "elapsed_s": 433.887348,
+    "caveat": "Elapsed post-retrieval interval includes independent CPU audits, concurrent review and report preparation; not CPU utilization or GPU time."
+  }
+}

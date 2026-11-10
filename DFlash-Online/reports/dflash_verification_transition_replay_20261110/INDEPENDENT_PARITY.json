@@ -1,0 +1,67 @@
+{
+  "status": "passed",
+  "execution_commit": "d7b1311e7b2f910e935bf81b4e40282767d7540c",
+  "authenticated_original_walks": 256,
+  "neutral_replays": [
+    {
+      "dataset": "gsm8k",
+      "arm": "KPLUS4",
+      "boundary": 1,
+      "suffix_calls": 42,
+      "status": "passed"
+    },
+    {
+      "dataset": "gsm8k",
+      "arm": "KPLUS4",
+      "boundary": 22,
+      "suffix_calls": 21,
+      "status": "passed"
+    },
+    {
+      "dataset": "gsm8k",
+      "arm": "KPLUS6",
+      "boundary": 1,
+      "suffix_calls": 42,
+      "status": "passed"
+    },
+    {
+      "dataset": "gsm8k",
+      "arm": "KPLUS6",
+      "boundary": 22,
+      "suffix_calls": 21,
+      "status": "passed"
+    },
+    {
+      "dataset": "mathqa",
+      "arm": "KPLUS4",
+      "boundary": 1,
+      "suffix_calls": 48,
+      "status": "passed"
+    },
+    {
+      "dataset": "mathqa",
+      "arm": "KPLUS4",
+      "boundary": 25,
+      "suffix_calls": 24,
+      "status": "passed"
+    },
+    {
+      "dataset": "mathqa",
+      "arm": "KPLUS6",
+      "boundary": 1,
+      "suffix_calls": 46,
+      "status": "passed"
+    },
+    {
+      "dataset": "mathqa",
+      "arm": "KPLUS6",
+      "boundary": 24,
+      "suffix_calls": 23,
+      "status": "passed"
+    }
+  ],
+  "postflight_identity_checks": 1421,
+  "recorded_gpu_s": 1301.6581510975957,
+  "new_model_work": 0,
+  "limitations": "CPU audit revalidates retained receipts and tokens; no new GPU replay was performed."
+}
