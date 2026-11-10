@@ -1,6 +1,7 @@
 """Collect only the first two sealed event-5 inputs per dataset for qualification.
 
 These four answers count toward the prescribed 512 shared feedback generations.
+An explicitly sealed retry reuses the four authenticated prior answers.
 They are retained for the future event, not discarded or collected again. This
 entry point performs no optimizer work and cannot launch the main pilot.
 """
@@ -30,6 +31,13 @@ def prepare(root):
     started = time.perf_counter()
     failure = None
     try:
+        if plan.get('prior_attempt') is not None:
+            from .retry import reuse_feedback
+            receipt['datasets'] = reuse_feedback(plan)
+            receipt.update(status='completed', reused_feedback_packets=4,
+                prior_attempt_root=plan['prior_attempt']['root'],
+                prior_preparation=plan['prior_attempt']['receipts']['PREPARATION.json'])
+            return receipt
         for dataset, item in plan['datasets'].items():
             directory = output / dataset
             directory.mkdir()

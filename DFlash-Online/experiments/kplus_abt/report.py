@@ -113,6 +113,9 @@ def qualification(evidence):
                      status='no_receipt' if value is None else value.get('status','unknown'))
             if value is not None:
                 row.update(error=value.get('error'),work=value.get('work'),wall_s=value.get('wall_s'),
+                    startup_work=value.get('startup',{}).get('work'),
+                    resource_work=value.get('resource',{}).get('work'),
+                    endpoint_finite=value.get('endpoint_finite'),
                     two_view_installed=value.get('two_view_installed'),
                     neutral_exact=value.get('neutral_exact'),native_difference=value.get('native_difference'))
                 if case=='CLEAN2':
@@ -126,8 +129,34 @@ def qualification(evidence):
                 if case in ARMS:
                     served=evidence.read(base/'SERVING_CHECK.json')
                     row['serving_status']='no_receipt' if served is None else served.get('status','unknown')
+                    row['serving_work']=(served or {}).get('work')
             records.append(row)
     return admission,records
+
+
+def prior_attempt(evidence):
+    """Keep the failed attempt and its costs outside the fresh qualification."""
+    contract = evidence.plan.get('prior_attempt')
+    if contract is None:
+        return None
+    try:
+        from .retry import prior_accounting
+        for name, expected in contract['receipts'].items():
+            path = evidence.local(expected['path'])
+            observed = file_identity(path)
+            evidence.remember(path, observed)
+            if observed != {key:expected[key] for key in ('bytes','sha256')}:
+                raise ValueError('Prior-attempt receipt changed: '+name)
+        directory = evidence.local(contract['receipts']['RESULT.json']['path']).parent
+        observed = prior_accounting(directory)
+        if any(observed[key] != contract[key] for key in observed):
+            raise ValueError('Prior-attempt accounting differs from the sealed raw receipts')
+        return dict(observed, evidence_status='verified_retained_receipts',
+            reused_feedback_packets=contract['reused_feedback_packets'],
+            retry_new_feedback_generations=contract['retry_new_feedback_generations'])
+    except (KeyError, TypeError, ValueError, OSError) as error:
+        evidence.errors.append(dict(scope='prior_attempt', error=repr(error)))
+        return dict(status='invalid_prior_evidence', error=repr(error), counts=None)
 
 
 def training(evidence):
@@ -312,6 +341,23 @@ def render(summary,contrasts,costs,windows,views,diagnostics,qualification_rows)
         'Ratios are ratios of sums, not means of request ratios. Calls use one validated deterministic trajectory per request.', '',
         '| Dataset / ADV versus | Calls reduction % [95% CI] | Time reduction % [95% CI] | Call wins/regressions/ties |',
         '|---|---:|---:|---:|']
+    prior = summary.get('prior_attempt')
+    if prior is not None:
+        if prior.get('evidence_status') == 'verified_retained_receipts':
+            costs_before = prior['costs']
+            note = ('The separately retained failed attempt consumed 1 disposable Adam step and 4 forwards/4 backwards '
+                '(2/2 case work plus 2/2 discarded startup), with 0 serving checks and 0 main updates. Its endpoint was not saved. '
+                'The fresh qualification still requires 12 Adam steps, 68 forwards/68 backwards and 8 serving checks. '
+                'The retry is sealed to reuse its four feedback packets: 0 new qualification feedback generations/teacher preparations; '
+                'main feedback remains 512 unique packets, comprising 4 retained plus 508 newly collected. '
+                f"Prior qualification wall time was {costs_before['qualification_wall_s']:.3f} s; nested feedback preparation "
+                f"{costs_before['feedback_preparation_wall_s']:.3f} s, failed case {costs_before['failed_case_wall_s']:.3f} s, "
+                f"and startup {costs_before['startup_wall_s']:.3f} s are not additive. "
+                'See `PRIOR_ATTEMPT.json` for the authenticated counts and execution source.')
+        else:
+            note = 'Prior-attempt evidence is incomplete or invalid; its costs must not be imputed as zero. See `PRIOR_ATTEMPT.json`.'
+        index = lines.index('## Endpoint comparisons')
+        lines[index:index] = [note, '']
     for row in contrasts:
         lines.append(f"| {row['dataset']} / {row['contrast'].split('_vs_')[1]} | "
             f"{row['call_reduction_pct']:.4f} [{row['call_ci95_low_pct']:.4f}, {row['call_ci95_high_pct']:.4f}] | "
@@ -392,7 +438,10 @@ def build(root,output):
     if output.exists(): raise FileExistsError('A report is immutable; choose a separate output directory')
     output.mkdir(parents=True)
     evidence=Evidence(root,plan);evidence.read('sealed/PLAN.json')
+    prior=prior_attempt(evidence)
     admission,qual_rows=qualification(evidence)
+    if prior is not None and prior.get('evidence_status')!='verified_retained_receipts':
+        admission=dict(admission or {},status='invalid_prior_evidence')
     if admission is not None and (admission.get('binding')!=plan['binding']
             or admission.get('execution_commit')!=plan['execution_source']['commit']):
         admission=dict(admission,status='invalid_binding')
@@ -400,10 +449,13 @@ def build(root,output):
         checks=('native_neutral_exact','two_view_execution','mask_scope','perturbation_gradient',
                 'bf16_realization','same_clean_selection','one_adam_per_window','serving','resource','complete_state')
         if (any(admission.get('checks',{}).get(name) is not True for name in checks)
-                or any(row['status']!='completed' for row in qual_rows)
+                or any(row['status']!='completed' or (row.get('endpoint_finite') or {}).get('status')!='passed'
+                       for row in qual_rows)
                 or any(row.get('serving_status')!='passed' for row in qual_rows if row['arm'] in ARMS)):
             admission=dict(admission,status='incomplete_qualification_evidence')
     results,valid,costs,windows,views,diagnostics,statuses=training(evidence)
+    if prior is not None:
+        statuses.append(dict(scope='prior_failed_attempt',**prior))
     controller=evidence.read('campaign_001/STATUS.json')
     postflight=evidence.read('POSTFLIGHT_PILOT.json')
     exit_code=evidence.read('PILOT_EXIT_CODE')
@@ -444,6 +496,7 @@ def build(root,output):
     summary=dict(status='complete' if complete else 'partial_or_incomplete',execution_source=plan['execution_source'],
         binding=plan['binding'],valid_arm_events=sum(valid.values()),expected_tasks=tasks(),controller=controller,
         postflight=postflight,pilot_exit_code=exit_code,phase_receipts=phase_receipts,
+        prior_attempt=prior,feedback_accounting=plan.get('feedback_accounting'),
         endpoints=endpoints,conclusion=conclusion,input_stability=stability,
         model_work=0,analysis_source_identity=file_identity(__file__),automatic_followup_authorized=False)
     contrasts=contrast_rows(endpoints)
@@ -463,6 +516,8 @@ def build(root,output):
             ('OPTIMIZER_WINDOWS.csv',windows),('AUGMENTATION.csv',views),('DIAGNOSTICS.csv',diagnostics),('RUN_STATUS.csv',statuses)]:
         dump_csv(output/name,rows)
     dump_json(output/'SUMMARY.json',summary)
+    if prior is not None:
+        dump_json(output/'PRIOR_ATTEMPT.json',prior)
     dump_json(output/'QUALIFICATION.json',dict(admission=admission,cases=qual_rows))
     dump_json(output/'INPUT_MANIFEST.json',dict(files=evidence.files,missing=evidence.missing,
         parse_errors=evidence.errors,stability=stability,model_work=0))

@@ -145,6 +145,24 @@ def endpoint(trainer, gradients):
         response_losses=[r['loss'] for r in trainer.response_records])
 
 
+def finite_endpoint(saved):
+    """Check tensor leaves without altering native state or optimizer metadata."""
+    def check(value, path):
+        if isinstance(value, torch.Tensor):
+            _finite(value, path)
+            return 1
+        if isinstance(value, dict):
+            return sum(check(part, f'{path}.{key}') for key, part in value.items())
+        if isinstance(value, (list, tuple)):
+            return sum(check(part, f'{path}.{index}') for index, part in enumerate(value))
+        if value is None or isinstance(value, (str, bool, int, float)):
+            return 0
+        raise TypeError(f'Unsupported endpoint value at {path}: {type(value).__name__}')
+
+    counts = {field: check(saved[field], field) for field in ('weights', 'optimizer', 'gradients')}
+    return dict(status='passed', tensor_leaves_checked=counts)
+
+
 def run_case(root, dataset, case):
     from specforge.training.strategies.base import StepContext
     root = Path(root); plan = read(root/'sealed/PLAN.json')
@@ -161,6 +179,7 @@ def run_case(root, dataset, case):
     ledger = WorkLedger(output/'WORK.jsonl', dict(response_forwards=views, response_backwards=views, optimizer_steps=1))
     item = plan['datasets'][dataset]
     receipt = dict(status='running', dataset=dataset, case=case, automatic_retry=False,
+                   endpoint_finite=dict(status='unchecked'),
                    execution_commit=plan['execution_source']['commit'], binding=plan['binding'])
     trainer = None; failure = None; started = time.perf_counter()
     captures, gradients = [], {}
@@ -202,16 +221,25 @@ def run_case(root, dataset, case):
             result.materialize_metrics()
             trainer.presentations += 1
             trainer.global_step += int(result.optimizer_stepped)
+        # Persist before every post-step gate, including work and state accounting.
+        saved = endpoint(trainer, gradients)
+        save_torch(output/'ENDPOINT.pt', saved)
+        receipt['endpoint_identity'] = identity(output/'ENDPOINT.pt')
+        if installed:
+            save_torch(output/'VIEW_SNAPSHOTS.pt', captures)
+        receipt['views'] = trainer.view_records
+        receipt['observations'] = deepcopy(trainer.response_records)
+        receipt['windows'] = deepcopy(trainer.window_records)
+        receipt['physical_work'] = dict(trainer.work)
         require_complete_work(read_work(ledger.path, ledger.limits), ledger.limits)
         if (trainer.global_step != 513 or trainer.presentations != 1026 or trainer.core.accumulation_remainder
                 or len(trainer.window_records)!=1 or len(trainer.response_records)!=2):
             raise ValueError('Disposable two-response/one-Adam accounting differs')
-        # Save before comparisons: a failed numerical control keeps its tensors.
-        saved = endpoint(trainer, gradients)
-        for field in ('weights','optimizer','gradients'):
-            _finite(saved[field],field)
-        save_torch(output/'ENDPOINT.pt', saved)
-        receipt['endpoint_identity'] = identity(output/'ENDPOINT.pt')
+        try:
+            receipt['endpoint_finite'] = finite_endpoint(saved)
+        except BaseException as error:
+            receipt['endpoint_finite'] = dict(status='failed', error=repr(error))
+            raise
         if case != 'KPLUS':
             reference = torch.load(root/'qualification'/dataset/'KPLUS/ENDPOINT.pt',map_location='cpu',weights_only=False,mmap=True)
             if case in ('DISABLED','ADV_ZERO'):
@@ -231,11 +259,6 @@ def run_case(root, dataset, case):
             receipt['native_input_pairs'] = input_audit.pairs
             input_audit.close(); input_audit = None
             receipt['perturbation'] = perturbation_checks(captures, case)
-            save_torch(output/'VIEW_SNAPSHOTS.pt', captures)
-        receipt['views'] = trainer.view_records
-        receipt['observations'] = deepcopy(trainer.response_records)
-        receipt['windows'] = deepcopy(trainer.window_records)
-        receipt['physical_work'] = dict(trainer.work)
         if case in ARMS:
             payload = live_state(trainer)
             temporary = output/'EXPORT_INPUT.pt'

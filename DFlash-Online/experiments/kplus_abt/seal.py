@@ -15,6 +15,7 @@ from .contract import ARMS, DATASETS, EVENTS, RHO, ANALYSIS, SCHEMA, budgets
 from .data import read, validate_inputs
 from .evaluation import evaluation_schedule, validate_evaluation_inputs
 from .storage import capacity_plan
+from .retry import RECEIPTS, seal_prior_attempt
 
 PRIOR = Path('/home/minhao2/EAGLE_SPEC/research/dflash_functional_step_geometry_20261108/pilot_r1_001/sealed_package')
 
@@ -77,7 +78,7 @@ def execution_source(code, commit, remote_code):
 
 
 def seal(code, commit, output, *, remote_root, remote_code, prior=PRIOR,
-         retained_qualification_bytes=2**30, retrieval_staging=False):
+         retained_qualification_bytes=2**30, retrieval_staging=False, prior_attempt=None):
     code, output, prior = Path(code), Path(output), Path(prior)
     remote_root, remote_code = Path(remote_root), Path(remote_code)
     if not remote_root.is_absolute() or not remote_code.is_absolute():
@@ -85,8 +86,11 @@ def seal(code, commit, output, *, remote_root, remote_code, prior=PRIOR,
     source = execution_source(code,commit,remote_code)
     old, authenticated = _authenticate_prior(prior)
     old_root = Path(old['root'])
+    prior_attempt_identities = None if prior_attempt is None else {
+        name:identity(Path(prior_attempt)/name) for name in RECEIPTS}
     binding = stable_digest(dict(schema=SCHEMA, source_commit=commit, rho=RHO,
         inputs=authenticated, budgets=budgets(), analysis=ANALYSIS,
+        prior_attempt=prior_attempt_identities,
         origins={d:{k:old['datasets'][d][k] for k in
             ('origin_state','origin_state_identity','origin_weights','origin_weights_identity')}
             for d in DATASETS}))
@@ -149,8 +153,13 @@ def seal(code, commit, output, *, remote_root, remote_code, prior=PRIOR,
             path = destination/f'config_{arm}.yaml';path.write_text(text)
             item['configs'][arm] = str(remote_root/'sealed'/dataset/path.name)
         plan['datasets'][dataset] = item
+    retained_packet_files = {}
+    if prior_attempt is not None:
+        plan['prior_attempt'], retained_packet_files = seal_prior_attempt(prior_attempt,output,plan,code)
+        plan['feedback_accounting'].update(qualification_new=0,
+            qualification_reused_from_prior_attempt=4, prior_attempt_new=4)
     write_json(output/'sealed/PLAN.json',plan)
-    files = {}
+    files = dict(retained_packet_files)
     for path in sorted((output/'sealed').rglob('*')):
         if path.is_file():
             files[str(remote_root/path.relative_to(output))] = identity(path)
@@ -178,8 +187,9 @@ if __name__ == '__main__':
     parser.add_argument('--prior',default=str(PRIOR))
     parser.add_argument('--retained-qualification-bytes',type=int,default=2**30)
     parser.add_argument('--retrieval-staging',action='store_true')
+    parser.add_argument('--prior-attempt',help='Exact failed-attempt receipt directory and explicit user authorization')
     args = parser.parse_args()
     print(json.dumps(seal(args.code,args.commit,args.output,remote_root=args.remote_root,
         remote_code=args.remote_code,prior=args.prior,
         retained_qualification_bytes=args.retained_qualification_bytes,
-        retrieval_staging=args.retrieval_staging),indent=2))
+        retrieval_staging=args.retrieval_staging,prior_attempt=args.prior_attempt),indent=2))

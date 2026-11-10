@@ -74,6 +74,7 @@ class AdversarialBlockQualificationTests(unittest.TestCase):
             for case in QUALIFICATION_CASES:
                 views = 4 if case in ('CLEAN2', 'RANDOM', 'ADV') else 2
                 row = dict(status='completed', complete_state=dict(status='passed'),
+                    endpoint_finite=dict(status='passed'),
                     work=work(response_forwards=views, response_backwards=views, optimizer_steps=1),
                     startup=dict(work=work(response_forwards=2,response_backwards=2,optimizer_steps=0)),
                     neutral_exact=dict(exact_equal=True), perturbation=dict(status='passed'),
@@ -106,6 +107,19 @@ class AdversarialBlockQualificationTests(unittest.TestCase):
             write_json(path, row)
             with self.assertRaisesRegex(ValueError, 'Incomplete or unknown'):
                 summarize(root)
+
+    def test_unchecked_or_failed_endpoint_cannot_be_admitted(self):
+        for status in (None, 'unchecked', 'failed'):
+            with self.subTest(status=status), tempfile.TemporaryDirectory() as directory:
+                root = Path(directory)
+                path, row = self.receipt_fixture(root)['gsm8k', 'KPLUS']
+                if status is None:
+                    row.pop('endpoint_finite')
+                else:
+                    row['endpoint_finite']['status'] = status
+                write_json(path, row)
+                with self.assertRaisesRegex(ValueError, 'Incomplete qualification state'):
+                    summarize(root)
 
     def test_compensating_case_counts_cannot_hide_behind_correct_aggregate(self):
         with tempfile.TemporaryDirectory() as directory:

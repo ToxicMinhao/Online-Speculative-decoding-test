@@ -39,7 +39,8 @@ def run(root):
     root=Path(root);plan=read(root/'sealed/PLAN.json')
     output=root/'qualification';output.mkdir(exist_ok=False)
     receipt=dict(status='running',execution_commit=plan['execution_source']['commit'],binding=plan['binding'],
-        completed=[],attempted=None,budgets=QUALIFICATION_BUDGET,automatic_retry=False)
+        completed=[],attempted=None,budgets=QUALIFICATION_BUDGET,automatic_retry=False,
+        prior_attempt=plan.get('prior_attempt'))
     started=time.perf_counter()
     env=dict(os.environ, CUDA_VISIBLE_DEVICES=str(plan['training_gpu']))
     def launch(command, log):
@@ -50,7 +51,7 @@ def run(root):
             raise RuntimeError('Qualification worker failed: '+str(log))
     try:
         verify(root,scope='qualification')
-        # These four new responses belong to the declared 512 main feedback total.
+        # A sealed retry reuses the four prior responses within the same 512 total.
         receipt['attempted']=dict(kind='prepare_shared_feedback')
         write_json(output/'STATUS.json',receipt)
         launch([plan['training_python'],'-u','-m','experiments.kplus_abt.prepare_feedback',str(root)],output/'feedback.log')
@@ -91,7 +92,8 @@ def summarize(root):
             views=4 if case in ('CLEAN2','RANDOM','ADV') else 2
             require_complete_work(row['work'],dict(response_forwards=views,response_backwards=views,optimizer_steps=1))
             require_complete_work(row['startup']['work'],dict(response_forwards=2,response_backwards=2,optimizer_steps=0))
-            if row['status']!='completed' or row['complete_state']['status']!='passed':
+            if (row['status']!='completed' or row['complete_state']['status']!='passed'
+                    or row.get('endpoint_finite',{}).get('status')!='passed'):
                 raise ValueError('Incomplete qualification state')
             if case in ('DISABLED','ADV_ZERO') and not row['neutral_exact']['exact_equal']:
                 raise ValueError('Native neutral qualification failed')
@@ -120,7 +122,7 @@ def summarize(root):
     if counts!=expected:
         raise ValueError('Qualification work differs from sealed budget')
     return dict(status='passed',execution_commit=plan['execution_source']['commit'],binding=plan['binding'],
-        counts=counts,cases=cases,checks={key:True for key in ('native_neutral_exact','two_view_execution',
+        counts=counts,prior_attempt=plan.get('prior_attempt'),cases=cases,checks={key:True for key in ('native_neutral_exact','two_view_execution',
             'mask_scope','perturbation_gradient','bf16_realization','same_clean_selection','one_adam_per_window',
             'serving','resource','complete_state')},
         scope='Native implementation/resource qualification, not a performance result; CLEAN2 differences retained')
