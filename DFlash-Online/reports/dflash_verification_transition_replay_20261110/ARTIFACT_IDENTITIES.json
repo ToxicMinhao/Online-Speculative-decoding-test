@@ -1,0 +1,229 @@
+{
+  "implementation_commit": "68cbbdf385162607b18ff467d08a653586a7c9e8",
+  "native_execution_commit": null,
+  "gpu_qualification": "NOT_RUN",
+  "checkpoints": {
+    "gsm8k": {
+      "KPLUS4": {
+        "cumulative_adam_steps": 512,
+        "export": "/data/sources/minhao/runs/dflash_role_loss_pilot_20261107/production_001/campaign_001/trajectories/gsm8k/KPLUS/trainer/events/event_004/export",
+        "weights": "/data/sources/minhao/runs/dflash_role_loss_pilot_20261107/production_001/campaign_001/trajectories/gsm8k/KPLUS/trainer/events/event_004/export/model.safetensors",
+        "weights_identity": {
+          "bytes": 2097259104,
+          "sha256": "4f3010e961bd7dcf35fa100486c355ffbc7629d816dda6e2b8fa001878255701"
+        },
+        "proof": {
+          "local_path": "/home/minhao2/EAGLE_SPEC/research/dflash_role_loss_pilot_20261107/result_review_001/retained/campaign_001/trajectories/gsm8k/KPLUS/STATUS.json",
+          "bytes": 14341,
+          "sha256": "f0ba557acb483c3a1a00bd2c7e42a7d734d4a36d87baf96f9b25ea7283803340"
+        }
+      },
+      "KPLUS6": {
+        "cumulative_adam_steps": 768,
+        "export": "/data/sources/minhao/runs/dflash_functional_step_geometry_20261108/pilot_r1_001/campaign_001/gsm8k/event_006/KPLUS/trainer/events/event_006/export",
+        "weights": "/data/sources/minhao/runs/dflash_functional_step_geometry_20261108/pilot_r1_001/campaign_001/gsm8k/event_006/KPLUS/trainer/events/event_006/export/model.safetensors",
+        "weights_identity": {
+          "bytes": 2097259104,
+          "sha256": "8c257620e44226c5c0469e5886224ed5d2dcf9fa2a94eddbdd10d7e36c697560"
+        },
+        "proof": {
+          "local_path": "/home/minhao2/EAGLE_SPEC/research/dflash_fsg_gsm8k_interim_20261109/evidence/pilot/campaign_001/gsm8k/event_006/KPLUS/RESULT.json",
+          "bytes": 6306846,
+          "sha256": "f860d463b5c51f6e0eded72543151c138b38da9bd4c0a8d42e72ce3017433696"
+        },
+        "boundary_proof": {
+          "local_path": "/home/minhao2/EAGLE_SPEC/research/dflash_fsg_gsm8k_interim_20261109/evidence/pilot/campaign_001/gsm8k/event_006/KPLUS/BOUNDARY_CHECK.json",
+          "bytes": 621,
+          "sha256": "4c0bc88e7725e38c1e5b4722e7e5d7ff0f1d1182d044c70640ef429e6d372753"
+        }
+      }
+    },
+    "mathqa": {
+      "KPLUS4": {
+        "cumulative_adam_steps": 512,
+        "export": "/data/sources/minhao/runs/dflash_role_loss_pilot_20261107/production_001/campaign_001/trajectories/mathqa/KPLUS/trainer/events/event_004/export",
+        "weights": "/data/sources/minhao/runs/dflash_role_loss_pilot_20261107/production_001/campaign_001/trajectories/mathqa/KPLUS/trainer/events/event_004/export/model.safetensors",
+        "weights_identity": {
+          "bytes": 2097259104,
+          "sha256": "931e46620d8fc930ea0c22fcdf6af30dd16e16445f8141474ecfa4e48746dff7"
+        },
+        "proof": {
+          "local_path": "/home/minhao2/EAGLE_SPEC/research/dflash_role_loss_pilot_20261107/result_review_001/retained/campaign_001/trajectories/mathqa/KPLUS/STATUS.json",
+          "bytes": 14365,
+          "sha256": "da2a028e7734e1a34e739fdc0bb7fba3dfb66603047212c526e940477d15b75e"
+        }
+      },
+      "KPLUS6": {
+        "cumulative_adam_steps": 768,
+        "export": "/data/sources/minhao/runs/dflash_functional_step_geometry_20261108/pilot_r1_001/campaign_001/mathqa/event_006/KPLUS/trainer/events/event_006/export",
+        "weights": "/data/sources/minhao/runs/dflash_functional_step_geometry_20261108/pilot_r1_001/campaign_001/mathqa/event_006/KPLUS/trainer/events/event_006/export/model.safetensors",
+        "weights_identity": {
+          "bytes": 2097259104,
+          "sha256": "2624df613eab12e31ee1eadd76d8d50a31ad9f79f1ccd7ef7b014a927e28e9ea"
+        },
+        "proof": {
+          "local_path": "/home/minhao2/EAGLE_SPEC/research/dflash_functional_step_geometry_20261108/final_review_001/evidence/pilot/campaign_001/mathqa/event_006/KPLUS/RESULT.json",
+          "bytes": 9720696,
+          "sha256": "dcd727f1e0b309052b97a138bf7bcf7262fed92157a9b945d009708e547f4fef"
+        },
+        "boundary_proof": {
+          "local_path": "/home/minhao2/EAGLE_SPEC/research/dflash_functional_step_geometry_20261108/final_review_001/evidence/pilot/campaign_001/mathqa/event_006/KPLUS/BOUNDARY_CHECK.json",
+          "bytes": 622,
+          "sha256": "61721306f46c46570b4d594a7ba1016a9099413030ddb41d3cd208d7e45f4118"
+        }
+      }
+    }
+  },
+  "shared": {
+    "pins": {
+      "MODEL_PIN.json": {
+        "local_path": "/home/minhao2/EAGLE_SPEC/research/dflash_fsg_gsm8k_interim_20261109/evidence/pilot/sealed/MODEL_PIN.json",
+        "bytes": 3397,
+        "sha256": "197e71a9be3bf5410d76de09eb53135e7c446b37e2530fb81d106e15bbdb9a05"
+      },
+      "RUNTIME_PIN.json": {
+        "local_path": "/home/minhao2/EAGLE_SPEC/research/dflash_fsg_gsm8k_interim_20261109/evidence/pilot/sealed/RUNTIME_PIN.json",
+        "bytes": 2792,
+        "sha256": "53c15d9d0770a000ce7f510c84c7fa83c564d6fa36903163c485041bc03b97ec"
+      }
+    },
+    "target_path": "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/target",
+    "draft_foundation_path": "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/draft",
+    "tokenizer_path": "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/target",
+    "target_revision": "b968826d9c46dd6066d109eabc6255188de91218",
+    "target_files": {
+      ".gitattributes": {
+        "bytes": 1570,
+        "sha256": "34448b82c17d60fec9b65b1f093c115ddbaadc04beb1b0140b6bfed2e012a930"
+      },
+      "LICENSE": {
+        "bytes": 11343,
+        "sha256": "832dd9e00a68dd83b3c3fb9f5588dad7dcf337a0db50f7d9483f310cd292e92e"
+      },
+      "README.md": {
+        "bytes": 16660,
+        "sha256": "0f36caaff9c2516411a7738db384606263ba653c1e63e61d72f511606164d5a6"
+      },
+      "config.json": {
+        "bytes": 728,
+        "sha256": "f7c4eadfbbf522470667b797a3c89be2524832d2d599797248dc304fff447c30"
+      },
+      "generation_config.json": {
+        "bytes": 239,
+        "sha256": "2325da0f15bb848e018c5ae071b7943332e9f871d6b60e2ed22ca97d4cb993d2"
+      },
+      "merges.txt": {
+        "bytes": 1671853,
+        "sha256": "8831e4f1a044471340f7c0a83d7bd71306a5b867e95fd870f74d0c5308a904d5"
+      },
+      "model-00001-of-00005.safetensors": {
+        "bytes": 3996250744,
+        "sha256": "31d6a825ae35f11fb85b195b4c42c146c051e446433125a215336abdf95cbf5f"
+      },
+      "model-00002-of-00005.safetensors": {
+        "bytes": 3993160032,
+        "sha256": "5991236cea6fe21f3d43cab0f0e84448734fbbe0789816202989f2ddc9d18282"
+      },
+      "model-00003-of-00005.safetensors": {
+        "bytes": 3959604768,
+        "sha256": "c5185c4794be2d8a9784d5753c9922db38df478ce11f9ed0b415b7304d896836"
+      },
+      "model-00004-of-00005.safetensors": {
+        "bytes": 3187841392,
+        "sha256": "b5ee7de71fbf17db3d5704e0c8f2bc7d005ca9e1d7ca2aeb19827b0cfcaa917a"
+      },
+      "model-00005-of-00005.safetensors": {
+        "bytes": 1244659840,
+        "sha256": "20c2d6366ab85c90786ccdd829cd2b9e7d30ef3b2ebbb998280e7e4014b542ff"
+      },
+      "model.safetensors.index.json": {
+        "bytes": 32878,
+        "sha256": "f9fdbcb91c23971c13ec5d5f2573d2349e8f61f2f049371ec699281748fdb1bc"
+      },
+      "tokenizer.json": {
+        "bytes": 11422654,
+        "sha256": "aeb13307a71acd8fe81861d94ad54ab689df773318809eed3cbe794b4492dae4"
+      },
+      "tokenizer_config.json": {
+        "bytes": 9732,
+        "sha256": "d5d09f07b48c3086c508b30d1c9114bd1189145b74e982a265350c923acd8101"
+      },
+      "vocab.json": {
+        "bytes": 2776833,
+        "sha256": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910"
+      }
+    },
+    "runtime": {
+      "python": "/data/conda_envs/minhao/adaflash_author/bin/python",
+      "python_version": "3.12.14",
+      "torch": "2.9.1+cu130",
+      "transformers": "4.57.1",
+      "cuda": "13.0",
+      "native_runtime_sha256": {
+        "speculative/dflash_worker.py": "9397402f5cfbf60b00b7d27d551e5e9e1b605be9b084d028d4ddda76c475dc8c",
+        "speculative/dflash_info.py": "9c7ac23a1bf0840eec8218f02f2adbfc3e419099cd19822137ce5c6e0e902218",
+        "layers/logits_processor.py": "5c6c54bec37b941652e29908c773a756fe6c86f99932ab80043672a1eaa0f086",
+        "models/qwen3.py": "e23ee8af21eac46685852854a5fe585cf58477d4a1f8047887d6afeefaf8e32d",
+        "models/dflash.py": "d4fcfe005a1acc51a4938d038e1dbc1a2c8ff245842f4253338527335b2327b2",
+        "entrypoints/engine.py": "2bcd4b04c325d4ed65f867490c5bac9e915e02f05471c83dacb5a4a097cf1f2a",
+        "server_args.py": "bd60199803698e4ffe6dc44499a8d42be73f42db28056cb6750411523cf56c04"
+      }
+    },
+    "bundled_runtime_file_identity_checks": {
+      "speculative/dflash_worker.py": {
+        "local_path": "/home/minhao2/EAGLE_SPEC/research/dflash_verification_transition_replay_20261110/implementation_checkout/DFlash-Online/external_runtime/sglang/srt/speculative/dflash_worker.py",
+        "matches_pin": true,
+        "bytes": 70132,
+        "sha256": "9397402f5cfbf60b00b7d27d551e5e9e1b605be9b084d028d4ddda76c475dc8c"
+      },
+      "speculative/dflash_info.py": {
+        "local_path": "/home/minhao2/EAGLE_SPEC/research/dflash_verification_transition_replay_20261110/implementation_checkout/DFlash-Online/external_runtime/sglang/srt/speculative/dflash_info.py",
+        "matches_pin": true,
+        "bytes": 26689,
+        "sha256": "9c7ac23a1bf0840eec8218f02f2adbfc3e419099cd19822137ce5c6e0e902218"
+      },
+      "layers/logits_processor.py": {
+        "local_path": "/home/minhao2/EAGLE_SPEC/research/dflash_verification_transition_replay_20261110/implementation_checkout/DFlash-Online/external_runtime/sglang/srt/layers/logits_processor.py",
+        "matches_pin": true,
+        "bytes": 48560,
+        "sha256": "5c6c54bec37b941652e29908c773a756fe6c86f99932ab80043672a1eaa0f086"
+      },
+      "models/qwen3.py": {
+        "local_path": "/home/minhao2/EAGLE_SPEC/research/dflash_verification_transition_replay_20261110/implementation_checkout/DFlash-Online/external_runtime/sglang/srt/models/qwen3.py",
+        "matches_pin": true,
+        "bytes": 21785,
+        "sha256": "e23ee8af21eac46685852854a5fe585cf58477d4a1f8047887d6afeefaf8e32d"
+      },
+      "models/dflash.py": {
+        "local_path": "/home/minhao2/EAGLE_SPEC/research/dflash_verification_transition_replay_20261110/implementation_checkout/DFlash-Online/external_runtime/sglang/srt/models/dflash.py",
+        "matches_pin": true,
+        "bytes": 17763,
+        "sha256": "d4fcfe005a1acc51a4938d038e1dbc1a2c8ff245842f4253338527335b2327b2"
+      },
+      "entrypoints/engine.py": {
+        "local_path": "/home/minhao2/EAGLE_SPEC/research/dflash_verification_transition_replay_20261110/implementation_checkout/DFlash-Online/external_runtime/sglang/srt/entrypoints/engine.py",
+        "matches_pin": true,
+        "bytes": 48073,
+        "sha256": "2bcd4b04c325d4ed65f867490c5bac9e915e02f05471c83dacb5a4a097cf1f2a"
+      },
+      "server_args.py": {
+        "local_path": "/home/minhao2/EAGLE_SPEC/research/dflash_verification_transition_replay_20261110/implementation_checkout/DFlash-Online/external_runtime/sglang/srt/server_args.py",
+        "matches_pin": true,
+        "bytes": 281952,
+        "sha256": "bd60199803698e4ffe6dc44499a8d42be73f42db28056cb6750411523cf56c04"
+      }
+    },
+    "context_state_availability": {
+      "complete_native_walk_records": true,
+      "archived_target_KV": false,
+      "archived_draft_KV": false,
+      "evaluation_features_captured": false,
+      "required_action": "Rebuild live native context within explicit budget; token offset alone is not state."
+    }
+  },
+  "selected_manifest": {
+    "bytes": 53641,
+    "sha256": "14a1149c2e15c6bab63e2447e9bc3a78f645dff27387068d5eff194a43649d54"
+  },
+  "private_inputs_published": false
+}

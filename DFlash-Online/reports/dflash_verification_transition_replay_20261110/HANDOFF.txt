@@ -1,0 +1,243 @@
+EXECUTOR HANDOFF — K+ VERIFICATION-TRANSITION REPLAY
+
+Decision to implement: a short, frozen-checkpoint diagnostic. No training.
+
+QUESTION
+When K+ learns to advance farther in one draft block, can the newly reached
+starting point make the rest of the request require MORE verification calls?
+We need to distinguish a local repair from its effect on the continuation.
+
+This tests the premise of a possible next algorithm: use observed frontier
+advances between K+'s existing presentations to direct some first-error weight
+toward the newly reached starts. That algorithm is NOT part of this experiment.
+A positive diagnostic would support proposing a small training pilot; it would
+not establish that the proposed allocation is learnable or improves latency.
+
+1. FIXED INPUTS AND SCOPE
+
+Use each dataset's own ordinary KPLUS event-4 and event-6 checkpoints from the
+completed PR #33 comparison. KPLUS4 has 512 cumulative Adam steps; KPLUS6 has
+768. Do not use FSG, SCALAR, intermediate event-5 states, or retrain anything.
+Keep GSM8K and MathQA separate throughout.
+
+Retain native five-layer DFlash serving: BF16, FA3, greedy decoding, block 16
+(one known seed plus 15 proposals), concurrency one, context 4,096, and the
+original 2,048-output-token/EOS policy. Use the original target, tokenizer,
+prompts, canonical outputs and request-specific stopping limits.
+
+Select 64 requests from each existing 256-request development panel:
+  key = UTF-8("kplus_transition_replay_v1\n" + dataset + "\n" + request_id)
+Sort by SHA256(key), breaking ties by the unchanged request_id; take the first
+64. Use dataset names "gsm8k" and "mathqa" and the panel's recorded stable ID.
+Seal the selected IDs before inspecting their outcomes. Do not filter by
+length, improvement, available divergence, or endpoint call-count difference.
+These are reused development requests, not a new confirmation set.
+
+Before GPU work, verify checkpoint identities and availability of native
+request records, canonical token IDs, per-round traces and context/cache
+reconstruction inputs. Record actual paths and hashes. Optimizer states are
+not needed. Missing live caches may be regenerated within the budget below;
+missing scientific inputs must not be replaced with approximate substitutes.
+
+2. NATIVE REPLAY: THE ONLY STARTUP GATE
+
+Use an isolated diagnostic path and preserve the ordinary serving runner.
+Reuse native cache/allocator restoration machinery where appropriate, but do
+not assume that an archived token offset is a complete serving state.
+
+Each successor state must contain the canonical committed prefix, target KV
+and target features/context-ingestion history needed by the draft, native
+seed and position metadata, termination state, and ORIGINAL remaining output
+budget. Keep the source successor's target/context state fixed when changing
+the draft checkpoint. Rebuild that destination checkpoint's own draft KV
+through native context ingestion; never transplant KPLUS4 draft KV into KPLUS6.
+Rejected-proposal features must not stand in for canonical committed features.
+
+Qualify the same constructor used for crossed continuations with neutral
+same-checkpoint round-trips. Use the FIRST hash-selected request per dataset
+and both checkpoints. For a native walk of R rounds, select successors after
+round 1 and round ceil(R/2), with round indices starting at 1. Deduplicate and
+skip terminal boundaries. This permits at most eight additional suffix
+continuations. Do not replace a short request with a more favorable one. Record
+unused allowance; if a checkpoint/dataset has no nonterminal boundary to
+qualify, report the limitation and stop before its crossed replay.
+
+Rebuilding KPLUS4 at its own state and KPLUS6 at its own state must reproduce
+the reference suffix: all proposed token IDs, actual committed progress per
+round, canonical output, EOS/cap termination, and remaining verification count.
+Compare valid-prefix cache contents as an additional check where inspectable.
+Restoring a saved state without exercising the reconstruction code is not a
+qualification of that constructor. No precision tolerance for token/count
+mismatches; no Flex/training-path approximation to native FA3 serving.
+
+If the constructor fails, preserve the evidence and stop as TECHNICALLY
+INCOMPLETE. Do not substitute a different canonical-cache experiment and call
+it the same native decomposition. This is not another gradient-qualification
+project. Count all attempts, context rebuilds and warmups against the budget.
+
+3. ONE TRANSITION PER REQUEST; FOUR CONTINUATIONS
+
+Run or authenticate the native KPLUS4 and KPLUS6 walks. Retained traces may
+save work only when complete and tied to the exact checkpoints/runtime; live
+state reconstruction may still require fresh untimed completions.
+
+Find the FIRST round with different ACTUAL committed progress. All earlier
+rounds must have the same committed canonical prefix and progress. Count the
+native verifier repair/bonus and apply actual EOS/cap clipping; do not infer
+progress by simply counting proposals. Record earlier proposal differences
+even when their committed progress was equal.
+
+Let u4 and u6 be the actual successor states of that round under KPLUS4 and
+KPLUS6. Let V_j(u) be the number of subsequent native verification calls until
+the original request terminates, using frozen checkpoint j at successor u.
+
+Measure:
+  C44 = V_4(u4)     native KPLUS4 continuation
+  C46 = V_4(u6)     crossed continuation: KPLUS4 at KPLUS6's successor
+  C64 = V_6(u4)     crossed continuation: KPLUS6 at KPLUS4's successor
+  C66 = V_6(u6)     native KPLUS6 continuation
+
+Reuse authenticated diagonals; run at most two new crossed suffixes per
+divergent request. All continuations must emit the corresponding exact suffix
+of the canonical answer and respect the original remaining generation budget.
+An already-terminal successor has V = 0. Never reset max_new_tokens to 2,048
+at a suffix or regenerate a new target answer.
+
+The crossed cells are conditional checkpoint-switch experiments at the source
+successor's native context. They do not assume that offset alone determines
+all BF16 cache state. Memoization by token offset is prohibited unless native
+state equivalence has actually been established.
+
+Record and verify:
+  D  = C66 - C44 = total_calls_KPLUS6 - total_calls_KPLUS4
+  R4 = C46 - C44       restart effect with KPLUS4 fixed
+  R6 = C66 - C64       restart effect with KPLUS6 fixed
+  M4 = C64 - C44       checkpoint effect at u4
+  M6 = C66 - C46       checkpoint effect at u6
+  D = R4 + M6 = M4 + R6
+
+Positive R means that u6 requires more remaining calls than u4 under that
+fixed checkpoint. Interpret this as an expensive farther restart only when
+KPLUS6 actually advanced farther at the selected round. Explicitly verify
+whether its proposals repaired KPLUS4's first rejected position while keeping
+the preceding matches. Do not label an initial KPLUS6 regression as a repair.
+
+If progress never diverges, keep the request in the sample, mark its four cells
+NOT_APPLICABLE, and define transition effects as zero. Missing or censored
+crossed cells must remain missing, never zero. Conversely, equal TOTAL calls
+do not mean no divergence: inspect the round traces. Never add overlapping
+transitions from one request to the main estimate. Do not add token-replacement
+oracles or extra branches.
+
+4. REQUIRED ANALYSIS
+
+Report separately for each dataset:
+  - All 64 requests: original endpoint call differences; counts of first
+    advances, first regressions, no progress divergence, and call-count ties.
+  - Genuine KPLUS6 advances: C44/C46/C64/C66, signed R4/R6, and how often BOTH
+    restart effects are positive. Include the repaired-prefix checks.
+  - Boundary status: flag either successor with at most 16 canonical tokens
+    left before EOS/cap. Report all cases and the prespecified interior subset
+    with both successors farther from termination. Do not remove boundaries
+    from the main sample.
+  - The unconditional contribution I[advance] * Rj per selected request and
+    the conditional mean Rj among genuine advances, with medians, spread and
+    largest-contributor shares. Retain negative effects and all raw rows.
+
+Use 10,000 paired request bootstrap resamples, seed 20261110, separately by
+dataset. Resample complete per-request rows, never individual rounds or the
+four cells independently. For conditional summaries, resample the original
+64 rows and recompute the stratum; disclose empty-stratum resamples and small
+effective sample sizes. Give two-sided 95% percentile intervals. Keep analysis
+descriptive when the eligible stratum is too sparse for a useful interval.
+
+The matrix is a conditional decomposition, not a unique percentage attribution
+of learning gains or regressions. R4 and R6 can differ because restart and
+checkpoint effects interact. No actual serving-speedup claim follows from
+untimed replay; recording replay wall time is work accounting only.
+
+5. HARD BUDGET AND STOP RULES
+
+All limits include qualification, retries and failed model-execution attempts:
+  Selected requests:                         128 total (64 per dataset)
+  Rebuilt original untimed completions:       at most 256
+  Crossed suffix continuations:               at most 256
+  Extra neutral suffix round-trips:           at most 8
+  New draft-block/continuation evaluations:   at most 32,768
+  Cumulative A800 execution time:             at most 4 GPU-hours
+  Training/optimizer steps/backward passes:   ZERO
+  New feedback collection/timing sweeps:       ZERO
+
+The time ceiling includes model loading, qualification, prefill/context
+reconstruction, warmup, and all model work. If two GPUs are used, sum their
+occupied execution time; four GPU-hours is a cap, not a runtime prediction.
+Implementation and CPU-only analysis are separate; report their wall time.
+Count every newly executed draft proposal block, including proposal-only
+canonical replay without a target call, against the 32,768 ceiling. A normal
+proposal-plus-verification round counts once; a standalone verifier-round
+evaluation also counts once. Record actual target calls separately. Record
+prefill/context-building forwards and processed tokens separately and within
+the time ceiling. Do not run full-width vocabulary diagnostics or auxiliary
+fitting.
+
+Process requests in ascending selection rank, interleaving datasets. Before
+starting expensive work, check remaining budgets; instrument the block/round
+counter so it cannot overrun silently. On a limit, stop and mark the affected
+request and overall diagnostic INCOMPLETE. Report all selected IDs and missing
+cells. Do not replace expensive requests, treat censored suffixes as completed,
+or draw a go/no-go conclusion from a selectively completed sample.
+
+6. PREDECLARED INTERPRETATION AND NEXT ACTION
+
+Supported restart bottleneck:
+  Genuine advances repeatedly produce positive R4 AND R6 in interior cases,
+  with request-bootstrap evidence for positive means and without the result
+  being carried by a single request. Report leave-one-request-out mean signs
+  as a simple concentration check. State which datasets support this.
+  Recommend a SHORT training pilot of allocation to newly reached starts on
+  the supported dataset(s), with K+ and matched random-allocation controls.
+  Do not implement or launch it under this handoff.
+
+Expensive only under KPLUS4, resolved under KPLUS6:
+  Ordinary K+ already addresses the observed restart weakness. Do not use this
+  as evidence that the proposed additional allocation is needed.
+
+Restart effects generally zero or beneficial:
+  Do not pursue this allocation branch on these results. If regressions mainly
+  begin before a genuine advance, report that different failure pattern rather
+  than attributing it to an expensive newly reached start. Do not attach a new
+  algorithm to a missing premise.
+
+Sparse, boundary-only, conflicting or unresolved evidence:
+  Report INCONCLUSIVE; no automatic sample expansion or training run. A positive
+  result on one dataset is not evidence of generality to the other dataset.
+
+Even a supported diagnostic does not prove the next training design: this
+compares event 4 to event 6, while the candidate would use changes between
+ordinary presentations. A future pilot must measure eligible-anchor coverage,
+actual weight movement, useful learning and complete-request performance.
+
+7. DELIVERY
+
+Provide one concise REPORT with the verdict and recommendation, selected-ID
+manifest, per-request four-cell table and boundary/repair flags, paired
+summaries and intervals, native replay checks, exact code/config/checkpoint
+identities, and the complete work ledger. Preserve failed attempts and raw
+traces privately; do not publish prompt text, answer token streams or tensors.
+No new literature survey or full-training comparison is required for delivery.
+
+SOURCE OF TRUTH
+Repository: ToxicMinhao/Online-Speculative-decoding-test
+Published PR #33 report commit:
+  f88a4f42dec8f9b01adc9b8125abd122e9428c43
+Recorded PR #33 scientific execution commit:
+  6440e8ff5af1a845f830d65c884f6711d7e4a687
+Final report:
+  https://github.com/ToxicMinhao/Online-Speculative-decoding-test/blob/f88a4f42dec8f9b01adc9b8125abd122e9428c43/DFlash-Online/reports/dflash_functional_step_geometry_20261108/PILOT_REPORT.md
+Relevant existing native machinery:
+  DFlash-Online/experiments/block_depth/native_routes.py
+
+Use retained artifact receipts to resolve current private paths. The earlier
+CPU REUSABLE_REPLAY_CHECK is not qualification of native model continuation.
+The native completed-request profiler requires live cache state and is not,
+without the above checks, an arbitrary archived-prefix replay implementation.
