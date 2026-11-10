@@ -1,0 +1,16 @@
+Traceback (most recent call last):
+  File "/home/minhao2/EAGLE_SPEC/research/dflash_functional_step_geometry_20261108/final_review_001/production/audit_work_costs.py", line 229, in <module>
+    args=p.parse_args();audit(args.gsm8k,args.mathqa,args.output)
+                        ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/minhao2/EAGLE_SPEC/research/dflash_functional_step_geometry_20261108/final_review_001/production/audit_work_costs.py", line 186, in audit
+    worker=read(dataset,f'campaign_001/evaluation/{dataset}_WORKER.json')
+  File "/home/minhao2/EAGLE_SPEC/research/dflash_functional_step_geometry_20261108/final_review_001/production/audit_work_costs.py", line 73, in read
+    p=roots[dataset]/relative; data=p.read_bytes()
+                                    ~~~~~~~~~~~~^^
+  File "/home/minhao2/miniconda3/lib/python3.13/pathlib/_abc.py", line 625, in read_bytes
+    with self.open(mode='rb') as f:
+         ~~~~~~~~~^^^^^^^^^^^
+  File "/home/minhao2/miniconda3/lib/python3.13/pathlib/_local.py", line 537, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'research/dflash_fsg_gsm8k_interim_20261109/evidence/pilot/campaign_001/evaluation/gsm8k_WORKER.json'

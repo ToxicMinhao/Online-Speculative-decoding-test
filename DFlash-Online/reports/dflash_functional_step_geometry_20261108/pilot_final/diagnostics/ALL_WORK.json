@@ -1,0 +1,59 @@
+{
+  "verification_status": "ANALYZED",
+  "execution_commit": "6440e8ff5af1a845f830d65c884f6711d7e4a687",
+  "windows": 16,
+  "datasets": {
+    "gsm8k": {
+      "windows": 8,
+      "forwards": 320,
+      "backwards": 32,
+      "adam": 0,
+      "unknown": 0,
+      "failed": 0,
+      "observer_wall_s": 1182.4719413854182,
+      "physical_head_calls": 33335,
+      "checkpoint_proxy_calls": 2172
+    },
+    "mathqa": {
+      "windows": 8,
+      "forwards": 320,
+      "backwards": 32,
+      "adam": 0,
+      "unknown": 0,
+      "failed": 0,
+      "observer_wall_s": 1353.0646925065666,
+      "physical_head_calls": 51455,
+      "checkpoint_proxy_calls": 3020
+    }
+  },
+  "all_diagnostic_work": {
+    "forwards": 640,
+    "backwards": 64,
+    "adam": 0,
+    "unknown": 0,
+    "failed": 0,
+    "observer_wall_s": 2535.536633891985,
+    "physical_head_calls": 84790,
+    "checkpoint_proxy_calls": 5192
+  },
+  "table_rows": {
+    "window_pair_candidates.csv": 320,
+    "response_candidates.csv": 640,
+    "event_pair_candidates.csv": 80,
+    "same_state_contrasts.csv": 192,
+    "event_contrast_summary.csv": 48
+  },
+  "new_model_work": 0,
+  "cost_scope": "Original diagnostic observer wall time is nested in training/hook time; subtract once to isolate intrinsic training, never add twice.",
+  "interpretation": "Datasets and events remain separate; no new variant selected or model computations performed.",
+  "input_receipts": {
+    "gsm8k": {
+      "bytes": 26167,
+      "sha256": "47f989975cd20c1fe199840522013c3be75ab05409ca1160a6b771e4ce1e22fc"
+    },
+    "mathqa": {
+      "bytes": 26167,
+      "sha256": "8a6e8d0266c4f08c71d96dc755f73c44cb5f28e9c012e304c6fb12b01b29a9ef"
+    }
+  }
+}

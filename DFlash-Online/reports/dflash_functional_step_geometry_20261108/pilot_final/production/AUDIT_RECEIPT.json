@@ -1,0 +1,36 @@
+{
+  "status": "passed",
+  "execution_commit": "6440e8ff5af1a845f830d65c884f6711d7e4a687",
+  "datasets": [
+    "gsm8k",
+    "mathqa"
+  ],
+  "event_receipts": 12,
+  "filtered_windows": 1024,
+  "independent_gate_matches": 1024,
+  "ordinary_response_observations": 3072,
+  "scientific_trace_response_rows": 2048,
+  "exact_fp32_exposure_reconciliations": 300,
+  "new_model_work": 0,
+  "same_team_implementation_authorship": true,
+  "scripts": {
+    "analyze_production.py": {
+      "bytes": 16440,
+      "sha256": "ea7cee63ff1fc8c43ddd1c7f0e5fdb902cbc714bf77e97610235496d33384b4f"
+    },
+    "audit_work_costs.py": {
+      "bytes": 16867,
+      "sha256": "3a29912b30c10581a647e0d85f46609f1bc662dc76a289a5c25ec8d1742e0683"
+    },
+    "export_scientific_trace.py": {
+      "bytes": 7082,
+      "sha256": "bce2fccc64fba074406bf77efb115e6fec1b2317ee6f1581420d7ea5463d33b5"
+    }
+  },
+  "preserved_cpu_postprocessing_failures": {
+    "WORK_AUDIT_001.log": "Missing compact worker envelope, separately retrieved/authenticated; no scientific failure.",
+    "TRACE_001.log": "Analyzer expected presentation-only metrics_scope; corrected to original response observation.",
+    "TRACE_003.log": "Analyzer compared Python sums to FP32 paired reduction; exact source-matched reconstruction now passes."
+  },
+  "source_review": "Sibling fsg_continuation read-only reviewed work/cost scopes and exposure handling; no blocker."
+}

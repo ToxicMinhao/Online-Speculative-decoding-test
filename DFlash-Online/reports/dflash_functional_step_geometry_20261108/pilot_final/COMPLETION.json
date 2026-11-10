@@ -1,0 +1,332 @@
+{
+  "execution_commit": "6440e8ff5af1a845f830d65c884f6711d7e4a687",
+  "status": "completed",
+  "end_utc": "2026-11-09T23:02:04Z",
+  "exit_code": 0,
+  "supervisor_wall_s": 64761,
+  "campaign": {
+    "status": "completed",
+    "execution_source": {
+      "commit": "6440e8ff5af1a845f830d65c884f6711d7e4a687",
+      "dirty": false,
+      "source_path": "/data/sources/minhao/fsg_source_20261109_pilot_r1/DFlash-Online",
+      "repository": "https://github.com/ToxicMinhao/Online-Speculative-decoding-test"
+    },
+    "completed_tasks": [
+      {
+        "kind": "collect_shared",
+        "dataset": "gsm8k",
+        "event": 5,
+        "producer": "KPLUS",
+        "producer_event": 4
+      },
+      {
+        "kind": "train_arm",
+        "dataset": "gsm8k",
+        "event": 5,
+        "arm": "KPLUS"
+      },
+      {
+        "kind": "train_arm",
+        "dataset": "gsm8k",
+        "event": 5,
+        "arm": "FSG"
+      },
+      {
+        "kind": "train_arm",
+        "dataset": "gsm8k",
+        "event": 5,
+        "arm": "SCALAR"
+      },
+      {
+        "kind": "collect_shared",
+        "dataset": "gsm8k",
+        "event": 6,
+        "producer": "KPLUS",
+        "producer_event": 5
+      },
+      {
+        "kind": "train_arm",
+        "dataset": "gsm8k",
+        "event": 6,
+        "arm": "KPLUS"
+      },
+      {
+        "kind": "train_arm",
+        "dataset": "gsm8k",
+        "event": 6,
+        "arm": "FSG"
+      },
+      {
+        "kind": "train_arm",
+        "dataset": "gsm8k",
+        "event": 6,
+        "arm": "SCALAR"
+      },
+      {
+        "kind": "evaluate_dataset",
+        "dataset": "gsm8k",
+        "event": 6
+      },
+      {
+        "kind": "collect_shared",
+        "dataset": "mathqa",
+        "event": 5,
+        "producer": "KPLUS",
+        "producer_event": 4
+      },
+      {
+        "kind": "train_arm",
+        "dataset": "mathqa",
+        "event": 5,
+        "arm": "KPLUS"
+      },
+      {
+        "kind": "train_arm",
+        "dataset": "mathqa",
+        "event": 5,
+        "arm": "FSG"
+      },
+      {
+        "kind": "train_arm",
+        "dataset": "mathqa",
+        "event": 5,
+        "arm": "SCALAR"
+      },
+      {
+        "kind": "collect_shared",
+        "dataset": "mathqa",
+        "event": 6,
+        "producer": "KPLUS",
+        "producer_event": 5
+      },
+      {
+        "kind": "train_arm",
+        "dataset": "mathqa",
+        "event": 6,
+        "arm": "KPLUS"
+      },
+      {
+        "kind": "train_arm",
+        "dataset": "mathqa",
+        "event": 6,
+        "arm": "FSG"
+      },
+      {
+        "kind": "train_arm",
+        "dataset": "mathqa",
+        "event": 6,
+        "arm": "SCALAR"
+      },
+      {
+        "kind": "evaluate_dataset",
+        "dataset": "mathqa",
+        "event": 6
+      }
+    ],
+    "attempted_task": null,
+    "automatic_retry": false,
+    "admission": {
+      "qualification": {
+        "status": "passed",
+        "pilot_permitted": true,
+        "realization_revision": "norm_feasible_bf16_r1",
+        "checks": {
+          "native_formula_both_datasets": true,
+          "native_state": true,
+          "serving": true,
+          "resource": true
+        },
+        "nontrivial_accepted_fsg_cases": 2,
+        "scalar_matching_exercised_cases": 2,
+        "activity": {
+          "fsg": [
+            {
+              "dataset": "gsm8k",
+              "case": "FSG",
+              "decision": {
+                "accepted": true,
+                "reason": "actual_risk_decreased"
+              },
+              "nontrivial_accepted": true,
+              "final_candidate_check": "actual_bf16_replay",
+              "scalar_matching_exercised": false
+            },
+            {
+              "dataset": "mathqa",
+              "case": "FSG",
+              "decision": {
+                "accepted": true,
+                "reason": "actual_risk_decreased"
+              },
+              "nontrivial_accepted": true,
+              "final_candidate_check": "actual_bf16_replay",
+              "scalar_matching_exercised": false
+            }
+          ],
+          "scalar": [
+            {
+              "dataset": "gsm8k",
+              "case": "SCALAR",
+              "decision": {
+                "accepted": false,
+                "reason": "numerical_ambiguity"
+              },
+              "nontrivial_accepted": false,
+              "final_candidate_check": "actual_bf16_replay",
+              "scalar_matching_exercised": true
+            },
+            {
+              "dataset": "mathqa",
+              "case": "SCALAR",
+              "decision": {
+                "accepted": false,
+                "reason": "numerical_ambiguity"
+              },
+              "nontrivial_accepted": false,
+              "final_candidate_check": "actual_bf16_replay",
+              "scalar_matching_exercised": true
+            }
+          ],
+          "nontrivial_fsg": true,
+          "scalar_matching_checked": true,
+          "mechanism_gate": true
+        },
+        "qualification_execution_commit": "95aeb869189da2d7d4f2109b93c05fd3bd9b7944",
+        "storage_admitted": false,
+        "historical_cross_layout": "original failed records retained; not relabelled passes",
+        "execution_commit": "6440e8ff5af1a845f830d65c884f6711d7e4a687",
+        "binding": "8ec5fed0d4ed9b40dab7c26d5089cd42b01f357ab0379193da42baa93f0b3dc5",
+        "qualification_result": "/data/sources/minhao/runs/dflash_functional_step_geometry_20261108/pilot_r1_001/sealed/qualification_evidence/r1/qualification/QUALIFICATION.json",
+        "qualification_postflight": "/data/sources/minhao/runs/dflash_functional_step_geometry_20261108/pilot_r1_001/sealed/qualification_evidence/r1/POSTFLIGHT.json"
+      },
+      "storage": {
+        "status": "passed",
+        "free_bytes": 195431591936,
+        "required_bytes": 188444277887,
+        "plan": {
+          "policy": "validated_rolling_shared_pools_and_event5_boundaries",
+          "weight_bytes": 2097259104,
+          "state_bytes": 6297245019,
+          "tensor_peak_bytes": 140283247785,
+          "tensor_peak_with_margin_bytes": 147297410175,
+          "diagnostic_endpoint_bytes": 67112291328,
+          "diagnostic_endpoint_pairs": 16,
+          "shared_feature_peak_bytes": 14409427596,
+          "retained_final_boundaries": 6,
+          "atomic_boundary_overlap": 1,
+          "compact_bytes": 26114482176,
+          "compiler_bytes": 4294967296,
+          "workspace_bytes": 2147483648,
+          "reserve_bytes": 8589934592,
+          "no_future_deletion_credit": true,
+          "offload_assumed": false,
+          "required_initial_free_bytes": 188444277887,
+          "retention": "retain final six complete states/exports and all diagnostic endpoints; retire each event5 boundary only after its exact own event6 successor; retire shared features only after all three arms and diagnostics validate"
+        }
+      }
+    },
+    "wall_s": 64567.089756026864,
+    "unattempted_tasks": 0
+  },
+  "postflight": {
+    "status": "passed",
+    "postflight": true,
+    "model_work": 0,
+    "sealed_files_checked": 15122,
+    "execution_commit": "6440e8ff5af1a845f830d65c884f6711d7e4a687",
+    "native_runtime": {
+      "python_version": "3.12.14",
+      "torch": "2.9.1+cu130",
+      "transformers": "4.57.1",
+      "cuda": "13.0",
+      "native_runtime_sha256": {
+        "speculative/dflash_worker.py": "9397402f5cfbf60b00b7d27d551e5e9e1b605be9b084d028d4ddda76c475dc8c",
+        "speculative/dflash_info.py": "9c7ac23a1bf0840eec8218f02f2adbfc3e419099cd19822137ce5c6e0e902218",
+        "layers/logits_processor.py": "5c6c54bec37b941652e29908c773a756fe6c86f99932ab80043672a1eaa0f086",
+        "models/qwen3.py": "e23ee8af21eac46685852854a5fe585cf58477d4a1f8047887d6afeefaf8e32d",
+        "models/dflash.py": "d4fcfe005a1acc51a4938d038e1dbc1a2c8ff245842f4253338527335b2327b2",
+        "entrypoints/engine.py": "2bcd4b04c325d4ed65f867490c5bac9e915e02f05471c83dacb5a4a097cf1f2a",
+        "server_args.py": "bd60199803698e4ffe6dc44499a8d42be73f42db28056cb6750411523cf56c04"
+      }
+    },
+    "training_runtime": {
+      "python": "3.12.15",
+      "torch": "2.13.0+cu130",
+      "transformers": "5.12.1"
+    },
+    "origins": {
+      "gsm8k": {
+        "status": "passed",
+        "arm": "KPLUS",
+        "completed_event": 4,
+        "global_step": 512,
+        "presentations": 1024,
+        "adam_state_entries": 58,
+        "cuda_rng_states": 1,
+        "extra_model_passes": 0,
+        "extra_optimizer_steps": 0,
+        "dataset": "gsm8k",
+        "loss": {
+          "name": "kplus_first_error_redistribution_v1",
+          "base_objective": "osd_first_error",
+          "redistribution_fraction": 0.5,
+          "priorities": [
+            1,
+            2
+          ],
+          "priority2": "immediate_valid_canonical_successor_matches_current_argmax",
+          "pooling": "all_sampled_blocks_in_one_response",
+          "numerator": "N_K + 0.5*(W1*N2-W2*N1)/(W1+2*W2)",
+          "neutral_branch": "original_N_K_for_no_errors_or_one_priority_class",
+          "denominator": "unchanged_native_selected_weight_sum_plus_1e-6",
+          "mass_conservation_rtol": 2e-06,
+          "mass_conservation_atol": 2e-07,
+          "additional_model_forwards": 0,
+          "additional_vocabulary_projections": 0
+        },
+        "export_exact": true
+      },
+      "mathqa": {
+        "status": "passed",
+        "arm": "KPLUS",
+        "completed_event": 4,
+        "global_step": 512,
+        "presentations": 1024,
+        "adam_state_entries": 58,
+        "cuda_rng_states": 1,
+        "extra_model_passes": 0,
+        "extra_optimizer_steps": 0,
+        "dataset": "mathqa",
+        "loss": {
+          "name": "kplus_first_error_redistribution_v1",
+          "base_objective": "osd_first_error",
+          "redistribution_fraction": 0.5,
+          "priorities": [
+            1,
+            2
+          ],
+          "priority2": "immediate_valid_canonical_successor_matches_current_argmax",
+          "pooling": "all_sampled_blocks_in_one_response",
+          "numerator": "N_K + 0.5*(W1*N2-W2*N1)/(W1+2*W2)",
+          "neutral_branch": "original_N_K_for_no_errors_or_one_priority_class",
+          "denominator": "unchanged_native_selected_weight_sum_plus_1e-6",
+          "mass_conservation_rtol": 2e-06,
+          "mass_conservation_atol": 2e-07,
+          "additional_model_forwards": 0,
+          "additional_vocabulary_projections": 0
+        },
+        "export_exact": true
+      }
+    },
+    "storage": {
+      "free_bytes": 76251410432,
+      "reserve_bytes": 8589934592,
+      "additional_writes_bytes": 34359738368,
+      "required_bytes": 42949672960,
+      "scope": "bounded_qualification_only_not_full_pilot"
+    },
+    "wall_s": 84.36346765421331
+  },
+  "new_model_work_for_review": 0
+}
