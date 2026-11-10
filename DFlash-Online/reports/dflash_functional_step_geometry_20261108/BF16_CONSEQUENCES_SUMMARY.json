@@ -1,0 +1,774 @@
+{
+  "policy": "native_bf16_same_fixed_production_reference",
+  "native_risk": {
+    "value": 0.07269526344063723,
+    "raw": 0.07269526344063723,
+    "eta": 1.6033769251100112e-09,
+    "absolute_sum": 1.9703204069930078,
+    "negative_roundoff": false
+  },
+  "native_response_risks": [
+    {
+      "record_id": "train_00512",
+      "risk_unaveraged": 0.12286643265055364,
+      "absolute_sum_unaveraged": 1.7874837020786487
+    },
+    {
+      "record_id": "train_00513",
+      "risk_unaveraged": 0.022524094230720826,
+      "absolute_sum_unaveraged": 2.153157111907367
+    }
+  ],
+  "production_eight": {
+    "raw_fsg": {
+      "norm": 1.4584726072099505,
+      "native_norm": 1.458325859395869,
+      "identical_native": false,
+      "changed_coordinates": 125749200,
+      "changed_zero_native_coordinates": 28167,
+      "native_dot": 2.1264513459278316,
+      "direction_cosine": 0.999775745904154,
+      "continuous_norm": 1.4559686183615994,
+      "bypass": null
+    },
+    "sketch": {
+      "responses": [
+        {
+          "response": 0,
+          "c": 0.3377342188644929,
+          "gradient_norm": 3.864413804146805,
+          "gradient_dot_native": 0.3478190637085192,
+          "gradient_dot_native_over_c": 1.0298602992552337
+        },
+        {
+          "response": 1,
+          "c": 0.04847788873500151,
+          "gradient_norm": 1.256548936440626,
+          "gradient_dot_native": 0.045936493539866036,
+          "gradient_dot_native_over_c": 0.9475761989341636
+        }
+      ],
+      "usable_columns": 2,
+      "gram": [
+        [
+          22.108648184790738,
+          0.6230923916293671
+        ],
+        [
+          0.6230923916293671,
+          16.284900919479156
+        ]
+      ],
+      "rhs": [
+        0.4232050596563861,
+        0.14752682457924393
+      ],
+      "sigma": 22.174567725117658,
+      "coefficients": [
+        0.009504975647797065,
+        0.003681911153766635
+      ],
+      "strength": 1.0,
+      "native_projected_energy": 0.20086668648920034,
+      "eigenvalues": [
+        16.218981379152236,
+        22.174567725117658
+      ],
+      "gram_eigenvalue_roundoff_allowance": 6.283655746071514e-13,
+      "solve_residual": 0.0,
+      "condition_number": 1.1551194532652118,
+      "cross_response_cosine": 0.03283815841151613
+    },
+    "candidate_risk": {
+      "value": 0.052389799913985055,
+      "raw": 0.052389799913985055,
+      "eta": 1.5924160497796438e-09,
+      "absolute_sum": 1.9500149434663558,
+      "negative_roundoff": false
+    },
+    "candidate_response_risks": [
+      {
+        "record_id": "train_00512",
+        "risk_unaveraged": 0.08645325435607817,
+        "absolute_sum_unaveraged": 1.7510705237841737
+      },
+      {
+        "record_id": "train_00513",
+        "risk_unaveraged": 0.018326345471891943,
+        "absolute_sum_unaveraged": 2.148959363148538
+      }
+    ],
+    "decision": {
+      "accepted": false,
+      "reason": "rounded_norm_exceeds_native"
+    },
+    "raw_scored_despite_norm_rejection": true
+  },
+  "alternate_four": {
+    "raw_fsg": {
+      "norm": 1.4584724864236045,
+      "native_norm": 1.458325859395869,
+      "identical_native": false,
+      "changed_coordinates": 125749187,
+      "changed_zero_native_coordinates": 28168,
+      "native_dot": 2.126451302489036,
+      "direction_cosine": 0.9997758082793475,
+      "continuous_norm": 1.4559686453974028,
+      "bypass": null
+    },
+    "sketch": {
+      "responses": [
+        {
+          "response": 0,
+          "c": 0.33773421576347046,
+          "gradient_norm": 3.8643995009355923,
+          "gradient_dot_native": 0.3478190811242142,
+          "gradient_dot_native_over_c": 1.0298603602775225
+        },
+        {
+          "response": 1,
+          "c": 0.048477888481813294,
+          "gradient_norm": 1.2565418603222878,
+          "gradient_dot_native": 0.045936231815485964,
+          "gradient_dot_native_over_c": 0.9475708050427806
+        }
+      ],
+      "usable_columns": 2,
+      "gram": [
+        [
+          22.108484728254293,
+          0.6238284072880017
+        ],
+        [
+          0.6238284072880017,
+          16.28471759175863
+        ]
+      ],
+      "rhs": [
+        0.42320508278964475,
+        0.1475259844265271
+      ],
+      "sigma": 22.174558143707067,
+      "coefficients": [
+        0.00950495472061961,
+        0.003681726214392629
+      ],
+      "strength": 1.0,
+      "native_projected_energy": 0.20086645818000598,
+      "eigenvalues": [
+        16.218644176305858,
+        22.174558143707067
+      ],
+      "gram_eigenvalue_roundoff_allowance": 6.28360928892968e-13,
+      "solve_residual": 0.0,
+      "condition_number": 1.155129387691024,
+      "cross_response_cosine": 0.03287725443620837
+    },
+    "candidate_risk": {
+      "value": 0.05256885969160196,
+      "raw": 0.05256885969160196,
+      "eta": 1.5925127061251917e-09,
+      "absolute_sum": 1.9501940032439729,
+      "negative_roundoff": false
+    },
+    "candidate_response_risks": [
+      {
+        "record_id": "train_00512",
+        "risk_unaveraged": 0.08801957467139444,
+        "absolute_sum_unaveraged": 1.75263684409949
+      },
+      {
+        "record_id": "train_00513",
+        "risk_unaveraged": 0.017118144711809478,
+        "absolute_sum_unaveraged": 2.1477511623884555
+      }
+    ],
+    "decision": {
+      "accepted": false,
+      "reason": "rounded_norm_exceeds_native"
+    },
+    "raw_scored_despite_norm_rejection": true
+  },
+  "sketches": {
+    "coordinates": 1048626432,
+    "native_norm": 1.458325859395869,
+    "left_norm": 1.4559686183615994,
+    "right_norm": 1.4559686453974028,
+    "difference_norm": 9.714696884244908e-05,
+    "relative_difference_to_native_norm": 6.661540575210914e-05,
+    "direction_cosine": 0.9999999977740032,
+    "left_deviation_from_native_norm": 0.04755811024857679,
+    "right_deviation_from_native_norm": 0.047558121562842705,
+    "left_deviation_relative_to_native": 0.032611442732201415,
+    "right_deviation_relative_to_native": 0.03261145049059495,
+    "left_native_cosine": 0.9994686944760125,
+    "right_native_cosine": 0.9994686942024376,
+    "difference_on_zero_native_norm": 7.933838816498151e-05,
+    "left_on_zero_native_norm": 0.040490926201175906,
+    "right_on_zero_native_norm": 0.04049156763696907,
+    "differing_coordinates": 1001995611,
+    "identical": false,
+    "left_changed_coordinates": 1048626417,
+    "right_changed_coordinates": 1048626415,
+    "left_changed_zero_native_coordinates": 922880457,
+    "right_changed_zero_native_coordinates": 922880455,
+    "differing_zero_native_coordinates": 921485245,
+    "left_identical_native": false,
+    "right_identical_native": false,
+    "maximum_absolute_difference": 5.827692802995443e-06,
+    "quantity": "continuous_fp32_proposals"
+  },
+  "raw_endpoint_comparison": {
+    "coordinates": 1048626432,
+    "native_norm": 1.458325859395869,
+    "left_norm": 1.4584726072099505,
+    "right_norm": 1.4584724864236045,
+    "difference_norm": 0.0006868401263397826,
+    "relative_difference_to_native_norm": 0.00047097850039106847,
+    "direction_cosine": 0.9999998891119383,
+    "left_deviation_from_native_norm": 0.030886345022388136,
+    "right_deviation_from_native_norm": 0.030882047524165727,
+    "left_deviation_relative_to_native": 0.02117931655904615,
+    "right_deviation_relative_to_native": 0.02117636968801954,
+    "left_native_cosine": 0.999775745904154,
+    "right_native_cosine": 0.9997758082793475,
+    "difference_on_zero_native_norm": 0.0004864304640548286,
+    "left_on_zero_native_norm": 0.02265119618267869,
+    "right_on_zero_native_norm": 0.022650813087575872,
+    "differing_coordinates": 4722,
+    "identical": false,
+    "left_changed_coordinates": 125749200,
+    "right_changed_coordinates": 125749187,
+    "left_changed_zero_native_coordinates": 28167,
+    "right_changed_zero_native_coordinates": 28168,
+    "differing_zero_native_coordinates": 77,
+    "left_identical_native": false,
+    "right_identical_native": false,
+    "maximum_absolute_difference": 0.000244140625,
+    "quantity": "realized_endpoint_displacements"
+  },
+  "committed_endpoint_comparison": {
+    "coordinates": 1048626432,
+    "native_norm": 1.458325859395869,
+    "left_norm": 1.458325859395869,
+    "right_norm": 1.458325859395869,
+    "difference_norm": 0.0,
+    "relative_difference_to_native_norm": 0.0,
+    "direction_cosine": 1.0,
+    "left_deviation_from_native_norm": 0.0,
+    "right_deviation_from_native_norm": 0.0,
+    "left_deviation_relative_to_native": 0.0,
+    "right_deviation_relative_to_native": 0.0,
+    "left_native_cosine": 1.0,
+    "right_native_cosine": 1.0,
+    "difference_on_zero_native_norm": 0.0,
+    "left_on_zero_native_norm": 0.0,
+    "right_on_zero_native_norm": 0.0,
+    "differing_coordinates": 0,
+    "identical": true,
+    "left_changed_coordinates": 125745960,
+    "right_changed_coordinates": 125745960,
+    "left_changed_zero_native_coordinates": 0,
+    "right_changed_zero_native_coordinates": 0,
+    "differing_zero_native_coordinates": 0,
+    "left_identical_native": true,
+    "right_identical_native": true,
+    "maximum_absolute_difference": 0.0,
+    "quantity": "realized_endpoint_displacements"
+  },
+  "decisions": {
+    "left": {
+      "accepted": false,
+      "reason": "rounded_norm_exceeds_native"
+    },
+    "right": {
+      "accepted": false,
+      "reason": "rounded_norm_exceeds_native"
+    },
+    "acceptance_disagrees": false,
+    "reason_disagrees": false,
+    "both_fallback": true,
+    "raw_endpoints_identical": false,
+    "committed_endpoints_identical": true,
+    "both_fallback_with_distinct_raw_endpoints": true
+  },
+  "prefix_consequences": [
+    {
+      "record_id": "train_00512",
+      "raw": {
+        "blocks": 126,
+        "valid_proposal_occurrences": 1785,
+        "differing_valid_proposals": 12,
+        "native_from_pre": {
+          "blocks": 126,
+          "old_matching_prefix_tokens": 783,
+          "new_matching_prefix_tokens": 947,
+          "net_matching_prefix_change": 164,
+          "old_first_errors": 102,
+          "first_errors_repaired_with_prefix_intact": 56,
+          "new_earlier_errors": 0,
+          "old_prefix_tokens_lost": 0
+        },
+        "left_from_pre": {
+          "blocks": 126,
+          "old_matching_prefix_tokens": 783,
+          "new_matching_prefix_tokens": 942,
+          "net_matching_prefix_change": 159,
+          "old_first_errors": 102,
+          "first_errors_repaired_with_prefix_intact": 54,
+          "new_earlier_errors": 0,
+          "old_prefix_tokens_lost": 0
+        },
+        "right_from_pre": {
+          "blocks": 126,
+          "old_matching_prefix_tokens": 783,
+          "new_matching_prefix_tokens": 941,
+          "net_matching_prefix_change": 158,
+          "old_first_errors": 102,
+          "first_errors_repaired_with_prefix_intact": 54,
+          "new_earlier_errors": 1,
+          "old_prefix_tokens_lost": 1
+        },
+        "right_vs_left": {
+          "blocks": 126,
+          "old_matching_prefix_tokens": 942,
+          "new_matching_prefix_tokens": 941,
+          "net_matching_prefix_change": -1,
+          "old_first_errors": 95,
+          "first_errors_repaired_with_prefix_intact": 0,
+          "new_earlier_errors": 1,
+          "old_prefix_tokens_lost": 1
+        },
+        "left_repair_identities_vs_native": {
+          "original_first_errors": 102,
+          "native_useful_repairs": 56,
+          "candidate_useful_repairs": 54,
+          "useful_repairs_retained": 53,
+          "useful_repairs_lost": 3,
+          "useful_repairs_newly_obtained": 1
+        },
+        "right_repair_identities_vs_native": {
+          "original_first_errors": 102,
+          "native_useful_repairs": 56,
+          "candidate_useful_repairs": 54,
+          "useful_repairs_retained": 53,
+          "useful_repairs_lost": 3,
+          "useful_repairs_newly_obtained": 1
+        }
+      },
+      "committed": {
+        "blocks": 126,
+        "valid_proposal_occurrences": 1785,
+        "differing_valid_proposals": 0,
+        "native_from_pre": {
+          "blocks": 126,
+          "old_matching_prefix_tokens": 783,
+          "new_matching_prefix_tokens": 947,
+          "net_matching_prefix_change": 164,
+          "old_first_errors": 102,
+          "first_errors_repaired_with_prefix_intact": 56,
+          "new_earlier_errors": 0,
+          "old_prefix_tokens_lost": 0
+        },
+        "left_from_pre": {
+          "blocks": 126,
+          "old_matching_prefix_tokens": 783,
+          "new_matching_prefix_tokens": 947,
+          "net_matching_prefix_change": 164,
+          "old_first_errors": 102,
+          "first_errors_repaired_with_prefix_intact": 56,
+          "new_earlier_errors": 0,
+          "old_prefix_tokens_lost": 0
+        },
+        "right_from_pre": {
+          "blocks": 126,
+          "old_matching_prefix_tokens": 783,
+          "new_matching_prefix_tokens": 947,
+          "net_matching_prefix_change": 164,
+          "old_first_errors": 102,
+          "first_errors_repaired_with_prefix_intact": 56,
+          "new_earlier_errors": 0,
+          "old_prefix_tokens_lost": 0
+        },
+        "right_vs_left": {
+          "blocks": 126,
+          "old_matching_prefix_tokens": 947,
+          "new_matching_prefix_tokens": 947,
+          "net_matching_prefix_change": 0,
+          "old_first_errors": 93,
+          "first_errors_repaired_with_prefix_intact": 0,
+          "new_earlier_errors": 0,
+          "old_prefix_tokens_lost": 0
+        },
+        "left_repair_identities_vs_native": {
+          "original_first_errors": 102,
+          "native_useful_repairs": 56,
+          "candidate_useful_repairs": 56,
+          "useful_repairs_retained": 56,
+          "useful_repairs_lost": 0,
+          "useful_repairs_newly_obtained": 0
+        },
+        "right_repair_identities_vs_native": {
+          "original_first_errors": 102,
+          "native_useful_repairs": 56,
+          "candidate_useful_repairs": 56,
+          "useful_repairs_retained": 56,
+          "useful_repairs_lost": 0,
+          "useful_repairs_newly_obtained": 0
+        }
+      }
+    },
+    {
+      "record_id": "train_00513",
+      "raw": {
+        "blocks": 247,
+        "valid_proposal_occurrences": 3600,
+        "differing_valid_proposals": 27,
+        "native_from_pre": {
+          "blocks": 247,
+          "old_matching_prefix_tokens": 1830,
+          "new_matching_prefix_tokens": 1964,
+          "net_matching_prefix_change": 134,
+          "old_first_errors": 203,
+          "first_errors_repaired_with_prefix_intact": 37,
+          "new_earlier_errors": 1,
+          "old_prefix_tokens_lost": 1
+        },
+        "left_from_pre": {
+          "blocks": 247,
+          "old_matching_prefix_tokens": 1830,
+          "new_matching_prefix_tokens": 1972,
+          "net_matching_prefix_change": 142,
+          "old_first_errors": 203,
+          "first_errors_repaired_with_prefix_intact": 38,
+          "new_earlier_errors": 0,
+          "old_prefix_tokens_lost": 0
+        },
+        "right_from_pre": {
+          "blocks": 247,
+          "old_matching_prefix_tokens": 1830,
+          "new_matching_prefix_tokens": 1969,
+          "net_matching_prefix_change": 139,
+          "old_first_errors": 203,
+          "first_errors_repaired_with_prefix_intact": 37,
+          "new_earlier_errors": 1,
+          "old_prefix_tokens_lost": 1
+        },
+        "right_vs_left": {
+          "blocks": 247,
+          "old_matching_prefix_tokens": 1972,
+          "new_matching_prefix_tokens": 1969,
+          "net_matching_prefix_change": -3,
+          "old_first_errors": 196,
+          "first_errors_repaired_with_prefix_intact": 0,
+          "new_earlier_errors": 2,
+          "old_prefix_tokens_lost": 3
+        },
+        "left_repair_identities_vs_native": {
+          "original_first_errors": 203,
+          "native_useful_repairs": 37,
+          "candidate_useful_repairs": 38,
+          "useful_repairs_retained": 35,
+          "useful_repairs_lost": 2,
+          "useful_repairs_newly_obtained": 3
+        },
+        "right_repair_identities_vs_native": {
+          "original_first_errors": 203,
+          "native_useful_repairs": 37,
+          "candidate_useful_repairs": 37,
+          "useful_repairs_retained": 34,
+          "useful_repairs_lost": 3,
+          "useful_repairs_newly_obtained": 3
+        }
+      },
+      "committed": {
+        "blocks": 247,
+        "valid_proposal_occurrences": 3600,
+        "differing_valid_proposals": 0,
+        "native_from_pre": {
+          "blocks": 247,
+          "old_matching_prefix_tokens": 1830,
+          "new_matching_prefix_tokens": 1964,
+          "net_matching_prefix_change": 134,
+          "old_first_errors": 203,
+          "first_errors_repaired_with_prefix_intact": 37,
+          "new_earlier_errors": 1,
+          "old_prefix_tokens_lost": 1
+        },
+        "left_from_pre": {
+          "blocks": 247,
+          "old_matching_prefix_tokens": 1830,
+          "new_matching_prefix_tokens": 1964,
+          "net_matching_prefix_change": 134,
+          "old_first_errors": 203,
+          "first_errors_repaired_with_prefix_intact": 37,
+          "new_earlier_errors": 1,
+          "old_prefix_tokens_lost": 1
+        },
+        "right_from_pre": {
+          "blocks": 247,
+          "old_matching_prefix_tokens": 1830,
+          "new_matching_prefix_tokens": 1964,
+          "net_matching_prefix_change": 134,
+          "old_first_errors": 203,
+          "first_errors_repaired_with_prefix_intact": 37,
+          "new_earlier_errors": 1,
+          "old_prefix_tokens_lost": 1
+        },
+        "right_vs_left": {
+          "blocks": 247,
+          "old_matching_prefix_tokens": 1964,
+          "new_matching_prefix_tokens": 1964,
+          "net_matching_prefix_change": 0,
+          "old_first_errors": 196,
+          "first_errors_repaired_with_prefix_intact": 0,
+          "new_earlier_errors": 0,
+          "old_prefix_tokens_lost": 0
+        },
+        "left_repair_identities_vs_native": {
+          "original_first_errors": 203,
+          "native_useful_repairs": 37,
+          "candidate_useful_repairs": 37,
+          "useful_repairs_retained": 37,
+          "useful_repairs_lost": 0,
+          "useful_repairs_newly_obtained": 0
+        },
+        "right_repair_identities_vs_native": {
+          "original_first_errors": 203,
+          "native_useful_repairs": 37,
+          "candidate_useful_repairs": 37,
+          "useful_repairs_retained": 37,
+          "useful_repairs_lost": 0,
+          "useful_repairs_newly_obtained": 0
+        }
+      }
+    }
+  ],
+  "duration_s": 39.0787148475647,
+  "original_numerical_gate_waived": false,
+  "production_qualification_completed": false,
+  "no_proposal_published": true,
+  "rng_scope": "outer isolated evaluation runtime; qualified dropout zero and fixed retained anchors",
+  "interpretation": "one retained full-window functional sensitivity diagnostic, not serving or efficacy",
+  "reproduction": {
+    "status": "passed",
+    "differences": [],
+    "exact_retained_receipt_comparison": true,
+    "historical_raw_parameter_tensors_available": false,
+    "interpretation": "exact retained scientific metrics, not historical raw-candidate tensor identity"
+  },
+  "gradient_comparisons": [
+    {
+      "record_id": "train_00512",
+      "status": "failed",
+      "tolerances": {
+        "rtol": 0.016,
+        "atol": 1e-05,
+        "maximum_relative_l2": 0.016
+      },
+      "violations": 1021,
+      "relative_l2": 0.002105488449357834,
+      "discrepancy_norm": 0.008136448512924069,
+      "chunked_norm": 3.8644138041468086,
+      "unchunked_norm": 3.864399500935593,
+      "coordinates": 1048626432,
+      "affected_tensors": 13,
+      "tensor_count": 58
+    },
+    {
+      "record_id": "train_00513",
+      "status": "failed",
+      "tolerances": {
+        "rtol": 0.016,
+        "atol": 1e-05,
+        "maximum_relative_l2": 0.016
+      },
+      "violations": 63,
+      "relative_l2": 0.0016133926686514738,
+      "discrepancy_norm": 0.002027295425297662,
+      "chunked_norm": 1.2565489364406273,
+      "unchunked_norm": 1.2565418603222869,
+      "coordinates": 1048626432,
+      "affected_tensors": 2,
+      "tensor_count": 58
+    }
+  ],
+  "execution": {
+    "execution_commit": "8c2dcdaa1cc6a91774811ccd36090dd1fdc7db71",
+    "status": "completed",
+    "budget": {
+      "response_forward": 10,
+      "draft_backward": 4,
+      "optimizer_step": 0,
+      "feedback_generation": 0,
+      "teacher_preparation": 0,
+      "serving_generation": 0
+    },
+    "work": {
+      "response_forward_attempted": 10,
+      "response_forward_completed": 10,
+      "draft_backward_attempted": 4,
+      "draft_backward_completed": 4
+    },
+    "restoration": {
+      "exact": true,
+      "differences": []
+    },
+    "optimizer_objects_and_versions_unchanged": true,
+    "gpu_admission": {
+      "free_bytes": 84649312256,
+      "total_bytes": 85094825984,
+      "required_free_bytes": 51539607552
+    },
+    "peak_allocated_bytes": 28549163008,
+    "peak_reserved_bytes": 33720107008,
+    "physical_work": {
+      "work": {
+        "captured_ordinary_responses": 0,
+        "head_projection_calls": 893,
+        "checkpoint_proxy_calls": 282,
+        "state_copy_passes": 3,
+        "additional_response_forwards_attempted": 10,
+        "additional_response_forwards_completed": 10,
+        "additional_response_forwards_failed": 0,
+        "additional_backwards_attempted": 4,
+        "additional_backwards_completed": 4,
+        "additional_backwards_failed": 0,
+        "optimizer_steps_attempted": 0,
+        "optimizer_steps_completed": 0,
+        "optimizer_steps_failed": 0
+      },
+      "calls": {
+        "retained_native/draft": 2,
+        "retained_native/draft_layer_0": 2,
+        "retained_native/draft_layer_1": 2,
+        "retained_native/draft_layer_2": 2,
+        "retained_native/draft_layer_3": 2,
+        "retained_native/draft_layer_4": 2,
+        "prestate/draft": 2,
+        "prestate/draft_layer_0": 2,
+        "prestate/draft_layer_1": 2,
+        "prestate/draft_layer_2": 2,
+        "prestate/draft_layer_3": 2,
+        "prestate/draft_layer_4": 2,
+        "prestate/vocabulary_head": 47,
+        "prestate_proxy/vocabulary_head": 94,
+        "prestate_vjp/vocabulary_head": 94,
+        "common_eight_score/vocabulary_head": 282,
+        "production_eight_candidate/draft": 2,
+        "production_eight_candidate/draft_layer_0": 2,
+        "production_eight_candidate/draft_layer_1": 2,
+        "production_eight_candidate/draft_layer_2": 2,
+        "production_eight_candidate/draft_layer_3": 2,
+        "production_eight_candidate/draft_layer_4": 2,
+        "alternate_four_prestate/draft": 2,
+        "alternate_four_prestate/draft_layer_0": 2,
+        "alternate_four_prestate/draft_layer_1": 2,
+        "alternate_four_prestate/draft_layer_2": 2,
+        "alternate_four_prestate/draft_layer_3": 2,
+        "alternate_four_prestate/draft_layer_4": 2,
+        "alternate_four_proxy/vocabulary_head": 188,
+        "alternate_four_vjp/vocabulary_head": 188,
+        "alternate_four_candidate/draft": 2,
+        "alternate_four_candidate/draft_layer_0": 2,
+        "alternate_four_candidate/draft_layer_1": 2,
+        "alternate_four_candidate/draft_layer_2": 2,
+        "alternate_four_candidate/draft_layer_3": 2,
+        "alternate_four_candidate/draft_layer_4": 2
+      }
+    }
+  },
+  "costs": {
+    "supervisor_wall_s": 116,
+    "runner_wall_s_before_postcheck": 99.36431947164237,
+    "consequence_callback_wall_s": 39.0787148475647
+  },
+  "dependency_checks": {
+    "count": 1520,
+    "all_matched": true
+  },
+  "retrieval": {
+    "verified": true,
+    "files": 20,
+    "bytes": 1925795,
+    "differences": []
+  },
+  "cpu_tests": {
+    "local": 94,
+    "A800": 94
+  },
+  "pooled_prefix": {
+    "native": {
+      "blocks": 373,
+      "valid_proposal_occurrences": 5385,
+      "old_matching_prefix_tokens": 2613,
+      "new_matching_prefix_tokens": 2911,
+      "net_matching_prefix_change": 298,
+      "old_first_errors": 305,
+      "first_errors_repaired_with_prefix_intact": 93,
+      "new_earlier_errors": 1,
+      "old_prefix_tokens_lost": 1
+    },
+    "production_eight": {
+      "blocks": 373,
+      "valid_proposal_occurrences": 5385,
+      "old_matching_prefix_tokens": 2613,
+      "new_matching_prefix_tokens": 2914,
+      "net_matching_prefix_change": 301,
+      "old_first_errors": 305,
+      "first_errors_repaired_with_prefix_intact": 92,
+      "new_earlier_errors": 0,
+      "old_prefix_tokens_lost": 0
+    },
+    "alternate_four": {
+      "blocks": 373,
+      "valid_proposal_occurrences": 5385,
+      "old_matching_prefix_tokens": 2613,
+      "new_matching_prefix_tokens": 2910,
+      "net_matching_prefix_change": 297,
+      "old_first_errors": 305,
+      "first_errors_repaired_with_prefix_intact": 91,
+      "new_earlier_errors": 2,
+      "old_prefix_tokens_lost": 2
+    }
+  },
+  "review": {
+    "same_team": true,
+    "authorship_overlap_disclosed": true,
+    "independent_gpu_replication": false,
+    "work_assertions": 4666,
+    "ars_interpretation_categories_checked": 11,
+    "all_compact_raw_files_independently_rehashed": true,
+    "source_archive_integrity_basis": "sealed and native receipts; redundant transfer archive removed before final reviewer rehash"
+  },
+  "cleanup": {
+    "A800": {
+      "utc": "2026-11-08T23:59:11.173079+00:00",
+      "path": "/data/sources/minhao/runs/dflash_functional_step_geometry_20261108/bf16_consequences_control_001/source.tar.gz",
+      "bytes": 21138601,
+      "reason": "Redundant source-transfer archive; exact source retained in published Git and verified mirror",
+      "retained_commit": "8c2dcdaa1cc6a91774811ccd36090dd1fdc7db71",
+      "retained_source": "/data/sources/minhao/fsg_bf16_consequences_20261108/DFlash-Online",
+      "lost_scientific_replay": false,
+      "free_before": 58097360896,
+      "free_after": 58118504448,
+      "postflight": {
+        "gpus": [
+          "0, 0 MiB, 0 %",
+          "1, 0 MiB, 0 %"
+        ],
+        "compute_processes": []
+      }
+    },
+    "FENRIR": {
+      "utc": "2026-11-08T23:59:11.450259+00:00",
+      "path": "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_functional_step_geometry_20261108/bf16_consequences_001/source.tar.gz",
+      "bytes": 21138601,
+      "reason": "Redundant source archive; published and verified deployed source retained",
+      "retained_commit": "8c2dcdaa1cc6a91774811ccd36090dd1fdc7db71",
+      "lost_scientific_replay": false,
+      "free_before": 7570149376,
+      "free_after": 7591292928
+    }
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "execution_commit": "6f44f57425cf2bfefdc0085dd8112832966d2264",
+  "repair_commit": "c9da97310b701e31690baa8b687871f774850ccf",
+  "workflow": "ARS experiment-agent run/validate",
+  "review_type": "same-team source, numerical and work reviews; implementation authorship overlap; no independent GPU replication",
+  "accounting_assertions_passed": 256,
+  "accounting_findings": 0,
+  "interpretation_categories_checked": 11,
+  "native_cpu_tests_passed": 39,
+  "final_repair_cpu_tests_passed": 188,
+  "artifacts": [
+    {
+      "name": "FINAL_CPU_TESTS.log",
+      "bytes": 32165,
+      "sha256": "ce7813851f01d4bdfffeeea7c1f13d55ef7dcf06158d494c980c680b2771e87d"
+    },
+    {
+      "name": "NUMERICAL_REVIEW.md",
+      "bytes": 8498,
+      "sha256": "ca3c2035972e73eba66a5f6dcb657eefebb6c72dc1256574a97095a9a2856b4d"
+    },
+    {
+      "name": "WORK_RESULT_REVIEW.md",
+      "bytes": 9216,
+      "sha256": "405ecfd8712c4d70c9d4320b8a35e06c160758fb7ec91dceb344cb00c853aad5"
+    },
+    {
+      "name": "STARTUP_REPAIR_REVIEW.md",
+      "bytes": 3842,
+      "sha256": "7a7449014b39db3c8397c10735497ad0cc1bcb2bf0b2c96802ac580969983856"
+    },
+    {
+      "name": "AUDIT_CHECKS.json",
+      "bytes": 66273,
+      "sha256": "5d46d31ccf750cf88e7c3a5eb5bca041031934eb8f9bfc6f853e76ae33ceaeee"
+    }
+  ],
+  "final_report_source_review": "No blocking findings; claims match retained receipts and preserve incomplete full qualification status"
+}

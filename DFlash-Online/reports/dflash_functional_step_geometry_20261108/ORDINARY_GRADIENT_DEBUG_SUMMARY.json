@@ -1,0 +1,113 @@
+{
+  "status": "completed diagnostic; full qualification incomplete",
+  "execution_commit": "6f44f57425cf2bfefdc0085dd8112832966d2264",
+  "startup_repair_commit": "c9da97310b701e31690baa8b687871f774850ccf",
+  "preserved_failed_attempt_commit": "a281bfe7b33fb7c7711dbcc215160a760b1aa04d",
+  "comparisons": [
+    {
+      "comparison": "cold_vs_warm",
+      "exact_equal": false,
+      "tensors": 58,
+      "coordinates": 1048626432,
+      "differing_tensors": 49,
+      "differing_coordinates": 155364420,
+      "max_absolute_error": 0.00048828125,
+      "discrepancy_l2": 0.001644496259488957,
+      "reference_l2": 0.569314870183913,
+      "relative_l2": 0.002888553146271613,
+      "nonfinite_coordinates": 0
+    },
+    {
+      "comparison": "warm_plain_repeat",
+      "exact_equal": true,
+      "tensors": 58,
+      "coordinates": 1048626432,
+      "differing_tensors": 0,
+      "differing_coordinates": 0,
+      "max_absolute_error": 0.0,
+      "discrepancy_l2": 0.0,
+      "reference_l2": 0.569314870183913,
+      "relative_l2": 0.0,
+      "nonfinite_coordinates": 0
+    },
+    {
+      "comparison": "warm_scalar_vs_plain",
+      "exact_equal": true,
+      "tensors": 58,
+      "coordinates": 1048626432,
+      "differing_tensors": 0,
+      "differing_coordinates": 0,
+      "max_absolute_error": 0.0,
+      "discrepancy_l2": 0.0,
+      "reference_l2": 0.569314870183913,
+      "relative_l2": 0.0,
+      "nonfinite_coordinates": 0
+    },
+    {
+      "comparison": "post_aux_vs_pre_aux_plain",
+      "exact_equal": true,
+      "tensors": 58,
+      "coordinates": 1048626432,
+      "differing_tensors": 0,
+      "differing_coordinates": 0,
+      "max_absolute_error": 0.0,
+      "discrepancy_l2": 0.0,
+      "reference_l2": 0.569314870183913,
+      "relative_l2": 0.0,
+      "nonfinite_coordinates": 0
+    },
+    {
+      "comparison": "post_aux_scalar_vs_plain",
+      "exact_equal": true,
+      "tensors": 58,
+      "coordinates": 1048626432,
+      "differing_tensors": 0,
+      "differing_coordinates": 0,
+      "max_absolute_error": 0.0,
+      "discrepancy_l2": 0.0,
+      "reference_l2": 0.569314870183913,
+      "relative_l2": 0.0,
+      "nonfinite_coordinates": 0
+    }
+  ],
+  "work": {
+    "failed_attempt": {
+      "response_forwards": 2,
+      "response_backwards": 2,
+      "adam": 0
+    },
+    "completed_attempt": {
+      "response_forwards": 26,
+      "response_backwards": 18,
+      "adam": 0
+    },
+    "total": {
+      "response_forwards": 28,
+      "response_backwards": 20,
+      "adam": 0,
+      "serving": 0,
+      "feedback": 0,
+      "teacher_preparation": 0
+    }
+  },
+  "costs": {
+    "completed_runner_s": 545.6674820464104,
+    "completed_supervisor_s": 561,
+    "failed_runner_s": 104.15584064088762,
+    "failed_supervisor_s": 119,
+    "peak_allocated_bytes": 47021490176,
+    "peak_reserved_bytes": 48771366912
+  },
+  "cpu_tests": {
+    "native_execution": 39,
+    "final_repair_local": 188
+  },
+  "dependencies_per_attempt": 6921,
+  "all_dependencies_preserved": true,
+  "scope": "retained GSM8K origin, same two response/anchor bindings, zero Adam",
+  "algorithm_changed": false,
+  "precision_changed": false,
+  "tolerance_changed": false,
+  "guards_changed": false,
+  "main_pilot_started": false
+}

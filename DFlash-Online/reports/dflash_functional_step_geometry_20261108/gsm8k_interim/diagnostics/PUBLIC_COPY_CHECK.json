@@ -1,0 +1,54 @@
+{
+  "status": "passed",
+  "public_cpu_tests": 6,
+  "checks": [
+    {
+      "name": "event_contrast_summary.csv",
+      "exact": true,
+      "bytes": 2981,
+      "sha256": "91e8a87ac1312eed7cfbf6979b26e2ab29c918ba76c304e8d499c5719e6db205"
+    },
+    {
+      "name": "event_pair_candidates.csv",
+      "exact": true,
+      "bytes": 11184,
+      "sha256": "ada8222c52f944be94894ca775a62b151255c1e0f6256a5b26ef30bbdbba72d7"
+    },
+    {
+      "name": "response_candidates.csv",
+      "exact": true,
+      "bytes": 82643,
+      "sha256": "a6ea81e30af5dbc5323a0d835170068382144050e8494ad926640640e61015df"
+    },
+    {
+      "name": "same_state_contrasts.csv",
+      "exact": true,
+      "bytes": 18697,
+      "sha256": "0ec149377b40b35976e11c70ff8517ce991e7955a69203bd4bae79d15f62bf99"
+    },
+    {
+      "name": "window_pair_candidates.csv",
+      "exact": true,
+      "bytes": 82381,
+      "sha256": "5904f88f8fb9ee9af8b4ebce4461b74b01e41a4c34af74d22cd46a2e926dc429"
+    },
+    {
+      "name": "INPUTS.json",
+      "exact": true,
+      "bytes": 5745,
+      "sha256": "e914b0c6a6839a7eb3217e6df8adaf4ef61bd2a2da70b08f232b576e40814e97"
+    },
+    {
+      "name": "CONTRAST_SUMMARY.json",
+      "exact": true,
+      "bytes": 23349,
+      "sha256": "9e0dada74ec5688880c9e8513b1f8852f8b4d80329bf701b9d407a4cd99d269a"
+    }
+  ],
+  "scientific_summary_exact_excluding_CPU_costs": true,
+  "copy_model_work": 0,
+  "gpu_work": 0,
+  "analysis_wall_s": 0.16926786419935524,
+  "run_command": "python reports/dflash_functional_step_geometry_20261108/gsm8k_interim/analysis/diagnostics.py --evidence /path/to/stable/pilot-snapshot --output /path/to/new/diagnostic-report",
+  "test_command": "cd reports/dflash_functional_step_geometry_20261108/gsm8k_interim/analysis && python -m unittest -v test_diagnostics"
+}

@@ -1,0 +1,72 @@
+{
+  "status": "passed",
+  "requests": 256,
+  "executions": 1536,
+  "errors": [],
+  "native_progress": {
+    "status": "completed",
+    "planned_generations": 1536,
+    "attempted_generations": 1536,
+    "returned_generations": 1536,
+    "activation_s": 1992.1243546530604,
+    "weight_validation_s": 6.264455068856478,
+    "publications": 1378,
+    "optimizer_steps": 0,
+    "feedback_collections": 0,
+    "teacher_preparations": 0,
+    "extra_generations": 0,
+    "automatic_retry": false,
+    "completed_valid_generations": 1536,
+    "invalid_generations": 0,
+    "pending_canonical_generations": 0,
+    "unknown_generation_attempts": 0,
+    "unattempted_generations": 0,
+    "interrupted_attempt": null,
+    "evaluation_wall_s": 4163.371086284518
+  },
+  "retained_summary_exact": true,
+  "analysis_source": "6440e8ff5af1a845f830d65c884f6711d7e4a687",
+  "checkpoint_identities": {
+    "KPLUS": {
+      "checkpoint_path": "/data/sources/minhao/runs/dflash_functional_step_geometry_20261108/pilot_r1_001/campaign_001/mathqa/event_006/KPLUS/trainer/events/event_006/export",
+      "weights_identity": {
+        "bytes": 2097259104,
+        "sha256": "2624df613eab12e31ee1eadd76d8d50a31ad9f79f1ccd7ef7b014a927e28e9ea"
+      },
+      "state_path": "/data/sources/minhao/runs/dflash_functional_step_geometry_20261108/pilot_r1_001/campaign_001/mathqa/event_006/KPLUS/trainer/training_state.pt",
+      "state_identity": {
+        "bytes": 6299848795,
+        "sha256": "3d5a9fd4d5079927cc564f3cf652f49ff68cab7421c7ec486438f5dedd3e7dff"
+      }
+    },
+    "FSG": {
+      "checkpoint_path": "/data/sources/minhao/runs/dflash_functional_step_geometry_20261108/pilot_r1_001/campaign_001/mathqa/event_006/FSG/trainer/events/event_006/export",
+      "weights_identity": {
+        "bytes": 2097259104,
+        "sha256": "a3bb76019b663d94b117d887048d1bf1cbaf1e6aece7ff62d78434f62a589dc3"
+      },
+      "state_path": "/data/sources/minhao/runs/dflash_functional_step_geometry_20261108/pilot_r1_001/campaign_001/mathqa/event_006/FSG/trainer/training_state.pt",
+      "state_identity": {
+        "bytes": 6300560475,
+        "sha256": "f298bf9ac166719616ac590ab936b1b6a39725aabd5249f126dac9487a3fb57a"
+      }
+    },
+    "SCALAR": {
+      "checkpoint_path": "/data/sources/minhao/runs/dflash_functional_step_geometry_20261108/pilot_r1_001/campaign_001/mathqa/event_006/SCALAR/trainer/events/event_006/export",
+      "weights_identity": {
+        "bytes": 2097259104,
+        "sha256": "47541c5297c1871a6e9b96357371cec419aca8f0fdc407bd877100fc3321de94"
+      },
+      "state_path": "/data/sources/minhao/runs/dflash_functional_step_geometry_20261108/pilot_r1_001/campaign_001/mathqa/event_006/SCALAR/trainer/training_state.pt",
+      "state_identity": {
+        "bytes": 6300639707,
+        "sha256": "9244405f193eff60e080cd932fbefc9666ed24705335a074c2928df0f46a31c3"
+      }
+    }
+  },
+  "boundary": "Complete request includes native generation and recorded cache maintenance; loading/activation excluded",
+  "new_model_work": 0,
+  "bootstrap_unit": "paired request, timing repeats averaged within request",
+  "wall_s": 3.726248530903831,
+  "peak_host_rss_kib": 820428
+}

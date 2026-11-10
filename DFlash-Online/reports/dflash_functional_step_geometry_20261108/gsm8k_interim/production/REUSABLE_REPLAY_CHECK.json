@@ -1,0 +1,57 @@
+{
+  "status": "passed",
+  "execution_commit": "6440e8ff5af1a845f830d65c884f6711d7e4a687",
+  "script_byte_identical_to_original": true,
+  "compared_files": [
+    {
+      "file": "PRODUCTION_SUMMARY.json",
+      "scientific_values_exact": true
+    },
+    {
+      "file": "TRAINING_COST_SUMMARY.json",
+      "scientific_values_exact": true
+    },
+    {
+      "file": "CHECKPOINT_IDENTITIES.json",
+      "scientific_values_exact": true
+    },
+    {
+      "file": "INPUTS.json",
+      "scientific_values_exact": true
+    },
+    {
+      "file": "PRODUCTION_WINDOWS.csv",
+      "rows": 512,
+      "scientific_values_exact": true
+    },
+    {
+      "file": "ACTIVITY_SUMMARY.csv",
+      "rows": 6,
+      "scientific_values_exact": true
+    },
+    {
+      "file": "SCALAR_DISTRIBUTIONS.csv",
+      "rows": 108,
+      "scientific_values_exact": true
+    },
+    {
+      "file": "EVENT_COSTS.csv",
+      "rows": 6,
+      "scientific_values_exact": true
+    }
+  ],
+  "analysis_receipt_exact_except": [
+    "analysis_wall_s"
+  ],
+  "cpu_wall_s": 0.3140549478121102,
+  "gpu_work": 0,
+  "model_loads": 0,
+  "forward_backward_optimizer_generations": 0,
+  "scope": "One CPU-only replay of the same authenticated compact GSM8K snapshot; no new scientific observations",
+  "scientific_count_checks": {
+    "filtered_windows": 512,
+    "event_receipts": 6,
+    "exact_embedded_step_matches": 512,
+    "independent_gate_matches": 512
+  }
+}

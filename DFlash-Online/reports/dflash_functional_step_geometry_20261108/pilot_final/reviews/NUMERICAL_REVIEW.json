@@ -1,0 +1,37 @@
+{
+  "status": "ANALYZED",
+  "arithmetic_status": "passed",
+  "all_1536_valid": true,
+  "saved_bootstrap_points_intervals_exact": true,
+  "complete_receipts": {
+    "status": "passed",
+    "authenticated_consumed_snapshot_files": 1550,
+    "supervisor_exit": 0,
+    "completed_tasks": 18,
+    "task_counts": {
+      "collect_shared": 4,
+      "train_arm": 12,
+      "evaluate_dataset": 2
+    },
+    "execution_commit": "6440e8ff5af1a845f830d65c884f6711d7e4a687",
+    "source_postflight_files": 15122,
+    "postflight_passed": true,
+    "end_utc": "2026-11-09T23:02:04Z",
+    "automatic_retry": false,
+    "live_attempt": null,
+    "new_model_work": 0,
+    "scope": "Control-plane and consumed-byte checks; native execution is not rerun."
+  },
+  "author_overlap": true,
+  "independent_gpu_replication": false,
+  "new_model_work": 0,
+  "analysis_wall_s": 3.313333713915199,
+  "mathqa_fsg_regresses_vs_both_controls": true,
+  "scalar_kplus_unresolved_not_equivalent": true,
+  "historical_timings_used": false,
+  "origin_calls": 17074,
+  "fsg_origin_call_increase_pct": 3.4731170200304584,
+  "statistical_fallacies_checked": 11,
+  "discrepancies": [],
+  "reporting_limit": "Automated recommend generic fallback has no negative branch; final narrative should apply original handoff to actual effects."
+}

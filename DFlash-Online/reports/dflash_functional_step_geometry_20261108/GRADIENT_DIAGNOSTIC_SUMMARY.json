@@ -1,0 +1,1304 @@
+{
+  "execution_commit": "41db7e31c3c80ee3220e5d919be327039caf2fb9",
+  "status": "diagnostic_completed_original_qualification_still_failed",
+  "algorithm_changed": false,
+  "tolerances_changed": false,
+  "optimizer_steps": 0,
+  "reference": {
+    "protected_occurrences": 4,
+    "prefix_mask_exact": true,
+    "proposals_exact": true,
+    "weights_exact": true
+  },
+  "head_comparisons": {
+    "initial": {
+      "chunked_checkpoint": {
+        "pre_logits": {
+          "shape": [
+            1,
+            2,
+            16,
+            151936
+          ],
+          "actual_dtype": "torch.bfloat16",
+          "reference_dtype": "torch.bfloat16",
+          "coordinates": 4861952,
+          "exact": false,
+          "differing_coordinates": 7002,
+          "violations": 2,
+          "violation_fraction": 4.113574136478517e-07,
+          "nonfinite_coordinates": 0,
+          "maximum_absolute_error": 0.0625,
+          "maximum_error_to_tolerance": 1.0206365585327148,
+          "actual_norm": 7319.318078721374,
+          "reference_norm": 7319.297391412009,
+          "discrepancy_norm": 0.9331237609108921,
+          "relative_l2": 0.00012748816054472103,
+          "norms_scope": "all coordinates",
+          "matches_pinned_tolerance": false,
+          "tolerances": {
+            "rtol": 0.016,
+            "atol": 1e-05,
+            "maximum_relative_l2": 0.016
+          }
+        },
+        "native_logits": {
+          "shape": [
+            1,
+            2,
+            16,
+            151936
+          ],
+          "actual_dtype": "torch.bfloat16",
+          "reference_dtype": "torch.bfloat16",
+          "coordinates": 4861952,
+          "exact": false,
+          "differing_coordinates": 6989,
+          "violations": 0,
+          "violation_fraction": 0.0,
+          "nonfinite_coordinates": 0,
+          "maximum_absolute_error": 0.0625,
+          "maximum_error_to_tolerance": 0.9242330193519592,
+          "actual_norm": 7304.856591922907,
+          "reference_norm": 7304.835598023661,
+          "discrepancy_norm": 0.9370698292380939,
+          "relative_l2": 0.00012828075548909277,
+          "norms_scope": "all coordinates",
+          "matches_pinned_tolerance": true,
+          "tolerances": {
+            "rtol": 0.016,
+            "atol": 1e-05,
+            "maximum_relative_l2": 0.016
+          }
+        },
+        "cotangent": {
+          "shape": [
+            1,
+            2,
+            16,
+            151936
+          ],
+          "actual_dtype": "torch.float32",
+          "reference_dtype": "torch.float32",
+          "coordinates": 4861952,
+          "exact": false,
+          "differing_coordinates": 219604,
+          "violations": 0,
+          "violation_fraction": 0.0,
+          "nonfinite_coordinates": 0,
+          "maximum_absolute_error": 8.663391781738028e-09,
+          "maximum_error_to_tolerance": 0.0008662051404826343,
+          "actual_norm": 0.32858714023839275,
+          "reference_norm": 0.3285871402371227,
+          "discrepancy_norm": 8.78976859005704e-09,
+          "relative_l2": 2.6750190478282146e-08,
+          "norms_scope": "all coordinates",
+          "matches_pinned_tolerance": true,
+          "tolerances": {
+            "rtol": 0.016,
+            "atol": 1e-05,
+            "maximum_relative_l2": 0.016
+          }
+        },
+        "autograd_entry_cotangent": {
+          "shape": [
+            1,
+            2,
+            16,
+            151936
+          ],
+          "actual_dtype": "torch.bfloat16",
+          "reference_dtype": "torch.bfloat16",
+          "coordinates": 4861952,
+          "exact": false,
+          "differing_coordinates": 1798,
+          "violations": 0,
+          "violation_fraction": 0.0,
+          "nonfinite_coordinates": 0,
+          "maximum_absolute_error": 8.381903171539307e-09,
+          "maximum_error_to_tolerance": 0.0008380604558624327,
+          "actual_norm": 0.3280891735954615,
+          "reference_norm": 0.32808917359545936,
+          "discrepancy_norm": 8.49723225402653e-09,
+          "relative_l2": 2.5899154674648883e-08,
+          "norms_scope": "all coordinates",
+          "matches_pinned_tolerance": true,
+          "tolerances": {
+            "rtol": 0.016,
+            "atol": 1e-05,
+            "maximum_relative_l2": 0.016
+          }
+        },
+        "adjoint": {
+          "shape": [
+            1,
+            2,
+            16,
+            4096
+          ],
+          "actual_dtype": "torch.bfloat16",
+          "reference_dtype": "torch.bfloat16",
+          "coordinates": 131072,
+          "exact": false,
+          "differing_coordinates": 7740,
+          "violations": 0,
+          "violation_fraction": 0.0,
+          "nonfinite_coordinates": 0,
+          "maximum_absolute_error": 0.0001220703125,
+          "maximum_error_to_tolerance": 0.46600058674812317,
+          "actual_norm": 0.36452936010660525,
+          "reference_norm": 0.3645381111555392,
+          "discrepancy_norm": 0.0010959863871937662,
+          "relative_l2": 0.0030065070116252848,
+          "norms_scope": "all coordinates",
+          "matches_pinned_tolerance": true,
+          "tolerances": {
+            "rtol": 0.016,
+            "atol": 1e-05,
+            "maximum_relative_l2": 0.016
+          }
+        },
+        "proxy": {
+          "shape": [
+            1
+          ],
+          "actual_dtype": "torch.float32",
+          "reference_dtype": "torch.float32",
+          "coordinates": 1,
+          "exact": false,
+          "differing_coordinates": 1,
+          "violations": 0,
+          "violation_fraction": 0.0,
+          "nonfinite_coordinates": 0,
+          "maximum_absolute_error": 1.4901161193847656e-08,
+          "maximum_error_to_tolerance": 4.656551482185023e-06,
+          "actual_norm": 0.19937764108181,
+          "reference_norm": 0.1993776261806488,
+          "discrepancy_norm": 1.4901161193847656e-08,
+          "relative_l2": 7.473838203062092e-08,
+          "norms_scope": "all coordinates",
+          "matches_pinned_tolerance": true,
+          "tolerances": {
+            "rtol": 0.016,
+            "atol": 1e-05,
+            "maximum_relative_l2": 0.016
+          }
+        },
+        "energy": {
+          "shape": [
+            1
+          ],
+          "actual_dtype": "torch.float64",
+          "reference_dtype": "torch.float64",
+          "coordinates": 1,
+          "exact": false,
+          "differing_coordinates": 1,
+          "violations": 0,
+          "violation_fraction": 0.0,
+          "nonfinite_coordinates": 0,
+          "maximum_absolute_error": 8.054518219058338e-09,
+          "maximum_error_to_tolerance": 1.412056529058629e-06,
+          "actual_norm": 0.3558815489270363,
+          "reference_norm": 0.35588154087251805,
+          "discrepancy_norm": 8.054518219058338e-09,
+          "relative_l2": 2.2632582176954163e-08,
+          "norms_scope": "all coordinates",
+          "matches_pinned_tolerance": true,
+          "tolerances": {
+            "rtol": 0.016,
+            "atol": 1e-05,
+            "maximum_relative_l2": 0.016
+          }
+        }
+      },
+      "chunked_no_checkpoint": {
+        "pre_logits": {
+          "shape": [
+            1,
+            2,
+            16,
+            151936
+          ],
+          "actual_dtype": "torch.bfloat16",
+          "reference_dtype": "torch.bfloat16",
+          "coordinates": 4861952,
+          "exact": false,
+          "differing_coordinates": 7002,
+          "violations": 2,
+          "violation_fraction": 4.113574136478517e-07,
+          "nonfinite_coordinates": 0,
+          "maximum_absolute_error": 0.0625,
+          "maximum_error_to_tolerance": 1.0206365585327148,
+          "actual_norm": 7319.318078721374,
+          "reference_norm": 7319.297391412009,
+          "discrepancy_norm": 0.9331237609108921,
+          "relative_l2": 0.00012748816054472103,
+          "norms_scope": "all coordinates",
+          "matches_pinned_tolerance": false,
+          "tolerances": {
+            "rtol": 0.016,
+            "atol": 1e-05,
+            "maximum_relative_l2": 0.016
+          }
+        },
+        "native_logits": {
+          "shape": [
+            1,
+            2,
+            16,
+            151936
+          ],
+          "actual_dtype": "torch.bfloat16",
+          "reference_dtype": "torch.bfloat16",
+          "coordinates": 4861952,
+          "exact": false,
+          "differing_coordinates": 6989,
+          "violations": 0,
+          "violation_fraction": 0.0,
+          "nonfinite_coordinates": 0,
+          "maximum_absolute_error": 0.0625,
+          "maximum_error_to_tolerance": 0.9242330193519592,
+          "actual_norm": 7304.856591922907,
+          "reference_norm": 7304.835598023661,
+          "discrepancy_norm": 0.9370698292380939,
+          "relative_l2": 0.00012828075548909277,
+          "norms_scope": "all coordinates",
+          "matches_pinned_tolerance": true,
+          "tolerances": {
+            "rtol": 0.016,
+            "atol": 1e-05,
+            "maximum_relative_l2": 0.016
+          }
+        },
+        "cotangent": {
+          "shape": [
+            1,
+            2,
+            16,
+            151936
+          ],
+          "actual_dtype": "torch.float32",
+          "reference_dtype": "torch.float32",
+          "coordinates": 4861952,
+          "exact": false,
+          "differing_coordinates": 219604,
+          "violations": 0,
+          "violation_fraction": 0.0,
+          "nonfinite_coordinates": 0,
+          "maximum_absolute_error": 8.663391781738028e-09,
+          "maximum_error_to_tolerance": 0.0008662051404826343,
+          "actual_norm": 0.32858714023839275,
+          "reference_norm": 0.3285871402371227,
+          "discrepancy_norm": 8.78976859005704e-09,
+          "relative_l2": 2.6750190478282146e-08,
+          "norms_scope": "all coordinates",
+          "matches_pinned_tolerance": true,
+          "tolerances": {
+            "rtol": 0.016,
+            "atol": 1e-05,
+            "maximum_relative_l2": 0.016
+          }
+        },
+        "autograd_entry_cotangent": {
+          "shape": [
+            1,
+            2,
+            16,
+            151936
+          ],
+          "actual_dtype": "torch.bfloat16",
+          "reference_dtype": "torch.bfloat16",
+          "coordinates": 4861952,
+          "exact": false,
+          "differing_coordinates": 1798,
+          "violations": 0,
+          "violation_fraction": 0.0,
+          "nonfinite_coordinates": 0,
+          "maximum_absolute_error": 8.381903171539307e-09,
+          "maximum_error_to_tolerance": 0.0008380604558624327,
+          "actual_norm": 0.3280891735954615,
+          "reference_norm": 0.32808917359545936,
+          "discrepancy_norm": 8.49723225402653e-09,
+          "relative_l2": 2.5899154674648883e-08,
+          "norms_scope": "all coordinates",
+          "matches_pinned_tolerance": true,
+          "tolerances": {
+            "rtol": 0.016,
+            "atol": 1e-05,
+            "maximum_relative_l2": 0.016
+          }
+        },
+        "adjoint": {
+          "shape": [
+            1,
+            2,
+            16,
+            4096
+          ],
+          "actual_dtype": "torch.bfloat16",
+          "reference_dtype": "torch.bfloat16",
+          "coordinates": 131072,
+          "exact": false,
+          "differing_coordinates": 7740,
+          "violations": 0,
+          "violation_fraction": 0.0,
+          "nonfinite_coordinates": 0,
+          "maximum_absolute_error": 0.0001220703125,
+          "maximum_error_to_tolerance": 0.46600058674812317,
+          "actual_norm": 0.36452936010660525,
+          "reference_norm": 0.3645381111555392,
+          "discrepancy_norm": 0.0010959863871937662,
+          "relative_l2": 0.0030065070116252848,
+          "norms_scope": "all coordinates",
+          "matches_pinned_tolerance": true,
+          "tolerances": {
+            "rtol": 0.016,
+            "atol": 1e-05,
+            "maximum_relative_l2": 0.016
+          }
+        },
+        "proxy": {
+          "shape": [
+            1
+          ],
+          "actual_dtype": "torch.float32",
+          "reference_dtype": "torch.float32",
+          "coordinates": 1,
+          "exact": false,
+          "differing_coordinates": 1,
+          "violations": 0,
+          "violation_fraction": 0.0,
+          "nonfinite_coordinates": 0,
+          "maximum_absolute_error": 1.4901161193847656e-08,
+          "maximum_error_to_tolerance": 4.656551482185023e-06,
+          "actual_norm": 0.19937764108181,
+          "reference_norm": 0.1993776261806488,
+          "discrepancy_norm": 1.4901161193847656e-08,
+          "relative_l2": 7.473838203062092e-08,
+          "norms_scope": "all coordinates",
+          "matches_pinned_tolerance": true,
+          "tolerances": {
+            "rtol": 0.016,
+            "atol": 1e-05,
+            "maximum_relative_l2": 0.016
+          }
+        },
+        "energy": {
+          "shape": [
+            1
+          ],
+          "actual_dtype": "torch.float64",
+          "reference_dtype": "torch.float64",
+          "coordinates": 1,
+          "exact": false,
+          "differing_coordinates": 1,
+          "violations": 0,
+          "violation_fraction": 0.0,
+          "nonfinite_coordinates": 0,
+          "maximum_absolute_error": 8.054518219058338e-09,
+          "maximum_error_to_tolerance": 1.412056529058629e-06,
+          "actual_norm": 0.3558815489270363,
+          "reference_norm": 0.35588154087251805,
+          "discrepancy_norm": 8.054518219058338e-09,
+          "relative_l2": 2.2632582176954163e-08,
+          "norms_scope": "all coordinates",
+          "matches_pinned_tolerance": true,
+          "tolerances": {
+            "rtol": 0.016,
+            "atol": 1e-05,
+            "maximum_relative_l2": 0.016
+          }
+        }
+      }
+    },
+    "fixed_cotangent": {
+      "chunked_checkpoint": {
+        "pre_logits": {
+          "shape": [
+            1,
+            2,
+            16,
+            151936
+          ],
+          "actual_dtype": "torch.bfloat16",
+          "reference_dtype": "torch.bfloat16",
+          "coordinates": 4861952,
+          "exact": false,
+          "differing_coordinates": 7002,
+          "violations": 2,
+          "violation_fraction": 4.113574136478517e-07,
+          "nonfinite_coordinates": 0,
+          "maximum_absolute_error": 0.0625,
+          "maximum_error_to_tolerance": 1.0206365585327148,
+          "actual_norm": 7319.318078721374,
+          "reference_norm": 7319.297391412009,
+          "discrepancy_norm": 0.9331237609108921,
+          "relative_l2": 0.00012748816054472103,
+          "norms_scope": "all coordinates",
+          "matches_pinned_tolerance": false,
+          "tolerances": {
+            "rtol": 0.016,
+            "atol": 1e-05,
+            "maximum_relative_l2": 0.016
+          }
+        },
+        "native_logits": {
+          "shape": [
+            1,
+            2,
+            16,
+            151936
+          ],
+          "actual_dtype": "torch.bfloat16",
+          "reference_dtype": "torch.bfloat16",
+          "coordinates": 4861952,
+          "exact": false,
+          "differing_coordinates": 6989,
+          "violations": 0,
+          "violation_fraction": 0.0,
+          "nonfinite_coordinates": 0,
+          "maximum_absolute_error": 0.0625,
+          "maximum_error_to_tolerance": 0.9242330193519592,
+          "actual_norm": 7304.856591922907,
+          "reference_norm": 7304.835598023661,
+          "discrepancy_norm": 0.9370698292380939,
+          "relative_l2": 0.00012828075548909277,
+          "norms_scope": "all coordinates",
+          "matches_pinned_tolerance": true,
+          "tolerances": {
+            "rtol": 0.016,
+            "atol": 1e-05,
+            "maximum_relative_l2": 0.016
+          }
+        },
+        "cotangent": {
+          "shape": [
+            1,
+            2,
+            16,
+            151936
+          ],
+          "actual_dtype": "torch.float32",
+          "reference_dtype": "torch.float32",
+          "coordinates": 4861952,
+          "exact": true,
+          "differing_coordinates": 0,
+          "violations": 0,
+          "violation_fraction": 0.0,
+          "nonfinite_coordinates": 0,
+          "maximum_absolute_error": 0.0,
+          "maximum_error_to_tolerance": 0.0,
+          "actual_norm": 0.3285871402371227,
+          "reference_norm": 0.3285871402371227,
+          "discrepancy_norm": 0.0,
+          "relative_l2": 0.0,
+          "norms_scope": "all coordinates",
+          "matches_pinned_tolerance": true,
+          "tolerances": {
+            "rtol": 0.016,
+            "atol": 1e-05,
+            "maximum_relative_l2": 0.016
+          }
+        },
+        "autograd_entry_cotangent": {
+          "shape": [
+            1,
+            2,
+            16,
+            151936
+          ],
+          "actual_dtype": "torch.bfloat16",
+          "reference_dtype": "torch.bfloat16",
+          "coordinates": 4861952,
+          "exact": true,
+          "differing_coordinates": 0,
+          "violations": 0,
+          "violation_fraction": 0.0,
+          "nonfinite_coordinates": 0,
+          "maximum_absolute_error": 0.0,
+          "maximum_error_to_tolerance": 0.0,
+          "actual_norm": 0.32808917359545936,
+          "reference_norm": 0.32808917359545936,
+          "discrepancy_norm": 0.0,
+          "relative_l2": 0.0,
+          "norms_scope": "all coordinates",
+          "matches_pinned_tolerance": true,
+          "tolerances": {
+            "rtol": 0.016,
+            "atol": 1e-05,
+            "maximum_relative_l2": 0.016
+          }
+        },
+        "adjoint": {
+          "shape": [
+            1,
+            2,
+            16,
+            4096
+          ],
+          "actual_dtype": "torch.bfloat16",
+          "reference_dtype": "torch.bfloat16",
+          "coordinates": 131072,
+          "exact": false,
+          "differing_coordinates": 6044,
+          "violations": 0,
+          "violation_fraction": 0.0,
+          "nonfinite_coordinates": 0,
+          "maximum_absolute_error": 0.0001220703125,
+          "maximum_error_to_tolerance": 0.46600058674812317,
+          "actual_norm": 0.36452936010660464,
+          "reference_norm": 0.3645381111555392,
+          "discrepancy_norm": 0.0010959863871956175,
+          "relative_l2": 0.0030065070116303636,
+          "norms_scope": "all coordinates",
+          "matches_pinned_tolerance": true,
+          "tolerances": {
+            "rtol": 0.016,
+            "atol": 1e-05,
+            "maximum_relative_l2": 0.016
+          }
+        },
+        "proxy": {
+          "shape": [
+            1
+          ],
+          "actual_dtype": "torch.float32",
+          "reference_dtype": "torch.float32",
+          "coordinates": 1,
+          "exact": false,
+          "differing_coordinates": 1,
+          "violations": 0,
+          "violation_fraction": 0.0,
+          "nonfinite_coordinates": 0,
+          "maximum_absolute_error": 1.4901161193847656e-08,
+          "maximum_error_to_tolerance": 4.656551482185023e-06,
+          "actual_norm": 0.19937764108181,
+          "reference_norm": 0.1993776261806488,
+          "discrepancy_norm": 1.4901161193847656e-08,
+          "relative_l2": 7.473838203062092e-08,
+          "norms_scope": "all coordinates",
+          "matches_pinned_tolerance": true,
+          "tolerances": {
+            "rtol": 0.016,
+            "atol": 1e-05,
+            "maximum_relative_l2": 0.016
+          }
+        },
+        "energy": {
+          "shape": [
+            1
+          ],
+          "actual_dtype": "torch.float64",
+          "reference_dtype": "torch.float64",
+          "coordinates": 1,
+          "exact": false,
+          "differing_coordinates": 1,
+          "violations": 0,
+          "violation_fraction": 0.0,
+          "nonfinite_coordinates": 0,
+          "maximum_absolute_error": 8.054518219058338e-09,
+          "maximum_error_to_tolerance": 1.412056529058629e-06,
+          "actual_norm": 0.3558815489270363,
+          "reference_norm": 0.35588154087251805,
+          "discrepancy_norm": 8.054518219058338e-09,
+          "relative_l2": 2.2632582176954163e-08,
+          "norms_scope": "all coordinates",
+          "matches_pinned_tolerance": true,
+          "tolerances": {
+            "rtol": 0.016,
+            "atol": 1e-05,
+            "maximum_relative_l2": 0.016
+          }
+        }
+      },
+      "chunked_no_checkpoint": {
+        "pre_logits": {
+          "shape": [
+            1,
+            2,
+            16,
+            151936
+          ],
+          "actual_dtype": "torch.bfloat16",
+          "reference_dtype": "torch.bfloat16",
+          "coordinates": 4861952,
+          "exact": false,
+          "differing_coordinates": 7002,
+          "violations": 2,
+          "violation_fraction": 4.113574136478517e-07,
+          "nonfinite_coordinates": 0,
+          "maximum_absolute_error": 0.0625,
+          "maximum_error_to_tolerance": 1.0206365585327148,
+          "actual_norm": 7319.318078721374,
+          "reference_norm": 7319.297391412009,
+          "discrepancy_norm": 0.9331237609108921,
+          "relative_l2": 0.00012748816054472103,
+          "norms_scope": "all coordinates",
+          "matches_pinned_tolerance": false,
+          "tolerances": {
+            "rtol": 0.016,
+            "atol": 1e-05,
+            "maximum_relative_l2": 0.016
+          }
+        },
+        "native_logits": {
+          "shape": [
+            1,
+            2,
+            16,
+            151936
+          ],
+          "actual_dtype": "torch.bfloat16",
+          "reference_dtype": "torch.bfloat16",
+          "coordinates": 4861952,
+          "exact": false,
+          "differing_coordinates": 6989,
+          "violations": 0,
+          "violation_fraction": 0.0,
+          "nonfinite_coordinates": 0,
+          "maximum_absolute_error": 0.0625,
+          "maximum_error_to_tolerance": 0.9242330193519592,
+          "actual_norm": 7304.856591922907,
+          "reference_norm": 7304.835598023661,
+          "discrepancy_norm": 0.9370698292380939,
+          "relative_l2": 0.00012828075548909277,
+          "norms_scope": "all coordinates",
+          "matches_pinned_tolerance": true,
+          "tolerances": {
+            "rtol": 0.016,
+            "atol": 1e-05,
+            "maximum_relative_l2": 0.016
+          }
+        },
+        "cotangent": {
+          "shape": [
+            1,
+            2,
+            16,
+            151936
+          ],
+          "actual_dtype": "torch.float32",
+          "reference_dtype": "torch.float32",
+          "coordinates": 4861952,
+          "exact": true,
+          "differing_coordinates": 0,
+          "violations": 0,
+          "violation_fraction": 0.0,
+          "nonfinite_coordinates": 0,
+          "maximum_absolute_error": 0.0,
+          "maximum_error_to_tolerance": 0.0,
+          "actual_norm": 0.3285871402371227,
+          "reference_norm": 0.3285871402371227,
+          "discrepancy_norm": 0.0,
+          "relative_l2": 0.0,
+          "norms_scope": "all coordinates",
+          "matches_pinned_tolerance": true,
+          "tolerances": {
+            "rtol": 0.016,
+            "atol": 1e-05,
+            "maximum_relative_l2": 0.016
+          }
+        },
+        "autograd_entry_cotangent": {
+          "shape": [
+            1,
+            2,
+            16,
+            151936
+          ],
+          "actual_dtype": "torch.bfloat16",
+          "reference_dtype": "torch.bfloat16",
+          "coordinates": 4861952,
+          "exact": true,
+          "differing_coordinates": 0,
+          "violations": 0,
+          "violation_fraction": 0.0,
+          "nonfinite_coordinates": 0,
+          "maximum_absolute_error": 0.0,
+          "maximum_error_to_tolerance": 0.0,
+          "actual_norm": 0.32808917359545936,
+          "reference_norm": 0.32808917359545936,
+          "discrepancy_norm": 0.0,
+          "relative_l2": 0.0,
+          "norms_scope": "all coordinates",
+          "matches_pinned_tolerance": true,
+          "tolerances": {
+            "rtol": 0.016,
+            "atol": 1e-05,
+            "maximum_relative_l2": 0.016
+          }
+        },
+        "adjoint": {
+          "shape": [
+            1,
+            2,
+            16,
+            4096
+          ],
+          "actual_dtype": "torch.bfloat16",
+          "reference_dtype": "torch.bfloat16",
+          "coordinates": 131072,
+          "exact": false,
+          "differing_coordinates": 6044,
+          "violations": 0,
+          "violation_fraction": 0.0,
+          "nonfinite_coordinates": 0,
+          "maximum_absolute_error": 0.0001220703125,
+          "maximum_error_to_tolerance": 0.46600058674812317,
+          "actual_norm": 0.36452936010660464,
+          "reference_norm": 0.3645381111555392,
+          "discrepancy_norm": 0.0010959863871956175,
+          "relative_l2": 0.0030065070116303636,
+          "norms_scope": "all coordinates",
+          "matches_pinned_tolerance": true,
+          "tolerances": {
+            "rtol": 0.016,
+            "atol": 1e-05,
+            "maximum_relative_l2": 0.016
+          }
+        },
+        "proxy": {
+          "shape": [
+            1
+          ],
+          "actual_dtype": "torch.float32",
+          "reference_dtype": "torch.float32",
+          "coordinates": 1,
+          "exact": false,
+          "differing_coordinates": 1,
+          "violations": 0,
+          "violation_fraction": 0.0,
+          "nonfinite_coordinates": 0,
+          "maximum_absolute_error": 1.4901161193847656e-08,
+          "maximum_error_to_tolerance": 4.656551482185023e-06,
+          "actual_norm": 0.19937764108181,
+          "reference_norm": 0.1993776261806488,
+          "discrepancy_norm": 1.4901161193847656e-08,
+          "relative_l2": 7.473838203062092e-08,
+          "norms_scope": "all coordinates",
+          "matches_pinned_tolerance": true,
+          "tolerances": {
+            "rtol": 0.016,
+            "atol": 1e-05,
+            "maximum_relative_l2": 0.016
+          }
+        },
+        "energy": {
+          "shape": [
+            1
+          ],
+          "actual_dtype": "torch.float64",
+          "reference_dtype": "torch.float64",
+          "coordinates": 1,
+          "exact": false,
+          "differing_coordinates": 1,
+          "violations": 0,
+          "violation_fraction": 0.0,
+          "nonfinite_coordinates": 0,
+          "maximum_absolute_error": 8.054518219058338e-09,
+          "maximum_error_to_tolerance": 1.412056529058629e-06,
+          "actual_norm": 0.3558815489270363,
+          "reference_norm": 0.35588154087251805,
+          "discrepancy_norm": 8.054518219058338e-09,
+          "relative_l2": 2.2632582176954163e-08,
+          "norms_scope": "all coordinates",
+          "matches_pinned_tolerance": true,
+          "tolerances": {
+            "rtol": 0.016,
+            "atol": 1e-05,
+            "maximum_relative_l2": 0.016
+          }
+        }
+      }
+    }
+  },
+  "checkpoint_effect": {
+    "initial": {
+      "pre_logits": {
+        "shape": [
+          1,
+          2,
+          16,
+          151936
+        ],
+        "actual_dtype": "torch.bfloat16",
+        "reference_dtype": "torch.bfloat16",
+        "coordinates": 4861952,
+        "exact": true,
+        "differing_coordinates": 0,
+        "violations": 0,
+        "violation_fraction": 0.0,
+        "nonfinite_coordinates": 0,
+        "maximum_absolute_error": 0.0,
+        "maximum_error_to_tolerance": 0.0,
+        "actual_norm": 7319.318078721374,
+        "reference_norm": 7319.318078721374,
+        "discrepancy_norm": 0.0,
+        "relative_l2": 0.0,
+        "norms_scope": "all coordinates",
+        "matches_pinned_tolerance": true,
+        "tolerances": {
+          "rtol": 0.016,
+          "atol": 1e-05,
+          "maximum_relative_l2": 0.016
+        }
+      },
+      "native_logits": {
+        "shape": [
+          1,
+          2,
+          16,
+          151936
+        ],
+        "actual_dtype": "torch.bfloat16",
+        "reference_dtype": "torch.bfloat16",
+        "coordinates": 4861952,
+        "exact": true,
+        "differing_coordinates": 0,
+        "violations": 0,
+        "violation_fraction": 0.0,
+        "nonfinite_coordinates": 0,
+        "maximum_absolute_error": 0.0,
+        "maximum_error_to_tolerance": 0.0,
+        "actual_norm": 7304.856591922907,
+        "reference_norm": 7304.856591922907,
+        "discrepancy_norm": 0.0,
+        "relative_l2": 0.0,
+        "norms_scope": "all coordinates",
+        "matches_pinned_tolerance": true,
+        "tolerances": {
+          "rtol": 0.016,
+          "atol": 1e-05,
+          "maximum_relative_l2": 0.016
+        }
+      },
+      "cotangent": {
+        "shape": [
+          1,
+          2,
+          16,
+          151936
+        ],
+        "actual_dtype": "torch.float32",
+        "reference_dtype": "torch.float32",
+        "coordinates": 4861952,
+        "exact": true,
+        "differing_coordinates": 0,
+        "violations": 0,
+        "violation_fraction": 0.0,
+        "nonfinite_coordinates": 0,
+        "maximum_absolute_error": 0.0,
+        "maximum_error_to_tolerance": 0.0,
+        "actual_norm": 0.32858714023839275,
+        "reference_norm": 0.32858714023839275,
+        "discrepancy_norm": 0.0,
+        "relative_l2": 0.0,
+        "norms_scope": "all coordinates",
+        "matches_pinned_tolerance": true,
+        "tolerances": {
+          "rtol": 0.016,
+          "atol": 1e-05,
+          "maximum_relative_l2": 0.016
+        }
+      },
+      "autograd_entry_cotangent": {
+        "shape": [
+          1,
+          2,
+          16,
+          151936
+        ],
+        "actual_dtype": "torch.bfloat16",
+        "reference_dtype": "torch.bfloat16",
+        "coordinates": 4861952,
+        "exact": true,
+        "differing_coordinates": 0,
+        "violations": 0,
+        "violation_fraction": 0.0,
+        "nonfinite_coordinates": 0,
+        "maximum_absolute_error": 0.0,
+        "maximum_error_to_tolerance": 0.0,
+        "actual_norm": 0.3280891735954615,
+        "reference_norm": 0.3280891735954615,
+        "discrepancy_norm": 0.0,
+        "relative_l2": 0.0,
+        "norms_scope": "all coordinates",
+        "matches_pinned_tolerance": true,
+        "tolerances": {
+          "rtol": 0.016,
+          "atol": 1e-05,
+          "maximum_relative_l2": 0.016
+        }
+      },
+      "adjoint": {
+        "shape": [
+          1,
+          2,
+          16,
+          4096
+        ],
+        "actual_dtype": "torch.bfloat16",
+        "reference_dtype": "torch.bfloat16",
+        "coordinates": 131072,
+        "exact": true,
+        "differing_coordinates": 0,
+        "violations": 0,
+        "violation_fraction": 0.0,
+        "nonfinite_coordinates": 0,
+        "maximum_absolute_error": 0.0,
+        "maximum_error_to_tolerance": 0.0,
+        "actual_norm": 0.36452936010660525,
+        "reference_norm": 0.36452936010660525,
+        "discrepancy_norm": 0.0,
+        "relative_l2": 0.0,
+        "norms_scope": "all coordinates",
+        "matches_pinned_tolerance": true,
+        "tolerances": {
+          "rtol": 0.016,
+          "atol": 1e-05,
+          "maximum_relative_l2": 0.016
+        }
+      },
+      "proxy": {
+        "shape": [
+          1
+        ],
+        "actual_dtype": "torch.float32",
+        "reference_dtype": "torch.float32",
+        "coordinates": 1,
+        "exact": true,
+        "differing_coordinates": 0,
+        "violations": 0,
+        "violation_fraction": 0.0,
+        "nonfinite_coordinates": 0,
+        "maximum_absolute_error": 0.0,
+        "maximum_error_to_tolerance": 0.0,
+        "actual_norm": 0.19937764108181,
+        "reference_norm": 0.19937764108181,
+        "discrepancy_norm": 0.0,
+        "relative_l2": 0.0,
+        "norms_scope": "all coordinates",
+        "matches_pinned_tolerance": true,
+        "tolerances": {
+          "rtol": 0.016,
+          "atol": 1e-05,
+          "maximum_relative_l2": 0.016
+        }
+      },
+      "energy": {
+        "shape": [
+          1
+        ],
+        "actual_dtype": "torch.float64",
+        "reference_dtype": "torch.float64",
+        "coordinates": 1,
+        "exact": true,
+        "differing_coordinates": 0,
+        "violations": 0,
+        "violation_fraction": 0.0,
+        "nonfinite_coordinates": 0,
+        "maximum_absolute_error": 0.0,
+        "maximum_error_to_tolerance": 0.0,
+        "actual_norm": 0.3558815489270363,
+        "reference_norm": 0.3558815489270363,
+        "discrepancy_norm": 0.0,
+        "relative_l2": 0.0,
+        "norms_scope": "all coordinates",
+        "matches_pinned_tolerance": true,
+        "tolerances": {
+          "rtol": 0.016,
+          "atol": 1e-05,
+          "maximum_relative_l2": 0.016
+        }
+      }
+    },
+    "fixed_cotangent": {
+      "pre_logits": {
+        "shape": [
+          1,
+          2,
+          16,
+          151936
+        ],
+        "actual_dtype": "torch.bfloat16",
+        "reference_dtype": "torch.bfloat16",
+        "coordinates": 4861952,
+        "exact": true,
+        "differing_coordinates": 0,
+        "violations": 0,
+        "violation_fraction": 0.0,
+        "nonfinite_coordinates": 0,
+        "maximum_absolute_error": 0.0,
+        "maximum_error_to_tolerance": 0.0,
+        "actual_norm": 7319.318078721374,
+        "reference_norm": 7319.318078721374,
+        "discrepancy_norm": 0.0,
+        "relative_l2": 0.0,
+        "norms_scope": "all coordinates",
+        "matches_pinned_tolerance": true,
+        "tolerances": {
+          "rtol": 0.016,
+          "atol": 1e-05,
+          "maximum_relative_l2": 0.016
+        }
+      },
+      "native_logits": {
+        "shape": [
+          1,
+          2,
+          16,
+          151936
+        ],
+        "actual_dtype": "torch.bfloat16",
+        "reference_dtype": "torch.bfloat16",
+        "coordinates": 4861952,
+        "exact": true,
+        "differing_coordinates": 0,
+        "violations": 0,
+        "violation_fraction": 0.0,
+        "nonfinite_coordinates": 0,
+        "maximum_absolute_error": 0.0,
+        "maximum_error_to_tolerance": 0.0,
+        "actual_norm": 7304.856591922907,
+        "reference_norm": 7304.856591922907,
+        "discrepancy_norm": 0.0,
+        "relative_l2": 0.0,
+        "norms_scope": "all coordinates",
+        "matches_pinned_tolerance": true,
+        "tolerances": {
+          "rtol": 0.016,
+          "atol": 1e-05,
+          "maximum_relative_l2": 0.016
+        }
+      },
+      "cotangent": {
+        "shape": [
+          1,
+          2,
+          16,
+          151936
+        ],
+        "actual_dtype": "torch.float32",
+        "reference_dtype": "torch.float32",
+        "coordinates": 4861952,
+        "exact": true,
+        "differing_coordinates": 0,
+        "violations": 0,
+        "violation_fraction": 0.0,
+        "nonfinite_coordinates": 0,
+        "maximum_absolute_error": 0.0,
+        "maximum_error_to_tolerance": 0.0,
+        "actual_norm": 0.3285871402371227,
+        "reference_norm": 0.3285871402371227,
+        "discrepancy_norm": 0.0,
+        "relative_l2": 0.0,
+        "norms_scope": "all coordinates",
+        "matches_pinned_tolerance": true,
+        "tolerances": {
+          "rtol": 0.016,
+          "atol": 1e-05,
+          "maximum_relative_l2": 0.016
+        }
+      },
+      "autograd_entry_cotangent": {
+        "shape": [
+          1,
+          2,
+          16,
+          151936
+        ],
+        "actual_dtype": "torch.bfloat16",
+        "reference_dtype": "torch.bfloat16",
+        "coordinates": 4861952,
+        "exact": true,
+        "differing_coordinates": 0,
+        "violations": 0,
+        "violation_fraction": 0.0,
+        "nonfinite_coordinates": 0,
+        "maximum_absolute_error": 0.0,
+        "maximum_error_to_tolerance": 0.0,
+        "actual_norm": 0.32808917359545936,
+        "reference_norm": 0.32808917359545936,
+        "discrepancy_norm": 0.0,
+        "relative_l2": 0.0,
+        "norms_scope": "all coordinates",
+        "matches_pinned_tolerance": true,
+        "tolerances": {
+          "rtol": 0.016,
+          "atol": 1e-05,
+          "maximum_relative_l2": 0.016
+        }
+      },
+      "adjoint": {
+        "shape": [
+          1,
+          2,
+          16,
+          4096
+        ],
+        "actual_dtype": "torch.bfloat16",
+        "reference_dtype": "torch.bfloat16",
+        "coordinates": 131072,
+        "exact": true,
+        "differing_coordinates": 0,
+        "violations": 0,
+        "violation_fraction": 0.0,
+        "nonfinite_coordinates": 0,
+        "maximum_absolute_error": 0.0,
+        "maximum_error_to_tolerance": 0.0,
+        "actual_norm": 0.36452936010660464,
+        "reference_norm": 0.36452936010660464,
+        "discrepancy_norm": 0.0,
+        "relative_l2": 0.0,
+        "norms_scope": "all coordinates",
+        "matches_pinned_tolerance": true,
+        "tolerances": {
+          "rtol": 0.016,
+          "atol": 1e-05,
+          "maximum_relative_l2": 0.016
+        }
+      },
+      "proxy": {
+        "shape": [
+          1
+        ],
+        "actual_dtype": "torch.float32",
+        "reference_dtype": "torch.float32",
+        "coordinates": 1,
+        "exact": true,
+        "differing_coordinates": 0,
+        "violations": 0,
+        "violation_fraction": 0.0,
+        "nonfinite_coordinates": 0,
+        "maximum_absolute_error": 0.0,
+        "maximum_error_to_tolerance": 0.0,
+        "actual_norm": 0.19937764108181,
+        "reference_norm": 0.19937764108181,
+        "discrepancy_norm": 0.0,
+        "relative_l2": 0.0,
+        "norms_scope": "all coordinates",
+        "matches_pinned_tolerance": true,
+        "tolerances": {
+          "rtol": 0.016,
+          "atol": 1e-05,
+          "maximum_relative_l2": 0.016
+        }
+      },
+      "energy": {
+        "shape": [
+          1
+        ],
+        "actual_dtype": "torch.float64",
+        "reference_dtype": "torch.float64",
+        "coordinates": 1,
+        "exact": true,
+        "differing_coordinates": 0,
+        "violations": 0,
+        "violation_fraction": 0.0,
+        "nonfinite_coordinates": 0,
+        "maximum_absolute_error": 0.0,
+        "maximum_error_to_tolerance": 0.0,
+        "actual_norm": 0.3558815489270363,
+        "reference_norm": 0.3558815489270363,
+        "discrepancy_norm": 0.0,
+        "relative_l2": 0.0,
+        "norms_scope": "all coordinates",
+        "matches_pinned_tolerance": true,
+        "tolerances": {
+          "rtol": 0.016,
+          "atol": 1e-05,
+          "maximum_relative_l2": 0.016
+        }
+      }
+    }
+  },
+  "parameter_comparisons": {
+    "chunked_vs_full": {
+      "status": "failed",
+      "tolerances": {
+        "rtol": 0.016,
+        "atol": 1e-05,
+        "maximum_relative_l2": 0.016
+      },
+      "violations": 356522,
+      "relative_l2": 0.006396850689689427,
+      "discrepancy_norm": 0.057197611791085144,
+      "chunked_norm": 8.937428785711928,
+      "unchunked_norm": 8.941526786497832
+    },
+    "same_graph_repeat": {
+      "status": "passed",
+      "tolerances": {
+        "rtol": 0.016,
+        "atol": 1e-05,
+        "maximum_relative_l2": 0.016
+      },
+      "violations": 0,
+      "relative_l2": 0.0,
+      "discrepancy_norm": 0.0,
+      "chunked_norm": 8.941526786497832,
+      "unchunked_norm": 8.941526786497832
+    }
+  },
+  "same_graph_repeat_exact": true,
+  "fresh_graph_executed": false,
+  "state_restoration": {
+    "exact": true,
+    "differences": []
+  },
+  "optimizer_objects_and_versions_unchanged": true,
+  "dependency_checks": 1511,
+  "dependency_failures": 0,
+  "work": {
+    "response_forward_attempted": 2,
+    "response_forward_completed": 2,
+    "proxy_call_attempted": 14,
+    "head_projection_attempted": 28,
+    "head_projection_completed": 28,
+    "proxy_call_completed": 10,
+    "head_backward_attempted": 6,
+    "proxy_call_checkpoint_early_stop": 4,
+    "head_backward_completed": 6,
+    "draft_backward_attempted": 3,
+    "draft_backward_completed": 3
+  },
+  "physical_work": {
+    "work": {
+      "captured_ordinary_responses": 0,
+      "head_projection_calls": 31,
+      "checkpoint_proxy_calls": 0,
+      "state_copy_passes": 0,
+      "additional_response_forwards_attempted": 2,
+      "additional_response_forwards_completed": 2,
+      "additional_response_forwards_failed": 0,
+      "additional_backwards_attempted": 0,
+      "additional_backwards_completed": 0,
+      "additional_backwards_failed": 0,
+      "optimizer_steps_attempted": 0,
+      "optimizer_steps_completed": 0,
+      "optimizer_steps_failed": 0
+    },
+    "calls": {
+      "diagnostic_native/draft": 1,
+      "diagnostic_native/draft_layer_0": 1,
+      "diagnostic_native/draft_layer_1": 1,
+      "diagnostic_native/draft_layer_2": 1,
+      "diagnostic_native/draft_layer_3": 1,
+      "diagnostic_native/draft_layer_4": 1,
+      "diagnostic_prestate/draft": 1,
+      "diagnostic_prestate/draft_layer_0": 1,
+      "diagnostic_prestate/draft_layer_1": 1,
+      "diagnostic_prestate/draft_layer_2": 1,
+      "diagnostic_prestate/draft_layer_3": 1,
+      "diagnostic_prestate/draft_layer_4": 1,
+      "diagnostic_prestate/vocabulary_head": 31
+    }
+  },
+  "runner_duration_s": 74.7130513638258,
+  "supervisor_duration_s": 92,
+  "peak_allocated_bytes": 15592778240,
+  "peak_reserved_bytes": 16039018496,
+  "original_gate_violations": 356523,
+  "new_gate_violations": 356522,
+  "exact_reproduction_of_original_coordinate_count": false
+}

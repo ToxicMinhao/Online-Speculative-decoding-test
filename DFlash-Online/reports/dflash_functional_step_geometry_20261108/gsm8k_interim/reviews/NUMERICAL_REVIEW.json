@@ -1,0 +1,97 @@
+{
+  "verification_status": "ANALYZED; independent CPU arithmetic reproduced",
+  "source_commit": "6440e8ff5af1a845f830d65c884f6711d7e4a687",
+  "binding": "8ec5fed0d4ed9b40dab7c26d5089cd42b01f357ab0379193da42baa93f0b3dc5",
+  "author_overlap": "Same-team reviewer previously implemented numerical helpers, CPU tests and pilot sealing; this is an independently coded arithmetic review, not external review.",
+  "valid_requests": 256,
+  "valid_executions": 1536,
+  "invalid": 0,
+  "missing": 0,
+  "source_snapshot_selected_inputs_rechecked": 1550,
+  "exact_bootstrap_points_and_intervals": true,
+  "totals_roundoff": "Only ordinary floating-sum ordering roundoff permitted; maximum discrepancy below 1e-13 relative.",
+  "conclusion": "FSG6 has worse GSM8K drafting calls and complete-request time than both KPLUS6 and SCALAR6. SCALAR6 versus KPLUS6 remains unresolved. FSG6 also uses more calls than authenticated KPLUS4.",
+  "origin": {
+    "status": "passed",
+    "requests": 256,
+    "raw_repeat_records": 512,
+    "origin_checkpoint": "/data/sources/minhao/runs/dflash_role_loss_pilot_20261107/production_001/campaign_001/trajectories/gsm8k/KPLUS/trainer/events/event_004/export",
+    "origin_weights": {
+      "bytes": 2097259104,
+      "sha256": "4f3010e961bd7dcf35fa100486c355ffbc7629d816dda6e2b8fa001878255701"
+    },
+    "original_execution_commit": "cdb640543d8fe3a43c8e63af4ccaaa002e09a599",
+    "exact_panel": true,
+    "exact_canonical_tokens_termination": true,
+    "exact_model_runtime_serving": true,
+    "repeats_consistent": true,
+    "historical_timings_used": false,
+    "counts": {
+      "verification_calls": 12116,
+      "accepted_draft_tokens": 68361,
+      "native_accepted_draft_tokens": 68121,
+      "committed_progress": 80237,
+      "output_tokens": 80493
+    },
+    "KPLUS": {
+      "calls": 12018,
+      "origin_calls": 12116,
+      "reduction_pct": 0.8088478045559566,
+      "wins": 120,
+      "regressions": 107,
+      "ties": 29,
+      "gross_calls_saved": 353,
+      "gross_calls_added": 255
+    },
+    "FSG": {
+      "calls": 12752,
+      "origin_calls": 12116,
+      "reduction_pct": -5.249257180587663,
+      "wins": 69,
+      "regressions": 166,
+      "ties": 21,
+      "gross_calls_saved": 159,
+      "gross_calls_added": 795
+    },
+    "SCALAR": {
+      "calls": 11975,
+      "origin_calls": 12116,
+      "reduction_pct": 1.1637504126774556,
+      "wins": 119,
+      "regressions": 93,
+      "ties": 44,
+      "gross_calls_saved": 376,
+      "gross_calls_added": 235
+    }
+  },
+  "model_work": {
+    "loads": 0,
+    "forwards": 0,
+    "backwards": 0,
+    "optimizer_steps": 0,
+    "generations": 0
+  },
+  "analysis_wall_s": 2.41500422405079,
+  "bootstrap": {
+    "resamples": 10000,
+    "seed": 20261108,
+    "bit_generator": "PCG64",
+    "percentile_method": "linear",
+    "same_indices_across_contrasts": true,
+    "indices_identity": "ea674e29a8fcb3b754169ee07ea8e43c5845c8affa3b7e64fb7fb73f87ae2891"
+  },
+  "ars_11": {
+    "Simpson": "GSM8K only; no pooling with pending MathQA or historical timing.",
+    "Ecological": "Pooled effects accompanied by request-level wins/regressions/ties; not all requests benefit or regress.",
+    "Berkson": "Fixed reused development panel; no inference of population-wide or fresh-data generalization.",
+    "Collider": "No conditioning on speed improvement or chosen favorable subset; all 256 requests retained.",
+    "Base_rate": "Denominators: 256 paired requests, 1536 executions, one deterministic trajectory per method/request.",
+    "Regression_to_mean": "No selection or checkpoint replacement based on this endpoint; unchanged original origin retained.",
+    "Survivorship": "All completed GSM8K records included; MathQA explicitly pending, not silently omitted from full-study conclusion.",
+    "Look_elsewhere": "All three declared contrasts and all bounds reported; intervals unadjusted, no familywise claim.",
+    "Forking_paths": "Original 10000 resamples/PCG64 seed20261108/linear percentiles/shared indices preserved; no new thresholds or tuning.",
+    "Correlation_causation": "Endpoint contrasts establish observed drafting effects for fixed trajectories; do not isolate a mechanism or explain why.",
+    "Reverse_causality": "Continued updates precede endpoint serving; sparse training diagnostics cannot be promoted to established causal explanation."
+  },
+  "scope": "GSM8K-specific interim endpoint. One continuing seed and reused panel. No MathQA/full-pilot conclusion; no causal mechanism attribution."
+}

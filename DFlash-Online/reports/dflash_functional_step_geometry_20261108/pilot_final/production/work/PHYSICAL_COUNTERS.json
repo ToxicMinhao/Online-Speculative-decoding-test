@@ -1,0 +1,2610 @@
+[
+  {
+    "dataset": "gsm8k",
+    "event": 5,
+    "arm": "KPLUS",
+    "scope": "event_resource_and_compiler_observer",
+    "counters": {
+      "training_peak_allocated_bytes": 20533694464,
+      "training_peak_reserved_bytes": 26367492096,
+      "training_compiler_timers": {},
+      "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+      "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+      "extra_forwards": 0,
+      "extra_backwards": 0,
+      "extra_optimizer_steps": 0
+    },
+    "note": "Profiler overhead counters describe this observer only; compilation timings are nested and must not be added to event time."
+  },
+  {
+    "dataset": "gsm8k",
+    "event": 5,
+    "arm": "KPLUS",
+    "scope": "ordinary_physical_observer_including_auxiliary_activity",
+    "counters": {
+      "draft_forwards": 256,
+      "layer_forwards": 1280,
+      "objective_chunks": 15988,
+      "vocabulary_head_calls": 31976,
+      "response_forwards": 256
+    },
+    "note": "Overlapping physical instrumentation; not additional response-level work."
+  },
+  {
+    "dataset": "gsm8k",
+    "event": 5,
+    "arm": "KPLUS",
+    "scope": "startup_physical",
+    "counters": {
+      "counts": {
+        "draft_forwards": 2,
+        "layer_forwards": 10,
+        "objective_chunks": 94,
+        "vocabulary_head_calls": 188,
+        "response_forwards": 2
+      },
+      "response_observations": 2,
+      "optimizer_window_observations": 0
+    }
+  },
+  {
+    "dataset": "gsm8k",
+    "event": 5,
+    "arm": "FSG",
+    "scope": "event_resource_and_compiler_observer",
+    "counters": {
+      "training_peak_allocated_bytes": 35171427328,
+      "training_peak_reserved_bytes": 40114323456,
+      "training_compiler_timers": {
+        "AOTAutogradCache.inductor_load": {
+          "calls": 2,
+          "durations_s": [
+            0.011655735,
+            0.008839017
+          ],
+          "total_s": 0.020494751999999998
+        },
+        "OutputGraph.call_user_compiler": {
+          "calls": 2,
+          "durations_s": [
+            0.056512759,
+            0.057127552
+          ],
+          "total_s": 0.113640311
+        },
+        "PyCodeCache.load_by_key_path": {
+          "calls": 2,
+          "durations_s": [
+            0.005889386,
+            0.003791802
+          ],
+          "total_s": 0.009681188
+        },
+        "StaticAutotunerFuture.warm_precompile": {
+          "calls": 7,
+          "durations_s": [
+            0.000503633,
+            0.000606526,
+            0.000367257,
+            0.000409191,
+            0.000284277,
+            0.000479288,
+            0.001630698
+          ],
+          "total_s": 0.00428087
+        },
+        "TritonBundler.load_cached_static_autotuners": {
+          "calls": 2,
+          "durations_s": [
+            0.000452614,
+            6.5058e-05
+          ],
+          "total_s": 0.000517672
+        },
+        "TritonBundler.read_and_emit": {
+          "calls": 2,
+          "durations_s": [
+            0.000938545,
+            0.000170265
+          ],
+          "total_s": 0.00110881
+        },
+        "_compile.compile_inner": {
+          "calls": 2,
+          "durations_s": [
+            1.2655205,
+            0.317836686
+          ],
+          "total_s": 1.583357186
+        },
+        "async_compile.wait": {
+          "calls": 2,
+          "durations_s": [
+            0.002925773,
+            0.001772789
+          ],
+          "total_s": 0.004698562
+        },
+        "build_guards": {
+          "calls": 2,
+          "durations_s": [
+            0.050507505,
+            0.060484542
+          ],
+          "total_s": 0.11099204700000001
+        },
+        "bytecode_tracing": {
+          "calls": 2,
+          "durations_s": [
+            1.126763372,
+            0.184341001
+          ],
+          "total_s": 1.311104373
+        },
+        "compile_attempt_0": {
+          "calls": 2,
+          "durations_s": [
+            1.208021705,
+            0.255299279
+          ],
+          "total_s": 1.4633209839999999
+        },
+        "create_proxy": {
+          "calls": 2,
+          "durations_s": [
+            0.027379463,
+            0.012879256
+          ],
+          "total_s": 0.040258719
+        },
+        "gc": {
+          "calls": 2,
+          "durations_s": [
+            0.000206327,
+            0.000862384
+          ],
+          "total_s": 0.001068711
+        },
+        "get_fake_value": {
+          "calls": 2,
+          "durations_s": [
+            0.59189617,
+            0.030902945
+          ],
+          "total_s": 0.6227991150000001
+        },
+        "insert_deferred_runtime_asserts": {
+          "calls": 2,
+          "durations_s": [
+            0.006016605,
+            0.005324839
+          ],
+          "total_s": 0.011341444
+        },
+        "pgo.dynamic_whitelist": {
+          "calls": 2,
+          "durations_s": [
+            2.465e-05,
+            2.4302e-05
+          ],
+          "total_s": 4.8952e-05
+        },
+        "variable_builder_call": {
+          "calls": 2,
+          "durations_s": [
+            0.030934984,
+            0.055893754
+          ],
+          "total_s": 0.08682873799999999
+        },
+        "wrap_to_fake_tensor_and_record": {
+          "calls": 2,
+          "durations_s": [
+            0.003706861,
+            0.035321174
+          ],
+          "total_s": 0.039028034999999996
+        }
+      },
+      "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+      "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+      "extra_forwards": 0,
+      "extra_backwards": 0,
+      "extra_optimizer_steps": 0
+    },
+    "note": "Profiler overhead counters describe this observer only; compilation timings are nested and must not be added to event time."
+  },
+  {
+    "dataset": "gsm8k",
+    "event": 5,
+    "arm": "FSG",
+    "scope": "ordinary_physical_observer_including_auxiliary_activity",
+    "counters": {
+      "draft_forwards": 1184,
+      "layer_forwards": 5920,
+      "objective_chunks": 15988,
+      "vocabulary_head_calls": 105429,
+      "response_forwards": 256
+    },
+    "note": "Overlapping physical instrumentation; not additional response-level work."
+  },
+  {
+    "dataset": "gsm8k",
+    "event": 5,
+    "arm": "FSG",
+    "scope": "startup_physical",
+    "counters": {
+      "counts": {
+        "draft_forwards": 2,
+        "layer_forwards": 10,
+        "objective_chunks": 94,
+        "vocabulary_head_calls": 188,
+        "response_forwards": 2
+      },
+      "response_observations": 2,
+      "optimizer_window_observations": 0
+    }
+  },
+  {
+    "dataset": "gsm8k",
+    "event": 5,
+    "arm": "FSG",
+    "scope": "main_geometry_physical",
+    "counters": {
+      "captured_ordinary_responses": 256,
+      "head_projection_calls": 87934,
+      "checkpoint_proxy_calls": 15988,
+      "state_copy_passes": 128,
+      "additional_response_forwards_attempted": 768,
+      "additional_response_forwards_completed": 768,
+      "additional_response_forwards_failed": 0,
+      "additional_backwards_attempted": 256,
+      "additional_backwards_completed": 256,
+      "additional_backwards_failed": 0,
+      "optimizer_steps_attempted": 128,
+      "optimizer_steps_completed": 128,
+      "optimizer_steps_failed": 0,
+      "feasibility_probe_count": 3024,
+      "feasibility_norm_scan_passes": 3278,
+      "feasibility_construction_scan_passes": 3278,
+      "feasibility_identity_scan_passes": 254,
+      "feasibility_write_passes": 254,
+      "additional_response_forwards": 768,
+      "additional_backwards": 256
+    }
+  },
+  {
+    "dataset": "gsm8k",
+    "event": 5,
+    "arm": "FSG",
+    "window": 1,
+    "scope": "diagnostic_physical",
+    "counters": {
+      "captured_ordinary_responses": 0,
+      "head_projection_calls": 4138,
+      "checkpoint_proxy_calls": 184,
+      "state_copy_passes": 7,
+      "additional_response_forwards_attempted": 40,
+      "additional_response_forwards_completed": 40,
+      "additional_response_forwards_failed": 0,
+      "additional_backwards_attempted": 4,
+      "additional_backwards_completed": 4,
+      "additional_backwards_failed": 0,
+      "optimizer_steps_attempted": 0,
+      "optimizer_steps_completed": 0,
+      "optimizer_steps_failed": 0,
+      "feasibility_probe_count": 0,
+      "feasibility_norm_scan_passes": 0,
+      "feasibility_construction_scan_passes": 0,
+      "feasibility_identity_scan_passes": 0,
+      "feasibility_write_passes": 0,
+      "teacher_head_calls": 1197,
+      "diagnostic_candidate_write_passes": 6,
+      "diagnostic_endpoint_statistic_scans": 6,
+      "diagnostic_scalar_norm_scan_passes": 25,
+      "diagnostic_scalar_write_passes": 1,
+      "diagnostic_feasibility_probe_count": 48,
+      "diagnostic_feasibility_norm_scan_passes": 52,
+      "diagnostic_feasibility_construction_scan_passes": 52,
+      "diagnostic_feasibility_identity_scan_passes": 4,
+      "diagnostic_feasibility_write_passes": 4
+    }
+  },
+  {
+    "dataset": "gsm8k",
+    "event": 5,
+    "arm": "FSG",
+    "window": 32,
+    "scope": "diagnostic_physical",
+    "counters": {
+      "captured_ordinary_responses": 0,
+      "head_projection_calls": 3406,
+      "checkpoint_proxy_calls": 232,
+      "state_copy_passes": 7,
+      "additional_response_forwards_attempted": 40,
+      "additional_response_forwards_completed": 40,
+      "additional_response_forwards_failed": 0,
+      "additional_backwards_attempted": 4,
+      "additional_backwards_completed": 4,
+      "additional_backwards_failed": 0,
+      "optimizer_steps_attempted": 0,
+      "optimizer_steps_completed": 0,
+      "optimizer_steps_failed": 0,
+      "feasibility_probe_count": 0,
+      "feasibility_norm_scan_passes": 0,
+      "feasibility_construction_scan_passes": 0,
+      "feasibility_identity_scan_passes": 0,
+      "feasibility_write_passes": 0,
+      "teacher_head_calls": 927,
+      "diagnostic_candidate_write_passes": 6,
+      "diagnostic_endpoint_statistic_scans": 6,
+      "diagnostic_scalar_norm_scan_passes": 25,
+      "diagnostic_scalar_write_passes": 1,
+      "diagnostic_feasibility_probe_count": 48,
+      "diagnostic_feasibility_norm_scan_passes": 52,
+      "diagnostic_feasibility_construction_scan_passes": 52,
+      "diagnostic_feasibility_identity_scan_passes": 4,
+      "diagnostic_feasibility_write_passes": 4
+    }
+  },
+  {
+    "dataset": "gsm8k",
+    "event": 5,
+    "arm": "FSG",
+    "window": 65,
+    "scope": "diagnostic_physical",
+    "counters": {
+      "captured_ordinary_responses": 0,
+      "head_projection_calls": 4085,
+      "checkpoint_proxy_calls": 260,
+      "state_copy_passes": 7,
+      "additional_response_forwards_attempted": 40,
+      "additional_response_forwards_completed": 40,
+      "additional_response_forwards_failed": 0,
+      "additional_backwards_attempted": 4,
+      "additional_backwards_completed": 4,
+      "additional_backwards_failed": 0,
+      "optimizer_steps_attempted": 0,
+      "optimizer_steps_completed": 0,
+      "optimizer_steps_failed": 0,
+      "feasibility_probe_count": 0,
+      "feasibility_norm_scan_passes": 0,
+      "feasibility_construction_scan_passes": 0,
+      "feasibility_identity_scan_passes": 0,
+      "feasibility_write_passes": 0,
+      "teacher_head_calls": 1125,
+      "diagnostic_candidate_write_passes": 6,
+      "diagnostic_endpoint_statistic_scans": 6,
+      "diagnostic_scalar_norm_scan_passes": 25,
+      "diagnostic_scalar_write_passes": 1,
+      "diagnostic_feasibility_probe_count": 48,
+      "diagnostic_feasibility_norm_scan_passes": 52,
+      "diagnostic_feasibility_construction_scan_passes": 52,
+      "diagnostic_feasibility_identity_scan_passes": 4,
+      "diagnostic_feasibility_write_passes": 4
+    }
+  },
+  {
+    "dataset": "gsm8k",
+    "event": 5,
+    "arm": "FSG",
+    "window": 128,
+    "scope": "diagnostic_physical",
+    "counters": {
+      "captured_ordinary_responses": 0,
+      "head_projection_calls": 5866,
+      "checkpoint_proxy_calls": 504,
+      "state_copy_passes": 7,
+      "additional_response_forwards_attempted": 40,
+      "additional_response_forwards_completed": 40,
+      "additional_response_forwards_failed": 0,
+      "additional_backwards_attempted": 4,
+      "additional_backwards_completed": 4,
+      "additional_backwards_failed": 0,
+      "optimizer_steps_attempted": 0,
+      "optimizer_steps_completed": 0,
+      "optimizer_steps_failed": 0,
+      "feasibility_probe_count": 0,
+      "feasibility_norm_scan_passes": 0,
+      "feasibility_construction_scan_passes": 0,
+      "feasibility_identity_scan_passes": 0,
+      "feasibility_write_passes": 0,
+      "teacher_head_calls": 1521,
+      "diagnostic_candidate_write_passes": 6,
+      "diagnostic_endpoint_statistic_scans": 6,
+      "diagnostic_scalar_norm_scan_passes": 25,
+      "diagnostic_scalar_write_passes": 1,
+      "diagnostic_feasibility_probe_count": 48,
+      "diagnostic_feasibility_norm_scan_passes": 52,
+      "diagnostic_feasibility_construction_scan_passes": 52,
+      "diagnostic_feasibility_identity_scan_passes": 4,
+      "diagnostic_feasibility_write_passes": 4
+    }
+  },
+  {
+    "dataset": "gsm8k",
+    "event": 5,
+    "arm": "SCALAR",
+    "scope": "event_resource_and_compiler_observer",
+    "counters": {
+      "training_peak_allocated_bytes": 27685630464,
+      "training_peak_reserved_bytes": 33466351616,
+      "training_compiler_timers": {
+        "AOTAutogradCache.inductor_load": {
+          "calls": 2,
+          "durations_s": [
+            0.014889116,
+            0.004862819
+          ],
+          "total_s": 0.019751935
+        },
+        "OutputGraph.call_user_compiler": {
+          "calls": 2,
+          "durations_s": [
+            0.059460168,
+            0.0541011
+          ],
+          "total_s": 0.11356126799999999
+        },
+        "PyCodeCache.load_by_key_path": {
+          "calls": 2,
+          "durations_s": [
+            0.006641508,
+            0.002466008
+          ],
+          "total_s": 0.009107516
+        },
+        "StaticAutotunerFuture.warm_precompile": {
+          "calls": 7,
+          "durations_s": [
+            0.000659854,
+            0.000695197,
+            0.000433185,
+            0.000444637,
+            0.000323566,
+            0.000499326,
+            0.000583222
+          ],
+          "total_s": 0.003638987
+        },
+        "TritonBundler.load_cached_static_autotuners": {
+          "calls": 2,
+          "durations_s": [
+            0.000468398,
+            6.2258e-05
+          ],
+          "total_s": 0.000530656
+        },
+        "TritonBundler.read_and_emit": {
+          "calls": 2,
+          "durations_s": [
+            0.000967777,
+            0.00015096
+          ],
+          "total_s": 0.0011187369999999999
+        },
+        "_compile.compile_inner": {
+          "calls": 2,
+          "durations_s": [
+            1.295099418,
+            0.317850821
+          ],
+          "total_s": 1.612950239
+        },
+        "async_compile.wait": {
+          "calls": 2,
+          "durations_s": [
+            0.003394097,
+            0.000723452
+          ],
+          "total_s": 0.004117549
+        },
+        "build_guards": {
+          "calls": 2,
+          "durations_s": [
+            0.052004372,
+            0.060232353
+          ],
+          "total_s": 0.11223672500000001
+        },
+        "bytecode_tracing": {
+          "calls": 2,
+          "durations_s": [
+            1.149536673,
+            0.187266901
+          ],
+          "total_s": 1.3368035740000002
+        },
+        "compile_attempt_0": {
+          "calls": 2,
+          "durations_s": [
+            1.235568739,
+            0.255482641
+          ],
+          "total_s": 1.49105138
+        },
+        "create_proxy": {
+          "calls": 2,
+          "durations_s": [
+            0.027747218,
+            0.013173351
+          ],
+          "total_s": 0.040920569000000004
+        },
+        "gc": {
+          "calls": 2,
+          "durations_s": [
+            0.000215576,
+            0.000891609
+          ],
+          "total_s": 0.0011071850000000001
+        },
+        "get_fake_value": {
+          "calls": 2,
+          "durations_s": [
+            0.606777035,
+            0.032108716
+          ],
+          "total_s": 0.638885751
+        },
+        "insert_deferred_runtime_asserts": {
+          "calls": 2,
+          "durations_s": [
+            0.006547987,
+            0.005367473
+          ],
+          "total_s": 0.01191546
+        },
+        "pgo.dynamic_whitelist": {
+          "calls": 2,
+          "durations_s": [
+            2.658e-05,
+            2.3797e-05
+          ],
+          "total_s": 5.0376999999999996e-05
+        },
+        "variable_builder_call": {
+          "calls": 2,
+          "durations_s": [
+            0.032738343,
+            0.056750339
+          ],
+          "total_s": 0.089488682
+        },
+        "wrap_to_fake_tensor_and_record": {
+          "calls": 2,
+          "durations_s": [
+            0.003953537,
+            0.036409204
+          ],
+          "total_s": 0.040362741
+        }
+      },
+      "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+      "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+      "extra_forwards": 0,
+      "extra_backwards": 0,
+      "extra_optimizer_steps": 0
+    },
+    "note": "Profiler overhead counters describe this observer only; compilation timings are nested and must not be added to event time."
+  },
+  {
+    "dataset": "gsm8k",
+    "event": 5,
+    "arm": "SCALAR",
+    "scope": "ordinary_physical_observer_including_auxiliary_activity",
+    "counters": {
+      "draft_forwards": 1024,
+      "layer_forwards": 5120,
+      "objective_chunks": 15988,
+      "vocabulary_head_calls": 87934,
+      "response_forwards": 256
+    },
+    "note": "Overlapping physical instrumentation; not additional response-level work."
+  },
+  {
+    "dataset": "gsm8k",
+    "event": 5,
+    "arm": "SCALAR",
+    "scope": "startup_physical",
+    "counters": {
+      "counts": {
+        "draft_forwards": 2,
+        "layer_forwards": 10,
+        "objective_chunks": 94,
+        "vocabulary_head_calls": 188,
+        "response_forwards": 2
+      },
+      "response_observations": 2,
+      "optimizer_window_observations": 0
+    }
+  },
+  {
+    "dataset": "gsm8k",
+    "event": 5,
+    "arm": "SCALAR",
+    "scope": "main_geometry_physical",
+    "counters": {
+      "captured_ordinary_responses": 256,
+      "head_projection_calls": 87934,
+      "checkpoint_proxy_calls": 15988,
+      "state_copy_passes": 233,
+      "additional_response_forwards_attempted": 768,
+      "additional_response_forwards_completed": 768,
+      "additional_response_forwards_failed": 0,
+      "additional_backwards_attempted": 256,
+      "additional_backwards_completed": 256,
+      "additional_backwards_failed": 0,
+      "optimizer_steps_attempted": 128,
+      "optimizer_steps_completed": 128,
+      "optimizer_steps_failed": 0,
+      "feasibility_probe_count": 3000,
+      "feasibility_norm_scan_passes": 3253,
+      "feasibility_construction_scan_passes": 3253,
+      "feasibility_identity_scan_passes": 253,
+      "feasibility_write_passes": 253,
+      "scalar_norm_probe_passes": 3200,
+      "scalar_endpoint_statistic_scans": 128,
+      "scalar_identity_scan_passes": 128,
+      "scalar_write_passes": 128,
+      "additional_response_forwards": 768,
+      "additional_backwards": 256
+    }
+  },
+  {
+    "dataset": "gsm8k",
+    "event": 6,
+    "arm": "KPLUS",
+    "scope": "event_resource_and_compiler_observer",
+    "counters": {
+      "training_peak_allocated_bytes": 20543463424,
+      "training_peak_reserved_bytes": 29020389376,
+      "training_compiler_timers": {},
+      "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+      "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+      "extra_forwards": 0,
+      "extra_backwards": 0,
+      "extra_optimizer_steps": 0
+    },
+    "note": "Profiler overhead counters describe this observer only; compilation timings are nested and must not be added to event time."
+  },
+  {
+    "dataset": "gsm8k",
+    "event": 6,
+    "arm": "KPLUS",
+    "scope": "ordinary_physical_observer_including_auxiliary_activity",
+    "counters": {
+      "draft_forwards": 256,
+      "layer_forwards": 1280,
+      "objective_chunks": 15200,
+      "vocabulary_head_calls": 30400,
+      "response_forwards": 256
+    },
+    "note": "Overlapping physical instrumentation; not additional response-level work."
+  },
+  {
+    "dataset": "gsm8k",
+    "event": 6,
+    "arm": "KPLUS",
+    "scope": "startup_physical",
+    "counters": {
+      "counts": {
+        "draft_forwards": 2,
+        "layer_forwards": 10,
+        "objective_chunks": 98,
+        "vocabulary_head_calls": 196,
+        "response_forwards": 2
+      },
+      "response_observations": 2,
+      "optimizer_window_observations": 0
+    }
+  },
+  {
+    "dataset": "gsm8k",
+    "event": 6,
+    "arm": "FSG",
+    "scope": "event_resource_and_compiler_observer",
+    "counters": {
+      "training_peak_allocated_bytes": 32272091136,
+      "training_peak_reserved_bytes": 39954939904,
+      "training_compiler_timers": {
+        "AOTAutogradCache.inductor_load": {
+          "calls": 2,
+          "durations_s": [
+            0.015251115,
+            0.008671207
+          ],
+          "total_s": 0.023922322000000003
+        },
+        "OutputGraph.call_user_compiler": {
+          "calls": 2,
+          "durations_s": [
+            0.060610622,
+            0.058089907
+          ],
+          "total_s": 0.118700529
+        },
+        "PyCodeCache.load_by_key_path": {
+          "calls": 2,
+          "durations_s": [
+            0.006251425,
+            0.003889328
+          ],
+          "total_s": 0.010140752999999999
+        },
+        "StaticAutotunerFuture.warm_precompile": {
+          "calls": 7,
+          "durations_s": [
+            0.000559191,
+            0.000623403,
+            0.000389829,
+            0.000419393,
+            0.000279841,
+            0.000481082,
+            0.001611707
+          ],
+          "total_s": 0.004364446
+        },
+        "TritonBundler.load_cached_static_autotuners": {
+          "calls": 2,
+          "durations_s": [
+            0.000449371,
+            6.5675e-05
+          ],
+          "total_s": 0.000515046
+        },
+        "TritonBundler.read_and_emit": {
+          "calls": 2,
+          "durations_s": [
+            0.000946162,
+            0.000154673
+          ],
+          "total_s": 0.0011008349999999999
+        },
+        "_compile.compile_inner": {
+          "calls": 2,
+          "durations_s": [
+            1.2926705,
+            0.322620795
+          ],
+          "total_s": 1.615291295
+        },
+        "async_compile.wait": {
+          "calls": 2,
+          "durations_s": [
+            0.003064937,
+            0.001753967
+          ],
+          "total_s": 0.004818904000000001
+        },
+        "build_guards": {
+          "calls": 2,
+          "durations_s": [
+            0.052197237,
+            0.061764132
+          ],
+          "total_s": 0.113961369
+        },
+        "bytecode_tracing": {
+          "calls": 2,
+          "durations_s": [
+            1.146630231,
+            0.186590133
+          ],
+          "total_s": 1.333220364
+        },
+        "compile_attempt_0": {
+          "calls": 2,
+          "durations_s": [
+            1.232951283,
+            0.258747647
+          ],
+          "total_s": 1.49169893
+        },
+        "create_proxy": {
+          "calls": 2,
+          "durations_s": [
+            0.028021828,
+            0.013041834
+          ],
+          "total_s": 0.041063662
+        },
+        "gc": {
+          "calls": 2,
+          "durations_s": [
+            0.000420261,
+            0.000879595
+          ],
+          "total_s": 0.001299856
+        },
+        "get_fake_value": {
+          "calls": 2,
+          "durations_s": [
+            0.602298159,
+            0.031658224
+          ],
+          "total_s": 0.633956383
+        },
+        "insert_deferred_runtime_asserts": {
+          "calls": 2,
+          "durations_s": [
+            0.006413858,
+            0.005352536
+          ],
+          "total_s": 0.011766394
+        },
+        "pgo.dynamic_whitelist": {
+          "calls": 2,
+          "durations_s": [
+            2.5786e-05,
+            2.5274e-05
+          ],
+          "total_s": 5.106e-05
+        },
+        "variable_builder_call": {
+          "calls": 2,
+          "durations_s": [
+            0.032750774,
+            0.056560948
+          ],
+          "total_s": 0.08931172200000001
+        },
+        "wrap_to_fake_tensor_and_record": {
+          "calls": 2,
+          "durations_s": [
+            0.003822498,
+            0.036070688
+          ],
+          "total_s": 0.039893186
+        }
+      },
+      "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+      "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+      "extra_forwards": 0,
+      "extra_backwards": 0,
+      "extra_optimizer_steps": 0
+    },
+    "note": "Profiler overhead counters describe this observer only; compilation timings are nested and must not be added to event time."
+  },
+  {
+    "dataset": "gsm8k",
+    "event": 6,
+    "arm": "FSG",
+    "scope": "ordinary_physical_observer_including_auxiliary_activity",
+    "counters": {
+      "draft_forwards": 1184,
+      "layer_forwards": 5920,
+      "objective_chunks": 15200,
+      "vocabulary_head_calls": 99440,
+      "response_forwards": 256
+    },
+    "note": "Overlapping physical instrumentation; not additional response-level work."
+  },
+  {
+    "dataset": "gsm8k",
+    "event": 6,
+    "arm": "FSG",
+    "scope": "startup_physical",
+    "counters": {
+      "counts": {
+        "draft_forwards": 2,
+        "layer_forwards": 10,
+        "objective_chunks": 98,
+        "vocabulary_head_calls": 196,
+        "response_forwards": 2
+      },
+      "response_observations": 2,
+      "optimizer_window_observations": 0
+    }
+  },
+  {
+    "dataset": "gsm8k",
+    "event": 6,
+    "arm": "FSG",
+    "scope": "main_geometry_physical",
+    "counters": {
+      "captured_ordinary_responses": 256,
+      "head_projection_calls": 83600,
+      "checkpoint_proxy_calls": 15200,
+      "state_copy_passes": 128,
+      "additional_response_forwards_attempted": 768,
+      "additional_response_forwards_completed": 768,
+      "additional_response_forwards_failed": 0,
+      "additional_backwards_attempted": 256,
+      "additional_backwards_completed": 256,
+      "additional_backwards_failed": 0,
+      "optimizer_steps_attempted": 128,
+      "optimizer_steps_completed": 128,
+      "optimizer_steps_failed": 0,
+      "feasibility_probe_count": 3072,
+      "feasibility_norm_scan_passes": 3328,
+      "feasibility_construction_scan_passes": 3328,
+      "feasibility_identity_scan_passes": 256,
+      "feasibility_write_passes": 256,
+      "additional_response_forwards": 768,
+      "additional_backwards": 256
+    }
+  },
+  {
+    "dataset": "gsm8k",
+    "event": 6,
+    "arm": "FSG",
+    "window": 1,
+    "scope": "diagnostic_physical",
+    "counters": {
+      "captured_ordinary_responses": 0,
+      "head_projection_calls": 3578,
+      "checkpoint_proxy_calls": 296,
+      "state_copy_passes": 7,
+      "additional_response_forwards_attempted": 40,
+      "additional_response_forwards_completed": 40,
+      "additional_response_forwards_failed": 0,
+      "additional_backwards_attempted": 4,
+      "additional_backwards_completed": 4,
+      "additional_backwards_failed": 0,
+      "optimizer_steps_attempted": 0,
+      "optimizer_steps_completed": 0,
+      "optimizer_steps_failed": 0,
+      "feasibility_probe_count": 0,
+      "feasibility_norm_scan_passes": 0,
+      "feasibility_construction_scan_passes": 0,
+      "feasibility_identity_scan_passes": 0,
+      "feasibility_write_passes": 0,
+      "teacher_head_calls": 936,
+      "diagnostic_candidate_write_passes": 6,
+      "diagnostic_endpoint_statistic_scans": 6,
+      "diagnostic_scalar_norm_scan_passes": 25,
+      "diagnostic_scalar_write_passes": 1,
+      "diagnostic_feasibility_probe_count": 48,
+      "diagnostic_feasibility_norm_scan_passes": 52,
+      "diagnostic_feasibility_construction_scan_passes": 52,
+      "diagnostic_feasibility_identity_scan_passes": 4,
+      "diagnostic_feasibility_write_passes": 4
+    }
+  },
+  {
+    "dataset": "gsm8k",
+    "event": 6,
+    "arm": "FSG",
+    "window": 32,
+    "scope": "diagnostic_physical",
+    "counters": {
+      "captured_ordinary_responses": 0,
+      "head_projection_calls": 2807,
+      "checkpoint_proxy_calls": 140,
+      "state_copy_passes": 7,
+      "additional_response_forwards_attempted": 40,
+      "additional_response_forwards_completed": 40,
+      "additional_response_forwards_failed": 0,
+      "additional_backwards_attempted": 4,
+      "additional_backwards_completed": 4,
+      "additional_backwards_failed": 0,
+      "optimizer_steps_attempted": 0,
+      "optimizer_steps_completed": 0,
+      "optimizer_steps_failed": 0,
+      "feasibility_probe_count": 0,
+      "feasibility_norm_scan_passes": 0,
+      "feasibility_construction_scan_passes": 0,
+      "feasibility_identity_scan_passes": 0,
+      "feasibility_write_passes": 0,
+      "teacher_head_calls": 801,
+      "diagnostic_candidate_write_passes": 6,
+      "diagnostic_endpoint_statistic_scans": 6,
+      "diagnostic_scalar_norm_scan_passes": 25,
+      "diagnostic_scalar_write_passes": 1,
+      "diagnostic_feasibility_probe_count": 48,
+      "diagnostic_feasibility_norm_scan_passes": 52,
+      "diagnostic_feasibility_construction_scan_passes": 52,
+      "diagnostic_feasibility_identity_scan_passes": 4,
+      "diagnostic_feasibility_write_passes": 4
+    }
+  },
+  {
+    "dataset": "gsm8k",
+    "event": 6,
+    "arm": "FSG",
+    "window": 65,
+    "scope": "diagnostic_physical",
+    "counters": {
+      "captured_ordinary_responses": 0,
+      "head_projection_calls": 5608,
+      "checkpoint_proxy_calls": 352,
+      "state_copy_passes": 7,
+      "additional_response_forwards_attempted": 40,
+      "additional_response_forwards_completed": 40,
+      "additional_response_forwards_failed": 0,
+      "additional_backwards_attempted": 4,
+      "additional_backwards_completed": 4,
+      "additional_backwards_failed": 0,
+      "optimizer_steps_attempted": 0,
+      "optimizer_steps_completed": 0,
+      "optimizer_steps_failed": 0,
+      "feasibility_probe_count": 0,
+      "feasibility_norm_scan_passes": 0,
+      "feasibility_construction_scan_passes": 0,
+      "feasibility_identity_scan_passes": 0,
+      "feasibility_write_passes": 0,
+      "teacher_head_calls": 1548,
+      "diagnostic_candidate_write_passes": 6,
+      "diagnostic_endpoint_statistic_scans": 6,
+      "diagnostic_scalar_norm_scan_passes": 25,
+      "diagnostic_scalar_write_passes": 1,
+      "diagnostic_feasibility_probe_count": 48,
+      "diagnostic_feasibility_norm_scan_passes": 52,
+      "diagnostic_feasibility_construction_scan_passes": 52,
+      "diagnostic_feasibility_identity_scan_passes": 4,
+      "diagnostic_feasibility_write_passes": 4
+    }
+  },
+  {
+    "dataset": "gsm8k",
+    "event": 6,
+    "arm": "FSG",
+    "window": 128,
+    "scope": "diagnostic_physical",
+    "counters": {
+      "captured_ordinary_responses": 0,
+      "head_projection_calls": 3847,
+      "checkpoint_proxy_calls": 204,
+      "state_copy_passes": 7,
+      "additional_response_forwards_attempted": 40,
+      "additional_response_forwards_completed": 40,
+      "additional_response_forwards_failed": 0,
+      "additional_backwards_attempted": 4,
+      "additional_backwards_completed": 4,
+      "additional_backwards_failed": 0,
+      "optimizer_steps_attempted": 0,
+      "optimizer_steps_completed": 0,
+      "optimizer_steps_failed": 0,
+      "feasibility_probe_count": 0,
+      "feasibility_norm_scan_passes": 0,
+      "feasibility_construction_scan_passes": 0,
+      "feasibility_identity_scan_passes": 0,
+      "feasibility_write_passes": 0,
+      "teacher_head_calls": 1089,
+      "diagnostic_candidate_write_passes": 6,
+      "diagnostic_endpoint_statistic_scans": 6,
+      "diagnostic_scalar_norm_scan_passes": 25,
+      "diagnostic_scalar_write_passes": 1,
+      "diagnostic_feasibility_probe_count": 48,
+      "diagnostic_feasibility_norm_scan_passes": 52,
+      "diagnostic_feasibility_construction_scan_passes": 52,
+      "diagnostic_feasibility_identity_scan_passes": 4,
+      "diagnostic_feasibility_write_passes": 4
+    }
+  },
+  {
+    "dataset": "gsm8k",
+    "event": 6,
+    "arm": "SCALAR",
+    "scope": "event_resource_and_compiler_observer",
+    "counters": {
+      "training_peak_allocated_bytes": 27515810304,
+      "training_peak_reserved_bytes": 36368809984,
+      "training_compiler_timers": {
+        "AOTAutogradCache.inductor_load": {
+          "calls": 2,
+          "durations_s": [
+            0.014078612,
+            0.008818856
+          ],
+          "total_s": 0.022897468
+        },
+        "OutputGraph.call_user_compiler": {
+          "calls": 2,
+          "durations_s": [
+            0.059072062,
+            0.057497142
+          ],
+          "total_s": 0.11656920400000001
+        },
+        "PyCodeCache.load_by_key_path": {
+          "calls": 2,
+          "durations_s": [
+            0.0062123,
+            0.003988877
+          ],
+          "total_s": 0.010201176999999999
+        },
+        "StaticAutotunerFuture.warm_precompile": {
+          "calls": 7,
+          "durations_s": [
+            0.000530115,
+            0.000610977,
+            0.000364751,
+            0.000424667,
+            0.000284643,
+            0.000488345,
+            0.00170946
+          ],
+          "total_s": 0.004412958
+        },
+        "TritonBundler.load_cached_static_autotuners": {
+          "calls": 2,
+          "durations_s": [
+            0.000445662,
+            6.6105e-05
+          ],
+          "total_s": 0.000511767
+        },
+        "TritonBundler.read_and_emit": {
+          "calls": 2,
+          "durations_s": [
+            0.000949449,
+            0.00016427
+          ],
+          "total_s": 0.001113719
+        },
+        "_compile.compile_inner": {
+          "calls": 2,
+          "durations_s": [
+            1.288100469,
+            0.322653379
+          ],
+          "total_s": 1.6107538479999999
+        },
+        "async_compile.wait": {
+          "calls": 2,
+          "durations_s": [
+            0.002993001,
+            0.001850013
+          ],
+          "total_s": 0.004843014
+        },
+        "build_guards": {
+          "calls": 2,
+          "durations_s": [
+            0.05155171,
+            0.061815912
+          ],
+          "total_s": 0.113367622
+        },
+        "bytecode_tracing": {
+          "calls": 2,
+          "durations_s": [
+            1.14505542,
+            0.187138889
+          ],
+          "total_s": 1.3321943090000001
+        },
+        "compile_attempt_0": {
+          "calls": 2,
+          "durations_s": [
+            1.228957424,
+            0.258633284
+          ],
+          "total_s": 1.4875907080000002
+        },
+        "create_proxy": {
+          "calls": 2,
+          "durations_s": [
+            0.027647714,
+            0.013233962
+          ],
+          "total_s": 0.040881676
+        },
+        "gc": {
+          "calls": 2,
+          "durations_s": [
+            0.000456489,
+            0.000967341
+          ],
+          "total_s": 0.00142383
+        },
+        "get_fake_value": {
+          "calls": 2,
+          "durations_s": [
+            0.602740091,
+            0.031632755
+          ],
+          "total_s": 0.634372846
+        },
+        "insert_deferred_runtime_asserts": {
+          "calls": 2,
+          "durations_s": [
+            0.006364267,
+            0.005334395
+          ],
+          "total_s": 0.011698661999999999
+        },
+        "pgo.dynamic_whitelist": {
+          "calls": 2,
+          "durations_s": [
+            2.5602e-05,
+            2.5247e-05
+          ],
+          "total_s": 5.0849e-05
+        },
+        "variable_builder_call": {
+          "calls": 2,
+          "durations_s": [
+            0.032920376,
+            0.056684548
+          ],
+          "total_s": 0.089604924
+        },
+        "wrap_to_fake_tensor_and_record": {
+          "calls": 2,
+          "durations_s": [
+            0.00387961,
+            0.036070595
+          ],
+          "total_s": 0.039950204999999996
+        }
+      },
+      "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+      "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+      "extra_forwards": 0,
+      "extra_backwards": 0,
+      "extra_optimizer_steps": 0
+    },
+    "note": "Profiler overhead counters describe this observer only; compilation timings are nested and must not be added to event time."
+  },
+  {
+    "dataset": "gsm8k",
+    "event": 6,
+    "arm": "SCALAR",
+    "scope": "ordinary_physical_observer_including_auxiliary_activity",
+    "counters": {
+      "draft_forwards": 1024,
+      "layer_forwards": 5120,
+      "objective_chunks": 15200,
+      "vocabulary_head_calls": 83600,
+      "response_forwards": 256
+    },
+    "note": "Overlapping physical instrumentation; not additional response-level work."
+  },
+  {
+    "dataset": "gsm8k",
+    "event": 6,
+    "arm": "SCALAR",
+    "scope": "startup_physical",
+    "counters": {
+      "counts": {
+        "draft_forwards": 2,
+        "layer_forwards": 10,
+        "objective_chunks": 98,
+        "vocabulary_head_calls": 196,
+        "response_forwards": 2
+      },
+      "response_observations": 2,
+      "optimizer_window_observations": 0
+    }
+  },
+  {
+    "dataset": "gsm8k",
+    "event": 6,
+    "arm": "SCALAR",
+    "scope": "main_geometry_physical",
+    "counters": {
+      "captured_ordinary_responses": 256,
+      "head_projection_calls": 83600,
+      "checkpoint_proxy_calls": 15200,
+      "state_copy_passes": 245,
+      "additional_response_forwards_attempted": 768,
+      "additional_response_forwards_completed": 768,
+      "additional_response_forwards_failed": 0,
+      "additional_backwards_attempted": 256,
+      "additional_backwards_completed": 256,
+      "additional_backwards_failed": 0,
+      "optimizer_steps_attempted": 128,
+      "optimizer_steps_completed": 128,
+      "optimizer_steps_failed": 0,
+      "feasibility_probe_count": 3048,
+      "feasibility_norm_scan_passes": 3303,
+      "feasibility_construction_scan_passes": 3303,
+      "feasibility_identity_scan_passes": 255,
+      "feasibility_write_passes": 255,
+      "scalar_norm_probe_passes": 3200,
+      "scalar_endpoint_statistic_scans": 128,
+      "scalar_identity_scan_passes": 128,
+      "scalar_write_passes": 128,
+      "additional_response_forwards": 768,
+      "additional_backwards": 256
+    }
+  },
+  {
+    "dataset": "mathqa",
+    "event": 5,
+    "arm": "KPLUS",
+    "scope": "event_resource_and_compiler_observer",
+    "counters": {
+      "training_peak_allocated_bytes": 20811727360,
+      "training_peak_reserved_bytes": 24721227776,
+      "training_compiler_timers": {},
+      "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+      "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+      "extra_forwards": 0,
+      "extra_backwards": 0,
+      "extra_optimizer_steps": 0
+    },
+    "note": "Profiler overhead counters describe this observer only; compilation timings are nested and must not be added to event time."
+  },
+  {
+    "dataset": "mathqa",
+    "event": 5,
+    "arm": "KPLUS",
+    "scope": "ordinary_physical_observer_including_auxiliary_activity",
+    "counters": {
+      "draft_forwards": 256,
+      "layer_forwards": 1280,
+      "objective_chunks": 24984,
+      "vocabulary_head_calls": 49968,
+      "response_forwards": 256
+    },
+    "note": "Overlapping physical instrumentation; not additional response-level work."
+  },
+  {
+    "dataset": "mathqa",
+    "event": 5,
+    "arm": "KPLUS",
+    "scope": "startup_physical",
+    "counters": {
+      "counts": {
+        "draft_forwards": 2,
+        "layer_forwards": 10,
+        "objective_chunks": 172,
+        "vocabulary_head_calls": 344,
+        "response_forwards": 2
+      },
+      "response_observations": 2,
+      "optimizer_window_observations": 0
+    }
+  },
+  {
+    "dataset": "mathqa",
+    "event": 5,
+    "arm": "FSG",
+    "scope": "event_resource_and_compiler_observer",
+    "counters": {
+      "training_peak_allocated_bytes": 35599869952,
+      "training_peak_reserved_bytes": 38843449344,
+      "training_compiler_timers": {
+        "AOTAutogradCache.inductor_load": {
+          "calls": 2,
+          "durations_s": [
+            0.012158953,
+            0.00487793
+          ],
+          "total_s": 0.017036883
+        },
+        "OutputGraph.call_user_compiler": {
+          "calls": 2,
+          "durations_s": [
+            0.056096062,
+            0.050236432
+          ],
+          "total_s": 0.106332494
+        },
+        "PyCodeCache.load_by_key_path": {
+          "calls": 2,
+          "durations_s": [
+            0.006052765,
+            0.002457552
+          ],
+          "total_s": 0.008510317
+        },
+        "StaticAutotunerFuture.warm_precompile": {
+          "calls": 7,
+          "durations_s": [
+            0.000622004,
+            0.000606098,
+            0.000388867,
+            0.00042612,
+            0.00028211,
+            0.000476887,
+            0.000576795
+          ],
+          "total_s": 0.003378881
+        },
+        "TritonBundler.load_cached_static_autotuners": {
+          "calls": 2,
+          "durations_s": [
+            0.000468843,
+            5.6408e-05
+          ],
+          "total_s": 0.000525251
+        },
+        "TritonBundler.read_and_emit": {
+          "calls": 2,
+          "durations_s": [
+            0.00096831,
+            0.000138701
+          ],
+          "total_s": 0.001107011
+        },
+        "_compile.compile_inner": {
+          "calls": 2,
+          "durations_s": [
+            1.311814339,
+            0.318091996
+          ],
+          "total_s": 1.629906335
+        },
+        "async_compile.wait": {
+          "calls": 2,
+          "durations_s": [
+            0.003090892,
+            0.000712916
+          ],
+          "total_s": 0.003803808
+        },
+        "build_guards": {
+          "calls": 2,
+          "durations_s": [
+            0.060849995,
+            0.067013796
+          ],
+          "total_s": 0.127863791
+        },
+        "bytecode_tracing": {
+          "calls": 2,
+          "durations_s": [
+            1.162703571,
+            0.184520199
+          ],
+          "total_s": 1.34722377
+        },
+        "compile_attempt_0": {
+          "calls": 2,
+          "durations_s": [
+            1.243356439,
+            0.248939942
+          ],
+          "total_s": 1.492296381
+        },
+        "create_proxy": {
+          "calls": 2,
+          "durations_s": [
+            0.027675356,
+            0.013019999
+          ],
+          "total_s": 0.040695355
+        },
+        "gc": {
+          "calls": 2,
+          "durations_s": [
+            0.000413434,
+            0.000861681
+          ],
+          "total_s": 0.001275115
+        },
+        "get_fake_value": {
+          "calls": 2,
+          "durations_s": [
+            0.605011167,
+            0.030854007
+          ],
+          "total_s": 0.635865174
+        },
+        "insert_deferred_runtime_asserts": {
+          "calls": 2,
+          "durations_s": [
+            0.00607043,
+            0.005379435
+          ],
+          "total_s": 0.011449865
+        },
+        "pgo.dynamic_whitelist": {
+          "calls": 2,
+          "durations_s": [
+            2.5982e-05,
+            2.4933e-05
+          ],
+          "total_s": 5.0914999999999996e-05
+        },
+        "variable_builder_call": {
+          "calls": 2,
+          "durations_s": [
+            0.03352845,
+            0.056607992
+          ],
+          "total_s": 0.09013644200000001
+        },
+        "wrap_to_fake_tensor_and_record": {
+          "calls": 2,
+          "durations_s": [
+            0.003980825,
+            0.036276296
+          ],
+          "total_s": 0.040257121
+        }
+      },
+      "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+      "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+      "extra_forwards": 0,
+      "extra_backwards": 0,
+      "extra_optimizer_steps": 0
+    },
+    "note": "Profiler overhead counters describe this observer only; compilation timings are nested and must not be added to event time."
+  },
+  {
+    "dataset": "mathqa",
+    "event": 5,
+    "arm": "FSG",
+    "scope": "ordinary_physical_observer_including_auxiliary_activity",
+    "counters": {
+      "draft_forwards": 1184,
+      "layer_forwards": 5920,
+      "objective_chunks": 24984,
+      "vocabulary_head_calls": 163453,
+      "response_forwards": 256
+    },
+    "note": "Overlapping physical instrumentation; not additional response-level work."
+  },
+  {
+    "dataset": "mathqa",
+    "event": 5,
+    "arm": "FSG",
+    "scope": "startup_physical",
+    "counters": {
+      "counts": {
+        "draft_forwards": 2,
+        "layer_forwards": 10,
+        "objective_chunks": 172,
+        "vocabulary_head_calls": 344,
+        "response_forwards": 2
+      },
+      "response_observations": 2,
+      "optimizer_window_observations": 0
+    }
+  },
+  {
+    "dataset": "mathqa",
+    "event": 5,
+    "arm": "FSG",
+    "scope": "main_geometry_physical",
+    "counters": {
+      "captured_ordinary_responses": 256,
+      "head_projection_calls": 137412,
+      "checkpoint_proxy_calls": 24984,
+      "state_copy_passes": 128,
+      "additional_response_forwards_attempted": 768,
+      "additional_response_forwards_completed": 768,
+      "additional_response_forwards_failed": 0,
+      "additional_backwards_attempted": 256,
+      "additional_backwards_completed": 256,
+      "additional_backwards_failed": 0,
+      "optimizer_steps_attempted": 128,
+      "optimizer_steps_completed": 128,
+      "optimizer_steps_failed": 0,
+      "feasibility_probe_count": 3048,
+      "feasibility_norm_scan_passes": 3303,
+      "feasibility_construction_scan_passes": 3303,
+      "feasibility_identity_scan_passes": 255,
+      "feasibility_write_passes": 255,
+      "additional_response_forwards": 768,
+      "additional_backwards": 256
+    }
+  },
+  {
+    "dataset": "mathqa",
+    "event": 5,
+    "arm": "FSG",
+    "window": 1,
+    "scope": "diagnostic_physical",
+    "counters": {
+      "captured_ordinary_responses": 0,
+      "head_projection_calls": 7368,
+      "checkpoint_proxy_calls": 512,
+      "state_copy_passes": 7,
+      "additional_response_forwards_attempted": 40,
+      "additional_response_forwards_completed": 40,
+      "additional_response_forwards_failed": 0,
+      "additional_backwards_attempted": 4,
+      "additional_backwards_completed": 4,
+      "additional_backwards_failed": 0,
+      "optimizer_steps_attempted": 0,
+      "optimizer_steps_completed": 0,
+      "optimizer_steps_failed": 0,
+      "feasibility_probe_count": 0,
+      "feasibility_norm_scan_passes": 0,
+      "feasibility_construction_scan_passes": 0,
+      "feasibility_identity_scan_passes": 0,
+      "feasibility_write_passes": 0,
+      "teacher_head_calls": 1998,
+      "diagnostic_candidate_write_passes": 6,
+      "diagnostic_endpoint_statistic_scans": 6,
+      "diagnostic_scalar_norm_scan_passes": 25,
+      "diagnostic_scalar_write_passes": 1,
+      "diagnostic_feasibility_probe_count": 48,
+      "diagnostic_feasibility_norm_scan_passes": 52,
+      "diagnostic_feasibility_construction_scan_passes": 52,
+      "diagnostic_feasibility_identity_scan_passes": 4,
+      "diagnostic_feasibility_write_passes": 4
+    }
+  },
+  {
+    "dataset": "mathqa",
+    "event": 5,
+    "arm": "FSG",
+    "window": 32,
+    "scope": "diagnostic_physical",
+    "counters": {
+      "captured_ordinary_responses": 0,
+      "head_projection_calls": 5365,
+      "checkpoint_proxy_calls": 356,
+      "state_copy_passes": 7,
+      "additional_response_forwards_attempted": 40,
+      "additional_response_forwards_completed": 40,
+      "additional_response_forwards_failed": 0,
+      "additional_backwards_attempted": 4,
+      "additional_backwards_completed": 4,
+      "additional_backwards_failed": 0,
+      "optimizer_steps_attempted": 0,
+      "optimizer_steps_completed": 0,
+      "optimizer_steps_failed": 0,
+      "feasibility_probe_count": 0,
+      "feasibility_norm_scan_passes": 0,
+      "feasibility_construction_scan_passes": 0,
+      "feasibility_identity_scan_passes": 0,
+      "feasibility_write_passes": 0,
+      "teacher_head_calls": 1467,
+      "diagnostic_candidate_write_passes": 6,
+      "diagnostic_endpoint_statistic_scans": 6,
+      "diagnostic_scalar_norm_scan_passes": 25,
+      "diagnostic_scalar_write_passes": 1,
+      "diagnostic_feasibility_probe_count": 48,
+      "diagnostic_feasibility_norm_scan_passes": 52,
+      "diagnostic_feasibility_construction_scan_passes": 52,
+      "diagnostic_feasibility_identity_scan_passes": 4,
+      "diagnostic_feasibility_write_passes": 4
+    }
+  },
+  {
+    "dataset": "mathqa",
+    "event": 5,
+    "arm": "FSG",
+    "window": 65,
+    "scope": "diagnostic_physical",
+    "counters": {
+      "captured_ordinary_responses": 0,
+      "head_projection_calls": 7614,
+      "checkpoint_proxy_calls": 472,
+      "state_copy_passes": 7,
+      "additional_response_forwards_attempted": 40,
+      "additional_response_forwards_completed": 40,
+      "additional_response_forwards_failed": 0,
+      "additional_backwards_attempted": 4,
+      "additional_backwards_completed": 4,
+      "additional_backwards_failed": 0,
+      "optimizer_steps_attempted": 0,
+      "optimizer_steps_completed": 0,
+      "optimizer_steps_failed": 0,
+      "feasibility_probe_count": 0,
+      "feasibility_norm_scan_passes": 0,
+      "feasibility_construction_scan_passes": 0,
+      "feasibility_identity_scan_passes": 0,
+      "feasibility_write_passes": 0,
+      "teacher_head_calls": 2106,
+      "diagnostic_candidate_write_passes": 6,
+      "diagnostic_endpoint_statistic_scans": 6,
+      "diagnostic_scalar_norm_scan_passes": 25,
+      "diagnostic_scalar_write_passes": 1,
+      "diagnostic_feasibility_probe_count": 48,
+      "diagnostic_feasibility_norm_scan_passes": 52,
+      "diagnostic_feasibility_construction_scan_passes": 52,
+      "diagnostic_feasibility_identity_scan_passes": 4,
+      "diagnostic_feasibility_write_passes": 4
+    }
+  },
+  {
+    "dataset": "mathqa",
+    "event": 5,
+    "arm": "FSG",
+    "window": 128,
+    "scope": "diagnostic_physical",
+    "counters": {
+      "captured_ordinary_responses": 0,
+      "head_projection_calls": 5694,
+      "checkpoint_proxy_calls": 328,
+      "state_copy_passes": 7,
+      "additional_response_forwards_attempted": 40,
+      "additional_response_forwards_completed": 40,
+      "additional_response_forwards_failed": 0,
+      "additional_backwards_attempted": 4,
+      "additional_backwards_completed": 4,
+      "additional_backwards_failed": 0,
+      "optimizer_steps_attempted": 0,
+      "optimizer_steps_completed": 0,
+      "optimizer_steps_failed": 0,
+      "feasibility_probe_count": 0,
+      "feasibility_norm_scan_passes": 0,
+      "feasibility_construction_scan_passes": 0,
+      "feasibility_identity_scan_passes": 0,
+      "feasibility_write_passes": 0,
+      "teacher_head_calls": 1593,
+      "diagnostic_candidate_write_passes": 6,
+      "diagnostic_endpoint_statistic_scans": 6,
+      "diagnostic_scalar_norm_scan_passes": 25,
+      "diagnostic_scalar_write_passes": 1,
+      "diagnostic_feasibility_probe_count": 48,
+      "diagnostic_feasibility_norm_scan_passes": 52,
+      "diagnostic_feasibility_construction_scan_passes": 52,
+      "diagnostic_feasibility_identity_scan_passes": 4,
+      "diagnostic_feasibility_write_passes": 4
+    }
+  },
+  {
+    "dataset": "mathqa",
+    "event": 5,
+    "arm": "SCALAR",
+    "scope": "event_resource_and_compiler_observer",
+    "counters": {
+      "training_peak_allocated_bytes": 27991481856,
+      "training_peak_reserved_bytes": 30907826176,
+      "training_compiler_timers": {
+        "AOTAutogradCache.inductor_load": {
+          "calls": 2,
+          "durations_s": [
+            0.014377617,
+            0.008960986
+          ],
+          "total_s": 0.023338603
+        },
+        "OutputGraph.call_user_compiler": {
+          "calls": 2,
+          "durations_s": [
+            0.059502424,
+            0.054049827
+          ],
+          "total_s": 0.11355225099999999
+        },
+        "PyCodeCache.load_by_key_path": {
+          "calls": 2,
+          "durations_s": [
+            0.006457275,
+            0.00396706
+          ],
+          "total_s": 0.010424335
+        },
+        "StaticAutotunerFuture.warm_precompile": {
+          "calls": 7,
+          "durations_s": [
+            0.000673103,
+            0.00066219,
+            0.000388192,
+            0.000410178,
+            0.000275592,
+            0.000480862,
+            0.001668016
+          ],
+          "total_s": 0.004558133
+        },
+        "TritonBundler.load_cached_static_autotuners": {
+          "calls": 2,
+          "durations_s": [
+            0.00046272,
+            6.5824e-05
+          ],
+          "total_s": 0.000528544
+        },
+        "TritonBundler.read_and_emit": {
+          "calls": 2,
+          "durations_s": [
+            0.000970279,
+            0.000161579
+          ],
+          "total_s": 0.001131858
+        },
+        "_compile.compile_inner": {
+          "calls": 2,
+          "durations_s": [
+            1.286429803,
+            0.320832526
+          ],
+          "total_s": 1.607262329
+        },
+        "async_compile.wait": {
+          "calls": 2,
+          "durations_s": [
+            0.003212448,
+            0.001803288
+          ],
+          "total_s": 0.005015736
+        },
+        "build_guards": {
+          "calls": 2,
+          "durations_s": [
+            0.060551108,
+            0.067640687
+          ],
+          "total_s": 0.128191795
+        },
+        "bytecode_tracing": {
+          "calls": 2,
+          "durations_s": [
+            1.134254713,
+            0.183062827
+          ],
+          "total_s": 1.3173175400000001
+        },
+        "compile_attempt_0": {
+          "calls": 2,
+          "durations_s": [
+            1.218488765,
+            0.251122972
+          ],
+          "total_s": 1.4696117370000001
+        },
+        "create_proxy": {
+          "calls": 2,
+          "durations_s": [
+            0.027710795,
+            0.013023494
+          ],
+          "total_s": 0.040734289
+        },
+        "gc": {
+          "calls": 2,
+          "durations_s": [
+            0.000422222,
+            0.000856168
+          ],
+          "total_s": 0.00127839
+        },
+        "get_fake_value": {
+          "calls": 2,
+          "durations_s": [
+            0.595278222,
+            0.030854572
+          ],
+          "total_s": 0.626132794
+        },
+        "insert_deferred_runtime_asserts": {
+          "calls": 2,
+          "durations_s": [
+            0.006576141,
+            0.005422275
+          ],
+          "total_s": 0.011998416
+        },
+        "pgo.dynamic_whitelist": {
+          "calls": 2,
+          "durations_s": [
+            2.7093e-05,
+            2.4976e-05
+          ],
+          "total_s": 5.2069e-05
+        },
+        "variable_builder_call": {
+          "calls": 2,
+          "durations_s": [
+            0.032586074,
+            0.055803747
+          ],
+          "total_s": 0.08838982100000001
+        },
+        "wrap_to_fake_tensor_and_record": {
+          "calls": 2,
+          "durations_s": [
+            0.003921109,
+            0.035440202
+          ],
+          "total_s": 0.039361310999999996
+        }
+      },
+      "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+      "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+      "extra_forwards": 0,
+      "extra_backwards": 0,
+      "extra_optimizer_steps": 0
+    },
+    "note": "Profiler overhead counters describe this observer only; compilation timings are nested and must not be added to event time."
+  },
+  {
+    "dataset": "mathqa",
+    "event": 5,
+    "arm": "SCALAR",
+    "scope": "ordinary_physical_observer_including_auxiliary_activity",
+    "counters": {
+      "draft_forwards": 1024,
+      "layer_forwards": 5120,
+      "objective_chunks": 24984,
+      "vocabulary_head_calls": 137412,
+      "response_forwards": 256
+    },
+    "note": "Overlapping physical instrumentation; not additional response-level work."
+  },
+  {
+    "dataset": "mathqa",
+    "event": 5,
+    "arm": "SCALAR",
+    "scope": "startup_physical",
+    "counters": {
+      "counts": {
+        "draft_forwards": 2,
+        "layer_forwards": 10,
+        "objective_chunks": 172,
+        "vocabulary_head_calls": 344,
+        "response_forwards": 2
+      },
+      "response_observations": 2,
+      "optimizer_window_observations": 0
+    }
+  },
+  {
+    "dataset": "mathqa",
+    "event": 5,
+    "arm": "SCALAR",
+    "scope": "main_geometry_physical",
+    "counters": {
+      "captured_ordinary_responses": 256,
+      "head_projection_calls": 137412,
+      "checkpoint_proxy_calls": 24984,
+      "state_copy_passes": 233,
+      "additional_response_forwards_attempted": 768,
+      "additional_response_forwards_completed": 768,
+      "additional_response_forwards_failed": 0,
+      "additional_backwards_attempted": 256,
+      "additional_backwards_completed": 256,
+      "additional_backwards_failed": 0,
+      "optimizer_steps_attempted": 128,
+      "optimizer_steps_completed": 128,
+      "optimizer_steps_failed": 0,
+      "feasibility_probe_count": 3072,
+      "feasibility_norm_scan_passes": 3328,
+      "feasibility_construction_scan_passes": 3328,
+      "feasibility_identity_scan_passes": 256,
+      "feasibility_write_passes": 256,
+      "scalar_norm_probe_passes": 3200,
+      "scalar_endpoint_statistic_scans": 128,
+      "scalar_identity_scan_passes": 128,
+      "scalar_write_passes": 128,
+      "additional_response_forwards": 768,
+      "additional_backwards": 256
+    }
+  },
+  {
+    "dataset": "mathqa",
+    "event": 6,
+    "arm": "KPLUS",
+    "scope": "event_resource_and_compiler_observer",
+    "counters": {
+      "training_peak_allocated_bytes": 20750986752,
+      "training_peak_reserved_bytes": 22938648576,
+      "training_compiler_timers": {},
+      "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+      "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+      "extra_forwards": 0,
+      "extra_backwards": 0,
+      "extra_optimizer_steps": 0
+    },
+    "note": "Profiler overhead counters describe this observer only; compilation timings are nested and must not be added to event time."
+  },
+  {
+    "dataset": "mathqa",
+    "event": 6,
+    "arm": "KPLUS",
+    "scope": "ordinary_physical_observer_including_auxiliary_activity",
+    "counters": {
+      "draft_forwards": 256,
+      "layer_forwards": 1280,
+      "objective_chunks": 25448,
+      "vocabulary_head_calls": 50896,
+      "response_forwards": 256
+    },
+    "note": "Overlapping physical instrumentation; not additional response-level work."
+  },
+  {
+    "dataset": "mathqa",
+    "event": 6,
+    "arm": "KPLUS",
+    "scope": "startup_physical",
+    "counters": {
+      "counts": {
+        "draft_forwards": 2,
+        "layer_forwards": 10,
+        "objective_chunks": 230,
+        "vocabulary_head_calls": 460,
+        "response_forwards": 2
+      },
+      "response_observations": 2,
+      "optimizer_window_observations": 0
+    }
+  },
+  {
+    "dataset": "mathqa",
+    "event": 6,
+    "arm": "FSG",
+    "scope": "event_resource_and_compiler_observer",
+    "counters": {
+      "training_peak_allocated_bytes": 35448699904,
+      "training_peak_reserved_bytes": 37505466368,
+      "training_compiler_timers": {
+        "AOTAutogradCache.inductor_load": {
+          "calls": 2,
+          "durations_s": [
+            0.014544647,
+            0.008630377
+          ],
+          "total_s": 0.023175024000000002
+        },
+        "OutputGraph.call_user_compiler": {
+          "calls": 2,
+          "durations_s": [
+            0.059853441,
+            0.057902462
+          ],
+          "total_s": 0.117755903
+        },
+        "PyCodeCache.load_by_key_path": {
+          "calls": 2,
+          "durations_s": [
+            0.006215856,
+            0.003697312
+          ],
+          "total_s": 0.009913168
+        },
+        "StaticAutotunerFuture.warm_precompile": {
+          "calls": 7,
+          "durations_s": [
+            0.000555125,
+            0.000626263,
+            0.000378777,
+            0.000413166,
+            0.000282747,
+            0.000466175,
+            0.001421474
+          ],
+          "total_s": 0.004143727
+        },
+        "TritonBundler.load_cached_static_autotuners": {
+          "calls": 2,
+          "durations_s": [
+            0.000455298,
+            6.4653e-05
+          ],
+          "total_s": 0.0005199509999999999
+        },
+        "TritonBundler.read_and_emit": {
+          "calls": 2,
+          "durations_s": [
+            0.000953074,
+            0.000168303
+          ],
+          "total_s": 0.001121377
+        },
+        "_compile.compile_inner": {
+          "calls": 2,
+          "durations_s": [
+            1.29446762,
+            0.33047873
+          ],
+          "total_s": 1.62494635
+        },
+        "async_compile.wait": {
+          "calls": 2,
+          "durations_s": [
+            0.003028698,
+            0.001557635
+          ],
+          "total_s": 0.004586333
+        },
+        "build_guards": {
+          "calls": 2,
+          "durations_s": [
+            0.058386822,
+            0.068404723
+          ],
+          "total_s": 0.126791545
+        },
+        "bytecode_tracing": {
+          "calls": 2,
+          "durations_s": [
+            1.143259774,
+            0.188028919
+          ],
+          "total_s": 1.3312886929999999
+        },
+        "compile_attempt_0": {
+          "calls": 2,
+          "durations_s": [
+            1.228609928,
+            0.25995571
+          ],
+          "total_s": 1.488565638
+        },
+        "create_proxy": {
+          "calls": 2,
+          "durations_s": [
+            0.027824306,
+            0.013234347
+          ],
+          "total_s": 0.041058653
+        },
+        "gc": {
+          "calls": 2,
+          "durations_s": [
+            0.000506762,
+            0.000899241
+          ],
+          "total_s": 0.0014060029999999999
+        },
+        "get_fake_value": {
+          "calls": 2,
+          "durations_s": [
+            0.598347226,
+            0.031848112
+          ],
+          "total_s": 0.630195338
+        },
+        "insert_deferred_runtime_asserts": {
+          "calls": 2,
+          "durations_s": [
+            0.006388001,
+            0.005408118
+          ],
+          "total_s": 0.011796119
+        },
+        "pgo.dynamic_whitelist": {
+          "calls": 2,
+          "durations_s": [
+            2.7082e-05,
+            2.5521e-05
+          ],
+          "total_s": 5.2603e-05
+        },
+        "variable_builder_call": {
+          "calls": 2,
+          "durations_s": [
+            0.031816155,
+            0.056611036
+          ],
+          "total_s": 0.088427191
+        },
+        "wrap_to_fake_tensor_and_record": {
+          "calls": 2,
+          "durations_s": [
+            0.003861201,
+            0.036330233
+          ],
+          "total_s": 0.040191434000000005
+        }
+      },
+      "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+      "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+      "extra_forwards": 0,
+      "extra_backwards": 0,
+      "extra_optimizer_steps": 0
+    },
+    "note": "Profiler overhead counters describe this observer only; compilation timings are nested and must not be added to event time."
+  },
+  {
+    "dataset": "mathqa",
+    "event": 6,
+    "arm": "FSG",
+    "scope": "ordinary_physical_observer_including_auxiliary_activity",
+    "counters": {
+      "draft_forwards": 1184,
+      "layer_forwards": 5920,
+      "objective_chunks": 25448,
+      "vocabulary_head_calls": 165378,
+      "response_forwards": 256
+    },
+    "note": "Overlapping physical instrumentation; not additional response-level work."
+  },
+  {
+    "dataset": "mathqa",
+    "event": 6,
+    "arm": "FSG",
+    "scope": "startup_physical",
+    "counters": {
+      "counts": {
+        "draft_forwards": 2,
+        "layer_forwards": 10,
+        "objective_chunks": 230,
+        "vocabulary_head_calls": 460,
+        "response_forwards": 2
+      },
+      "response_observations": 2,
+      "optimizer_window_observations": 0
+    }
+  },
+  {
+    "dataset": "mathqa",
+    "event": 6,
+    "arm": "FSG",
+    "scope": "main_geometry_physical",
+    "counters": {
+      "captured_ordinary_responses": 256,
+      "head_projection_calls": 139964,
+      "checkpoint_proxy_calls": 25448,
+      "state_copy_passes": 128,
+      "additional_response_forwards_attempted": 768,
+      "additional_response_forwards_completed": 768,
+      "additional_response_forwards_failed": 0,
+      "additional_backwards_attempted": 256,
+      "additional_backwards_completed": 256,
+      "additional_backwards_failed": 0,
+      "optimizer_steps_attempted": 128,
+      "optimizer_steps_completed": 128,
+      "optimizer_steps_failed": 0,
+      "feasibility_probe_count": 3072,
+      "feasibility_norm_scan_passes": 3328,
+      "feasibility_construction_scan_passes": 3328,
+      "feasibility_identity_scan_passes": 256,
+      "feasibility_write_passes": 256,
+      "additional_response_forwards": 768,
+      "additional_backwards": 256
+    }
+  },
+  {
+    "dataset": "mathqa",
+    "event": 6,
+    "arm": "FSG",
+    "window": 1,
+    "scope": "diagnostic_physical",
+    "counters": {
+      "captured_ordinary_responses": 0,
+      "head_projection_calls": 5841,
+      "checkpoint_proxy_calls": 244,
+      "state_copy_passes": 7,
+      "additional_response_forwards_attempted": 40,
+      "additional_response_forwards_completed": 40,
+      "additional_response_forwards_failed": 0,
+      "additional_backwards_attempted": 4,
+      "additional_backwards_completed": 4,
+      "additional_backwards_failed": 0,
+      "optimizer_steps_attempted": 0,
+      "optimizer_steps_completed": 0,
+      "optimizer_steps_failed": 0,
+      "feasibility_probe_count": 0,
+      "feasibility_norm_scan_passes": 0,
+      "feasibility_construction_scan_passes": 0,
+      "feasibility_identity_scan_passes": 0,
+      "feasibility_write_passes": 0,
+      "teacher_head_calls": 1701,
+      "diagnostic_candidate_write_passes": 6,
+      "diagnostic_endpoint_statistic_scans": 6,
+      "diagnostic_scalar_norm_scan_passes": 25,
+      "diagnostic_scalar_write_passes": 1,
+      "diagnostic_feasibility_probe_count": 48,
+      "diagnostic_feasibility_norm_scan_passes": 52,
+      "diagnostic_feasibility_construction_scan_passes": 52,
+      "diagnostic_feasibility_identity_scan_passes": 4,
+      "diagnostic_feasibility_write_passes": 4
+    }
+  },
+  {
+    "dataset": "mathqa",
+    "event": 6,
+    "arm": "FSG",
+    "window": 32,
+    "scope": "diagnostic_physical",
+    "counters": {
+      "captured_ordinary_responses": 0,
+      "head_projection_calls": 7617,
+      "checkpoint_proxy_calls": 436,
+      "state_copy_passes": 7,
+      "additional_response_forwards_attempted": 40,
+      "additional_response_forwards_completed": 40,
+      "additional_response_forwards_failed": 0,
+      "additional_backwards_attempted": 4,
+      "additional_backwards_completed": 4,
+      "additional_backwards_failed": 0,
+      "optimizer_steps_attempted": 0,
+      "optimizer_steps_completed": 0,
+      "optimizer_steps_failed": 0,
+      "feasibility_probe_count": 0,
+      "feasibility_norm_scan_passes": 0,
+      "feasibility_construction_scan_passes": 0,
+      "feasibility_identity_scan_passes": 0,
+      "feasibility_write_passes": 0,
+      "teacher_head_calls": 2133,
+      "diagnostic_candidate_write_passes": 6,
+      "diagnostic_endpoint_statistic_scans": 6,
+      "diagnostic_scalar_norm_scan_passes": 25,
+      "diagnostic_scalar_write_passes": 1,
+      "diagnostic_feasibility_probe_count": 48,
+      "diagnostic_feasibility_norm_scan_passes": 52,
+      "diagnostic_feasibility_construction_scan_passes": 52,
+      "diagnostic_feasibility_identity_scan_passes": 4,
+      "diagnostic_feasibility_write_passes": 4
+    }
+  },
+  {
+    "dataset": "mathqa",
+    "event": 6,
+    "arm": "FSG",
+    "window": 65,
+    "scope": "diagnostic_physical",
+    "counters": {
+      "captured_ordinary_responses": 0,
+      "head_projection_calls": 6238,
+      "checkpoint_proxy_calls": 296,
+      "state_copy_passes": 7,
+      "additional_response_forwards_attempted": 40,
+      "additional_response_forwards_completed": 40,
+      "additional_response_forwards_failed": 0,
+      "additional_backwards_attempted": 4,
+      "additional_backwards_completed": 4,
+      "additional_backwards_failed": 0,
+      "optimizer_steps_attempted": 0,
+      "optimizer_steps_completed": 0,
+      "optimizer_steps_failed": 0,
+      "feasibility_probe_count": 0,
+      "feasibility_norm_scan_passes": 0,
+      "feasibility_construction_scan_passes": 0,
+      "feasibility_identity_scan_passes": 0,
+      "feasibility_write_passes": 0,
+      "teacher_head_calls": 1791,
+      "diagnostic_candidate_write_passes": 6,
+      "diagnostic_endpoint_statistic_scans": 6,
+      "diagnostic_scalar_norm_scan_passes": 25,
+      "diagnostic_scalar_write_passes": 1,
+      "diagnostic_feasibility_probe_count": 48,
+      "diagnostic_feasibility_norm_scan_passes": 52,
+      "diagnostic_feasibility_construction_scan_passes": 52,
+      "diagnostic_feasibility_identity_scan_passes": 4,
+      "diagnostic_feasibility_write_passes": 4
+    }
+  },
+  {
+    "dataset": "mathqa",
+    "event": 6,
+    "arm": "FSG",
+    "window": 128,
+    "scope": "diagnostic_physical",
+    "counters": {
+      "captured_ordinary_responses": 0,
+      "head_projection_calls": 5718,
+      "checkpoint_proxy_calls": 376,
+      "state_copy_passes": 7,
+      "additional_response_forwards_attempted": 40,
+      "additional_response_forwards_completed": 40,
+      "additional_response_forwards_failed": 0,
+      "additional_backwards_attempted": 4,
+      "additional_backwards_completed": 4,
+      "additional_backwards_failed": 0,
+      "optimizer_steps_attempted": 0,
+      "optimizer_steps_completed": 0,
+      "optimizer_steps_failed": 0,
+      "feasibility_probe_count": 0,
+      "feasibility_norm_scan_passes": 0,
+      "feasibility_construction_scan_passes": 0,
+      "feasibility_identity_scan_passes": 0,
+      "feasibility_write_passes": 0,
+      "teacher_head_calls": 1566,
+      "diagnostic_candidate_write_passes": 6,
+      "diagnostic_endpoint_statistic_scans": 6,
+      "diagnostic_scalar_norm_scan_passes": 25,
+      "diagnostic_scalar_write_passes": 1,
+      "diagnostic_feasibility_probe_count": 48,
+      "diagnostic_feasibility_norm_scan_passes": 52,
+      "diagnostic_feasibility_construction_scan_passes": 52,
+      "diagnostic_feasibility_identity_scan_passes": 4,
+      "diagnostic_feasibility_write_passes": 4
+    }
+  },
+  {
+    "dataset": "mathqa",
+    "event": 6,
+    "arm": "SCALAR",
+    "scope": "event_resource_and_compiler_observer",
+    "counters": {
+      "training_peak_allocated_bytes": 27781155840,
+      "training_peak_reserved_bytes": 30047993856,
+      "training_compiler_timers": {
+        "AOTAutogradCache.inductor_load": {
+          "calls": 2,
+          "durations_s": [
+            0.013697323,
+            0.004797718
+          ],
+          "total_s": 0.018495041
+        },
+        "OutputGraph.call_user_compiler": {
+          "calls": 2,
+          "durations_s": [
+            0.057942469,
+            0.053595304
+          ],
+          "total_s": 0.111537773
+        },
+        "PyCodeCache.load_by_key_path": {
+          "calls": 2,
+          "durations_s": [
+            0.006238204,
+            0.002434485
+          ],
+          "total_s": 0.008672689
+        },
+        "StaticAutotunerFuture.warm_precompile": {
+          "calls": 7,
+          "durations_s": [
+            0.000619213,
+            0.000618234,
+            0.000380839,
+            0.000425011,
+            0.00027686,
+            0.000461103,
+            0.000572601
+          ],
+          "total_s": 0.0033538609999999996
+        },
+        "TritonBundler.load_cached_static_autotuners": {
+          "calls": 2,
+          "durations_s": [
+            0.000466477,
+            6.0808e-05
+          ],
+          "total_s": 0.0005272850000000001
+        },
+        "TritonBundler.read_and_emit": {
+          "calls": 2,
+          "durations_s": [
+            0.000975601,
+            0.000148398
+          ],
+          "total_s": 0.001123999
+        },
+        "_compile.compile_inner": {
+          "calls": 2,
+          "durations_s": [
+            1.279492741,
+            0.317772816
+          ],
+          "total_s": 1.597265557
+        },
+        "async_compile.wait": {
+          "calls": 2,
+          "durations_s": [
+            0.003076375,
+            0.00071968
+          ],
+          "total_s": 0.003796055
+        },
+        "build_guards": {
+          "calls": 2,
+          "durations_s": [
+            0.050279663,
+            0.060695164
+          ],
+          "total_s": 0.110974827
+        },
+        "bytecode_tracing": {
+          "calls": 2,
+          "durations_s": [
+            1.13803697,
+            0.18730986
+          ],
+          "total_s": 1.32534683
+        },
+        "compile_attempt_0": {
+          "calls": 2,
+          "durations_s": [
+            1.221460377,
+            0.254889302
+          ],
+          "total_s": 1.4763496790000001
+        },
+        "create_proxy": {
+          "calls": 2,
+          "durations_s": [
+            0.027564967,
+            0.013178456
+          ],
+          "total_s": 0.040743423
+        },
+        "gc": {
+          "calls": 2,
+          "durations_s": [
+            0.000507203,
+            0.000976249
+          ],
+          "total_s": 0.0014834520000000001
+        },
+        "get_fake_value": {
+          "calls": 2,
+          "durations_s": [
+            0.596393262,
+            0.031689899
+          ],
+          "total_s": 0.628083161
+        },
+        "insert_deferred_runtime_asserts": {
+          "calls": 2,
+          "durations_s": [
+            0.006323228,
+            0.005367884
+          ],
+          "total_s": 0.011691112
+        },
+        "pgo.dynamic_whitelist": {
+          "calls": 2,
+          "durations_s": [
+            2.7414e-05,
+            2.3196e-05
+          ],
+          "total_s": 5.061e-05
+        },
+        "variable_builder_call": {
+          "calls": 2,
+          "durations_s": [
+            0.032023762,
+            0.056549815
+          ],
+          "total_s": 0.088573577
+        },
+        "wrap_to_fake_tensor_and_record": {
+          "calls": 2,
+          "durations_s": [
+            0.00387045,
+            0.036187074
+          ],
+          "total_s": 0.040057524
+        }
+      },
+      "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+      "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+      "extra_forwards": 0,
+      "extra_backwards": 0,
+      "extra_optimizer_steps": 0
+    },
+    "note": "Profiler overhead counters describe this observer only; compilation timings are nested and must not be added to event time."
+  },
+  {
+    "dataset": "mathqa",
+    "event": 6,
+    "arm": "SCALAR",
+    "scope": "ordinary_physical_observer_including_auxiliary_activity",
+    "counters": {
+      "draft_forwards": 1024,
+      "layer_forwards": 5120,
+      "objective_chunks": 25448,
+      "vocabulary_head_calls": 139964,
+      "response_forwards": 256
+    },
+    "note": "Overlapping physical instrumentation; not additional response-level work."
+  },
+  {
+    "dataset": "mathqa",
+    "event": 6,
+    "arm": "SCALAR",
+    "scope": "startup_physical",
+    "counters": {
+      "counts": {
+        "draft_forwards": 2,
+        "layer_forwards": 10,
+        "objective_chunks": 230,
+        "vocabulary_head_calls": 460,
+        "response_forwards": 2
+      },
+      "response_observations": 2,
+      "optimizer_window_observations": 0
+    }
+  },
+  {
+    "dataset": "mathqa",
+    "event": 6,
+    "arm": "SCALAR",
+    "scope": "main_geometry_physical",
+    "counters": {
+      "captured_ordinary_responses": 256,
+      "head_projection_calls": 139964,
+      "checkpoint_proxy_calls": 25448,
+      "state_copy_passes": 239,
+      "additional_response_forwards_attempted": 768,
+      "additional_response_forwards_completed": 768,
+      "additional_response_forwards_failed": 0,
+      "additional_backwards_attempted": 256,
+      "additional_backwards_completed": 256,
+      "additional_backwards_failed": 0,
+      "optimizer_steps_attempted": 128,
+      "optimizer_steps_completed": 128,
+      "optimizer_steps_failed": 0,
+      "feasibility_probe_count": 3024,
+      "feasibility_norm_scan_passes": 3278,
+      "feasibility_construction_scan_passes": 3278,
+      "feasibility_identity_scan_passes": 254,
+      "feasibility_write_passes": 254,
+      "scalar_norm_probe_passes": 3200,
+      "scalar_endpoint_statistic_scans": 128,
+      "scalar_identity_scan_passes": 128,
+      "scalar_write_passes": 128,
+      "additional_response_forwards": 768,
+      "additional_backwards": 256
+    }
+  }
+]

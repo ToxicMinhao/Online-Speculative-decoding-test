@@ -1,0 +1,863 @@
+{
+  "status": "completed",
+  "interpretation": "diagnostic, not qualification acceptance",
+  "execution_commit": "1c6dec2cd7feac62926ca7ed0abb7948918f5da6",
+  "budget": {
+    "response_forward": 2,
+    "head_backward": 2,
+    "draft_backward": 5,
+    "operator_gemm": 7,
+    "optimizer_step": 0,
+    "feedback_generation": 0,
+    "teacher_preparation": 0,
+    "serving_generation": 0
+  },
+  "tolerances": {
+    "rtol": 0.016,
+    "atol": 1e-05,
+    "maximum_relative_l2": 0.016
+  },
+  "additional_adam_steps": 0,
+  "startup": "ordinary retained endpoint loaded; no warmup optimizer or backward",
+  "gpu_admission": {
+    "free_bytes": 84649312256,
+    "total_bytes": 85094825984,
+    "required_free_bytes": 34359738368
+  },
+  "policy": "auxiliary_head_ieee_fp32_from_bf16_v1",
+  "prefix_mask_exact": true,
+  "proposals_exact": true,
+  "protected_occurrences": [
+    4,
+    4
+  ],
+  "operator_accuracy_passed": true,
+  "small_fixture_complete_gradient_passed": false,
+  "precision_before": {
+    "global_fp32": "none",
+    "cuda_matmul_fp32": "none",
+    "bf16_reduced_precision_reduction": true,
+    "fp16_reduced_precision_reduction": true,
+    "cuda_autocast": false,
+    "cpu_autocast": false,
+    "environment": {
+      "TORCH_ALLOW_TF32_CUBLAS_OVERRIDE": null,
+      "NVIDIA_TF32_OVERRIDE": null
+    }
+  },
+  "precision_after": {
+    "global_fp32": "none",
+    "cuda_matmul_fp32": "none",
+    "bf16_reduced_precision_reduction": true,
+    "fp16_reduced_precision_reduction": true,
+    "cuda_autocast": false,
+    "cpu_autocast": false,
+    "environment": {
+      "TORCH_ALLOW_TF32_CUBLAS_OVERRIDE": null,
+      "NVIDIA_TF32_OVERRIDE": null
+    }
+  },
+  "costs": {
+    "end_to_end_chunked_head": 0.17340227402746677,
+    "end_to_end_full_head": 0.01395164243876934,
+    "end_to_end_parameter_vjps": 1.0999780036509037,
+    "native_bf16/chunked": 0.002610526978969574,
+    "native_bf16/full": 0.0012609511613845825,
+    "ieee_fp32/chunked": 0.01328197494149208,
+    "ieee_fp32/full": 0.006593072786927223,
+    "fp64_reference": 0.07626375183463097,
+    "fixed_input_parameter_vjps": 2.144614255055785
+  },
+  "ieee_precision_readback": "asserted inside every revised FP32 product before matmul",
+  "original_gate_overridden": false,
+  "full_qualification_completed": false,
+  "untested": "SCALAR, MathQA, production tile and partial shapes, resource and serving checks; pilot",
+  "fixed_control_does_not_substitute_for_complete_gradient": true,
+  "optimizer_objects_and_versions_unchanged": true,
+  "restoration": {
+    "exact": true,
+    "differences": []
+  },
+  "physical_work": {
+    "work": {
+      "captured_ordinary_responses": 0,
+      "head_projection_calls": 13,
+      "checkpoint_proxy_calls": 0,
+      "state_copy_passes": 0,
+      "additional_response_forwards_attempted": 2,
+      "additional_response_forwards_completed": 2,
+      "additional_response_forwards_failed": 0,
+      "additional_backwards_attempted": 0,
+      "additional_backwards_completed": 0,
+      "additional_backwards_failed": 0,
+      "optimizer_steps_attempted": 0,
+      "optimizer_steps_completed": 0,
+      "optimizer_steps_failed": 0
+    },
+    "calls": {
+      "diagnostic_native/draft": 1,
+      "diagnostic_native/draft_layer_0": 1,
+      "diagnostic_native/draft_layer_1": 1,
+      "diagnostic_native/draft_layer_2": 1,
+      "diagnostic_native/draft_layer_3": 1,
+      "diagnostic_native/draft_layer_4": 1,
+      "diagnostic_prestate/draft": 1,
+      "diagnostic_prestate/draft_layer_0": 1,
+      "diagnostic_prestate/draft_layer_1": 1,
+      "diagnostic_prestate/draft_layer_2": 1,
+      "diagnostic_prestate/draft_layer_3": 1,
+      "diagnostic_prestate/draft_layer_4": 1,
+      "diagnostic_prestate/vocabulary_head": 13
+    }
+  },
+  "work": {
+    "response_forward_attempted": 2,
+    "response_forward_completed": 2,
+    "head_backward_attempted": 2,
+    "head_backward_completed": 2,
+    "draft_backward_attempted": 5,
+    "draft_backward_completed": 5,
+    "operator_gemm_attempted": 7,
+    "operator_gemm_completed": 7
+  },
+  "duration_s": 67.19277523644269,
+  "peak_allocated_bytes": 16096136704,
+  "peak_reserved_bytes": 21032337408,
+  "fixture": {
+    "length": 183,
+    "prompt_length": 56,
+    "response_tokens": 127,
+    "adjacent_response_positions": 126,
+    "anchors": [
+      [
+        56,
+        57
+      ]
+    ],
+    "keep": [
+      [
+        true,
+        true
+      ]
+    ],
+    "original_anchor_count": 126,
+    "selection": "first two original anchors; no sampler call"
+  },
+  "branch_comparisons": {
+    "pre_logits": {
+      "shape": [
+        1,
+        2,
+        16,
+        151936
+      ],
+      "actual_dtype": "torch.bfloat16",
+      "reference_dtype": "torch.bfloat16",
+      "coordinates": 4861952,
+      "exact": false,
+      "differing_coordinates": 7002,
+      "violations": 2,
+      "violation_fraction": 4.113574136478517e-07,
+      "nonfinite_coordinates": 0,
+      "maximum_absolute_error": 0.0625,
+      "maximum_error_to_tolerance": 1.0206365585327148,
+      "actual_norm": 7319.318078721374,
+      "reference_norm": 7319.297391412009,
+      "discrepancy_norm": 0.9331237609108921,
+      "relative_l2": 0.00012748816054472103,
+      "norms_scope": "all coordinates",
+      "matches_pinned_tolerance": false,
+      "tolerances": {
+        "rtol": 0.016,
+        "atol": 1e-05,
+        "maximum_relative_l2": 0.016
+      }
+    },
+    "native_logits": {
+      "shape": [
+        1,
+        2,
+        16,
+        151936
+      ],
+      "actual_dtype": "torch.bfloat16",
+      "reference_dtype": "torch.bfloat16",
+      "coordinates": 4861952,
+      "exact": false,
+      "differing_coordinates": 6989,
+      "violations": 0,
+      "violation_fraction": 0.0,
+      "nonfinite_coordinates": 0,
+      "maximum_absolute_error": 0.0625,
+      "maximum_error_to_tolerance": 0.9242330193519592,
+      "actual_norm": 7304.856591922907,
+      "reference_norm": 7304.835598023661,
+      "discrepancy_norm": 0.9370698292380939,
+      "relative_l2": 0.00012828075548909277,
+      "norms_scope": "all coordinates",
+      "matches_pinned_tolerance": true,
+      "tolerances": {
+        "rtol": 0.016,
+        "atol": 1e-05,
+        "maximum_relative_l2": 0.016
+      }
+    },
+    "sensitivity": {
+      "shape": [
+        1,
+        2,
+        16,
+        151936
+      ],
+      "actual_dtype": "torch.float32",
+      "reference_dtype": "torch.float32",
+      "coordinates": 4861952,
+      "exact": false,
+      "differing_coordinates": 219604,
+      "violations": 0,
+      "violation_fraction": 0.0,
+      "nonfinite_coordinates": 0,
+      "maximum_absolute_error": 8.663391781738028e-09,
+      "maximum_error_to_tolerance": 0.0008662051404826343,
+      "actual_norm": 0.32858714023839275,
+      "reference_norm": 0.3285871402371227,
+      "discrepancy_norm": 8.78976859005704e-09,
+      "relative_l2": 2.6750190478282146e-08,
+      "norms_scope": "all coordinates",
+      "matches_pinned_tolerance": true,
+      "tolerances": {
+        "rtol": 0.016,
+        "atol": 1e-05,
+        "maximum_relative_l2": 0.016
+      }
+    },
+    "incoming": {
+      "shape": [
+        1,
+        2,
+        16,
+        151936
+      ],
+      "actual_dtype": "torch.bfloat16",
+      "reference_dtype": "torch.bfloat16",
+      "coordinates": 4861952,
+      "exact": false,
+      "differing_coordinates": 1798,
+      "violations": 0,
+      "violation_fraction": 0.0,
+      "nonfinite_coordinates": 0,
+      "maximum_absolute_error": 8.381903171539307e-09,
+      "maximum_error_to_tolerance": 0.0008380604558624327,
+      "actual_norm": 0.3280891735954615,
+      "reference_norm": 0.32808917359545936,
+      "discrepancy_norm": 8.49723225402653e-09,
+      "relative_l2": 2.5899154674648883e-08,
+      "norms_scope": "all coordinates",
+      "matches_pinned_tolerance": true,
+      "tolerances": {
+        "rtol": 0.016,
+        "atol": 1e-05,
+        "maximum_relative_l2": 0.016
+      }
+    },
+    "adjoint": {
+      "shape": [
+        1,
+        2,
+        16,
+        4096
+      ],
+      "actual_dtype": "torch.bfloat16",
+      "reference_dtype": "torch.bfloat16",
+      "coordinates": 131072,
+      "exact": false,
+      "differing_coordinates": 3513,
+      "violations": 0,
+      "violation_fraction": 0.0,
+      "nonfinite_coordinates": 0,
+      "maximum_absolute_error": 3.814697265625e-06,
+      "maximum_error_to_tolerance": 0.16853629052639008,
+      "actual_norm": 0.36457922147567046,
+      "reference_norm": 0.36457921323331,
+      "discrepancy_norm": 3.822154589448582e-06,
+      "relative_l2": 1.0483742491930333e-05,
+      "norms_scope": "all coordinates",
+      "matches_pinned_tolerance": true,
+      "tolerances": {
+        "rtol": 0.016,
+        "atol": 1e-05,
+        "maximum_relative_l2": 0.016
+      }
+    },
+    "weights": {
+      "shape": [
+        1,
+        2,
+        16
+      ],
+      "actual_dtype": "torch.float32",
+      "reference_dtype": "torch.float32",
+      "coordinates": 32,
+      "exact": true,
+      "differing_coordinates": 0,
+      "violations": 0,
+      "violation_fraction": 0.0,
+      "nonfinite_coordinates": 0,
+      "maximum_absolute_error": 0.0,
+      "maximum_error_to_tolerance": 0.0,
+      "actual_norm": 0.7205984626568553,
+      "reference_norm": 0.7205984626568553,
+      "discrepancy_norm": 0.0,
+      "relative_l2": 0.0,
+      "norms_scope": "all coordinates",
+      "matches_pinned_tolerance": true,
+      "tolerances": {
+        "rtol": 0.016,
+        "atol": 1e-05,
+        "maximum_relative_l2": 0.016
+      }
+    },
+    "margins": {
+      "shape": [
+        1,
+        2,
+        16
+      ],
+      "actual_dtype": "torch.float64",
+      "reference_dtype": "torch.float64",
+      "coordinates": 32,
+      "exact": false,
+      "differing_coordinates": 18,
+      "violations": 0,
+      "violation_fraction": 0.0,
+      "nonfinite_coordinates": 0,
+      "maximum_absolute_error": 6.011512596160173e-06,
+      "maximum_error_to_tolerance": 0.0009476449596010596,
+      "actual_norm": 3.5423070406605124,
+      "reference_norm": 3.542308069955081,
+      "discrepancy_norm": 6.086978647873367e-06,
+      "relative_l2": 1.718365124564266e-06,
+      "norms_scope": "all coordinates",
+      "matches_pinned_tolerance": true,
+      "tolerances": {
+        "rtol": 0.016,
+        "atol": 1e-05,
+        "maximum_relative_l2": 0.016
+      }
+    },
+    "energy": {
+      "shape": [
+        1
+      ],
+      "actual_dtype": "torch.float64",
+      "reference_dtype": "torch.float64",
+      "coordinates": 1,
+      "exact": false,
+      "differing_coordinates": 1,
+      "violations": 0,
+      "violation_fraction": 0.0,
+      "nonfinite_coordinates": 0,
+      "maximum_absolute_error": 8.054518219058338e-09,
+      "maximum_error_to_tolerance": 1.412056529058629e-06,
+      "actual_norm": 0.3558815489270363,
+      "reference_norm": 0.35588154087251805,
+      "discrepancy_norm": 8.054518219058338e-09,
+      "relative_l2": 2.2632582176954163e-08,
+      "norms_scope": "all coordinates",
+      "matches_pinned_tolerance": true,
+      "tolerances": {
+        "rtol": 0.016,
+        "atol": 1e-05,
+        "maximum_relative_l2": 0.016
+      }
+    },
+    "proxy": {
+      "shape": [
+        1
+      ],
+      "actual_dtype": "torch.float32",
+      "reference_dtype": "torch.float32",
+      "coordinates": 1,
+      "exact": false,
+      "differing_coordinates": 1,
+      "violations": 0,
+      "violation_fraction": 0.0,
+      "nonfinite_coordinates": 0,
+      "maximum_absolute_error": 1.4901161193847656e-08,
+      "maximum_error_to_tolerance": 4.656551482185023e-06,
+      "actual_norm": 0.19937764108181,
+      "reference_norm": 0.1993776261806488,
+      "discrepancy_norm": 1.4901161193847656e-08,
+      "relative_l2": 7.473838203062092e-08,
+      "norms_scope": "all coordinates",
+      "matches_pinned_tolerance": true,
+      "tolerances": {
+        "rtol": 0.016,
+        "atol": 1e-05,
+        "maximum_relative_l2": 0.016
+      }
+    },
+    "risk": {
+      "shape": [
+        1
+      ],
+      "actual_dtype": "torch.float64",
+      "reference_dtype": "torch.float64",
+      "coordinates": 1,
+      "exact": false,
+      "differing_coordinates": 1,
+      "violations": 0,
+      "violation_fraction": 0.0,
+      "nonfinite_coordinates": 0,
+      "maximum_absolute_error": 2.8504936466777764e-09,
+      "maximum_error_to_tolerance": 1.2208075742306132e-06,
+      "actual_norm": 0.145307790849159,
+      "reference_norm": 0.14530778799866537,
+      "discrepancy_norm": 2.8504936466777764e-09,
+      "relative_l2": 1.961693647627447e-08,
+      "norms_scope": "all coordinates",
+      "matches_pinned_tolerance": true,
+      "tolerances": {
+        "rtol": 0.016,
+        "atol": 1e-05,
+        "maximum_relative_l2": 0.016
+      }
+    },
+    "absolute": {
+      "shape": [
+        1
+      ],
+      "actual_dtype": "torch.float64",
+      "reference_dtype": "torch.float64",
+      "coordinates": 1,
+      "exact": false,
+      "differing_coordinates": 1,
+      "violations": 0,
+      "violation_fraction": 0.0,
+      "nonfinite_coordinates": 0,
+      "maximum_absolute_error": 1.858721683234421e-07,
+      "maximum_error_to_tolerance": 8.749301526566389e-06,
+      "actual_norm": 1.327139520538339,
+      "reference_norm": 1.3271393346661706,
+      "discrepancy_norm": 1.858721683234421e-07,
+      "relative_l2": 1.400547504457748e-07,
+      "norms_scope": "all coordinates",
+      "matches_pinned_tolerance": true,
+      "tolerances": {
+        "rtol": 0.016,
+        "atol": 1e-05,
+        "maximum_relative_l2": 0.016
+      }
+    }
+  },
+  "operator": {
+    "accuracy_check_passed": true,
+    "policy": "BF16 incoming and frozen weight -> IEEE FP32 product -> BF16 hidden gradient",
+    "native_control": "direct BF16 product; not a rerun of the retained full-model baseline",
+    "input_shape": [
+      1,
+      2,
+      16,
+      151936
+    ],
+    "weight_shape": [
+      151936,
+      4096
+    ],
+    "transient_fp32_weight_bytes": 2489319424,
+    "transient_fp64_weight_bytes": 4978638848,
+    "precast_error_interpretation": "descriptive accuracy; no new tolerance or qualified gate",
+    "fp64_reference": "independent full product of BF16-valued operands promoted to FP64",
+    "incoming_unchanged": true,
+    "weight_version_unchanged": true,
+    "comparisons": {
+      "native_bf16/chunked": {
+        "raw_vs_fp64": {
+          "shape": [
+            1,
+            2,
+            16,
+            4096
+          ],
+          "actual_dtype": "torch.bfloat16",
+          "reference_dtype": "torch.float64",
+          "coordinates": 131072,
+          "exact": false,
+          "differing_coordinates": 16384,
+          "violations": 0,
+          "violation_fraction": 0.0,
+          "nonfinite_coordinates": 0,
+          "maximum_absolute_error": 0.00011032969672199883,
+          "maximum_error_to_tolerance": 0.41858781697166364,
+          "actual_norm": 0.36452936010660464,
+          "reference_norm": 0.36456286291494844,
+          "discrepancy_norm": 0.0008571023385071236,
+          "relative_l2": 0.0023510412762670326,
+          "norms_scope": "all coordinates",
+          "matches_pinned_tolerance": true,
+          "tolerances": {
+            "rtol": 0.016,
+            "atol": 1e-05,
+            "maximum_relative_l2": 0.016
+          }
+        },
+        "bf16_vs_rounded_fp64": {
+          "shape": [
+            1,
+            2,
+            16,
+            4096
+          ],
+          "actual_dtype": "torch.bfloat16",
+          "reference_dtype": "torch.bfloat16",
+          "coordinates": 131072,
+          "exact": false,
+          "differing_coordinates": 4982,
+          "violations": 0,
+          "violation_fraction": 0.0,
+          "nonfinite_coordinates": 0,
+          "maximum_absolute_error": 0.0001220703125,
+          "maximum_error_to_tolerance": 0.46600058674812317,
+          "actual_norm": 0.36452936010660464,
+          "reference_norm": 0.36457921323573184,
+          "discrepancy_norm": 0.0010769884515954623,
+          "relative_l2": 0.0029540588505771355,
+          "norms_scope": "all coordinates",
+          "matches_pinned_tolerance": true,
+          "tolerances": {
+            "rtol": 0.016,
+            "atol": 1e-05,
+            "maximum_relative_l2": 0.016
+          }
+        }
+      },
+      "native_bf16/full": {
+        "raw_vs_fp64": {
+          "shape": [
+            1,
+            2,
+            16,
+            4096
+          ],
+          "actual_dtype": "torch.bfloat16",
+          "reference_dtype": "torch.float64",
+          "coordinates": 131072,
+          "exact": false,
+          "differing_coordinates": 16384,
+          "violations": 0,
+          "violation_fraction": 0.0,
+          "nonfinite_coordinates": 0,
+          "maximum_absolute_error": 6.085743990875622e-05,
+          "maximum_error_to_tolerance": 0.2806351405870689,
+          "actual_norm": 0.3645381111555392,
+          "reference_norm": 0.36456286291494844,
+          "discrepancy_norm": 0.0006239289153761616,
+          "relative_l2": 0.001711443975361041,
+          "norms_scope": "all coordinates",
+          "matches_pinned_tolerance": true,
+          "tolerances": {
+            "rtol": 0.016,
+            "atol": 1e-05,
+            "maximum_relative_l2": 0.016
+          }
+        },
+        "bf16_vs_rounded_fp64": {
+          "shape": [
+            1,
+            2,
+            16,
+            4096
+          ],
+          "actual_dtype": "torch.bfloat16",
+          "reference_dtype": "torch.bfloat16",
+          "coordinates": 131072,
+          "exact": false,
+          "differing_coordinates": 3889,
+          "violations": 0,
+          "violation_fraction": 0.0,
+          "nonfinite_coordinates": 0,
+          "maximum_absolute_error": 6.103515625e-05,
+          "maximum_error_to_tolerance": 0.44886523485183716,
+          "actual_norm": 0.3645381111555392,
+          "reference_norm": 0.36457921323573184,
+          "discrepancy_norm": 0.00044268283745198695,
+          "relative_l2": 0.0012142295045377543,
+          "norms_scope": "all coordinates",
+          "matches_pinned_tolerance": true,
+          "tolerances": {
+            "rtol": 0.016,
+            "atol": 1e-05,
+            "maximum_relative_l2": 0.016
+          }
+        }
+      },
+      "ieee_fp32/chunked": {
+        "raw_vs_fp64": {
+          "shape": [
+            1,
+            2,
+            16,
+            4096
+          ],
+          "actual_dtype": "torch.float32",
+          "reference_dtype": "torch.float64",
+          "coordinates": 131072,
+          "exact": false,
+          "differing_coordinates": 16384,
+          "violations": 0,
+          "violation_fraction": 0.0,
+          "nonfinite_coordinates": 0,
+          "maximum_absolute_error": 6.852975845822451e-08,
+          "maximum_error_to_tolerance": 0.0009906389793886638,
+          "actual_norm": 0.3645628374621963,
+          "reference_norm": 0.36456286291494844,
+          "discrepancy_norm": 4.0210077895571574e-07,
+          "relative_l2": 1.1029669224688e-06,
+          "norms_scope": "all coordinates",
+          "matches_pinned_tolerance": true,
+          "tolerances": {
+            "rtol": 0.016,
+            "atol": 1e-05,
+            "maximum_relative_l2": 0.016
+          }
+        },
+        "bf16_vs_rounded_fp64": {
+          "shape": [
+            1,
+            2,
+            16,
+            4096
+          ],
+          "actual_dtype": "torch.bfloat16",
+          "reference_dtype": "torch.bfloat16",
+          "coordinates": 131072,
+          "exact": false,
+          "differing_coordinates": 10,
+          "violations": 0,
+          "violation_fraction": 0.0,
+          "nonfinite_coordinates": 0,
+          "maximum_absolute_error": 3.814697265625e-06,
+          "maximum_error_to_tolerance": 0.16853629052639008,
+          "actual_norm": 0.36457922147568583,
+          "reference_norm": 0.36457921323573184,
+          "discrepancy_norm": 3.8226345810771245e-06,
+          "relative_l2": 1.0485059055205823e-05,
+          "norms_scope": "all coordinates",
+          "matches_pinned_tolerance": true,
+          "tolerances": {
+            "rtol": 0.016,
+            "atol": 1e-05,
+            "maximum_relative_l2": 0.016
+          }
+        }
+      },
+      "ieee_fp32/full": {
+        "raw_vs_fp64": {
+          "shape": [
+            1,
+            2,
+            16,
+            4096
+          ],
+          "actual_dtype": "torch.float32",
+          "reference_dtype": "torch.float64",
+          "coordinates": 131072,
+          "exact": false,
+          "differing_coordinates": 16384,
+          "violations": 0,
+          "violation_fraction": 0.0,
+          "nonfinite_coordinates": 0,
+          "maximum_absolute_error": 6.666711330899355e-08,
+          "maximum_error_to_tolerance": 0.000500989651867911,
+          "actual_norm": 0.36456280862147505,
+          "reference_norm": 0.36456286291494844,
+          "discrepancy_norm": 2.790596979922358e-07,
+          "relative_l2": 7.654638647528389e-07,
+          "norms_scope": "all coordinates",
+          "matches_pinned_tolerance": true,
+          "tolerances": {
+            "rtol": 0.016,
+            "atol": 1e-05,
+            "maximum_relative_l2": 0.016
+          }
+        },
+        "bf16_vs_rounded_fp64": {
+          "shape": [
+            1,
+            2,
+            16,
+            4096
+          ],
+          "actual_dtype": "torch.bfloat16",
+          "reference_dtype": "torch.bfloat16",
+          "coordinates": 131072,
+          "exact": false,
+          "differing_coordinates": 10,
+          "violations": 0,
+          "violation_fraction": 0.0,
+          "nonfinite_coordinates": 0,
+          "maximum_absolute_error": 5.960464477539063e-08,
+          "maximum_error_to_tolerance": 0.005828179884701967,
+          "actual_norm": 0.36457921323331,
+          "reference_norm": 0.36457921323573184,
+          "discrepancy_norm": 6.145367527929285e-08,
+          "relative_l2": 1.6856055707037185e-07,
+          "norms_scope": "all coordinates",
+          "matches_pinned_tolerance": true,
+          "tolerances": {
+            "rtol": 0.016,
+            "atol": 1e-05,
+            "maximum_relative_l2": 0.016
+          }
+        }
+      },
+      "revised_chunked_vs_full": {
+        "shape": [
+          1,
+          2,
+          16,
+          4096
+        ],
+        "actual_dtype": "torch.bfloat16",
+        "reference_dtype": "torch.bfloat16",
+        "coordinates": 131072,
+        "exact": false,
+        "differing_coordinates": 10,
+        "violations": 0,
+        "violation_fraction": 0.0,
+        "nonfinite_coordinates": 0,
+        "maximum_absolute_error": 3.814697265625e-06,
+        "maximum_error_to_tolerance": 0.16853629052639008,
+        "actual_norm": 0.36457922147568583,
+        "reference_norm": 0.36457921323331,
+        "discrepancy_norm": 3.822140592474015e-06,
+        "relative_l2": 1.0483704099794801e-05,
+        "norms_scope": "all coordinates",
+        "matches_pinned_tolerance": true,
+        "tolerances": {
+          "rtol": 0.016,
+          "atol": 1e-05,
+          "maximum_relative_l2": 0.016
+        }
+      }
+    }
+  },
+  "end_to_end": {
+    "status": "failed",
+    "tolerances": {
+      "rtol": 0.016,
+      "atol": 1e-05,
+      "maximum_relative_l2": 0.016
+    },
+    "violations": 192305,
+    "relative_l2": 0.005714389140182738,
+    "discrepancy_norm": 0.051105233218033785,
+    "chunked_norm": 8.954929586347454,
+    "unchunked_norm": 8.943253944445146,
+    "coordinates": 1048626432,
+    "affected_tensors": 50,
+    "tensor_count": 58,
+    "maximum_absolute_error": 0.0078125,
+    "coordinate_failure_fraction": 0.0001833875192648205
+  },
+  "fixed_input_parameters": {
+    "chunked_vs_fp64_rounded": {
+      "status": "failed",
+      "tolerances": {
+        "rtol": 0.016,
+        "atol": 1e-05,
+        "maximum_relative_l2": 0.016
+      },
+      "violations": 191648,
+      "relative_l2": 0.005842015169048198,
+      "discrepancy_norm": 0.05224953499223631,
+      "chunked_norm": 8.958043150259792,
+      "unchunked_norm": 8.943752023969665,
+      "coordinates": 1048626432,
+      "affected_tensors": 50,
+      "tensor_count": 58,
+      "maximum_absolute_error": 0.0078125,
+      "coordinate_failure_fraction": 0.00018276098537252968
+    },
+    "full_vs_fp64_rounded": {
+      "status": "failed",
+      "tolerances": {
+        "rtol": 0.016,
+        "atol": 1e-05,
+        "maximum_relative_l2": 0.016
+      },
+      "violations": 114532,
+      "relative_l2": 0.004951855648446075,
+      "discrepancy_norm": 0.0442881689781952,
+      "chunked_norm": 8.943253944445146,
+      "unchunked_norm": 8.943752023969665,
+      "coordinates": 1048626432,
+      "affected_tensors": 35,
+      "tensor_count": 58,
+      "maximum_absolute_error": 0.0078125,
+      "coordinate_failure_fraction": 0.00010922097374711225
+    }
+  },
+  "dependencies": {
+    "count": 1515,
+    "all_matched": true
+  },
+  "supervisor_duration_s": 84,
+  "cpu_tests": {
+    "focused_local": 34,
+    "focused_A800": 34,
+    "existing_regressions_local": 43
+  },
+  "retrieval": {
+    "verified": true,
+    "files": 19,
+    "bytes": 2144890,
+    "differences": [],
+    "transport": "read-only tar stream after remote rsync executable unavailable; no GPU retry"
+  },
+  "historical_comparison": {
+    "prior_same_graph_violations": 356522,
+    "prior_relative_l2": 0.006396850689689427,
+    "current_end_to_end_violations": 192305,
+    "no_claim_original_gate_passed": true
+  },
+  "postflight": {
+    "utc": "2026-11-08T23:26:16.101424+00:00",
+    "free_bytes": 58278899712,
+    "gpus": [
+      "0, 0 MiB, 0 %",
+      "1, 0 MiB, 0 %"
+    ],
+    "compute_processes": []
+  },
+  "cleanup": {
+    "A800": {
+      "utc": "2026-11-08T23:25:50.013255+00:00",
+      "path": "/data/sources/minhao/runs/dflash_functional_step_geometry_20261108/auxiliary_head_precision_control_001/source.tar.gz",
+      "bytes": 21112036,
+      "reason": "Redundant source-transfer archive; exact deployed sources verified and published",
+      "retained_source": "/data/sources/minhao/fsg_auxiliary_head_precision_20261108/DFlash-Online",
+      "commit": "1c6dec2cd7feac62926ca7ed0abb7948918f5da6",
+      "lost_scientific_replay": false,
+      "free_before": 58257780736,
+      "free_after": 58278899712
+    },
+    "FENRIR": {
+      "utc": "2026-11-08T23:25:50.248590+00:00",
+      "path": "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_functional_step_geometry_20261108/auxiliary_head_precision_001/source.tar.gz",
+      "bytes": 21112036,
+      "reason": "Redundant source-transfer archive; Git and deployed source retain exact code",
+      "retained_commit": "1c6dec2cd7feac62926ca7ed0abb7948918f5da6",
+      "lost_scientific_replay": false,
+      "free_before": 7592710144,
+      "free_after": 7613825024
+    }
+  },
+  "reviews": {
+    "same_team_authorship_overlap": true,
+    "work_assertions_passed": 3123,
+    "numerical_interpretation_categories_checked": 11,
+    "narrative_review": "passed",
+    "not_independent_gpu_replication": true
+  }
+}

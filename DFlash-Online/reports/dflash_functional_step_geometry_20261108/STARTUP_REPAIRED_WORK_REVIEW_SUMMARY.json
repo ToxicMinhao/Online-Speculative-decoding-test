@@ -1,0 +1,716 @@
+{
+  "status": "audited",
+  "verification_status": "ANALYZED",
+  "scientific_result_status": "passed",
+  "execution_commit": "90666a76300da2200cb2062b7bc41ee4327f0dfb",
+  "prior_counts": {
+    "additional_forward_attempted": 34,
+    "additional_forward_completed": 34,
+    "additional_backward_attempted": 20,
+    "additional_backward_completed": 20,
+    "ordinary_forward_attempted": 8,
+    "ordinary_forward_completed": 8,
+    "ordinary_backward_attempted": 8,
+    "ordinary_backward_completed": 8,
+    "adam_attempted": 3,
+    "adam_completed": 3
+  },
+  "new_counts": {
+    "additional_forward_attempted": 27,
+    "additional_forward_completed": 27,
+    "additional_backward_attempted": 16,
+    "additional_backward_completed": 16,
+    "ordinary_forward_attempted": 10,
+    "ordinary_forward_completed": 10,
+    "ordinary_backward_attempted": 10,
+    "ordinary_backward_completed": 10,
+    "adam_attempted": 5,
+    "adam_completed": 5,
+    "serving_generation_attempted": 8,
+    "serving_generation_completed": 8
+  },
+  "cumulative_counts": {
+    "additional_forward_attempted": 61,
+    "additional_forward_completed": 61,
+    "additional_backward_attempted": 36,
+    "additional_backward_completed": 36,
+    "ordinary_forward_attempted": 18,
+    "ordinary_forward_completed": 18,
+    "ordinary_backward_attempted": 18,
+    "ordinary_backward_completed": 18,
+    "adam_attempted": 8,
+    "adam_completed": 8,
+    "serving_generation_attempted": 8,
+    "serving_generation_completed": 8
+  },
+  "original_ledger_bytes": 20193,
+  "final_ledger_bytes": 39801,
+  "new_work_by_case": [
+    {
+      "dataset": "gsm8k",
+      "case": "FSG",
+      "kind": "serving_generation",
+      "status": "attempted",
+      "count": 1
+    },
+    {
+      "dataset": "gsm8k",
+      "case": "FSG",
+      "kind": "serving_generation",
+      "status": "completed",
+      "count": 1
+    },
+    {
+      "dataset": "gsm8k",
+      "case": "FSG_ZERO",
+      "kind": "serving_generation",
+      "status": "attempted",
+      "count": 1
+    },
+    {
+      "dataset": "gsm8k",
+      "case": "FSG_ZERO",
+      "kind": "serving_generation",
+      "status": "completed",
+      "count": 1
+    },
+    {
+      "dataset": "gsm8k",
+      "case": "KPLUS",
+      "kind": "serving_generation",
+      "status": "attempted",
+      "count": 1
+    },
+    {
+      "dataset": "gsm8k",
+      "case": "KPLUS",
+      "kind": "serving_generation",
+      "status": "completed",
+      "count": 1
+    },
+    {
+      "dataset": "gsm8k",
+      "case": "SCALAR",
+      "kind": "adam",
+      "status": "attempted",
+      "count": 1
+    },
+    {
+      "dataset": "gsm8k",
+      "case": "SCALAR",
+      "kind": "adam",
+      "status": "completed",
+      "count": 1
+    },
+    {
+      "dataset": "gsm8k",
+      "case": "SCALAR",
+      "kind": "additional_backward",
+      "status": "attempted",
+      "count": 2
+    },
+    {
+      "dataset": "gsm8k",
+      "case": "SCALAR",
+      "kind": "additional_backward",
+      "status": "completed",
+      "count": 2
+    },
+    {
+      "dataset": "gsm8k",
+      "case": "SCALAR",
+      "kind": "additional_forward",
+      "status": "attempted",
+      "count": 4
+    },
+    {
+      "dataset": "gsm8k",
+      "case": "SCALAR",
+      "kind": "additional_forward",
+      "status": "completed",
+      "count": 4
+    },
+    {
+      "dataset": "gsm8k",
+      "case": "SCALAR",
+      "kind": "ordinary_backward",
+      "status": "attempted",
+      "count": 2
+    },
+    {
+      "dataset": "gsm8k",
+      "case": "SCALAR",
+      "kind": "ordinary_backward",
+      "status": "completed",
+      "count": 2
+    },
+    {
+      "dataset": "gsm8k",
+      "case": "SCALAR",
+      "kind": "ordinary_forward",
+      "status": "attempted",
+      "count": 2
+    },
+    {
+      "dataset": "gsm8k",
+      "case": "SCALAR",
+      "kind": "ordinary_forward",
+      "status": "completed",
+      "count": 2
+    },
+    {
+      "dataset": "gsm8k",
+      "case": "SCALAR",
+      "kind": "serving_generation",
+      "status": "attempted",
+      "count": 1
+    },
+    {
+      "dataset": "gsm8k",
+      "case": "SCALAR",
+      "kind": "serving_generation",
+      "status": "completed",
+      "count": 1
+    },
+    {
+      "dataset": "gsm8k",
+      "case": "discarded_reference_startup",
+      "kind": "additional_backward",
+      "status": "attempted",
+      "count": 2
+    },
+    {
+      "dataset": "gsm8k",
+      "case": "discarded_reference_startup",
+      "kind": "additional_backward",
+      "status": "completed",
+      "count": 2
+    },
+    {
+      "dataset": "gsm8k",
+      "case": "discarded_reference_startup",
+      "kind": "additional_forward",
+      "status": "attempted",
+      "count": 2
+    },
+    {
+      "dataset": "gsm8k",
+      "case": "discarded_reference_startup",
+      "kind": "additional_forward",
+      "status": "completed",
+      "count": 2
+    },
+    {
+      "dataset": "gsm8k",
+      "case": "retained_ordinary_gradient_replay",
+      "kind": "additional_backward",
+      "status": "attempted",
+      "count": 2
+    },
+    {
+      "dataset": "gsm8k",
+      "case": "retained_ordinary_gradient_replay",
+      "kind": "additional_backward",
+      "status": "completed",
+      "count": 2
+    },
+    {
+      "dataset": "gsm8k",
+      "case": "retained_ordinary_gradient_replay",
+      "kind": "additional_forward",
+      "status": "attempted",
+      "count": 2
+    },
+    {
+      "dataset": "gsm8k",
+      "case": "retained_ordinary_gradient_replay",
+      "kind": "additional_forward",
+      "status": "completed",
+      "count": 2
+    },
+    {
+      "dataset": "mathqa",
+      "case": "FSG",
+      "kind": "adam",
+      "status": "attempted",
+      "count": 1
+    },
+    {
+      "dataset": "mathqa",
+      "case": "FSG",
+      "kind": "adam",
+      "status": "completed",
+      "count": 1
+    },
+    {
+      "dataset": "mathqa",
+      "case": "FSG",
+      "kind": "additional_backward",
+      "status": "attempted",
+      "count": 4
+    },
+    {
+      "dataset": "mathqa",
+      "case": "FSG",
+      "kind": "additional_backward",
+      "status": "completed",
+      "count": 4
+    },
+    {
+      "dataset": "mathqa",
+      "case": "FSG",
+      "kind": "additional_forward",
+      "status": "attempted",
+      "count": 9
+    },
+    {
+      "dataset": "mathqa",
+      "case": "FSG",
+      "kind": "additional_forward",
+      "status": "completed",
+      "count": 9
+    },
+    {
+      "dataset": "mathqa",
+      "case": "FSG",
+      "kind": "ordinary_backward",
+      "status": "attempted",
+      "count": 2
+    },
+    {
+      "dataset": "mathqa",
+      "case": "FSG",
+      "kind": "ordinary_backward",
+      "status": "completed",
+      "count": 2
+    },
+    {
+      "dataset": "mathqa",
+      "case": "FSG",
+      "kind": "ordinary_forward",
+      "status": "attempted",
+      "count": 2
+    },
+    {
+      "dataset": "mathqa",
+      "case": "FSG",
+      "kind": "ordinary_forward",
+      "status": "completed",
+      "count": 2
+    },
+    {
+      "dataset": "mathqa",
+      "case": "FSG",
+      "kind": "serving_generation",
+      "status": "attempted",
+      "count": 1
+    },
+    {
+      "dataset": "mathqa",
+      "case": "FSG",
+      "kind": "serving_generation",
+      "status": "completed",
+      "count": 1
+    },
+    {
+      "dataset": "mathqa",
+      "case": "FSG_ZERO",
+      "kind": "adam",
+      "status": "attempted",
+      "count": 1
+    },
+    {
+      "dataset": "mathqa",
+      "case": "FSG_ZERO",
+      "kind": "adam",
+      "status": "completed",
+      "count": 1
+    },
+    {
+      "dataset": "mathqa",
+      "case": "FSG_ZERO",
+      "kind": "additional_backward",
+      "status": "attempted",
+      "count": 2
+    },
+    {
+      "dataset": "mathqa",
+      "case": "FSG_ZERO",
+      "kind": "additional_backward",
+      "status": "completed",
+      "count": 2
+    },
+    {
+      "dataset": "mathqa",
+      "case": "FSG_ZERO",
+      "kind": "additional_forward",
+      "status": "attempted",
+      "count": 4
+    },
+    {
+      "dataset": "mathqa",
+      "case": "FSG_ZERO",
+      "kind": "additional_forward",
+      "status": "completed",
+      "count": 4
+    },
+    {
+      "dataset": "mathqa",
+      "case": "FSG_ZERO",
+      "kind": "ordinary_backward",
+      "status": "attempted",
+      "count": 2
+    },
+    {
+      "dataset": "mathqa",
+      "case": "FSG_ZERO",
+      "kind": "ordinary_backward",
+      "status": "completed",
+      "count": 2
+    },
+    {
+      "dataset": "mathqa",
+      "case": "FSG_ZERO",
+      "kind": "ordinary_forward",
+      "status": "attempted",
+      "count": 2
+    },
+    {
+      "dataset": "mathqa",
+      "case": "FSG_ZERO",
+      "kind": "ordinary_forward",
+      "status": "completed",
+      "count": 2
+    },
+    {
+      "dataset": "mathqa",
+      "case": "FSG_ZERO",
+      "kind": "serving_generation",
+      "status": "attempted",
+      "count": 1
+    },
+    {
+      "dataset": "mathqa",
+      "case": "FSG_ZERO",
+      "kind": "serving_generation",
+      "status": "completed",
+      "count": 1
+    },
+    {
+      "dataset": "mathqa",
+      "case": "KPLUS",
+      "kind": "adam",
+      "status": "attempted",
+      "count": 1
+    },
+    {
+      "dataset": "mathqa",
+      "case": "KPLUS",
+      "kind": "adam",
+      "status": "completed",
+      "count": 1
+    },
+    {
+      "dataset": "mathqa",
+      "case": "KPLUS",
+      "kind": "ordinary_backward",
+      "status": "attempted",
+      "count": 2
+    },
+    {
+      "dataset": "mathqa",
+      "case": "KPLUS",
+      "kind": "ordinary_backward",
+      "status": "completed",
+      "count": 2
+    },
+    {
+      "dataset": "mathqa",
+      "case": "KPLUS",
+      "kind": "ordinary_forward",
+      "status": "attempted",
+      "count": 2
+    },
+    {
+      "dataset": "mathqa",
+      "case": "KPLUS",
+      "kind": "ordinary_forward",
+      "status": "completed",
+      "count": 2
+    },
+    {
+      "dataset": "mathqa",
+      "case": "KPLUS",
+      "kind": "serving_generation",
+      "status": "attempted",
+      "count": 1
+    },
+    {
+      "dataset": "mathqa",
+      "case": "KPLUS",
+      "kind": "serving_generation",
+      "status": "completed",
+      "count": 1
+    },
+    {
+      "dataset": "mathqa",
+      "case": "SCALAR",
+      "kind": "adam",
+      "status": "attempted",
+      "count": 1
+    },
+    {
+      "dataset": "mathqa",
+      "case": "SCALAR",
+      "kind": "adam",
+      "status": "completed",
+      "count": 1
+    },
+    {
+      "dataset": "mathqa",
+      "case": "SCALAR",
+      "kind": "additional_backward",
+      "status": "attempted",
+      "count": 2
+    },
+    {
+      "dataset": "mathqa",
+      "case": "SCALAR",
+      "kind": "additional_backward",
+      "status": "completed",
+      "count": 2
+    },
+    {
+      "dataset": "mathqa",
+      "case": "SCALAR",
+      "kind": "additional_forward",
+      "status": "attempted",
+      "count": 4
+    },
+    {
+      "dataset": "mathqa",
+      "case": "SCALAR",
+      "kind": "additional_forward",
+      "status": "completed",
+      "count": 4
+    },
+    {
+      "dataset": "mathqa",
+      "case": "SCALAR",
+      "kind": "ordinary_backward",
+      "status": "attempted",
+      "count": 2
+    },
+    {
+      "dataset": "mathqa",
+      "case": "SCALAR",
+      "kind": "ordinary_backward",
+      "status": "completed",
+      "count": 2
+    },
+    {
+      "dataset": "mathqa",
+      "case": "SCALAR",
+      "kind": "ordinary_forward",
+      "status": "attempted",
+      "count": 2
+    },
+    {
+      "dataset": "mathqa",
+      "case": "SCALAR",
+      "kind": "ordinary_forward",
+      "status": "completed",
+      "count": 2
+    },
+    {
+      "dataset": "mathqa",
+      "case": "SCALAR",
+      "kind": "serving_generation",
+      "status": "attempted",
+      "count": 1
+    },
+    {
+      "dataset": "mathqa",
+      "case": "SCALAR",
+      "kind": "serving_generation",
+      "status": "completed",
+      "count": 1
+    },
+    {
+      "dataset": "mathqa",
+      "case": "discarded_startup",
+      "kind": "additional_backward",
+      "status": "attempted",
+      "count": 2
+    },
+    {
+      "dataset": "mathqa",
+      "case": "discarded_startup",
+      "kind": "additional_backward",
+      "status": "completed",
+      "count": 2
+    },
+    {
+      "dataset": "mathqa",
+      "case": "discarded_startup",
+      "kind": "additional_forward",
+      "status": "attempted",
+      "count": 2
+    },
+    {
+      "dataset": "mathqa",
+      "case": "discarded_startup",
+      "kind": "additional_forward",
+      "status": "completed",
+      "count": 2
+    }
+  ],
+  "remaining_attempt_budget": {
+    "adam": 0,
+    "ordinary_forward": 0,
+    "ordinary_backward": 0,
+    "additional_forward": 6,
+    "additional_backward": 0,
+    "serving_generation": 0
+  },
+  "separate_debugging_work": {
+    "response_forwards": 28,
+    "response_backwards": 20,
+    "adam_steps": 0,
+    "scope": "separate001/002 diagnostic attempts; not added to qualification limits"
+  },
+  "no_statistical_pooling": true,
+  "main_pilot_started": false,
+  "identity_receipts": {
+    "PREFLIGHT.json": {
+      "sealed_files_checked": 7108,
+      "storage": {
+        "free_bytes": 55338508288,
+        "reserve_bytes": 8589934592,
+        "additional_writes_bytes": 34359738368,
+        "required_bytes": 42949672960,
+        "scope": "bounded_qualification_only_not_full_pilot"
+      },
+      "wall_s": 50.05563223734498
+    },
+    "POSTFLIGHT.json": {
+      "sealed_files_checked": 7108,
+      "storage": {
+        "free_bytes": 42751885312,
+        "reserve_bytes": 8589934592,
+        "additional_writes_bytes": 34359738368,
+        "required_bytes": 42949672960,
+        "scope": "bounded_qualification_only_not_full_pilot"
+      },
+      "wall_s": 50.31312808394432
+    }
+  },
+  "runner_wall_s": 896.1962118446827,
+  "interpretation": "Work audit only; a correctness pass is not mechanism efficacy or pilot admission.",
+  "physical_new_training_work": {
+    "draft_forwards": 37,
+    "layer_forwards": 185,
+    "objective_chunks": 1142,
+    "vocabulary_head_calls": 3829,
+    "response_forwards": 16
+  },
+  "checkpoint_proxy_calls": 614,
+  "fresh_exact_receipts_checked": 57,
+  "fresh_exact_receipt_paths": [
+    "qualification/gsm8k/KPLUS/REPLAY_RESPONSE_OBSERVATIONS.json",
+    "qualification/gsm8k/KPLUS/REPLAY_UNCHANGED_GLOBAL_STEP.json",
+    "qualification/gsm8k/KPLUS/REPLAY_UNCHANGED_WEIGHTS.json",
+    "qualification/gsm8k/KPLUS/REPLAY_UNCHANGED_OPTIMIZER.json",
+    "qualification/gsm8k/KPLUS/REPLAY_ANCHORS_LOSSES.json",
+    "qualification/gsm8k/KPLUS/REPLAY_RETAINED_RUNTIME.json",
+    "qualification/gsm8k/KPLUS/RETAINED_LIVE_RESTORE.json",
+    "qualification/gsm8k/KPLUS/PAYLOAD_WEIGHT_ALIAS.json",
+    "qualification/gsm8k/KPLUS/REPLAY_UNCHANGED_GRADIENTS.json",
+    "qualification/gsm8k/KPLUS/REPLAY_RETAINED_RNG.json",
+    "qualification/gsm8k/SCALAR/DECODED_STATE.json",
+    "qualification/gsm8k/SCALAR/NATIVE_ENDPOINT_AND_ADAM.json",
+    "qualification/gsm8k/SCALAR/FINAL_PRESENTATIONS.json",
+    "qualification/gsm8k/SCALAR/FINAL_GRADIENTS.json",
+    "qualification/gsm8k/SCALAR/DECODED_LIVE_RESTORE.json",
+    "qualification/gsm8k/SCALAR/FINAL_RNG.json",
+    "qualification/gsm8k/SCALAR/FINAL_ACCUMULATION.json",
+    "qualification/gsm8k/SCALAR/PRESENTATION_ANCHOR_LOSS_PARITY.json",
+    "qualification/gsm8k/SCALAR/FINAL_OPTIMIZER.json",
+    "qualification/gsm8k/SCALAR/FINAL_RUNTIME.json",
+    "qualification/gsm8k/SCALAR/FINAL_MICRO.json",
+    "qualification/gsm8k/SCALAR/FINAL_GLOBAL_STEP.json",
+    "qualification/gsm8k/SCALAR/NATIVE_GRADIENTS.json",
+    "qualification/mathqa/KPLUS/DECODED_STATE.json",
+    "qualification/mathqa/KPLUS/DECODED_LIVE_RESTORE.json",
+    "qualification/mathqa/FSG_ZERO/DECODED_STATE.json",
+    "qualification/mathqa/FSG_ZERO/NATIVE_ENDPOINT_AND_ADAM.json",
+    "qualification/mathqa/FSG_ZERO/EXACT_NEUTRALITY.json",
+    "qualification/mathqa/FSG_ZERO/DECODED_LIVE_RESTORE.json",
+    "qualification/mathqa/FSG_ZERO/PRESENTATION_ANCHOR_LOSS_PARITY.json",
+    "qualification/mathqa/FSG_ZERO/NATIVE_GRADIENTS.json",
+    "qualification/mathqa/FSG/DECODED_STATE.json",
+    "qualification/mathqa/FSG/NATIVE_ENDPOINT_AND_ADAM.json",
+    "qualification/mathqa/FSG/FINAL_PRESENTATIONS.json",
+    "qualification/mathqa/FSG/FINAL_GRADIENTS.json",
+    "qualification/mathqa/FSG/DECODED_LIVE_RESTORE.json",
+    "qualification/mathqa/FSG/FINAL_RNG.json",
+    "qualification/mathqa/FSG/FINAL_ACCUMULATION.json",
+    "qualification/mathqa/FSG/PRESENTATION_ANCHOR_LOSS_PARITY.json",
+    "qualification/mathqa/FSG/FINAL_OPTIMIZER.json",
+    "qualification/mathqa/FSG/FINAL_RUNTIME.json",
+    "qualification/mathqa/FSG/FINAL_MICRO.json",
+    "qualification/mathqa/FSG/FINAL_GLOBAL_STEP.json",
+    "qualification/mathqa/FSG/NATIVE_GRADIENTS.json",
+    "qualification/mathqa/SCALAR/DECODED_STATE.json",
+    "qualification/mathqa/SCALAR/NATIVE_ENDPOINT_AND_ADAM.json",
+    "qualification/mathqa/SCALAR/FINAL_PRESENTATIONS.json",
+    "qualification/mathqa/SCALAR/FINAL_GRADIENTS.json",
+    "qualification/mathqa/SCALAR/DECODED_LIVE_RESTORE.json",
+    "qualification/mathqa/SCALAR/FINAL_RNG.json",
+    "qualification/mathqa/SCALAR/FINAL_ACCUMULATION.json",
+    "qualification/mathqa/SCALAR/PRESENTATION_ANCHOR_LOSS_PARITY.json",
+    "qualification/mathqa/SCALAR/FINAL_OPTIMIZER.json",
+    "qualification/mathqa/SCALAR/FINAL_RUNTIME.json",
+    "qualification/mathqa/SCALAR/FINAL_MICRO.json",
+    "qualification/mathqa/SCALAR/FINAL_GLOBAL_STEP.json",
+    "qualification/mathqa/SCALAR/NATIVE_GRADIENTS.json"
+  ],
+  "fresh_exports": {
+    "count": 6,
+    "export_seconds": 87.78982810862362,
+    "verification_seconds": 4.133598564192653,
+    "note": "Five new disposable endpoints plus one re-exported retained ordinary endpoint; nested in runner cost."
+  },
+  "runtime": {
+    "supervisor_seconds": 1042,
+    "runner_seconds": 896.1962118446827,
+    "cpu_tests": 188,
+    "cpu_seconds": 31.743,
+    "preflight_seconds": 50.05563223734498,
+    "postflight_seconds": 50.31312808394432,
+    "fresh_training_peak_allocated_bytes": 38420866048,
+    "fresh_training_peak_reserved_bytes": 40342913024
+  },
+  "storage": {
+    "preflight_free_bytes": 55338508288,
+    "postflight_free_bytes": 42751885312,
+    "reserve_bytes": 8589934592,
+    "required_initial_bytes": 42949672960,
+    "pilot_admitted": false
+  },
+  "interpretation_categories": {
+    "Simpson paradox": "Keep GSM8K and MathQA qualification outcomes separate; do not pool a serving efficacy estimate.",
+    "ecological fallacy": "Two representative windows do not establish inactivity on all requests or eventual pilot trajectories.",
+    "Berkson bias": "The fixed qualification cases were not replaced according to outcomes; synthetic resource construction is explicit.",
+    "collider bias": "All-fallback correctness cases do not establish performance of accepted corrections.",
+    "base-rate neglect": "Report0/2 representative accepted FSG proposals,8/8 serving checks, and all earlier failed work.",
+    "regression to mean": "Startup repair is a demonstrated execution correction, not evidence of an improving learning trajectory.",
+    "survivorship bias": "Original cold-gradient and cross-layout failures remain retained; no earliercosts/attempts discarded.",
+    "look-elsewhere effect": "No norms/tolerances were adjusted to observedexcess; strictguardacceptedno extraattempts.",
+    "forking paths": "Explicit source/plan and revisedcumulativebudget preserve everypriorattempt; no pilot follows automatically.",
+    "causal attribution": "BF16 realizednorm explains the guarddecision on these cases; this does notprovegeometryineffective.",
+    "reverse causality": "Equal serving counts follow unchanged keptendpoints; they do not validate an activecorrection mechanism."
+  },
+  "author_overlap": "Same-team implementation author for continuation/work helpers; no independent GPU replication.",
+  "publication_review": "Report work, costs and mechanism conclusion agree; requested exact preflight55.3385GB and separate idle-GPU evidence if that statement is retained."
+}

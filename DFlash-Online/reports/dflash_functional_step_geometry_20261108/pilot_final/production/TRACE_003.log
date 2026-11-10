@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/home/minhao2/EAGLE_SPEC/research/dflash_functional_step_geometry_20261108/final_review_001/production/export_scientific_trace.py", line 85, in <module>
+    a=p.parse_args();export(dict(gsm8k=a.gsm8k,mathqa=a.mathqa),a.output)
+                     ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/minhao2/EAGLE_SPEC/research/dflash_functional_step_geometry_20261108/final_review_001/production/export_scientific_trace.py", line 24, in export
+    assert math.fsum(r['response_observation']['sum_metrics'].get(key,0.)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                     for r in result['records'])==value,(dataset,event,arm,key)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ('gsm8k', 5, 'KPLUS', 'available_position_weight')
