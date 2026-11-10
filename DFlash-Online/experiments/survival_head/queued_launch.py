@@ -15,7 +15,7 @@ def run(root, *, maximum_wait_s=12*3600, check_interval_s=60):
     if (root/'QUEUE_STATUS.json').exists() or (root/'START_UTC').exists():
         raise ValueError('Queue/run already attempted; no automatic retry')
     receipt = dict(status='waiting_for_PR36', priority_root=plan['priority_root'],
-        gpu_work_started=False, maximum_wait_s=maximum_wait_s, execution_attempts=0)
+        queue_process_uses_gpu=False, maximum_wait_s=maximum_wait_s, execution_attempts=0)
     started = time.perf_counter()
     try:
         while not (Path(plan['priority_root'])/'EXIT_CODE').exists():
