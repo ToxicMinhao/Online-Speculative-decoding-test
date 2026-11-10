@@ -1,0 +1,138 @@
+{
+  "status": "no_blocking_source_issue_found",
+  "reviewed_at_utc": "2026-11-10T23:15:29.406374+00:00",
+  "reviewer": "Separate same-team feedback-source reviewer; did not author feedback implementation; authored adjacent data/evaluation/qualification modules",
+  "workflow": "ARS experiment-agent validate: CPU source and retained-record review",
+  "scope": "feedback_replay.py, feedback.py, prepare_feedback.py and worker boundary against pinned native implementations",
+  "blocking_findings": [],
+  "code_changes": 0,
+  "gpu_operations": 0,
+  "remote_operations": 0,
+  "native_reproduction": false,
+  "checks": [
+    {
+      "name": "prefill_geometry",
+      "result": "passed_source_review",
+      "detail": "One original prefill chunk; empty prefix; exact prompt IDs; full hidden capture; first predicted token must equal retained seed. Same direct target call as native DFlash prefill."
+    },
+    {
+      "name": "verification_conditioning",
+      "result": "passed_source_review",
+      "detail": "Every width16 input is retained anchor plus retained15draft tokens at recorded positions. Full16posterior IDs must match before native verify commits. No draft generation is invoked."
+    },
+    {
+      "name": "cache_and_stop",
+      "result": "passed_source_review",
+      "detail": "Uses actual DFlashVerifyInput.prepare_for_verify/verify; page1 tail freeing and mapping/seq_lens updates are native. Prefix lengths, unique locations, stable prior mappings, committed locations, progress and finished status are checked."
+    },
+    {
+      "name": "feature_alignment",
+      "result": "passed_source_review",
+      "detail": "Auxiliary and normalized final hidden states are captured before native verifier clears hidden_states. Only first committed-progress rows survive; native capture covers prompt+response except final emitted token."
+    },
+    {
+      "name": "terminal_teacher",
+      "result": "passed_source_review",
+      "detail": "Existing prepare_feedback and online_teacher append exactly one final row from full canonical context, do not use terminal logits for labels, and preserve original masks/IDs/layer bindings."
+    },
+    {
+      "name": "retained_packet_parity_gate",
+      "result": "correct_fail_closed_gate_not_executed",
+      "detail": "Both first retained packets compare input_ids/loss_mask/auxiliary/final tensors bitwise including distinct native-row and terminal-row evidence. Failure stops before missing126reconstructions."
+    },
+    {
+      "name": "no_unintended_answers",
+      "result": "passed_source_review",
+      "detail": "Isolated RPC allowlist only reconstruct/teacher/check_weights; generate operation absent. Request-level work is128prefill+4776verify+128terminal=5032targetcalls. Startup observed Python-model calls remain separately disclosed, not zero-imputed."
+    },
+    {
+      "name": "retention",
+      "result": "passed_source_review",
+      "detail": "Original sources are authenticated and copied. Only new raw capture and terminal tensor copies retire after full bitwise comparison with retained prepared packet; exact paths and before/after space recorded."
+    },
+    {
+      "name": "failure_accounting",
+      "result": "passed_source_review",
+      "detail": "Started/returned target calls and terminal work receipts survive failures; no automatic retry; cleanup failure marks failed and does not hide preceding error."
+    }
+  ],
+  "private_record_check": {
+    "records": 128,
+    "all_source_hashes_and_contracts_match_prior": true,
+    "verification_rounds": 4776,
+    "prefill_forwards": 128,
+    "terminal_forwards": 128,
+    "target_forwards": 5032,
+    "combined_length_range": [
+      118,
+      717
+    ],
+    "all_verify_widths": 16,
+    "max_verify_position": 720,
+    "eos_responses": 128,
+    "stop_clipped_rounds": 115,
+    "full_accept_rounds": 510
+  },
+  "tests": {
+    "command": "PYTHONPATH=.:training CUDA_VISIBLE_DEVICES='' PYTHONDONTWRITEBYTECODE=1 /home/minhao2/.venvs/dflash-specforge/bin/python -m unittest discover -s tests/survival_head -p 'test_feedback*.py' -v",
+    "passed": 28,
+    "failed": 0,
+    "seconds": 4.076,
+    "scope": "CPU fake-native and packet/control tests; no native numerical qualification"
+  },
+  "limitations": [
+    "No retained original KV bytes exist; cache checks establish geometry and canonical transitions, not historical KV byte equality.",
+    "Exact BF16 feature equality remains a mandatory native two-packet gate before126missing packets; no CPU source review establishes numerical equality.",
+    "The126retired original prepared tensors cannot be compared directly. They are reconstructed under the qualified same-path implementation with full posterior/commit checks, not called archived."
+  ],
+  "source_identities": {
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_survival_head_20261110/implementation_checkout/DFlash-Online/experiments/survival_head/feedback_replay.py": {
+      "bytes": 12042,
+      "sha256": "0f8823a90d7a072bcdb6eb9dacc35088853012d2181ef5d7b0766bb61a94d9b5"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_survival_head_20261110/implementation_checkout/DFlash-Online/experiments/survival_head/feedback.py": {
+      "bytes": 14588,
+      "sha256": "1306703d1df7b7cc8b5b9d44fbb8d3e51a20f72e80e049c9874874513aeed28c"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_survival_head_20261110/implementation_checkout/DFlash-Online/experiments/survival_head/prepare_feedback.py": {
+      "bytes": 18649,
+      "sha256": "e4c93fcde25eca28e8930dead67a9d8aee7e331cf48c18955f12c2576f9f2613"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_survival_head_20261110/implementation_checkout/DFlash-Online/online_feedback/survival_feedback_worker.py": {
+      "bytes": 7627,
+      "sha256": "7f2531bc98b502e4995ac80d98c4ad89f3ca7566532a06f6fb161a5b3502eff6"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_survival_head_20261110/implementation_checkout/DFlash-Online/online_feedback/sglang_hooks.py": {
+      "bytes": 27584,
+      "sha256": "9ceee7d580c1f08cdfe2ba867bb9a6388e1ff25365611a8fce83a5e422d9dd1a"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_survival_head_20261110/implementation_checkout/DFlash-Online/online_feedback/sglang_backend.py": {
+      "bytes": 14478,
+      "sha256": "a2869e4004dbf1347c7f885331fd8857d77482721d9e97610379b6faa7be82f3"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_survival_head_20261110/implementation_checkout/DFlash-Online/online_feedback/sglang_worker.py": {
+      "bytes": 7642,
+      "sha256": "9c3bfd15cdb23f0e82a3137977f72ba9e9fdb580a0d607d786c987d1b9c28d5b"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_survival_head_20261110/implementation_checkout/DFlash-Online/experiments/block_depth/reconstruct.py": {
+      "bytes": 8059,
+      "sha256": "2476eefe02dd9871125f57bf579c445b264c24b486334d473c42defaa561d92e"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_survival_head_20261110/implementation_checkout/DFlash-Online/external_runtime/sglang/srt/speculative/dflash_worker.py": {
+      "bytes": 70132,
+      "sha256": "9397402f5cfbf60b00b7d27d551e5e9e1b605be9b084d028d4ddda76c475dc8c"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_survival_head_20261110/implementation_checkout/DFlash-Online/external_runtime/sglang/srt/speculative/dflash_info.py": {
+      "bytes": 26689,
+      "sha256": "9c7ac23a1bf0840eec8218f02f2adbfc3e419099cd19822137ce5c6e0e902218"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_survival_head_20261110/implementation_checkout/DFlash-Online/external_runtime/sglang/srt/layers/logits_processor.py": {
+      "bytes": 48560,
+      "sha256": "5c6c54bec37b941652e29908c773a756fe6c86f99932ab80043672a1eaa0f086"
+    },
+    "/home/minhao2/EAGLE_SPEC/research/dflash_survival_head_20261110/preparation/schedule_batch.py": {
+      "bytes": 99273,
+      "sha256": "e72161a7245e882eef40612a728fd6f72963498666a8caa4fa5b8b8d45413199"
+    }
+  }
+}
