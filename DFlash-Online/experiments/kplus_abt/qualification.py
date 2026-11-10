@@ -248,6 +248,8 @@ def run_case(root, dataset, case):
             del payload
         gradients.clear()
         gc.collect()
+        receipt['case_peak_allocated_bytes'] = torch.cuda.max_memory_allocated()
+        receipt['case_peak_reserved_bytes'] = torch.cuda.max_memory_reserved()
         if case == 'ADV':
             torch.cuda.empty_cache()
             from .resource import run as qualify_resource
@@ -261,8 +263,8 @@ def run_case(root, dataset, case):
         raise
     finally:
         receipt.update(wall_s=time.perf_counter()-started,work=read_work(ledger.path,ledger.limits),
-            peak_allocated_bytes=torch.cuda.max_memory_allocated() if torch.cuda.is_initialized() else 0,
-            peak_reserved_bytes=torch.cuda.max_memory_reserved() if torch.cuda.is_initialized() else 0)
+            peak_allocated_bytes=max(receipt.get('case_peak_allocated_bytes',0),torch.cuda.max_memory_allocated()) if torch.cuda.is_initialized() else 0,
+            peak_reserved_bytes=max(receipt.get('case_peak_reserved_bytes',0),torch.cuda.max_memory_reserved()) if torch.cuda.is_initialized() else 0)
         cleanup(lambda:write_json(output/'RESULT.json',receipt), failure, receipt, 'qualification receipt')
         if input_audit is not None:
             cleanup(input_audit.close, failure, receipt, 'input audit close')

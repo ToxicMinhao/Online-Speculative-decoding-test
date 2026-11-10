@@ -44,7 +44,7 @@
     "experiments/kplus_abt/native_pilot.py": "fe7fcad6bcdd76ffeaf1e02b2283256fb995aff4d617dc78a73b864cf2344931",
     "experiments/kplus_abt/preflight.py": "eb6ecf23c49640da9d6eda400095d503f121a60ca8a61721f12f1786035bd4e3",
     "experiments/kplus_abt/prepare_feedback.py": "57f684f48ae60a996c406759e3e626b9228e525363444ae9dddddcfaae4ed797",
-    "experiments/kplus_abt/qualification.py": "98d7f81e3b4780cb19000491164fa39644d1b59d9bdd763954d61219468e0fd4",
+    "experiments/kplus_abt/qualification.py": "da4ace78869a5b293849ab0033aaf85c91ebeff9c34f037657a9a39369b86295",
     "experiments/kplus_abt/report.py": "f747f32db9d3d538d7284c48109e694a66fbbef41d762a01fc6617e072ec38e4",
     "experiments/kplus_abt/resource.py": "7b0eb06e8a5e557a3b0ad95b9b41dbf09986b9c887c60e6aa1c61b571908f14f",
     "experiments/kplus_abt/run_qualification.py": "8be03bb0df7b92cda241aa958eed872814e2b7dd05ae14ae6e664263c9c988dc",
@@ -72,5 +72,12 @@
   "server_operations": 0,
   "test_optimizer_steps": "Tiny CPU fixtures only; no scientific optimizer applications.",
   "previous_receipt": "/home/minhao2/EAGLE_SPEC/research/dflash_kplus_abt_20261110/reviews/CPU_TEST_RECEIPT_001.json",
-  "repeat_reason": "Qualification source was updated and three additional controls tests were added during the first run."
+  "repeat_reason": "Qualification source was updated and three additional controls tests were added during the first run.",
+  "final_cost_accounting_recheck": {
+    "tests_run": 96,
+    "return_code": 0,
+    "unittest_duration_s": 32.346,
+    "change": "Record case and resource memory peaks separately and report their maximum",
+    "log_sha256": "8a9969a0626bcc37ea8050d0153b4e569d999a4a863b206915414df2c0b709f9"
+  }
 }
