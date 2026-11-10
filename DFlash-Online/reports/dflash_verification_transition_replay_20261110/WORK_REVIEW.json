@@ -1,0 +1,377 @@
+{
+  "status": "core_accounting_passed",
+  "verification_status": "ANALYZED",
+  "scientific_outcomes_analyzed": false,
+  "execution_commit": "d7b1311e7b2f910e935bf81b4e40282767d7540c",
+  "fallacy_coverage": {
+    "Simpson paradox": "No pooled scientific trend interpreted; datasets stay separate in endpoint analysis.",
+    "Ecological fallacy": "Operation counts do not imply request-level benefit.",
+    "Berkson paradox": "Exact sealed request set checked; no cost-based request replacement.",
+    "Collider bias": "No outcome-based conditioning introduced by this work audit.",
+    "Base rate neglect": "Attempted/completed/failed/unknown and all allowance denominators retained.",
+    "Regression to mean": "No extreme-performance selection or learning-effect claim here.",
+    "Survivorship bias": "All 128 selected requests and all attempted work reconcile, without omissions.",
+    "Look-elsewhere effect": "Fixed work accounting only; no additional scientific tests selected.",
+    "Garden of forking paths": "Frozen execution identities checked; audit helper errors are preserved separately.",
+    "Correlation versus causation": "No causal mechanism, latency gain or kernel breakdown inferred from work costs.",
+    "Reverse causality": "No directional causal claim made in this accounting audit."
+  },
+  "ledger": {
+    "counts": {
+      "attempted": {
+        "model_load": 521,
+        "draft_block": 27800,
+        "target_call": 28053,
+        "original_completion": 256,
+        "context_forward": 29342,
+        "neutral_suffix": 8,
+        "crossed_suffix": 256
+      },
+      "completed": {
+        "draft_block": 27800,
+        "target_call": 28053,
+        "model_load": 521,
+        "context_forward": 29342,
+        "original_completion": 256,
+        "neutral_suffix": 8,
+        "crossed_suffix": 256
+      },
+      "failed": {},
+      "unknown": {}
+    },
+    "remaining": {
+      "original_completion": 0,
+      "crossed_suffix": 0,
+      "neutral_suffix": 0,
+      "draft_block": 4968
+    },
+    "operations": [
+      {
+        "kind": "context_forward",
+        "operation": "native_draft_context_ingestion",
+        "startup": false,
+        "rebuild": false,
+        "completed": 14347
+      },
+      {
+        "kind": "context_forward",
+        "operation": "native_draft_context_ingestion",
+        "startup": false,
+        "rebuild": true,
+        "completed": 14739
+      },
+      {
+        "kind": "context_forward",
+        "operation": "native_target_prefill",
+        "startup": false,
+        "rebuild": false,
+        "completed": 256
+      },
+      {
+        "kind": "crossed_suffix",
+        "operation": "unspecified",
+        "startup": false,
+        "rebuild": false,
+        "completed": 256
+      },
+      {
+        "kind": "draft_block",
+        "operation": "native_proposal_plus_verification",
+        "startup": false,
+        "rebuild": false,
+        "completed": 27749
+      },
+      {
+        "kind": "draft_block",
+        "operation": "startup_draft",
+        "startup": true,
+        "rebuild": false,
+        "completed": 3
+      },
+      {
+        "kind": "draft_block",
+        "operation": "startup_standalone_verifier",
+        "startup": true,
+        "rebuild": false,
+        "completed": 48
+      },
+      {
+        "kind": "model_load",
+        "operation": "native_draft_publication",
+        "startup": false,
+        "rebuild": false,
+        "completed": 520
+      },
+      {
+        "kind": "model_load",
+        "operation": "unspecified",
+        "startup": false,
+        "rebuild": false,
+        "completed": 1
+      },
+      {
+        "kind": "neutral_suffix",
+        "operation": "unspecified",
+        "startup": false,
+        "rebuild": false,
+        "completed": 8
+      },
+      {
+        "kind": "original_completion",
+        "operation": "unspecified",
+        "startup": false,
+        "rebuild": false,
+        "completed": 256
+      },
+      {
+        "kind": "target_call",
+        "operation": "native_target_prefill",
+        "startup": false,
+        "rebuild": false,
+        "completed": 256
+      },
+      {
+        "kind": "target_call",
+        "operation": "native_target_verify",
+        "startup": false,
+        "rebuild": false,
+        "completed": 27749
+      },
+      {
+        "kind": "target_call",
+        "operation": "startup_target",
+        "startup": true,
+        "rebuild": false,
+        "completed": 48
+      }
+    ],
+    "context_tokens": {
+      "native_draft_context_ingestion": {
+        "completed": 250228
+      },
+      "native_target_prefill": {
+        "completed": 23888
+      }
+    },
+    "duration_groups": [
+      {
+        "kind": "context_forward",
+        "operation": "native_draft_context_ingestion",
+        "status": "completed",
+        "count": 29086,
+        "total_seconds": 45.21444792859256,
+        "minimum_seconds": 0.0010947063565254211,
+        "maximum_seconds": 0.011429773643612862
+      },
+      {
+        "kind": "context_forward",
+        "operation": "native_target_prefill",
+        "status": "completed",
+        "count": 256,
+        "total_seconds": 4.8481325544416904,
+        "minimum_seconds": 0.016910163685679436,
+        "maximum_seconds": 0.04169176518917084
+      },
+      {
+        "kind": "crossed_suffix",
+        "operation": "unspecified",
+        "status": "completed",
+        "count": 256,
+        "total_seconds": 619.5048922747374,
+        "minimum_seconds": 1.6393125467002392,
+        "maximum_seconds": 7.234652373939753
+      },
+      {
+        "kind": "draft_block",
+        "operation": "native_proposal_plus_verification",
+        "status": "completed",
+        "count": 27749,
+        "total_seconds": 40.34041138552129,
+        "minimum_seconds": 0.001032097265124321,
+        "maximum_seconds": 0.013832343742251396
+      },
+      {
+        "kind": "draft_block",
+        "operation": "startup_draft",
+        "status": "completed",
+        "count": 3,
+        "total_seconds": 0.008144771680235863,
+        "minimum_seconds": 0.0023660194128751755,
+        "maximum_seconds": 0.003232492133975029
+      },
+      {
+        "kind": "draft_block",
+        "operation": "startup_standalone_verifier",
+        "status": "completed",
+        "count": 48,
+        "total_seconds": 0.8510127067565918,
+        "minimum_seconds": 0.012860478833317757,
+        "maximum_seconds": 0.15924786403775215
+      },
+      {
+        "kind": "model_load",
+        "operation": "native_draft_publication",
+        "status": "completed",
+        "count": 520,
+        "total_seconds": 726.948715435341,
+        "minimum_seconds": 1.3528444450348616,
+        "maximum_seconds": 1.6266509853303432
+      },
+      {
+        "kind": "model_load",
+        "operation": "unspecified",
+        "status": "completed",
+        "count": 1,
+        "total_seconds": 21.979979638010263,
+        "minimum_seconds": 21.979979638010263,
+        "maximum_seconds": 21.979979638010263
+      },
+      {
+        "kind": "neutral_suffix",
+        "operation": "unspecified",
+        "status": "completed",
+        "count": 8,
+        "total_seconds": 16.726306848227978,
+        "minimum_seconds": 1.8432921394705772,
+        "maximum_seconds": 2.369634998962283
+      },
+      {
+        "kind": "original_completion",
+        "operation": "unspecified",
+        "status": "completed",
+        "count": 256,
+        "total_seconds": 636.7185138240457,
+        "minimum_seconds": 1.7025554049760103,
+        "maximum_seconds": 7.351863237097859
+      },
+      {
+        "kind": "target_call",
+        "operation": "native_target_prefill",
+        "status": "completed",
+        "count": 256,
+        "total_seconds": 4.553866967558861,
+        "minimum_seconds": 0.016137506812810898,
+        "maximum_seconds": 0.03590071387588978
+      },
+      {
+        "kind": "target_call",
+        "operation": "native_target_verify",
+        "status": "completed",
+        "count": 27749,
+        "total_seconds": 25.070301052182913,
+        "minimum_seconds": 0.0005149152129888535,
+        "maximum_seconds": 0.006203470751643181
+      },
+      {
+        "kind": "target_call",
+        "operation": "startup_target",
+        "status": "completed",
+        "count": 48,
+        "total_seconds": 0.8470027595758438,
+        "minimum_seconds": 0.012850360944867134,
+        "maximum_seconds": 0.15925730764865875
+      }
+    ],
+    "gpu_seconds": 1301.6581510975957,
+    "gpu_interval_open": false,
+    "gpu_end_count": 1,
+    "budget_stops": [],
+    "registered_processes": [
+      {
+        "pid": 347903,
+        "pgid": 347903
+      }
+    ],
+    "duration_interpretation": "Observed enclosing intervals only; categories are nested and must not be summed as kernel time."
+  },
+  "source_files_checked": 1139,
+  "selected_requests": 128,
+  "native_checks": {
+    "original": 256,
+    "neutral": 8
+  },
+  "unused_crossed_allowance": 0,
+  "no_divergence_requests": 0,
+  "terminal_crossed_cells": 0,
+  "resources": {
+    "admitted_free_bytes": 75657842688,
+    "reserve_bytes": 8589934592,
+    "artifact_allowance_bytes": 2147483648,
+    "wrapper_wall_seconds": 1338.0,
+    "runner_wall_seconds": 1334.3512456677854,
+    "postflight_cpu_seconds": 23.871276477351785
+  },
+  "control": {
+    "START_UTC": "2026-11-10T02:39:37Z\n",
+    "END_UTC": "2026-11-10T03:01:55Z\n",
+    "EXIT_CODE": "0\n",
+    "EXECUTION_COMMIT": "d7b1311e7b2f910e935bf81b4e40282767d7540c\n",
+    "WORKING_TREE.txt": "",
+    "CPU_TESTS.log": [
+      "",
+      "----------------------------------------------------------------------",
+      "Ran 57 tests in 2.297s",
+      "",
+      "OK"
+    ]
+  },
+  "full_postflight_receipt": {
+    "status": "passed",
+    "artifact_checks": 282,
+    "source_checks": 1139,
+    "total_checks": 1421,
+    "clean_tree": true,
+    "commit": "d7b1311e7b2f910e935bf81b4e40282767d7540c",
+    "new_model_work": 0,
+    "wall_s": 23.871276477351785
+  },
+  "raw_work": {
+    "status": "passed",
+    "raw_records": 520,
+    "categories": {
+      "crossed_suffix": 256,
+      "original_completion": 256,
+      "neutral_suffix": 8
+    },
+    "constructor_ingestion_segments": 1081,
+    "constructor_ingestion_tokens": 28922,
+    "native_rounds": 27749,
+    "draft_append_forwards": 28005,
+    "draft_append_tokens": 221306,
+    "target_prefill_forwards": 256,
+    "target_prefill_tokens": 23888,
+    "rebuild_metadata_scope": "rebuild=True also includes continuation-time appends; constructor-only totals use saved reconstruction receipts."
+  },
+  "full_postflight_independent_review": "passed",
+  "input_identities": {
+    "WORK.jsonl": {
+      "bytes": 24867919,
+      "sha256": "1141c1c75f8578eb3d85fbd77d2579fcb443ae64d33d65b2e50b11cca842d10b"
+    },
+    "RESULT.json": {
+      "bytes": 859,
+      "sha256": "697a3e40c15ce9277c21bb384cf8dbb33308db1b3a01bca074bb3db06422a966"
+    },
+    "PLAN.json": {
+      "bytes": 1495511,
+      "sha256": "7cb4a3533249adcd84cf11ec34b0bafb80f67940a6044ddc619d051e7673bc9d"
+    },
+    "PREFLIGHT.json": {
+      "bytes": 266158,
+      "sha256": "a481ba0ea1d7bd40fdbd35b03cd70542e556b59ec9d4c1a8a974dec3dcb1f58b"
+    },
+    "POSTFLIGHT.json": {
+      "bytes": 372,
+      "sha256": "87375406a633df56b26c1abee8da8994ff28ec5ae445609cc4752bd874fc3a76"
+    },
+    "POSTFLIGHT_FULL.json": {
+      "bytes": 435011,
+      "sha256": "98a1f59ba218fcac54994bcb08325427c5ab10e6e88904d994e57ed4f93721d7"
+    }
+  },
+  "limitations": [
+    "No dedicated peak-memory measurement inferred from idle GPU receipts.",
+    "Context-token totals count repeated processing; they are not distinct response tokens.",
+    "Nested work intervals are not a kernel-time decomposition."
+  ]
+}

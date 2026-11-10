@@ -1,0 +1,23 @@
+test_cap_forbidden_and_clock_fail (test_audit_work.WorkLedgerTests.test_cap_forbidden_and_clock_fail) ... ok
+test_context_tokens_and_nested_time_do_not_become_distinct_work (test_audit_work.WorkLedgerTests.test_context_tokens_and_nested_time_do_not_become_distinct_work) ... ok
+test_duplicate_or_wrong_kind_finish_fails (test_audit_work.WorkLedgerTests.test_duplicate_or_wrong_kind_finish_fails) ... ok
+test_empty_context_metadata_is_not_silently_zero (test_audit_work.WorkLedgerTests.test_empty_context_metadata_is_not_silently_zero) ... ok
+test_failed_unknown_and_startup_work_remain_charged (test_audit_work.WorkLedgerTests.test_failed_unknown_and_startup_work_remain_charged) ... ok
+test_reported_work_cannot_hide_a_failed_attempt (test_audit_work.WorkLedgerTests.test_reported_work_cannot_hide_a_failed_attempt) ... ERROR
+
+======================================================================
+ERROR: test_reported_work_cannot_hide_a_failed_attempt (test_audit_work.WorkLedgerTests.test_reported_work_cannot_hide_a_failed_attempt)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_verification_transition_replay_20261110/native_001/reviews/test_audit_work.py", line 65, in test_reported_work_cannot_hide_a_failed_attempt
+    compare_summary(result,summary,final=True)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_verification_transition_replay_20261110/native_001/reviews/audit_work.py", line 129, in compare_summary
+    left = {key:value for key,value in observed[name].items() if value}
+                                       ~~~~~~~~^^^^^^
+KeyError: 'attempted'
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.001s
+
+FAILED (errors=1)

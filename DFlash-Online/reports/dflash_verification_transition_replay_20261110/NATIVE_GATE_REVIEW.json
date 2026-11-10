@@ -1,0 +1,104 @@
+{
+  "status": "passed",
+  "execution_commit": "d7b1311e7b2f910e935bf81b4e40282767d7540c",
+  "scope": "native reconstruction gate only; first hash-selected request in each dataset, each checkpoint, prescribed nonterminal boundaries",
+  "datasets": [
+    "gsm8k",
+    "mathqa"
+  ],
+  "checkpoints": [
+    "KPLUS4",
+    "KPLUS6"
+  ],
+  "authenticated_snapshot_files": 19,
+  "cpu_assertions": 8431,
+  "original_walks_checked": 4,
+  "neutral_suffixes_checked": 8,
+  "neutral_verification_rounds": 267,
+  "neutral_proposal_token_occurrences": 4005,
+  "exact_trace_checks": [
+    "all proposal IDs",
+    "target argmax IDs",
+    "native positions",
+    "known seed",
+    "actual committed progress",
+    "committed canonical token IDs",
+    "stop clipping",
+    "final output token IDs",
+    "EOS/cap termination",
+    "remaining verification count"
+  ],
+  "native_cache_receipts": {
+    "target_prefix_bitwise_exact": true,
+    "neutral_draft_prefix_bitwise_exact": true,
+    "destination_draft_rebuilt_by_native_ingestion": true,
+    "source_draft_cache_transplanted": false,
+    "original_output_cap_and_remaining_budget_preserved": true,
+    "large_cache_payloads_retrieved_for_cpu_recheck": false
+  },
+  "boundaries": [
+    {
+      "dataset": "gsm8k",
+      "checkpoint": "KPLUS4",
+      "source_round": 1,
+      "subsequent_verification_calls": 42
+    },
+    {
+      "dataset": "gsm8k",
+      "checkpoint": "KPLUS4",
+      "source_round": 22,
+      "subsequent_verification_calls": 21
+    },
+    {
+      "dataset": "gsm8k",
+      "checkpoint": "KPLUS6",
+      "source_round": 1,
+      "subsequent_verification_calls": 42
+    },
+    {
+      "dataset": "gsm8k",
+      "checkpoint": "KPLUS6",
+      "source_round": 22,
+      "subsequent_verification_calls": 21
+    },
+    {
+      "dataset": "mathqa",
+      "checkpoint": "KPLUS4",
+      "source_round": 1,
+      "subsequent_verification_calls": 48
+    },
+    {
+      "dataset": "mathqa",
+      "checkpoint": "KPLUS4",
+      "source_round": 25,
+      "subsequent_verification_calls": 24
+    },
+    {
+      "dataset": "mathqa",
+      "checkpoint": "KPLUS6",
+      "source_round": 1,
+      "subsequent_verification_calls": 46
+    },
+    {
+      "dataset": "mathqa",
+      "checkpoint": "KPLUS6",
+      "source_round": 24,
+      "subsequent_verification_calls": 23
+    }
+  ],
+  "review_method": "Separate CPU reconstruction of trace and boundary checks against authenticated retained artifacts; implementation-author overlap; no independent native rerun.",
+  "audit_correction": {
+    "kind": "postprocessing schema correction",
+    "detail": "First CPU audit mistakenly treated the known seed as part of draft_tokens. The unchanged native schema records 15 proposals and 16 verifier/position rows. The auditor was corrected and all checks rerun.",
+    "native_failure": false,
+    "source_or_runtime_changed": false,
+    "original_failure_record_preserved": true
+  },
+  "scope_limits": [
+    "Cache byte comparisons were executed by the native runner; CPU review verifies their receipts and exact downstream traces, not the untransferred tensor payloads.",
+    "This gate does not establish full-campaign completion, a positive restart effect, serving speedup or a training mechanism benefit.",
+    "Final full work ledger and postflight require a separate completed-campaign audit."
+  ],
+  "advance_repair_interpretation": "All actual first-progress advances remain in the analysis. Verified repair requires matching KPLUS4's first rejected canonical token while keeping preceding matches. An advance without that flag is not a demonstrated repair.",
+  "new_model_work_by_reviewer": 0
+}
