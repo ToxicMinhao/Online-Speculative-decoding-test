@@ -91,7 +91,7 @@ TIMINGS = ('request_latency_s', 'native_generate_s', 'cache_maintenance_s')
 BOOTSTRAP_SEED = ANALYSIS['seed']
 RESAMPLES = ANALYSIS['resamples']
 
-def reduce_stage(rows, *, dataset, event):
+def reduce_stage(rows, *, dataset, event, panel_size=PANEL_SIZE, allow_seed_eos=False):
     """Average repeats within request; keep deterministic native counts once."""
     if dataset not in DATASETS or event != 5:
         raise ValueError("Unknown dataset or evaluation event")
@@ -108,7 +108,7 @@ def reduce_stage(rows, *, dataset, event):
             raise ValueError('A panel ordinal has multiple request identities')
         identities[ordinal] = request_id
         grouped[ordinal, row['method']].append(row)
-    if (len(identities) != PANEL_SIZE or sorted(identities) != list(range(PANEL_SIZE))
+    if (len(identities) != panel_size or sorted(identities) != list(range(panel_size))
             or len(set(identities.values())) != len(identities)):
         raise ValueError('Missing or duplicated paired request identities')
     paired = []
@@ -123,7 +123,10 @@ def reduce_stage(rows, *, dataset, event):
                 if (type(first[field]) is not int or first[field] < 0
                         or any(row[field] != first[field] for row in records)):
                     raise ValueError('Invalid or inconsistent repeated counts')
-            if first['verification_calls'] <= 0:
+            seed_eos = (allow_seed_eos and first['verification_calls'] == 0
+                and first['output_tokens'] == 1 and first['committed_progress'] == 0
+                and first.get('finish_reason') == 'eos' and first.get('first_round_present') is False)
+            if first['verification_calls'] <= 0 and not seed_eos:
                 raise ValueError('Verification denominator must be positive')
             if (first['accepted_draft_tokens'] > first['committed_progress']
                     or first['native_accepted_draft_tokens'] != first['committed_progress'] - first['verification_calls']
@@ -178,8 +181,9 @@ def method_totals(values):
     return total
 
 
-def summarize(rows, *, dataset, event):
-    paired = reduce_stage(rows, dataset=dataset, event=event)
+def summarize(rows, *, dataset, event, panel_size=PANEL_SIZE, allow_seed_eos=False):
+    paired = reduce_stage(rows, dataset=dataset, event=event, panel_size=panel_size,
+                         allow_seed_eos=allow_seed_eos)
     repeats = 2
     arrays = {method: {field: np.array([row[method][field] for row in paired], dtype=np.float64)
               for field in (*COUNT_FIELDS, *TIMINGS)} for method in METHODS}

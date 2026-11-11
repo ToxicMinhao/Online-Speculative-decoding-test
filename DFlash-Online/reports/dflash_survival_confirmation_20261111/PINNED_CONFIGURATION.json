@@ -1,0 +1,245 @@
+{
+  "execution_commit": "e0129ee217f3f5b4bf6bb62bc44652e7d47b737d",
+  "serving": {
+    "block_size": 16,
+    "max_new_tokens": 2048,
+    "context_limit": 4096,
+    "concurrency": 1,
+    "greedy": true,
+    "capture": false,
+    "extra_warmup_generations": 0,
+    "cache_policy": "idle_full_flush_before_every_request_and_publication",
+    "same_physical_card": true
+  },
+  "analysis": {
+    "resamples": 10000,
+    "seed": 20261110,
+    "generator": "PCG64",
+    "percentile_method": "linear",
+    "primary": [
+      [
+        "SURVIVAL",
+        "KPLUS"
+      ],
+      [
+        "SURVIVAL",
+        "LOCAL"
+      ]
+    ],
+    "controls": [
+      [
+        "LOCAL",
+        "KPLUS"
+      ]
+    ],
+    "intervals_adjusted": false,
+    "uncertainty_unit": "paired_request",
+    "repeats_reduction": "within_request_mean",
+    "effect": "percent_reduction_of_paired_totals",
+    "first_round": "shared_start_only"
+  },
+  "checkpoints": {
+    "KPLUS": {
+      "weights": {
+        "bytes": 2097259104,
+        "sha256": "9dcb0d637eabef6bd4e34c552da0448faa9510e6bcaf5c753a6bd1b43674b795"
+      },
+      "export_files": {
+        "config.json": {
+          "bytes": 1211,
+          "sha256": "5749d96966f9ce7e6a9662c9f482b8aa0d461845fb6b9ce09ac2c08311fab2aa"
+        },
+        "model.safetensors": {
+          "bytes": 2097259104,
+          "sha256": "9dcb0d637eabef6bd4e34c552da0448faa9510e6bcaf5c753a6bd1b43674b795"
+        }
+      },
+      "training_seed": 17,
+      "adam_step": 640
+    },
+    "LOCAL": {
+      "weights": {
+        "bytes": 2097259104,
+        "sha256": "e64ddf9ed97bd579eed8e6f3d21efbebed18d515ed1c159c2588e718f5ce68a0"
+      },
+      "export_files": {
+        "config.json": {
+          "bytes": 1211,
+          "sha256": "5749d96966f9ce7e6a9662c9f482b8aa0d461845fb6b9ce09ac2c08311fab2aa"
+        },
+        "model.safetensors": {
+          "bytes": 2097259104,
+          "sha256": "e64ddf9ed97bd579eed8e6f3d21efbebed18d515ed1c159c2588e718f5ce68a0"
+        }
+      },
+      "training_seed": 17,
+      "adam_step": 640
+    },
+    "SURVIVAL": {
+      "weights": {
+        "bytes": 2097259104,
+        "sha256": "b05f68825352c00dbad1b6fae5c4cb59235f252b18b4a86d7c9573318b4b1f84"
+      },
+      "export_files": {
+        "config.json": {
+          "bytes": 1211,
+          "sha256": "5749d96966f9ce7e6a9662c9f482b8aa0d461845fb6b9ce09ac2c08311fab2aa"
+        },
+        "model.safetensors": {
+          "bytes": 2097259104,
+          "sha256": "b05f68825352c00dbad1b6fae5c4cb59235f252b18b4a86d7c9573318b4b1f84"
+        }
+      },
+      "training_seed": 17,
+      "adam_step": 640
+    }
+  },
+  "runtime": {
+    "python": "adaflash_author/bin/python (absolute environment path retained in private seal)",
+    "python_version": "3.12.14",
+    "torch": "2.9.1+cu130",
+    "transformers": "4.57.1",
+    "cuda": "13.0",
+    "free_bytes": 19662036992,
+    "gpu_name": "NVIDIA A800 80GB PCIe",
+    "gpu_capability": [
+      8,
+      0
+    ],
+    "native_runtime_sha256": {
+      "speculative/dflash_worker.py": "9397402f5cfbf60b00b7d27d551e5e9e1b605be9b084d028d4ddda76c475dc8c",
+      "speculative/dflash_info.py": "9c7ac23a1bf0840eec8218f02f2adbfc3e419099cd19822137ce5c6e0e902218",
+      "layers/logits_processor.py": "5c6c54bec37b941652e29908c773a756fe6c86f99932ab80043672a1eaa0f086",
+      "models/qwen3.py": "e23ee8af21eac46685852854a5fe585cf58477d4a1f8047887d6afeefaf8e32d",
+      "models/dflash.py": "d4fcfe005a1acc51a4938d038e1dbc1a2c8ff245842f4253338527335b2327b2",
+      "entrypoints/engine.py": "2bcd4b04c325d4ed65f867490c5bac9e915e02f05471c83dacb5a4a097cf1f2a",
+      "server_args.py": "bd60199803698e4ffe6dc44499a8d42be73f42db28056cb6750411523cf56c04",
+      "managers/schedule_batch.py": "e72161a7245e882eef40612a728fd6f72963498666a8caa4fa5b8b8d45413199",
+      "model_executor/model_runner.py": "69cd77953c57184b574cf87cdca40c52d033eac4ce7a3294d4a8fa4397936eb5",
+      "model_executor/cuda_graph_runner.py": "b838eb4043d732931e8a7ca1b97b01891696370ac23d4f892dd29f225ce44e6b",
+      "layers/layernorm.py": "6dd1b063fdba7d7e4926a91dd65db6413d0c0cb05cec686ff2636ee5084f736e",
+      "mem_cache/memory_pool.py": "8aa43663a4e75dbf1240851212596a296ee9437ecf386a130f7bbeb29108c7e5",
+      "mem_cache/allocator.py": "c201a2c3ca51e49d4408ea25c7997c48c4a0161b8531aa784d0c35ee859844cd",
+      "layers/attention/flashattention_backend.py": "23b965afc1b06292c09dda4fa8f0ab5a932a763f229574e8a1f15106a37a916e"
+    },
+    "source_sha256": {
+      "online_feedback/__init__.py": "2da98332f7f6f67bbcc8e08bf6fe8c57b60afbabf8c25c932e067856feff51bb",
+      "online_feedback/buffer.py": "edcca5184d0073c9359b41af566b14bf816993b1d724036380bc45f99ec8e2fa",
+      "online_feedback/controller.py": "94f817c71eeff059024640ed75436a72ac1861bf50d4dabaf1a673fde6f383f6",
+      "online_feedback/native.py": "94772df576947ee5e5589033c4c461a7528e374a42808e7c2bea37cc3501f6a2",
+      "online_feedback/native_replay.py": "fef6830f4b22525a58f2a491038d3f496f637d211c5c1388dc5c84278ccee181",
+      "online_feedback/objective.py": "cdde03e0f5213e53c10a51a538f2bada24d9ee6387961872c7fd20e9b031f7b6",
+      "online_feedback/optimizer.py": "fd4032d438f72214fd124a34e678aeef45c83457bafb0453fec364d4b211c2d5",
+      "online_feedback/projected_target.py": "a2cd3b1b0eb6194ddb65a8f4b88566e3099a2e93f4fcc2eb93858172e1b4af58",
+      "online_feedback/qualify.py": "20d5c52acad10b5522744a057da48b0c391899aa94cc30bdd15b92bcaef8f2fb",
+      "online_feedback/qualify_sglang.py": "f5e096ef78ca1a5f959f50ad1599352d32e943bba871fe59447fa43b9e33afec",
+      "online_feedback/recipe.py": "87d95eaab6a16f94f595aa93446ee5b858b15d4dbcb8f25b688c6dbca4fc8155",
+      "online_feedback/rng.py": "37ec37d581655279f156142142086f143233b49ceae3069395f4752a3cf11ef2",
+      "online_feedback/sglang_backend.py": "c9aa30582c0b840e1993e0b832e2e023032b15197e82daeb1d87191c6a4b922e",
+      "online_feedback/sglang_hooks.py": "9ceee7d580c1f08cdfe2ba867bb9a6388e1ff25365611a8fce83a5e422d9dd1a",
+      "online_feedback/sglang_worker.py": "9c3bfd15cdb23f0e82a3137977f72ba9e9fdb580a0d607d786c987d1b9c28d5b",
+      "online_feedback/storage.py": "d4fd33e0d0bc4b3ea784c26f44c65730516829dc25d1aa096318f20aff32b58e",
+      "online_feedback/training.py": "fe26f64772d4cd89b37f291c37f5a2e3661b17a1b8f8a1bf0df1de6de16e40df"
+    }
+  },
+  "model_pin": {
+    "target": {
+      "source": "Qwen/Qwen3-8B@b968826d9c46dd6066d109eabc6255188de91218",
+      "files": {
+        ".gitattributes": {
+          "bytes": 1570,
+          "sha256": "34448b82c17d60fec9b65b1f093c115ddbaadc04beb1b0140b6bfed2e012a930"
+        },
+        "LICENSE": {
+          "bytes": 11343,
+          "sha256": "832dd9e00a68dd83b3c3fb9f5588dad7dcf337a0db50f7d9483f310cd292e92e"
+        },
+        "README.md": {
+          "bytes": 16660,
+          "sha256": "0f36caaff9c2516411a7738db384606263ba653c1e63e61d72f511606164d5a6"
+        },
+        "config.json": {
+          "bytes": 728,
+          "sha256": "f7c4eadfbbf522470667b797a3c89be2524832d2d599797248dc304fff447c30"
+        },
+        "generation_config.json": {
+          "bytes": 239,
+          "sha256": "2325da0f15bb848e018c5ae071b7943332e9f871d6b60e2ed22ca97d4cb993d2"
+        },
+        "merges.txt": {
+          "bytes": 1671853,
+          "sha256": "8831e4f1a044471340f7c0a83d7bd71306a5b867e95fd870f74d0c5308a904d5"
+        },
+        "model-00001-of-00005.safetensors": {
+          "bytes": 3996250744,
+          "sha256": "31d6a825ae35f11fb85b195b4c42c146c051e446433125a215336abdf95cbf5f"
+        },
+        "model-00002-of-00005.safetensors": {
+          "bytes": 3993160032,
+          "sha256": "5991236cea6fe21f3d43cab0f0e84448734fbbe0789816202989f2ddc9d18282"
+        },
+        "model-00003-of-00005.safetensors": {
+          "bytes": 3959604768,
+          "sha256": "c5185c4794be2d8a9784d5753c9922db38df478ce11f9ed0b415b7304d896836"
+        },
+        "model-00004-of-00005.safetensors": {
+          "bytes": 3187841392,
+          "sha256": "b5ee7de71fbf17db3d5704e0c8f2bc7d005ca9e1d7ca2aeb19827b0cfcaa917a"
+        },
+        "model-00005-of-00005.safetensors": {
+          "bytes": 1244659840,
+          "sha256": "20c2d6366ab85c90786ccdd829cd2b9e7d30ef3b2ebbb998280e7e4014b542ff"
+        },
+        "model.safetensors.index.json": {
+          "bytes": 32878,
+          "sha256": "f9fdbcb91c23971c13ec5d5f2573d2349e8f61f2f049371ec699281748fdb1bc"
+        },
+        "tokenizer.json": {
+          "bytes": 11422654,
+          "sha256": "aeb13307a71acd8fe81861d94ad54ab689df773318809eed3cbe794b4492dae4"
+        },
+        "tokenizer_config.json": {
+          "bytes": 9732,
+          "sha256": "d5d09f07b48c3086c508b30d1c9114bd1189145b74e982a265350c923acd8101"
+        },
+        "vocab.json": {
+          "bytes": 2776833,
+          "sha256": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910"
+        }
+      },
+      "bytes": 16397461266,
+      "repository": "Qwen/Qwen3-8B",
+      "revision": "b968826d9c46dd6066d109eabc6255188de91218",
+      "local_source_path_omitted": true
+    },
+    "draft": {
+      "source": "z-lab/Qwen3-8B-DFlash-b16@9b41424b7109f9c5413454f481b09a82b85333f4",
+      "files": {
+        "config.json": {
+          "bytes": 1099,
+          "sha256": "9834d608c9ca53d5548b415471ae9e8ebc9aab6cedfc2a7af95b6bd097373102"
+        },
+        "dflash.py": {
+          "bytes": 12340,
+          "sha256": "17ab761ba665a41965b27bdc3a1c6795d1b07b285ec1f0789ad146f2ee9c1cc5"
+        },
+        "model.safetensors": {
+          "bytes": 2097259104,
+          "sha256": "c702878094f38ad5843e6ac40b327720b3147ffbf669a5d9ca1974865ca6c080"
+        },
+        "modeling_dflash.py": {
+          "bytes": 13271,
+          "sha256": "d2b61a1fa5d469830c2285b552d75773274943fae5ac66dc2713beddea338528"
+        },
+        "utils.py": {
+          "bytes": 5731,
+          "sha256": "00b91431932c94b87443d9e2c0cf4d743846bd6c9666c9c736008df7bbd0faf1"
+        }
+      },
+      "bytes": 2097291545,
+      "repository": "z-lab/Qwen3-8B-DFlash-b16",
+      "revision": "9b41424b7109f9c5413454f481b09a82b85333f4",
+      "local_source_path_omitted": true
+    }
+  }
+}
