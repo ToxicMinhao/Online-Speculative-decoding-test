@@ -1,0 +1,7 @@
+# Startup-only failure and launch environment repair
+
+Execution `cf03c95e8f7e268537d0e2eb81a622419ba1b4ca` passed source, model, runtime, frozen export, storage and quiet-host preflight, then stopped during native worker initialization. The launcher omitted the original pilot’s CC/CXX and CPU-thread environment. SGLang’s RoPE JIT attempted to link a cached object using `c++`, which is not present on the system PATH. The retained worker traceback ends in `/bin/sh: 1: c++: not found`.
+
+The failure occurred before any complete-response request: zero attempted/generated references, zero timed executions, zero feedback and zero optimizer steps. The complete failed execution and partial report remain at `/data/sources/minhao/runs/dflash_survival_confirmation_20261111/execution_001`; it is not relabeled a pass. Runtime wall time was 46.687675s, including 25.642535s preflight and 20.998044s failed reference-worker startup/cleanup. Failed startup does not have a successful loading timer. Both cards returned idle.
+
+The narrow repair restores the exact completed PR37 launcher compiler, environment prefix, thread and offline variables, and checks both compiler executables before launching. It changes no model, runtime package, algorithm, panel, generation schedule or setting. A new source commit and separate execution directory preserve the original failure. No already executed reference or benchmark is repeated; scientific work remains 117 separate reference generations plus4608 timed completions.
