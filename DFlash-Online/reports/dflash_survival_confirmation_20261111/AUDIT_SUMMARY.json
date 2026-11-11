@@ -1,0 +1,345 @@
+{
+  "status": "passed",
+  "context": "confirmation",
+  "utc": "2026-11-11T08:35:58.494984+00:00",
+  "verification_status": "ANALYZED",
+  "model_work": 0,
+  "remote_operations": 0,
+  "independence": "Separately implemented arithmetic; same-team author overlap with production report is disclosed.",
+  "scope": "Raw scalar repeat table validation and arithmetic; no native token/logit/weight replay.",
+  "bootstrap": {
+    "draws": 10000,
+    "generator": "PCG64",
+    "seed": 20261110,
+    "percentiles": [
+      2.5,
+      97.5
+    ],
+    "method": "linear",
+    "unit": "whole paired request"
+  },
+  "raw_to_report_timing_comparison": {
+    "status": "exact_match",
+    "rows": 4608,
+    "field_checks": 156672,
+    "execution_order": "identical_to_raw",
+    "fields": "all_raw_fields_preserved"
+  },
+  "native_integrity": "Separate supplied native audit reports passed; not independently rerun by this scalar script",
+  "publication_receipt_count": 481,
+  "published_table_comparison": {
+    "status": "exact_match",
+    "scalar_checks": 75
+  },
+  "elapsed_s": 0.6626399648375809,
+  "script_sha256": "9c0448bae22046a1f974a5e2258bee09d1c6255b901ff58a5461e71df2bf2790",
+  "execution_commit": "e0129ee217f3f5b4bf6bb62bc44652e7d47b737d",
+  "results": {
+    "request_count": 768,
+    "timing_rows": 4608,
+    "method_totals": {
+      "KPLUS": {
+        "verification_calls": 34366,
+        "accepted_draft_tokens": 196593,
+        "native_accepted_draft_tokens": 195884,
+        "committed_progress": 230250,
+        "output_tokens": 231018,
+        "request_latency_s": 631.7261603819206,
+        "native_generate_s": 588.0837912941352,
+        "cache_maintenance_s": 24.038165133446455,
+        "cap_hit_requests": 2
+      },
+      "LOCAL": {
+        "verification_calls": 34358,
+        "accepted_draft_tokens": 196581,
+        "native_accepted_draft_tokens": 195892,
+        "committed_progress": 230250,
+        "output_tokens": 231018,
+        "request_latency_s": 628.74759449251,
+        "native_generate_s": 585.7596199139953,
+        "cache_maintenance_s": 24.121126210317016,
+        "cap_hit_requests": 2
+      },
+      "SURVIVAL": {
+        "verification_calls": 34540,
+        "accepted_draft_tokens": 196410,
+        "native_accepted_draft_tokens": 195710,
+        "committed_progress": 230250,
+        "output_tokens": 231018,
+        "request_latency_s": 633.8661531293765,
+        "native_generate_s": 589.4640743872151,
+        "cache_maintenance_s": 26.71795116364956,
+        "cap_hit_requests": 2
+      }
+    },
+    "comparisons": {
+      "SURVIVAL_vs_KPLUS": {
+        "metrics": {
+          "verification_calls": {
+            "point_pct": -0.5063143804923564,
+            "candidate_sum": 34540.0,
+            "reference_sum": 34366.0,
+            "ci95_pct": [
+              -0.8728280185747339,
+              -0.13479381223025283
+            ]
+          },
+          "request_latency_s": {
+            "point_pct": -0.33875322594874024,
+            "candidate_sum": 633.8661531293765,
+            "reference_sum": 631.7261603819206,
+            "ci95_pct": [
+              -1.444629362237097,
+              0.7880078469492133
+            ]
+          },
+          "native_generate_s": {
+            "point_pct": -0.23470857614396046,
+            "candidate_sum": 589.4640743872151,
+            "reference_sum": 588.0837912941352,
+            "ci95_pct": [
+              -0.7345523995939673,
+              0.28353625704252444
+            ]
+          },
+          "cache_maintenance_s": {
+            "point_pct": -11.148047346070001,
+            "candidate_sum": 26.71795116364956,
+            "reference_sum": 24.038165133446455,
+            "ci95_pct": [
+              -24.7105979850596,
+              0.6208111325802972
+            ]
+          }
+        },
+        "calls_saved": 595,
+        "calls_added": 769,
+        "call_wins": 277,
+        "call_losses": 353,
+        "call_ties": 138,
+        "sweep_latency_reduction_pct": [
+          -0.18929266383740373,
+          -0.4862303526598222
+        ],
+        "first_round": {
+          "wins": 88,
+          "losses": 74,
+          "ties": 606,
+          "gained": 219,
+          "lost": 214,
+          "seed_eos_requests": 0
+        }
+      },
+      "SURVIVAL_vs_LOCAL": {
+        "metrics": {
+          "verification_calls": {
+            "point_pct": -0.5297165143489213,
+            "candidate_sum": 34540.0,
+            "reference_sum": 34358.0,
+            "ci95_pct": [
+              -0.8867141079695551,
+              -0.18205111885325273
+            ]
+          },
+          "request_latency_s": {
+            "point_pct": -0.8140879872467588,
+            "candidate_sum": 633.8661531293765,
+            "reference_sum": 628.74759449251,
+            "ci95_pct": [
+              -1.8801814711765568,
+              0.24176804796099036
+            ]
+          },
+          "native_generate_s": {
+            "point_pct": -0.6324188877621317,
+            "candidate_sum": 589.4640743872151,
+            "reference_sum": 585.7596199139953,
+            "ci95_pct": [
+              -1.1191051412090192,
+              -0.1425179057732984
+            ]
+          },
+          "cache_maintenance_s": {
+            "point_pct": -10.765769934166002,
+            "candidate_sum": 26.71795116364956,
+            "reference_sum": 24.121126210317016,
+            "ci95_pct": [
+              -24.42131639748049,
+              1.2772298701932805
+            ]
+          }
+        },
+        "calls_saved": 564,
+        "calls_added": 746,
+        "call_wins": 289,
+        "call_losses": 338,
+        "call_ties": 141,
+        "sweep_latency_reduction_pct": [
+          -1.1337979993532477,
+          -0.5015193784305261
+        ],
+        "first_round": {
+          "wins": 88,
+          "losses": 67,
+          "ties": 613,
+          "gained": 146,
+          "lost": 162,
+          "seed_eos_requests": 0
+        }
+      },
+      "LOCAL_vs_KPLUS": {
+        "metrics": {
+          "verification_calls": {
+            "point_pct": 0.02327882209159915,
+            "candidate_sum": 34358.0,
+            "reference_sum": 34366.0,
+            "ci95_pct": [
+              -0.3263532303175942,
+              0.3741038266674625
+            ]
+          },
+          "request_latency_s": {
+            "point_pct": 0.47149636602193956,
+            "candidate_sum": 628.74759449251,
+            "reference_sum": 631.7261603819206,
+            "ci95_pct": [
+              -0.6386129722842331,
+              1.6247171181108153
+            ]
+          },
+          "native_generate_s": {
+            "point_pct": 0.39521092309402484,
+            "candidate_sum": 585.7596199139953,
+            "reference_sum": 588.0837912941352,
+            "ci95_pct": [
+              -0.09701230264965166,
+              0.8967504945539913
+            ]
+          },
+          "cache_maintenance_s": {
+            "point_pct": -0.34512233529475633,
+            "candidate_sum": 24.121126210317016,
+            "reference_sum": 24.038165133446455,
+            "ci95_pct": [
+              -12.964755466113154,
+              11.004355378547347
+            ]
+          }
+        },
+        "calls_saved": 677,
+        "calls_added": 669,
+        "call_wins": 318,
+        "call_losses": 323,
+        "call_ties": 127,
+        "sweep_latency_reduction_pct": [
+          0.93391660770209,
+          0.015212730976854605
+        ],
+        "first_round": {
+          "wins": 98,
+          "losses": 97,
+          "ties": 573,
+          "gained": 261,
+          "lost": 240,
+          "seed_eos_requests": 0
+        }
+      }
+    },
+    "repeat_totals": {
+      "0": {
+        "KPLUS": {
+          "verification_calls": 34366,
+          "accepted_draft_tokens": 196593,
+          "native_accepted_draft_tokens": 195884,
+          "committed_progress": 230250,
+          "output_tokens": 231018,
+          "request_latency_s": 627.506460165605,
+          "native_generate_s": 585.079215189442,
+          "cache_maintenance_s": 26.788922185078263
+        },
+        "LOCAL": {
+          "verification_calls": 34358,
+          "accepted_draft_tokens": 196581,
+          "native_accepted_draft_tokens": 195892,
+          "committed_progress": 230250,
+          "output_tokens": 231018,
+          "request_latency_s": 621.6460731197149,
+          "native_generate_s": 585.4400271531194,
+          "cache_maintenance_s": 24.396906178444624
+        },
+        "SURVIVAL": {
+          "verification_calls": 34540,
+          "accepted_draft_tokens": 196410,
+          "native_accepted_draft_tokens": 195710,
+          "committed_progress": 230250,
+          "output_tokens": 231018,
+          "request_latency_s": 628.6942838598043,
+          "native_generate_s": 586.4454353209585,
+          "cache_maintenance_s": 29.46395100839436
+        }
+      },
+      "1": {
+        "KPLUS": {
+          "verification_calls": 34366,
+          "accepted_draft_tokens": 196593,
+          "native_accepted_draft_tokens": 195884,
+          "committed_progress": 230250,
+          "output_tokens": 231018,
+          "request_latency_s": 635.9458605982363,
+          "native_generate_s": 591.0883673988283,
+          "cache_maintenance_s": 21.287408081814647
+        },
+        "LOCAL": {
+          "verification_calls": 34358,
+          "accepted_draft_tokens": 196581,
+          "native_accepted_draft_tokens": 195892,
+          "committed_progress": 230250,
+          "output_tokens": 231018,
+          "request_latency_s": 635.8491158653051,
+          "native_generate_s": 586.0792126748711,
+          "cache_maintenance_s": 23.845346242189407
+        },
+        "SURVIVAL": {
+          "verification_calls": 34540,
+          "accepted_draft_tokens": 196410,
+          "native_accepted_draft_tokens": 195710,
+          "committed_progress": 230250,
+          "output_tokens": 231018,
+          "request_latency_s": 639.0380223989487,
+          "native_generate_s": 592.4827134534717,
+          "cache_maintenance_s": 23.971951318904757
+        }
+      }
+    },
+    "classification": {
+      "outcome": "mixed_or_unfavorable",
+      "failed_directions": [
+        "SURVIVAL_vs_KPLUS:verification_calls:point_not_positive",
+        "SURVIVAL_vs_KPLUS:request_latency_s:point_not_positive",
+        "SURVIVAL_vs_KPLUS:sweep_0:latency_not_positive",
+        "SURVIVAL_vs_KPLUS:sweep_1:latency_not_positive",
+        "SURVIVAL_vs_LOCAL:verification_calls:point_not_positive",
+        "SURVIVAL_vs_LOCAL:request_latency_s:point_not_positive",
+        "SURVIVAL_vs_LOCAL:sweep_0:latency_not_positive",
+        "SURVIVAL_vs_LOCAL:sweep_1:latency_not_positive"
+      ],
+      "unresolved_intervals": [
+        "SURVIVAL_vs_KPLUS:verification_calls:lower_bound_not_positive",
+        "SURVIVAL_vs_KPLUS:request_latency_s:lower_bound_not_positive",
+        "SURVIVAL_vs_LOCAL:verification_calls:lower_bound_not_positive",
+        "SURVIVAL_vs_LOCAL:request_latency_s:lower_bound_not_positive"
+      ]
+    },
+    "expected_publications": 481
+  },
+  "native_validity": {
+    "valid": 4608,
+    "invalid": 0,
+    "unknown": 0,
+    "unattempted": 0,
+    "first8_passed": 48,
+    "extra_generations": 0,
+    "optimizer_steps": 0,
+    "postflight": "passed"
+  }
+}
