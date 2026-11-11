@@ -124,6 +124,7 @@ def standardized(census, paired, ids, draws):
             for g in ("SHORT", "LONG")
         },
         estimates={},
+        interval_scope="Conditional on all fixed observed cells being represented in the draw. High undefined fractions and sparse cells preclude a demonstrated standardized difference.",
     )
     if not common:
         return result
