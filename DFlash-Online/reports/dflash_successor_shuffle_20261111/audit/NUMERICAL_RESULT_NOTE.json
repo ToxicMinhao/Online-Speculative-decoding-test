@@ -1,0 +1,460 @@
+{
+  "status": "passed",
+  "analysis": {
+    "draws": 10000,
+    "generator": "PCG64",
+    "seed": 20261111,
+    "method": "linear",
+    "percentiles": [
+      2.5,
+      97.5
+    ],
+    "unit": "whole paired request jointly across all arms",
+    "intervals_adjusted": false
+  },
+  "classification": {
+    "outcome": "informative_placement_supported",
+    "incremental_verifier_benefit_vs_K": false,
+    "informative_placement_and_incremental_verifier_benefit": false,
+    "latency": {
+      "TRUE_vs_SHUFFLED": {
+        "benefit_supported": false,
+        "slowdown_supported": false
+      },
+      "TRUE_vs_K": {
+        "benefit_supported": false,
+        "slowdown_supported": false
+      },
+      "SHUFFLED_vs_K": {
+        "benefit_supported": false,
+        "slowdown_supported": false
+      }
+    },
+    "automatic_followup_authorized": false
+  },
+  "method_totals": {
+    "K": {
+      "verification_calls": 11564,
+      "accepted_draft_tokens": 67495,
+      "native_accepted_draft_tokens": 67258,
+      "committed_progress": 78822,
+      "output_tokens": 79078,
+      "request_latency_s": 208.68908379599452,
+      "native_generate_s": 194.80173707194626,
+      "cache_maintenance_s": 7.598844947293401,
+      "cap_hit_requests": 0
+    },
+    "TRUE": {
+      "verification_calls": 11522,
+      "accepted_draft_tokens": 67534,
+      "native_accepted_draft_tokens": 67300,
+      "committed_progress": 78822,
+      "output_tokens": 79078,
+      "request_latency_s": 207.9423309005797,
+      "native_generate_s": 194.7614586018026,
+      "cache_maintenance_s": 6.659823145717382,
+      "cap_hit_requests": 0
+    },
+    "SHUFFLED": {
+      "verification_calls": 11591,
+      "accepted_draft_tokens": 67474,
+      "native_accepted_draft_tokens": 67231,
+      "committed_progress": 78822,
+      "output_tokens": 79078,
+      "request_latency_s": 210.5639313813299,
+      "native_generate_s": 195.78180801030248,
+      "cache_maintenance_s": 8.254083841107786,
+      "cap_hit_requests": 0
+    }
+  },
+  "means_per_request_s": {
+    "K": {
+      "request_latency_s": 0.8151917335781036,
+      "native_generate_s": 0.7609442854372901,
+      "cache_maintenance_s": 0.029682988075364847
+    },
+    "TRUE": {
+      "request_latency_s": 0.8122747300803894,
+      "native_generate_s": 0.7607869476632914,
+      "cache_maintenance_s": 0.026014934162958525
+    },
+    "SHUFFLED": {
+      "request_latency_s": 0.8225153569583199,
+      "native_generate_s": 0.7647726875402441,
+      "cache_maintenance_s": 0.03224251500432729
+    }
+  },
+  "comparisons": {
+    "TRUE_vs_SHUFFLED": {
+      "metrics": {
+        "verification_calls": {
+          "point_pct": 0.5952894487102012,
+          "candidate_sum": 11522.0,
+          "reference_sum": 11591.0,
+          "ci95_pct": [
+            0.17096392277157424,
+            1.0154080568468404
+          ],
+          "undefined_bootstrap_draws": 0
+        },
+        "request_latency_s": {
+          "point_pct": 1.2450377724010586,
+          "candidate_sum": 207.9423309005797,
+          "reference_sum": 210.5639313813299,
+          "ci95_pct": [
+            -0.14040819047782588,
+            2.562570905845744
+          ],
+          "undefined_bootstrap_draws": 0
+        },
+        "native_generate_s": {
+          "point_pct": 0.5211666083123512,
+          "candidate_sum": 194.7614586018026,
+          "reference_sum": 195.78180801030248,
+          "ci95_pct": [
+            -0.14646427497821798,
+            1.198316136996508
+          ],
+          "undefined_bootstrap_draws": 0
+        },
+        "cache_maintenance_s": {
+          "point_pct": 19.314811020582468,
+          "candidate_sum": 6.659823145717382,
+          "reference_sum": 8.254083841107786,
+          "ci95_pct": [
+            1.4180064899172078,
+            33.86827055584571
+          ],
+          "undefined_bootstrap_draws": 0
+        }
+      },
+      "calls_saved": 189,
+      "calls_added": 120,
+      "call_wins": 111,
+      "call_losses": 78,
+      "call_ties": 67,
+      "sweep_latency_reduction_pct": [
+        1.9499241272801227,
+        0.5316096177531704
+      ],
+      "first_round": {
+        "wins": 23,
+        "losses": 20,
+        "ties": 213,
+        "gained": 39,
+        "lost": 53,
+        "seed_eos_requests": 0
+      },
+      "request_latency_directions": {
+        "wins": 147,
+        "losses": 109,
+        "ties": 0
+      }
+    },
+    "TRUE_vs_K": {
+      "metrics": {
+        "verification_calls": {
+          "point_pct": 0.3631961259079941,
+          "candidate_sum": 11522.0,
+          "reference_sum": 11564.0,
+          "ci95_pct": [
+            -0.0719358460567526,
+            0.7844907845903006
+          ],
+          "undefined_bootstrap_draws": 0
+        },
+        "request_latency_s": {
+          "point_pct": 0.3578303578853359,
+          "candidate_sum": 207.9423309005797,
+          "reference_sum": 208.68908379599452,
+          "ci95_pct": [
+            -0.9794432445858803,
+            1.6532584454771675
+          ],
+          "undefined_bootstrap_draws": 0
+        },
+        "native_generate_s": {
+          "point_pct": 0.020676648344675197,
+          "candidate_sum": 194.7614586018026,
+          "reference_sum": 194.80173707194626,
+          "ci95_pct": [
+            -0.6622438416484705,
+            0.6811739950864567
+          ],
+          "undefined_bootstrap_draws": 0
+        },
+        "cache_maintenance_s": {
+          "point_pct": 12.357428110314117,
+          "candidate_sum": 6.659823145717382,
+          "reference_sum": 7.598844947293401,
+          "ci95_pct": [
+            -9.241737892841853,
+            29.489906870261507
+          ],
+          "undefined_bootstrap_draws": 0
+        }
+      },
+      "calls_saved": 166,
+      "calls_added": 124,
+      "call_wins": 96,
+      "call_losses": 75,
+      "call_ties": 85,
+      "sweep_latency_reduction_pct": [
+        0.9329373421244846,
+        -0.22263883230564385
+      ],
+      "first_round": {
+        "wins": 23,
+        "losses": 19,
+        "ties": 214,
+        "gained": 41,
+        "lost": 50,
+        "seed_eos_requests": 0
+      },
+      "request_latency_directions": {
+        "wins": 141,
+        "losses": 115,
+        "ties": 0
+      }
+    },
+    "SHUFFLED_vs_K": {
+      "metrics": {
+        "verification_calls": {
+          "point_pct": -0.23348322379799225,
+          "candidate_sum": 11591.0,
+          "reference_sum": 11564.0,
+          "ci95_pct": [
+            -0.6535370677246283,
+            0.19540752795703814
+          ],
+          "undefined_bootstrap_draws": 0
+        },
+        "request_latency_s": {
+          "point_pct": -0.898392743517018,
+          "candidate_sum": 210.5639313813299,
+          "reference_sum": 208.68908379599452,
+          "ci95_pct": [
+            -2.2747559699946827,
+            0.4515231030091096
+          ],
+          "undefined_bootstrap_draws": 0
+        },
+        "native_generate_s": {
+          "point_pct": -0.5031120117754639,
+          "candidate_sum": 195.78180801030248,
+          "reference_sum": 194.80173707194626,
+          "ci95_pct": [
+            -1.1736620906706423,
+            0.16254765538667162
+          ],
+          "undefined_bootstrap_draws": 0
+        },
+        "cache_maintenance_s": {
+          "point_pct": -8.622874902162225,
+          "candidate_sum": 8.254083841107786,
+          "reference_sum": 7.598844947293401,
+          "ci95_pct": [
+            -35.977991202701546,
+            13.424976587435829
+          ],
+          "undefined_bootstrap_draws": 0
+        }
+      },
+      "calls_saved": 134,
+      "calls_added": 161,
+      "call_wins": 82,
+      "call_losses": 105,
+      "call_ties": 69,
+      "sweep_latency_reduction_pct": [
+        -1.03721162488013,
+        -0.7582795370070006
+      ],
+      "first_round": {
+        "wins": 6,
+        "losses": 7,
+        "ties": 243,
+        "gained": 20,
+        "lost": 15,
+        "seed_eos_requests": 0
+      },
+      "request_latency_directions": {
+        "wins": 122,
+        "losses": 134,
+        "ties": 0
+      }
+    }
+  },
+  "repeat_totals": {
+    "0": {
+      "K": {
+        "verification_calls": 11564,
+        "accepted_draft_tokens": 67495,
+        "native_accepted_draft_tokens": 67258,
+        "committed_progress": 78822,
+        "output_tokens": 79078,
+        "request_latency_s": 209.65746119245887,
+        "native_generate_s": 194.47723585739732,
+        "cache_maintenance_s": 7.441422179341316
+      },
+      "TRUE": {
+        "verification_calls": 11522,
+        "accepted_draft_tokens": 67534,
+        "native_accepted_draft_tokens": 67300,
+        "committed_progress": 78822,
+        "output_tokens": 79078,
+        "request_latency_s": 207.70148844644427,
+        "native_generate_s": 195.3105511367321,
+        "cache_maintenance_s": 5.660618714988232
+      },
+      "SHUFFLED": {
+        "verification_calls": 11591,
+        "accepted_draft_tokens": 67474,
+        "native_accepted_draft_tokens": 67231,
+        "committed_progress": 78822,
+        "output_tokens": 79078,
+        "request_latency_s": 211.8320527523756,
+        "native_generate_s": 196.21558337286115,
+        "cache_maintenance_s": 7.8899941816926
+      }
+    },
+    "1": {
+      "K": {
+        "verification_calls": 11564,
+        "accepted_draft_tokens": 67495,
+        "native_accepted_draft_tokens": 67258,
+        "committed_progress": 78822,
+        "output_tokens": 79078,
+        "request_latency_s": 207.72070639953017,
+        "native_generate_s": 195.1262382864952,
+        "cache_maintenance_s": 7.756267715245485
+      },
+      "TRUE": {
+        "verification_calls": 11522,
+        "accepted_draft_tokens": 67534,
+        "native_accepted_draft_tokens": 67300,
+        "committed_progress": 78822,
+        "output_tokens": 79078,
+        "request_latency_s": 208.1831733547151,
+        "native_generate_s": 194.21236606687307,
+        "cache_maintenance_s": 7.659027576446533
+      },
+      "SHUFFLED": {
+        "verification_calls": 11591,
+        "accepted_draft_tokens": 67474,
+        "native_accepted_draft_tokens": 67231,
+        "committed_progress": 78822,
+        "output_tokens": 79078,
+        "request_latency_s": 209.29581001028419,
+        "native_generate_s": 195.34803264774382,
+        "cache_maintenance_s": 8.618173500522971
+      }
+    }
+  },
+  "training": {
+    "status": "passed",
+    "main_optimizer_steps": 256,
+    "main_presentations": 512,
+    "main_response_forwards": 512,
+    "main_response_backwards": 512,
+    "TRUE_new_main_steps": 0,
+    "per_new_arm": {
+      "optimizer_steps": 128,
+      "response_forwards": 256,
+      "response_backwards": 256
+    },
+    "manipulation_totals": {
+      "eligible_errors": 45255,
+      "ineligible_errors": 2286,
+      "mixed_strata": 3396,
+      "flipped_bits": 18452,
+      "uniform_expected_flips": 18416.406527254767,
+      "reassigned_weight": 1827.4145187735558,
+      "projection_calls": 7994,
+      "projection_s": 50.37267164885998,
+      "assignment_s": 8.139749048277736
+    },
+    "labels_changed": true,
+    "final_export_changed": true,
+    "benchmark_scope": "Descriptive expectation under uniform permutation; realized map is one fixed hash permutation.",
+    "tensor_scope": "Compact recorded native FP32 masses checked within tolerance; no tensor/gradient replay.",
+    "main_discarded_startup": {
+      "response_forwards": 4,
+      "response_backwards": 4,
+      "optimizer_steps": 0
+    }
+  },
+  "qualification": {
+    "optimizer_steps": 3,
+    "response_forwards": 12,
+    "response_backwards": 12,
+    "scope": "Separate disposable work including startup; native identity parity supported by supplied qualification receipt."
+  },
+  "costs": {
+    "current_runtime_wall_s": 3330.467275386676,
+    "current_runtime_wall_minutes": 55.50778792311127,
+    "training_intrinsic_s": {
+      "K": 328.06473426520824,
+      "SHUFFLED": 400.9849530365318
+    },
+    "training_wrapper_s": {
+      "K": 480.4780283868313,
+      "SHUFFLED": 554.5858701840043
+    },
+    "qualification_wrapper_s": 432.14737896993756,
+    "reference_wrapper_s": 66.62382405437529,
+    "reference_generation_s": 28.13460681401193,
+    "reference_loading_s": 28.258640836924314,
+    "parent_diagnostic_wrapper_s": 26.43824142962694,
+    "serving_worker_s": 1669.7175155002624,
+    "serving_evaluation_s": 1633.331482872367,
+    "serving_loading_s": 20.756898023188114,
+    "publication_outer_s": 302.1289234627038,
+    "publication_native_s": 55.84663231857121,
+    "measured_request_time_all_repeats_s": 1254.3906921558082,
+    "interpretation": "Clocks are at different nested levels; they are not additive GPU/kernel time or a training-inclusive speedup.",
+    "prior_failure_scope": "Only explicitly supplied failed-launch receipts; absence is not proof of zero failures."
+  },
+  "evidence": {
+    "requests": 256,
+    "timed_rows": 1536,
+    "invalid": 0,
+    "unknown": 0,
+    "unattempted": 0,
+    "canonical_reused": 221,
+    "canonical_new": 35,
+    "parent_one_blocks": 64,
+    "checkpoint_publications": 161,
+    "raw_csv_fields": 52224,
+    "report_numerical_fields": 129,
+    "exact_bootstrap_intervals": 12
+  },
+  "inputs": {
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_successor_shuffle_20261111/analysis/SUCCESSOR_AUDIT_001.json": {
+      "bytes": 589124,
+      "sha256": "088ea845dff996b324495bfe8da33a8745bad373b46928322db9098bc4a63c90"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_successor_shuffle_20261111/delivery/TRANSFER_VERIFICATION.json": {
+      "bytes": 256,
+      "sha256": "2a1c33c89c1172fbabb2a34aaa50f87d6559cb5333e7dd04952b04b6a5955d22"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_successor_shuffle_20261111/delivery/retained/evaluation/STATUS.json": {
+      "bytes": 610,
+      "sha256": "f5cb86c1ef05e839c5b17afd70307c46d41af00ee275eb69271a667301356a21"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_successor_shuffle_20261111/delivery/retained/references/STATUS.json": {
+      "bytes": 528,
+      "sha256": "1ba4fe0c7f4b3ce250b2b1244e71bd7999cb4467257480b81196cc6b86d8e745"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_successor_shuffle_20261111/delivery/retained/matched_start/STATUS.json": {
+      "bytes": 401,
+      "sha256": "1c6e9133d591a7f61d9d71fcccf96e7c75ff0e849621524355fdef5090002b73"
+    },
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_successor_shuffle_20261111/delivery/retained/evaluation/ACTIVATIONS.jsonl": {
+      "bytes": 217839,
+      "sha256": "d79ed24f70d49cf5da4b5d72dce3938c6676bccf342bf4fdce7c64e408d49f8f"
+    }
+  },
+  "model_work": 0,
+  "remote_operations": 0,
+  "scope": "Same-team independent scalar arithmetic and compact receipt audit, no native rerun or tensor reread."
+}

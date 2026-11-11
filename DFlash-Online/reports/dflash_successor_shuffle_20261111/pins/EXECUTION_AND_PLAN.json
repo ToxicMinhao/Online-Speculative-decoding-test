@@ -1,0 +1,142 @@
+{
+  "execution_source": {
+    "commit": "4d977e9ffd2cab9d58ae8806c29df11d843353da",
+    "dirty": false,
+    "repository": "ToxicMinhao/Online-Speculative-decoding-test",
+    "source_path": "/data/sources/minhao/successor_shuffle_source_20261111_001/DFlash-Online"
+  },
+  "binding": "d57554b8d8dd9a072b30b0e639cda1beba56f140cadca1165da17a3c97341eb7",
+  "analysis": {
+    "resamples": 10000,
+    "seed": 20261111,
+    "generator": "PCG64",
+    "percentile_method": "linear",
+    "primary": [
+      [
+        "TRUE",
+        "SHUFFLED"
+      ]
+    ],
+    "controls": [
+      [
+        "TRUE",
+        "K"
+      ],
+      [
+        "SHUFFLED",
+        "K"
+      ]
+    ],
+    "intervals_adjusted": false,
+    "uncertainty_unit": "paired_request",
+    "repeats_reduction": "within_request_mean",
+    "effect": "percent_reduction_of_paired_totals",
+    "first_round": "shared_start_only"
+  },
+  "serving": {
+    "block_size": 16,
+    "max_new_tokens": 2048,
+    "context_limit": 4096,
+    "concurrency": 1,
+    "greedy": true,
+    "capture": false,
+    "extra_warmup_generations": 0,
+    "cache_policy": "idle_full_flush_before_every_request_and_publication",
+    "same_physical_card": true
+  },
+  "budget": {
+    "optimizer_steps": 256,
+    "training_presentations": 512,
+    "feedback_generations": 0,
+    "timed_completions": 1536,
+    "reference_generations": 35,
+    "parent_draft_blocks": 64,
+    "qualification_optimizer_steps": 3,
+    "qualification_presentations": 6,
+    "extra_generation_warmups": 0
+  },
+  "budgets": {
+    "main": {
+      "training_events": 2,
+      "optimizer_steps": 256,
+      "ordinary_presentations": 512,
+      "response_forwards": 512,
+      "response_backwards": 512,
+      "extra_detached_projection_calls_max": 16384,
+      "endpoint_generations": 1536,
+      "unique_feedback_responses": 128,
+      "unique_teacher_packets": 128,
+      "feedback_generations": 0,
+      "teacher_preparations": 0,
+      "canonical_generations": 35,
+      "parent_one_block_evaluations": 64
+    },
+    "qualification": {
+      "cases": 3,
+      "optimizer_steps": 3,
+      "ordinary_presentations": 6,
+      "case_forwards": 6,
+      "case_backwards": 6,
+      "startup_forwards": 6,
+      "startup_backwards": 6,
+      "response_forwards": 12,
+      "response_backwards": 12,
+      "extra_detached_projection_calls_max": 256,
+      "next_anchor_draws": 3,
+      "serving_generations": 0,
+      "automatic_retry": false
+    },
+    "startup": {
+      "runtimes": 2,
+      "response_forwards": 4,
+      "response_backwards": 4,
+      "optimizer_steps": 0
+    },
+    "serving": {
+      "block_size": 16,
+      "max_new_tokens": 2048,
+      "context_limit": 4096,
+      "concurrency": 1,
+      "greedy": true,
+      "capture": false,
+      "extra_warmup_generations": 0,
+      "cache_policy": "idle_full_flush_before_every_request_and_publication",
+      "same_physical_card": true
+    }
+  },
+  "origin_state_identity": {
+    "bytes": 6296241115,
+    "sha256": "5e113f62a6c3d519f7f0f9224a924a7fec3ce06f7a30e49eb682e9363b8a2d74"
+  },
+  "origin_weights_identity": {
+    "bytes": 2097259104,
+    "sha256": "4f3010e961bd7dcf35fa100486c355ffbc7629d816dda6e2b8fa001878255701"
+  },
+  "pool_identity": {
+    "bytes": 74201,
+    "sha256": "cd4b5eb7d56ef6f304c53e8f357a981243948354d2a66c5aaecbb5975d30a784"
+  },
+  "original_schedule_identity": {
+    "bytes": 6563850,
+    "sha256": "31c36c7f7bb3cbc5795f85de720e39ba0c1739488eaff003444f38aed4c9b196"
+  },
+  "baseline_result_identity": {
+    "bytes": 6559391,
+    "sha256": "ee1378aefc732c6812031b0a27abb734c7a2a2293821678da53ead9ab223a935"
+  },
+  "true_reuse": {
+    "enabled": true,
+    "checkpoint_path": "/data/sources/minhao/runs/dflash_survival_head_20261110/execution_001/campaign_001/gsm8k/event_005/KPLUS/trainer/events/event_005/export",
+    "weights_identity": {
+      "bytes": 2097259104,
+      "sha256": "9dcb0d637eabef6bd4e34c552da0448faa9510e6bcaf5c753a6bd1b43674b795"
+    },
+    "result_path": "/data/sources/minhao/runs/dflash_survival_head_20261110/execution_001/campaign_001/gsm8k/event_005/KPLUS/RESULT.json",
+    "result_identity": {
+      "bytes": 6559391,
+      "sha256": "ee1378aefc732c6812031b0a27abb734c7a2a2293821678da53ead9ab223a935"
+    },
+    "authentication_path": "/data/sources/minhao/runs/dflash_successor_shuffle_20261111/execution_001/sealed/TRUE_AUTHENTICATION.json"
+  },
+  "private_plan": "/data/sources/minhao/runs/dflash_successor_shuffle_20261111/execution_001/sealed/PLAN.json"
+}
