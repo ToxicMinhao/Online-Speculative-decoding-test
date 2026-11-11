@@ -18,9 +18,13 @@ def seal(root, prepared, pilot, source_manifest):
     if (prior_summary['status']!='complete' or prior_summary['execution_source']['commit']!='7f89719956f0256c0916a583d7ff615954cc66f9'
             or prior_manifest['missing'] or prior_manifest['parse_errors']):
         raise ValueError('Require completed retained pilot evidence')
+    old_seal=read(pilot/'sealed/SEAL.json')
+    if old_seal['binding']!=old['binding'] or old_seal['execution_source']!=old['execution_source']:
+        raise ValueError('Original pilot source seal disagrees with retained plan')
     for relative in ('sealed/PLAN.json','sealed/MODEL_PIN.json','sealed/RUNTIME_PIN.json'):
         path=pilot/relative
-        if identity(path)!=prior_manifest['files'].get(str(path)):
+        expected=(prior_manifest['files'] if relative=='sealed/PLAN.json' else old_seal['files']).get(str(path))
+        if identity(path)!=expected:
             raise ValueError('Pilot input differs from completed evidence: '+relative)
     code=Path(__file__).resolve().parents[2]
     if (source['commit'] == '' or source['dirty'] is not False

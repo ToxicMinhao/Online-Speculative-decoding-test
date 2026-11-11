@@ -99,6 +99,9 @@ def preflight(root, *, postflight=False):
             raise ValueError('Execution-source receipt differs')
         for name, expected in source['files'].items():
             if identity(code/name) != expected: raise ValueError('Execution code changed: '+name)
+        for name,target in source.get('symlinks',{}).items():
+            if not (code/name).is_symlink() or str((code/name).readlink())!=target:
+                raise ValueError('Execution symlink changed: '+name)
         receipt['sealed_files'] = len(seal['files'])
         receipt['source_files'] = len(source['files'])
         receipt['checkpoints'] = verify_exports(plan)
