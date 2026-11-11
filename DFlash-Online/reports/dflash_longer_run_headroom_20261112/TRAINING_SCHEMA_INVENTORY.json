@@ -1,0 +1,386 @@
+[
+  {
+    "path": "/data/sources/minhao/runs/dflash_functional_step_geometry_20261108/pilot_r1_001/campaign_001/gsm8k/event_005/KPLUS/trainer/events/event_005",
+    "exists": true,
+    "files": [
+      "PENDING.json",
+      "RESPONSE_OBSERVATIONS.jsonl",
+      "WINDOW_OBSERVATIONS.jsonl",
+      "RESULT.json"
+    ],
+    "observations": [
+      {
+        "file": "RESPONSE_OBSERVATIONS.jsonl",
+        "rows": 256,
+        "keys": [
+          "event_id",
+          "loss",
+          "pass_index",
+          "presentation_ordinal",
+          "ratio_metrics",
+          "record_id",
+          "sampled_anchors",
+          "scope",
+          "sum_metrics"
+        ],
+        "nested_keys": {
+          "ratio_metrics": [
+            "forward_kl",
+            "objective_loss",
+            "selection_rate"
+          ],
+          "sum_metrics": [
+            "available_position_occurrences",
+            "available_position_weight",
+            "empty_blocks",
+            "first_error_position_1",
+            "first_error_position_10",
+            "first_error_position_11",
+            "first_error_position_12",
+            "first_error_position_13",
+            "first_error_position_14",
+            "first_error_position_15",
+            "first_error_position_2",
+            "first_error_position_3",
+            "first_error_position_4",
+            "first_error_position_5",
+            "first_error_position_6",
+            "first_error_position_7",
+            "first_error_position_8",
+            "first_error_position_9",
+            "kplus_N1",
+            "kplus_N2",
+            "kplus_N_K",
+            "kplus_N_new",
+            "kplus_S",
+            "kplus_W1",
+            "kplus_W2",
+            "kplus_coefficient1",
+            "kplus_coefficient2",
+            "kplus_conservation_error",
+            "kplus_error_weight_moved",
+            "kplus_error_weight_moved_share",
+            "kplus_first_error_weight_after",
+            "kplus_mixed_response",
+            "kplus_priority1_error_count",
+            "kplus_priority2_error_count",
+            "kplus_response_count",
+            "loss_denominator",
+            "main_loss_numerator",
+            "no_error_blocks",
+            "selected_position_occurrences",
+            "selected_position_weight",
+            "supervised_position_exposure"
+          ]
+        },
+        "bytes": 1162835,
+        "sha256": "73c15f99a002e7b067852671b83f31595abf74e9767bb4f9147a6c77d39767d8"
+      },
+      {
+        "file": "WINDOW_OBSERVATIONS.jsonl",
+        "rows": 128,
+        "keys": [
+          "event_id",
+          "global_step",
+          "gradient_norm",
+          "learning_rate",
+          "mean_response_loss",
+          "record_ids",
+          "scope",
+          "window"
+        ],
+        "nested_keys": {},
+        "bytes": 29651,
+        "sha256": "54e4e514c2ed61e12203e511cc8911305078e2a67e8c006d1163b558119f38b6"
+      }
+    ]
+  },
+  {
+    "path": "/data/sources/minhao/runs/dflash_functional_step_geometry_20261108/pilot_r1_001/campaign_001/gsm8k/event_006/KPLUS/trainer/events/event_006",
+    "exists": true,
+    "files": [
+      "PENDING.json",
+      "RESPONSE_OBSERVATIONS.jsonl",
+      "WINDOW_OBSERVATIONS.jsonl",
+      "RESULT.json"
+    ],
+    "observations": [
+      {
+        "file": "RESPONSE_OBSERVATIONS.jsonl",
+        "rows": 256,
+        "keys": [
+          "event_id",
+          "loss",
+          "pass_index",
+          "presentation_ordinal",
+          "ratio_metrics",
+          "record_id",
+          "sampled_anchors",
+          "scope",
+          "sum_metrics"
+        ],
+        "nested_keys": {
+          "ratio_metrics": [
+            "forward_kl",
+            "objective_loss",
+            "selection_rate"
+          ],
+          "sum_metrics": [
+            "available_position_occurrences",
+            "available_position_weight",
+            "empty_blocks",
+            "first_error_position_1",
+            "first_error_position_10",
+            "first_error_position_11",
+            "first_error_position_12",
+            "first_error_position_13",
+            "first_error_position_14",
+            "first_error_position_15",
+            "first_error_position_2",
+            "first_error_position_3",
+            "first_error_position_4",
+            "first_error_position_5",
+            "first_error_position_6",
+            "first_error_position_7",
+            "first_error_position_8",
+            "first_error_position_9",
+            "kplus_N1",
+            "kplus_N2",
+            "kplus_N_K",
+            "kplus_N_new",
+            "kplus_S",
+            "kplus_W1",
+            "kplus_W2",
+            "kplus_coefficient1",
+            "kplus_coefficient2",
+            "kplus_conservation_error",
+            "kplus_error_weight_moved",
+            "kplus_error_weight_moved_share",
+            "kplus_first_error_weight_after",
+            "kplus_mixed_response",
+            "kplus_priority1_error_count",
+            "kplus_priority2_error_count",
+            "kplus_response_count",
+            "loss_denominator",
+            "main_loss_numerator",
+            "no_error_blocks",
+            "selected_position_occurrences",
+            "selected_position_weight",
+            "supervised_position_exposure"
+          ]
+        },
+        "bytes": 1127775,
+        "sha256": "28d4f72e65a7c723417a6226d564b21e36b66e8eb927b3af909182385e66db37"
+      },
+      {
+        "file": "WINDOW_OBSERVATIONS.jsonl",
+        "rows": 128,
+        "keys": [
+          "event_id",
+          "global_step",
+          "gradient_norm",
+          "learning_rate",
+          "mean_response_loss",
+          "record_ids",
+          "scope",
+          "window"
+        ],
+        "nested_keys": {},
+        "bytes": 29632,
+        "sha256": "f013bab9f14b1f1ccfd228ad637af1e73f06cca49a6ae529400fe63b90c41d40"
+      }
+    ]
+  },
+  {
+    "path": "/data/sources/minhao/runs/dflash_functional_step_geometry_20261108/pilot_r1_001/campaign_001/mathqa/event_005/KPLUS/trainer/events/event_005",
+    "exists": true,
+    "files": [
+      "PENDING.json",
+      "RESPONSE_OBSERVATIONS.jsonl",
+      "WINDOW_OBSERVATIONS.jsonl",
+      "RESULT.json"
+    ],
+    "observations": [
+      {
+        "file": "RESPONSE_OBSERVATIONS.jsonl",
+        "rows": 256,
+        "keys": [
+          "event_id",
+          "loss",
+          "pass_index",
+          "presentation_ordinal",
+          "ratio_metrics",
+          "record_id",
+          "sampled_anchors",
+          "scope",
+          "sum_metrics"
+        ],
+        "nested_keys": {
+          "ratio_metrics": [
+            "forward_kl",
+            "objective_loss",
+            "selection_rate"
+          ],
+          "sum_metrics": [
+            "available_position_occurrences",
+            "available_position_weight",
+            "empty_blocks",
+            "first_error_position_1",
+            "first_error_position_10",
+            "first_error_position_11",
+            "first_error_position_12",
+            "first_error_position_13",
+            "first_error_position_14",
+            "first_error_position_15",
+            "first_error_position_2",
+            "first_error_position_3",
+            "first_error_position_4",
+            "first_error_position_5",
+            "first_error_position_6",
+            "first_error_position_7",
+            "first_error_position_8",
+            "first_error_position_9",
+            "kplus_N1",
+            "kplus_N2",
+            "kplus_N_K",
+            "kplus_N_new",
+            "kplus_S",
+            "kplus_W1",
+            "kplus_W2",
+            "kplus_coefficient1",
+            "kplus_coefficient2",
+            "kplus_conservation_error",
+            "kplus_error_weight_moved",
+            "kplus_error_weight_moved_share",
+            "kplus_first_error_weight_after",
+            "kplus_mixed_response",
+            "kplus_priority1_error_count",
+            "kplus_priority2_error_count",
+            "kplus_response_count",
+            "loss_denominator",
+            "main_loss_numerator",
+            "no_error_blocks",
+            "selected_position_occurrences",
+            "selected_position_weight",
+            "supervised_position_exposure"
+          ]
+        },
+        "bytes": 1577590,
+        "sha256": "fecd3fdd51945fea86dc3d25fe4ca15307072a6a13587dfa0d5954c716d99f51"
+      },
+      {
+        "file": "WINDOW_OBSERVATIONS.jsonl",
+        "rows": 128,
+        "keys": [
+          "event_id",
+          "global_step",
+          "gradient_norm",
+          "learning_rate",
+          "mean_response_loss",
+          "record_ids",
+          "scope",
+          "window"
+        ],
+        "nested_keys": {},
+        "bytes": 29761,
+        "sha256": "816a72a643b2133b789600b5cb20149d288cbed99a696e96239c3fad1872a840"
+      }
+    ]
+  },
+  {
+    "path": "/data/sources/minhao/runs/dflash_functional_step_geometry_20261108/pilot_r1_001/campaign_001/mathqa/event_006/KPLUS/trainer/events/event_006",
+    "exists": true,
+    "files": [
+      "PENDING.json",
+      "RESPONSE_OBSERVATIONS.jsonl",
+      "WINDOW_OBSERVATIONS.jsonl",
+      "RESULT.json"
+    ],
+    "observations": [
+      {
+        "file": "RESPONSE_OBSERVATIONS.jsonl",
+        "rows": 256,
+        "keys": [
+          "event_id",
+          "loss",
+          "pass_index",
+          "presentation_ordinal",
+          "ratio_metrics",
+          "record_id",
+          "sampled_anchors",
+          "scope",
+          "sum_metrics"
+        ],
+        "nested_keys": {
+          "ratio_metrics": [
+            "forward_kl",
+            "objective_loss",
+            "selection_rate"
+          ],
+          "sum_metrics": [
+            "available_position_occurrences",
+            "available_position_weight",
+            "empty_blocks",
+            "first_error_position_1",
+            "first_error_position_10",
+            "first_error_position_11",
+            "first_error_position_12",
+            "first_error_position_13",
+            "first_error_position_14",
+            "first_error_position_15",
+            "first_error_position_2",
+            "first_error_position_3",
+            "first_error_position_4",
+            "first_error_position_5",
+            "first_error_position_6",
+            "first_error_position_7",
+            "first_error_position_8",
+            "first_error_position_9",
+            "kplus_N1",
+            "kplus_N2",
+            "kplus_N_K",
+            "kplus_N_new",
+            "kplus_S",
+            "kplus_W1",
+            "kplus_W2",
+            "kplus_coefficient1",
+            "kplus_coefficient2",
+            "kplus_conservation_error",
+            "kplus_error_weight_moved",
+            "kplus_error_weight_moved_share",
+            "kplus_first_error_weight_after",
+            "kplus_mixed_response",
+            "kplus_priority1_error_count",
+            "kplus_priority2_error_count",
+            "kplus_response_count",
+            "loss_denominator",
+            "main_loss_numerator",
+            "no_error_blocks",
+            "selected_position_occurrences",
+            "selected_position_weight",
+            "supervised_position_exposure"
+          ]
+        },
+        "bytes": 1596099,
+        "sha256": "2c5aa48e3b77a3bc696a76e408c929dbc0214df024439650957850eb8c40511c"
+      },
+      {
+        "file": "WINDOW_OBSERVATIONS.jsonl",
+        "rows": 128,
+        "keys": [
+          "event_id",
+          "global_step",
+          "gradient_norm",
+          "learning_rate",
+          "mean_response_loss",
+          "record_ids",
+          "scope",
+          "window"
+        ],
+        "nested_keys": {},
+        "bytes": 29787,
+        "sha256": "84f730afbd3ce6c03f5f474491e7a7e947add86c1a389116c667d0facb41fd5d"
+      }
+    ]
+  }
+]
