@@ -225,6 +225,12 @@ class TargetObjectiveModel(OnlineDFlashModel):
                 _synchronize(extra[0])
                 self.costs['kplus_chunk_s'] = self.costs.get('kplus_chunk_s', 0.0) + (
                     time.perf_counter() - started)
+                survival_head = getattr(self, 'survival_head_extension', None)
+                if survival_head is not None:
+                    auxiliary = survival_head.chunk_terms(
+                        hidden, proposals, labels, weights, self.eos_token_ids,
+                    )
+                    return (*terms, *extra, *auxiliary)
                 return (*terms, *extra)
             guard = getattr(self, "prefix_guard", None)
             if guard is not None:
@@ -457,7 +463,10 @@ class TargetObjectiveModel(OnlineDFlashModel):
         if redistribution is not None:
             _synchronize(loss_sum)
             started = time.perf_counter()
-            loss_sum, redistribution_metrics = redistribution.reduce_response(terms)
+            # A training-only survival head appends two response-wide BCE terms.
+            # The native K+ reducer still receives exactly its original fields.
+            native_terms = terms[:11] if getattr(self, 'survival_head_extension', None) else terms
+            loss_sum, redistribution_metrics = redistribution.reduce_response(native_terms)
             _synchronize(loss_sum)
             self.costs['kplus_response_s'] = self.costs.get('kplus_response_s', 0.0) + (
                 time.perf_counter() - started)
@@ -506,6 +515,11 @@ class TargetObjectiveModel(OnlineDFlashModel):
                 'selection_rate': (statistics[1], statistics[0]),
             })
         metrics['sum_metrics'].update(redistribution_metrics)
+        survival_head = getattr(self, 'survival_head_extension', None)
+        if survival_head is not None:
+            loss, sums, ratios = survival_head.augment_response(loss, terms[11:])
+            metrics['sum_metrics'].update(sums)
+            metrics['ratio_metrics'].update(ratios)
         point_loss = getattr(self, 'point_loss_extension', None)
         if point_loss is not None:
             sums, ratios = point_loss.response_metrics(terms, denominator)
