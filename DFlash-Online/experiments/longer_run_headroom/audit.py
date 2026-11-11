@@ -127,6 +127,34 @@ for d, s in summary.items():
     ids = sorted(set(x["request_id"] for x in parents))
     later = [x for x in parents if x["ordinal"] > 1]
     lc = sum(x["group"] == "LONG" for x in later)
+    census_report = load(task / "preparation/census/CENSUS.json")[d]
+    assert (
+        dict(collections.Counter(x["group"] for x in later))
+        == census_report["later_counts"]
+    )
+    assert (
+        dict(collections.Counter(x["group"] for x in parents if x["ordinal"] == 1))
+        == census_report["opening_counts"]
+    )
+    for group in ["SHORT", "LONG"]:
+        eligible = [x for x in later if x["group"] == group]
+
+        def order(x):
+            key = ["kplus-run-probe-v1", d, x["request_id"], x["ordinal"]]
+            return hashlib.sha256(
+                json.dumps(key, separators=(",", ":"), ensure_ascii=False).encode()
+            ).hexdigest()
+
+        chosen = sorted(eligible, key=order)[:64]
+        expected = {(x["request_id"], x["ordinal"]) for x in chosen}
+        observed = {
+            (x["request_id"], x["parent_round_ordinal"])
+            for x in selected
+            if x["dataset"] == d and x["group"] == group
+        }
+        assert expected == observed
+        assertions += 1
+    assertions += 2
     assert len(later) == s["later_rounds"] and lc == s["census_long"]
     assertions += 2
     groups = {}
