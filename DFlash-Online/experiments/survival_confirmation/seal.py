@@ -63,6 +63,14 @@ def seal(root, prepared, pilot, source_manifest):
             or pinned['serving']['attention_backend']!='fa3' or pinned['serving']['reasoning']!='off'
             or pinned['serving']['cache_policy']!=SERVING['cache_policy']):
         raise ValueError('Reused canonical serving contract differs')
+    from copy import deepcopy
+    bound_runtime=deepcopy(runtime)
+    for name,value in reuse.get('block_depth_audit',{}).get('additional_native_runtime_sha256',{}).items():
+        previous=bound_runtime['native_runtime_sha256'].get(name)
+        if previous is not None and previous!=value:
+            raise ValueError('Additional canonical runtime pin conflicts: '+name)
+        bound_runtime['native_runtime_sha256'][name]=value
+    write_json(folder/'BOUND_RUNTIME_PIN.json',bound_runtime)
     if any(r['binding_digest']!=binding for r in refs.values()): raise ValueError('Mixed reference bindings')
     missing=[r['request_id'] for r in panel['requests'] if r['request_id'] not in refs]
     from experiments.adaflash_c1.storage import RAW_BYTES_PER_GENERATION

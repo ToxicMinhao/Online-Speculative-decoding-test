@@ -110,6 +110,7 @@ def render(report, comparisons, costs):
         'ARS experiment-agent validate; ANALYZED. CPU reconstruction of native serving records; '
         'one continuing training seed17, no training in this confirmation.', '',
         f"Status: **{report['status']}**. Decision: **{report['decision']['outcome']}**.", '',
+        f"Execution commit: `{report.get('execution_source', {}).get('commit', 'unavailable')}`.", '',
         f"Sealed N={report['panel_size']}; {6 * report['panel_size']} timed completions. "
         f"Planning half-width: ±{report['projected_halfwidth_pp']:.4f} percentage points "
         '(1.225×sqrt(128/N), an assumption-based projection, not measured precision).', '',

@@ -105,7 +105,7 @@ def preflight(root, *, postflight=False):
         from experiments.osd_components.prepare import verify_files, verify_native_runtime
         pin = read(root/'sealed/MODEL_PIN.json')
         verify_files(plan['target'], pin['target']['files'], exact_files=True)
-        receipt['runtime'] = verify_native_runtime(plan['worker_python'], read(root/'sealed/RUNTIME_PIN.json'))
+        receipt['runtime'] = verify_native_runtime(plan['worker_python'], read(root/'sealed/BOUND_RUNTIME_PIN.json'))
         receipt['execution_commit'] = plan['execution_source']['commit']
         if not postflight:
             from experiments.kplus_full_gsm8k.preflight import timing_barrier
