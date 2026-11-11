@@ -36,6 +36,13 @@ def build_trainer(plan, output, arm="SECOND"):
     return trainer, features, baseline, startup
 
 
+def compare_weight_mappings(path, actual, expected):
+    """State dictionaries may use different mapping classes; tensors stay exact."""
+    from experiments.prefix_guard.qualify import persist_comparison
+
+    return persist_comparison(path, dict(actual), dict(expected))
+
+
 def inspect_exposure(root):
     import torch
     from specforge.training.strategies.base import StepContext
@@ -107,7 +114,7 @@ def inspect_exposure(root):
             next_anchor_state_identity=identity(output / "window_00_rng.pt"),
         )
         # Never let no-grad screening become the production state.
-        receipt["parent_weights_unchanged"] = persist_comparison(
+        receipt["parent_weights_unchanged"] = compare_weight_mappings(
             output / "PARENT_WEIGHTS.json",
             trainer.bundle.draft_model.state_dict(),
             trainer.origin["draft_state_dict"],

@@ -57,6 +57,10 @@ def preflight(plan, *, postflight=False):
         for path, expected in seal["files"].items():
             if identity(path) != expected:
                 raise ValueError("Sealed input changed: " + path)
+        for previous in plan.get("previous_attempts", []):
+            for path, expected in previous["files"].items():
+                if identity(path) != expected:
+                    raise ValueError("Preserved failed-attempt evidence changed")
         source = read(plan["source_manifest"])
         authenticate_source(source, code)
         if (
@@ -286,13 +290,14 @@ def run(root):
 
     try:
         costs["preflight"] = preflight(plan)
-        deadline = time.time() + GPU_SECONDS_LIMIT
+        deadline = time.time() + GPU_SECONDS_LIMIT - plan.get("prior_gpu_seconds", 0)
         write_json(
             root / "GPU_CLOCK.json",
             dict(
                 start_epoch=time.time(),
                 deadline_epoch=deadline,
                 limit_s=GPU_SECONDS_LIMIT,
+                prior_gpu_seconds=plan.get("prior_gpu_seconds", 0),
                 policy="conservative wall since first GPU phase including subprocess gaps",
             ),
         )
@@ -425,6 +430,9 @@ def run(root):
         status["wall_s"] = time.perf_counter() - start
         if deadline:
             status["gpu_clock_elapsed_s"] = GPU_SECONDS_LIMIT - (deadline - time.time())
+            status["this_attempt_gpu_seconds"] = status[
+                "gpu_clock_elapsed_s"
+            ] - plan.get("prior_gpu_seconds", 0)
         write_json(root / "RESOURCES.json", costs)
         write_json(root / "STATUS.json", status)
 

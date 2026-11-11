@@ -51,7 +51,7 @@ def source_manifest(code):
     )
 
 
-def seal(root, prior, matched_inputs):
+def seal(root, prior, matched_inputs, previous_exposure_attempt=None):
     from .evaluation import evaluation_schedule
 
     root = Path(root).resolve()
@@ -184,6 +184,54 @@ def seal(root, prior, matched_inputs):
         ),
         automatic_retry=False,
     )
+    plan["previous_attempts"] = []
+    if previous_exposure_attempt is not None:
+        previous = Path(previous_exposure_attempt).resolve()
+        previous_plan = read(previous / "sealed/PLAN.json")
+        status = read(previous / "STATUS.json")
+        exposure = read(previous / "qualification/exposure/RESULT.json")
+        check = read(previous / "qualification/exposure/PARENT_WEIGHTS.json")
+        if (
+            status["status"] != "failed"
+            or status["phase"] != "qualification_exposure"
+            or exposure["response_forwards"] != 16
+            or exposure["optimizer_steps"] != 0
+            or exposure["response_backwards"] != 0
+            or check["compared_tensors"] != 0
+            or [r["reason"] for r in check["metadata_differences"]] != ["type"]
+            or previous_plan.get("previous_attempts")
+            or previous_plan["origin_state_identity"] != plan["origin_state_identity"]
+            or identity(previous_plan["panel_manifest"])
+            != identity(plan["panel_manifest"])
+        ):
+            raise ValueError(
+                "Previous attempt is not the preserved mapping-checker failure"
+            )
+        names = [
+            "sealed/PLAN.json",
+            "STATUS.json",
+            "RESOURCES.json",
+            "qualification/exposure/RESULT.json",
+            "qualification/exposure/PARENT_WEIGHTS.json",
+            "qualification/exposure/startup/RESULT.json",
+        ]
+        plan["previous_attempts"] = [
+            dict(
+                root=str(previous),
+                execution_commit=previous_plan["execution_source"]["commit"],
+                gpu_seconds=status["gpu_clock_elapsed_s"],
+                response_forwards=18,
+                response_backwards=2,
+                optimizer_steps=0,
+                source_exposure_forwards=16,
+                discarded_startup_forwards=2,
+                reason="OrderedDict-versus-dict type check stopped before tensor comparisons",
+                files={str(previous / n): identity(previous / n) for n in names},
+            )
+        ]
+    plan["prior_gpu_seconds"] = sum(r["gpu_seconds"] for r in plan["previous_attempts"])
+    if not 0 <= plan["prior_gpu_seconds"] < 4500:
+        raise ValueError("No remaining GPU budget")
     plan["binding"] = digest(plan)
     write_json(sealed / "PLAN.json", plan)
     files = {str(p): identity(p) for p in sealed.iterdir() if p.is_file()}
@@ -197,5 +245,6 @@ if __name__ == "__main__":
     p.add_argument("root")
     p.add_argument("--prior", required=True)
     p.add_argument("--matched-inputs", required=True)
+    p.add_argument("--previous-exposure-attempt")
     a = p.parse_args()
-    seal(a.root, a.prior, a.matched_inputs)
+    seal(a.root, a.prior, a.matched_inputs, a.previous_exposure_attempt)

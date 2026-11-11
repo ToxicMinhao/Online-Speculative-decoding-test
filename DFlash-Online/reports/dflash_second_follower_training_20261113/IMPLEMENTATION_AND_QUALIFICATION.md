@@ -17,3 +17,9 @@ Local explanation uses all128 sealed GSM SHORT/LONG starts on57 parent requests.
 One physical A800 is used at a time. A conservative4,500-second clock begins before the first native phase and includes subprocess/loading/export gaps. The full endpoint takes priority over local starts if bounded resources prevent completion. Storage preflight budgets80GiB peak additional writes plus8GiB reserve without deletion credit. Initial shared `/data` free space was665.13GB; no storage was removed by this task. Fenrir uses a sparse source checkout and bounded compact evidence retrieval.
 
 Actual execution commit, sealed identities, GPU qualification and results are pending execution. A positive endpoint is not presumed. An inactive intervention skips duplicate serving; a null/harmful valid result completes this configuration. No tuning, extra event or automatic confirmation is authorized.
+
+## Preserved first native attempt and narrow repair
+
+Execution001 at `c1362db680494d77042a61986392cb394df3a615` completed the16-response parent exposure scan, then its weight check rejected `OrderedDict` versus `dict` at the container level: zero tensor coordinates were compared. This is a checker implementation failure, not a demonstrated weight mismatch or learning result. No Adam step or serving evaluation ran. The separately discarded startup consumed2F/2B; the scan consumed16 no-grad F. Conservative GPU-clock charge74.05223560333252s is retained within the same4,500-second total.
+
+The repair normalizes the two weight mappings to plain dictionaries before the unchanged exact shape/dtype/value check. Regression tests require actual tensor comparison and continued failure for changed values or dtype. Execution002 will retain identity-bound failed receipts, reuse unchanged inputs/settings, and deduct the first attempt's cost from its remaining GPU allowance. Original failure records are not relabeled as passed.
