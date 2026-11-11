@@ -54,8 +54,8 @@ def preflight(plan, output, source):
     runtime = shared["runtime"]
     actual_versions = dict(
         python_version=platform.python_version(),
-        torch_version=importlib.metadata.version("torch"),
-        transformers_version=importlib.metadata.version("transformers"),
+        torch=importlib.metadata.version("torch"),
+        transformers=importlib.metadata.version("transformers"),
     )
     for key, value in actual_versions.items():
         if key in runtime and value != runtime[key]:
