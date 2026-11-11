@@ -1,5 +1,7 @@
 # ARS interpretation checks
 
+Execution commit: `c504d48b05f79368e18bd9ec9c76e0e59c658205`; analysis/audit: `c6c787497e7e16c2616745f009cc1217ad13faf4`.
+
 Verification status: ANALYZED (CPU arithmetic reproducibility is checked separately; no new independent GPU replication). This is an inline review by the implementation author because native agent dispatch hit the platform thread limit. It is not an external review.
 
 11/11 statistical fallacy categories covered:
