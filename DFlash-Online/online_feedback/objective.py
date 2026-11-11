@@ -128,7 +128,8 @@ class TargetObjectiveModel(OnlineDFlashModel):
         return dict(self.costs)
 
     def _chunk_loss(self, hidden, reference_hidden, labels, weights, teacher_hidden=None,
-                    ranking_coefficients=None, reference_softplus=None, reference_correct=None):
+                    ranking_coefficients=None, reference_softplus=None, reference_correct=None,
+                    successor_assignment=None):
         guard = getattr(self, "prefix_guard", None)
         if guard is not None:
             guard.work['current_objective_chunks'] += 1
@@ -216,7 +217,13 @@ class TargetObjectiveModel(OnlineDFlashModel):
             if redistribution is not None:
                 _synchronize(token_loss)
                 started = time.perf_counter()
-                if adversarial_block is None:
+                if successor_assignment is not None:
+                    from .successor_shuffle import assigned_group_terms
+                    extra = assigned_group_terms(
+                        token_loss, proposals, labels, weights, selection,
+                        successor_assignment, self.eos_token_ids,
+                    )
+                elif adversarial_block is None:
                     extra = redistribution.chunk_terms(
                         token_loss, proposals, labels, weights, selection, self.eos_token_ids,
                     )
@@ -454,10 +461,21 @@ class TargetObjectiveModel(OnlineDFlashModel):
             prepare_response(weights)
         if role_loss is not None:
             role_loss.prepare_response(weights)
-        terms = checkpointed_chunk_reduce(
-            self._chunk_loss, output_hidden, reference_hidden, labels, weights, teacher_hidden,
-            chunk_size=self.objective_chunk_blocks, dim=1, checkpoint=True,
-        )
+        successor_shuffle = getattr(self, 'successor_shuffle', None)
+        if successor_shuffle is None:
+            terms = checkpointed_chunk_reduce(
+                self._chunk_loss, output_hidden, reference_hidden, labels, weights, teacher_hidden,
+                chunk_size=self.objective_chunk_blocks, dim=1, checkpoint=True,
+            )
+        else:
+            assignment = successor_shuffle.prepare_response(
+                self, output_hidden, labels, weights, anchors,
+            )
+            terms = checkpointed_chunk_reduce(
+                self._chunk_loss, output_hidden, reference_hidden, labels, weights, teacher_hidden,
+                None, None, None, assignment,
+                chunk_size=self.objective_chunk_blocks, dim=1, checkpoint=True,
+            )
         loss_sum, denominator, correct, positions = terms[:4]
         redistribution_metrics = {}
         if redistribution is not None:
@@ -465,8 +483,12 @@ class TargetObjectiveModel(OnlineDFlashModel):
             started = time.perf_counter()
             # A training-only survival head appends two response-wide BCE terms.
             # The native K+ reducer still receives exactly its original fields.
-            native_terms = terms[:11] if getattr(self, 'survival_head_extension', None) else terms
+            native_terms = terms[:11] if (
+                getattr(self, 'survival_head_extension', None) or successor_shuffle is not None
+            ) else terms
             loss_sum, redistribution_metrics = redistribution.reduce_response(native_terms)
+            if successor_shuffle is not None:
+                redistribution_metrics.update(successor_shuffle.finish_response(terms, redistribution_metrics))
             _synchronize(loss_sum)
             self.costs['kplus_response_s'] = self.costs.get('kplus_response_s', 0.0) + (
                 time.perf_counter() - started)
