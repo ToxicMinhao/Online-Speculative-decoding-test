@@ -177,7 +177,7 @@ def qualification_receipt(rows, request_count):
               and all(r.get('valid_measurement') is True and not r.get('errors') for r in selected))
     return dict(status='passed' if passed else 'pending_or_failed', requests=size,
         generations=len(selected), planned_generations=expected, extra_generations=0,
-        scope='First8 input-selected requests within the768-completion budget; correctness only')
+        scope=f'First{size} input-selected requests within the{request_count * len(METHODS) * ENDPOINT_REPEATS}-completion budget; correctness only')
 
 
 def serving_protocol(planned, checkpoints):
