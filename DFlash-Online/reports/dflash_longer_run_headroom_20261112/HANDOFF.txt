@@ -1,0 +1,45 @@
+Executor handoff | Does K+ leave useful repairs inside its high-priority group?
+
+Run one frozen-checkpoint diagnostic on GSM8K and MathQA. K+ already gives extra weight to a first error whose next proposal is correct. Determine whether errors with two or more consecutive correct followers offer enough remaining, realizable benefit to justify a finer allocation. Deliver a decision and its supporting counts. Scope ends at diagnosis: zero optimizer steps, zero serving benchmarks, no candidate training.
+
+1. Build the parent census on CPU
+
+Use PR #34’s original KPLUS4 and KPLUS6 walks (steps 512 and 768), 64 requests per dataset, with their pinned Qwen3-8B/DFlash-b16 checkpoints, canonical response IDs, EOS/cap and native traces. Execution d7b1311e7b2f910e935bf81b4e40282767d7540c; private run root /data/sources/minhao/runs/dflash_verification_transition_replay_20261110/diagnostic_001. The PR #39 shuffle result motivates this question; its 64 parent probes contain only request-opening blocks. Use the older PR #34 development walks for this diagnostic.
+
+Reconcile 2,761 GSM8K and 4,330 MathQA parent rounds. Keep the first round of each request in a separate descriptive row. The primary census contains 2,697 and 4,266 later starts, respectively. At each parent start align the 15 proposals, excluding the known seed, to the canonical continuation. Clip at the original EOS/output cap, including a valid EOS label. After a mismatch the verifier logits may be conditioned on a wrong draft prefix, so derive follower correctness from the canonical IDs.
+
+Let j be the first wrong proposal (1-based), v the number of valid slots after j, and R the number of consecutive canonical matches immediately after j. Compare SHORT (R=1) with LONG (R≥2) only when v≥2. SHORT requires an observed wrong second follower. Count all-correct blocks, R=0 and insufficient lookahead separately. Record counts by dataset, request, j and v, including how often both groups occur. A parent-only example: ✓ ✓ × ✓ × is SHORT; ✓ ✓ × ✓ ✓ × is LONG.
+
+2. Seal later starts, then obtain matched child proposals
+
+Before reading any KPLUS6 outcomes, freeze a manifest of up to 64 SHORT and 64 LONG starts per dataset (at most 256 starts). Within each dataset/group take the lowest SHA-256 hashes of compact UTF-8 JSON ["kplus-run-probe-v1",dataset,request_id,parent_round_ordinal], with ordinal 1 for the opening round. Use all eligible starts when fewer than 64 exist. Save selected identities, parent labels, inclusion fractions and manifests. Keep the measured sample even when a selected state requires reconstruction.
+
+Use a retained child block if its complete prior native committed history, canonical prefix, seed, feature-ingestion boundaries and remaining budget match the parent start under the pinned runtime. A shared token offset after paths diverge is insufficient. Otherwise use one quiet A800: reproduce the parent walk, capture the live state after the preceding round, retain the target-prefix KV and ingestion segments, and rebuild the child’s draft cache through its own native path. On each reconstructed start verify a neutral KPLUS4 one-block replay against its archived proposals, accepted prefix and committed output. Then evaluate one KPLUS6 block on that state, checking emitted IDs against the corresponding canonical prefix. PR #34’s original continuation driver runs to EOS; implement a one-block diagnostic exit with the original cap intact. Batch captures from the same request where feasible.
+
+Budget for any replay: one A800, at most 8,000 new native verification rounds including parent walks and neutral checks, and 45 occupied GPU minutes including loading, publication and KV rebuilds. Use authenticated CPU records first. If the budget or an integrity check prevents coverage, report pending starts and reason. Do not replace difficult starts or extrapolate from an outcome-selected subset.
+
+3. Measure remaining opportunity and realized payoff
+
+At the same start compare parent and child to the canonical tokens. “Intact” means every slot before j still matches. “Repair” means intact plus the child matches j and native verification advances past the old accepted prefix. For each dataset and group report:
+
+• Still blocked: intact, j still wrong. Among LONG, count how often the child also retains the first two correct followers. This is an opportunity a further repair could unlock.
+• Realized: among repaired LONG blockers, count how often both original followers actually survive and are accepted. Give the numerator and repair denominator. A missed repair contributes zero to the unconditional realized count.
+• Collateral and donor cost: report earlier prefix breaks and signed native accepted-prefix change for every start, including gains, losses and ties. Show repairs, breaks and net tokens for SHORT too; it would give up training weight in the proposed refinement.
+
+Report two planning quantities: (A) LONG’s exact share of all later parent rounds × the sampled LONG fraction still blocked with both followers intact; (B) the fraction of repaired LONG cases that actually accept both followers. Show distinct contributing requests and 95% request-cluster bootstrap intervals by dataset (10,000 draws; seed 20261112). Recompute census shares and sampled ratios together. Report undefined bootstrap draws; empty or sparse repair denominators and degenerate zero-event intervals are insufficient to rule out a payoff. A census-confirmed lack of eligible LONG starts can rule out that opportunity. For SHORT/LONG comparisons also show results standardized to observed common (j,v) cells, weighted by the smaller parent census count in each cell. Show common-support coverage; sparse cells cannot establish a difference. Do not translate local token gains into saved verifier calls.
+
+4. Report the decision
+
+Use 1 in 100 later starts for A and half of repaired LONG cases for B as proposed engineering thresholds. They screen whether it is worth spending a training run; neither is a predicted speedup. If both workloads clear both thresholds (lower interval bounds above them) and the events recur across requests, mark the serving evidence as supporting a candidate test. A well-resolved shortfall closes this cross-workload rationale. Intervals straddling a threshold, a missing group, conflicting workloads or incomplete replay leave the corresponding conclusion unresolved. Report dataset-specific findings even if the joint screen fails.
+
+Separately check retained training-anchor records if available. Compute the SHORT/LONG shares of native high-priority weight and how much lies in response/depth groups containing both, relative to all selected weight. Serving-round frequencies use a different anchor distribution. If per-anchor labels or weights are unavailable, report training-weight headroom as unknown; a later candidate would need to qualify that the reallocation actually moves weight. This probe cannot show that moving weight helps.
+
+Return REPORT.md, census and sealed sample, paired per-start rows, rates/intervals, training-anchor coverage, replay/parity receipts and CPU/A800 costs. Independently recompute denominators and signed gains from those rows. A favorable result justifies proposing one capped reallocation within K+’s existing high-priority weight budget, judged against native K+ on complete requests. Stop after the diagnostic.
+
+Source records
+PR #34 frozen walks and checkpoint pins
+https://github.com/ToxicMinhao/Online-Speculative-decoding-test/blob/d47ab1ce644c0702ade657e857f7f00af4185fbb/DFlash-Online/reports/dflash_verification_transition_replay_20261110/REPORT.md
+PR #34 native reconstruction checks
+https://github.com/ToxicMinhao/Online-Speculative-decoding-test/blob/d47ab1ce644c0702ade657e857f7f00af4185fbb/DFlash-Online/reports/dflash_verification_transition_replay_20261110/NATIVE_GATE_REVIEW.md
+PR #39 successor assignment and matched-start audit
+https://github.com/ToxicMinhao/Online-Speculative-decoding-test/blob/e181a536445754c60b653a7306cfa28f3cdb896a/DFlash-Online/reports/dflash_successor_shuffle_20261111/REPORT.md

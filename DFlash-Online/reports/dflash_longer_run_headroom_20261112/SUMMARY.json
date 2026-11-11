@@ -1,0 +1,2099 @@
+{
+  "seed": 20261112,
+  "draws": 10000,
+  "resampling": "PCG64 multinomial request-cluster weights; independent reset per dataset",
+  "datasets": {
+    "gsm8k": {
+      "requests": 64,
+      "parent_rounds": 2761,
+      "later_rounds": 2697,
+      "census_long": 403,
+      "census_long_share": 0.14942528735632185,
+      "validity": {
+        "valid": 128
+      },
+      "groups": {
+        "SHORT": {
+          "starts": 64,
+          "distinct_requests": 41,
+          "still_blocked": {
+            "total": 38,
+            "per_start": 0.59375,
+            "contributing_requests": 28,
+            "interval": {
+              "lower": 0.47058823529411764,
+              "upper": 0.711864406779661,
+              "defined_draws": 10000,
+              "undefined_draws": 0,
+              "degenerate": false
+            }
+          },
+          "blocked_with_both": {
+            "total": 5,
+            "per_start": 0.078125,
+            "contributing_requests": 5,
+            "interval": {
+              "lower": 0.017857142857142856,
+              "upper": 0.14754098360655737,
+              "defined_draws": 10000,
+              "undefined_draws": 0,
+              "degenerate": false
+            }
+          },
+          "repair": {
+            "total": 12,
+            "per_start": 0.1875,
+            "contributing_requests": 11,
+            "interval": {
+              "lower": 0.09836065573770492,
+              "upper": 0.2807017543859649,
+              "defined_draws": 10000,
+              "undefined_draws": 0,
+              "degenerate": false
+            }
+          },
+          "repair_with_two_accepted": {
+            "total": 5,
+            "per_start": 0.078125,
+            "contributing_requests": 5,
+            "interval": {
+              "lower": 0.017543859649122806,
+              "upper": 0.14492753623188406,
+              "defined_draws": 10000,
+              "undefined_draws": 0,
+              "degenerate": false
+            }
+          },
+          "earlier_prefix_break": {
+            "total": 14,
+            "per_start": 0.21875,
+            "contributing_requests": 13,
+            "interval": {
+              "lower": 0.11940298507462686,
+              "upper": 0.3333333333333333,
+              "defined_draws": 10000,
+              "undefined_draws": 0,
+              "degenerate": false
+            }
+          },
+          "native_prefix_change": {
+            "total": 5,
+            "per_start": 0.078125,
+            "contributing_requests": 22,
+            "interval": {
+              "lower": -0.639344262295082,
+              "upper": 0.8158114035087716,
+              "defined_draws": 10000,
+              "undefined_draws": 0,
+              "degenerate": false
+            }
+          },
+          "prefix_gained": {
+            "total": 49,
+            "per_start": 0.765625,
+            "contributing_requests": 11,
+            "interval": {
+              "lower": 0.28357587064676615,
+              "upper": 1.3636363636363635,
+              "defined_draws": 10000,
+              "undefined_draws": 0,
+              "degenerate": false
+            }
+          },
+          "prefix_lost": {
+            "total": 44,
+            "per_start": 0.6875,
+            "contributing_requests": 13,
+            "interval": {
+              "lower": 0.2878787878787879,
+              "upper": 1.1969750320102432,
+              "defined_draws": 10000,
+              "undefined_draws": 0,
+              "degenerate": false
+            }
+          },
+          "prefix_tie": {
+            "total": 38,
+            "per_start": 0.59375,
+            "contributing_requests": 28,
+            "interval": {
+              "lower": 0.47058823529411764,
+              "upper": 0.711864406779661,
+              "defined_draws": 10000,
+              "undefined_draws": 0,
+              "degenerate": false
+            }
+          },
+          "gain_starts": 12,
+          "loss_starts": 14
+        },
+        "LONG": {
+          "starts": 64,
+          "distinct_requests": 39,
+          "still_blocked": {
+            "total": 29,
+            "per_start": 0.453125,
+            "contributing_requests": 21,
+            "interval": {
+              "lower": 0.3225669764898852,
+              "upper": 0.5833333333333334,
+              "defined_draws": 10000,
+              "undefined_draws": 0,
+              "degenerate": false
+            }
+          },
+          "blocked_with_both": {
+            "total": 21,
+            "per_start": 0.328125,
+            "contributing_requests": 15,
+            "interval": {
+              "lower": 0.19607843137254902,
+              "upper": 0.463768115942029,
+              "defined_draws": 10000,
+              "undefined_draws": 0,
+              "degenerate": false
+            }
+          },
+          "repair": {
+            "total": 23,
+            "per_start": 0.359375,
+            "contributing_requests": 18,
+            "interval": {
+              "lower": 0.23880597014925373,
+              "upper": 0.4827586206896552,
+              "defined_draws": 10000,
+              "undefined_draws": 0,
+              "degenerate": false
+            }
+          },
+          "repair_with_two_accepted": {
+            "total": 18,
+            "per_start": 0.28125,
+            "contributing_requests": 15,
+            "interval": {
+              "lower": 0.16666666666666666,
+              "upper": 0.4,
+              "defined_draws": 10000,
+              "undefined_draws": 0,
+              "degenerate": false
+            }
+          },
+          "earlier_prefix_break": {
+            "total": 12,
+            "per_start": 0.1875,
+            "contributing_requests": 11,
+            "interval": {
+              "lower": 0.09230769230769231,
+              "upper": 0.29873376623376574,
+              "defined_draws": 10000,
+              "undefined_draws": 0,
+              "degenerate": false
+            }
+          },
+          "native_prefix_change": {
+            "total": 79,
+            "per_start": 1.234375,
+            "contributing_requests": 27,
+            "interval": {
+              "lower": 0.328125,
+              "upper": 2.17654600301659,
+              "defined_draws": 10000,
+              "undefined_draws": 0,
+              "degenerate": false
+            }
+          },
+          "prefix_gained": {
+            "total": 111,
+            "per_start": 1.734375,
+            "contributing_requests": 18,
+            "interval": {
+              "lower": 0.9850689733152419,
+              "upper": 2.573529411764706,
+              "defined_draws": 10000,
+              "undefined_draws": 0,
+              "degenerate": false
+            }
+          },
+          "prefix_lost": {
+            "total": 32,
+            "per_start": 0.5,
+            "contributing_requests": 11,
+            "interval": {
+              "lower": 0.1875,
+              "upper": 0.9019727403156383,
+              "defined_draws": 10000,
+              "undefined_draws": 0,
+              "degenerate": false
+            }
+          },
+          "prefix_tie": {
+            "total": 29,
+            "per_start": 0.453125,
+            "contributing_requests": 21,
+            "interval": {
+              "lower": 0.3225669764898852,
+              "upper": 0.5833333333333334,
+              "defined_draws": 10000,
+              "undefined_draws": 0,
+              "degenerate": false
+            }
+          },
+          "gain_starts": 23,
+          "loss_starts": 12
+        }
+      },
+      "A": {
+        "estimate": 0.04903017241379311,
+        "numerator": 21,
+        "denominator": 64,
+        "contributing_requests": 15,
+        "threshold": 0.01,
+        "interval": {
+          "lower": 0.029173754133210893,
+          "upper": 0.06960892282478878,
+          "defined_draws": 10000,
+          "undefined_draws": 0,
+          "degenerate": false
+        }
+      },
+      "B": {
+        "estimate": 0.782608695652174,
+        "numerator": 18,
+        "denominator": 23,
+        "repair_requests": 18,
+        "contributing_requests": 15,
+        "threshold": 0.5,
+        "interval": {
+          "lower": 0.6071428571428571,
+          "upper": 0.9375,
+          "defined_draws": 10000,
+          "undefined_draws": 0,
+          "degenerate": false
+        }
+      },
+      "unconditional_realized": {
+        "numerator": 18,
+        "denominator": 64,
+        "fraction": 0.28125,
+        "interval": {
+          "lower": 0.16666666666666666,
+          "upper": 0.4,
+          "defined_draws": 10000,
+          "undefined_draws": 0,
+          "degenerate": false
+        }
+      },
+      "standardized": {
+        "census_common_cells": 13,
+        "observed_common_cells": 13,
+        "cells": [
+          {
+            "j": 1,
+            "v": 14,
+            "weight": 50,
+            "groups": {
+              "SHORT": {
+                "census": 50,
+                "starts": 10,
+                "requests": 9,
+                "means": {
+                  "still_blocked": 0.8,
+                  "blocked_with_both": 0.2,
+                  "repair": 0.2,
+                  "repair_with_two_accepted": 0.1,
+                  "earlier_prefix_break": 0.0,
+                  "native_prefix_change": 1.5,
+                  "prefix_gained": 1.5,
+                  "prefix_lost": 0.0,
+                  "prefix_tie": 0.8
+                }
+              },
+              "LONG": {
+                "census": 57,
+                "starts": 7,
+                "requests": 6,
+                "means": {
+                  "still_blocked": 0.42857142857142855,
+                  "blocked_with_both": 0.42857142857142855,
+                  "repair": 0.5714285714285714,
+                  "repair_with_two_accepted": 0.5714285714285714,
+                  "earlier_prefix_break": 0.0,
+                  "native_prefix_change": 4.0,
+                  "prefix_gained": 4.0,
+                  "prefix_lost": 0.0,
+                  "prefix_tie": 0.42857142857142855
+                }
+              }
+            }
+          },
+          {
+            "j": 2,
+            "v": 13,
+            "weight": 30,
+            "groups": {
+              "SHORT": {
+                "census": 30,
+                "starts": 9,
+                "requests": 8,
+                "means": {
+                  "still_blocked": 0.6666666666666666,
+                  "blocked_with_both": 0.0,
+                  "repair": 0.3333333333333333,
+                  "repair_with_two_accepted": 0.2222222222222222,
+                  "earlier_prefix_break": 0.0,
+                  "native_prefix_change": 1.1111111111111112,
+                  "prefix_gained": 1.1111111111111112,
+                  "prefix_lost": 0.0,
+                  "prefix_tie": 0.6666666666666666
+                }
+              },
+              "LONG": {
+                "census": 64,
+                "starts": 8,
+                "requests": 8,
+                "means": {
+                  "still_blocked": 0.25,
+                  "blocked_with_both": 0.25,
+                  "repair": 0.625,
+                  "repair_with_two_accepted": 0.375,
+                  "earlier_prefix_break": 0.125,
+                  "native_prefix_change": 2.0,
+                  "prefix_gained": 2.125,
+                  "prefix_lost": 0.125,
+                  "prefix_tie": 0.25
+                }
+              }
+            }
+          },
+          {
+            "j": 3,
+            "v": 12,
+            "weight": 28,
+            "groups": {
+              "SHORT": {
+                "census": 28,
+                "starts": 6,
+                "requests": 5,
+                "means": {
+                  "still_blocked": 0.6666666666666666,
+                  "blocked_with_both": 0.0,
+                  "repair": 0.16666666666666666,
+                  "repair_with_two_accepted": 0.0,
+                  "earlier_prefix_break": 0.16666666666666666,
+                  "native_prefix_change": 0.0,
+                  "prefix_gained": 0.3333333333333333,
+                  "prefix_lost": 0.3333333333333333,
+                  "prefix_tie": 0.6666666666666666
+                }
+              },
+              "LONG": {
+                "census": 46,
+                "starts": 4,
+                "requests": 4,
+                "means": {
+                  "still_blocked": 0.75,
+                  "blocked_with_both": 0.5,
+                  "repair": 0.25,
+                  "repair_with_two_accepted": 0.0,
+                  "earlier_prefix_break": 0.0,
+                  "native_prefix_change": 0.25,
+                  "prefix_gained": 0.25,
+                  "prefix_lost": 0.0,
+                  "prefix_tie": 0.75
+                }
+              }
+            }
+          },
+          {
+            "j": 4,
+            "v": 11,
+            "weight": 18,
+            "groups": {
+              "SHORT": {
+                "census": 18,
+                "starts": 4,
+                "requests": 3,
+                "means": {
+                  "still_blocked": 0.75,
+                  "blocked_with_both": 0.0,
+                  "repair": 0.25,
+                  "repair_with_two_accepted": 0.0,
+                  "earlier_prefix_break": 0.0,
+                  "native_prefix_change": 0.5,
+                  "prefix_gained": 0.5,
+                  "prefix_lost": 0.0,
+                  "prefix_tie": 0.75
+                }
+              },
+              "LONG": {
+                "census": 43,
+                "starts": 10,
+                "requests": 10,
+                "means": {
+                  "still_blocked": 0.4,
+                  "blocked_with_both": 0.3,
+                  "repair": 0.3,
+                  "repair_with_two_accepted": 0.3,
+                  "earlier_prefix_break": 0.3,
+                  "native_prefix_change": 1.7,
+                  "prefix_gained": 2.2,
+                  "prefix_lost": 0.5,
+                  "prefix_tie": 0.4
+                }
+              }
+            }
+          },
+          {
+            "j": 5,
+            "v": 10,
+            "weight": 21,
+            "groups": {
+              "SHORT": {
+                "census": 21,
+                "starts": 6,
+                "requests": 6,
+                "means": {
+                  "still_blocked": 0.8333333333333334,
+                  "blocked_with_both": 0.0,
+                  "repair": 0.16666666666666666,
+                  "repair_with_two_accepted": 0.16666666666666666,
+                  "earlier_prefix_break": 0.0,
+                  "native_prefix_change": 0.6666666666666666,
+                  "prefix_gained": 0.6666666666666666,
+                  "prefix_lost": 0.0,
+                  "prefix_tie": 0.8333333333333334
+                }
+              },
+              "LONG": {
+                "census": 25,
+                "starts": 4,
+                "requests": 4,
+                "means": {
+                  "still_blocked": 0.75,
+                  "blocked_with_both": 0.0,
+                  "repair": 0.0,
+                  "repair_with_two_accepted": 0.0,
+                  "earlier_prefix_break": 0.25,
+                  "native_prefix_change": -0.25,
+                  "prefix_gained": 0.0,
+                  "prefix_lost": 0.25,
+                  "prefix_tie": 0.75
+                }
+              }
+            }
+          },
+          {
+            "j": 6,
+            "v": 9,
+            "weight": 17,
+            "groups": {
+              "SHORT": {
+                "census": 17,
+                "starts": 3,
+                "requests": 3,
+                "means": {
+                  "still_blocked": 0.6666666666666666,
+                  "blocked_with_both": 0.0,
+                  "repair": 0.3333333333333333,
+                  "repair_with_two_accepted": 0.3333333333333333,
+                  "earlier_prefix_break": 0.0,
+                  "native_prefix_change": 3.3333333333333335,
+                  "prefix_gained": 3.3333333333333335,
+                  "prefix_lost": 0.0,
+                  "prefix_tie": 0.6666666666666666
+                }
+              },
+              "LONG": {
+                "census": 37,
+                "starts": 5,
+                "requests": 5,
+                "means": {
+                  "still_blocked": 0.2,
+                  "blocked_with_both": 0.2,
+                  "repair": 0.8,
+                  "repair_with_two_accepted": 0.8,
+                  "earlier_prefix_break": 0.0,
+                  "native_prefix_change": 4.6,
+                  "prefix_gained": 4.6,
+                  "prefix_lost": 0.0,
+                  "prefix_tie": 0.2
+                }
+              }
+            }
+          },
+          {
+            "j": 7,
+            "v": 8,
+            "weight": 20,
+            "groups": {
+              "SHORT": {
+                "census": 20,
+                "starts": 5,
+                "requests": 5,
+                "means": {
+                  "still_blocked": 0.4,
+                  "blocked_with_both": 0.2,
+                  "repair": 0.2,
+                  "repair_with_two_accepted": 0.0,
+                  "earlier_prefix_break": 0.4,
+                  "native_prefix_change": -1.0,
+                  "prefix_gained": 0.4,
+                  "prefix_lost": 1.4,
+                  "prefix_tie": 0.4
+                }
+              },
+              "LONG": {
+                "census": 22,
+                "starts": 7,
+                "requests": 7,
+                "means": {
+                  "still_blocked": 0.2857142857142857,
+                  "blocked_with_both": 0.2857142857142857,
+                  "repair": 0.2857142857142857,
+                  "repair_with_two_accepted": 0.14285714285714285,
+                  "earlier_prefix_break": 0.42857142857142855,
+                  "native_prefix_change": 0.0,
+                  "prefix_gained": 0.8571428571428571,
+                  "prefix_lost": 0.8571428571428571,
+                  "prefix_tie": 0.2857142857142857
+                }
+              }
+            }
+          },
+          {
+            "j": 8,
+            "v": 7,
+            "weight": 11,
+            "groups": {
+              "SHORT": {
+                "census": 11,
+                "starts": 2,
+                "requests": 2,
+                "means": {
+                  "still_blocked": 0.5,
+                  "blocked_with_both": 0.0,
+                  "repair": 0.0,
+                  "repair_with_two_accepted": 0.0,
+                  "earlier_prefix_break": 0.5,
+                  "native_prefix_change": -1.0,
+                  "prefix_gained": 0.0,
+                  "prefix_lost": 1.0,
+                  "prefix_tie": 0.5
+                }
+              },
+              "LONG": {
+                "census": 14,
+                "starts": 1,
+                "requests": 1,
+                "means": {
+                  "still_blocked": 1.0,
+                  "blocked_with_both": 0.0,
+                  "repair": 0.0,
+                  "repair_with_two_accepted": 0.0,
+                  "earlier_prefix_break": 0.0,
+                  "native_prefix_change": 0.0,
+                  "prefix_gained": 0.0,
+                  "prefix_lost": 0.0,
+                  "prefix_tie": 1.0
+                }
+              }
+            }
+          },
+          {
+            "j": 9,
+            "v": 6,
+            "weight": 14,
+            "groups": {
+              "SHORT": {
+                "census": 14,
+                "starts": 4,
+                "requests": 4,
+                "means": {
+                  "still_blocked": 0.5,
+                  "blocked_with_both": 0.0,
+                  "repair": 0.25,
+                  "repair_with_two_accepted": 0.0,
+                  "earlier_prefix_break": 0.25,
+                  "native_prefix_change": -0.75,
+                  "prefix_gained": 0.5,
+                  "prefix_lost": 1.25,
+                  "prefix_tie": 0.5
+                }
+              },
+              "LONG": {
+                "census": 18,
+                "starts": 4,
+                "requests": 4,
+                "means": {
+                  "still_blocked": 0.25,
+                  "blocked_with_both": 0.25,
+                  "repair": 0.5,
+                  "repair_with_two_accepted": 0.25,
+                  "earlier_prefix_break": 0.25,
+                  "native_prefix_change": -0.5,
+                  "prefix_gained": 1.0,
+                  "prefix_lost": 1.5,
+                  "prefix_tie": 0.25
+                }
+              }
+            }
+          },
+          {
+            "j": 10,
+            "v": 5,
+            "weight": 7,
+            "groups": {
+              "SHORT": {
+                "census": 7,
+                "starts": 3,
+                "requests": 3,
+                "means": {
+                  "still_blocked": 0.3333333333333333,
+                  "blocked_with_both": 0.3333333333333333,
+                  "repair": 0.0,
+                  "repair_with_two_accepted": 0.0,
+                  "earlier_prefix_break": 0.6666666666666666,
+                  "native_prefix_change": -2.0,
+                  "prefix_gained": 0.0,
+                  "prefix_lost": 2.0,
+                  "prefix_tie": 0.3333333333333333
+                }
+              },
+              "LONG": {
+                "census": 15,
+                "starts": 5,
+                "requests": 5,
+                "means": {
+                  "still_blocked": 0.6,
+                  "blocked_with_both": 0.6,
+                  "repair": 0.2,
+                  "repair_with_two_accepted": 0.2,
+                  "earlier_prefix_break": 0.2,
+                  "native_prefix_change": 0.0,
+                  "prefix_gained": 1.2,
+                  "prefix_lost": 1.2,
+                  "prefix_tie": 0.6
+                }
+              }
+            }
+          },
+          {
+            "j": 11,
+            "v": 4,
+            "weight": 19,
+            "groups": {
+              "SHORT": {
+                "census": 19,
+                "starts": 6,
+                "requests": 6,
+                "means": {
+                  "still_blocked": 0.3333333333333333,
+                  "blocked_with_both": 0.16666666666666666,
+                  "repair": 0.0,
+                  "repair_with_two_accepted": 0.0,
+                  "earlier_prefix_break": 0.6666666666666666,
+                  "native_prefix_change": -1.3333333333333333,
+                  "prefix_gained": 0.0,
+                  "prefix_lost": 1.3333333333333333,
+                  "prefix_tie": 0.3333333333333333
+                }
+              },
+              "LONG": {
+                "census": 24,
+                "starts": 4,
+                "requests": 4,
+                "means": {
+                  "still_blocked": 0.75,
+                  "blocked_with_both": 0.75,
+                  "repair": 0.0,
+                  "repair_with_two_accepted": 0.0,
+                  "earlier_prefix_break": 0.25,
+                  "native_prefix_change": -1.5,
+                  "prefix_gained": 0.0,
+                  "prefix_lost": 1.5,
+                  "prefix_tie": 0.75
+                }
+              }
+            }
+          },
+          {
+            "j": 12,
+            "v": 3,
+            "weight": 10,
+            "groups": {
+              "SHORT": {
+                "census": 10,
+                "starts": 2,
+                "requests": 2,
+                "means": {
+                  "still_blocked": 0.5,
+                  "blocked_with_both": 0.0,
+                  "repair": 0.0,
+                  "repair_with_two_accepted": 0.0,
+                  "earlier_prefix_break": 0.5,
+                  "native_prefix_change": -0.5,
+                  "prefix_gained": 0.0,
+                  "prefix_lost": 0.5,
+                  "prefix_tie": 0.5
+                }
+              },
+              "LONG": {
+                "census": 11,
+                "starts": 2,
+                "requests": 2,
+                "means": {
+                  "still_blocked": 0.5,
+                  "blocked_with_both": 0.5,
+                  "repair": 0.5,
+                  "repair_with_two_accepted": 0.5,
+                  "earlier_prefix_break": 0.0,
+                  "native_prefix_change": 2.0,
+                  "prefix_gained": 2.0,
+                  "prefix_lost": 0.0,
+                  "prefix_tie": 0.5
+                }
+              }
+            }
+          },
+          {
+            "j": 13,
+            "v": 2,
+            "weight": 12,
+            "groups": {
+              "SHORT": {
+                "census": 12,
+                "starts": 2,
+                "requests": 2,
+                "means": {
+                  "still_blocked": 0.0,
+                  "blocked_with_both": 0.0,
+                  "repair": 0.0,
+                  "repair_with_two_accepted": 0.0,
+                  "earlier_prefix_break": 1.0,
+                  "native_prefix_change": -6.5,
+                  "prefix_gained": 0.0,
+                  "prefix_lost": 6.5,
+                  "prefix_tie": 0.0
+                }
+              },
+              "LONG": {
+                "census": 13,
+                "starts": 1,
+                "requests": 1,
+                "means": {
+                  "still_blocked": 1.0,
+                  "blocked_with_both": 0.0,
+                  "repair": 0.0,
+                  "repair_with_two_accepted": 0.0,
+                  "earlier_prefix_break": 0.0,
+                  "native_prefix_change": 0.0,
+                  "prefix_gained": 0.0,
+                  "prefix_lost": 0.0,
+                  "prefix_tie": 1.0
+                }
+              }
+            }
+          }
+        ],
+        "support": {
+          "SHORT": {
+            "total_census": 263,
+            "census_in_common": 257,
+            "census_in_observed_common": 257,
+            "valid_sample": 64,
+            "sample_in_observed_common": 62
+          },
+          "LONG": {
+            "total_census": 403,
+            "census_in_common": 389,
+            "census_in_observed_common": 389,
+            "valid_sample": 64,
+            "sample_in_observed_common": 62
+          }
+        },
+        "estimates": {
+          "still_blocked": {
+            "SHORT": 0.6037613488975357,
+            "LONG": 0.513396331295164,
+            "LONG_minus_SHORT": -0.0903650176023717,
+            "intervals": {
+              "SHORT": {
+                "lower": 0.4834010304766452,
+                "upper": 0.7111248948364544,
+                "defined_draws": 5472,
+                "undefined_draws": 4528,
+                "degenerate": false
+              },
+              "LONG": {
+                "lower": 0.3646410174118809,
+                "upper": 0.6495169059153572,
+                "defined_draws": 3203,
+                "undefined_draws": 6797,
+                "degenerate": false
+              },
+              "LONG_minus_SHORT": {
+                "lower": -0.2736321861042819,
+                "upper": 0.09513321107992637,
+                "defined_draws": 2035,
+                "undefined_draws": 7965,
+                "degenerate": false
+              }
+            }
+          },
+          "blocked_with_both": {
+            "SHORT": 0.07587548638132295,
+            "LONG": 0.3283768760422457,
+            "LONG_minus_SHORT": 0.2525013896609227,
+            "intervals": {
+              "SHORT": {
+                "lower": 0.01785163139329806,
+                "upper": 0.15092005015333498,
+                "defined_draws": 5472,
+                "undefined_draws": 4528,
+                "degenerate": false
+              },
+              "LONG": {
+                "lower": 0.18629099401878818,
+                "upper": 0.4646068834990429,
+                "defined_draws": 3203,
+                "undefined_draws": 6797,
+                "degenerate": false
+              },
+              "LONG_minus_SHORT": {
+                "lower": 0.08256631969026038,
+                "upper": 0.4208938965454785,
+                "defined_draws": 2035,
+                "undefined_draws": 7965,
+                "degenerate": false
+              }
+            }
+          },
+          "repair": {
+            "SHORT": 0.1783398184176394,
+            "LONG": 0.3596720400222346,
+            "LONG_minus_SHORT": 0.18133222160459517,
+            "intervals": {
+              "SHORT": {
+                "lower": 0.08292645052812792,
+                "upper": 0.29634681673087104,
+                "defined_draws": 5472,
+                "undefined_draws": 4528,
+                "degenerate": false
+              },
+              "LONG": {
+                "lower": 0.23106065009560736,
+                "upper": 0.504051168160423,
+                "defined_draws": 3203,
+                "undefined_draws": 6797,
+                "degenerate": false
+              },
+              "LONG_minus_SHORT": {
+                "lower": 0.02299598327280737,
+                "upper": 0.3451347954400948,
+                "defined_draws": 2035,
+                "undefined_draws": 7965,
+                "degenerate": false
+              }
+            }
+          },
+          "repair_with_two_accepted": {
+            "SHORT": 0.08106355382619973,
+            "LONG": 0.27851584213451913,
+            "LONG_minus_SHORT": 0.1974522883083194,
+            "intervals": {
+              "SHORT": {
+                "lower": 0.019703596932510167,
+                "upper": 0.16401625811535536,
+                "defined_draws": 5472,
+                "undefined_draws": 4528,
+                "degenerate": false
+              },
+              "LONG": {
+                "lower": 0.16431552290791349,
+                "upper": 0.4023289954349114,
+                "defined_draws": 3203,
+                "undefined_draws": 6797,
+                "degenerate": false
+              },
+              "LONG_minus_SHORT": {
+                "lower": 0.06937385215794308,
+                "upper": 0.33519543650793654,
+                "defined_draws": 2035,
+                "undefined_draws": 7965,
+                "degenerate": false
+              }
+            }
+          },
+          "earlier_prefix_break": {
+            "SHORT": 0.21789883268482488,
+            "LONG": 0.12693162868260144,
+            "LONG_minus_SHORT": -0.09096720400222344,
+            "intervals": {
+              "SHORT": {
+                "lower": 0.13947882059800665,
+                "upper": 0.30871512066364987,
+                "defined_draws": 5472,
+                "undefined_draws": 4528,
+                "degenerate": false
+              },
+              "LONG": {
+                "lower": 0.05289771601937378,
+                "upper": 0.2038288064427681,
+                "defined_draws": 3203,
+                "undefined_draws": 6797,
+                "degenerate": false
+              },
+              "LONG_minus_SHORT": {
+                "lower": -0.212980481861235,
+                "upper": 0.014624796889783697,
+                "defined_draws": 2035,
+                "undefined_draws": 7965,
+                "degenerate": false
+              }
+            }
+          },
+          "native_prefix_change": {
+            "SHORT": 0.09403372243839171,
+            "LONG": 1.3815175097276264,
+            "LONG_minus_SHORT": 1.2874837872892346,
+            "intervals": {
+              "SHORT": {
+                "lower": -0.5896562581617459,
+                "upper": 0.9852992239101234,
+                "defined_draws": 5472,
+                "undefined_draws": 4528,
+                "degenerate": false
+              },
+              "LONG": {
+                "lower": 0.4994095569809286,
+                "upper": 2.326026204794144,
+                "defined_draws": 3203,
+                "undefined_draws": 6797,
+                "degenerate": false
+              },
+              "LONG_minus_SHORT": {
+                "lower": 0.13347047004530566,
+                "upper": 2.4090292220723026,
+                "defined_draws": 2035,
+                "undefined_draws": 7965,
+                "degenerate": false
+              }
+            }
+          },
+          "prefix_gained": {
+            "SHORT": 0.8261997405966279,
+            "LONG": 1.7435519733185103,
+            "LONG_minus_SHORT": 0.9173522327218824,
+            "intervals": {
+              "SHORT": {
+                "lower": 0.23880077259263865,
+                "upper": 1.6323757861227732,
+                "defined_draws": 5472,
+                "undefined_draws": 4528,
+                "degenerate": false
+              },
+              "LONG": {
+                "lower": 0.9818707096947326,
+                "upper": 2.6207058709341746,
+                "defined_draws": 3203,
+                "undefined_draws": 6797,
+                "degenerate": false
+              },
+              "LONG_minus_SHORT": {
+                "lower": -0.1252464078474718,
+                "upper": 2.0042800228220665,
+                "defined_draws": 2035,
+                "undefined_draws": 7965,
+                "degenerate": false
+              }
+            }
+          },
+          "prefix_lost": {
+            "SHORT": 0.732166018158236,
+            "LONG": 0.3620344635908838,
+            "LONG_minus_SHORT": -0.3701315545673522,
+            "intervals": {
+              "SHORT": {
+                "lower": 0.3977348164497662,
+                "upper": 1.0911752661752654,
+                "defined_draws": 5472,
+                "undefined_draws": 4528,
+                "degenerate": false
+              },
+              "LONG": {
+                "lower": 0.10549663723079215,
+                "upper": 0.7115420517592279,
+                "defined_draws": 3203,
+                "undefined_draws": 6797,
+                "degenerate": false
+              },
+              "LONG_minus_SHORT": {
+                "lower": -0.8221408308004055,
+                "upper": 0.08593434343434242,
+                "defined_draws": 2035,
+                "undefined_draws": 7965,
+                "degenerate": false
+              }
+            }
+          },
+          "prefix_tie": {
+            "SHORT": 0.6037613488975357,
+            "LONG": 0.513396331295164,
+            "LONG_minus_SHORT": -0.0903650176023717,
+            "intervals": {
+              "SHORT": {
+                "lower": 0.4834010304766452,
+                "upper": 0.7111248948364544,
+                "defined_draws": 5472,
+                "undefined_draws": 4528,
+                "degenerate": false
+              },
+              "LONG": {
+                "lower": 0.3646410174118809,
+                "upper": 0.6495169059153572,
+                "defined_draws": 3203,
+                "undefined_draws": 6797,
+                "degenerate": false
+              },
+              "LONG_minus_SHORT": {
+                "lower": -0.2736321861042819,
+                "upper": 0.09513321107992637,
+                "defined_draws": 2035,
+                "undefined_draws": 7965,
+                "degenerate": false
+              }
+            }
+          }
+        },
+        "interval_scope": "Conditional on all fixed observed cells being represented in the draw. High undefined fractions and sparse cells preclude a demonstrated standardized difference."
+      }
+    },
+    "mathqa": {
+      "requests": 64,
+      "parent_rounds": 4330,
+      "later_rounds": 4266,
+      "census_long": 651,
+      "census_long_share": 0.15260196905766527,
+      "validity": {
+        "valid": 128
+      },
+      "groups": {
+        "SHORT": {
+          "starts": 64,
+          "distinct_requests": 37,
+          "still_blocked": {
+            "total": 41,
+            "per_start": 0.640625,
+            "contributing_requests": 25,
+            "interval": {
+              "lower": 0.5,
+              "upper": 0.7619047619047619,
+              "defined_draws": 10000,
+              "undefined_draws": 0,
+              "degenerate": false
+            }
+          },
+          "blocked_with_both": {
+            "total": 7,
+            "per_start": 0.109375,
+            "contributing_requests": 5,
+            "interval": {
+              "lower": 0.02,
+              "upper": 0.22058823529411764,
+              "defined_draws": 10000,
+              "undefined_draws": 0,
+              "degenerate": false
+            }
+          },
+          "repair": {
+            "total": 18,
+            "per_start": 0.28125,
+            "contributing_requests": 16,
+            "interval": {
+              "lower": 0.17857142857142858,
+              "upper": 0.4,
+              "defined_draws": 10000,
+              "undefined_draws": 0,
+              "degenerate": false
+            }
+          },
+          "repair_with_two_accepted": {
+            "total": 6,
+            "per_start": 0.09375,
+            "contributing_requests": 6,
+            "interval": {
+              "lower": 0.030303030303030304,
+              "upper": 0.17647058823529413,
+              "defined_draws": 10000,
+              "undefined_draws": 0,
+              "degenerate": false
+            }
+          },
+          "earlier_prefix_break": {
+            "total": 5,
+            "per_start": 0.078125,
+            "contributing_requests": 4,
+            "interval": {
+              "lower": 0.014084507042253521,
+              "upper": 0.16438789665337256,
+              "defined_draws": 10000,
+              "undefined_draws": 0,
+              "degenerate": false
+            }
+          },
+          "native_prefix_change": {
+            "total": 57,
+            "per_start": 0.890625,
+            "contributing_requests": 19,
+            "interval": {
+              "lower": 0.3050847457627119,
+              "upper": 1.6724137931034482,
+              "defined_draws": 10000,
+              "undefined_draws": 0,
+              "degenerate": false
+            }
+          },
+          "prefix_gained": {
+            "total": 68,
+            "per_start": 1.0625,
+            "contributing_requests": 16,
+            "interval": {
+              "lower": 0.5396825396825397,
+              "upper": 1.80303651266766,
+              "defined_draws": 10000,
+              "undefined_draws": 0,
+              "degenerate": false
+            }
+          },
+          "prefix_lost": {
+            "total": 11,
+            "per_start": 0.171875,
+            "contributing_requests": 4,
+            "interval": {
+              "lower": 0.014492753623188406,
+              "upper": 0.4259335154826957,
+              "defined_draws": 10000,
+              "undefined_draws": 0,
+              "degenerate": false
+            }
+          },
+          "prefix_tie": {
+            "total": 41,
+            "per_start": 0.640625,
+            "contributing_requests": 25,
+            "interval": {
+              "lower": 0.5,
+              "upper": 0.7619047619047619,
+              "defined_draws": 10000,
+              "undefined_draws": 0,
+              "degenerate": false
+            }
+          },
+          "gain_starts": 18,
+          "loss_starts": 5
+        },
+        "LONG": {
+          "starts": 64,
+          "distinct_requests": 35,
+          "still_blocked": {
+            "total": 43,
+            "per_start": 0.671875,
+            "contributing_requests": 28,
+            "interval": {
+              "lower": 0.5483870967741935,
+              "upper": 0.7761243126472898,
+              "defined_draws": 10000,
+              "undefined_draws": 0,
+              "degenerate": false
+            }
+          },
+          "blocked_with_both": {
+            "total": 30,
+            "per_start": 0.46875,
+            "contributing_requests": 22,
+            "interval": {
+              "lower": 0.35818230277185503,
+              "upper": 0.5833333333333334,
+              "defined_draws": 10000,
+              "undefined_draws": 0,
+              "degenerate": false
+            }
+          },
+          "repair": {
+            "total": 17,
+            "per_start": 0.265625,
+            "contributing_requests": 15,
+            "interval": {
+              "lower": 0.16666666666666666,
+              "upper": 0.38461538461538464,
+              "defined_draws": 10000,
+              "undefined_draws": 0,
+              "degenerate": false
+            }
+          },
+          "repair_with_two_accepted": {
+            "total": 15,
+            "per_start": 0.234375,
+            "contributing_requests": 13,
+            "interval": {
+              "lower": 0.1323529411764706,
+              "upper": 0.35714285714285715,
+              "defined_draws": 10000,
+              "undefined_draws": 0,
+              "degenerate": false
+            }
+          },
+          "earlier_prefix_break": {
+            "total": 4,
+            "per_start": 0.0625,
+            "contributing_requests": 4,
+            "interval": {
+              "lower": 0.013888888888888888,
+              "upper": 0.1282051282051282,
+              "defined_draws": 10000,
+              "undefined_draws": 0,
+              "degenerate": false
+            }
+          },
+          "native_prefix_change": {
+            "total": 95,
+            "per_start": 1.484375,
+            "contributing_requests": 18,
+            "interval": {
+              "lower": 0.561383572567783,
+              "upper": 2.630994897959183,
+              "defined_draws": 10000,
+              "undefined_draws": 0,
+              "degenerate": false
+            }
+          },
+          "prefix_gained": {
+            "total": 109,
+            "per_start": 1.703125,
+            "contributing_requests": 15,
+            "interval": {
+              "lower": 0.8749503968253969,
+              "upper": 2.8,
+              "defined_draws": 10000,
+              "undefined_draws": 0,
+              "degenerate": false
+            }
+          },
+          "prefix_lost": {
+            "total": 14,
+            "per_start": 0.21875,
+            "contributing_requests": 4,
+            "interval": {
+              "lower": 0.017234073641145535,
+              "upper": 0.5660534591194966,
+              "defined_draws": 10000,
+              "undefined_draws": 0,
+              "degenerate": false
+            }
+          },
+          "prefix_tie": {
+            "total": 43,
+            "per_start": 0.671875,
+            "contributing_requests": 28,
+            "interval": {
+              "lower": 0.5483870967741935,
+              "upper": 0.7761243126472898,
+              "defined_draws": 10000,
+              "undefined_draws": 0,
+              "degenerate": false
+            }
+          },
+          "gain_starts": 17,
+          "loss_starts": 4
+        }
+      },
+      "A": {
+        "estimate": 0.07153217299578059,
+        "numerator": 30,
+        "denominator": 64,
+        "contributing_requests": 22,
+        "threshold": 0.01,
+        "interval": {
+          "lower": 0.05386372145675751,
+          "upper": 0.09189120493883701,
+          "defined_draws": 10000,
+          "undefined_draws": 0,
+          "degenerate": false
+        }
+      },
+      "B": {
+        "estimate": 0.8823529411764706,
+        "numerator": 15,
+        "denominator": 17,
+        "repair_requests": 15,
+        "contributing_requests": 13,
+        "threshold": 0.5,
+        "interval": {
+          "lower": 0.6923076923076923,
+          "upper": 1.0,
+          "defined_draws": 10000,
+          "undefined_draws": 0,
+          "degenerate": false
+        }
+      },
+      "unconditional_realized": {
+        "numerator": 15,
+        "denominator": 64,
+        "fraction": 0.234375,
+        "interval": {
+          "lower": 0.1323529411764706,
+          "upper": 0.35714285714285715,
+          "defined_draws": 10000,
+          "undefined_draws": 0,
+          "degenerate": false
+        }
+      },
+      "standardized": {
+        "census_common_cells": 13,
+        "observed_common_cells": 12,
+        "cells": [
+          {
+            "j": 1,
+            "v": 14,
+            "weight": 51,
+            "groups": {
+              "SHORT": {
+                "census": 51,
+                "starts": 10,
+                "requests": 7,
+                "means": {
+                  "still_blocked": 0.8,
+                  "blocked_with_both": 0.0,
+                  "repair": 0.2,
+                  "repair_with_two_accepted": 0.0,
+                  "earlier_prefix_break": 0.0,
+                  "native_prefix_change": 0.3,
+                  "prefix_gained": 0.3,
+                  "prefix_lost": 0.0,
+                  "prefix_tie": 0.8
+                }
+              },
+              "LONG": {
+                "census": 123,
+                "starts": 12,
+                "requests": 10,
+                "means": {
+                  "still_blocked": 0.6666666666666666,
+                  "blocked_with_both": 0.5,
+                  "repair": 0.3333333333333333,
+                  "repair_with_two_accepted": 0.3333333333333333,
+                  "earlier_prefix_break": 0.0,
+                  "native_prefix_change": 3.25,
+                  "prefix_gained": 3.25,
+                  "prefix_lost": 0.0,
+                  "prefix_tie": 0.6666666666666666
+                }
+              }
+            }
+          },
+          {
+            "j": 2,
+            "v": 13,
+            "weight": 58,
+            "groups": {
+              "SHORT": {
+                "census": 58,
+                "starts": 10,
+                "requests": 8,
+                "means": {
+                  "still_blocked": 0.6,
+                  "blocked_with_both": 0.2,
+                  "repair": 0.4,
+                  "repair_with_two_accepted": 0.1,
+                  "earlier_prefix_break": 0.0,
+                  "native_prefix_change": 1.4,
+                  "prefix_gained": 1.4,
+                  "prefix_lost": 0.0,
+                  "prefix_tie": 0.6
+                }
+              },
+              "LONG": {
+                "census": 94,
+                "starts": 11,
+                "requests": 9,
+                "means": {
+                  "still_blocked": 0.9090909090909091,
+                  "blocked_with_both": 0.5454545454545454,
+                  "repair": 0.09090909090909091,
+                  "repair_with_two_accepted": 0.09090909090909091,
+                  "earlier_prefix_break": 0.0,
+                  "native_prefix_change": 0.2727272727272727,
+                  "prefix_gained": 0.2727272727272727,
+                  "prefix_lost": 0.0,
+                  "prefix_tie": 0.9090909090909091
+                }
+              }
+            }
+          },
+          {
+            "j": 3,
+            "v": 12,
+            "weight": 42,
+            "groups": {
+              "SHORT": {
+                "census": 42,
+                "starts": 2,
+                "requests": 2,
+                "means": {
+                  "still_blocked": 0.5,
+                  "blocked_with_both": 0.0,
+                  "repair": 0.5,
+                  "repair_with_two_accepted": 0.5,
+                  "earlier_prefix_break": 0.0,
+                  "native_prefix_change": 6.5,
+                  "prefix_gained": 6.5,
+                  "prefix_lost": 0.0,
+                  "prefix_tie": 0.5
+                }
+              },
+              "LONG": {
+                "census": 78,
+                "starts": 13,
+                "requests": 10,
+                "means": {
+                  "still_blocked": 0.6153846153846154,
+                  "blocked_with_both": 0.46153846153846156,
+                  "repair": 0.3076923076923077,
+                  "repair_with_two_accepted": 0.23076923076923078,
+                  "earlier_prefix_break": 0.07692307692307693,
+                  "native_prefix_change": 2.4615384615384617,
+                  "prefix_gained": 2.5384615384615383,
+                  "prefix_lost": 0.07692307692307693,
+                  "prefix_tie": 0.6153846153846154
+                }
+              }
+            }
+          },
+          {
+            "j": 4,
+            "v": 11,
+            "weight": 37,
+            "groups": {
+              "SHORT": {
+                "census": 37,
+                "starts": 5,
+                "requests": 5,
+                "means": {
+                  "still_blocked": 0.8,
+                  "blocked_with_both": 0.2,
+                  "repair": 0.2,
+                  "repair_with_two_accepted": 0.0,
+                  "earlier_prefix_break": 0.0,
+                  "native_prefix_change": 0.4,
+                  "prefix_gained": 0.4,
+                  "prefix_lost": 0.0,
+                  "prefix_tie": 0.8
+                }
+              },
+              "LONG": {
+                "census": 44,
+                "starts": 3,
+                "requests": 2,
+                "means": {
+                  "still_blocked": 0.3333333333333333,
+                  "blocked_with_both": 0.3333333333333333,
+                  "repair": 0.6666666666666666,
+                  "repair_with_two_accepted": 0.6666666666666666,
+                  "earlier_prefix_break": 0.0,
+                  "native_prefix_change": 4.0,
+                  "prefix_gained": 4.0,
+                  "prefix_lost": 0.0,
+                  "prefix_tie": 0.3333333333333333
+                }
+              }
+            }
+          },
+          {
+            "j": 5,
+            "v": 10,
+            "weight": 34,
+            "groups": {
+              "SHORT": {
+                "census": 34,
+                "starts": 6,
+                "requests": 6,
+                "means": {
+                  "still_blocked": 0.6666666666666666,
+                  "blocked_with_both": 0.0,
+                  "repair": 0.16666666666666666,
+                  "repair_with_two_accepted": 0.0,
+                  "earlier_prefix_break": 0.16666666666666666,
+                  "native_prefix_change": -0.16666666666666666,
+                  "prefix_gained": 0.16666666666666666,
+                  "prefix_lost": 0.3333333333333333,
+                  "prefix_tie": 0.6666666666666666
+                }
+              },
+              "LONG": {
+                "census": 62,
+                "starts": 4,
+                "requests": 4,
+                "means": {
+                  "still_blocked": 0.25,
+                  "blocked_with_both": 0.25,
+                  "repair": 0.5,
+                  "repair_with_two_accepted": 0.25,
+                  "earlier_prefix_break": 0.25,
+                  "native_prefix_change": 1.25,
+                  "prefix_gained": 1.75,
+                  "prefix_lost": 0.5,
+                  "prefix_tie": 0.25
+                }
+              }
+            }
+          },
+          {
+            "j": 6,
+            "v": 9,
+            "weight": 24,
+            "groups": {
+              "SHORT": {
+                "census": 24,
+                "starts": 6,
+                "requests": 6,
+                "means": {
+                  "still_blocked": 0.6666666666666666,
+                  "blocked_with_both": 0.3333333333333333,
+                  "repair": 0.3333333333333333,
+                  "repair_with_two_accepted": 0.0,
+                  "earlier_prefix_break": 0.0,
+                  "native_prefix_change": 0.6666666666666666,
+                  "prefix_gained": 0.6666666666666666,
+                  "prefix_lost": 0.0,
+                  "prefix_tie": 0.6666666666666666
+                }
+              },
+              "LONG": {
+                "census": 41,
+                "starts": 4,
+                "requests": 4,
+                "means": {
+                  "still_blocked": 0.5,
+                  "blocked_with_both": 0.5,
+                  "repair": 0.5,
+                  "repair_with_two_accepted": 0.5,
+                  "earlier_prefix_break": 0.0,
+                  "native_prefix_change": 2.25,
+                  "prefix_gained": 2.25,
+                  "prefix_lost": 0.0,
+                  "prefix_tie": 0.5
+                }
+              }
+            }
+          },
+          {
+            "j": 7,
+            "v": 8,
+            "weight": 29,
+            "groups": {
+              "SHORT": {
+                "census": 29,
+                "starts": 10,
+                "requests": 10,
+                "means": {
+                  "still_blocked": 0.6,
+                  "blocked_with_both": 0.0,
+                  "repair": 0.3,
+                  "repair_with_two_accepted": 0.2,
+                  "earlier_prefix_break": 0.1,
+                  "native_prefix_change": 1.5,
+                  "prefix_gained": 1.6,
+                  "prefix_lost": 0.1,
+                  "prefix_tie": 0.6
+                }
+              },
+              "LONG": {
+                "census": 30,
+                "starts": 2,
+                "requests": 2,
+                "means": {
+                  "still_blocked": 1.0,
+                  "blocked_with_both": 0.5,
+                  "repair": 0.0,
+                  "repair_with_two_accepted": 0.0,
+                  "earlier_prefix_break": 0.0,
+                  "native_prefix_change": 0.0,
+                  "prefix_gained": 0.0,
+                  "prefix_lost": 0.0,
+                  "prefix_tie": 1.0
+                }
+              }
+            }
+          },
+          {
+            "j": 8,
+            "v": 7,
+            "weight": 19,
+            "groups": {
+              "SHORT": {
+                "census": 19,
+                "starts": 4,
+                "requests": 4,
+                "means": {
+                  "still_blocked": 0.25,
+                  "blocked_with_both": 0.0,
+                  "repair": 0.75,
+                  "repair_with_two_accepted": 0.5,
+                  "earlier_prefix_break": 0.0,
+                  "native_prefix_change": 3.25,
+                  "prefix_gained": 3.25,
+                  "prefix_lost": 0.0,
+                  "prefix_tie": 0.25
+                }
+              },
+              "LONG": {
+                "census": 48,
+                "starts": 4,
+                "requests": 4,
+                "means": {
+                  "still_blocked": 1.0,
+                  "blocked_with_both": 0.75,
+                  "repair": 0.0,
+                  "repair_with_two_accepted": 0.0,
+                  "earlier_prefix_break": 0.0,
+                  "native_prefix_change": 0.0,
+                  "prefix_gained": 0.0,
+                  "prefix_lost": 0.0,
+                  "prefix_tie": 1.0
+                }
+              }
+            }
+          },
+          {
+            "j": 9,
+            "v": 6,
+            "weight": 21,
+            "groups": {
+              "SHORT": {
+                "census": 21,
+                "starts": 3,
+                "requests": 3,
+                "means": {
+                  "still_blocked": 0.3333333333333333,
+                  "blocked_with_both": 0.0,
+                  "repair": 0.0,
+                  "repair_with_two_accepted": 0.0,
+                  "earlier_prefix_break": 0.6666666666666666,
+                  "native_prefix_change": -2.0,
+                  "prefix_gained": 0.0,
+                  "prefix_lost": 2.0,
+                  "prefix_tie": 0.3333333333333333
+                }
+              },
+              "LONG": {
+                "census": 26,
+                "starts": 1,
+                "requests": 1,
+                "means": {
+                  "still_blocked": 1.0,
+                  "blocked_with_both": 0.0,
+                  "repair": 0.0,
+                  "repair_with_two_accepted": 0.0,
+                  "earlier_prefix_break": 0.0,
+                  "native_prefix_change": 0.0,
+                  "prefix_gained": 0.0,
+                  "prefix_lost": 0.0,
+                  "prefix_tie": 1.0
+                }
+              }
+            }
+          },
+          {
+            "j": 11,
+            "v": 4,
+            "weight": 16,
+            "groups": {
+              "SHORT": {
+                "census": 16,
+                "starts": 1,
+                "requests": 1,
+                "means": {
+                  "still_blocked": 1.0,
+                  "blocked_with_both": 0.0,
+                  "repair": 0.0,
+                  "repair_with_two_accepted": 0.0,
+                  "earlier_prefix_break": 0.0,
+                  "native_prefix_change": 0.0,
+                  "prefix_gained": 0.0,
+                  "prefix_lost": 0.0,
+                  "prefix_tie": 1.0
+                }
+              },
+              "LONG": {
+                "census": 21,
+                "starts": 2,
+                "requests": 2,
+                "means": {
+                  "still_blocked": 1.0,
+                  "blocked_with_both": 1.0,
+                  "repair": 0.0,
+                  "repair_with_two_accepted": 0.0,
+                  "earlier_prefix_break": 0.0,
+                  "native_prefix_change": 0.0,
+                  "prefix_gained": 0.0,
+                  "prefix_lost": 0.0,
+                  "prefix_tie": 1.0
+                }
+              }
+            }
+          },
+          {
+            "j": 12,
+            "v": 3,
+            "weight": 12,
+            "groups": {
+              "SHORT": {
+                "census": 12,
+                "starts": 1,
+                "requests": 1,
+                "means": {
+                  "still_blocked": 1.0,
+                  "blocked_with_both": 0.0,
+                  "repair": 0.0,
+                  "repair_with_two_accepted": 0.0,
+                  "earlier_prefix_break": 0.0,
+                  "native_prefix_change": 0.0,
+                  "prefix_gained": 0.0,
+                  "prefix_lost": 0.0,
+                  "prefix_tie": 1.0
+                }
+              },
+              "LONG": {
+                "census": 25,
+                "starts": 2,
+                "requests": 2,
+                "means": {
+                  "still_blocked": 0.5,
+                  "blocked_with_both": 0.0,
+                  "repair": 0.5,
+                  "repair_with_two_accepted": 0.5,
+                  "earlier_prefix_break": 0.0,
+                  "native_prefix_change": 1.5,
+                  "prefix_gained": 1.5,
+                  "prefix_lost": 0.0,
+                  "prefix_tie": 0.5
+                }
+              }
+            }
+          },
+          {
+            "j": 13,
+            "v": 2,
+            "weight": 17,
+            "groups": {
+              "SHORT": {
+                "census": 17,
+                "starts": 3,
+                "requests": 3,
+                "means": {
+                  "still_blocked": 1.0,
+                  "blocked_with_both": 0.6666666666666666,
+                  "repair": 0.0,
+                  "repair_with_two_accepted": 0.0,
+                  "earlier_prefix_break": 0.0,
+                  "native_prefix_change": 0.0,
+                  "prefix_gained": 0.0,
+                  "prefix_lost": 0.0,
+                  "prefix_tie": 1.0
+                }
+              },
+              "LONG": {
+                "census": 25,
+                "starts": 4,
+                "requests": 3,
+                "means": {
+                  "still_blocked": 0.25,
+                  "blocked_with_both": 0.25,
+                  "repair": 0.25,
+                  "repair_with_two_accepted": 0.25,
+                  "earlier_prefix_break": 0.5,
+                  "native_prefix_change": -2.0,
+                  "prefix_gained": 0.75,
+                  "prefix_lost": 2.75,
+                  "prefix_tie": 0.25
+                }
+              }
+            }
+          }
+        ],
+        "support": {
+          "SHORT": {
+            "total_census": 381,
+            "census_in_common": 377,
+            "census_in_observed_common": 360,
+            "valid_sample": 64,
+            "sample_in_observed_common": 61
+          },
+          "LONG": {
+            "total_census": 651,
+            "census_in_common": 640,
+            "census_in_observed_common": 617,
+            "valid_sample": 64,
+            "sample_in_observed_common": 62
+          }
+        },
+        "estimates": {
+          "still_blocked": {
+            "SHORT": 0.6639351851851851,
+            "LONG": 0.6684909997409997,
+            "LONG_minus_SHORT": 0.004555814555814552,
+            "intervals": {
+              "SHORT": {
+                "lower": 0.5061431322629416,
+                "upper": 0.81439480797912,
+                "defined_draws": 3232,
+                "undefined_draws": 6768,
+                "degenerate": false
+              },
+              "LONG": {
+                "lower": 0.5643160518479169,
+                "upper": 0.8101343515835889,
+                "defined_draws": 3899,
+                "undefined_draws": 6101,
+                "degenerate": false
+              },
+              "LONG_minus_SHORT": {
+                "lower": -0.13337454724526987,
+                "upper": 0.23436226835521398,
+                "defined_draws": 1274,
+                "undefined_draws": 8726,
+                "degenerate": false
+              }
+            }
+          },
+          "blocked_with_both": {
+            "SHORT": 0.10648148148148147,
+            "LONG": 0.4398730898730899,
+            "LONG_minus_SHORT": 0.3333916083916084,
+            "intervals": {
+              "SHORT": {
+                "lower": 0.031194532298255705,
+                "upper": 0.20179836778575963,
+                "defined_draws": 3232,
+                "undefined_draws": 6768,
+                "degenerate": false
+              },
+              "LONG": {
+                "lower": 0.3357772002555311,
+                "upper": 0.6105461682600263,
+                "defined_draws": 3899,
+                "undefined_draws": 6101,
+                "degenerate": false
+              },
+              "LONG_minus_SHORT": {
+                "lower": 0.20595658126089966,
+                "upper": 0.5306876680006595,
+                "defined_draws": 1274,
+                "undefined_draws": 8726,
+                "degenerate": false
+              }
+            }
+          },
+          "repair": {
+            "SHORT": 0.27337962962962964,
+            "LONG": 0.2753124190624191,
+            "LONG_minus_SHORT": 0.0019327894327894612,
+            "intervals": {
+              "SHORT": {
+                "lower": 0.15443368951505962,
+                "upper": 0.4141115087461721,
+                "defined_draws": 3232,
+                "undefined_draws": 6768,
+                "degenerate": false
+              },
+              "LONG": {
+                "lower": 0.14569709516360174,
+                "upper": 0.36706980770485614,
+                "defined_draws": 3899,
+                "undefined_draws": 6101,
+                "degenerate": false
+              },
+              "LONG_minus_SHORT": {
+                "lower": -0.22002984082599203,
+                "upper": 0.1258327284304486,
+                "defined_draws": 1274,
+                "undefined_draws": 8726,
+                "degenerate": false
+              }
+            }
+          },
+          "repair_with_two_accepted": {
+            "SHORT": 0.11694444444444445,
+            "LONG": 0.24272694897694896,
+            "LONG_minus_SHORT": 0.1257825045325045,
+            "intervals": {
+              "SHORT": {
+                "lower": 0.03721614827826403,
+                "upper": 0.22941527245850968,
+                "defined_draws": 3232,
+                "undefined_draws": 6768,
+                "degenerate": false
+              },
+              "LONG": {
+                "lower": 0.11721689993520464,
+                "upper": 0.3374651546270318,
+                "defined_draws": 3899,
+                "undefined_draws": 6101,
+                "degenerate": false
+              },
+              "LONG_minus_SHORT": {
+                "lower": -0.044878589224853105,
+                "upper": 0.23943126743770435,
+                "defined_draws": 1274,
+                "undefined_draws": 8726,
+                "degenerate": false
+              }
+            }
+          },
+          "earlier_prefix_break": {
+            "SHORT": 0.06268518518518519,
+            "LONG": 0.05619658119658119,
+            "LONG_minus_SHORT": -0.006488603988604,
+            "intervals": {
+              "SHORT": {
+                "lower": 0.0,
+                "upper": 0.11669838568412308,
+                "defined_draws": 3232,
+                "undefined_draws": 6768,
+                "degenerate": false
+              },
+              "LONG": {
+                "lower": 0.01032126588348118,
+                "upper": 0.11230368015485072,
+                "defined_draws": 3899,
+                "undefined_draws": 6101,
+                "degenerate": false
+              },
+              "LONG_minus_SHORT": {
+                "lower": -0.07198360304802852,
+                "upper": 0.07973440076965363,
+                "defined_draws": 1274,
+                "undefined_draws": 8726,
+                "degenerate": false
+              }
+            }
+          },
+          "native_prefix_change": {
+            "SHORT": 1.2718981481481482,
+            "LONG": 1.42625777000777,
+            "LONG_minus_SHORT": 0.15435962185962193,
+            "intervals": {
+              "SHORT": {
+                "lower": 0.29613426780503627,
+                "upper": 2.513984551688379,
+                "defined_draws": 3232,
+                "undefined_draws": 6768,
+                "degenerate": false
+              },
+              "LONG": {
+                "lower": 0.5376517727548716,
+                "upper": 2.104772535127411,
+                "defined_draws": 3899,
+                "undefined_draws": 6101,
+                "degenerate": false
+              },
+              "LONG_minus_SHORT": {
+                "lower": -1.5281779854360529,
+                "upper": 1.2522769291838658,
+                "defined_draws": 1274,
+                "undefined_draws": 8726,
+                "degenerate": false
+              }
+            }
+          },
+          "prefix_gained": {
+            "SHORT": 1.4281018518518518,
+            "LONG": 1.6123154623154623,
+            "LONG_minus_SHORT": 0.1842136104636105,
+            "intervals": {
+              "SHORT": {
+                "lower": 0.4593269470519735,
+                "upper": 2.6452399563127997,
+                "defined_draws": 3232,
+                "undefined_draws": 6768,
+                "degenerate": false
+              },
+              "LONG": {
+                "lower": 0.7680628202144297,
+                "upper": 2.2448502454160346,
+                "defined_draws": 3899,
+                "undefined_draws": 6101,
+                "degenerate": false
+              },
+              "LONG_minus_SHORT": {
+                "lower": -1.444834633879378,
+                "upper": 1.3068716978001294,
+                "defined_draws": 1274,
+                "undefined_draws": 8726,
+                "degenerate": false
+              }
+            }
+          },
+          "prefix_lost": {
+            "SHORT": 0.1562037037037037,
+            "LONG": 0.18605769230769229,
+            "LONG_minus_SHORT": 0.02985398860398858,
+            "intervals": {
+              "SHORT": {
+                "lower": 0.0,
+                "upper": 0.38359076683856236,
+                "defined_draws": 3232,
+                "undefined_draws": 6768,
+                "degenerate": false
+              },
+              "LONG": {
+                "lower": 0.01760491962455497,
+                "upper": 0.49317709694277495,
+                "defined_draws": 3899,
+                "undefined_draws": 6101,
+                "degenerate": false
+              },
+              "LONG_minus_SHORT": {
+                "lower": -0.23668665177093678,
+                "upper": 0.4055227026855032,
+                "defined_draws": 1274,
+                "undefined_draws": 8726,
+                "degenerate": false
+              }
+            }
+          },
+          "prefix_tie": {
+            "SHORT": 0.6639351851851851,
+            "LONG": 0.6684909997409997,
+            "LONG_minus_SHORT": 0.004555814555814552,
+            "intervals": {
+              "SHORT": {
+                "lower": 0.5061431322629416,
+                "upper": 0.81439480797912,
+                "defined_draws": 3232,
+                "undefined_draws": 6768,
+                "degenerate": false
+              },
+              "LONG": {
+                "lower": 0.5643160518479169,
+                "upper": 0.8101343515835889,
+                "defined_draws": 3899,
+                "undefined_draws": 6101,
+                "degenerate": false
+              },
+              "LONG_minus_SHORT": {
+                "lower": -0.13337454724526987,
+                "upper": 0.23436226835521398,
+                "defined_draws": 1274,
+                "undefined_draws": 8726,
+                "degenerate": false
+              }
+            }
+          }
+        },
+        "interval_scope": "Conditional on all fixed observed cells being represented in the draw. High undefined fractions and sparse cells preclude a demonstrated standardized difference."
+      }
+    }
+  },
+  "cpu_wall_s": 0.3303285390138626
+}

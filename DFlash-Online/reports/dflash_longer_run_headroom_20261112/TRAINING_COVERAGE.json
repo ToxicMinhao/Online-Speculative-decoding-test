@@ -1,0 +1,22 @@
+{
+  "status": "unknown_per_anchor_classification_unavailable",
+  "checked_training_trajectory": "KPLUS events5/6 from original PR33 retained runs for GSM8K and MathQA",
+  "retained_response_presentations": 1024,
+  "available": [
+    "presentation/pass/request identities",
+    "sampled anchor positions",
+    "response-aggregated K+ class weights/counts/denominators"
+  ],
+  "unavailable": [
+    "current-model per-anchor full proposal correctness",
+    "consecutive correct followers after first error",
+    "native selected weight by individual anchor and response/depth class"
+  ],
+  "why": "Existing aggregate immediate-successor high-priority counts cannot distinguish SHORT from LONG or reconstruct their within-response/depth co-occurrence. Serving-round census is a different anchor distribution.",
+  "SHORT_native_high_priority_weight_share": null,
+  "LONG_native_high_priority_weight_share": null,
+  "mixed_response_depth_weight_share_of_all_selected": null,
+  "new_model_backfill": false,
+  "inventory": "TRAINING_SCHEMA_INVENTORY.json",
+  "inspection_scope": "All response/window JSONL files in retained KPLUS event005 and006 trainer event directories, four directories/1024 response presentations. Full current-model per-anchor proposals were not recorded there. No tensor backfill or model work was performed."
+}

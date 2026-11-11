@@ -1,0 +1,127 @@
+{
+  "execution_commit": "c504d48b05f79368e18bd9ec9c76e0e59c658205",
+  "status": "passed",
+  "work": {
+    "attempted": {
+      "model_load": 213,
+      "draft_block": 6946,
+      "target_call": 7049,
+      "original_completion": 106,
+      "context_forward": 29781,
+      "neutral_block": 255,
+      "child_block": 255
+    },
+    "completed": {
+      "draft_block": 6946,
+      "target_call": 7049,
+      "model_load": 213,
+      "context_forward": 29781,
+      "original_completion": 106,
+      "neutral_block": 255,
+      "child_block": 255
+    },
+    "failed": {},
+    "unknown": {},
+    "remaining": {
+      "original_completion": 22,
+      "neutral_block": 1,
+      "child_block": 1,
+      "draft_block": 1054
+    },
+    "gpu_seconds": 625.1878475304693,
+    "gpu_seconds_limit": 2700
+  },
+  "wrapper_wall_s": 668.3861556351185,
+  "native_rounds": 6895,
+  "parent_rounds": 6385,
+  "neutral_blocks": 255,
+  "child_blocks": 255,
+  "retained_pairs": 1,
+  "startup": {
+    "draft_block": 51,
+    "target_call": 48
+  },
+  "nested_operation_wall_s": {
+    "draft_block": 11.379385128617287,
+    "target_call": 9.2396249063313,
+    "model_load": 387.1527216657996,
+    "context_forward": 46.92661079391837,
+    "original_completion": 313.93623773381114,
+    "neutral_block": 49.79685686714947,
+    "child_block": 232.54069291613996
+  },
+  "operations": [
+    {
+      "kind": "draft_block",
+      "operation": "startup_standalone_verifier",
+      "count": 48
+    },
+    {
+      "kind": "target_call",
+      "operation": "startup_target",
+      "count": 48
+    },
+    {
+      "kind": "draft_block",
+      "operation": "startup_draft",
+      "count": 3
+    },
+    {
+      "kind": "model_load",
+      "operation": "",
+      "count": 1
+    },
+    {
+      "kind": "model_load",
+      "operation": "native_draft_publication",
+      "count": 212
+    },
+    {
+      "kind": "target_call",
+      "operation": "native_target_prefill",
+      "count": 106
+    },
+    {
+      "kind": "context_forward",
+      "operation": "native_target_prefill",
+      "count": 106
+    },
+    {
+      "kind": "context_forward",
+      "operation": "native_draft_context_ingestion",
+      "count": 29675
+    },
+    {
+      "kind": "draft_block",
+      "operation": "native_proposal_plus_verification",
+      "count": 6895
+    },
+    {
+      "kind": "target_call",
+      "operation": "native_target_verify",
+      "count": 6895
+    },
+    {
+      "kind": "original_completion",
+      "operation": "",
+      "count": 106
+    },
+    {
+      "kind": "neutral_block",
+      "operation": "",
+      "count": 255
+    },
+    {
+      "kind": "child_block",
+      "operation": "",
+      "count": 255
+    }
+  ],
+  "reconstruction_receipts": 510,
+  "neutral_draft_KV_checks": 255,
+  "target_KV_checks": 510,
+  "replay_receipt_wall_s": 97.03194673545659,
+  "cost_note": "Enclosing operation times overlap. Publication is inside walk/child host calls; reconstruction and block execution share each replay receipt. These are asynchronous host-operation clocks, not GPU kernel times or serving latency.",
+  "no_training": true,
+  "no_benchmarks": true
+}

@@ -1,0 +1,69 @@
+{
+  "status": "passed",
+  "assertions": 4667,
+  "validated_pairs": 256,
+  "counts": {
+    "gsm8k": {
+      "groups": {
+        "SHORT": {
+          "n": 64,
+          "still_blocked": 38,
+          "blocked_with_both": 5,
+          "repair": 12,
+          "repair_with_two_accepted": 5,
+          "earlier_prefix_break": 14,
+          "native_prefix_change": 5,
+          "prefix_gained": 49,
+          "prefix_lost": 44,
+          "prefix_tie": 38
+        },
+        "LONG": {
+          "n": 64,
+          "still_blocked": 29,
+          "blocked_with_both": 21,
+          "repair": 23,
+          "repair_with_two_accepted": 18,
+          "earlier_prefix_break": 12,
+          "native_prefix_change": 79,
+          "prefix_gained": 111,
+          "prefix_lost": 32,
+          "prefix_tie": 29
+        }
+      },
+      "A": 0.04903017241379311,
+      "B": 0.782608695652174
+    },
+    "mathqa": {
+      "groups": {
+        "SHORT": {
+          "n": 64,
+          "still_blocked": 41,
+          "blocked_with_both": 7,
+          "repair": 18,
+          "repair_with_two_accepted": 6,
+          "earlier_prefix_break": 5,
+          "native_prefix_change": 57,
+          "prefix_gained": 68,
+          "prefix_lost": 11,
+          "prefix_tie": 41
+        },
+        "LONG": {
+          "n": 64,
+          "still_blocked": 43,
+          "blocked_with_both": 30,
+          "repair": 17,
+          "repair_with_two_accepted": 15,
+          "earlier_prefix_break": 4,
+          "native_prefix_change": 95,
+          "prefix_gained": 109,
+          "prefix_lost": 14,
+          "prefix_tie": 43
+        }
+      },
+      "A": 0.07153217299578059,
+      "B": 0.8823529411764706
+    }
+  },
+  "cpu_wall_s": 0.29162747715599835,
+  "provenance": "Separately coded arithmetic and raw-trace audit by the same execution author; no independent-agent review available due to platform thread limit. Zero model work."
+}
