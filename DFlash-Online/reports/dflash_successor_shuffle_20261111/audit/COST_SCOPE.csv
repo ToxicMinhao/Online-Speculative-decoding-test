@@ -1,0 +1,20 @@
+phase,metric,seconds,included_in,scope,source
+run,runtime wall,3330.467275386676,none,"All current execution phases; excludes prior staging, transfer and CPU review.",STATUS.json:wall_s
+qualification,three sequential case wrappers,432.14737896993756,runtime wall,Includes3disposableupdates and all qualification startup/serialization.,RESOURCES.json:qualification.*.wall_s
+training K,worker subprocess wrapper,480.4780283868313,runtime wall,"128updates/256presentations plus initialization, startup, export and shutdown.",RESOURCES.json:training.K.wall_s
+training K,intrinsic training,328.06473426520824,worker subprocess wrapper,Recorded native training clock; excludes separate startup and checkpoint/export clocks.,campaign_001/gsm8k/event_005/K/RESULT.json:costs.training_s
+training SHUFFLED,worker subprocess wrapper,554.5858701840043,runtime wall,"128updates/256presentations plus initialization, startup, export and shutdown.",RESOURCES.json:training.SHUFFLED.wall_s
+training SHUFFLED,intrinsic training,400.9849530365318,worker subprocess wrapper,Recorded native training clock; excludes separate startup and checkpoint/export clocks.,campaign_001/gsm8k/event_005/SHUFFLED/RESULT.json:costs.training_s
+training TRUE,fresh intrinsic training,,not applicable,Authenticated reuse; zero new main updates. No fresh comparable TRUE training clock.,sealed/TRUE_AUTHENTICATION.json;sealed/PLAN.json:true_reuse
+training SHUFFLED,extra detached student projections,50.37267164885998,SHUFFLED intrinsic training,"7994extra projections; nested timer, not an additional run wall.",manipulation/RESULT.json:projection_s
+training SHUFFLED,assignment,8.139749048277736,SHUFFLED intrinsic training,Fixed hash mapping and mask assignment; nested timer.,manipulation/RESULT.json:assignment_s
+references,preparation wrapper,66.62382405437529,runtime wall,35new references;221authenticated references reused.,references/STATUS.json:wall_s
+references,loading,28.258640836924314,reference preparation wrapper,Separate serving backend initialization.,references/STATUS.json:loading_s
+references,generation,28.13460681401193,reference preparation wrapper,35 canonical-reference generations using retained TRUE through the native SGLangDFlashBackend verifier.,references/STATUS.json:generation_wall_s
+diagnostic,parent block wrapper,26.43824142962694,runtime wall,"64untimed one-block parent probes, no full parent completions.",matched_start/STATUS.json:wall_s
+serving,worker wall,1669.7175155002624,runtime wall,"Includes loading, evaluation and closure.",evaluation/WORKER.json:wall_s
+serving,evaluation wall,1633.331482872367,serving worker wall,1536timed completions plus161publications and evaluation overhead.,evaluation/STATUS.json:evaluation_wall_s
+serving,loading,20.756898023188114,serving worker wall,Backend initialization; no extra generation warmup.,evaluation/WORKER.json:loading_s
+serving,outer publications,302.1289234627038,serving evaluation wall,Sum of161publication wrappers; includes native activation work.,evaluation/ACTIVATIONS.jsonl:sum activation_s
+serving,native activations,55.84663231857121,outer publications,Nested native activation timers; not additive to wrapper time.,evaluation/ACTIVATIONS.jsonl:sum native_activation_s
+serving,all timed request clocks,1254.3906921558082,serving evaluation wall,Sum across all3arms and both repeats; differs from per-arm mean-repeat metric totals.,evaluation/MEASUREMENTS.jsonl:sum request_latency_s

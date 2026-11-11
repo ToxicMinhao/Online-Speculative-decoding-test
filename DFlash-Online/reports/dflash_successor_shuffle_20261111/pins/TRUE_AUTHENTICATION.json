@@ -1,0 +1,73 @@
+{
+  "status": "passed",
+  "binding": "d57554b8d8dd9a072b30b0e639cda1beba56f140cadca1165da17a3c97341eb7",
+  "execution_commit": "4d977e9ffd2cab9d58ae8806c29df11d843353da",
+  "origin": true,
+  "packets": true,
+  "schedule": true,
+  "optimizer": true,
+  "runtime": true,
+  "step640": true,
+  "export": true,
+  "checks": {
+    "origin_state": {
+      "bytes": 6296241115,
+      "sha256": "5e113f62a6c3d519f7f0f9224a924a7fec3ce06f7a30e49eb682e9363b8a2d74"
+    },
+    "origin_weights": {
+      "bytes": 2097259104,
+      "sha256": "4f3010e961bd7dcf35fa100486c355ffbc7629d816dda6e2b8fa001878255701"
+    },
+    "pool": {
+      "bytes": 74201,
+      "sha256": "cd4b5eb7d56ef6f304c53e8f357a981243948354d2a66c5aaecbb5975d30a784"
+    },
+    "schedule": {
+      "bytes": 6563850,
+      "sha256": "31c36c7f7bb3cbc5795f85de720e39ba0c1739488eaff003444f38aed4c9b196"
+    },
+    "result": {
+      "bytes": 6559391,
+      "sha256": "ee1378aefc732c6812031b0a27abb734c7a2a2293821678da53ead9ab223a935"
+    },
+    "inherited_config": {
+      "bytes": 1517,
+      "sha256": "f71fb286701392e0c80af0915be406c3ccf71b2c15b612f9757357bea7fcf081"
+    },
+    "boundary": {
+      "status": "passed",
+      "arm": "KPLUS",
+      "completed_event": 5,
+      "global_step": 640,
+      "presentations": 1280,
+      "adam_state_entries": 58,
+      "cuda_rng_states": 1,
+      "extra_model_passes": 0,
+      "extra_optimizer_steps": 0,
+      "dataset": "gsm8k",
+      "historical_receipts_unchanged": true,
+      "start_adam_step": 512,
+      "maximum_adam_step": 640,
+      "export_exact": true,
+      "live": {
+        "status": "passed",
+        "exact_resume": true,
+        "mismatches": [],
+        "global_step": 640,
+        "presentations": 1280,
+        "no_rng_reset": true,
+        "extra_model_passes": 0,
+        "extra_optimizer_steps": 0
+      },
+      "wall_s": 7.01781271956861
+    },
+    "pr38_weights": {
+      "bytes": 2097259104,
+      "sha256": "9dcb0d637eabef6bd4e34c552da0448faa9510e6bcaf5c753a6bd1b43674b795"
+    },
+    "weights": {
+      "bytes": 2097259104,
+      "sha256": "9dcb0d637eabef6bd4e34c552da0448faa9510e6bcaf5c753a6bd1b43674b795"
+    }
+  }
+}

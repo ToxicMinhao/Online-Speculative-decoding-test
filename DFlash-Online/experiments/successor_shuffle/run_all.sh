@@ -10,7 +10,7 @@ export PYTHONDONTWRITEBYTECODE=1
 export CONDA_PREFIX=/data/conda_envs/minhao/dflash_specforge_20261022
 export PATH="$CONDA_PREFIX/bin:$PATH"
 # Match the completed pilot's compiler and CPU-thread environment. SGLang's
-# startup can link cached CUDA objects, even though this run performs no training.
+# Serving startup can link cached CUDA objects after training has finished.
 export CC=/data/conda_envs/minhao/dflash_tree_qualification_v2/bin/x86_64-conda-linux-gnu-gcc
 export CXX=/data/conda_envs/minhao/dflash_tree_qualification_v2/bin/x86_64-conda-linux-gnu-g++
 export OMP_NUM_THREADS=4 MKL_NUM_THREADS=4 OPENBLAS_NUM_THREADS=4

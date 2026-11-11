@@ -1,0 +1,560 @@
+{
+  "execution_commit": "4d977e9ffd2cab9d58ae8806c29df11d843353da",
+  "campaign": {
+    "preflight": {
+      "status": "passed",
+      "training_runtime": {
+        "python": "3.12.15",
+        "torch": "2.13.0+cu130",
+        "transformers": "5.12.1"
+      },
+      "complete_origin": {
+        "status": "passed",
+        "arm": "KPLUS",
+        "completed_event": 4,
+        "global_step": 512,
+        "presentations": 1024,
+        "adam_state_entries": 58,
+        "cuda_rng_states": 1,
+        "extra_model_passes": 0,
+        "extra_optimizer_steps": 0,
+        "dataset": "gsm8k",
+        "loss": {
+          "name": "kplus_first_error_redistribution_v1",
+          "base_objective": "osd_first_error",
+          "redistribution_fraction": 0.5,
+          "priorities": [
+            1,
+            2
+          ],
+          "priority2": "immediate_valid_canonical_successor_matches_current_argmax",
+          "pooling": "all_sampled_blocks_in_one_response",
+          "numerator": "N_K + 0.5*(W1*N2-W2*N1)/(W1+2*W2)",
+          "neutral_branch": "original_N_K_for_no_errors_or_one_priority_class",
+          "denominator": "unchanged_native_selected_weight_sum_plus_1e-6",
+          "mass_conservation_rtol": 2e-06,
+          "mass_conservation_atol": 2e-07,
+          "additional_model_forwards": 0,
+          "additional_vocabulary_projections": 0
+        }
+      },
+      "runtime": {
+        "python_version": "3.12.14",
+        "torch": "2.9.1+cu130",
+        "transformers": "4.57.1",
+        "cuda": "13.0",
+        "native_runtime_sha256": {
+          "speculative/dflash_worker.py": "9397402f5cfbf60b00b7d27d551e5e9e1b605be9b084d028d4ddda76c475dc8c",
+          "speculative/dflash_info.py": "9c7ac23a1bf0840eec8218f02f2adbfc3e419099cd19822137ce5c6e0e902218",
+          "layers/logits_processor.py": "5c6c54bec37b941652e29908c773a756fe6c86f99932ab80043672a1eaa0f086",
+          "models/qwen3.py": "e23ee8af21eac46685852854a5fe585cf58477d4a1f8047887d6afeefaf8e32d",
+          "models/dflash.py": "d4fcfe005a1acc51a4938d038e1dbc1a2c8ff245842f4253338527335b2327b2",
+          "entrypoints/engine.py": "2bcd4b04c325d4ed65f867490c5bac9e915e02f05471c83dacb5a4a097cf1f2a",
+          "server_args.py": "bd60199803698e4ffe6dc44499a8d42be73f42db28056cb6750411523cf56c04",
+          "managers/schedule_batch.py": "e72161a7245e882eef40612a728fd6f72963498666a8caa4fa5b8b8d45413199",
+          "model_executor/model_runner.py": "69cd77953c57184b574cf87cdca40c52d033eac4ce7a3294d4a8fa4397936eb5",
+          "model_executor/cuda_graph_runner.py": "b838eb4043d732931e8a7ca1b97b01891696370ac23d4f892dd29f225ce44e6b",
+          "layers/layernorm.py": "6dd1b063fdba7d7e4926a91dd65db6413d0c0cb05cec686ff2636ee5084f736e",
+          "mem_cache/memory_pool.py": "8aa43663a4e75dbf1240851212596a296ee9437ecf386a130f7bbeb29108c7e5",
+          "mem_cache/allocator.py": "c201a2c3ca51e49d4408ea25c7997c48c4a0161b8531aa784d0c35ee859844cd",
+          "layers/attention/flashattention_backend.py": "23b965afc1b06292c09dda4fa8f0ab5a932a763f229574e8a1f15106a37a916e"
+        }
+      },
+      "capacity": {
+        "status": "passed",
+        "free_bytes": 714132430848,
+        "required_bytes": 103198974562
+      },
+      "physical_gpu": "GPU-9986735a-3e68-d1bd-5998-9634ef24341e",
+      "quiet": {
+        "status": "passed",
+        "transfers": [],
+        "training": [],
+        "foreign_gpu_processes": [],
+        "allowed_worker_pids": []
+      },
+      "source_files": 3799,
+      "wall_s": 34.45241298340261
+    },
+    "qualification": {
+      "TRUE": {
+        "command": [
+          "/data/conda_envs/minhao/dflash_specforge_20261022/bin/python",
+          "-u",
+          "-m",
+          "experiments.successor_shuffle.qualification",
+          "/data/sources/minhao/runs/dflash_successor_shuffle_20261111/execution_001",
+          "--case",
+          "TRUE"
+        ],
+        "status": "completed",
+        "pid": 1046110,
+        "returncode": 0,
+        "wall_s": 123.50261179171503
+      },
+      "IDENTITY": {
+        "command": [
+          "/data/conda_envs/minhao/dflash_specforge_20261022/bin/python",
+          "-u",
+          "-m",
+          "experiments.successor_shuffle.qualification",
+          "/data/sources/minhao/runs/dflash_successor_shuffle_20261111/execution_001",
+          "--case",
+          "IDENTITY"
+        ],
+        "status": "completed",
+        "pid": 1047428,
+        "returncode": 0,
+        "wall_s": 149.79616327770054
+      },
+      "SHUFFLED": {
+        "command": [
+          "/data/conda_envs/minhao/dflash_specforge_20261022/bin/python",
+          "-u",
+          "-m",
+          "experiments.successor_shuffle.qualification",
+          "/data/sources/minhao/runs/dflash_successor_shuffle_20261111/execution_001",
+          "--case",
+          "SHUFFLED"
+        ],
+        "status": "completed",
+        "pid": 1049058,
+        "returncode": 0,
+        "wall_s": 158.848603900522
+      }
+    },
+    "training": {
+      "K": {
+        "command": [
+          "/data/conda_envs/minhao/dflash_specforge_20261022/bin/python",
+          "-u",
+          "-m",
+          "experiments.successor_shuffle.training",
+          "/data/sources/minhao/runs/dflash_successor_shuffle_20261111/execution_001",
+          "--train",
+          "K"
+        ],
+        "status": "completed",
+        "pid": 1050964,
+        "returncode": 0,
+        "wall_s": 480.4780283868313
+      },
+      "SHUFFLED": {
+        "command": [
+          "/data/conda_envs/minhao/dflash_specforge_20261022/bin/python",
+          "-u",
+          "-m",
+          "experiments.successor_shuffle.training",
+          "/data/sources/minhao/runs/dflash_successor_shuffle_20261111/execution_001",
+          "--train",
+          "SHUFFLED"
+        ],
+        "status": "completed",
+        "pid": 1055972,
+        "returncode": 0,
+        "wall_s": 554.5858701840043
+      }
+    },
+    "references": {
+      "status": "completed",
+      "planned_generations": 35,
+      "attempted_generations": 35,
+      "returned_generations": 35,
+      "valid_generations": 35,
+      "invalid_generations": 0,
+      "reused": 221,
+      "loading_s": 28.258640836924314,
+      "generation_wall_s": 28.13460681401193,
+      "canonical_identity": {
+        "bytes": 1439555,
+        "sha256": "750636e5feb9941e1073dc7e8c2a57205304469e9faeb89ec90e8e3724eb2393"
+      },
+      "unattempted_generations": 0,
+      "unknown_generations": 0,
+      "returned_without_validation": 0,
+      "wall_s": 66.62382405437529
+    },
+    "matched_start": {
+      "status": "completed",
+      "planned_requests": 64,
+      "attempted_requests": 64,
+      "returned_requests": 64,
+      "validated_requests": 64,
+      "draft_blocks": 64,
+      "maximum_draft_blocks": 64,
+      "complete_response_generations": 0,
+      "untimed": true,
+      "loading_s": 20.25695293210447,
+      "unattempted_requests": 0,
+      "unknown_requests": 0,
+      "returned_without_validation": 0,
+      "wall_s": 26.43824142962694
+    },
+    "evaluation": {
+      "status": "completed",
+      "loading_s": 20.756898023188114,
+      "exports": {
+        "TRUE": {
+          "bytes": 2097259104,
+          "sha256": "9dcb0d637eabef6bd4e34c552da0448faa9510e6bcaf5c753a6bd1b43674b795"
+        },
+        "K": {
+          "bytes": 2097259104,
+          "sha256": "e0178cdfb51ee1b00f21b23440fa6137edebced4a4d6dcf0df4d23afb5b52ddf"
+        },
+        "SHUFFLED": {
+          "bytes": 2097259104,
+          "sha256": "caed86447232feea7f4d276f1a59d7cecac9c80bc6dae29df73dc33e5f7fd9f5"
+        }
+      },
+      "wall_s": 1669.7175155002624
+    },
+    "postflight": {
+      "status": "passed",
+      "training_runtime": {
+        "python": "3.12.15",
+        "torch": "2.13.0+cu130",
+        "transformers": "5.12.1"
+      },
+      "complete_origin": {
+        "status": "passed",
+        "arm": "KPLUS",
+        "completed_event": 4,
+        "global_step": 512,
+        "presentations": 1024,
+        "adam_state_entries": 58,
+        "cuda_rng_states": 1,
+        "extra_model_passes": 0,
+        "extra_optimizer_steps": 0,
+        "dataset": "gsm8k",
+        "loss": {
+          "name": "kplus_first_error_redistribution_v1",
+          "base_objective": "osd_first_error",
+          "redistribution_fraction": 0.5,
+          "priorities": [
+            1,
+            2
+          ],
+          "priority2": "immediate_valid_canonical_successor_matches_current_argmax",
+          "pooling": "all_sampled_blocks_in_one_response",
+          "numerator": "N_K + 0.5*(W1*N2-W2*N1)/(W1+2*W2)",
+          "neutral_branch": "original_N_K_for_no_errors_or_one_priority_class",
+          "denominator": "unchanged_native_selected_weight_sum_plus_1e-6",
+          "mass_conservation_rtol": 2e-06,
+          "mass_conservation_atol": 2e-07,
+          "additional_model_forwards": 0,
+          "additional_vocabulary_projections": 0
+        }
+      },
+      "runtime": {
+        "python_version": "3.12.14",
+        "torch": "2.9.1+cu130",
+        "transformers": "4.57.1",
+        "cuda": "13.0",
+        "native_runtime_sha256": {
+          "speculative/dflash_worker.py": "9397402f5cfbf60b00b7d27d551e5e9e1b605be9b084d028d4ddda76c475dc8c",
+          "speculative/dflash_info.py": "9c7ac23a1bf0840eec8218f02f2adbfc3e419099cd19822137ce5c6e0e902218",
+          "layers/logits_processor.py": "5c6c54bec37b941652e29908c773a756fe6c86f99932ab80043672a1eaa0f086",
+          "models/qwen3.py": "e23ee8af21eac46685852854a5fe585cf58477d4a1f8047887d6afeefaf8e32d",
+          "models/dflash.py": "d4fcfe005a1acc51a4938d038e1dbc1a2c8ff245842f4253338527335b2327b2",
+          "entrypoints/engine.py": "2bcd4b04c325d4ed65f867490c5bac9e915e02f05471c83dacb5a4a097cf1f2a",
+          "server_args.py": "bd60199803698e4ffe6dc44499a8d42be73f42db28056cb6750411523cf56c04",
+          "managers/schedule_batch.py": "e72161a7245e882eef40612a728fd6f72963498666a8caa4fa5b8b8d45413199",
+          "model_executor/model_runner.py": "69cd77953c57184b574cf87cdca40c52d033eac4ce7a3294d4a8fa4397936eb5",
+          "model_executor/cuda_graph_runner.py": "b838eb4043d732931e8a7ca1b97b01891696370ac23d4f892dd29f225ce44e6b",
+          "layers/layernorm.py": "6dd1b063fdba7d7e4926a91dd65db6413d0c0cb05cec686ff2636ee5084f736e",
+          "mem_cache/memory_pool.py": "8aa43663a4e75dbf1240851212596a296ee9437ecf386a130f7bbeb29108c7e5",
+          "mem_cache/allocator.py": "c201a2c3ca51e49d4408ea25c7997c48c4a0161b8531aa784d0c35ee859844cd",
+          "layers/attention/flashattention_backend.py": "23b965afc1b06292c09dda4fa8f0ab5a932a763f229574e8a1f15106a37a916e"
+        }
+      },
+      "capacity": {
+        "status": "passed",
+        "free_bytes": 665539817472,
+        "required_bytes": 103198974562
+      },
+      "physical_gpu": "GPU-9986735a-3e68-d1bd-5998-9634ef24341e",
+      "quiet": {
+        "status": "passed",
+        "transfers": [],
+        "training": [],
+        "foreign_gpu_processes": [],
+        "allowed_worker_pids": []
+      },
+      "source_files": 3799,
+      "wall_s": 33.09193715080619
+    }
+  },
+  "training": {
+    "K": {
+      "status": {
+        "status": "completed",
+        "arm": "K",
+        "automatic_retry": false,
+        "loading_s": 36.88103065267205,
+        "startup": {
+          "status": "completed",
+          "optimizer_steps": 0,
+          "physical_work": {
+            "counts": {
+              "draft_forwards": 2,
+              "layer_forwards": 10,
+              "objective_chunks": 94,
+              "vocabulary_head_calls": 188,
+              "response_forwards": 2
+            },
+            "response_observations": 2,
+            "optimizer_window_observations": 0
+          },
+          "wall_s": 19.743291275575757,
+          "work": {
+            "attempts": {
+              "response_forwards": 2,
+              "response_backwards": 2,
+              "optimizer_steps": 0
+            },
+            "completed": {
+              "response_forwards": 2,
+              "response_backwards": 2,
+              "optimizer_steps": 0
+            },
+            "unknown": {
+              "response_forwards": 0,
+              "response_backwards": 0,
+              "optimizer_steps": 0
+            }
+          }
+        },
+        "final_step": 640,
+        "result": "/data/sources/minhao/runs/dflash_successor_shuffle_20261111/execution_001/campaign_001/gsm8k/event_005/K/RESULT.json",
+        "wall_s": 444.01816930808127,
+        "work": {
+          "attempts": {
+            "response_forwards": 256,
+            "response_backwards": 256,
+            "optimizer_steps": 128
+          },
+          "completed": {
+            "response_forwards": 256,
+            "response_backwards": 256,
+            "optimizer_steps": 128
+          },
+          "unknown": {
+            "response_forwards": 0,
+            "response_backwards": 0,
+            "optimizer_steps": 0
+          }
+        }
+      },
+      "profile": {
+        "training_peak_allocated_bytes": 20533677568,
+        "training_peak_reserved_bytes": 26367492096,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      "costs": {
+        "training_s": 328.06473426520824,
+        "checkpoint_save_s": 20.419461276382208,
+        "export_s": 14.326061038300395,
+        "event_wall_s_before_commit": 365.66583329997957
+      },
+      "selection": {
+        "available_position_occurrences": 918693.0,
+        "available_position_weight": 410306.14294433594,
+        "empty_blocks": 0.0,
+        "first_error_position_1": 3566.0,
+        "first_error_position_10": 2608.0,
+        "first_error_position_11": 2427.0,
+        "first_error_position_12": 2331.0,
+        "first_error_position_13": 2211.0,
+        "first_error_position_14": 2020.0,
+        "first_error_position_15": 1978.0,
+        "first_error_position_2": 4666.0,
+        "first_error_position_3": 4587.0,
+        "first_error_position_4": 4275.0,
+        "first_error_position_5": 3985.0,
+        "first_error_position_6": 3664.0,
+        "first_error_position_7": 3389.0,
+        "first_error_position_8": 3053.0,
+        "first_error_position_9": 2799.0,
+        "loss_denominator": 296921.861328125,
+        "main_loss_numerator": 62021.39210510254,
+        "no_error_blocks": 15477.0,
+        "response_presentations": 256.0,
+        "selected_position_occurrences": 539081.0,
+        "selected_position_weight": 296921.861328125,
+        "supervised_position_exposure": 539081.0
+      },
+      "objective_work": {
+        "reference_setup_s": 0.0,
+        "reference_forward_s": 0.0,
+        "reference_head_s": 0.0,
+        "projection_s": 0.0,
+        "teacher_head_s": 100.29926039651036,
+        "selection_s": 12.939190438017249,
+        "work": {
+          "draft_forwards": 256,
+          "layer_forwards": 1280,
+          "objective_chunks": 15988,
+          "vocabulary_head_calls": 31976,
+          "response_forwards": 256,
+          "response_backwards": 256
+        },
+        "reference_operations": 0
+      }
+    },
+    "SHUFFLED": {
+      "status": {
+        "status": "completed",
+        "arm": "SHUFFLED",
+        "automatic_retry": false,
+        "loading_s": 36.99302811175585,
+        "startup": {
+          "status": "completed",
+          "optimizer_steps": 0,
+          "physical_work": {
+            "counts": {
+              "draft_forwards": 2,
+              "layer_forwards": 10,
+              "objective_chunks": 94,
+              "vocabulary_head_calls": 188,
+              "response_forwards": 2
+            },
+            "response_observations": 2,
+            "optimizer_window_observations": 0
+          },
+          "wall_s": 18.514872785657644,
+          "work": {
+            "attempts": {
+              "response_forwards": 2,
+              "response_backwards": 2,
+              "optimizer_steps": 0
+            },
+            "completed": {
+              "response_forwards": 2,
+              "response_backwards": 2,
+              "optimizer_steps": 0
+            },
+            "unknown": {
+              "response_forwards": 0,
+              "response_backwards": 0,
+              "optimizer_steps": 0
+            }
+          }
+        },
+        "final_step": 640,
+        "result": "/data/sources/minhao/runs/dflash_successor_shuffle_20261111/execution_001/campaign_001/gsm8k/event_005/SHUFFLED/RESULT.json",
+        "wall_s": 517.8419465888292,
+        "work": {
+          "attempts": {
+            "response_forwards": 256,
+            "response_backwards": 256,
+            "optimizer_steps": 128
+          },
+          "completed": {
+            "response_forwards": 256,
+            "response_backwards": 256,
+            "optimizer_steps": 128
+          },
+          "unknown": {
+            "response_forwards": 0,
+            "response_backwards": 0,
+            "optimizer_steps": 0
+          }
+        }
+      },
+      "profile": {
+        "training_peak_allocated_bytes": 20533851136,
+        "training_peak_reserved_bytes": 26367492096,
+        "training_compiler_timers": {},
+        "compiler_timer_scope": "Native TorchDynamo timers; nested, included in training time",
+        "native_worker_compilation": "Included in worker loading/serving; not separately identified",
+        "extra_forwards": 0,
+        "extra_backwards": 0,
+        "extra_optimizer_steps": 0
+      },
+      "costs": {
+        "training_s": 400.9849530365318,
+        "checkpoint_save_s": 20.744404328987002,
+        "export_s": 14.146779481321573,
+        "event_wall_s_before_commit": 438.5967575907707
+      },
+      "selection": {
+        "available_position_occurrences": 918693.0,
+        "available_position_weight": 410306.14294433594,
+        "empty_blocks": 0.0,
+        "first_error_position_1": 3586.0,
+        "first_error_position_10": 2620.0,
+        "first_error_position_11": 2397.0,
+        "first_error_position_12": 2312.0,
+        "first_error_position_13": 2165.0,
+        "first_error_position_14": 2061.0,
+        "first_error_position_15": 2027.0,
+        "first_error_position_2": 4652.0,
+        "first_error_position_3": 4575.0,
+        "first_error_position_4": 4274.0,
+        "first_error_position_5": 3945.0,
+        "first_error_position_6": 3629.0,
+        "first_error_position_7": 3406.0,
+        "first_error_position_8": 3086.0,
+        "first_error_position_9": 2806.0,
+        "loss_denominator": 297082.9542236328,
+        "main_loss_numerator": 61931.768615722656,
+        "no_error_blocks": 15495.0,
+        "response_presentations": 256.0,
+        "selected_position_occurrences": 539711.0,
+        "selected_position_weight": 297082.9542236328,
+        "supervised_position_exposure": 539711.0
+      },
+      "objective_work": {
+        "reference_setup_s": 0.0,
+        "reference_forward_s": 0.0,
+        "reference_head_s": 0.0,
+        "projection_s": 0.0,
+        "teacher_head_s": 100.1261524669826,
+        "selection_s": 13.255616407841444,
+        "shuffle_presentations": 256,
+        "shuffle_student_projection_calls": 7994,
+        "shuffle_student_projection_s": 50.37267164885998,
+        "shuffle_assignment_s": 8.139749048277736,
+        "kplus_chunk_s": 8.078969145193696,
+        "kplus_response_s": 0.5227039065212011,
+        "work": {
+          "draft_forwards": 256,
+          "layer_forwards": 1280,
+          "vocabulary_head_calls": 39970,
+          "objective_chunks": 15988,
+          "response_forwards": 256,
+          "response_backwards": 256
+        },
+        "reference_operations": 0
+      }
+    }
+  },
+  "evaluation": {
+    "status": "completed",
+    "planned_generations": 1536,
+    "attempted_generations": 1536,
+    "returned_generations": 1536,
+    "activation_s": 302.1289234627038,
+    "weight_validation_s": 9.188551360741258,
+    "publications": 161,
+    "optimizer_steps": 0,
+    "feedback_collections": 0,
+    "teacher_preparations": 0,
+    "extra_generations": 0,
+    "automatic_retry": false,
+    "completed_valid_generations": 1536,
+    "invalid_generations": 0,
+    "pending_canonical_generations": 0,
+    "unknown_generation_attempts": 0,
+    "unattempted_generations": 0,
+    "interrupted_attempt": null,
+    "evaluation_wall_s": 1633.331482872367
+  },
+  "warning": "Scopes overlap; nested clocks must not be added. TRUE training is reused, not freshly timed."
+}
