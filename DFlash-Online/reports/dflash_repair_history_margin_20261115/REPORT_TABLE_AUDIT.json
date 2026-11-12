@@ -1,0 +1,65 @@
+{
+  "status": "passed",
+  "checks": 330739,
+  "failures": [],
+  "scope": "Independent publication/table/raw-outcome reduction; no production analysis imports or GPU work",
+  "author_overlap": "Reviewer authored production analysis/report; separate implementation, not independent GPU replication",
+  "native_analysis_and_report": "All fields exact except two explicitly documented binary64 structural aggregate differences",
+  "structural_binary64_differences": [
+    {
+      "path": "result.structural.delta",
+      "native": 0.23092098799545607,
+      "report": 0.23092098799545605,
+      "absolute_difference": 2.7755575615628914e-17,
+      "binary64_ulps": 1.0,
+      "independent_fsum": 0.23092098799545607,
+      "independent_ordered_sum": 0.23092098799545605
+    },
+    {
+      "path": "result.structural.earlier_break_difference",
+      "native": 0.014218016026526666,
+      "report": 0.014218016026526663,
+      "absolute_difference": 3.469446951953614e-18,
+      "binary64_ulps": 2.0,
+      "independent_fsum": 0.014218016026526666,
+      "independent_ordered_sum": 0.014218016026526663
+    }
+  ],
+  "original_pre_k6_identity": {
+    "bytes": 7025107,
+    "sha256": "f7bd53131c9358d4bbab59a83be12a299744f8313fd86247590780ac0e4a7678"
+  },
+  "original_payload_sha256": "bd9629be436d0016979ab8cae2f736e7479c3a3374db5ac5a091f3a7b2648cf8",
+  "untyped_deserialized_hash": "e11d3fd09d4dc2dcb744be793c9d2d83eadc729a9bf4af43000abee8856dde0a",
+  "recovered_original_typed_payload_hash": "bd9629be436d0016979ab8cae2f736e7479c3a3374db5ac5a091f3a7b2648cf8",
+  "original_exit_code": 1,
+  "original_publication_failure_preserved": true,
+  "native_execution_status": "completed",
+  "primary": {
+    "pairs": 235,
+    "requests": 107,
+    "counts": {
+      "repaired": {
+        "accepts_through": 154,
+        "exact_slot_rejection": 68,
+        "earlier_rejection": 13
+      },
+      "established": {
+        "accepts_through": 184,
+        "earlier_rejection": 14,
+        "exact_slot_rejection": 37
+      }
+    },
+    "direct_correct": {
+      "repaired": 162,
+      "established": 189
+    },
+    "delta": 0.13191489361702127,
+    "bootstrap_interval": [
+      0.05761168842703615,
+      0.2072072072072072
+    ]
+  },
+  "python": "3.13.5 | packaged by Anaconda, Inc. | (main, Jun 12 2025, 16:09:02) [GCC 11.2.0]",
+  "numpy": "2.3.2"
+}

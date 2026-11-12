@@ -1,0 +1,30 @@
+{
+  "status": "passed",
+  "checks": 455467,
+  "failures": [],
+  "native_requests": 192,
+  "native_starts": 8647,
+  "accepted_margin_rows": 51005,
+  "original_v1_payload_hash_validation": {
+    "original_payload_sha256": "bd9629be436d0016979ab8cae2f736e7479c3a3374db5ac5a091f3a7b2648cf8",
+    "plain_string_key_sha256": "e11d3fd09d4dc2dcb744be793c9d2d83eadc729a9bf4af43000abee8856dde0a",
+    "plain_string_key_hash_passed": false,
+    "typed_v1_sha256": "bd9629be436d0016979ab8cae2f736e7479c3a3374db5ac5a091f3a7b2648cf8",
+    "typed_v1_hash_passed": true,
+    "declared_type_reconstruction": "coverage.unmatched_depth_counts keys restored to integers1\u201315 for original v1 hash only",
+    "retained_payload_rewritten": false
+  },
+  "repairs": 1397,
+  "matched_pairs": 235,
+  "primary_delta": 0.13191489361702127,
+  "primary_interval": [
+    0.05761168842703615,
+    0.2072072072072072
+  ],
+  "structural_interval": [
+    0.17202934070561335,
+    0.2902102715736082
+  ],
+  "margin_full_vocabulary_qa": "checked",
+  "independence": "Separate formulas/code; no production analysis imports. Same executor team; no extra GPU run."
+}
