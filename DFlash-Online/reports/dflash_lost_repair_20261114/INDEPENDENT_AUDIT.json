@@ -1,0 +1,86 @@
+{
+  "status": "VERIFIED",
+  "gate_decision": "FAIL",
+  "gate": [
+    {
+      "value": 115,
+      "threshold": 32,
+      "observed_threshold_met": true,
+      "passed": true
+    },
+    {
+      "value": 69,
+      "threshold": 16,
+      "observed_threshold_met": true,
+      "passed": true
+    },
+    {
+      "value": 0.0014691770565755712,
+      "threshold": 0.0025,
+      "observed_threshold_met": false,
+      "passed": false
+    }
+  ],
+  "checks": 1031607,
+  "errors": [],
+  "missing": [],
+  "capture_requests": 128,
+  "valid_complete_replay_requests": 128,
+  "unknown_natural_denominator_requests": 0,
+  "full_natural_denominator": 4877,
+  "measured": {
+    "observed_natural_starts": 4877,
+    "H_observed_count": 252,
+    "M_observed_count": 2147,
+    "converse_observed_count": 341,
+    "H_contributing_requests": 105,
+    "H_lost_prefix_total": 764,
+    "observed_genuine_k6_rejections": 4252,
+    "observed_presentations": 256,
+    "native_first_error_weight": 27646.563011169434,
+    "selected_weight": 288152.9246826172,
+    "serialized_anchor_first_error_weight": 27646.56336966157,
+    "native_H_weight_before_matching": 315.5024515539408,
+    "projected_matched_weight": 40.617696069180965,
+    "H_unmatched_occurrences": 250,
+    "exposure_funnel": {
+      "native_replay": {
+        "occurrences": 252,
+        "distinct_anchors": 252,
+        "distinct_requests": 105
+      },
+      "scheduled": {
+        "occurrences": 503,
+        "distinct_anchors": 252,
+        "distinct_requests": 105
+      },
+      "same_j": {
+        "occurrences": 479,
+        "distinct_anchors": 240,
+        "distinct_requests": 104
+      },
+      "comparable_M": {
+        "occurrences": 237,
+        "distinct_anchors": 119,
+        "distinct_requests": 69
+      },
+      "matched": {
+        "occurrences": 229,
+        "distinct_anchors": 115,
+        "distinct_requests": 69
+      }
+    }
+  },
+  "limitations": [
+    "Independent arithmetic and token-record audit; no independent model execution.",
+    "Training argmax/priority observations originate from retained native forwards; this audit checks their bindings, decay/coefficient arithmetic, sums and joins without loading logits/tensors.",
+    "Original ingestion ranges are independently derived from prompt/commit records. Reconstruction receipts validate segment count and total coverage; individual reconstructed segment ranges are not serialized, so their exact execution is supported by constructor assertions rather than independent raw range observations."
+  ],
+  "input_file_count": 19650,
+  "raw_audit_identity": {
+    "bytes": 6401142,
+    "sha256": "08715f0b269f7582264be6e89e46fb585afde1916e8226866b6dcd9b9768f04e"
+  },
+  "scope": "Independent token-record and scalar recomputation; no independent GPU replication",
+  "analysis_commit": "8a5d98e1b50d1a60c9d9bbe5b5b1550659d095af"
+}

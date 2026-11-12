@@ -1,0 +1,250 @@
+{
+  "campaign": {
+    "status": "completed",
+    "wall_s": 2853.545327266678,
+    "optimizer_steps": 0,
+    "backward_calls": 0,
+    "timed_endpoints": 0
+  },
+  "phase_costs": {
+    "census": {
+      "wall_s": 2673.612681567669,
+      "exit_code": 0,
+      "interrupted": null
+    },
+    "training": {
+      "wall_s": 150.0979630202055,
+      "exit_code": 0,
+      "interrupted": null
+    }
+  },
+  "training": {
+    "initialization_s": 33.40894734300673,
+    "schedule_s": 1.6513815373182297,
+    "wall_s": 109.79217995516956,
+    "phase_wall_s": 144.85250931046903,
+    "peak_allocated_bytes": 5582540288,
+    "peak_reserved_bytes": 6826229760,
+    "response_forwards": 256,
+    "projection_chunks": 8170,
+    "backwards": 0,
+    "optimizer_steps": 0,
+    "teacher_head_forwards": 0,
+    "startup_response_forwards": 0,
+    "startup_backwards": 0,
+    "temporary_optimizer_steps": 0
+  },
+  "occupied_gpu": {
+    "gpu_seconds": 2853.5035617239773,
+    "gpu_seconds_limit": 14400,
+    "attempted": {
+      "model_load": 386,
+      "draft_block": 19559,
+      "target_call": 19812,
+      "feedback_capture": 128,
+      "context_forward": 366527,
+      "teacher_preparation": 128,
+      "neutral_block": 4877,
+      "historical_block": 9754,
+      "training_forward": 256
+    },
+    "completed": {
+      "draft_block": 19559,
+      "target_call": 19812,
+      "model_load": 386,
+      "context_forward": 366527,
+      "feedback_capture": 128,
+      "teacher_preparation": 128,
+      "neutral_block": 4877,
+      "historical_block": 9754,
+      "training_forward": 256
+    },
+    "failed": {},
+    "unknown": {}
+  },
+  "work_ledger": {
+    "available": true,
+    "by_operation": [
+      {
+        "kind": "context_forward",
+        "operation": "native_draft_context_ingestion",
+        "startup": false,
+        "attempted": 366271,
+        "completed": 366271,
+        "failed": 0,
+        "unknown": 0,
+        "summed_ticket_occupied_gpu_seconds": 558.7667378224432
+      },
+      {
+        "kind": "context_forward",
+        "operation": "native_target_prefill",
+        "startup": false,
+        "attempted": 128,
+        "completed": 128,
+        "failed": 0,
+        "unknown": 0,
+        "summed_ticket_occupied_gpu_seconds": 2.6153352484107018
+      },
+      {
+        "kind": "context_forward",
+        "operation": "terminal_teacher_preparation",
+        "startup": false,
+        "attempted": 128,
+        "completed": 128,
+        "failed": 0,
+        "unknown": 0,
+        "summed_ticket_occupied_gpu_seconds": 4.3356313072144985
+      },
+      {
+        "kind": "draft_block",
+        "operation": "native_proposal_plus_verification",
+        "startup": false,
+        "attempted": 19508,
+        "completed": 19508,
+        "failed": 0,
+        "unknown": 0,
+        "summed_ticket_occupied_gpu_seconds": 31.394434763118625
+      },
+      {
+        "kind": "draft_block",
+        "operation": "startup_draft",
+        "startup": true,
+        "attempted": 3,
+        "completed": 3,
+        "failed": 0,
+        "unknown": 0,
+        "summed_ticket_occupied_gpu_seconds": 0.00826302357017994
+      },
+      {
+        "kind": "draft_block",
+        "operation": "startup_standalone_verifier",
+        "startup": true,
+        "attempted": 48,
+        "completed": 48,
+        "failed": 0,
+        "unknown": 0,
+        "summed_ticket_occupied_gpu_seconds": 0.8845412600785494
+      },
+      {
+        "kind": "feedback_capture",
+        "operation": "unspecified",
+        "startup": false,
+        "attempted": 128,
+        "completed": 128,
+        "failed": 0,
+        "unknown": 0,
+        "summed_ticket_occupied_gpu_seconds": 410.7908661123365
+      },
+      {
+        "kind": "historical_block",
+        "operation": "unspecified",
+        "startup": false,
+        "attempted": 9754,
+        "completed": 9754,
+        "failed": 0,
+        "unknown": 0,
+        "summed_ticket_occupied_gpu_seconds": 1601.6833418589085
+      },
+      {
+        "kind": "model_load",
+        "operation": "readonly_training_bundle",
+        "startup": false,
+        "attempted": 1,
+        "completed": 1,
+        "failed": 0,
+        "unknown": 0,
+        "summed_ticket_occupied_gpu_seconds": 23.57489836588502
+      },
+      {
+        "kind": "model_load",
+        "operation": "unspecified",
+        "startup": false,
+        "attempted": 385,
+        "completed": 385,
+        "failed": 0,
+        "unknown": 0,
+        "summed_ticket_occupied_gpu_seconds": 707.4324120357633
+      },
+      {
+        "kind": "neutral_block",
+        "operation": "unspecified",
+        "startup": false,
+        "attempted": 4877,
+        "completed": 4877,
+        "failed": 0,
+        "unknown": 0,
+        "summed_ticket_occupied_gpu_seconds": 592.6922076754272
+      },
+      {
+        "kind": "target_call",
+        "operation": "native_target_prefill",
+        "startup": false,
+        "attempted": 128,
+        "completed": 128,
+        "failed": 0,
+        "unknown": 0,
+        "summed_ticket_occupied_gpu_seconds": 2.4659361504018307
+      },
+      {
+        "kind": "target_call",
+        "operation": "native_target_verify",
+        "startup": false,
+        "attempted": 19508,
+        "completed": 19508,
+        "failed": 0,
+        "unknown": 0,
+        "summed_ticket_occupied_gpu_seconds": 18.525713250041008
+      },
+      {
+        "kind": "target_call",
+        "operation": "startup_target",
+        "startup": true,
+        "attempted": 48,
+        "completed": 48,
+        "failed": 0,
+        "unknown": 0,
+        "summed_ticket_occupied_gpu_seconds": 0.875360194593668
+      },
+      {
+        "kind": "target_call",
+        "operation": "terminal_teacher_preparation",
+        "startup": false,
+        "attempted": 128,
+        "completed": 128,
+        "failed": 0,
+        "unknown": 0,
+        "summed_ticket_occupied_gpu_seconds": 4.151492660865188
+      },
+      {
+        "kind": "teacher_preparation",
+        "operation": "unspecified",
+        "startup": false,
+        "attempted": 128,
+        "completed": 128,
+        "failed": 0,
+        "unknown": 0,
+        "summed_ticket_occupied_gpu_seconds": 11.497823040932417
+      },
+      {
+        "kind": "training_forward",
+        "operation": "unspecified",
+        "startup": false,
+        "attempted": 256,
+        "completed": 256,
+        "failed": 0,
+        "unknown": 0,
+        "summed_ticket_occupied_gpu_seconds": 109.65811947919428
+      }
+    ],
+    "startup_attempts_by_kind": {
+      "draft_block": 51,
+      "target_call": 48
+    },
+    "timing_note": "Ticket intervals overlap/nest and include host work; do not add them or interpret them as kernel times."
+  },
+  "timing_limitations": [
+    "Phase clocks include loading and host work, not only GPU kernels.",
+    "Census capture, teacher preparation, neutral replay and historical replay overlap with nested ledger categories; no disjoint kernel breakdown was measured.",
+    "Missing scalar receipts remain null. Startup operation counts are included in total operation counts, not additional work."
+  ]
+}
