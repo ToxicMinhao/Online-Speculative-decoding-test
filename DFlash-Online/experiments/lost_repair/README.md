@@ -38,3 +38,9 @@ lost-repair anchors, at least 16 of the 128 requests, and projected matched
 weight at least 0.25% of native first-error weight. Publication ends this probe,
 including when thresholds pass. Passing supports a separate design discussion;
 it is not evidence of recoverability, transfer, acceptance or serving speedup.
+
+Post-execution audit: `audit_raw.py` independently reduces retained token records,
+schedules and weights without importing production analysis or loading models.
+`publish_supplement.py` writes sanitized all-start/parity tables, artifact identities
+and cost receipts to a separate directory. These publication helpers were added
+after scientific execution29b6a15; they do not change or repeat model execution.
