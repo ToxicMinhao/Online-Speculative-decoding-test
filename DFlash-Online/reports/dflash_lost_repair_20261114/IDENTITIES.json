@@ -1,0 +1,109 @@
+{
+  "execution_commit": "29b6a15c5f5f16135663ea61e3d31f21b3f1d465",
+  "source_commit": "29b6a15c5f5f16135663ea61e3d31f21b3f1d465",
+  "source_manifest": {
+    "bytes": 730595,
+    "sha256": "25f0b8994fbcfb906190f7f62b6e8294501ce0a2ad1f78a6b1d248cc30c713a1"
+  },
+  "actual_run_plan": {
+    "bytes": 183445,
+    "sha256": "1d4998bfa2751516811aff8a542bbf2f207b58e0e93662a976525a73123a2987"
+  },
+  "sealed_plan": {
+    "bytes": 183445,
+    "sha256": "1d4998bfa2751516811aff8a542bbf2f207b58e0e93662a976525a73123a2987"
+  },
+  "seal": {
+    "bytes": 1605,
+    "sha256": "9c47348e9844d2734691f1557beefb2ce7511591c20cc5d8926fc4de2a7514e1"
+  },
+  "original_manifest": {
+    "bytes": 10868762,
+    "sha256": "764fa339938a240259949040134581a2231de542b7c799af5a7eb85c5ea1dbd4"
+  },
+  "original_row_range": [
+    768,
+    896
+  ],
+  "batch_sha256": "90d84cdfa142e8be0eda2ef03778c190e51e74e899aac277e2e80fce32c6fda3",
+  "scheduled_request_count": 128,
+  "schedule_observed": {
+    "bytes": 2583042,
+    "sha256": "6ac18ca2c16ded078f831ab90b72b58333403e5bece9553943de491e5193a1d0"
+  },
+  "schedule_reported": {
+    "path": "/data/sources/minhao/runs/dflash_lost_repair_20261114/execution_001/campaign_001/training/SCHEDULE.json",
+    "bytes": 2583042,
+    "sha256": "6ac18ca2c16ded078f831ab90b72b58333403e5bece9553943de491e5193a1d0"
+  },
+  "configuration": {
+    "bytes": 1548,
+    "sha256": "52e973bc012d92937c0fe87d53a763ecf130810cd3c576dec1a4262910f5e655"
+  },
+  "recovery": {
+    "path": "/data/sources/minhao/runs/dflash_functional_step_geometry_20261108/pilot_r1_001/campaign_001/gsm8k/event_006/KPLUS/trainer/training_state.pt",
+    "declared_identity": {
+      "bytes": 6298193179,
+      "sha256": "15ac28e1235851a15158e789af1480fd2d82535903b1dec5d992ec843c9ae3a1"
+    },
+    "observed_input_identity": {
+      "path": "/data/sources/minhao/runs/dflash_functional_step_geometry_20261108/pilot_r1_001/campaign_001/gsm8k/event_006/KPLUS/trainer/training_state.pt",
+      "bytes": 6298193179,
+      "sha256": "15ac28e1235851a15158e789af1480fd2d82535903b1dec5d992ec843c9ae3a1"
+    }
+  },
+  "checkpoints": {
+    "K4": {
+      "export": "/data/sources/minhao/runs/dflash_role_loss_pilot_20261107/production_001/campaign_001/trajectories/gsm8k/KPLUS/trainer/events/event_004/export",
+      "weights_identity": {
+        "bytes": 2097259104,
+        "sha256": "4f3010e961bd7dcf35fa100486c355ffbc7629d816dda6e2b8fa001878255701"
+      },
+      "config_identity": {
+        "bytes": 1211,
+        "sha256": "5749d96966f9ce7e6a9662c9f482b8aa0d461845fb6b9ce09ac2c08311fab2aa"
+      }
+    },
+    "K5": {
+      "export": "/data/sources/minhao/runs/dflash_survival_head_20261110/execution_001/campaign_001/gsm8k/event_005/KPLUS/trainer/events/event_005/export",
+      "weights_identity": {
+        "bytes": 2097259104,
+        "sha256": "9dcb0d637eabef6bd4e34c552da0448faa9510e6bcaf5c753a6bd1b43674b795"
+      },
+      "config_identity": {
+        "bytes": 1211,
+        "sha256": "5749d96966f9ce7e6a9662c9f482b8aa0d461845fb6b9ce09ac2c08311fab2aa"
+      }
+    },
+    "K6": {
+      "export": "/data/sources/minhao/runs/dflash_functional_step_geometry_20261108/pilot_r1_001/campaign_001/gsm8k/event_006/KPLUS/trainer/events/event_006/export",
+      "weights_identity": {
+        "bytes": 2097259104,
+        "sha256": "8c257620e44226c5c0469e5886224ed5d2dcf9fa2a94eddbdd10d7e36c697560"
+      },
+      "config_identity": {
+        "bytes": 1211,
+        "sha256": "5749d96966f9ce7e6a9662c9f482b8aa0d461845fb6b9ce09ac2c08311fab2aa"
+      }
+    }
+  },
+  "recovery_checks": {
+    "config_matches_recovery": true,
+    "accumulation_remainder": 0,
+    "global_step": 768,
+    "presentations": 1536,
+    "horizon": 7424,
+    "accumulation_steps": 2,
+    "reduction": "response_mean",
+    "optimizer_creation": false
+  },
+  "training_integrity": {
+    "caller_rng_and_modes_restored": true,
+    "parameters_and_gradients_unchanged": true
+  },
+  "postflight": {
+    "status": "passed",
+    "inputs_and_checkpoints_unchanged": true,
+    "source_unchanged": true
+  }
+}
