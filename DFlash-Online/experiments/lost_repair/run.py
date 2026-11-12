@@ -227,6 +227,7 @@ def supervise(plan_path, output):
                         time.sleep(2)
                 except BaseException:
                     write_json(output/f'{name}_CLEANUP.json', stop_owned_groups(proxy, child))
+                    phases[name] = dict(wall_s=time.perf_counter()-start, exit_code=child.returncode, interrupted=True)
                     raise
             phases[name] = dict(wall_s=time.perf_counter()-start, exit_code=child.returncode)
             groups = {row['pgid'] for row in proxy.processes()}

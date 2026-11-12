@@ -62,11 +62,28 @@ def transition_finish_capture(self, canonical_response_ids, canonical_finish_rea
     return base.transition_walk_finished(self, outputfile)
 
 
+def online_teacher(self, input_ids, outputfile):
+    """Count the captured packet's terminal feature as preparation, not startup."""
+    def forward():
+        base._TARGET_ADMITTED += 1
+        try:
+            return sglang_hooks.online_teacher(self, input_ids, outputfile)
+        finally:
+            base._TARGET_ADMITTED -= 1
+    def target():
+        return base.run_counted(base._BUDGET, 'target_call', forward,
+                                metadata=dict(operation='terminal_teacher_preparation', startup=False))
+    return base.run_counted(base._BUDGET, 'context_forward', target,
+                            metadata=dict(operation='terminal_teacher_preparation',
+                                          tokens=len(input_ids), startup=False))
+
+
 def scheduler_process(*args, **kwargs):
     base.NativeSuccessors = CensusSuccessors
     base.install_accounting()
     sglang_hooks.install()
     from sglang.srt.managers.scheduler import Scheduler, run_scheduler_process
+    Scheduler.online_teacher = online_teacher
     for function in (base.transition_begin, transition_finish_capture, base.transition_release,
                      transition_one_block):
         setattr(Scheduler, function.__name__, sglang_hooks._rpc(function))

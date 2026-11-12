@@ -7,13 +7,17 @@ It does not simulate GPU numerics or replace the required native parity gate.
 
 from pathlib import Path
 from types import SimpleNamespace
+from contextlib import nullcontext
+import json
 import tempfile
 import unittest
-from unittest.mock import Mock
+from unittest.mock import Mock, patch
 
 import torch
 
 from experiments.lost_repair.native_worker import CensusBackend, CensusSuccessors
+from experiments.lost_repair import native_worker as census_native
+from experiments.verification_transition import native_worker as transition_native
 from experiments.verification_transition.budget import WorkBudget
 
 
@@ -293,6 +297,64 @@ class CensusAdapterTests(unittest.TestCase):
         self.assertEqual(operations[-1][1]["canonical_response_ids"], [20, 21])
         self.assertEqual(operations[-1][1]["canonical_finish_reason"], "length")
         adapter.backend.generate.assert_called_once()
+
+    def test_actual_worker_dispatches_teacher_and_completion_rpc(self):
+        worker = SimpleNamespace(
+            blocked=False, teacher=Mock(return_value={"prepared": True}),
+            generate=Mock(), publish=Mock(), check_weights=Mock(),
+            rpc=Mock(return_value={"captured": True}),
+            status=Mock(return_value={"status": "passed"}), close=Mock(),
+        )
+        teacher_request = dict(operation="teacher", input_ids=[10, 20], outputfile="unused")
+        finish_request = dict(operation="transition_finish_capture", outputfile="unused")
+        connection = Mock()
+        connection.recv.side_effect = [teacher_request, finish_request, {"operation": "close"}]
+        listener = SimpleNamespace(address=("127.0.0.1", 12345),
+                                   accept=lambda: nullcontext(connection))
+        with tempfile.TemporaryDirectory() as directory:
+            settings = Path(directory) / "settings.json"
+            settings.write_text("{}")
+            arguments = ["native_worker", "--settings", str(settings), "--output", directory]
+            with (patch("sys.argv", arguments),
+                  patch.dict("os.environ", DFLASH_TRANSITION_BUDGET="{}"),
+                  patch.object(transition_native, "connect_budget", return_value=Mock()),
+                  patch.object(transition_native, "NativeWorker", return_value=worker),
+                  patch.object(transition_native, "Listener", return_value=nullcontext(listener))):
+                transition_native.main()
+        worker.teacher.assert_called_once_with(teacher_request)
+        worker.rpc.assert_called_once_with(finish_request)
+        worker.close.assert_called_once()
+        self.assertTrue(all(call.args[0]["ok"] for call in connection.send.call_args_list))
+
+    def test_terminal_teacher_is_counted_once_as_preparation_and_restores_admission(self):
+        for should_fail in (False, True):
+            with self.subTest(should_fail=should_fail), tempfile.TemporaryDirectory() as directory:
+                path = Path(directory) / "work.jsonl"
+                budget = WorkBudget(path)
+
+                def teacher(*args):
+                    self.assertEqual(transition_native._TARGET_ADMITTED, 1)
+                    if should_fail:
+                        raise ValueError("teacher failure")
+                    return {"prepared": True}
+
+                with (patch.object(transition_native, "_BUDGET", budget),
+                      patch.object(transition_native, "_TARGET_ADMITTED", 0),
+                      patch.object(census_native.sglang_hooks, "online_teacher", side_effect=teacher)):
+                    if should_fail:
+                        with self.assertRaisesRegex(ValueError, "teacher failure"):
+                            census_native.online_teacher(None, [10, 20], "unused")
+                    else:
+                        self.assertEqual(census_native.online_teacher(None, [10, 20], "unused"),
+                                         {"prepared": True})
+                    self.assertEqual(transition_native._TARGET_ADMITTED, 0)
+                counts = budget.summary()["failed" if should_fail else "completed"]
+                self.assertEqual(counts, {"context_forward": 1, "target_call": 1})
+                attempts = [json.loads(line) for line in path.read_text().splitlines()
+                            if json.loads(line).get("status") == "attempted"]
+                self.assertTrue(all(row["metadata"]["startup"] is False for row in attempts))
+                self.assertTrue(all(row["metadata"]["operation"] == "terminal_teacher_preparation"
+                                    for row in attempts))
 
 
 if __name__ == "__main__":

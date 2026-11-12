@@ -374,7 +374,7 @@ def main():
                             result = worker.rpc(request)
                         else:
                             methods = dict(generate=worker.generate, publish=worker.publish,
-                                           check_weights=worker.check_weights)
+                                           teacher=worker.teacher, check_weights=worker.check_weights)
                             result = methods[request['operation']](request)
                         connection.send(dict(ok=True, result=result))
                     except BaseException as error:
