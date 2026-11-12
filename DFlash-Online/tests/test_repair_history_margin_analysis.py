@@ -84,6 +84,37 @@ class MatchingTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "seal changed"):
             validate_seal(changed)
 
+    def test_v1_multidigit_depth_roundtrip_preserves_original_fingerprint(self):
+        seal = build_pre_k6([start(offset=0, a4=1, a5=3),
+                             start(offset=16, a4=9, a5=11)])
+        original_fingerprint = seal["payload_sha256"]
+        self.assertEqual(seal["coverage"]["unmatched_depth_counts"], {2: 1, 10: 1})
+        raw = json.dumps(seal)
+        loaded = json.loads(raw)
+        untyped_payload = {k: v for k, v in loaded.items() if k != "payload_sha256"}
+        self.assertNotEqual(payload_sha256(untyped_payload), original_fingerprint)
+        validate_seal(loaded)
+        self.assertEqual(json.dumps(loaded), raw)  # validation does not mutate evidence
+        self.assertEqual(loaded["payload_sha256"], original_fingerprint)
+        result = analyze_k6(loaded, [])
+        self.assertEqual(result["pre_k6_payload_sha256"], original_fingerprint)
+
+    def test_legacy_histogram_reconstruction_still_rejects_tampering(self):
+        seal = build_pre_k6([start(offset=0, a4=1, a5=3),
+                             start(offset=16, a4=9, a5=11)])
+        for action in ("count", "noncanonical_key", "duplicate_key", "pair_value"):
+            loaded = json.loads(json.dumps(seal))
+            if action == "count":
+                loaded["coverage"]["unmatched_depth_counts"]["10"] = 2
+            elif action == "noncanonical_key":
+                loaded["coverage"]["unmatched_depth_counts"]["02"] = loaded["coverage"]["unmatched_depth_counts"].pop("2")
+            elif action == "duplicate_key":
+                loaded["coverage"]["unmatched_depth_counts"][2] = 1
+            else:
+                loaded["repairs"][0]["repaired_margin"] = 100
+            with self.assertRaises(ValueError):
+                validate_seal(loaded)
+
     def test_every_accepted_margin_required_and_nonnegative(self):
         missing = start(); missing["margins"].pop()
         negative = start(); negative["margins"][0]["margin"] = -.01
@@ -236,6 +267,20 @@ class ReportTests(unittest.TestCase):
         budget["unknown"]["neutral_block"] = 1
         budget["completed"]["neutral_block"] = 0
         self.assertEqual(work_accounting(plan, budget, None)["rows"][1]["unknown"], 1)
+
+    def test_report_reads_legacy_multidigit_depth_seal_without_resealing(self):
+        from experiments.repair_history_margin.report import report
+        with tempfile.TemporaryDirectory() as folder:
+            output = Path(folder)
+            starts = [start(offset=0, a4=1, a5=3), start(offset=16, a4=9, a5=11)]
+            seal = build_pre_k6(starts)
+            (output / "STARTS.json").write_text(json.dumps(starts))
+            (output / "PRE_K6.json").write_text(json.dumps(seal))
+            original_bytes = (output / "PRE_K6.json").read_bytes()
+            summary = report(dict(execution_commit="fixture"), output)
+            self.assertTrue(summary["durable_matching_reconstruction_passed"])
+            self.assertEqual(summary["pre_k6_payload_sha256"], seal["payload_sha256"])
+            self.assertEqual((output / "PRE_K6.json").read_bytes(), original_bytes)
 
     def test_incomplete_prephase_is_not_retrospectively_sealed(self):
         from experiments.repair_history_margin.report import report

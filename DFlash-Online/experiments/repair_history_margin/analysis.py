@@ -195,7 +195,31 @@ def build_pre_k6(starts):
 
 
 def validate_seal(seal):
+    """Validate the original v1 fingerprint after a lossless JSON round trip.
+
+    V1 was sealed with integer proposal-depth histogram keys. JSON stores object
+    keys as strings, whose lexical order differs from integer order at depth 10.
+    Restore only this declared field's schema type for hashing; never rewrite the
+    retained payload, fingerprint, pair list or file-level seal.
+    """
     payload = {key: value for key, value in seal.items() if key != "payload_sha256"}
+    if payload.get("schema") == "repair_history_margin.pre_k6.v1":
+        coverage = dict(payload["coverage"])
+        histogram = {}
+        for key, count in coverage["unmatched_depth_counts"].items():
+            if isinstance(key, bool) or not isinstance(key, (str, int)):
+                raise ValueError("Invalid v1 proposal-depth histogram key")
+            try:
+                depth = int(key)
+            except ValueError as error:
+                raise ValueError("Invalid v1 proposal-depth histogram key") from error
+            if not 1 <= depth <= 15 or (isinstance(key, str) and str(depth) != key):
+                raise ValueError("Invalid v1 proposal-depth histogram key")
+            if depth in histogram:
+                raise ValueError("Duplicate v1 proposal-depth histogram key")
+            histogram[depth] = count
+        coverage["unmatched_depth_counts"] = histogram
+        payload["coverage"] = coverage
     if payload_sha256(payload) != seal["payload_sha256"]:
         raise ValueError("Pre-K+6 matching seal changed")
 
