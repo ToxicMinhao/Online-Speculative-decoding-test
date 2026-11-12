@@ -1,0 +1,19 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/data/sources/minhao/repair_history_margin_source_20261115_001/DFlash-Online/experiments/repair_history_margin/run.py", line 356, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/data/sources/minhao/repair_history_margin_source_20261115_001/DFlash-Online/experiments/repair_history_margin/run.py", line 352, in main
+    return supervise(args.plan, args.output)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/sources/minhao/repair_history_margin_source_20261115_001/DFlash-Online/experiments/repair_history_margin/run.py", line 338, in supervise
+    report(plan, output)
+  File "/data/sources/minhao/repair_history_margin_source_20261115_001/DFlash-Online/experiments/repair_history_margin/report.py", line 129, in report
+    result = analyze_k6(seal, outcomes, execution_complete=complete) if seal else None
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/sources/minhao/repair_history_margin_source_20261115_001/DFlash-Online/experiments/repair_history_margin/analysis.py", line 269, in analyze_k6
+    validate_seal(seal)
+  File "/data/sources/minhao/repair_history_margin_source_20261115_001/DFlash-Online/experiments/repair_history_margin/analysis.py", line 200, in validate_seal
+    raise ValueError("Pre-K+6 matching seal changed")
+ValueError: Pre-K+6 matching seal changed

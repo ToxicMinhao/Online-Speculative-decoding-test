@@ -1,0 +1,59 @@
+{
+  "status": "passed",
+  "checks": 1536925,
+  "failures": [],
+  "execution_commit": "dea3fe81dea957416a4f7c7188b60f44a7ced52c",
+  "ledger_counts": {
+    "draft_block": 27335,
+    "target_call": 27524,
+    "model_load": 386,
+    "context_forward": 551021,
+    "parent_walk": 192,
+    "neutral_block": 8647,
+    "historical_block": 8647,
+    "outcome_block": 1343
+  },
+  "startup_counts": {
+    "draft_block": 51,
+    "target_call": 48
+  },
+  "nonstartup_counts": {
+    "model_load": 386,
+    "parent_walk": 192,
+    "context_forward": 551021,
+    "target_call": 27476,
+    "draft_block": 27284,
+    "neutral_block": 8647,
+    "historical_block": 8647,
+    "outcome_block": 1343
+  },
+  "native_totals": {
+    "requests": 192,
+    "parent_rounds": 8647,
+    "compacted_cache_bytes": 12588818432,
+    "cache_prefix_checks": 709054,
+    "metadata_bytes": 16029041012,
+    "GPU_metadata_bytes_offloaded": 16028971836,
+    "neutral_blocks": 8647,
+    "historical_blocks": 8647
+  },
+  "gpu_seconds": 4963.502231143415,
+  "physical_gpu_index": 0,
+  "physical_gpu_uuid": "GPU-9986735a-3e68-d1bd-5998-9634ef24341e",
+  "chronology": {
+    "first_outcome_ledger_row": 1144294,
+    "completed_before_first_outcome": {
+      "draft_block": 25992,
+      "target_call": 26181,
+      "model_load": 385,
+      "context_forward": 502101,
+      "parent_walk": 192,
+      "neutral_block": 8647,
+      "historical_block": 8647
+    },
+    "seal_file_sha256": "f7bd53131c9358d4bbab59a83be12a299744f8313fd86247590780ac0e4a7678",
+    "evidence_scope": "Sealed-hash outcome admission follows every K4/K5 completion. The pinned runner binds the sole subsequent publication to K6; publication ledger rows do not independently timestamp the checkpoint path."
+  },
+  "report_scope": "Native completion and accounting only; this audit does not assert that the report-rendering wrapper exited successfully.",
+  "disclosure": "Separate read-only ledger/native reduction by the native-observer implementer; authorship overlap. No independent GPU replication or new model work."
+}
