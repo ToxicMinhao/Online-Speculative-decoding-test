@@ -129,7 +129,7 @@ class TargetObjectiveModel(OnlineDFlashModel):
 
     def _chunk_loss(self, hidden, reference_hidden, labels, weights, teacher_hidden=None,
                     ranking_coefficients=None, reference_softplus=None, reference_correct=None,
-                    successor_assignment=None):
+                    successor_assignment=None, retention_assignment=None, retention_floors=None):
         guard = getattr(self, "prefix_guard", None)
         if guard is not None:
             guard.work['current_objective_chunks'] += 1
@@ -232,6 +232,13 @@ class TargetObjectiveModel(OnlineDFlashModel):
                 _synchronize(extra[0])
                 self.costs['kplus_chunk_s'] = self.costs.get('kplus_chunk_s', 0.0) + (
                     time.perf_counter() - started)
+                if retention_assignment is not None:
+                    retention = self.recent_repair_retention
+                    auxiliary = retention.chunk_terms(
+                        logits, labels, weights, selection,
+                        retention_assignment, retention_floors,
+                    )
+                    return (*terms, *extra, *auxiliary)
                 survival_head = getattr(self, 'survival_head_extension', None)
                 if survival_head is not None:
                     auxiliary = survival_head.chunk_terms(
@@ -462,7 +469,18 @@ class TargetObjectiveModel(OnlineDFlashModel):
         if role_loss is not None:
             role_loss.prepare_response(weights)
         successor_shuffle = getattr(self, 'successor_shuffle', None)
-        if successor_shuffle is None:
+        retention = getattr(self, 'recent_repair_retention', None)
+        if retention is not None:
+            retention_assignment, retention_floors = retention.prepare_response(
+                anchors, keep, labels, weights, self.eos_token_ids,
+            )
+        if retention is not None and retention.active:
+            terms = checkpointed_chunk_reduce(
+                self._chunk_loss, output_hidden, reference_hidden, labels, weights, teacher_hidden,
+                None, None, None, None, retention_assignment, retention_floors,
+                chunk_size=self.objective_chunk_blocks, dim=1, checkpoint=True,
+            )
+        elif successor_shuffle is None:
             terms = checkpointed_chunk_reduce(
                 self._chunk_loss, output_hidden, reference_hidden, labels, weights, teacher_hidden,
                 chunk_size=self.objective_chunk_blocks, dim=1, checkpoint=True,
@@ -485,6 +503,7 @@ class TargetObjectiveModel(OnlineDFlashModel):
             # The native K+ reducer still receives exactly its original fields.
             native_terms = terms[:11] if (
                 getattr(self, 'survival_head_extension', None) or successor_shuffle is not None
+                or (retention is not None and retention.active)
             ) else terms
             loss_sum, redistribution_metrics = redistribution.reduce_response(native_terms)
             if successor_shuffle is not None:
@@ -537,6 +556,17 @@ class TargetObjectiveModel(OnlineDFlashModel):
                 'selection_rate': (statistics[1], statistics[0]),
             })
         metrics['sum_metrics'].update(redistribution_metrics)
+        if retention is not None and retention.active:
+            loss, sums, ratios = retention.augment_response(loss, denominator, terms[11:])
+            metrics['sum_metrics'].update(sums)
+            metrics['ratio_metrics'].update(ratios)
+            metrics['ratio_metrics']['retention_ordinary_selected_forward_kl'] = (
+                terms[0].detach(), denominator.detach(),
+            )
+            total_numerator = (loss_sum + retention.coefficient * terms[11]
+                               if bool(terms[11].detach() > 0) else loss_sum)
+            metrics['loss_terms'] = (total_numerator, denominator.detach())
+            metrics['ratio_metrics']['objective_loss'] = (total_numerator.detach(), denominator.detach())
         survival_head = getattr(self, 'survival_head_extension', None)
         if survival_head is not None:
             loss, sums, ratios = survival_head.augment_response(loss, terms[11:])

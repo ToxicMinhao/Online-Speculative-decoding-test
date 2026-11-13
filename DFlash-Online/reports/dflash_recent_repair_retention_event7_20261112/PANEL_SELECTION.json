@@ -1,0 +1,58 @@
+{
+  "authorship": "Same-team metadata review; helper author also contributed panel preparation. No independent GPU replication.",
+  "candidate_count": 1319,
+  "candidate_status_counts": {
+    "eligible": 1063,
+    "excluded": 256
+  },
+  "eligible_count": 1063,
+  "eligible_tier_counts": {
+    "1": 1063
+  },
+  "eligible_unselected_count": 807,
+  "excluded_candidate_counts_by_reason": {
+    "PR34_PR40_discovery_panel": 64,
+    "PR43_outcome_input": 192
+  },
+  "exclusion_scope": "Entire pinned GSM8K test candidate population after source, normalized-question and rendered/token identity checks; no exclusions relaxed.",
+  "exposure_scope": "Recorded prior endpoint exposure is disclosed; absence of a record does not establish global novelty.",
+  "fixed_start_request_count": 64,
+  "fixed_start_rule": "First 64 selected requests under independent path-prefix hash order, or all if fewer.",
+  "generated_lengths_used": false,
+  "input_only_selection": true,
+  "model_operations": 0,
+  "outcomes_used": false,
+  "panel_exclusions_identity": {
+    "bytes": 396324,
+    "sha256": "585e5f20d35cc6bdf3d010ad69ac7268fad90b777b8d1f7fe1577631a07f7577"
+  },
+  "path_prefix": "retention-e7-path|",
+  "privacy": "Only identifiers, offsets, hashes, flags, counts and exclusion reasons; no prompt text, token arrays or filesystem paths.",
+  "publication_helper_identity": {
+    "bytes": 9564,
+    "sha256": "d4bce0703be86d1b1646752df2e9f246ebec54bb88fb796ae45e86ce547656bd"
+  },
+  "published_status_counts": {
+    "eligible_unselected": 807,
+    "excluded": 256,
+    "selected": 256
+  },
+  "reason_count_scope": "A candidate can match more than one exclusion reason; reason counts need not sum to excluded candidates.",
+  "reference_availability_used": false,
+  "requested_count": 256,
+  "schema": "retention-event7-panel-publication-v1",
+  "scientific_code_modified": false,
+  "sealed_panel_binding": "a53e38cc65fd9fd474e994fdbf7f7467dfa00951e1ff511e9b61ff57557c6f5e",
+  "selected_count": 256,
+  "selected_tier_counts": {
+    "1": 256
+  },
+  "selection_prefix": "retention-e7-v1|",
+  "selection_rule": "Prefer no recorded endpoint exposure; within tiers sort SHA256(prefix + stable source ID), UTF-8.",
+  "shortfall": 0,
+  "source_manifest_identity": {
+    "bytes": 887281,
+    "sha256": "2934fe3bde2359dc21eea6ea609aef912ade0171d5a75f332d1dd16645ba3082"
+  },
+  "source_revision": "740312add88f781978c0658806c59bc2815b9866"
+}
