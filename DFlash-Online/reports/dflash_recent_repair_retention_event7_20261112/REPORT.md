@@ -6,7 +6,7 @@
 - Training execution: `562f63fdff6955d5ffcf6086bf9b2f8f948dba8b`.
 - Evaluation execution: `345b1321856c40caab7ee3af7a9905dece3d0229`.
 - Counter repair: `8fc2f68afc28b6f6891814f180eb257dca7153cf`.
-- Report publication: recorded in the accompanying publication receipt and PR #44.
+- Audited result publication: `0bc814027c3537c3cab19dde52d6d576f833e2bb`; this provenance annotation follows that publication. See `PUBLICATION_RECEIPT.json`.
 - Same-team review includes implementation authorship overlap; this is not an independent GPU replication.
 
 
