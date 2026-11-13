@@ -19,6 +19,20 @@ from experiments.repair_history_margin.run import validate_parent, validate_comm
 from .evaluation import METHODS
 
 
+def work_limits(request_count):
+    """Bound the unchanged request-major replay and every native publication.
+
+    Initial engine construction and draft publications share ``model_load`` in
+    the native ledger. Each parent capture publishes K6, even when already
+    loaded, and each nonempty request subsequently switches to K5. Endpoint
+    replay adds at most one publication per method after all tags are sealed.
+    """
+    return dict(model_load=1 + 2 * request_count + len(METHODS),
+        parent_walk=request_count, neutral_block=request_count * 2048,
+        historical_block=request_count * 2048, outcome_block=len(METHODS) * request_count * 2048,
+        draft_block=2_000_000)
+
+
 def outcome_row(start, observation, block, canonical, method):
     """Keep exact-slot relapse, earlier failure and direct agreement distinct."""
     a = observation['accepted']
@@ -49,9 +63,7 @@ def run(plan, exports, references, output):
     if len(requests) != min(64, len(panel)):
         raise ValueError('Fixed-start subset differs from the pre-training seal')
     budget = WorkBudget(output/'WORK.jsonl', gpu_seconds=plan['fixed_start_seconds_limit'],
-        limits=dict(model_load=1, parent_walk=len(requests),
-                    neutral_block=len(requests)*2048, historical_block=len(requests)*2048,
-                    outcome_block=3*len(requests)*2048, draft_block=2_000_000))
+                        limits=work_limits(len(requests)))
     service = BudgetService(budget)
     budget.start_gpu(1)
     starts, outcomes, states, captures = [], [], {}, {}

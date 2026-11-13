@@ -307,6 +307,12 @@ class RuntimeIntegrationTests(unittest.TestCase):
         self.assertEqual(row["lost_prefix_occurrences"], 3)
         self.assertEqual(row["net_prefix_occurrences"], -3)
 
+    def test_fixed_start_load_allowance_covers_publications_without_changing_native_work(self):
+        limits = fixed_starts.work_limits(64)
+        self.assertEqual(limits, dict(model_load=132, parent_walk=64,
+            neutral_block=131072, historical_block=131072,
+            outcome_block=393216, draft_block=2_000_000))
+
     def test_fixed_start_subsequence_and_tag_seal_precede_all_endpoint_replays(self):
         with TemporaryDirectory() as folder:
             root = Path(folder)
@@ -330,8 +336,15 @@ class RuntimeIntegrationTests(unittest.TestCase):
                     finished=False, stop_clipped=False)
             class Backend:
                 def __init__(self, *args, **kwargs):
-                    pass
+                    self.budget = kwargs["budget_connection"]["budget"]
+                    self.current = "K6"
+                def publish(self, checkpoint):
+                    ticket = self.budget.attempt("model_load", operation="native_draft_publication")
+                    self.current = checkpoint
+                    self.budget.complete(ticket)
                 def capture(self, request, checkpoint, directory):
+                    # MarginBackend always publishes, including the first K6.
+                    self.publish(checkpoint)
                     captures.append(request["request_id"])
                     record = dict(references[request["request_id"]], stop_token_ids=[],
                                   metadata={"trace": [block(2)]})
@@ -339,6 +352,8 @@ class RuntimeIntegrationTests(unittest.TestCase):
                 def compact_request(self, request_id):
                     return {"status": "compacted"}
                 def one_block(self, state, checkpoint):
+                    if self.current != checkpoint:
+                        self.publish(checkpoint)
                     if checkpoint in exports:
                         self.seal = read(output / "TAG_SEAL.json")
                         if self.seal["endpoint_loaded"] is not False or len(captures) != 3:
@@ -347,13 +362,10 @@ class RuntimeIntegrationTests(unittest.TestCase):
                     return {"blocks": [block(1 if checkpoint == "K5" else 2)]}
                 def close(self):
                     pass
-            budget = SimpleNamespace(start_gpu=lambda n: None, end_gpu=lambda: None,
-                                     summary=lambda: {"mocked": True})
-            service = SimpleNamespace(connection={}, close=lambda: None)
+            def service(budget):
+                return SimpleNamespace(connection={"budget": budget}, close=lambda: None)
             with patch("experiments.repair_history_margin.native_worker.MarginBackend", Backend), \
-                 patch.object(fixed_starts, "WorkBudget", return_value=budget), \
-                 patch.object(fixed_starts, "BudgetService", return_value=service), \
-                 patch.object(fixed_starts, "counted", side_effect=lambda budget, kind, fn, **kwargs: fn()), \
+                 patch.object(fixed_starts, "BudgetService", side_effect=service), \
                  patch.object(fixed_starts, "validate_parent", return_value={"status": "passed"}), \
                  patch.object(fixed_starts, "validate_commits"), \
                  patch.object(fixed_starts, "neutral_parity", return_value={"status": "passed"}):
@@ -364,6 +376,13 @@ class RuntimeIntegrationTests(unittest.TestCase):
             starts = read(output / "PRE_ENDPOINT_STARTS.json")
             self.assertEqual([row["repair_slot"] for row in starts], [2, 2, 2])
             self.assertEqual(len(read(output / "OUTCOMES.json")), 9)
+            self.assertEqual(result["work"]["completed"], dict(model_load=10,
+                parent_walk=3, neutral_block=3, historical_block=3, outcome_block=9))
+            self.assertEqual(result["work"]["remaining"]["model_load"], 0)
+            self.assertEqual(result["work"]["failed"], {})
+            self.assertEqual(result["work"]["unknown"], {})
+            with self.assertRaises(FileExistsError):
+                fixed_starts.run(plan, exports, references, output)
 
 
 if __name__ == "__main__":
