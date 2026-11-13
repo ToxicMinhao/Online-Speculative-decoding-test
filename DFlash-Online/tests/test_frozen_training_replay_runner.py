@@ -80,9 +80,10 @@ class FrozenReplayRunnerTests(unittest.TestCase):
     def test_all_outcomes_retained_including_direct_correct_after_earlier_error(self):
         row = sealed()
         for prefix, outcome in ((0, "earlier_break"), (1, "first_mismatch_at_j"), (2, "accepts_through")):
-            result = attach_sealed_rows([observed(prefix)], {slot_key(row): row}, "RECENT7")[0]
+            result = attach_sealed_rows([observed(prefix, native_correct=prefix != 1)],
+                                        {slot_key(row): row}, "RECENT7")[0]
             self.assertEqual(result["outcome"], outcome)
-            self.assertTrue(result["native_correct"])
+            self.assertEqual(result["native_correct"], prefix != 1)
             self.assertEqual(result["accepts_through"], prefix >= 2)
         tied = attach_sealed_rows([observed(1, native_correct=False, margin=0.)], {slot_key(row): row}, "NATIVE7")[0]
         self.assertTrue(tied["wrong_at_tie"])
@@ -93,7 +94,8 @@ class FrozenReplayRunnerTests(unittest.TestCase):
         binding = {slot_key(sealed()): sealed()}
         cases = ([], [observed(), observed()], [dict(observed(), canonical_start=3)],
                  [dict(observed(), canonical_token=4)], [dict(observed(), anchor_ordinal=4)],
-                 [dict(observed(), valid=False)], [dict(observed(), weight=.5)])
+                 [dict(observed(), valid=False)], [dict(observed(), weight=.5)],
+                 [observed(1, native_correct=True)], [observed(2, native_correct=False)])
         for case in cases:
             with self.subTest(case=case), self.assertRaises(ValueError):
                 attach_sealed_rows(case, binding, "NATIVE7")
@@ -197,6 +199,37 @@ class FrozenReplayRunnerTests(unittest.TestCase):
             self.assertEqual(saved["projection_chunks"], 3)
             self.assertTrue((directory / "raw_presentations/000.json").exists())
             self.assertFalse((directory / "presentations/000.json").exists())
+
+    def test_original_projection_geometry_includes_final_partial_chunk_without_tags(self):
+        from experiments.recent_repair_retention.reference import observe_response
+        from experiments.lost_repair.training_probe import frozen_training_state
+        model = TinyModel()
+        model.block_size, model.objective_chunk_blocks, model.num_anchors = 16, 8, 10
+        model.eos_token_ids = ()
+        raw = packet()
+        ids = torch.arange(1, 25).reshape(1, -1)
+        mask = torch.ones_like(ids)
+        mask[:, :2] = 0
+        raw.update(input_ids=ids, loss_mask=mask,
+                   hidden_states=torch.zeros((1, 24, 2), dtype=torch.bfloat16))
+        raw["label_binding"].update(input_ids=ids[0].tolist(), target_argmax_ids=ids[0, 2:].tolist())
+        shapes = []
+        hook = model.lm_head.register_forward_pre_hook(
+            lambda module, args: shapes.append(tuple(args[0].shape)))
+        origin_rng = capture_rng()
+        with tempfile.TemporaryDirectory() as directory:
+            source = Path(directory) / "feature.pt"
+            torch.save(raw, source)
+            binding = sample_schedule(model, [source], origin_rng, max_length=32)["records"][0]
+            with frozen_training_state(model, origin_rng):
+                torch.randperm(1)
+                rows, receipt = observe_response(model, raw, binding, max_length=32,
+                                                 candidates=set(), expected_tokens={})
+        hook.remove()
+        self.assertEqual(shapes, [(1, 8, 16, 32), (1, 2, 16, 32)])
+        self.assertEqual(receipt["response_forwards"], 1)
+        self.assertEqual(receipt["projection_chunks"], 2)
+        self.assertEqual(rows, [])
 
     def test_failed_observation_records_attempt_before_raising_and_restores_state(self):
         model = TinyModel().eval()

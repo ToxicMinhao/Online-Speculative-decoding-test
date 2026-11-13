@@ -179,6 +179,9 @@ def attach_sealed_rows(observed, sealed, arm):
         if float(observation["weight"]) != float(binding["weight"]):
             raise ValueError("Position weight differs from the retained training layout")
         prefix, slot = int(observation["correct_prefix"]), key[2]
+        if ((prefix >= slot and not observation["native_correct"])
+                or (prefix == slot - 1 and observation["native_correct"])):
+            raise ValueError("Prefix outcome and direct tag correctness disagree")
         outcome = ("earlier_break" if prefix < slot - 1 else
                    "first_mismatch_at_j" if prefix == slot - 1 else "accepts_through")
         result.append(dict(observation, arm=arm, parent_margin=float(binding["parent_margin"]),
