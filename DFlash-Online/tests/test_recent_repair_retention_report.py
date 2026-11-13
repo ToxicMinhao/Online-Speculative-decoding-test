@@ -132,6 +132,34 @@ class RetentionReportTests(unittest.TestCase):
             self.assertEqual(len(values[0]),1)
             self.assertIsNone(values[2]["RECENT"]["adam_steps"])
 
+    def test_evaluation_recovery_preserves_commits_and_counts_prior_cost_once(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root=Path(directory)/"new"
+            root.mkdir()
+            setup(root)
+            prior=Path(directory)/"old"
+            R.write(prior/"final_report/SUMMARY.json",dict(resources=dict(measured_allocated_phase_window_s=100.)))
+            R.write(root/"STATUS.json",dict(status="failed",wall_s=40.,combined_campaign_wall_s=240.))
+            R.write(root/"CONTINUATION.json",dict(previous_execution_root=str(prior),
+                training_execution_commit="b"*40,evaluation_execution_commit="a"*40,
+                prior_campaign_wall_s=200.,prior_fixed_start_gpu_s=24.23562198318541,
+                failed_startup_work=dict(completed=dict(draft_block=51,target_call=48)),
+                actual_parent_generations_before=0,pending_parent_generations=64,
+                pending_timed_completions=1536,new_optimizer_steps=0))
+            R.write(root/"processes/fixed_starts.json",dict(wall_s=10.))
+            R.write(root/"SERVING_RESULT.json",dict(wall_s=20.))
+            R.write(root/"canonicals/STATUS.json",dict(wall_s=5.))
+            result=R.generate_report(root)
+            self.assertEqual(result["training_execution_commit"],"b"*40)
+            self.assertEqual(result["evaluation_execution_commit"],"a"*40)
+            self.assertEqual(result["combined_campaign_wall_s"],240.)
+            self.assertEqual(result["resources"]["measured_allocated_phase_window_s"],130.)
+            with (root/"final_report/costs.csv").open() as stream:
+                costs=list(csv.DictReader(stream))
+            failed=[r for r in costs if r["phase"]=="previous_failed_fixed_start" and r["metric"]=="gpu_seconds"]
+            self.assertEqual(len(failed),1)
+            self.assertFalse(result["complete_valid_comparison"])
+
 
 if __name__ == "__main__":
     unittest.main()

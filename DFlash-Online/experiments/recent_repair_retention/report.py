@@ -39,7 +39,7 @@ SAFE_STATUS_FIELDS = ("status", "phase", "execution_commit", "arm", "wall_s", "l
     "valid", "reused", "generation_s", "scientific_response_forwards", "scientific_adam_steps",
     "global_step", "final_global_step", "presentations", "response_forwards", "projection_chunks",
     "backward_calls", "peak_allocated_bytes", "peak_reserved_bytes", "gpu_seconds",
-    "gpu_seconds_limit", "parent_requests", "planned_parent_requests", "endpoint_blocks")
+    "gpu_seconds_limit", "parent_requests", "planned_parent_requests", "endpoint_blocks", "combined_campaign_wall_s")
 
 
 def read(path, default=None):
@@ -252,6 +252,7 @@ def generate_report(root, output=None):
     output.mkdir(parents=True, exist_ok=True)
     plan = _plan(root)
     status = read(root / "STATUS.json", {})
+    continuation = read(root / "CONTINUATION.json", {})
     assignments = read(root / "ASSIGNMENTS.json", {})
     assignment_summary = assignments.get("summary", {})
     panel = read(plan["panel_manifest"])
@@ -328,17 +329,37 @@ def generate_report(root, output=None):
             decision="no_training_eligible_slots" if status.get("status") == "completed_no_treatment"
             else "incomplete_or_invalid_no_gain_claim", automatic_followup=False)
     cost_rows = training_costs + _cost_rows(root, plan)
+    if continuation:
+        cost_rows.extend(dict(phase="previous_failed_fixed_start",arm="",component="retained_failed_attempt",
+                              metric=key,value=value) for key,value in numeric_leaves({
+            "gpu_seconds":continuation["prior_fixed_start_gpu_s"],
+            "work":continuation["failed_startup_work"]}))
     passes = pass_summaries(exposure)
     sweeps = sweep_totals(audit["rows"]) if audit["status"] == "passed" else []
     process_seconds = math.fsum(row["value"] for row in cost_rows if
         row["component"] == "allocated_process_window" or
-        (row["phase"] in ("canonical_preparation", "serving") and row["metric"] == "wall_s"))
+        (row["phase"] in (("serving",) if continuation else ("canonical_preparation", "serving"))
+         and row["metric"] == "wall_s"))
+    prior_process_seconds = 0.
+    if continuation:
+        prior = read(Path(continuation["previous_execution_root"])/"final_report/SUMMARY.json", {})
+        prior_process_seconds = continuation.get("prior_allocated_phase_window_s",
+            prior.get("resources", {}).get("measured_allocated_phase_window_s"))
+    combined_process_seconds = process_seconds + prior_process_seconds if prior_process_seconds is not None else None
+    combined_wall = status.get("combined_campaign_wall_s", (status.get("wall_s", 0) +
+        continuation.get("prior_campaign_wall_s", 0)) if "wall_s" in status else None)
     peak_allocated = max((row["value"] for row in cost_rows
         if row["metric"].endswith("peak_allocated_bytes")), default=None)
     peak_reserved = max((row["value"] for row in cost_rows
         if row["metric"].endswith("peak_reserved_bytes")), default=None)
     summary = dict(schema="recent-retention-event7-report-v1", verification_status="ANALYZED",
         execution_commit=plan["execution_commit"], source_status=select(status, SAFE_STATUS_FIELDS),
+        training_execution_commit=continuation.get("training_execution_commit",plan["execution_commit"]),
+        evaluation_execution_commit=continuation.get("evaluation_execution_commit",plan["execution_commit"]),
+        continuation=select(continuation,("training_execution_commit","evaluation_execution_commit",
+            "prior_campaign_wall_s","prior_fixed_start_gpu_s","actual_parent_generations_before",
+            "pending_parent_generations","pending_timed_completions","new_optimizer_steps")),
+        combined_campaign_wall_s=combined_wall,
         complete_valid_comparison=complete, report_errors=errors, panel_requests=len(requests),
         requested_panel_size=256, panel_shortfall=256-len(requests),
         public_redaction="Source identities and scalar measurements only; prompts/token IDs/tensors remain private.",
@@ -351,8 +372,10 @@ def generate_report(root, output=None):
         selected_exposure_tiers=panel.get("selected_tier_counts", {}),
         qualification=qualification, pass_exposure=passes, sweep_totals=sweeps,
         resources=dict(physical_gpu=plan.get("serving_gpu_identity"),
-            measured_allocated_phase_window_s=process_seconds,
-            measured_allocated_phase_window_card_hours=process_seconds/3600,
+            measured_allocated_phase_window_s=combined_process_seconds,
+            measured_allocated_phase_window_card_hours=combined_process_seconds/3600 if combined_process_seconds is not None else None,
+            current_execution_allocated_phase_window_s=process_seconds,
+            prior_execution_allocated_phase_window_s=prior_process_seconds,
             phase_window_scope="Serialized child-process windows plus canonical/serving driver windows; includes CPU loading/cleanup, excludes gaps; not kernel-busy time.",
             peak_allocated_bytes=peak_allocated,peak_reserved_bytes=peak_reserved),
         frozen_selected_weight=assignments.get("frozen_selected_weight"),
@@ -414,7 +437,8 @@ def _ci(value):
 def markdown_report(s):
     lines = ["## Material Passport", "", "- Type: bounded experimental result and evidence audit.",
         "- Verification: ANALYZED; raw native serving records rechecked when available.",
-        f"- Execution commit: `{s['execution_commit']}`.",
+        f"- Training execution commit: `{s['training_execution_commit']}`.",
+        f"- Evaluation/report execution commit: `{s['evaluation_execution_commit']}`.",
         f"- Run status: `{s['source_status'].get('status', 'unavailable')}`; decision: `{s['decision']['decision']}`.",
         "- Private prompt text, canonical/rival token IDs and tensors are excluded from this package.", "",
         "## Question and fixed design", "",
@@ -432,6 +456,14 @@ def markdown_report(s):
         "Adam steps / six presentations, and at most four first-firing diagnostic Adam steps / eight presentations. "
         f"Timed serving budget: {s['planned']['timed_generations']} completions; fixed-start parent walks: "
         f"{s['planned']['fixed_start_parent_requests']}. Startup and canonical preparation are separate."]
+    if s["continuation"]:
+        c=s["continuation"]
+        lines += ["", "Evaluation-only recovery reused the completed training, qualification and canonical "
+            "preparation without repeating them. The earlier failed attempt remains preserved: "
+            f"{_number(c['prior_fixed_start_gpu_s'],6)} occupied GPU seconds, one failed parent-walk "
+            "wrapper, 51 startup draft blocks and 48 startup target calls; no parent generation began. "
+            f"Recovery adds {c['new_optimizer_steps']} optimizer steps. Prior and new costs are identified "
+            "separately; linked evidence is counted only once."]
     progress = s["serving_audit"]["progress"]
     if progress:
         lines += ["", "| Serving work | Count |", "|---|---:|"]
@@ -482,7 +514,7 @@ def markdown_report(s):
         f"{_number(e.get('switched_weight_fraction'))}; absolute margin SMD: "
         f"{_number(e.get('absolute_standardized_margin_difference'))}; placement screen: "
         f"{e.get('placement_screen_passed', 'unavailable')}.",
-        f"Frozen assigned/native selected weight: {_number(s['frozen_assigned_weight_fraction'], 8)}. "
+        f"Frozen assigned/native selected weight: {_number(100*s['frozen_assigned_weight_fraction'] if s['frozen_assigned_weight_fraction'] is not None else None, 6)}%. "
         "Raw weight is exposure, not gradient influence. Final parameter differences and first-natural-firing "
         "ACTIVE/OFF gradient, moment and BF16 displacement receipts are separate evidence.", "",
         "| Arm | Presentations | Adam steps | Firing presentations / windows | Final coordinates differing from NATIVE |",
@@ -526,8 +558,12 @@ def markdown_report(s):
         "preclip-gradient CPU copy remains included in training_s; other reversible state captures are timed "
         "separately. These are measured process costs, not exact intrinsic-kernel costs. No kernel-time "
         "breakdown is inferred.",
-        f"Recorded campaign wall time: {_number(s['source_status'].get('wall_s'), 2)} s. "
-        "This does not establish training-inclusive speedup.", "",
+        f"Summed execution wall time: {_number(s['combined_campaign_wall_s'], 2)} s. "
+        "For a recovery this adds prior and new execution walls, excluding repair/user-wait gaps; "
+        "it is not calendar elapsed time. This does not establish training-inclusive speedup.", "",
+        "Feedback, teacher packets and historical K5/K6 label trajectories were reused. The present clocks "
+        "do not newly measure their collection, teacher preparation or label-replay overhead. Future events "
+        "require that work; it is not free. Full online deployment cost remains unestablished.", "",
         f"Recorded allocated phase windows: {_number(s['resources']['measured_allocated_phase_window_card_hours'])} "
         f"card-hours on {s['resources']['physical_gpu'] or 'unrecorded GPU identity'}; "
         f"peak allocated / reserved bytes: {s['resources']['peak_allocated_bytes']} / "
