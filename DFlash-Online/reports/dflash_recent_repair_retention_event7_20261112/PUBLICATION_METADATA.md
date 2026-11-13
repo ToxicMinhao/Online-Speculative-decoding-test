@@ -1,6 +1,6 @@
 ## Retained input and qualification provenance
 
-Scientific execution commit: `562f63fdff6955d5ffcf6086bf9b2f8f948dba8b`. This post-run helper performs no model operations and changes no scientific code.
+Training execution commit: `562f63fdff6955d5ffcf6086bf9b2f8f948dba8b`; evaluation execution commit: `345b1321856c40caab7ee3af7a9905dece3d0229`. This post-run helper performs no model operations and changes no scientific code.
 
 The original schedule identity is verified before publishing 256 response presentations and 64564 scalar anchor offsets. Keep flags distinguish sampled positions from eligible retained blocks. Source text, tokens and tensors remain private. Parent K5/K6, K6 full recovery, input dependencies and completed endpoint identities are recorded separately.
 

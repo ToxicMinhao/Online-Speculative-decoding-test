@@ -1,52 +1,102 @@
+# Recent-repair retention: completed event-seven pilot
+
 ## Material Passport
 
-- Status: **training and qualification complete; evaluation incomplete, with evaluation-only recovery authorized**.
-- Scientific execution: `562f63fdff6955d5ffcf6086bf9b2f8f948dba8b` (PR44).
-- First replay-accounting repair: `8fc2f68afc28b6f6891814f180eb257dca7153cf`; this was not the failed execution's code.
-- Report publication commit: to be recorded at publication.
-- This is a same-team source/receipt review, including overlap with implementation authorship. It is not an independent GPU replication.
+- Status: **completed; analyzed with separate raw and statistical reductions**.
+- Training execution: `562f63fdff6955d5ffcf6086bf9b2f8f948dba8b`.
+- Evaluation execution: `345b1321856c40caab7ee3af7a9905dece3d0229`.
+- Counter repair: `8fc2f68afc28b6f6891814f180eb257dca7153cf`.
+- Report publication: recorded in the accompanying publication receipt and PR #44.
+- Same-team review includes implementation authorship overlap; this is not an independent GPU replication.
 
-**There is no result yet about whether RECENT improves native drafting.** All three final checkpoints exist, but no held-out parent trajectory or timed endpoint comparison completed. The interruption is a replay-budget implementation error, not an observed failure of the learning mechanism.
 
-## Completed work and remaining scope
+**Decision: this version does not qualify as an upgrade to native K+.** The RECENT arm did not demonstrate better drafting, speed, or held-out repair retention. Its accepted-length confidence interval against NATIVE ends at +0.1044%, below the prespecified +0.50% useful-gain target on this fork. The matched CONTROL also provides no demonstrated history-placement advantage. Keep native K+ as the working method; no further event or tuning was launched.
 
-| Work | Completed | Remaining / status |
-|---|---:|---|
-| Frozen K6 preparation | 256 response forwards; 8,170 head chunks | Complete; zero backward/Adam work, caller RNG/modes restored |
-| Disposable qualification | 3 Adam steps; 14 response forwards/backwards including startup | All four cases passed |
-| Main NATIVE / RECENT / CONTROL | 256 presentations and 128 Adam steps each | All advance their own exact parent state from step 768 to 896 |
-| First-natural-firing comparisons | 4 temporary Adam steps; 8 forwards/backwards total | ACTIVE replay and restoration exact for both active arms |
-| Additional canonical references | 2 generated and valid; 254 reused | Complete |
-| Held-out parent generations | 0 begun/completed | All 64 remain pending |
-| Fixed-start endpoint comparisons | 0 completed | Cannot count required starts until parent paths are collected |
-| Timed serving | 0 of 1,536 completions | All 1,536 remain pending |
+All three training trajectories, all 64 fixed-start requests and all 1,536 timed executions completed. The earlier evaluation-startup accounting failure was repaired with explicit user authorization; evaluation alone resumed from the unchanged endpoints. Independent raw and statistical reductions passed.
 
-The main event contains **384 scientific Adam steps and 768 presentations**. The seven disposable steps are separate and never become serving checkpoints. Three main-trajectory startups add six further discarded forwards/backwards and zero Adam steps, separate from qualification and training.
+## Primary results
 
-## Qualification and actual treatment
+Counts use one validated trajectory per request. Accepted length is **clipped accepted draft proposals / verification calls**, not output progress. Complete-request time is the sum of the 256 per-request means over two sweeps.
 
-| Check | Result | Observed work / evidence |
-|---|---|---|
-| Ordinary NATIVE | Passed | One disposable Adam step, two response presentations |
-| Disabled extension | Passed | Exact native gradients, updated weights, Adam state/counters, RNG and selections |
-| Zero coefficient | Passed | Same exact native and selection comparisons |
-| Active synthetic fixture | Passed | One forward/backward; nonzero draft gradients in all 58 trainable tensors |
-| Longest retained response | Passed | 638-token sequence, active extension, one forward/backward; exact state restoration |
-| First natural firing, each active arm | Passed | ACTIVE reproduces its production endpoint; OFF changes gradients/moments/BF16 weights; final scientific state restored exactly |
-| Final state/export integrity | Passed, all three arms | Step 896, 1,792 cumulative presentations, 58 Adam-state entries; no extra update during boundary checks |
+| Arm | Accepted proposals | Verification calls | Accepted proposals/call | Complete-request time (s) |
+|---|---:|---:|---:|---:|
+| NATIVE | 62,402 | 11,026 | 5.659532 | 189.156668 |
+| RECENT | 62,367 | 11,055 | 5.641520 | 189.568193 |
+| CONTROL | 62,375 | 11,049 | 5.645307 | 189.563942 |
 
-Prospective training eligibility retains **815 distinct recent slots / 1,629 occurrences across 128 requests**. The placement control switches **114 slots across 70 requests**, covering **16.4569%** of assigned weight. Absolute margin SMD is **0.012456**. All prespecified placement screens pass; the arms are not identical placements.
+| RECENT versus | Accepted-length gain % [95% CI] | Call reduction % [95% CI] | Time reduction % [95% CI] | Speedup |
+|---|---:|---:|---:|---:|
+| NATIVE | -0.3183 [-0.7478, +0.1044] | -0.2630 [-0.6294, +0.0975] | -0.2176 [-0.6016, +0.1615] | 0.997829× |
+| CONTROL | -0.0671 [-0.5067, +0.3726] | -0.0543 [-0.4293, +0.3189] | -0.0022 [-0.3839, +0.3764] | 0.999978× |
 
-| Active arm | Assigned occurrences | Reachable | Hinge fires | Fires while wrong / still correct | Firing presentations / windows |
-|---|---:|---:|---:|---:|---:|
-| RECENT | 1,629 | 1,538 | 341 | 249 / 92 | 160 / 107 |
-| CONTROL | 1,629 | 1,543 | 322 | 243 / 79 | 164 / 107 |
+| RECENT versus | Requests improved / regressed / tied | Gross calls saved / added | Net calls saved |
+|---|---:|---:|---:|
+| NATIVE | 80 / 94 / 82 | 107 / 136 | -29 |
+| CONTROL | 74 / 74 / 108 | 110 / 116 | -6 |
 
-At each arm's first natural firing, switching the term off changes the pre-clipping gradient by L2 **0.00117054** and changes **297,041 BF16 parameter entries** after the update. Both arms happen to share this initial diagnostic result; they diverge later. Final RECENT and CONTROL differ from NATIVE in **296,587,104** and **297,981,102** of **1,048,626,432** parameter coordinates. These observations establish that the implementation applies a nonzero treatment. They do not establish useful repair retention or serving benefit.
+Positive reductions favor RECENT. The small negative point estimates do not by themselves establish degradation: the primary serving intervals include zero. They nevertheless do **not** support the prespecified useful improvement; the +0.50% target lies above the native accepted-length interval. Unresolved differences are not equivalence.
 
-Frozen assigned weight is **0.335772%** of frozen selected weight before the 0.10 coefficient. This is an exposure measure, not gradient influence. Counts use each original response observation once, never duplicated accumulation rows or checkpoint recomputation. The raw assignment is equal between active arms; tiny differences in reported FP32 reductions across their different chunk placements are not additional assigned exposure.
+## What happened to held-out repairs?
 
-## Measured cost so far
+At 2,775 shared K6 block starts from 64 requests, 431 slots were recent K5→K6 repairs. Earlier breaks remain in that 431-slot denominator. There are 2,410 genuine K6 first blockers. These are fixed-prefix diagnostic predictions, not extra independent serving requests.
+
+| Arm | Exact-slot relapse / 431 | Earlier break / 431 | Accepts through repair / 431 | Direct agreement at repair / 431 | Passes old first blocker / 2,410 | Acquired / lost / net prefix occurrences |
+|---|---:|---:|---:|---:|---:|---:|
+| NATIVE | 121 | 32 | 278 | 291 | 442 | 1327 / 1270 / +57 |
+| RECENT | 123 | 33 | 275 | 292 | 435 | 1356 / 1361 / -5 |
+| CONTROL | 118 | 32 | 281 | 294 | 439 | 1383 / 1274 / +109 |
+
+RECENT shows no favorable retention direction: it has 123 exact-slot relapses versus 121 for NATIVE and 118 for CONTROL, and accepts through fewer repair slots than either. Across all starts it acquires 29 more prefix occurrences than NATIVE but loses 91 more, leaving 62 fewer net occurrences. These counts describe the observed local changes; they do not prove why the serving endpoint differed. Direct agreement at a later position does not count as useful prefix progress when an earlier error blocks it.
+
+## Prespecified decision and limits
+
+| Requirement | Observed disposition |
+|---|---|
+| RECENT accepted-length point at least +0.50% vs NATIVE | Fails: −0.3183% |
+| Native contrast lower bound above zero | Fails: −0.7478% |
+| Placement support / balance | Passes: 114 slots, 70 requests, 16.4569% switched mass, absolute SMD 0.012456 |
+| CONTROL contrast lower bound above zero | Fails: −0.5067% |
+| Fewer exact relapses and more accepts-through than both controls | Fails on both directions |
+| No demonstrated slowdown vs NATIVE | Passes: time-reduction upper bound +0.1615%; no demonstrated time benefit either |
+
+The auxiliary term was active: RECENT fired in 107/128 optimizer windows, and its first firing changed 297,041 BF16 parameter entries relative to the same-state penalty-disabled update. Its final weights differ from NATIVE in 296,587,104 entries. Thus this is not an unexercised mechanism. Frozen assigned exposure is small (0.335772% of selected weight before the 0.10 coefficient), but that fraction is not a measure of gradient influence and does not establish an insufficient-dose explanation.
+
+Observed main-training time is 339.372 s for RECENT versus 333.391 s for NATIVE: +5.981 s (+1.794%). Frozen preparation, qualification, first-firing capture/replays, loading and publication are separate below. The timings compare diverging instrumented trajectories, not an isolated kernel-cost experiment. Reused teacher/feedback/history costs were not freshly measured, so training-inclusive deployment speedup is not established.
+
+This is one seed and one shared-feedback continuation. All 256 evaluation requests were held out of this fork’s training, but have disclosed older-project endpoint exposure; they are not globally unseen. Paired request-bootstrap intervals are conditional on these trained checkpoints and fixed placements. All 22 marginal intervals are reported without claiming simultaneous family-wise coverage. The matched placement contrast tests the 16.4569% switched weight; shared residual recent tags remain in both active arms.
+
+**Stop at this milestone.** The prognostic observation that recent repairs can be fragile remains separate from the failure of this particular preservation intervention to deliver the specified benefit. Reopening would require a separately agreed, discriminating design addressing transfer or the treatment’s effective influence; this run does not authorize a coefficient search, another seed, or more events.
+
+## Live weighted exposure
+
+Fractions below pool raw position weights, not gradients. Assignment equality is a pretraining control; live reach and firing can diverge.
+
+| Arm | Assigned weight | Reachable / assigned | Firing / assigned | Firing / reachable |
+|---|---:|---:|---:|---:|
+| RECENT | 967.535860 | 96.3697% | 22.3649% | 23.2074% |
+| CONTROL | 967.535858 | 96.4602% | 20.5667% | 21.3214% |
+
+Per-pass quantities use the same explicit denominators; raw numerators are retained in `weighted_exposure.csv`.
+
+| Arm / pass | Reachable / assigned | Firing / assigned | Firing / reachable |
+|---|---:|---:|---:|
+| CONTROL / 0 | 95.6174% | 28.0876% | 29.3749% |
+| CONTROL / 1 | 97.3027% | 13.0485% | 13.4103% |
+| RECENT / 0 | 95.3726% | 31.0956% | 32.6043% |
+| RECENT / 1 | 97.3664% | 13.6375% | 14.0064% |
+
+
+## Method and qualification
+
+All arms resume the same complete KPLUS6 state at Adam step 768, consume the same 128 feedback responses and teacher packets, and finish at step 896 after 256 presentations / 128 steps. Native K+ sampling, loss redistribution, optimizer, BF16 arithmetic and seed-17 RNG continuation are unchanged. RECENT adds a reachable-slot hinge at coefficient **0.10**, with frozen floor **0.50 × min(K6 margin, 1)**, to prospective K5→K6 repairs. CONTROL moves matched tags to established successes and retains unmatched tags. The reference margins and assignments are fixed before training; only the newest response supplies supervision.
+
+The Qwen3-8B / five-layer DFlash serving path uses greedy BF16/FA3, block 16, concurrency 1, full prepared inputs, context 4,096 and cap 2,048/EOS. Timing uses the same physical A800, two counterbalanced sweeps, capture disabled and valid cache/weight switching. Both cards were quiet; training and transfers occurred outside timed requests.
+
+All four qualification cases passed. Disabled and zero-coefficient paths match native gradients, weights, optimizer state, counters, selections and RNG exactly. Active and longest-response fixtures pass with restoration. Both first-natural-firing ACTIVE/OFF checks reproduce the production active endpoint and restore the final state exactly. Recovery performed **zero additional training, feedback collection or canonical preparation**. All 1,536 serving executions match canonical tokens/termination and repeat-consistent counts; zero invalid, unknown or unattempted executions remain.
+
+Scientific training is 384 Adam steps / 768 presentations. Three disposable qualification steps and four first-firing replay steps are separate, never serving checkpoints. Frozen preparation uses 256 forwards / 8,170 head chunks, no backward or Adam work. The fixed-start phase completes 64 parent walks, 2,775 neutral replays, 2,775 K5 replays and 8,325 endpoint blocks. Canonical preparation reused 254 references and generated two separately before evaluation recovery.
+
+## Cost, failure and recovery accounting
 
 | Arm | Main training s | Loading s | Disposable startup s | Persistence s | Export s | Diagnostic state capture s | First-firing replay s | Worker wall s |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
@@ -54,37 +104,23 @@ Frozen assigned weight is **0.335772%** of frozen selected weight before the 0.1
 | RECENT | 339.372 | 31.229 | 19.576 | 19.301 | 14.505 | 55.720 | 107.531 | 627.868 |
 | CONTROL | 338.977 | 32.965 | 18.431 | 20.818 | 15.707 | 54.989 | 104.772 | 612.502 |
 
-The observed main-training clock is **5.981 s / 1.794%** higher for RECENT than NATIVE. This compares the actual diverging trajectories and their logging, not an isolated kernel overhead measurement. Diagnostic capture/replays are explicitly separate. Worker wall clocks include the listed components and other lifecycle checks; they must not be added to their subcomponents.
+The main-training clock includes the bounded first-firing preclip-gradient CPU copy and instrumentation. Other snapshot capture and diagnostic replays are separate. These nested clocks are not additive; worker wall includes loading and lifecycle work. `costs.csv` retains all measured components, and `sweep_totals.csv` separates complete-request, native-generation and cache-maintenance times for each sweep. Actual serving weight-loading/activation costs remain outside request latency.
 
-- Frozen preparation: **103.909 s**.
-- Qualification worker walls: NATIVE **93.180 s**, DISABLED **95.714 s**, ZERO **97.177 s**, ACTIVE/long **68.616 s**; startup is included in these workers.
-- Canonical preparation: **49.965 s** wall, including **42.012 s** loading and **1.678 s** generation calls.
-- Failed fixed-start phase: **24.235622 occupied GPU seconds**, including startup work described below.
-- Campaign wall before interruption: **2,325.631 s (38.7605 min)**. Recorded allocated phase windows total **0.624344 card-hours**; this includes loading/CPU lifecycle time and is not a kernel-busy measurement.
-- Peak main-training allocation: **20,514,508,800 bytes**; peak reserved memory: **25,811,746,816 bytes**. Both cards were idle at the post-exit check.
-- A800 disk free: **618,310,000,640 bytes** at preflight and **504,902,623,232 bytes** at the post-exit check. No artifact was deleted. This observed change is not a measured decomposition of per-method storage cost.
+Frozen preparation takes 103.909 s. Qualification worker walls are 93.180 / 95.714 / 97.177 / 68.616 s. Canonical preparation takes 49.965 s, including 42.012 s loading and 1.678 s generation. Successful fixed-start work occupies 2,233.125 GPU-phase seconds; the timed-evaluation driver takes 1,479.969 s including switching and lifecycle overhead.
 
-**Reused-artifact scope:** feedback responses, teacher packets and K5/K6 label trajectories come from retained PR42 evidence. This run does not newly time their collection, teacher preparation or historical-checkpoint label replays. Future online events need those labels and their replay work is not free. Full online deployment costs and training-inclusive speedup remain unestablished.
+The original attempt completed training but failed before the first parent generation because a load counter budgeted engine construction without subsequent checkpoint publications. Its one failed parent-walk wrapper and **51 startup draft blocks / 48 startup target calls / 24.235622 GPU-phase seconds** remain preserved. No scientific parent generation or timed completion was repeated. With explicit user authorization, the counter was fixed and the unexecuted evaluation ran in a separate directory. This is an infrastructure repair, not a loss, sample or tolerance change.
 
-## Why evaluation stopped
+The original and recovery measured execution walls sum to **6,258.991 s (104.317 min)**; this excludes repair/user-wait gaps. Calendar time from the first launch (03:24:48 UTC) to final completion (05:31:22 UTC, November 13) is 2 h 6 min 34 s. Both are within the original duration allowance. Allocated phase windows total **1.6660 card-hours**, including CPU loading/cleanup; this is not kernel-busy time. The instrumented training/qualification peak is 20.515 GB allocated / 25.812 GB reserved, not a measured serving-wide peak. Final A800 free disk is 504.193 GB; both GPUs are idle. No scientific artifact was deleted.
 
-The fixed-start worker's `model_load` allowance was **1**. Engine construction consumed it, but the inherited `capture()` path first publishes the requested checkpoint before starting `transition_begin` or generation. That legitimate publication uses the same counted operation and was rejected as `model_load allowance exhausted`.
+Feedback collection, teacher preparation and historical label trajectories were reused, not freshly timed here. Full online deployment cost and training-inclusive speedup remain unestablished. See [cost scope](ADAPTATION_COST_SCOPE.md) and the preserved [original incomplete report](INCOMPLETE_REPORT.md).
 
-The original work ledger is retained exactly. It contains **one failed `parent_walk` wrapper and 63 unattempted wrappers**, while **no actual parent generation began**. Its **51 completed draft blocks and 48 completed target calls are all explicitly marked startup**. There are no saved request captures and `STARTS.json`/`OUTCOMES.json` are empty. Accordingly, all 64 scientific parent generations remain pending. Startup work must not be erased or described as zero GPU work.
+## Evidence and reproducibility
 
-The automatic report correctly withholds all gain claims. Its empty per-request and repeat tables mean evaluation was unexecuted, not that methods tied. Its generic incomplete summary does not, by itself, expose the failed-wrapper/startup distinction; this report and the retained ledger provide it.
+- Independent raw-block and placement audit: **814,215 checks**, zero errors or missing files. Counts are reconstructed from saved proposals, verifier predictions and terminal clipping.
+- Independent scalar/bootstrap reduction: **27,486 checks**, including all **22 prespecified intervals**, zero failures; 10,000 valid and zero undefined draws for each interval. No model work was used by either audit.
+- CPU validation: 92 retention tests on A800 before recovery; 30 focused local recovery/runtime/report tests; separate helper fixtures and seven report tests pass. These suites overlap and are not added into a fictitious unique total.
+- All **48,066 compact files / 489,773,862 bytes** retrieved and matched their recorded hashes. Private raw traces, token IDs and full audit paths remain outside Git; model/recovery tensors stay on A800, not archived on Fenrir.
+- Candidate accounting: 1,319 inputs; 256 excluded (192 PR43, 64 PR34/40), 1,063 eligible, 256 selected and 807 eligible unselected. See `PANEL_SELECTION.json` / `panel_exclusions.csv`. The panel and assignments preceded training.
+- Full raw results and exact reproduction commands are linked through the experiment README and private execution receipts. Training and evaluation source identities are distinct; report-only wording and publication helpers do not change the scientific implementation.
 
-## Evaluation-only recovery
-
-The user has authorized evaluation-only recovery. It must use a new output directory and source commit, preserving the original failure and the three unchanged trained exports.
-
-1. Fix publication/load accounting and test engine initialization, capture publication, historical publication and three endpoint publications. This changes infrastructure accounting, not the algorithm or scientific cases.
-2. Authenticate the exact exports, original input panel, assignments and canonical references. Reuse the completed qualification/training/reference evidence; perform **zero new training, optimizer steps or canonical-reference generations**.
-3. Execute the pending 64 parent generations, their prescribed parity/historical/endpoint block replays, then the fixed 1,536 timing completions. Keep the original panel, order, settings and scientific gates. The failed startup remains separately charged; the remaining fixed-start GPU allowance is **14,375.764378017 s** from the original 14,400-second cap.
-4. Record both training execution `562f63f…` and the new evaluation execution commit. Report prior plus recovery wall time and retain the first failed startup once; do not duplicate the linked training/qualification costs.
-
-**Decision pending.** The current evidence supports completed implementation/qualification and an applied treatment. It cannot answer whether RECENT protects held-out repairs, beats either comparator, improves acceptance length or reduces serving time. That decision requires the unchanged pending evaluation.
-
-## Evidence package
-
-The generated `SUMMARY.json`, scalar CSVs, `AUTOMATED_INCOMPLETE_REPORT.md`, qualification/provenance tables and publication metadata accompany this report. Compact private receipts remain outside Git. A total of **67 files / 24,457,160 bytes** was retrieved and verified against remote per-file SHA256 identities; original remote evidence remains intact. No model tensors were retrieved for this report.
+Tables: [per request](per_request.csv), [every repeat](all_repeats.csv), [sweep totals](sweep_totals.csv), [fixed-start origins](fixed_start_origins.csv), [fixed-start outcomes](fixed_start_outcomes.csv), [all local intervals](LOCAL_UNCERTAINTY.md), [activation](activation.csv), [weighted exposure](weighted_exposure.csv), [matching](matching.csv), [gradient receipts](gradient_receipts.csv), [costs](costs.csv), [raw audit summary](RAW_AUDIT_SUMMARY.json), [statistics audit](STATISTICS_AUDIT.json), [interpretation audit](FINAL_INTERPRETATION_AUDIT.md), and [11-category review](ARS_FALLACY_CHECKLIST.md).

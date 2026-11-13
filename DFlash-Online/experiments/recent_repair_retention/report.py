@@ -442,7 +442,8 @@ def markdown_report(s):
         f"- Run status: `{s['source_status'].get('status', 'unavailable')}`; decision: `{s['decision']['decision']}`.",
         "- Private prompt text, canonical/rival token IDs and tensors are excluded from this package.", "",
         "## Question and fixed design", "",
-        "Does a fixed 0.10 parent-margin floor on recent repairs improve one K+6→K+7 continuation? "
+        "Does a margin-floor penalty on recent repairs improve one K+6→K+7 continuation? "
+        "The auxiliary coefficient is 0.10; each frozen floor is 0.50*min(parent margin,1.0). "
         "NATIVE continues ordinary K+; RECENT protects prospective K5→K6 repair slots; CONTROL moves matched "
         "assignments to established slots and retains unmatched assignments. All start from the same complete "
         "K+6 state and use the same 128 feedback responses, two-pass order and anchors. No hyperparameter was tuned.",

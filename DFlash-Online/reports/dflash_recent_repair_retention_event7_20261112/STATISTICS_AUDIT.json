@@ -1,0 +1,336 @@
+{
+  "authorship": "Independent arithmetic implementation; same-team author also contributed objective/report code; no independent native replication.",
+  "bit_generator": "PCG64",
+  "bootstrap_draws": 10000,
+  "bootstrap_index": "Lexically sorted request IDs, matching the pre-existing fixed implementation; sealed generation order checked separately.",
+  "checks": 27486,
+  "execution_commit": "345b1321856c40caab7ee3af7a9905dece3d0229",
+  "failures": [],
+  "fixed_starts": {
+    "contrasts": {
+      "CONTROL": {
+        "accepts_through": {
+          "denominator": 431,
+          "difference_per_eligible_start": -0.013921113689095127,
+          "interval": {
+            "lower": -0.03517639959632531,
+            "undefined_draws": 0,
+            "upper": 0.005855442910554967,
+            "valid_draws": 10000
+          }
+        },
+        "acquired_prefix_occurrences": {
+          "denominator": 2775,
+          "difference_per_eligible_start": -0.00972972972972973,
+          "interval": {
+            "lower": -0.0379746835443038,
+            "undefined_draws": 0,
+            "upper": 0.01690925312799209,
+            "valid_draws": 10000
+          }
+        },
+        "direct_canonical_agreement": {
+          "denominator": 431,
+          "difference_per_eligible_start": -0.004640371229698376,
+          "interval": {
+            "lower": -0.027649769585253458,
+            "undefined_draws": 0,
+            "upper": 0.01910904214792916,
+            "valid_draws": 10000
+          }
+        },
+        "earlier_break": {
+          "denominator": 431,
+          "difference_per_eligible_start": 0.002320185614849188,
+          "interval": {
+            "lower": -0.011442303655029075,
+            "undefined_draws": 0,
+            "upper": 0.01621684329340941,
+            "valid_draws": 10000
+          }
+        },
+        "exact_slot_relapse": {
+          "denominator": 431,
+          "difference_per_eligible_start": 0.01160092807424594,
+          "interval": {
+            "lower": -0.009732360097323601,
+            "undefined_draws": 0,
+            "upper": 0.033817368659420276,
+            "valid_draws": 10000
+          }
+        },
+        "lost_prefix_occurrences": {
+          "denominator": 2775,
+          "difference_per_eligible_start": 0.03135135135135135,
+          "interval": {
+            "lower": -0.0014327676777657016,
+            "undefined_draws": 0,
+            "upper": 0.06756769510167018,
+            "valid_draws": 10000
+          }
+        },
+        "net_prefix_occurrences": {
+          "denominator": 2775,
+          "difference_per_eligible_start": -0.04108108108108108,
+          "interval": {
+            "lower": -0.08962142421494484,
+            "undefined_draws": 0,
+            "upper": 0.003536345776031434,
+            "valid_draws": 10000
+          }
+        },
+        "passes_parent_first_blocker": {
+          "denominator": 2410,
+          "difference_per_eligible_start": -0.0016597510373443983,
+          "interval": {
+            "lower": -0.008827331136510914,
+            "undefined_draws": 0,
+            "upper": 0.005548949663099485,
+            "valid_draws": 10000
+          }
+        }
+      },
+      "NATIVE": {
+        "accepts_through": {
+          "denominator": 431,
+          "difference_per_eligible_start": -0.0069605568445475635,
+          "interval": {
+            "lower": -0.024229074889867842,
+            "undefined_draws": 0,
+            "upper": 0.01098901098901099,
+            "valid_draws": 10000
+          }
+        },
+        "acquired_prefix_occurrences": {
+          "denominator": 2775,
+          "difference_per_eligible_start": 0.010450450450450451,
+          "interval": {
+            "lower": -0.01863375884541524,
+            "undefined_draws": 0,
+            "upper": 0.038228228541733356,
+            "valid_draws": 10000
+          }
+        },
+        "direct_canonical_agreement": {
+          "denominator": 431,
+          "difference_per_eligible_start": 0.002320185614849188,
+          "interval": {
+            "lower": -0.01411764705882353,
+            "undefined_draws": 0,
+            "upper": 0.019185805201992236,
+            "valid_draws": 10000
+          }
+        },
+        "earlier_break": {
+          "denominator": 431,
+          "difference_per_eligible_start": 0.002320185614849188,
+          "interval": {
+            "lower": -0.007444168734491315,
+            "undefined_draws": 0,
+            "upper": 0.01256281407035176,
+            "valid_draws": 10000
+          }
+        },
+        "exact_slot_relapse": {
+          "denominator": 431,
+          "difference_per_eligible_start": 0.004640371229698376,
+          "interval": {
+            "lower": -0.01279317697228145,
+            "undefined_draws": 0,
+            "upper": 0.021367775138558982,
+            "valid_draws": 10000
+          }
+        },
+        "lost_prefix_occurrences": {
+          "denominator": 2775,
+          "difference_per_eligible_start": 0.03279279279279279,
+          "interval": {
+            "lower": 0.004320759961746588,
+            "undefined_draws": 0,
+            "upper": 0.06247833736809255,
+            "valid_draws": 10000
+          }
+        },
+        "net_prefix_occurrences": {
+          "denominator": 2775,
+          "difference_per_eligible_start": -0.022342342342342343,
+          "interval": {
+            "lower": -0.06088187053406451,
+            "undefined_draws": 0,
+            "upper": 0.015109016273303527,
+            "valid_draws": 10000
+          }
+        },
+        "passes_parent_first_blocker": {
+          "denominator": 2410,
+          "difference_per_eligible_start": -0.002904564315352697,
+          "interval": {
+            "lower": -0.009762451517544896,
+            "undefined_draws": 0,
+            "upper": 0.003787950582397132,
+            "valid_draws": 10000
+          }
+        }
+      }
+    },
+    "totals": {
+      "CONTROL": {
+        "accepts_through": 281,
+        "acquired_prefix_occurrences": 1383,
+        "blockers": 2410,
+        "direct_canonical_agreement": 294,
+        "earlier_break": 32,
+        "exact_slot_relapse": 118,
+        "lost_prefix_occurrences": 1274,
+        "net_prefix_occurrences": 109,
+        "passes_parent_first_blocker": 439,
+        "repairs": 431,
+        "starts": 2775
+      },
+      "NATIVE": {
+        "accepts_through": 278,
+        "acquired_prefix_occurrences": 1327,
+        "blockers": 2410,
+        "direct_canonical_agreement": 291,
+        "earlier_break": 32,
+        "exact_slot_relapse": 121,
+        "lost_prefix_occurrences": 1270,
+        "net_prefix_occurrences": 57,
+        "passes_parent_first_blocker": 442,
+        "repairs": 431,
+        "starts": 2775
+      },
+      "RECENT": {
+        "accepts_through": 275,
+        "acquired_prefix_occurrences": 1356,
+        "blockers": 2410,
+        "direct_canonical_agreement": 292,
+        "earlier_break": 33,
+        "exact_slot_relapse": 123,
+        "lost_prefix_occurrences": 1361,
+        "net_prefix_occurrences": -5,
+        "passes_parent_first_blocker": 435,
+        "repairs": 431,
+        "starts": 2775
+      }
+    }
+  },
+  "intervals_checked": 22,
+  "model_operations": 0,
+  "percentile": "linear",
+  "primary": {
+    "CONTROL": {
+      "accepted_length_interval": {
+        "lower": -0.5066862798514945,
+        "undefined_draws": 0,
+        "upper": 0.3725612995517656,
+        "valid_draws": 10000
+      },
+      "accepted_length_relative_gain_pct": -0.06709277442265016,
+      "call_reduction_interval": {
+        "lower": -0.4292684077686648,
+        "undefined_draws": 0,
+        "upper": 0.31886296285064836,
+        "valid_draws": 10000
+      },
+      "call_reduction_pct": -0.05430355688298416,
+      "gross_calls_added": 116,
+      "gross_calls_saved": 110,
+      "recent_accepted": 62367,
+      "recent_accepted_per_call": 5.641519674355496,
+      "recent_calls": 11055,
+      "recent_request_s": 189.56819254811853,
+      "reference": "CONTROL",
+      "reference_accepted": 62375,
+      "reference_accepted_per_call": 5.64530726762603,
+      "reference_calls": 11049,
+      "reference_request_s": 189.56394216883928,
+      "requests": 256,
+      "requests_improved": 74,
+      "requests_regressed": 74,
+      "requests_tied": 108,
+      "speedup": 0.9999775786263395,
+      "time_reduction_interval": {
+        "lower": -0.3839246394517071,
+        "undefined_draws": 0,
+        "upper": 0.3763570328509667,
+        "valid_draws": 10000
+      },
+      "time_reduction_pct": -0.0022421876389788764
+    },
+    "NATIVE": {
+      "accepted_length_interval": {
+        "lower": -0.7478090980057028,
+        "undefined_draws": 0,
+        "upper": 0.10436779884584348,
+        "valid_draws": 10000
+      },
+      "accepted_length_relative_gain_pct": -0.3182655532776191,
+      "call_reduction_interval": {
+        "lower": -0.6294331780376256,
+        "undefined_draws": 0,
+        "upper": 0.09751260251221454,
+        "valid_draws": 10000
+      },
+      "call_reduction_pct": -0.26301469254488286,
+      "gross_calls_added": 136,
+      "gross_calls_saved": 107,
+      "recent_accepted": 62367,
+      "recent_accepted_per_call": 5.641519674355496,
+      "recent_calls": 11055,
+      "recent_request_s": 189.56819254811853,
+      "reference": "NATIVE",
+      "reference_accepted": 62402,
+      "reference_accepted_per_call": 5.659532015236713,
+      "reference_calls": 11026,
+      "reference_request_s": 189.15666778199375,
+      "requests": 256,
+      "requests_improved": 80,
+      "requests_regressed": 94,
+      "requests_tied": 82,
+      "speedup": 0.9978291465430292,
+      "time_reduction_interval": {
+        "lower": -0.6016495052311721,
+        "undefined_draws": 0,
+        "upper": 0.16145111141152896,
+        "valid_draws": 10000
+      },
+      "time_reduction_pct": -0.2175576314333627
+    }
+  },
+  "schema": "retention-independent-statistics-v1",
+  "seed": 1707,
+  "source_identities": {
+    "SUMMARY.json": {
+      "bytes": 121222,
+      "sha256": "07cbeb66e539964a708aed85649e6269c327e26dd85b998a7a514aefacf6ed58"
+    },
+    "TRAINING_PLAN.json": {
+      "bytes": 248077,
+      "sha256": "b436818bd502f4ba42d48803d09132aca698828f894f3830b9c105013fc3eb28"
+    },
+    "all_repeats.csv": {
+      "bytes": 225255,
+      "sha256": "198bfbbcd303533fcee26d049f19ae7877197a0eb7c2d6acc7362b6971b6a6c2"
+    },
+    "fixed_start_origins.csv": {
+      "bytes": 153229,
+      "sha256": "c62bbfacfbdb636e4b9c15f6c64a5afb25deb69a5b65fae78fa05f2cf9db6c85"
+    },
+    "fixed_start_outcomes.csv": {
+      "bytes": 623379,
+      "sha256": "ba03303447ca956544d5a3ea7a8ed30b45f6b25c0060bcb41a44b2b92a39cf37"
+    },
+    "panel.csv": {
+      "bytes": 66476,
+      "sha256": "5b009fdf821ce842a681f9e94975930b4e81364745490ac08d010017fc64a93a"
+    },
+    "per_request.csv": {
+      "bytes": 85747,
+      "sha256": "5c3bae6b41160ac2c1edde45da4c19072f7ed5147b27edabea20fdab5ccf2fcc"
+    }
+  },
+  "status": "passed",
+  "training_execution_commit": "562f63fdff6955d5ffcf6086bf9b2f8f948dba8b",
+  "uncertainty_scope": "Whole-request conditional uncertainty for the fixed trained checkpoints, not training-seed uncertainty."
+}

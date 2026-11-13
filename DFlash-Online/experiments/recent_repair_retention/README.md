@@ -53,3 +53,20 @@ startup, frozen reference forwards, missing canonical preparation and first-fire
 counterfactual replays are counted separately. Runs are serial on physicalGPU0;
 both cards must be quiet for timing. Operational timeout6hours; expected GPU
 execution2–3hours based on retained PR39/42/43 costs, not a performance promise.
+
+## Authorized evaluation-only recovery
+
+The first execution completed training but exhausted a miscounted checkpoint-load
+allowance before any diagnostic parent generation. The original failure and its
+startup work remain preserved. The user authorized a separate evaluation-only
+continuation using the same three exports, sealed inputs and completed qualification:
+
+```bash
+python -m experiments.recent_repair_retention.resume_evaluation run --plan /data/sources/minhao/runs/RETENTION_CONTINUATION/CONTINUATION_PLAN.json
+```
+
+The continuation authenticates its original evidence and performs no training or
+canonical-reference generation. The plan records both execution commits and
+charges the failed startup against the original time allowance. This command is
+not an automatic retry policy. See the published report for actual run identities,
+complete work accounting and the final result.
