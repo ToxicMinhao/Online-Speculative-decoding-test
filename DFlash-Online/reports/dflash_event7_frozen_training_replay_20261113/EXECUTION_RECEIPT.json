@@ -1,0 +1,45 @@
+{
+  "execution_commit": "10d89bf8ba657cd905d7ad4fb31bf65a0a851656",
+  "start_utc": "2026-11-13T22:45:35Z",
+  "finish_utc": "2026-11-13T22:50:11Z",
+  "exit_code": 0,
+  "campaign_wall_s": 275.95102495886385,
+  "preparation_wall_s": 12.423068752512336,
+  "occupied_worker_process_s": {
+    "NATIVE7": 132.36817986890674,
+    "RECENT7": 130.96314803510904
+  },
+  "occupied_worker_process_total_s": 263.3313279040158,
+  "synchronized_response_scoring_total_s": 161.6984182242304,
+  "max_peak_allocated_bytes": 5531260928,
+  "max_peak_reserved_bytes": 6874464256,
+  "cost_interpretation": "Nested wall-clock intervals; synchronized response timing includes host dispatch/extraction, not pure GPU kernel busy time. Neither serving latency nor training time was measured.",
+  "CPU_tests_A800": 28,
+  "new_GPU_startup_response_forwards": 0,
+  "device": {
+    "physical_gpu": 0,
+    "gpu_inventory": "index, uuid, memory.used [MiB], memory.total [MiB], utilization.gpu [%]\n0, GPU-9986735a-3e68-d1bd-5998-9634ef24341e, 0 MiB, 81920 MiB, 0 %\n1, GPU-c6943f33-bcd0-a724-0b35-f77af6b0a3f1, 0 MiB, 81920 MiB, 0 %\n",
+    "active_processes": "pid, gpu_uuid, used_gpu_memory [MiB]\n"
+  },
+  "storage_admission": {
+    "free_bytes": 503556431872,
+    "maximum_additional_bytes": 2147483648,
+    "reserve_bytes": 8589934592
+  },
+  "postflight": {
+    "utc": "2026-11-13T22:50:23.185447+00:00",
+    "source_files_unchanged": 3052,
+    "source_symlinks_unchanged": 1,
+    "disk_available_bytes": 503533719552,
+    "gpus": "index, uuid, memory.used [MiB], utilization.gpu [%]\n0, GPU-9986735a-3e68-d1bd-5998-9634ef24341e, 0 MiB, 0 %\n1, GPU-c6943f33-bcd0-a724-0b35-f77af6b0a3f1, 0 MiB, 0 %\n",
+    "compute_processes": "pid, gpu_uuid, used_gpu_memory [MiB]\n"
+  },
+  "private_retrieval": {
+    "status": "verified",
+    "utc": "2026-11-13T22:50:56.203703+00:00",
+    "archive_sha256": "f0d86f7f28f793bfae10c200c308399a407e07cdda8a953f6299310efc2c5d95",
+    "files_verified": 1056,
+    "bytes_verified": 15215534,
+    "mismatches": 0
+  }
+}
