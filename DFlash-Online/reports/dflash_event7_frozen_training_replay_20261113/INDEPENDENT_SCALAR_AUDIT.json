@@ -1,0 +1,91 @@
+{
+  "status": "passed",
+  "checks": 51521,
+  "failures": [],
+  "inputs": [
+    {
+      "name": "paired_occurrences.csv",
+      "bytes": 192963,
+      "sha256": "7fce4866521286a4e1acd6f68193dfe8ecb23d967d11f16161204e4a81b46fa2"
+    },
+    {
+      "name": "slots.csv",
+      "bytes": 141903,
+      "sha256": "4960697b038e06f496ab0a8fab8ef4b6f4bfa9c85ca59ee516b75c9e857823ed"
+    },
+    {
+      "name": "per_request.csv",
+      "bytes": 6164,
+      "sha256": "6343d5bae623f93685f20890ef6035bc92c6d00c5fc7a5809493599f5ecbedbf"
+    },
+    {
+      "name": "SUMMARY.json",
+      "bytes": 11718,
+      "sha256": "67898fca5de76198989ac8b5850a45949b6f4754746d7af46484fa58cde7f27f"
+    }
+  ],
+  "model_work": 0,
+  "method": "independent stdlib/Fraction grouping plus request multiplicities; no production analysis import",
+  "full_cohort": {
+    "native_retained_equivalents": 740.0,
+    "recent_retained_equivalents": 745.0,
+    "rescue_equivalents": 13.0,
+    "loss_equivalents": 8.0,
+    "net_pp": 0.6134969325153374,
+    "native_headroom_pp": 9.202453987730062,
+    "exact_net_pp": "100/163"
+  },
+  "primary_interval": {
+    "lower_pp": -0.494452875448237,
+    "upper_pp": 1.6685736737451575,
+    "draws": 10000,
+    "seed": 1707
+  },
+  "occurrence_outcome_table": [
+    {
+      "native": "earlier_break",
+      "recent": "earlier_break",
+      "count": 24
+    },
+    {
+      "native": "earlier_break",
+      "recent": "first_mismatch_at_tag",
+      "count": 2
+    },
+    {
+      "native": "earlier_break",
+      "recent": "accepts_through",
+      "count": 12
+    },
+    {
+      "native": "first_mismatch_at_tag",
+      "recent": "earlier_break",
+      "count": 0
+    },
+    {
+      "native": "first_mismatch_at_tag",
+      "recent": "first_mismatch_at_tag",
+      "count": 98
+    },
+    {
+      "native": "first_mismatch_at_tag",
+      "recent": "accepts_through",
+      "count": 13
+    },
+    {
+      "native": "accepts_through",
+      "recent": "earlier_break",
+      "count": 4
+    },
+    {
+      "native": "accepts_through",
+      "recent": "first_mismatch_at_tag",
+      "count": 12
+    },
+    {
+      "native": "accepts_through",
+      "recent": "accepts_through",
+      "count": 1464
+    }
+  ]
+}

@@ -1,0 +1,239 @@
+{
+  "execution_commit": "10d89bf8ba657cd905d7ad4fb31bf65a0a851656",
+  "status": "completed",
+  "population": {
+    "requests": 128,
+    "slots": 815,
+    "occurrences": 1629,
+    "pass_counts": [
+      814,
+      815
+    ],
+    "singleton_slots": 1
+  },
+  "planned_work": {
+    "endpoints": 2,
+    "response_forwards": 512,
+    "projection_chunks": 16340,
+    "backward_calls": 0,
+    "optimizer_steps": 0,
+    "generations": 0
+  },
+  "failed_scientific_attempts": 0,
+  "unattempted_arms": [],
+  "arms": {
+    "NATIVE7": {
+      "status": "completed",
+      "arm": "NATIVE7",
+      "execution_commit": "10d89bf8ba657cd905d7ad4fb31bf65a0a851656",
+      "response_forwards": 256,
+      "response_forwards_attempted": 256,
+      "projection_chunks": 8170,
+      "emitted_occurrences": 1629,
+      "backward_calls": 0,
+      "optimizer_steps": 0,
+      "teacher_head_forwards": 0,
+      "generations": 0,
+      "startup_response_forwards": 0,
+      "synchronized_forward_wall_s": 81.44587443768978,
+      "input_validation": {
+        "files": 131,
+        "all_identities_match": true,
+        "sealed_occurrences": {
+          "bytes": 448114,
+          "sha256": "63402fe582e029e4b8056977aa5412b3e1b6e1d8edb2b528b62bedf76d9780b6"
+        }
+      },
+      "endpoint_file_before": {
+        "bytes": 2097259104,
+        "sha256": "30123d8de0bab8462a7afb77669079a65f62e771437232dcb0cba21413bed2cb"
+      },
+      "origin": {
+        "config_matches_recovery": true,
+        "accumulation_remainder": 0,
+        "global_step": 768,
+        "presentations": 1536,
+        "horizon": 7424,
+        "accumulation_steps": 2,
+        "reduction": "response_mean"
+      },
+      "endpoint_before": {
+        "bytes": 2097259104,
+        "sha256": "30123d8de0bab8462a7afb77669079a65f62e771437232dcb0cba21413bed2cb",
+        "tensors": 58,
+        "coordinates": 1048626432,
+        "dtypes": {
+          "torch.bfloat16": 1048626432
+        },
+        "exact_export_equality": true
+      },
+      "runtime_before": {
+        "all_modules_training": true,
+        "draft_dtype": "torch.bfloat16",
+        "loss_dtype": "torch.bfloat16",
+        "block_size": 16,
+        "head_chunk_blocks": 8,
+        "num_anchors": 512,
+        "attention_backend": "flex_attention",
+        "model_gradients": 0
+      },
+      "shared_before": {
+        "embed_tokens": {
+          "sha256": "ce8047ffa39c60dc8c7d4092df8029ed984a80b0a46039aeea394894999bb4b3",
+          "coordinates": 622329856
+        },
+        "lm_head": {
+          "sha256": "1f34b2cb9ffe7f40b8b2824db45e4cfc0ce82d3eb1440ecfbf1bc0a72e90eac0",
+          "coordinates": 622329856
+        }
+      },
+      "model_loading_and_integrity_s": 26.619107235223055,
+      "current_presentation": 255,
+      "caller_rng_and_modes_restored": true,
+      "endpoint_after": {
+        "bytes": 2097259104,
+        "sha256": "30123d8de0bab8462a7afb77669079a65f62e771437232dcb0cba21413bed2cb",
+        "tensors": 58,
+        "coordinates": 1048626432,
+        "dtypes": {
+          "torch.bfloat16": 1048626432
+        },
+        "exact_export_equality": true
+      },
+      "shared_after": {
+        "embed_tokens": {
+          "sha256": "ce8047ffa39c60dc8c7d4092df8029ed984a80b0a46039aeea394894999bb4b3",
+          "coordinates": 622329856
+        },
+        "lm_head": {
+          "sha256": "1f34b2cb9ffe7f40b8b2824db45e4cfc0ce82d3eb1440ecfbf1bc0a72e90eac0",
+          "coordinates": 622329856
+        }
+      },
+      "runtime_after": {
+        "all_modules_training": true,
+        "draft_dtype": "torch.bfloat16",
+        "loss_dtype": "torch.bfloat16",
+        "block_size": 16,
+        "head_chunk_blocks": 8,
+        "num_anchors": 512,
+        "attention_backend": "flex_attention",
+        "model_gradients": 0
+      },
+      "post_scoring_integrity_s": 5.752227019518614,
+      "exact_endpoint_before_and_after": true,
+      "shared_components_unchanged": true,
+      "peak_allocated_bytes": 5531260928,
+      "peak_reserved_bytes": 6874464256,
+      "device_name": "NVIDIA A800 80GB PCIe",
+      "wall_s": 127.47163602150977
+    },
+    "RECENT7": {
+      "status": "completed",
+      "arm": "RECENT7",
+      "execution_commit": "10d89bf8ba657cd905d7ad4fb31bf65a0a851656",
+      "response_forwards": 256,
+      "response_forwards_attempted": 256,
+      "projection_chunks": 8170,
+      "emitted_occurrences": 1629,
+      "backward_calls": 0,
+      "optimizer_steps": 0,
+      "teacher_head_forwards": 0,
+      "generations": 0,
+      "startup_response_forwards": 0,
+      "synchronized_forward_wall_s": 80.25254378654063,
+      "input_validation": {
+        "files": 131,
+        "all_identities_match": true,
+        "sealed_occurrences": {
+          "bytes": 448114,
+          "sha256": "63402fe582e029e4b8056977aa5412b3e1b6e1d8edb2b528b62bedf76d9780b6"
+        }
+      },
+      "endpoint_file_before": {
+        "bytes": 2097259104,
+        "sha256": "d873ae4455f355d8bb11bfbe771071519044155b42db051feb0d28d585eaacc9"
+      },
+      "origin": {
+        "config_matches_recovery": true,
+        "accumulation_remainder": 0,
+        "global_step": 768,
+        "presentations": 1536,
+        "horizon": 7424,
+        "accumulation_steps": 2,
+        "reduction": "response_mean"
+      },
+      "endpoint_before": {
+        "bytes": 2097259104,
+        "sha256": "d873ae4455f355d8bb11bfbe771071519044155b42db051feb0d28d585eaacc9",
+        "tensors": 58,
+        "coordinates": 1048626432,
+        "dtypes": {
+          "torch.bfloat16": 1048626432
+        },
+        "exact_export_equality": true
+      },
+      "runtime_before": {
+        "all_modules_training": true,
+        "draft_dtype": "torch.bfloat16",
+        "loss_dtype": "torch.bfloat16",
+        "block_size": 16,
+        "head_chunk_blocks": 8,
+        "num_anchors": 512,
+        "attention_backend": "flex_attention",
+        "model_gradients": 0
+      },
+      "shared_before": {
+        "embed_tokens": {
+          "sha256": "ce8047ffa39c60dc8c7d4092df8029ed984a80b0a46039aeea394894999bb4b3",
+          "coordinates": 622329856
+        },
+        "lm_head": {
+          "sha256": "1f34b2cb9ffe7f40b8b2824db45e4cfc0ce82d3eb1440ecfbf1bc0a72e90eac0",
+          "coordinates": 622329856
+        }
+      },
+      "model_loading_and_integrity_s": 26.467217473313212,
+      "current_presentation": 255,
+      "caller_rng_and_modes_restored": true,
+      "endpoint_after": {
+        "bytes": 2097259104,
+        "sha256": "d873ae4455f355d8bb11bfbe771071519044155b42db051feb0d28d585eaacc9",
+        "tensors": 58,
+        "coordinates": 1048626432,
+        "dtypes": {
+          "torch.bfloat16": 1048626432
+        },
+        "exact_export_equality": true
+      },
+      "shared_after": {
+        "embed_tokens": {
+          "sha256": "ce8047ffa39c60dc8c7d4092df8029ed984a80b0a46039aeea394894999bb4b3",
+          "coordinates": 622329856
+        },
+        "lm_head": {
+          "sha256": "1f34b2cb9ffe7f40b8b2824db45e4cfc0ce82d3eb1440ecfbf1bc0a72e90eac0",
+          "coordinates": 622329856
+        }
+      },
+      "runtime_after": {
+        "all_modules_training": true,
+        "draft_dtype": "torch.bfloat16",
+        "loss_dtype": "torch.bfloat16",
+        "block_size": 16,
+        "head_chunk_blocks": 8,
+        "num_anchors": 512,
+        "attention_backend": "flex_attention",
+        "model_gradients": 0
+      },
+      "post_scoring_integrity_s": 5.706855274736881,
+      "exact_endpoint_before_and_after": true,
+      "shared_components_unchanged": true,
+      "peak_allocated_bytes": 5531260928,
+      "peak_reserved_bytes": 6874464256,
+      "device_name": "NVIDIA A800 80GB PCIe",
+      "wall_s": 126.06776504777372
+    }
+  },
+  "private_note": "All status fields checked for publication; no paths or tokens included."
+}
