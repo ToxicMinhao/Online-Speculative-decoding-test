@@ -1,0 +1,11 @@
+# MIR source review and adaptation boundary
+
+The user granted a scoped exception on November 14 allowing this threatened-repair pilot after source review, qualification and bounded execution. The earlier pending-exception wording in the original private review is superseded. No author-supported MIR experiment was reproduced; neither the source review nor this pilot substitutes for that reproduction.
+
+The [NeurIPS paper, Section 3.1](https://proceedings.neurips.cc/paper/2019/file/15825aee15eb335cc13f9b559f166ee8-Paper.pdf) selects stored examples whose loss increases after an estimated incoming update. It uses a limited replay memory and a candidate subsample. Its classification results do not establish speculative-decoding performance.
+
+Author code was pinned at `35eda78bcdd35025b16b0b1039a926d34aad4851`, observed as repository HEAD on November 14, 2026 UTC. In [`mir.py`, `retrieve_replay_update`](https://github.com/optimass/Maximally_Interfered_Retrieval/blob/35eda78bcdd35025b16b0b1039a926d34aad4851/mir.py), current-batch gradients are computed first. A temporary model ranks memory examples by post-update minus pre-update cross-entropy, and selected replay gradients are added before one optimizer step. [`utils.py`, `get_future_step_parameters`](https://github.com/optimass/Maximally_Interfered_Retrieval/blob/35eda78bcdd35025b16b0b1039a926d34aad4851/utils.py) constructs that temporary model by copying weights and subtracting learning-rate-scaled gradients.
+
+This handoff adapts the selection-and-rehearsal structure with explicit changes: an actual persistent BF16 AdamW proposal, accepted-to-first-rejection transitions rather than loss ranking, fixed historical repaired slots rather than a reservoir, position-matched hash-selected uniform controls, and frozen-teacher forward-KL replay. Its coefficient `0.10` and selected-row normalization are prescribed pilot choices, not author-supported performance guarantees.
+
+The result is an independently implemented DFlash pilot inspired by MIR. It is not the MIR author algorithm, supported runtime, or reproduction. The scoped exception applies to this pilot only; previous exceptions for other borrowed mechanisms did not provide authorization for MIR.

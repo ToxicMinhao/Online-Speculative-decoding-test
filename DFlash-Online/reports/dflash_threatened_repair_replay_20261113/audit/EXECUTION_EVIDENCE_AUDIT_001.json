@@ -1,0 +1,33 @@
+{
+  "status": "passed",
+  "checks": {
+    "population": 53,
+    "state": 392,
+    "qualification": 1,
+    "native_trajectory": 258,
+    "selection": 112,
+    "observation": 52160,
+    "immutable_memory": 26080,
+    "selection_row": 221680,
+    "layout": 530,
+    "update": 109,
+    "alias": 33,
+    "replay": 879,
+    "native_qualification": 1,
+    "reconstruction": 64,
+    "neutral": 256,
+    "work": 2,
+    "probe": 16386
+  },
+  "errors_classes": [],
+  "missing": [],
+  "execution_commit": "d51718a7fa993a1494e593d15a8539090227d8b8",
+  "selected_T_occurrences": 54,
+  "scope": "Independent compact receipt/selection/replay audit; no model execution",
+  "limitations": [
+    "Native tensor equality relies on the retained in-process checks; tensors were not reloaded.",
+    "Teacher/mask support is checked against full immutable layouts and receipts, not re-derived teacher gradients.",
+    "Canonical raw token scoring requires the separately authenticated parent map; this script checks stored native validity and conceptual/raw links.",
+    "Authorship overlaps native probe/campaign/CPU auditor implementation; not a blinded external replication."
+  ]
+}
