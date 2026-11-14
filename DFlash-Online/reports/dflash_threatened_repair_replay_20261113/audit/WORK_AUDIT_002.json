@@ -1,0 +1,192 @@
+{
+  "status": "passed",
+  "checks": 54,
+  "errors_classes": [],
+  "experiment_status": "completed",
+  "execution_commit": "d51718a7fa993a1494e593d15a8539090227d8b8",
+  "audit_scope": "Independent retained operation ledger accounting; no native rerun or efficacy verification",
+  "native": {
+    "attempted": {
+      "model_load": 67,
+      "draft_block": 19329,
+      "target_call": 19388,
+      "context_forward": 359497
+    },
+    "completed": {
+      "model_load": 67,
+      "draft_block": 19329,
+      "target_call": 19388,
+      "context_forward": 359497
+    },
+    "failed": {},
+    "unknown": {},
+    "contract": {
+      "kind": "contract",
+      "limits": {
+        "draft_block": 19739,
+        "model_load": 68
+      },
+      "gpu_seconds": 10614.013259656727
+    },
+    "gpu_start_count": 1,
+    "occupied_cards": [
+      1
+    ],
+    "gpu_end_count": 1,
+    "recorded_gpu_seconds": 7094.400874333456
+  },
+  "training": {
+    "attempted": {
+      "response_forward": 4878,
+      "response_backward": 545,
+      "optimizer_step": 167
+    },
+    "completed": {
+      "response_forward": 4878,
+      "response_backward": 545,
+      "optimizer_step": 167
+    },
+    "failed": {},
+    "unknown": {},
+    "physical": {
+      "draft_forwards": 4878,
+      "layer_forwards": 24390,
+      "objective_chunk": 21440,
+      "vocabulary_head_calls": 213381
+    },
+    "by_category": {
+      "startup": {
+        "response_forward:completed": 2,
+        "response_backward:completed": 2
+      },
+      "qualification": {
+        "response_forward:completed": 20,
+        "response_backward:completed": 18,
+        "optimizer_step:completed": 6
+      },
+      "native": {
+        "response_forward:completed": 256,
+        "response_backward:completed": 256,
+        "optimizer_step:completed": 128
+      },
+      "memory": {
+        "response_forward:completed": 4331
+      },
+      "duplicate": {
+        "response_forward:completed": 4,
+        "response_backward:completed": 4,
+        "optimizer_step:completed": 2
+      },
+      "disposable": {
+        "response_forward:completed": 62,
+        "response_backward:completed": 62,
+        "optimizer_step:completed": 31
+      },
+      "replay": {
+        "response_forward:completed": 203,
+        "response_backward:completed": 203
+      }
+    },
+    "closed": true
+  },
+  "physical_adam_attempts": 167,
+  "recorded_occupied_gpu_seconds": 7094.400874333456,
+  "cumulative_physical_adam_attempts": 170,
+  "cumulative_recorded_gpu_seconds": 7280.387614676729,
+  "cumulative_adam_limit": 171,
+  "prior": {
+    "status": "passed",
+    "checks": 19,
+    "errors_classes": [],
+    "experiment_status": "failed",
+    "execution_commit": "fdbf319b2e68e166c53a8304ad26d0c4fa500e29",
+    "audit_scope": "Independent retained operation ledger accounting; no native rerun or efficacy verification",
+    "native": {
+      "attempted": {
+        "model_load": 2,
+        "draft_block": 119,
+        "target_call": 117,
+        "context_forward": 178
+      },
+      "completed": {
+        "model_load": 2,
+        "draft_block": 119,
+        "target_call": 117,
+        "context_forward": 178
+      },
+      "failed": {},
+      "unknown": {},
+      "contract": {
+        "kind": "contract",
+        "limits": {
+          "draft_block": 19739,
+          "model_load": 68
+        },
+        "gpu_seconds": 10800
+      },
+      "gpu_start_count": 1,
+      "occupied_cards": [
+        1
+      ],
+      "gpu_end_count": 1,
+      "recorded_gpu_seconds": 185.9867403432727
+    },
+    "training": {
+      "attempted": {
+        "response_forward": 13,
+        "response_backward": 10,
+        "optimizer_step": 3
+      },
+      "completed": {
+        "response_forward": 12,
+        "response_backward": 10,
+        "optimizer_step": 3
+      },
+      "failed": {
+        "response_forward": 1
+      },
+      "unknown": {},
+      "physical": {
+        "draft_forwards": 13,
+        "layer_forwards": 65,
+        "objective_chunk": 504,
+        "vocabulary_head_calls": 1059
+      },
+      "by_category": {
+        "startup": {
+          "response_forward:completed": 2,
+          "response_backward:completed": 2
+        },
+        "qualification": {
+          "response_forward:completed": 10,
+          "response_backward:completed": 8,
+          "optimizer_step:completed": 3,
+          "response_forward:failed": 1
+        }
+      },
+      "closed": true
+    },
+    "physical_adam_attempts": 3,
+    "recorded_occupied_gpu_seconds": 185.9867403432727,
+    "cumulative_physical_adam_attempts": 3,
+    "cumulative_recorded_gpu_seconds": 185.9867403432727,
+    "cumulative_adam_limit": 168,
+    "prior": null,
+    "current_native_and_disposable_adam_attempts": 0,
+    "current_duplicate_adam_attempts": 0,
+    "within_prescribed_budgets": true,
+    "limitations": [
+      "Recorded GPU clock is cross-checked, not independently measured by this CPU audit.",
+      "Nested operation wall times are not additive kernel or deployment costs.",
+      "Absent operations remain absent; unknown attempts are not reported as unattempted."
+    ]
+  },
+  "current_native_and_disposable_adam_attempts": 159,
+  "current_duplicate_adam_attempts": 2,
+  "within_prescribed_budgets": true,
+  "limitations": [
+    "Recorded GPU clock is cross-checked, not independently measured by this CPU audit.",
+    "Nested operation wall times are not additive kernel or deployment costs.",
+    "Absent operations remain absent; unknown attempts are not reported as unattempted."
+  ]
+}

@@ -1,0 +1,136 @@
+{
+  "native_budget": {
+    "attempted": {
+      "model_load": 67,
+      "draft_block": 19329,
+      "target_call": 19388,
+      "context_forward": 359497
+    },
+    "completed": {
+      "draft_block": 19329,
+      "target_call": 19388,
+      "model_load": 67,
+      "context_forward": 359497
+    },
+    "failed": {},
+    "unknown": {},
+    "remaining": {
+      "draft_block": 410,
+      "model_load": 1
+    },
+    "gpu_seconds": 7094.400874333456,
+    "gpu_seconds_limit": 10614.013259656727
+  },
+  "training": {
+    "attempted": {
+      "response_forward": 4878,
+      "response_backward": 545,
+      "optimizer_step": 167
+    },
+    "completed": {
+      "response_forward": 4878,
+      "response_backward": 545,
+      "optimizer_step": 167
+    },
+    "failed": {},
+    "unknown": {},
+    "physical": {
+      "draft_forwards": 4878,
+      "layer_forwards": 24390,
+      "objective_chunk": 21440,
+      "vocabulary_head_calls": 213381
+    }
+  },
+  "prior_attempt": {
+    "approved_cumulative_adam_limit": 171,
+    "status_identity": {
+      "bytes": 2513,
+      "sha256": "0c2d831032e288d9c71bea504de82cf64c486118b941dda89f2444a29e34f9d8"
+    },
+    "status_path": "private_artifact_0064",
+    "training_work_identity": {
+      "bytes": 11680,
+      "sha256": "732e9db2c27f5d056121f05ed226de79370f62c795614adf82de45fd72c897c4"
+    },
+    "training_work_path": "private_artifact_0065"
+  },
+  "budget_accounting": {
+    "prior_adam_steps": 3,
+    "prior_gpu_seconds": 185.9867403432727,
+    "current_attempt_adam_limit": 168,
+    "cumulative_adam_limit": 171,
+    "cumulative_gpu_seconds_limit": 10800,
+    "current_attempt_gpu_seconds_limit": 10614.013259656727,
+    "prior_execution_commit": "fdbf319b2e68e166c53a8304ad26d0c4fa500e29",
+    "prior_training_work": {
+      "attempted": {
+        "response_forward": 13,
+        "response_backward": 10,
+        "optimizer_step": 3
+      },
+      "completed": {
+        "response_forward": 12,
+        "response_backward": 10,
+        "optimizer_step": 3
+      },
+      "failed": {
+        "response_forward": 1
+      },
+      "unknown": {},
+      "physical": {
+        "draft_forwards": 13,
+        "layer_forwards": 65,
+        "objective_chunk": 504,
+        "vocabulary_head_calls": 1059
+      }
+    },
+    "prior_native_budget": {
+      "attempted": {
+        "model_load": 2,
+        "draft_block": 119,
+        "target_call": 117,
+        "context_forward": 178
+      },
+      "completed": {
+        "draft_block": 119,
+        "target_call": 117,
+        "model_load": 2,
+        "context_forward": 178
+      },
+      "failed": {},
+      "unknown": {},
+      "remaining": {
+        "draft_block": 19620,
+        "model_load": 66
+      },
+      "gpu_seconds": 185.9867403432727,
+      "gpu_seconds_limit": 10800
+    }
+  },
+  "cumulative": {
+    "completed_adam_steps": 170,
+    "attempted_adam_steps": 170,
+    "gpu_seconds": 7280.387614676729,
+    "adam_limit": 171,
+    "gpu_seconds_limit": 10800
+  },
+  "phases": {
+    "native_probe_qualification": {
+      "status": "completed",
+      "wall_s": 28.196778068318963
+    },
+    "training_qualification_and_native_trajectory": {
+      "status": "completed",
+      "wall_s": 4446.439742589369
+    },
+    "independent_native_probes": {
+      "status": "completed",
+      "wall_s": 2243.5829247646034
+    }
+  },
+  "campaign_wall_s": 7164.792083965614,
+  "maximum_gpu_card_seconds": 10800,
+  "new_complete_response_generations": 0,
+  "clocks": "Phase intervals include nested work; do not sum nested timers.",
+  "delayed_evaluation": "Exact exported window weights; outcomes unavailable to training or selection."
+}

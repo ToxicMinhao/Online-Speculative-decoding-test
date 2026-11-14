@@ -1,0 +1,16 @@
+{
+  "status": "passed",
+  "test_suite": "tests/test_threat*.py",
+  "tests": 121,
+  "failures": 0,
+  "wall_s": 4.939,
+  "device": "CPU only; CUDA_VISIBLE_DEVICES empty",
+  "new_regressions": [
+    "real feature normalizer omits teacher field; replay preserves exact raw BF16 values and predecessor alignment",
+    "padded-zero full teacher path leaves native gradient object and contents untouched"
+  ],
+  "independent_focused_tests": 22,
+  "independent_ledger_checks": 12,
+  "native_requalification": "not run",
+  "scientific_algorithm_settings_tolerances": "unchanged"
+}

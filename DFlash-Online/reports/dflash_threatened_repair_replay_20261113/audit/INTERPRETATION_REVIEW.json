@@ -1,0 +1,628 @@
+{
+  "status": "completed_local_review",
+  "decision": "UNRESOLVED_LOCAL_TRANSFER",
+  "advancement_screen_pass": false,
+  "statistical_confidence": "CAUTION: accurate conditional estimates; neither positive primary contrast demonstrated; no equivalence claim",
+  "observation": "Targeted replay rescues 48 of 54 selected native-threat occurrences, but independent T\u2212N and T\u2212U means are negative and both intervals include zero.",
+  "supported_scope": "A completed same-state one-step development diagnostic; selected-memory control realized, independent benefit unestablished.",
+  "weakened_explanations": [
+    "There are too few actionable first-rejection threats to exercise this bounded design (support threshold passed).",
+    "The replay contribution is absent, rounded entirely away, or unable to repair selected native errors (all active physical branches change BF16 weights; 48/54 selected threats rescued).",
+    "The continuation drifted away from the intended native state (final exact weights/Adam/counters/RNG parity passed).",
+    "The chosen local damage consists only of downstream blocked tokens (84 threats were genuine first rejections; 26 earlier breaks were separately excluded)."
+  ],
+  "unresolved_explanations": [
+    "Why selected-example control does not give a positive independent average: transfer mismatch, collateral parameter effects and strength/clipping interactions remain possible; no attribution identifies a unique cause.",
+    "Whether modest positive or negative average local effects would persist across other requests, training seeds or event states; the request bootstrap is conditional.",
+    "Whether a full treatment trajectory could behave differently; disposable branches do not measure an event-long trained endpoint.",
+    "Whether memory selection could be made economical for deployment; diagnostic scans/restoration/export/probes are not a serving-cost comparison.",
+    "Whether another replay objective, memory rule or intervention could work; no general impossibility follows."
+  ],
+  "one_decision": "Do not advance this fixed recipe as a K+ upgrade or launch an event rollout from these results. Stop at the requested report.",
+  "observation_that_would_change_next_decision": "A separately authorized prespecified comparison showing a positive independent net-prefix advantage over both native and position-matched replay, with acquisition/loss accounting showing that selected-memory rescue extends beyond fitted examples without offsetting losses, would justify reconsidering a rollout. More selected-memory rescues alone would not.",
+  "authorship_overlap": "Reviewer authored analysis and parts of runner/training; this is independently coded CPU arithmetic, not external blinded review or independent native replication.",
+  "execution_commit": "d51718a7fa993a1494e593d15a8539090227d8b8",
+  "sources": {
+    "handoff": "private_artifact_0576",
+    "verified_retained": "private_artifact_0577",
+    "independent_reduction": "private_artifact_0578",
+    "independent_script": "private_artifact_0579"
+  },
+  "arithmetic_checks": {
+    "count": 2251,
+    "failed": 0
+  },
+  "primary": {
+    "T_N": {
+      "estimate": -0.012451171875,
+      "lower": -0.026611328125,
+      "upper": 0.0004943847656249112,
+      "numerator": -51,
+      "denominator": 4096
+    },
+    "T_U": {
+      "estimate": -0.00537109375,
+      "lower": -0.01708984375,
+      "upper": 0.005615234375,
+      "numerator": -22,
+      "denominator": 4096
+    }
+  },
+  "support": {
+    "distinct_selected_T_tags": 50,
+    "distinct_selected_T_requests": 41,
+    "active_windows": 16,
+    "nonidentical_selection_windows": 15,
+    "all_threat_distinct_tags": 75,
+    "all_threat_distinct_requests": 52,
+    "all_threat_occurrences": 84,
+    "selected_T_occurrences": 54,
+    "selected_U_occurrences": 54,
+    "overlap_occurrences": 2
+  },
+  "funnel": {
+    "all_tag_windows": 13040,
+    "eligible": 10835,
+    "eligible_P_direct_correct": 10835,
+    "eligible_P_tie": 198,
+    "eligible_P_wrong_tie": 0,
+    "eligible_N_direct_correct": 10750,
+    "eligible_N_tie": 209,
+    "eligible_N_wrong_tie": 41,
+    "retained": 10725,
+    "already_wrong": 2003,
+    "already_wrong_P_direct_correct": 247,
+    "already_wrong_P_tie": 165,
+    "already_wrong_P_wrong_tie": 156,
+    "already_wrong_N_direct_correct": 320,
+    "already_wrong_N_tie": 163,
+    "already_wrong_N_wrong_tie": 119,
+    "threat": 84,
+    "excluded": 202,
+    "excluded_P_direct_correct": 178,
+    "excluded_P_tie": 6,
+    "excluded_P_wrong_tie": 0,
+    "excluded_N_direct_correct": 182,
+    "excluded_N_tie": 2,
+    "excluded_N_wrong_tie": 0,
+    "earlier_break": 26,
+    "earlier_break_j_correct": 25,
+    "earlier_break_j_wrong": 1
+  },
+  "memory": {
+    "selected_T": {
+      "tag_window_count": 54,
+      "P_accepts": 54,
+      "P_exact_rejection": 0,
+      "P_earlier_break": 0,
+      "P_direct_correct": 54,
+      "P_wrong_tie": 0,
+      "N_accepts": 0,
+      "N_exact_rejection": 54,
+      "N_earlier_break": 0,
+      "N_direct_correct": 0,
+      "N_wrong_tie": 26,
+      "T_accepts": 48,
+      "T_exact_rejection": 6,
+      "T_earlier_break": 0,
+      "T_direct_correct": 48,
+      "T_wrong_tie": 0,
+      "U_accepts": 17,
+      "U_exact_rejection": 37,
+      "U_earlier_break": 0,
+      "U_direct_correct": 17,
+      "U_wrong_tie": 15,
+      "T_N_rescue": 48,
+      "T_N_loss": 0,
+      "T_U_rescue": 32,
+      "T_U_loss": 1
+    },
+    "union": {
+      "tag_window_count": 106,
+      "P_accepts": 106,
+      "P_exact_rejection": 0,
+      "P_earlier_break": 0,
+      "P_direct_correct": 106,
+      "P_wrong_tie": 0,
+      "N_accepts": 51,
+      "N_exact_rejection": 55,
+      "N_earlier_break": 0,
+      "N_direct_correct": 51,
+      "N_wrong_tie": 27,
+      "T_accepts": 100,
+      "T_exact_rejection": 6,
+      "T_earlier_break": 0,
+      "T_direct_correct": 100,
+      "T_wrong_tie": 0,
+      "U_accepts": 62,
+      "U_exact_rejection": 42,
+      "U_earlier_break": 2,
+      "U_direct_correct": 64,
+      "U_wrong_tie": 15,
+      "T_N_rescue": 49,
+      "T_N_loss": 0,
+      "T_U_rescue": 39,
+      "T_U_loss": 1
+    }
+  },
+  "gross_counts": {
+    "N_acquired": 177,
+    "N_lost": 136,
+    "N_net": 41,
+    "N_earlier_error": 43,
+    "N_repairs_pre_blocker": 52,
+    "U_acquired": 127,
+    "U_lost": 115,
+    "U_net": 12,
+    "U_earlier_error": 46,
+    "U_repairs_pre_blocker": 43,
+    "T_acquired": 143,
+    "T_lost": 153,
+    "T_net": -10,
+    "T_earlier_error": 51,
+    "T_repairs_pre_blocker": 49,
+    "U_displaced_native_blocker_repair": 18,
+    "T_displaced_native_blocker_repair": 21,
+    "T_N": -51,
+    "T_N_acquisition_difference": -34,
+    "T_N_loss_difference": 17,
+    "T_U": -22,
+    "T_U_acquisition_difference": 16,
+    "T_U_loss_difference": 38
+  },
+  "concentration": {
+    "T_N": {
+      "request_wins": 15,
+      "request_losses": 24,
+      "request_ties": 25,
+      "request_netted_gross_gained": 42,
+      "request_netted_gross_lost": 93,
+      "block_window_wins": 37,
+      "block_window_losses": 49,
+      "block_window_ties": 4010,
+      "block_window_gross_gained": 89,
+      "block_window_gross_lost": 140,
+      "window_wins": 5,
+      "window_losses": 11,
+      "window_ties": 0,
+      "largest_request_gains": [
+        [
+          "retention-e7-gsm8k-0525",
+          8
+        ],
+        [
+          "retention-e7-gsm8k-0196",
+          6
+        ],
+        [
+          "retention-e7-gsm8k-0566",
+          6
+        ],
+        [
+          "retention-e7-gsm8k-1226",
+          4
+        ],
+        [
+          "retention-e7-gsm8k-0746",
+          3
+        ]
+      ],
+      "largest_request_losses": [
+        [
+          "retention-e7-gsm8k-1279",
+          13
+        ],
+        [
+          "retention-e7-gsm8k-0518",
+          10
+        ],
+        [
+          "retention-e7-gsm8k-1175",
+          10
+        ],
+        [
+          "retention-e7-gsm8k-0623",
+          9
+        ],
+        [
+          "retention-e7-gsm8k-0318",
+          8
+        ]
+      ],
+      "top3_gross_gain_share": 0.47619047619047616,
+      "top3_gross_loss_share": 0.3548387096774194,
+      "window_nets": {
+        "8": -4,
+        "16": 4,
+        "24": -1,
+        "32": -1,
+        "40": 4,
+        "48": -15,
+        "56": -4,
+        "64": -10,
+        "72": -5,
+        "80": 9,
+        "88": 2,
+        "96": -20,
+        "104": -2,
+        "112": 4,
+        "120": -10,
+        "128": -2
+      }
+    },
+    "T_U": {
+      "request_wins": 17,
+      "request_losses": 19,
+      "request_ties": 28,
+      "request_netted_gross_gained": 40,
+      "request_netted_gross_lost": 62,
+      "block_window_wins": 34,
+      "block_window_losses": 34,
+      "block_window_ties": 4028,
+      "block_window_gross_gained": 74,
+      "block_window_gross_lost": 96,
+      "window_wins": 6,
+      "window_losses": 7,
+      "window_ties": 3,
+      "largest_request_gains": [
+        [
+          "retention-e7-gsm8k-1071",
+          10
+        ],
+        [
+          "retention-e7-gsm8k-0393",
+          3
+        ],
+        [
+          "retention-e7-gsm8k-0518",
+          3
+        ],
+        [
+          "retention-e7-gsm8k-0525",
+          3
+        ],
+        [
+          "retention-e7-gsm8k-0746",
+          3
+        ]
+      ],
+      "largest_request_losses": [
+        [
+          "retention-e7-gsm8k-0005",
+          13
+        ],
+        [
+          "retention-e7-gsm8k-0896",
+          8
+        ],
+        [
+          "retention-e7-gsm8k-0318",
+          7
+        ],
+        [
+          "retention-e7-gsm8k-1276",
+          7
+        ],
+        [
+          "retention-e7-gsm8k-1175",
+          5
+        ]
+      ],
+      "top3_gross_gain_share": 0.4,
+      "top3_gross_loss_share": 0.45161290322580644,
+      "window_nets": {
+        "8": -3,
+        "16": 10,
+        "24": -9,
+        "32": -1,
+        "40": -9,
+        "48": -13,
+        "56": 3,
+        "64": 7,
+        "72": 1,
+        "80": 1,
+        "88": 0,
+        "96": -12,
+        "104": -2,
+        "112": 0,
+        "120": 5,
+        "128": 0
+      }
+    }
+  },
+  "probe_accounting": {
+    "conceptual": 16384,
+    "physical": 16128,
+    "reused": 256,
+    "invalid": 0
+  },
+  "activation": {
+    "U": {
+      "physical_branches": 15,
+      "nonzero_weight_differences": 15,
+      "difference_from_native.changed_entries": {
+        "min": 606416.0,
+        "max": 111618243.0,
+        "sum": 827491312.0,
+        "mean": 55166087.46666667
+      },
+      "difference_from_native.difference_norm": {
+        "min": 0.03940021537555727,
+        "max": 2.448815517805295,
+        "sum": 15.098438624502986,
+        "mean": 1.0065625749668656
+      },
+      "replay.realized_added_gradient_norm": {
+        "min": 0.002217750480645716,
+        "max": 1.350139034885012,
+        "sum": 6.8234029065028015,
+        "mean": 0.45489352710018677
+      },
+      "replay.native_preclip_norm": {
+        "min": 0.27944071348894456,
+        "max": 0.5131475834228519,
+        "sum": 5.418839584485803,
+        "mean": 0.36125597229905354
+      },
+      "clip_factor": {
+        "min": 0.71875,
+        "max": 1.0,
+        "sum": 14.578125,
+        "mean": 0.971875
+      },
+      "replay.wall_s": {
+        "min": 2.364212527871132,
+        "max": 12.491138234734535,
+        "sum": 140.7095667384565,
+        "mean": 9.380637782563765
+      },
+      "wall_s": {
+        "min": 13.24316930025816,
+        "max": 23.598697420209646,
+        "sum": 300.92294536717236,
+        "mean": 20.061529691144823
+      }
+    },
+    "T": {
+      "physical_branches": 16,
+      "nonzero_weight_differences": 16,
+      "difference_from_native.changed_entries": {
+        "min": 32915527.0,
+        "max": 115766251.0,
+        "sum": 1131503415.0,
+        "mean": 70718963.4375
+      },
+      "difference_from_native.difference_norm": {
+        "min": 0.5577399721472002,
+        "max": 2.166643490194945,
+        "sum": 20.38946256494784,
+        "mean": 1.27434141030924
+      },
+      "replay.realized_added_gradient_norm": {
+        "min": 0.24299162026948742,
+        "max": 3.37965137874693,
+        "sum": 13.42020893304381,
+        "mean": 0.8387630583152381
+      },
+      "replay.native_preclip_norm": {
+        "min": 0.27944071348894456,
+        "max": 0.5131475834228519,
+        "sum": 5.852454227442754,
+        "mean": 0.36577838921517214
+      },
+      "clip_factor": {
+        "min": 0.29296875,
+        "max": 1.0,
+        "sum": 14.45703125,
+        "mean": 0.903564453125
+      },
+      "replay.wall_s": {
+        "min": 1.546131318435073,
+        "max": 12.467610025778413,
+        "sum": 142.60012152418494,
+        "mean": 8.912507595261559
+      },
+      "wall_s": {
+        "min": 11.367509137839079,
+        "max": 23.063982101157308,
+        "sum": 312.0088231023401,
+        "mean": 19.500551443896256
+      }
+    }
+  },
+  "receipt_checks": {
+    "N": {
+      "physical_branches": 16,
+      "clipped_branches": 0,
+      "optimizer_moment_differences": 0,
+      "counter_differences": 0
+    },
+    "U": {
+      "physical_branches": 15,
+      "clipped_branches": 2,
+      "optimizer_moment_differences": 15,
+      "counter_differences": 0
+    },
+    "T": {
+      "physical_branches": 16,
+      "clipped_branches": 5,
+      "optimizer_moment_differences": 16,
+      "counter_differences": 0
+    }
+  },
+  "physical_work": [
+    {
+      "category": "startup",
+      "kind": "response_forward",
+      "count": 2,
+      "host_operation_wall_s": 5.322418173775077
+    },
+    {
+      "category": "startup",
+      "kind": "response_backward",
+      "count": 2,
+      "host_operation_wall_s": 1.1925249192863703
+    },
+    {
+      "category": "qualification",
+      "kind": "response_forward",
+      "count": 20,
+      "host_operation_wall_s": 9.283655602484941
+    },
+    {
+      "category": "qualification",
+      "kind": "response_backward",
+      "count": 18,
+      "host_operation_wall_s": 9.129019673913717
+    },
+    {
+      "category": "qualification",
+      "kind": "optimizer_step",
+      "count": 6,
+      "host_operation_wall_s": 0.060102272778749466
+    },
+    {
+      "category": "native",
+      "kind": "response_forward",
+      "count": 256,
+      "host_operation_wall_s": 135.13053739629686
+    },
+    {
+      "category": "native",
+      "kind": "response_backward",
+      "count": 256,
+      "host_operation_wall_s": 163.74138197116554
+    },
+    {
+      "category": "native",
+      "kind": "optimizer_step",
+      "count": 128,
+      "host_operation_wall_s": 0.26429127901792526
+    },
+    {
+      "category": "memory",
+      "kind": "response_forward",
+      "count": 4331,
+      "host_operation_wall_s": 1323.9121077079326
+    },
+    {
+      "category": "duplicate",
+      "kind": "response_forward",
+      "count": 4,
+      "host_operation_wall_s": 1.8458005543798208
+    },
+    {
+      "category": "duplicate",
+      "kind": "response_backward",
+      "count": 4,
+      "host_operation_wall_s": 2.237849013879895
+    },
+    {
+      "category": "duplicate",
+      "kind": "optimizer_step",
+      "count": 2,
+      "host_operation_wall_s": 0.004019476473331451
+    },
+    {
+      "category": "disposable",
+      "kind": "response_forward",
+      "count": 62,
+      "host_operation_wall_s": 34.56126623228192
+    },
+    {
+      "category": "disposable",
+      "kind": "response_backward",
+      "count": 62,
+      "host_operation_wall_s": 41.843001551926136
+    },
+    {
+      "category": "replay",
+      "kind": "response_forward",
+      "count": 203,
+      "host_operation_wall_s": 112.73688853532076
+    },
+    {
+      "category": "replay",
+      "kind": "response_backward",
+      "count": 203,
+      "host_operation_wall_s": 163.5522721055895
+    },
+    {
+      "category": "disposable",
+      "kind": "optimizer_step",
+      "count": 31,
+      "host_operation_wall_s": 0.07081383839249611
+    }
+  ],
+  "resource": {
+    "main_peak_allocated_bytes": 22715280896,
+    "main_peak_reserved_bytes": 26600275968,
+    "current_campaign_wall_s": 7164.792083965614,
+    "current_occupied_gpu_s": 7094.400874333456,
+    "cumulative_occupied_gpu_s": 7280.387614676729,
+    "cumulative_adam_steps": 170,
+    "cumulative_adam_cap": 171,
+    "gpu_seconds_cap": 10800
+  },
+  "fallacy_scan": {
+    "coverage": "11/11",
+    "items": [
+      {
+        "category": "Simpson reversal",
+        "status": "CHECKED",
+        "assessment": "Equal request/window/start weights are preserved. T\u2212N is favorable in 5 windows, unfavorable in 11; T\u2212U in 6/7 with 3 ties. The aggregate is negative amid mixed strata, not a reversal of uniformly positive within-stratum effects. No window is selected out."
+      },
+      {
+        "category": "Ecological fallacy",
+        "status": "CHECKED",
+        "assessment": "The estimand is the mean local accepted-prefix difference on 64 request clusters. It does not imply every request improves, and it is not a complete-request speedup or a future event effect. Request wins/losses/ties are reported."
+      },
+      {
+        "category": "Berkson/selection bias",
+        "status": "CAUTION",
+        "assessment": "Threat memory is conditioned on P accepting and N rejecting exactly at a historic repair. Its 48/54 rescue rate applies only to these selected tag-window occurrences. The independent panel was sealed without U/T outcomes but is a reused development panel, not a random new-domain confirmation."
+      },
+      {
+        "category": "Collider bias",
+        "status": "CHECKED",
+        "assessment": "No independent evaluation outcome enters selection or the primary denominator. The memory population deliberately depends on the native update; analyses conditional on that post-native event cannot be generalized to all model decisions or interpreted as a generic history/fragility causal relation."
+      },
+      {
+        "category": "Base rates",
+        "status": "CHECKED",
+        "assessment": "Report all 13,040 tag-windows: 10,835 eligible, 84 threats, 54 selected, and 26 earlier breaks excluded from targeting. Independent evidence has 4,096 paired block-windows but only 64 request clusters. The selected rescue percentage cannot replace these denominators."
+      },
+      {
+        "category": "Regression to the mean",
+        "status": "CAUTION",
+        "assessment": "Selection intentionally picks pending native failures. Same-state N and position-matched U controls plus independent probes prevent treating a return to correct on selected examples as sufficient success. The fixed selection and deterministic execution do not eliminate selection-conditioned optimism in memory summaries."
+      },
+      {
+        "category": "Survivorship",
+        "status": "CHECKED",
+        "assessment": "All 16 windows, 64 requests, 256 starts and 16,384 conceptual branch outcomes are retained; 256 identical-set aliases are explicit. No adverse request or window is removed. The failed first qualification and three consumed Adam applications remain in cumulative accounting."
+      },
+      {
+        "category": "Look-elsewhere",
+        "status": "CAUTION",
+        "assessment": "Only the two prespecified primary contrast intervals are recomputed, with shared bootstrap draws and a joint requirement that both lower bounds exceed zero. Window, tie and acquisition tables are descriptive; no new strata tests or best-window claim. Repeated historical mechanism screens and development reuse limit confirmatory interpretation."
+      },
+      {
+        "category": "Forking paths",
+        "status": "CHECKED",
+        "assessment": "Fixed coefficient, memory, windows, probe starts and PCG64 seed remain unchanged. The authorized retry repaired omitted teacher-tensor access and retained failed work; it did not retune thresholds or replace cases. No outcome-based sensitivity analysis or additional hypothesis test is introduced in this review."
+      },
+      {
+        "category": "Correlation versus causation",
+        "status": "CAUTION",
+        "assessment": "Restored same-P branches support attributing observed local differences to these complete update recipes on this fixture. They do not show selected-memory rescue mediates independent behavior, isolate direction from gradient strength/clipping, or establish deployment benefit, long-run learning or general superiority."
+      },
+      {
+        "category": "Reverse causality",
+        "status": "CHECKED",
+        "assessment": "P/N observations precede deterministic U/T selection; independent probes occur after exported branch states and never feed training. Thus independent outcomes cannot cause replay selection in this execution. Historical repair-risk associations remain separate from this treatment result."
+      }
+    ]
+  },
+  "no_new_scientific_work": true
+}
