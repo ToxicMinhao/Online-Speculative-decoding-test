@@ -344,12 +344,19 @@ def add_replay_gradients(trainer, layouts, selected_tags, *, coefficient=.10,
     with replay_runtime(model), torch.enable_grad():
         for layout in _ordered_layouts(layouts):
             with _work(ledger, "response_forward", context, layout_id=layout["layout_id"]):
-                _, batch, anchors, keep, labels, weights, indices = _layout_inputs(
+                raw, batch, anchors, keep, labels, weights, indices = _layout_inputs(
                     model, layout, trainer.cfg.data.max_length)
                 row_weights = sparse_weights(weights, labels, layout["candidate_tags"], selected,
                     eos_token_ids=model.eos_token_ids)
                 hidden = _hidden(model, batch, anchors, keep)
-                teacher = model._aligned_target_hidden(batch["target_last_hidden_states"].detach(), indices)
+                # The shared DFlash normalizer returns draft-conditioning inputs
+                # only. As in OnlineTrainer._batch, retain the separate frozen
+                # teacher field from the validated capture, without retokenizing
+                # or changing the predecessor-row alignment.
+                teacher_states = raw["target_last_hidden_states"].detach().to(
+                    hidden.device, non_blocking=True)
+                teacher = model._aligned_target_hidden(teacher_states, indices)
+                del teacher_states
                 # Bound arguments, rather than a mutable per-response closure,
                 # are retained by each activation-checkpoint node.
                 seen = [0]

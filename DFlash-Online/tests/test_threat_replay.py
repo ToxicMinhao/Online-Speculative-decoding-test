@@ -145,11 +145,87 @@ class ReplayIntegrationTests(unittest.TestCase):
         keep = torch.ones_like(anchors, dtype=torch.bool)
         indices = torch.arange(9*16).reshape(1, 9, 16)
         batch = dict(input_ids=labels.reshape(1, -1), loss_mask=torch.ones(1, 144),
-            hidden_states=torch.ones(1, 144, 4), target_last_hidden_states=torch.randn(1, 144, 4, dtype=torch.bfloat16))
-        inputs = ({"prompt_length": 0}, batch, anchors, keep, labels, weights, indices)
+            hidden_states=torch.ones(1, 144, 4))
+        raw = dict(prompt_length=0,
+            target_last_hidden_states=torch.randn(1, 144, 4, dtype=torch.bfloat16))
+        inputs = (raw, batch, anchors, keep, labels, weights, indices)
         layouts = [dict(layout_id=t["layout_id"], request_id=t["request_id"],
             reference_presentation_id=0, candidate_tags=[t], binding={"pass_index": 0}) for t in (a, b)]
         return model, trainer, inputs, layouts, a, b
+
+    def saved_capture_fixture(self, directory):
+        """Real capture schema and normalizer; no mocked feature preparation."""
+        from online_feedback.objective import TargetObjectiveModel
+
+        model, trainer, _, _, _, _ = self.fixture()
+        model.loss_decay_gamma = 7
+        model._block_labels_and_weights = TargetObjectiveModel._block_labels_and_weights.__get__(model)
+        prompt, length = 2, 32
+        ids = torch.full((1, length), 2, dtype=torch.long)
+        mask = torch.ones_like(ids)
+        mask[:, :prompt] = 0
+        # Distinct rows make an off-by-one teacher alignment detectable.
+        teacher = (torch.arange(length*4).reshape(1, length, 4).float()/32).bfloat16()
+        raw = dict(record_id="capture", prompt_length=prompt, input_ids=ids,
+            loss_mask=mask, hidden_states=torch.zeros(1, length, 4, dtype=torch.bfloat16),
+            target_last_hidden_states=teacher,
+            label_binding=dict(capture_backend="same_frozen_SGLang_native_capture",
+                native_capture_validated=True,
+                label_binding_scope="native_prefill_and_committed_verification",
+                final_feature_logits_used_for_labels=False,
+                input_ids=ids[0].tolist(), target_argmax_ids=ids[0, prompt:].tolist(),
+                prompt_length=prompt, record_id="capture", label_mismatches=[]))
+        feature_path = Path(directory)/"capture.pt"
+        torch.save(raw, feature_path)
+        anchors = torch.arange(prompt, prompt+9).reshape(1, 9)
+        binding = dict(record_id="capture", presentation_id=0, pass_index=0,
+            sampled_anchors=[dict(positions=anchors.tolist(), keep_mask=torch.ones_like(
+                anchors, dtype=torch.bool).tolist())])
+        selected = tag("capture", slot=1, start=0, ordinal=0)
+        layout = dict(layout_id=selected["layout_id"], request_id="capture",
+            reference_presentation_id=0, candidate_tags=[selected], binding=binding,
+            feature_path=str(feature_path))
+        return model, trainer, raw, layout, selected
+
+    def test_real_capture_normalizer_keeps_teacher_separate_and_replay_aligns_it(self):
+        with tempfile.TemporaryDirectory() as directory:
+            model, trainer, raw, layout, selected = self.saved_capture_fixture(directory)
+            _, batch, _, _, _, _, indices = replay._layout_inputs(model, layout, 4096)
+            self.assertEqual(set(batch), {"input_ids", "loss_mask", "hidden_states"})
+            self.assertNotIn("target_last_hidden_states", batch)
+            native_before, rng = model.hidden.grad.clone(), capture_rng()
+            teacher_inputs = []
+            original = model._aligned_target_hidden
+
+            def record_teacher(states, label_indices):
+                aligned = original(states, label_indices)
+                teacher_inputs.append((states.detach().clone(), aligned.detach().clone()))
+                return aligned
+
+            with mock.patch.object(model, "_aligned_target_hidden", side_effect=record_teacher):
+                receipt = replay.add_replay_gradients(trainer, [layout], [selected])
+            states, aligned = teacher_inputs[0]
+            self.assertTrue(torch.equal(states, raw["target_last_hidden_states"]))
+            self.assertEqual(states.dtype, torch.bfloat16)
+            self.assertFalse(states.requires_grad)
+            expected = raw["target_last_hidden_states"][:, (indices-1).clamp_min(0).reshape(-1)]
+            self.assertTrue(torch.equal(aligned, expected.reshape(1, 9, 16, 4)))
+            self.assertEqual((receipt["response_forwards"], receipt["response_backwards"]), (1, 1))
+            self.assertGreater(receipt["realized_added_gradient_norm"], 0)
+            self.assertTrue(torch.equal(model.hidden.grad[:, 1:], native_before[:, 1:]))
+            self.assertTrue(_rng_equal(rng, capture_rng()))
+
+    def test_real_capture_padded_zero_executes_teacher_path_without_changing_native_grad(self):
+        with tempfile.TemporaryDirectory() as directory:
+            model, trainer, _, layout, _ = self.saved_capture_fixture(directory)
+            original, values, version = model.hidden.grad, model.hidden.grad.clone(), model.hidden.grad._version
+            receipt = replay.add_replay_gradients(trainer, [layout], [], force_padded_zero=True)
+            self.assertEqual((receipt["response_forwards"], receipt["response_backwards"]), (1, 1))
+            self.assertEqual(receipt["teacher_head_calls"], 4)  # two chunks and recomputation
+            self.assertEqual(receipt["auxiliary_loss"], 0)
+            self.assertIs(model.hidden.grad, original)
+            self.assertEqual(model.hidden.grad._version, version)
+            self.assertTrue(torch.equal(model.hidden.grad, values))
 
     def test_independent_observer_uses_same_full_head_tensors_without_extra_forwards(self):
         model, _, inputs, layouts, _, _ = self.fixture()
