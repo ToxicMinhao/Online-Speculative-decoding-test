@@ -1,5 +1,6 @@
 """CPU integration of disposable role windows and persistent native Adam."""
 from copy import deepcopy
+from collections import OrderedDict
 from pathlib import Path
 from types import SimpleNamespace
 import json
@@ -11,23 +12,32 @@ from unittest.mock import patch
 import torch
 
 from experiments.native_prefix_loss.training import NativePrefixTrainer, observe_source_pair
-from experiments.native_prefix_loss.qualification import zero_adam_reference, qualify, gradient_role_check
+from experiments.native_prefix_loss.qualification import (
+    zero_adam_reference, zero_reference_comparison, qualify, gradient_role_check,
+)
 from experiments.native_prefix_loss.state import capture_state, restore_state, verify_state
 from experiments.native_prefix_loss.runner import price_remaining, WindowController
 from experiments.threatened_repair_replay.work import Ledger, TrainingInstrumentation
 from experiments.ok_continuation.resume import differences
 from online_feedback.native_prefix_roles import NativePrefixRoles
 from online_feedback.optimizer import DirectBF16AdamW
-from specforge.training.strategies.base import StepOutput
+from specforge.training.strategies.base import DFlashTrainStrategy, StepOutput
 from test_threat_state import tiny_trainer, first_pair
 import test_threat_replay as replay_fixtures
 
 
-def prefix_fixture(root, *, count=128):
+def prefix_fixture(root, *, count=128, production_filter=False):
     trainer, features = tiny_trainer(root, count=count)
     trainer.__class__ = NativePrefixTrainer
     trainer.roles = NativePrefixRoles()
     trainer.bundle.model.native_prefix_roles = None
+    if production_filter:
+        # Exercise the real filter over the full wrapper state, including the
+        # frozen head. The older identity-filter fixture hid a mapping mismatch.
+        trainer.author_strategy.checkpoint_state_filter = DFlashTrainStrategy(
+            trainer.bundle.model).checkpoint_state_filter
+        trainer.backend.state_dict = lambda: dict(model=trainer.bundle.model.state_dict(),
+            optimizer=trainer.backend.optimizer.state_dict())
 
     def forward(batch, ctx=None):
         raw = batch.tensors
@@ -63,13 +73,17 @@ class HistoryTests(unittest.TestCase):
                 torch.manual_seed(17)
                 model = torch.nn.Linear(3,2,dtype=torch.bfloat16)
                 backend = DirectBF16AdamW(model)
+                wrapper = torch.nn.Module()
+                wrapper.draft_model = model
+                wrapper.register_buffer("frozen_marker", torch.tensor(7.))
+                strategy = DFlashTrainStrategy(wrapper)
                 backend.optimizer.param_groups[0]["foreach"] = foreach
                 for parameter in model.parameters():
                     backend.optimizer.state[parameter] = dict(step=torch.tensor(768.),
                         exp_avg=torch.randn_like(parameter)*.2, exp_avg_sq=torch.rand_like(parameter)*.3+.01)
-                trainer = SimpleNamespace(bundle=SimpleNamespace(draft_model=model),
+                trainer = SimpleNamespace(bundle=SimpleNamespace(draft_model=model), strategy=strategy,
                     backend=SimpleNamespace(optimizer=backend,
-                        state_dict=lambda: dict(optimizer=backend.state_dict())))
+                        state_dict=lambda: dict(model=wrapper.state_dict(),optimizer=backend.state_dict())))
                 gradients = dict(weight=torch.ones_like(model.weight), bias=None)
                 expected, receipt = zero_adam_reference(trainer, gradients)
                 original_bias = deepcopy(backend.optimizer.state[model.bias])
@@ -77,11 +91,35 @@ class HistoryTests(unittest.TestCase):
                 model.weight.grad = torch.zeros_like(model.weight)
                 model.bias.grad = None
                 backend.step()
-                self.assertEqual(differences(model.state_dict(), expected["draft_state_dict"]), [])
+                self.assertIs(type(expected["draft_state_dict"]),dict)
+                self.assertEqual(differences(strategy.checkpoint_state_filter(wrapper.state_dict()),
+                    expected["draft_state_dict"]), [])
                 self.assertEqual(differences(dict(optimizer=backend.state_dict()),expected["backend"]), [])
                 self.assertTrue(torch.equal(bias,model.bias))
                 self.assertEqual(differences(backend.optimizer.state[model.bias],original_bias), [])
                 self.assertEqual(receipt["optimizer_applications"],0)
+
+    def test_production_filter_schema_and_tensor_errors_are_distinguished(self):
+        wrapper = torch.nn.Module()
+        wrapper.draft_model = torch.nn.Linear(3,2,dtype=torch.bfloat16)
+        wrapper.register_buffer("frozen_marker", torch.tensor(7.))
+        strategy = DFlashTrainStrategy(wrapper)
+        actual = dict(draft_state_dict=strategy.checkpoint_state_filter(wrapper.state_dict()),backend={})
+        old_expected = dict(draft_state_dict=deepcopy(wrapper.draft_model.state_dict()),backend={})
+        self.assertIs(type(old_expected["draft_state_dict"]),OrderedDict)
+        mismatch,detail = zero_reference_comparison(actual,old_expected)
+        self.assertEqual(mismatch,["zero_reference.draft_state_dict"])
+        self.assertEqual(detail["draft_state_dict"]["actual_mapping_type"],"dict")
+        self.assertEqual(detail["draft_state_dict"]["expected_mapping_type"],"OrderedDict")
+        self.assertEqual(detail["draft_state_dict"]["compared_tensor_count"],2)
+        self.assertEqual(detail["draft_state_dict"]["tensor_mismatch_count"],0)
+        expected = dict(draft_state_dict=deepcopy(strategy.checkpoint_state_filter(wrapper.state_dict())),backend={})
+        self.assertEqual(zero_reference_comparison(actual,expected)[0],[])
+        expected["draft_state_dict"]["weight"][0,0] += 1
+        mismatch,detail = zero_reference_comparison(actual,expected)
+        self.assertEqual(mismatch,["zero_reference.draft_state_dict.weight"])
+        self.assertEqual(detail["draft_state_dict"]["tensor_mismatch_count"],1)
+        self.assertEqual(detail["draft_state_dict"]["tensor_mismatches"],mismatch)
 
     def test_h_consumes_one_step_no_presentations_or_sampling_and_restores(self):
         with tempfile.TemporaryDirectory() as root:
@@ -109,15 +147,42 @@ class HistoryTests(unittest.TestCase):
 class QualificationTests(unittest.TestCase):
     def test_six_case_qualification_and_complete_origin_restoration(self):
         with tempfile.TemporaryDirectory() as root:
-            trainer,features=prefix_fixture(Path(root)/"trainer")
+            trainer,features=prefix_fixture(Path(root)/"trainer",production_filter=True)
             before=capture_state(trainer)
             result=qualify(trainer,[Path(row["path"]) for row in features],Path(root)/"qualification")
             self.assertEqual(result["status"],"passed")
             self.assertEqual(result["optimizer_steps"],6)
             self.assertEqual(result["native_response_presentations"],10)
             self.assertEqual(result["response_forwards"],10)
+            history = next(case for case in result["cases"] if case["case"] == "H")
+            detail = history["zero_reference_comparison"]["draft_state_dict"]
+            self.assertEqual(detail["actual_mapping_type"],"dict")
+            self.assertEqual(detail["expected_mapping_type"],"dict")
+            self.assertEqual(detail["tensor_mismatch_count"],0)
             verify_state(trainer,before)
             self.assertFalse(list((Path(root)/"qualification").rglob("*.pt")))
+
+    def test_history_tensor_failure_saves_details_and_restores_origin(self):
+        with tempfile.TemporaryDirectory() as root:
+            trainer,features=prefix_fixture(Path(root)/"trainer",production_filter=True)
+            before=capture_state(trainer)
+            output=Path(root)/"qualification"
+            def perturbed_reference(*args):
+                expected,receipt=zero_adam_reference(*args)
+                expected["draft_state_dict"]["weight"][0,0] += 1
+                return expected,receipt
+            with patch("experiments.native_prefix_loss.qualification.zero_adam_reference",
+                       side_effect=perturbed_reference):
+                with self.assertRaisesRegex(ValueError,"zero_reference.draft_state_dict.weight"):
+                    qualify(trainer,[Path(row["path"]) for row in features],output)
+            failure=json.loads((output/"FAILED.json").read_text())
+            history=json.loads((output/"H/RESULT.json").read_text())
+            self.assertEqual(failure["optimizer_steps"],5)
+            self.assertEqual(history["status"],"failed")
+            self.assertEqual(history["zero_reference_comparison"]["draft_state_dict"]["tensor_mismatch_count"],1)
+            self.assertEqual(history["mismatches"],["zero_reference.draft_state_dict.weight"])
+            self.assertFalse((output/"N_repeat").exists())
+            verify_state(trainer,before)
 
     def test_active_role_support_failure_is_not_called_a_pass(self):
         receipt=dict(responses=[dict(chunks=[dict(prefix_occurrences=2,error_occurrences=0,

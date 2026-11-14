@@ -68,8 +68,11 @@ def zero_adam_reference(trainer, native_gradients):
     unsupported = ("capturable", "differentiable", "fused", "amsgrad", "maximize")
     if any(group.get(name, False) for name in unsupported):
         raise ValueError("H numerical reference does not support a changed optimizer recipe")
-    expected_weights = copy_tree(trainer.bundle.draft_model.state_dict())
-    expected_backend = copy_tree(trainer.backend.state_dict()["optimizer"])
+    # Match live_state's checkpoint schema as well as its tensor contents. The
+    # author filter returns a plain dict, unlike Module.state_dict's OrderedDict.
+    full = trainer.backend.state_dict()
+    expected_weights = copy_tree(trainer.strategy.checkpoint_state_filter(full["model"]))
+    expected_backend = copy_tree(full["optimizer"])
     stored = expected_backend["optimizer_state_dict"]
     names = {id(p): name for name, p in trainer.bundle.draft_model.named_parameters() if p.requires_grad}
     present = [(names[id(p)], p, sid) for p, sid in zip(group["params"], stored["param_groups"][0]["params"])
@@ -117,6 +120,34 @@ def zero_adam_reference(trainer, native_gradients):
         represented_arithmetic="native parameter/moment dtype; no master weights", parameters=len(present),
         wall_s=time.perf_counter()-began)
     return dict(draft_state_dict=expected_weights, backend={"optimizer": expected_backend}), receipt
+
+
+def zero_reference_comparison(actual, expected):
+    """Keep the exact gate and distinguish schema failures from tensor failures."""
+    mismatch, details = [], {}
+    for field in ("draft_state_dict", "backend"):
+        left, right = actual[field], expected[field]
+        prefix = "zero_reference." + field
+        paths = differences(left, right, prefix)
+        mismatch.extend(paths)
+        shared = left.keys() & right.keys()
+        detail = dict(actual_mapping_type=type(left).__name__,
+            expected_mapping_type=type(right).__name__, actual_key_count=len(left),
+            expected_key_count=len(right), shared_key_count=len(shared),
+            missing_expected_keys=sorted(right.keys()-left.keys())[:16],
+            unexpected_actual_keys=sorted(left.keys()-right.keys())[:16],
+            mismatch_count=len(paths), mismatches=paths[:16])
+        if field == "draft_state_dict":
+            # The strict gate stops at differing mapping types or keys. In that
+            # case only, inspect shared values to retain a useful failure receipt.
+            tensor_paths = paths
+            if type(left) is not type(right) or left.keys() != right.keys():
+                tensor_paths = [path for name in sorted(shared)
+                    for path in differences(left[name], right[name], prefix+"."+name)]
+            detail.update(compared_tensor_count=len(shared),
+                tensor_mismatch_count=len(tensor_paths), tensor_mismatches=tensor_paths[:16])
+        details[field] = detail
+    return mismatch, details
 
 
 def qualify(trainer, feature_paths, output):
@@ -178,8 +209,8 @@ def qualify(trainer, feature_paths, output):
                 native_forward = forward_receipt(result)
                 case["native_present"] = [key for key, value in native_gradients.items() if value is not None]
             elif name == "H":
-                for field in ("draft_state_dict", "backend"):
-                    mismatch += differences(endpoint["scientific"][field], expectation[field], "zero_reference."+field)
+                mismatch, case["zero_reference_comparison"] = zero_reference_comparison(
+                    endpoint["scientific"], expectation)
                 mismatch += differences(endpoint["scientific"]["rng"], pre["scientific"]["rng"], "H_rng")
                 if trainer.presentations != pre["scientific"]["presentations"] or trainer.core._micro != pre["core"]["micro"]:
                     mismatch.append("H_consumed_response_presentations")
