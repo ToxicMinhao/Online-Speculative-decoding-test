@@ -1,0 +1,12 @@
+{
+  "status": "cpu_correctness_passed_native_unqualified",
+  "tests": 119,
+  "command": "CUDA_VISIBLE_DEVICES='' PYTHONPATH=.:training:tests python -m unittest discover -s tests -p 'test_threat*.py'",
+  "actual_python": "/home/minhao2/miniconda3/envs/dflash/bin/python",
+  "dependency_overlay": "/home/minhao2/miniconda3/envs/deepspec_repro/lib/python3.11/site-packages",
+  "torch": "2.9.1+cu128",
+  "python": "3.11.17",
+  "gpu_work": 0,
+  "review_scope": "Separate same-family agents reviewed selection/replay, native probes and trainer/controller; root integrated campaign. This is not cross-model review.",
+  "runtime_limits": "CPU checks do not establish native DDP/Flex parity or output preservation."
+}

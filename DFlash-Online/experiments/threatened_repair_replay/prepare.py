@@ -237,6 +237,7 @@ def prepare(spec):
     authenticated[str(Path(spec["source_manifest"]))] = source_verification["source_manifest_identity"]
     verify(previous / "sealed/PLAN.json")
     verify(previous / "PRETRAINING_SEAL.json")
+    verify(previous / "TRAINING_PLAN.json")
 
     original = read(previous / "sealed/PLAN.json")
     seal = read(previous / "PRETRAINING_SEAL.json")
@@ -306,9 +307,10 @@ def prepare(spec):
     verify(spec["exclusions_path"], spec["exclusions_identity"])
     disjoint = validate_disjoint(requests, original_manifest, read(spec["exclusions_path"]))
     captures = {}
+    parent_root = Path(spec.get("parent_records_root", previous))
     for row in requests:
         rid = row["request_id"]
-        path = previous / "fixed_starts/requests" / rid / "PARENT_K6.json"
+        path = parent_root / "fixed_starts/requests" / rid / "PARENT_K6.json"
         verify(path)
         record = read(path)
         if (record["prompt_ids"] != row["prompt_ids"] or record["stop_token_ids"] != row["stop_token_ids"]
@@ -332,6 +334,11 @@ def prepare(spec):
     write_csv(output / "PROBE_KEYS.csv", keys)
     plan = dict(schema="threatened-repair-replay-v1", status="sealed_before_model_work",
         execution_commit=spec["execution_commit"], constants=CONSTANTS,
+        native_plan_path=str(previous / "TRAINING_PLAN.json"),
+        root=str(output.parent), code_path=source_verification["source_path"],
+        storage=dict(maximum_additional_bytes=240 * 1024**3, reserve_bytes=8 * 1024**3),
+        host_reserve_bytes=32 * 1024**3,
+        serving_gpu=0, serving_gpu_identity="GPU-9986735a-3e68-d1bd-5998-9634ef24341e",
         origin_state=original["origin_state"], origin_export=original["origin_export"],
         origin_config=original["origin_config"], schedule=original["schedule"],
         feature_paths=[features[row["request_id"]] for row in old["requests"]],
