@@ -1,0 +1,150 @@
+{
+  "status": "INCOMPLETE_ACCOUNTING_AUDIT_PASSED",
+  "execution_commit": "fdccdf5482f2125f212476547522068f953c564a",
+  "checks": 1363,
+  "failures": [],
+  "scientific_status": "QUALIFICATION_FAILED_MAIN_UNSTARTED_NO_EFFICACY_RESULT",
+  "failed_case": "H",
+  "retained_failure": [
+    "zero_reference.draft_state_dict"
+  ],
+  "actual_training_work": {
+    "attempted": {
+      "response_forward": 10,
+      "response_backward": 10,
+      "optimizer_step": 5
+    },
+    "completed": {
+      "response_forward": 10,
+      "response_backward": 10,
+      "optimizer_step": 5
+    },
+    "failed": {},
+    "unknown": {},
+    "completed_by_category": {
+      "startup": {
+        "response_forward": 2,
+        "response_backward": 2
+      },
+      "qualification": {
+        "response_forward": 8,
+        "response_backward": 8,
+        "optimizer_step": 5
+      }
+    },
+    "physical": {
+      "draft_forwards": 10,
+      "layer_forwards": 50,
+      "objective_chunk": 504,
+      "vocabulary_head_calls": 1008
+    }
+  },
+  "actual_native_work": {
+    "attempted": {
+      "model_load": 2,
+      "draft_block": 119,
+      "target_call": 117,
+      "context_forward": 178
+    },
+    "completed": {
+      "draft_block": 119,
+      "target_call": 117,
+      "model_load": 2,
+      "context_forward": 178
+    },
+    "failed": {},
+    "unknown": {}
+  },
+  "planned_unattempted": {
+    "qualification_cases": [
+      "N_repeat"
+    ],
+    "main_native_steps": 128,
+    "main_disposable_steps": 48,
+    "all_remaining_original_Adam_applications": 177,
+    "independent_probe_outcomes": 20480,
+    "source_response_forwards": 160
+  },
+  "costs": {
+    "occupied_gpu_seconds": 203.0700637307018,
+    "campaign_wall_seconds": 278.1565224789083,
+    "training_process_seconds": 167.03037370741367,
+    "qualification_seconds": 104.72600218094885,
+    "startup_seconds": 20.56795960664749,
+    "native_gate_seconds": 31.393652692437172,
+    "peak_allocated_bytes": 21384539648,
+    "peak_reserved_bytes": 23412604928,
+    "nested_clocks_not_additive": true
+  },
+  "interpretation": "Incomplete correctness qualification. No independent gain, harm, equivalence, gradient-direction or performance claim is supported. The numerical cause of the H checker mismatch is outside this receipt-only audit.",
+  "fallacy_categories_covered": "11/11",
+  "fallacy_scan": [
+    {
+      "category": "Simpson's paradox",
+      "status": "CHECKED_SCOPE_LIMITATION",
+      "finding": "No independent outcomes or efficacy estimate exists; no aggregation, denominator, subgroup or significance claim can be assessed. All 20,480 outcomes are explicitly unattempted.",
+      "rule": "Inspect equal-request primary plus prespecified pass/window descriptions; heterogeneous signs remain visible."
+    },
+    {
+      "category": "Ecological fallacy",
+      "status": "CHECKED_SCOPE_LIMITATION",
+      "finding": "No independent outcomes or efficacy estimate exists; no aggregation, denominator, subgroup or significance claim can be assessed. All 20,480 outcomes are explicitly unattempted.",
+      "rule": "Unit is a request mean over fixed windows/starts, not independent tokens, blocks, or future conversations."
+    },
+    {
+      "category": "Berkson's paradox",
+      "status": "CHECKED_NO_UNSUPPORTED_CLAIM",
+      "finding": "The fixed first scheduled pair and original six-case order remain visible. No replacement pair, outcome-based filtering, scientific retuning or retry occurred in this audit.",
+      "rule": "The reused development panel and naturally supported qualification pair limit the population; do not filter outcomes."
+    },
+    {
+      "category": "Collider bias",
+      "status": "CHECKED_NO_UNSUPPORTED_CLAIM",
+      "finding": "The fixed first scheduled pair and original six-case order remain visible. No replacement pair, outcome-based filtering, scientific retuning or retry occurred in this audit.",
+      "rule": "Primary includes all sealed paired starts, not only repaired, accepted, selected, or favorable blocks."
+    },
+    {
+      "category": "Base-rate neglect",
+      "status": "CHECKED_SCOPE_LIMITATION",
+      "finding": "No independent outcomes or efficacy estimate exists; no aggregation, denominator, subgroup or significance claim can be assessed. All 20,480 outcomes are explicitly unattempted.",
+      "rule": "Show 4096 paired block/windows, old-blocker count, and separate source eligible/padded/zero-supervision denominators."
+    },
+    {
+      "category": "Regression to the mean",
+      "status": "CHECKED_NO_UNSUPPORTED_CLAIM",
+      "finding": "The fixed first scheduled pair and original six-case order remain visible. No replacement pair, outcome-based filtering, scientific retuning or retry occurred in this audit.",
+      "rule": "Windows and requests were fixed before outcomes; use same-prestate N control instead of promoting extreme cases."
+    },
+    {
+      "category": "Survivorship bias",
+      "status": "CHECKED_NO_UNSUPPORTED_CLAIM",
+      "finding": "Original failed H case and all five completed temporary Adam applications are retained. N_repeat and all main work remain unexecuted; passing cases are not presented as completed qualification.",
+      "rule": "Invalid, failed, unknown and unattempted work remain explicit; incomplete grids have no completed efficacy conclusion."
+    },
+    {
+      "category": "Look-elsewhere effect",
+      "status": "CHECKED_SCOPE_LIMITATION",
+      "finding": "No independent outcomes or efficacy estimate exists; no aggregation, denominator, subgroup or significance claim can be assessed. All 20,480 outcomes are explicitly unattempted.",
+      "rule": "Only E\u2212N is primary; C/H, per-pass, source and repairs are descriptive, not alternate winning hypotheses."
+    },
+    {
+      "category": "Garden of forking paths",
+      "status": "CHECKED_NO_UNSUPPORTED_CLAIM",
+      "finding": "The fixed first scheduled pair and original six-case order remain visible. No replacement pair, outcome-based filtering, scientific retuning or retry occurred in this audit.",
+      "rule": "Freeze 16 windows, 64 requests, four starts, PCG64/1707, 10000 draws and linear quantiles; no posthoc tuning."
+    },
+    {
+      "category": "Correlation versus causation",
+      "status": "CHECKED_NO_UNSUPPORTED_CLAIM",
+      "finding": "A checker failure is not evidence for or against the learning mechanism. Compact receipts show a top-level mapping discrepancy, not a numerical tensor-difference diagnosis.",
+      "rule": "Same-state intervention tests a total local update effect; it does not isolate direction from magnitude or establish serving speedup."
+    },
+    {
+      "category": "Reverse causality",
+      "status": "CHECKED_NO_UNSUPPORTED_CLAIM",
+      "finding": "No evaluation outcomes were available to influence the native trajectory, branch selection or feedback; the main trajectory never began.",
+      "rule": "All disposable states derive from the same pre-update state; probe outcomes cannot alter training or window selection."
+    }
+  ],
+  "disclosure": "Same-team independent counting and scope review; no GPU rerun, tensor reconstruction or mutation of original evidence. Author also implemented the production analysis reducer."
+}

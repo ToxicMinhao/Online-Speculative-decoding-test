@@ -1,0 +1,51 @@
+{
+  "status": "failed",
+  "phase": "training_qualification_and_native_trajectory",
+  "execution_commit": "fdccdf5482f2125f212476547522068f953c564a",
+  "budget_accounting": {
+    "prior_adam_steps": 0,
+    "prior_gpu_seconds": 0.0,
+    "current_attempt_adam_limit": 182,
+    "cumulative_adam_limit": 182,
+    "cumulative_gpu_seconds_limit": 10800,
+    "current_attempt_gpu_seconds_limit": 10800.0
+  },
+  "phases": {
+    "native_probe_qualification": {
+      "status": "completed",
+      "wall_s": 31.67451156117022
+    },
+    "training_qualification_and_native_trajectory": {
+      "status": "failed",
+      "wall_s": 171.38802326098084,
+      "error": "RuntimeError('Training/qualification stopped; preserve evidence; no automatic retry')"
+    }
+  },
+  "error": "RuntimeError('Training/qualification stopped; preserve evidence; no automatic retry')",
+  "traceback": "Traceback (most recent call last):\n  File \"/data/sources/minhao/native_prefix_loss_source_20261114_001/DFlash-Online/experiments/native_prefix_loss/campaign.py\", line 256, in run\n    training = phase('training_qualification_and_native_trajectory', lambda: launch_training(plan, deadline))\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/data/sources/minhao/native_prefix_loss_source_20261114_001/DFlash-Online/experiments/native_prefix_loss/campaign.py\", line 241, in phase\n    value = function()\n            ^^^^^^^^^^\n  File \"/data/sources/minhao/native_prefix_loss_source_20261114_001/DFlash-Online/experiments/native_prefix_loss/campaign.py\", line 256, in <lambda>\n    training = phase('training_qualification_and_native_trajectory', lambda: launch_training(plan, deadline))\n                                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/data/sources/minhao/native_prefix_loss_source_20261114_001/DFlash-Online/experiments/native_prefix_loss/campaign.py\", line 148, in launch_training\n    raise RuntimeError('Training/qualification stopped; preserve evidence; no automatic retry')\nRuntimeError: Training/qualification stopped; preserve evidence; no automatic retry\n",
+  "wall_s": 278.1565224789083,
+  "budget": {
+    "attempted": {
+      "model_load": 2,
+      "draft_block": 119,
+      "target_call": 117,
+      "context_forward": 178
+    },
+    "completed": {
+      "draft_block": 119,
+      "target_call": 117,
+      "model_load": 2,
+      "context_forward": 178
+    },
+    "failed": {},
+    "unknown": {},
+    "remaining": {
+      "draft_block": 23488,
+      "model_load": 82
+    },
+    "gpu_seconds": 203.0700637307018,
+    "gpu_seconds_limit": 10800.0
+  },
+  "cumulative_gpu_seconds": 203.0700637307018,
+  "disk_free_bytes": 348970741760
+}

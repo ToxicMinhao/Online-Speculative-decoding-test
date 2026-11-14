@@ -1,0 +1,76 @@
+{
+  "native_budget": {
+    "attempted": {
+      "model_load": 2,
+      "draft_block": 119,
+      "target_call": 117,
+      "context_forward": 178
+    },
+    "completed": {
+      "draft_block": 119,
+      "target_call": 117,
+      "model_load": 2,
+      "context_forward": 178
+    },
+    "failed": {},
+    "unknown": {},
+    "remaining": {
+      "draft_block": 23488,
+      "model_load": 82
+    },
+    "gpu_seconds": 203.0700637307018,
+    "gpu_seconds_limit": 10800.0
+  },
+  "training": {
+    "attempted": {
+      "response_forward": 10,
+      "response_backward": 10,
+      "optimizer_step": 5
+    },
+    "completed": {
+      "response_forward": 10,
+      "response_backward": 10,
+      "optimizer_step": 5
+    },
+    "failed": {},
+    "unknown": {},
+    "physical": {
+      "draft_forwards": 10,
+      "layer_forwards": 50,
+      "objective_chunk": 504,
+      "vocabulary_head_calls": 1008
+    }
+  },
+  "prior_attempt": null,
+  "budget_accounting": {
+    "prior_adam_steps": 0,
+    "prior_gpu_seconds": 0.0,
+    "current_attempt_adam_limit": 182,
+    "cumulative_adam_limit": 182,
+    "cumulative_gpu_seconds_limit": 10800,
+    "current_attempt_gpu_seconds_limit": 10800.0
+  },
+  "cumulative": {
+    "completed_adam_steps": 5,
+    "attempted_adam_steps": 5,
+    "gpu_seconds": 203.0700637307018,
+    "adam_limit": 182,
+    "gpu_seconds_limit": 10800
+  },
+  "phases": {
+    "native_probe_qualification": {
+      "status": "completed",
+      "wall_s": 31.67451156117022
+    },
+    "training_qualification_and_native_trajectory": {
+      "status": "failed",
+      "wall_s": 171.38802326098084,
+      "error": "RuntimeError('Training/qualification stopped; preserve evidence; no automatic retry')"
+    }
+  },
+  "campaign_wall_s": 278.1565224789083,
+  "maximum_gpu_card_seconds": 10800,
+  "new_complete_response_generations": 0,
+  "clocks": "Phase intervals include nested work; do not sum nested timers.",
+  "delayed_evaluation": "Exact exported window weights; outcomes unavailable to training or selection."
+}

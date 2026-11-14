@@ -1,0 +1,106 @@
+{
+  "status": "failed",
+  "optimizer_steps": 5,
+  "native_response_presentations": 8,
+  "response_forwards": 8,
+  "response_backwards": 8,
+  "complete_response_generations": 0,
+  "startup": "separately accounted; no extra qualification optimizer applications",
+  "error": "ValueError(\"Native prefix-loss qualification H differs: ['zero_reference.draft_state_dict']\")",
+  "traceback": "Traceback (most recent call last):\n  File \"/data/sources/minhao/native_prefix_loss_source_20261114_001/DFlash-Online/experiments/native_prefix_loss/qualification.py\", line 208, in qualify\n    raise ValueError(f\"Native prefix-loss qualification {name} differs: {mismatch[:8]}\")\nValueError: Native prefix-loss qualification H differs: ['zero_reference.draft_state_dict']\n",
+  "wall_s": 104.72600218094885,
+  "cases": [
+    {
+      "case": "N",
+      "status": "passed",
+      "mismatches": [],
+      "peak_allocated_bytes": 15882450432,
+      "peak_reserved_bytes": 18580766720
+    },
+    {
+      "case": "ALL",
+      "status": "passed",
+      "mismatches": [],
+      "peak_allocated_bytes": 15855037952,
+      "peak_reserved_bytes": 18580766720
+    },
+    {
+      "case": "E",
+      "status": "passed",
+      "role_gradient_check": {
+        "status": "passed",
+        "role": "E",
+        "prefix_occurrences": 2937,
+        "error_occurrences": 291,
+        "active_nonzero": 291,
+        "failures": []
+      },
+      "gradient_vs_native": {
+        "left_norm": 0.4668057968883546,
+        "right_norm": 0.38960986997966945,
+        "difference_norm": 0.18168874739324914,
+        "left_dot_difference": -0.04956130107616245,
+        "changed_entries": 1043918586,
+        "elements": 1048626432
+      },
+      "mismatches": [],
+      "peak_allocated_bytes": 15853332992,
+      "peak_reserved_bytes": 18580766720
+    },
+    {
+      "case": "C",
+      "status": "passed",
+      "role_gradient_check": {
+        "status": "passed",
+        "role": "C",
+        "prefix_occurrences": 2937,
+        "error_occurrences": 291,
+        "active_nonzero": 2937,
+        "failures": []
+      },
+      "gradient_vs_native": {
+        "left_norm": 0.4668057968883546,
+        "right_norm": 0.18164300452405427,
+        "difference_norm": 0.389632399288593,
+        "left_dot_difference": -0.16836343874571583,
+        "changed_entries": 1047551714,
+        "elements": 1048626432
+      },
+      "mismatches": [],
+      "peak_allocated_bytes": 15854960128,
+      "peak_reserved_bytes": 18580766720
+    },
+    {
+      "case": "H",
+      "status": "failed",
+      "zero_reference": {
+        "kind": "direct_zero_current_gradient_tensor_recurrence",
+        "optimizer_applications": 0,
+        "model_forwards": 0,
+        "backwards": 0,
+        "foreach": true,
+        "torch_version": "2.13.0+cu130",
+        "installed_adam_source": "/data/conda_envs/minhao/dflash_specforge_20261022/lib/python3.12/site-packages/torch/optim/adam.py",
+        "installed_adam_source_sha256": "bde360b0bb9b7869f1cec04a3b41a90b8eabb84a613787d97b88d87f2f3ae1ec",
+        "represented_arithmetic": "native parameter/moment dtype; no master weights",
+        "parameters": 58,
+        "wall_s": 6.926817629486322
+      },
+      "displacement": {
+        "left_norm": 4167.63617490249,
+        "right_norm": 4167.636708293258,
+        "difference_norm": 0.9326663058820043,
+        "left_dot_difference": 1.788045562437311,
+        "changed_entries": 95357380,
+        "elements": 1048626432
+      },
+      "mismatches": [
+        "zero_reference.draft_state_dict"
+      ],
+      "peak_allocated_bytes": 21384539648,
+      "peak_reserved_bytes": 23412604928
+    }
+  ],
+  "qualification_schedule": "Original naturally drawn first pair; private request identities and anchor bindings retained outside Git.",
+  "preservation": "Original failure unchanged; compact public extract, not a rewritten acceptance receipt."
+}
