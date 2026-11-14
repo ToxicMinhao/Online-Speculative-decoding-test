@@ -11,6 +11,7 @@ from copy import deepcopy
 import csv
 import hashlib
 import json
+import math
 from pathlib import Path
 
 from experiments.frozen_training_repair_replay.prepare import (
@@ -52,6 +53,63 @@ def checked_identity(path, expected):
             and actual["bytes"] != expected["bytes"]):
         raise ValueError(f"Retained artifact changed: {path}")
     return actual
+
+
+def attempt_accounting(prior=None):
+    """Bind the approved six-case retry to its failed attempt's physical work.
+
+    The new process retains the original 168-step ceiling. Only the cumulative
+    ceiling changes to 171; occupied GPU time is carried over without rounding.
+    """
+    accounting = dict(prior_adam_steps=0, prior_gpu_seconds=0.0,
+        current_attempt_adam_limit=168, cumulative_adam_limit=168,
+        cumulative_gpu_seconds_limit=CONSTANTS["card_seconds_limit"],
+        current_attempt_gpu_seconds_limit=float(CONSTANTS["card_seconds_limit"]))
+    if prior is None:
+        return accounting
+    if prior["approved_cumulative_adam_limit"] != 171:
+        raise ValueError("This retry requires the approved cumulative 171-Adam limit")
+    # Authenticate both files before parsing either; newly hashing them is not
+    # sufficient evidence for the quantity deducted from the budget.
+    checked_identity(prior["status_path"], prior["status_identity"])
+    checked_identity(prior["training_work_path"], prior["training_work_identity"])
+    status = read(prior["status_path"])
+    if (status["status"] != "failed"
+            or status["phase"] != "training_qualification_and_native_trajectory"
+            or not status["execution_commit"]):
+        raise ValueError("Prior attempt must have failed during training qualification")
+    from .work import read_ledger
+    work = read_ledger(prior["training_work_path"])
+    records = [json.loads(line) for line in Path(prior["training_work_path"]).read_text().splitlines()]
+    starts = {row["serial"]:row for row in records if row["phase"] == "started"}
+    for row in records:
+        if row["phase"] == "ledger_closed":
+            continue
+        if (row["phase"] not in ("started", "completed", "failed")
+                or row.get("category") not in ("startup", "qualification")):
+            raise ValueError("Prior attempt contains scientific or malformed work")
+        start = starts[row["serial"]]
+        if (row["kind"], row["category"]) != (start["kind"], start["category"]):
+            raise ValueError("Prior work completion differs from its recorded start")
+        if row["kind"] == "optimizer_step" and row["category"] != "qualification":
+            raise ValueError("Prior Adam applications must be disposable qualification steps")
+    if (not records or records[-1]["phase"] != "ledger_closed"
+            or sum(row["phase"] == "ledger_closed" for row in records) != 1 or work["unknown"]
+            or work["attempted"].get("optimizer_step", 0) != 3
+            or work["completed"].get("optimizer_step", 0) != 3
+            or work["failed"].get("optimizer_step", 0)):
+        raise ValueError("Prior attempt must contain exactly three completed, known qualification Adam steps")
+    seconds = status["budget"]["gpu_seconds"]
+    if (isinstance(seconds, bool) or not isinstance(seconds, (int, float))
+            or not math.isfinite(seconds) or not 0 < seconds < CONSTANTS["card_seconds_limit"]
+            or status["budget"]["gpu_seconds_limit"] != CONSTANTS["card_seconds_limit"]):
+        raise ValueError("Prior occupied GPU time must be finite and below the original cap")
+    accounting.update(prior_adam_steps=3, prior_gpu_seconds=seconds,
+        cumulative_adam_limit=171,
+        current_attempt_gpu_seconds_limit=CONSTANTS["card_seconds_limit"]-seconds,
+        prior_execution_commit=status["execution_commit"], prior_training_work=work,
+        prior_native_budget=status["budget"])
+    return accounting
 
 
 class RetainedInputs:
@@ -225,6 +283,9 @@ def prepare(spec):
     source_manifest_identity, retained_identities and retained_identities_identity.
     The retained inventory must come from verified historical delivery receipts;
     it must pin the compact plan/seal/result/origins/parent files before parsing.
+    An authorized retry additionally supplies prior_attempt with status_path,
+    status_identity, training_work_path, training_work_identity and the approved
+    cumulative Adam limit. Its authenticated work is deducted, not restarted.
     """
     previous, frozen, public = map(Path, (spec["previous_root"], spec["frozen_root"], spec["public_dir"]))
     output = Path(spec["output"])
@@ -235,6 +296,13 @@ def prepare(spec):
     source_verification = authenticate_source(spec["source_manifest"],
         spec["source_manifest_identity"], spec["execution_commit"])
     authenticated[str(Path(spec["source_manifest"]))] = source_verification["source_manifest_identity"]
+    prior = spec.get("prior_attempt")
+    budget_accounting = attempt_accounting(prior)
+    if prior is not None:
+        for stem in ("status", "training_work"):
+            authenticated[str(Path(prior[stem+"_path"]))] = prior[stem+"_identity"]
+        if Path(prior["status_path"]).parent.resolve() == output.parent.resolve():
+            raise ValueError("Retry must preserve the prior attempt in a separate destination")
     verify(previous / "sealed/PLAN.json")
     verify(previous / "PRETRAINING_SEAL.json")
     verify(previous / "TRAINING_PLAN.json")
@@ -334,6 +402,7 @@ def prepare(spec):
     write_csv(output / "PROBE_KEYS.csv", keys)
     plan = dict(schema="threatened-repair-replay-v1", status="sealed_before_model_work",
         execution_commit=spec["execution_commit"], constants=CONSTANTS,
+        prior_attempt=deepcopy(prior), budget_accounting=budget_accounting,
         native_plan_path=str(previous / "TRAINING_PLAN.json"),
         root=str(output.parent), code_path=source_verification["source_path"],
         storage=dict(maximum_additional_bytes=240 * 1024**3, reserve_bytes=8 * 1024**3),

@@ -11,6 +11,7 @@ from unittest.mock import Mock, patch
 
 from experiments.threatened_repair_replay import campaign, probe_client
 from experiments.verification_transition.budget import BudgetExceeded
+from test_threat_prepare import prior_attempt_fixture
 
 
 def fixture(folder):
@@ -28,6 +29,15 @@ def fixture(folder):
 
 
 class AdmissionTests(unittest.TestCase):
+    def test_changed_sealed_carryover_or_removed_prior_is_rejected(self):
+        with tempfile.TemporaryDirectory() as folder:
+            prior = prior_attempt_fixture(Path(folder)/'prior')
+            accounting = campaign.attempt_accounting(prior)
+            for plan in (dict(prior_attempt=prior, budget_accounting=dict(accounting, prior_adam_steps=0)),
+                         dict(budget_accounting=accounting)):
+                with self.assertRaisesRegex(ValueError, 'accounting changed'):
+                    campaign.checked_accounting(plan)
+
     def test_native_budget_uses_first_sealed_request_and_all_parent_rounds(self):
         with tempfile.TemporaryDirectory() as folder:
             plan = fixture(folder)
@@ -108,6 +118,29 @@ class AdmissionTests(unittest.TestCase):
 
 
 class ReportingTests(unittest.TestCase):
+    def test_retry_report_retains_failed_work_and_reports_cumulative_totals(self):
+        with tempfile.TemporaryDirectory() as folder:
+            plan = fixture(folder)
+            plan['prior_attempt'] = prior_attempt_fixture(Path(folder)/'prior')
+            local = prior_attempt_fixture(Path(folder)/'training', steps=4)
+            # This helper creates a ledger only; the failed prior remains fixed
+            # at three and local work is reported separately as four.
+            Path(local['training_work_path']).rename(Path(folder)/'training/PHYSICAL_WORK.jsonl')
+            clock = [0.]
+            budget = campaign.CampaignBudget(Path(folder)/'work.jsonl', clock=lambda:clock[0])
+            budget.start_gpu(1)
+            clock[0] = 10.
+            budget.end_gpu()
+            result = campaign.report(plan, dict(status='failed', error='test stop', wall_s=10), budget)
+            costs = campaign.read(Path(folder)/'WORK_AND_COSTS.json')
+            self.assertEqual(costs['cumulative']['completed_adam_steps'], 7)
+            self.assertEqual(costs['cumulative']['gpu_seconds'], 195.9867403432727)
+            self.assertEqual(costs['cumulative']['adam_limit'], 171)
+            self.assertEqual(costs['training']['completed']['optimizer_step'], 4)
+            self.assertEqual(costs['budget_accounting']['prior_adam_steps'], 3)
+            self.assertEqual(result['status'], 'incomplete')
+            self.assertNotIn('primary', result)
+
     def test_incomplete_report_preserves_available_rows_without_efficacy_claim(self):
         with tempfile.TemporaryDirectory() as folder:
             plan = fixture(folder)
@@ -161,6 +194,24 @@ class ControllerTests(unittest.TestCase):
             status = campaign.read(Path(folder)/'STATUS.json')
             self.assertEqual(status['budget']['gpu_seconds'], 0)
             service.close.assert_called_once()
+
+    def test_retry_alarm_child_deadline_and_budget_deduct_prior_time(self):
+        with tempfile.TemporaryDirectory() as folder, ExitStack() as stack:
+            plan = fixture(folder)
+            plan['prior_attempt'] = prior_attempt_fixture(Path(folder)/'prior')
+            plan['budget_accounting'] = campaign.attempt_accounting(plan['prior_attempt'])
+            campaign.write_json(Path(folder)/'sealed/PLAN.json', plan)
+            _, _, _, training, _ = self.mocks(stack)
+            training.return_value = dict(probe_exports=[])
+            stack.enter_context(patch.object(campaign, 'report', return_value={'status':'completed'}))
+            stack.enter_context(patch.object(campaign.time, 'monotonic', return_value=100.))
+            with patch.object(campaign.signal, 'setitimer') as alarm:
+                result = campaign.run(Path(folder)/'sealed/PLAN.json')
+            remaining = 10614.013259656727
+            self.assertEqual(training.call_args.args[1], 100.+remaining)
+            alarm.assert_any_call(campaign.signal.ITIMER_REAL, remaining)
+            self.assertEqual(result['budget']['gpu_seconds_limit'], remaining)
+            self.assertGreaterEqual(result['cumulative_gpu_seconds'], 185.9867403432727)
 
     def test_reporting_failure_does_not_mask_original_execution_failure(self):
         with tempfile.TemporaryDirectory() as folder, ExitStack() as stack:

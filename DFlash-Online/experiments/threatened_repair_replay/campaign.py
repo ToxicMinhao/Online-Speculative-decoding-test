@@ -19,7 +19,7 @@ import traceback
 
 from online_feedback.storage import write_json
 from experiments.verification_transition.budget import WorkBudget, BudgetService
-from .prepare import read, identity, CONSTANTS, authenticate_source
+from .prepare import read, identity, CONSTANTS, authenticate_source, attempt_accounting
 from .work import read_ledger
 
 
@@ -33,6 +33,13 @@ def capacity(plan):
     return receipt
 
 
+def checked_accounting(plan):
+    accounting = attempt_accounting(plan.get('prior_attempt'))
+    if plan.get('budget_accounting', accounting) != accounting:
+        raise ValueError('Sealed prior-attempt accounting changed')
+    return accounting
+
+
 def preflight(plan):
     """Read-only admission at the actual paths, before any model execution."""
     from experiments.lost_repair.run import preflight as original_preflight
@@ -40,6 +47,7 @@ def preflight(plan):
     from .probe_client import resource_estimate
 
     root = Path(plan['root'])
+    accounting = checked_accounting(plan)
     if plan['constants'] != CONSTANTS or not root.resolve().is_relative_to('/data/sources/minhao/runs'):
         raise ValueError('Sealed experiment constants or destination differ')
     source = authenticate_source(plan['source_manifest'],
@@ -72,7 +80,7 @@ def preflight(plan):
     result = dict(status='passed', source=source, original_runtime=original,
         physical_gpu=physical_gpu(plan), capacity=capacity(plan),
         host_available_bytes=available, host_required_bytes=required_ram,
-        probe_resources=estimate, no_model_work=True)
+        probe_resources=estimate, budget_accounting=accounting, no_model_work=True)
     write_json(root / 'PREFLIGHT.json', result)
     return result
 
@@ -167,12 +175,28 @@ def report(plan, receipt, budget):
     root = Path(plan['root'])
     ledger_path = root/'training/PHYSICAL_WORK.jsonl'
     training_work = read_ledger(ledger_path) if ledger_path.exists() else {}
+    accounting = checked_accounting(plan)
+    local_steps = training_work.get('completed', {}).get('optimizer_step', 0)
+    attempted_steps = training_work.get('attempted', {}).get('optimizer_step', 0)
+    cumulative = dict(
+        completed_adam_steps=accounting['prior_adam_steps'] + local_steps,
+        attempted_adam_steps=accounting['prior_adam_steps'] + attempted_steps,
+        gpu_seconds=accounting['prior_gpu_seconds'] + budget.summary()['gpu_seconds'],
+        adam_limit=accounting['cumulative_adam_limit'],
+        gpu_seconds_limit=accounting['cumulative_gpu_seconds_limit'])
     work = dict(native_budget=budget.summary(), training=training_work,
+        prior_attempt=plan.get('prior_attempt'), budget_accounting=accounting,
+        cumulative=cumulative,
         phases=receipt.get('phases', {}), campaign_wall_s=receipt['wall_s'],
         maximum_gpu_card_seconds=10800, new_complete_response_generations=0,
         clocks='Phase intervals include nested work; do not sum nested timers.',
         delayed_evaluation='Exact exported window weights; outcomes unavailable to training or selection.')
     write_json(root/'WORK_AND_COSTS.json', work)
+    if (attempted_steps > accounting['current_attempt_adam_limit']
+            or cumulative['attempted_adam_steps'] > cumulative['adam_limit']):
+        raise ValueError('Physical Adam work exceeds the approved cumulative budget')
+    if receipt['status'] == 'completed' and cumulative['gpu_seconds'] > cumulative['gpu_seconds_limit']:
+        raise ValueError('Completed execution exceeds the cumulative occupied GPU-time budget')
     validity = dict(complete=receipt['status']=='completed',
         all_required_checks_passed=receipt['status']=='completed',
         errors=[] if receipt['status']=='completed' else [receipt.get('error','unfinished')])
@@ -203,10 +227,13 @@ def run(plan_path):
     root = Path(plan['root'])
     if (root/'STATUS.json').exists():
         raise FileExistsError('Campaign destination already used; no automatic retry')
-    receipt = dict(status='preflight', phase='preflight', execution_commit=plan['execution_commit'], phases={})
+    accounting = checked_accounting(plan)
+    remaining_seconds = accounting['current_attempt_gpu_seconds_limit']
+    receipt = dict(status='preflight', phase='preflight', execution_commit=plan['execution_commit'],
+        budget_accounting=accounting, phases={})
     write_json(root/'STATUS.json', receipt)
     began = time.monotonic()
-    budget = CampaignBudget(root/'NATIVE_WORK.jsonl', gpu_seconds=10800, limits=native_limits(plan))
+    budget = CampaignBudget(root/'NATIVE_WORK.jsonl', gpu_seconds=remaining_seconds, limits=native_limits(plan))
     service = BudgetService(budget)
     execution_failure = None
     previous_alarm = signal.getsignal(signal.SIGALRM)
@@ -228,9 +255,9 @@ def run(plan_path):
     try:
         preflight(plan)
         budget.start_gpu(1)
-        deadline = time.monotonic() + 10800
+        deadline = time.monotonic() + remaining_seconds
         signal.signal(signal.SIGALRM, deadline_handler)
-        signal.setitimer(signal.ITIMER_REAL, 10800)
+        signal.setitimer(signal.ITIMER_REAL, remaining_seconds)
         phase('native_probe_qualification', lambda: probe_client.qualify(
             plan, root/'native_qualification', service.connection, serving_gpu=str(plan['serving_gpu'])))
         training = phase('training_qualification_and_native_trajectory', lambda: launch_training(plan, deadline))
@@ -249,10 +276,11 @@ def run(plan_path):
     finally:
         signal.setitimer(signal.ITIMER_REAL, 0)
         signal.signal(signal.SIGALRM, previous_alarm)
-        if budget.gpu_seconds >= 10800:
+        if budget.gpu_seconds >= remaining_seconds:
             stop_owned_processes(budget)
         budget.end_gpu()
         receipt.update(wall_s=time.monotonic()-began, budget=budget.summary(),
+            cumulative_gpu_seconds=accounting['prior_gpu_seconds'] + budget.summary()['gpu_seconds'],
             disk_free_bytes=shutil.disk_usage(root).free)
         write_json(root/'STATUS.json', receipt)
         try:

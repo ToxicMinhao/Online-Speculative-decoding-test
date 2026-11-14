@@ -8,7 +8,7 @@ import unittest
 
 from experiments.threatened_repair_replay.prepare import (
     CONSTANTS, RetainedInputs, authenticate_source, deduplicate_memory, identity,
-    select_probe_keys, validate_disjoint,
+    select_probe_keys, validate_disjoint, attempt_accounting,
 )
 from experiments.survival_confirmation.data import digest
 
@@ -22,6 +22,85 @@ def occurrence(pid, request="r", start=0, slot=1, ordinal=0, pass_index=0):
     return dict(presentation_id=pid, request_id=request, canonical_start=start,
         proposal_slot=slot, anchor_ordinal=ordinal, canonical_token=7,
         pass_index=pass_index, weight=1.0)
+
+
+def prior_attempt_fixture(root, *, steps=3, category="qualification", seconds=185.9867403432727):
+    root = Path(root)
+    root.mkdir(parents=True, exist_ok=True)
+    status = root / "STATUS.json"
+    status.write_text(json.dumps(dict(status="failed", execution_commit="prior-source",
+        phase="training_qualification_and_native_trajectory",
+        budget=dict(gpu_seconds=seconds, gpu_seconds_limit=10800))))
+    ledger = root / "PHYSICAL_WORK.jsonl"
+    records = [dict(serial=i, kind="optimizer_step", category=category, phase=phase)
+               for i in range(1, steps+1) for phase in ("started", "completed")]
+    records.append(dict(phase="ledger_closed", physical={}))
+    ledger.write_text("".join(json.dumps(row)+"\n" for row in records))
+    return dict(status_path=str(status), status_identity=identity(status),
+        training_work_path=str(ledger), training_work_identity=identity(ledger),
+        approved_cumulative_adam_limit=171)
+
+
+class RetryAccountingTests(unittest.TestCase):
+    def test_original_first_attempt_keeps_168_and_full_clock(self):
+        result = attempt_accounting()
+        self.assertEqual(result["cumulative_adam_limit"], 168)
+        self.assertEqual(result["prior_adam_steps"], 0)
+        self.assertEqual(result["current_attempt_gpu_seconds_limit"], 10800)
+
+    def test_exact_authenticated_carryover_and_unchanged_local_ceiling(self):
+        with tempfile.TemporaryDirectory() as folder:
+            result = attempt_accounting(prior_attempt_fixture(folder))
+            self.assertEqual(result["prior_adam_steps"], 3)
+            self.assertEqual(result["current_attempt_adam_limit"], 168)
+            self.assertEqual(result["cumulative_adam_limit"], 171)
+            self.assertEqual(result["current_attempt_gpu_seconds_limit"], 10614.013259656727)
+
+    def test_both_artifacts_require_prior_pins_and_unchanged_bytes(self):
+        with tempfile.TemporaryDirectory() as folder:
+            for name in ("status", "training_work"):
+                with self.subTest(name=name):
+                    prior = prior_attempt_fixture(folder)
+                    Path(prior[name+"_path"]).write_text("{}")
+                    with self.assertRaisesRegex(ValueError, "Retained artifact changed"):
+                        attempt_accounting(prior)
+                    prior = prior_attempt_fixture(folder)
+                    prior[name+"_identity"] = None
+                    with self.assertRaisesRegex(ValueError, "Missing retained identity"):
+                        attempt_accounting(prior)
+
+    def test_wrong_work_population_or_nonfinite_time_is_rejected(self):
+        with tempfile.TemporaryDirectory() as folder:
+            for kwargs in ({"steps":2}, {"steps":4}, {"category":"native"},
+                           {"category":"startup"}, {"seconds":float("nan")},
+                           {"seconds":float("inf")}, {"seconds":10800}):
+                with self.subTest(kwargs=kwargs), self.assertRaises(ValueError):
+                    attempt_accounting(prior_attempt_fixture(folder, **kwargs))
+
+    def test_completed_unknown_or_malformed_prior_is_rejected(self):
+        with tempfile.TemporaryDirectory() as folder:
+            for mutation in ("completed", "unknown", "mismatched_kind", "wrong_cap"):
+                with self.subTest(mutation=mutation):
+                    prior = prior_attempt_fixture(folder)
+                    if mutation == "completed":
+                        path = Path(prior["status_path"])
+                        value = json.loads(path.read_text())
+                        value["status"] = "completed"
+                        path.write_text(json.dumps(value))
+                        prior["status_identity"] = identity(path)
+                    elif mutation == "wrong_cap":
+                        prior["approved_cumulative_adam_limit"] = 172
+                    else:
+                        path = Path(prior["training_work_path"])
+                        values = [json.loads(line) for line in path.read_text().splitlines()]
+                        if mutation == "unknown":
+                            del values[-2]
+                        else:
+                            values[1]["kind"] = "response_forward"
+                        path.write_text("".join(json.dumps(row)+"\n" for row in values))
+                        prior["training_work_identity"] = identity(path)
+                    with self.assertRaises(ValueError):
+                        attempt_accounting(prior)
 
 
 class MemoryPreparationTests(unittest.TestCase):
