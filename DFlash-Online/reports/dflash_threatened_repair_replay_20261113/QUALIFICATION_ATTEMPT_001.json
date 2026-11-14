@@ -1,0 +1,108 @@
+{
+  "status": "incomplete_qualification_implementation_failure",
+  "execution_commit": "fdbf319b2e68e166c53a8304ad26d0c4fa500e29",
+  "failure": "KeyError(target_last_hidden_states) in replay batch adapter",
+  "main_trajectory_steps": 0,
+  "scientific_U_T_steps": 0,
+  "scientific_probe_blocks": 0,
+  "complete_response_generations": 0,
+  "qualification_cases": [
+    {
+      "case": "N",
+      "status": "passed",
+      "mismatches": []
+    },
+    {
+      "case": "disabled",
+      "status": "passed",
+      "mismatches": []
+    },
+    {
+      "case": "zero",
+      "status": "passed",
+      "mismatches": []
+    },
+    {
+      "case": "padded_zero",
+      "status": "failed_before_optimizer_step",
+      "mismatches": [],
+      "stored_case_status": "running",
+      "error": "KeyError('target_last_hidden_states')",
+      "status_basis": "failed response_forward ledger and failed outer qualification receipt; nested case had not been finalized"
+    },
+    {
+      "case": "U",
+      "status": "unattempted"
+    },
+    {
+      "case": "T",
+      "status": "unattempted"
+    }
+  ],
+  "successful_pair_receipts": {
+    "optimizer_steps": 3,
+    "native_presentations": 6
+  },
+  "physical_training_work": {
+    "attempted": {
+      "response_forward": 13,
+      "response_backward": 10,
+      "optimizer_step": 3
+    },
+    "completed": {
+      "response_forward": 12,
+      "response_backward": 10,
+      "optimizer_step": 3
+    },
+    "failed": {
+      "response_forward": 1
+    },
+    "unknown": {},
+    "physical": {
+      "draft_forwards": 13,
+      "layer_forwards": 65,
+      "objective_chunk": 504,
+      "vocabulary_head_calls": 1059
+    }
+  },
+  "native_budget": {
+    "attempted": {
+      "model_load": 2,
+      "draft_block": 119,
+      "target_call": 117,
+      "context_forward": 178
+    },
+    "completed": {
+      "draft_block": 119,
+      "target_call": 117,
+      "model_load": 2,
+      "context_forward": 178
+    },
+    "failed": {},
+    "unknown": {},
+    "remaining": {
+      "draft_block": 19620,
+      "model_load": 66
+    },
+    "gpu_seconds": 185.9867403432727,
+    "gpu_seconds_limit": 10800
+  },
+  "campaign_wall_s": 255.61013685539365,
+  "origin_restoration": {
+    "status": "passed",
+    "mismatches": [],
+    "global_step": 768,
+    "presentations": 1536,
+    "schedule_position": null,
+    "exact_weights_adam_rng_gradients_runtime": true
+  },
+  "private_evidence_delivery": {
+    "status": "passed",
+    "files": 100,
+    "bytes": 4732312,
+    "execution_commit": "fdbf319b2e68e166c53a8304ad26d0c4fa500e29",
+    "raw_evidence_unchanged": true
+  },
+  "scientific_claims": null,
+  "retry_launched": false
+}
