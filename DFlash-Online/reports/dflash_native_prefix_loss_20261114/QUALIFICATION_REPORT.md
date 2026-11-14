@@ -30,6 +30,14 @@ This identifies a checker implementation defect. It is not evidence of a BF16 nu
 
 The H endpoint was distinct from static P: actual parameter displacement norm0.9326663058820043, with95,357,380 changed entries among1,048,626,432. This is an optimizer-history observation only, not evidence of independent drafting benefit.
 
+## Narrow checker repair and review
+
+Repair commit `5e9952315b749ad5edc3cd661d33e36cb6128a6e` builds the oracle weight mapping through the existing production checkpoint filter, just as the live endpoint does. The BF16 zero-gradient recurrence, native optimizer, algorithm and strict bitwise tensor comparison are unchanged. Failure receipts now distinguish mapping schema from tensor mismatch paths.
+
+The committed source passes **59 focused CPU tests**, including the actual production filter, single/foreach Adam with historical moments and native None gradients, full six-case restoration, and a deliberately perturbed H tensor that still fails and saves its exact path after five applications. The earlier execution used57tests; the two new tests exercise the checker defect and failure-saving behavior. A same-team reviewer independently confirmed the source cause and reviewed the patch/report; its nine-test rerun preceded the final additional failure-saving fixture. No independent GPU replication or cross-model review is claimed.
+
+The repair has **not** been rerun on GPU. Original GPU failure records and the actual execution commit remain unchanged. The five consumed steps are not reset by this fix.
+
 ## Work, duration and unfinished scope
 
 The monotonic physical ledger is authoritative, including any partial case. Case summaries alone must not be used to erase failed work.
