@@ -14,4 +14,4 @@ All80branch exports are fresh, so no historical P/N outcome reuse is claimed. So
 
 Expected GPU duration initially1–2hours; hard occupied-card ceiling3hours. Actual-path admission includes82weight copies,4recovery copies,4GiBcompact allowance and8GiBreserve; no historical evidence deletion is authorized to fit this run. Qualification must price remaining work before main intervention.
 
-CPU test totals, independent code review, execution commit and native results will be added from completed receipts. No claim that implementation has qualified on A800 yet.
+57 focused CPU tests passed (42 new experiment tests and 15 inherited K+/first-error tests). Same-family source and runner reviews found no remaining concrete blocker, with implementation-author overlap disclosed. Native A800 qualification and all scientific results remain pending. The exact execution commit will be bound in the source manifest and every execution report.

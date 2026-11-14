@@ -1,0 +1,40 @@
+{
+  "scope": "native current-prefix / first-error gradient controller; CPU-only review",
+  "owned_files": [
+    "online_feedback/native_prefix_roles.py",
+    "online_feedback/objective.py",
+    "tests/test_native_prefix_roles.py"
+  ],
+  "tests": {
+    "new_tests": 9,
+    "total_focused_and_inherited_tests": 38,
+    "result": "pass",
+    "log": "CORE_CPU_TESTS.log"
+  },
+  "native_contract": {
+    "N_ALL_original_tensor": true,
+    "E_C_where_token_loss_detach": true,
+    "gated_both_native_and_group_numerators": true,
+    "original_denominator_priorities_and_reduction_retained": true,
+    "no_gradient_addition_or_subtraction": true,
+    "no_H_model_forward": true
+  },
+  "coverage": [
+    "mixed and single priority classes",
+    "all-correct and empty role",
+    "first/last mismatch",
+    "EOS seed and proposal",
+    "invalid gaps",
+    "two-response separate normalization",
+    "native BF16 loss/row gradient exact parity",
+    "tiny real draft gradient/RNG/None-pattern exact parity",
+    "explicit zeros versus None under Adam history",
+    "per-chunk checkpoint diagnostic deduplication",
+    "partial and nonfinite failure-receipt serialization"
+  ],
+  "limits": [
+    "CPU tests do not establish native A800 BF16 parity",
+    "H explicit zero optimizer operation is owned by the runner; test covers the underlying zero-versus-None distinction",
+    "No new model forwards, backwards, optimizer applications, GPU work or remote operations were run"
+  ]
+}
