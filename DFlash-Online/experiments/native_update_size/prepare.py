@@ -38,13 +38,14 @@ def artifact_row(path, category, required_by, expected=None, release='retain thr
 
 def build(spec):
     root=Path(spec['root']);root.mkdir(parents=True,exist_ok=True)
+    new_roots=[str(root),spec['source_root']]+spec.get('prior_new_roots',[])
     skeleton=dict(root=str(root),allocation_baseline=str(root/'ALLOCATION_BASELINE.json'),
-                  allocation_roots=[str(root),spec['source_root'],'/data/sources/minhao/.cache','/data/sources/minhao/tmp'])
+                  allocation_roots=new_roots+['/data/sources/minhao/.cache','/data/sources/minhao/tmp'])
     # The staging receipt accounts for source and plan bytes written before this
     # baseline. Remove these new-root inode credits so they still count as new.
     baseline=initialize(skeleton)
     from .storage import allocated_files
-    for key in allocated_files([str(root),spec['source_root']]):
+    for key in allocated_files(new_roots):
         baseline['files'].pop(key,None)
     write_json(skeleton['allocation_baseline'],baseline)
     check_write(skeleton,spec['peak_new_bytes'],'admission_from_pre_Gate0')

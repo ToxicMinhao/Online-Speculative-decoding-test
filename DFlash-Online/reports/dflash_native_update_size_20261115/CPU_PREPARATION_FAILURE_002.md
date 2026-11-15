@@ -19,3 +19,7 @@ no second affected lookup in the resource inventory.
 
 The next CPU preparation uses a new output directory and the published repair.
 It is not a rerun of GPU qualification or training: both have zero work so far.
+
+Retained prior staging/output roots are explicitly included in the same110GB
+new-allocation accounting, preventing their bytes from being hidden by a new
+attempt directory. This is storage accounting only; the cap is unchanged.
