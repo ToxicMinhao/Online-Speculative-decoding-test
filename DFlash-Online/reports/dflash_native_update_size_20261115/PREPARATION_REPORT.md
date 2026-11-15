@@ -1,5 +1,7 @@
 # Native update-size attribution: implementation and admission
 
+Implementation commit: `48dd58ead596b03948c067176f34aab72f1132f1`; [PR #48](https://github.com/ToxicMinhao/Online-Speculative-decoding-test/pull/48). Actual execution commit: none; no experiment launched.
+
 Status on November15: implementation and focused CPU checks are complete; actual
 CPU serializer Gate0 and GPU qualification are not yet complete. Source staging
 is blocked by intermittent A800 SSH connections. No new Adam step, GPU model
