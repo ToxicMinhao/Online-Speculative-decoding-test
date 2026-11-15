@@ -10,9 +10,21 @@ import unittest
 from unittest.mock import patch
 
 from experiments.native_update_size import resources
+from experiments.native_update_size.prepare import artifact_row
 
 
 class InventoryTests(unittest.TestCase):
+    def test_artifact_owner_without_container_account_retains_numeric_uid(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path=Path(tmp)/'retained';path.write_text('retained evidence')
+            with patch('experiments.native_update_size.prepare.pwd.getpwuid',side_effect=KeyError):
+                row=artifact_row(path,'KEEP_INPUT','identity check')
+            self.assertEqual(row['owner'],f'uid:{path.stat().st_uid}')
+            self.assertEqual(row['owner_uid'],path.stat().st_uid)
+            self.assertEqual(row['classification'],'KEEP_INPUT')
+            self.assertEqual(row['status'],'present')
+            self.assertEqual(row['logical_bytes'],path.stat().st_size)
+
     def test_physical_hardlinks_deduplicate_and_external_symlinks_are_not_followed(self):
         with tempfile.TemporaryDirectory() as tmp:
             root=Path(tmp)/'owned';root.mkdir();(root/'child').mkdir()

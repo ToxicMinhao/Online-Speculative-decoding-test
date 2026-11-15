@@ -21,7 +21,14 @@ def artifact_row(path, category, required_by, expected=None, release='retain thr
              logical_bytes=0,allocated_bytes=0,identity=expected,classification=category,required_by=required_by,
              canonical_replacement=None,release_condition=release,status='present' if path.exists() else 'absent')
     if path.exists():
-        stat=path.stat();row.update(owner=pwd.getpwuid(stat.st_uid).pw_name,device=stat.st_dev,inode=stat.st_ino,
+        stat=path.stat()
+        try:
+            owner=pwd.getpwuid(stat.st_uid).pw_name
+        except KeyError:
+            # Mounted files can belong to a UID absent from the container's
+            # account database. Retain that identity without inventing a name.
+            owner=f'uid:{stat.st_uid}'
+        row.update(owner=owner,owner_uid=stat.st_uid,device=stat.st_dev,inode=stat.st_ino,
                                    links=stat.st_nlink,logical_bytes=stat.st_size,allocated_bytes=stat.st_blocks*512,
                                    symlink=path.is_symlink())
     else:

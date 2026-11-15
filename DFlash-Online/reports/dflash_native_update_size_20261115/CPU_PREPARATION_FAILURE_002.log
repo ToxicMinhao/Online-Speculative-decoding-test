@@ -1,0 +1,13 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/data/sources/minhao/native_update_size_source_20261115_002/DFlash-Online/experiments/native_update_size/prepare.py", line 137, in <module>
+    p=argparse.ArgumentParser();p.add_argument('--spec',required=True);a=p.parse_args();build(read(a.spec))
+                                                                                        ^^^^^^^^^^^^^^^^^^^
+  File "/data/sources/minhao/native_update_size_source_20261115_002/DFlash-Online/experiments/native_update_size/prepare.py", line 81, in build
+    artifacts=[artifact_row(path,'KEEP_INPUT' if ('features.pt' in path or path in
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/sources/minhao/native_update_size_source_20261115_002/DFlash-Online/experiments/native_update_size/prepare.py", line 24, in artifact_row
+    stat=path.stat();row.update(owner=pwd.getpwuid(stat.st_uid).pw_name,device=stat.st_dev,inode=stat.st_ino,
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyError: 'getpwuid(): uid not found: 1013'
