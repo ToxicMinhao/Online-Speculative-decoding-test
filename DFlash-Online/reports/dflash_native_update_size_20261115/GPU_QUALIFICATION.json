@@ -1,0 +1,3664 @@
+{
+  "status": "passed",
+  "cases": [
+    {
+      "case": "N",
+      "alpha": null,
+      "status": "passed",
+      "prestate": {
+        "status": "passed",
+        "mismatches": [],
+        "global_step": 768,
+        "presentations": 1536,
+        "schedule_position": 0,
+        "exact_weights_adam_rng_gradients_runtime": true
+      },
+      "update": {
+        "status": "completed",
+        "window": 1,
+        "state": "N",
+        "category": "qualification",
+        "start_step": 768,
+        "start_presentations": 1536,
+        "replay": null,
+        "optimizer_applications": 1,
+        "gradient_change": {
+          "left_norm": 0.4668057968883546,
+          "right_norm": 0.4668057968883546,
+          "difference_norm": 0.0,
+          "left_dot_difference": 0.0,
+          "changed_entries": 0,
+          "elements": 1048626432
+        },
+        "gradient_observation_s": 5.185178464278579,
+        "combined_native_clip_norm": 0.466796875,
+        "clip_factor": 1.0,
+        "clip_factor_dtype": "torch.bfloat16",
+        "end_step": 769,
+        "end_presentations": 1538,
+        "mean_native_response_loss": 0.2275361493229866,
+        "wall_s": 9.455849561840296,
+        "adam_observation": {
+          "applications": 1,
+          "effective_lrs_before": [
+            0.0003
+          ],
+          "clipped_gradients": {
+            "layers.0.self_attn.q_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                4096
+              ],
+              "bytes": 33554432,
+              "sha256": "0978cf7439c0f8cc9992e128cb7ee5405a17a7387651a8bdc70941e5a0e28650"
+            },
+            "layers.0.self_attn.k_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1024,
+                4096
+              ],
+              "bytes": 8388608,
+              "sha256": "def559f04d997843be958fe8ba0109170522bed8fcc3b733c4524879839d51af"
+            },
+            "layers.0.self_attn.v_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1024,
+                4096
+              ],
+              "bytes": 8388608,
+              "sha256": "37af69780b73c39299964ca6da421fc68490f5ce4e9c8faff469b4b228731b6b"
+            },
+            "layers.0.self_attn.o_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                4096
+              ],
+              "bytes": 33554432,
+              "sha256": "cb000de82be2785263d76b2cc5e4420a99f3a1180f0b9db2da66bf6e1825e9d5"
+            },
+            "layers.0.self_attn.q_norm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                128
+              ],
+              "bytes": 256,
+              "sha256": "c575436ac5fe2eab8acf2210a4c659c35407406624ba0a23395b73afd7796ae3"
+            },
+            "layers.0.self_attn.k_norm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                128
+              ],
+              "bytes": 256,
+              "sha256": "2a9d28ac27e90c1540cc70f41849629f6190c0eafb05c4b2363f235cec6a8828"
+            },
+            "layers.0.mlp.gate_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                12288,
+                4096
+              ],
+              "bytes": 100663296,
+              "sha256": "3c520edad9a3aeed6006cca8806a7ce1cfcb7e6c27dc05dbd033c1bbf11326d5"
+            },
+            "layers.0.mlp.up_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                12288,
+                4096
+              ],
+              "bytes": 100663296,
+              "sha256": "a40714c7732d5189ccb32c7617abc8a1500e2e9fc880b7e3972c897907c0fee4"
+            },
+            "layers.0.mlp.down_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                12288
+              ],
+              "bytes": 100663296,
+              "sha256": "117e79c36659fa505e2887515f49581d08578ef0fb3beae02ff47a7710ec0091"
+            },
+            "layers.0.input_layernorm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096
+              ],
+              "bytes": 8192,
+              "sha256": "c123f3d9f4f1ca06417ab6b887c5878921e4895b34a1e8b26eb6d07b3f4972eb"
+            },
+            "layers.0.post_attention_layernorm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096
+              ],
+              "bytes": 8192,
+              "sha256": "23dc37f9e22fa1db56785fb227fc4949a3f28731a0cbf9ee693bc6abd4a0c954"
+            },
+            "layers.1.self_attn.q_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                4096
+              ],
+              "bytes": 33554432,
+              "sha256": "5ce6337c02925014b85ed92759543f4afbd07679dd2e303d0553fcd3fde2046f"
+            },
+            "layers.1.self_attn.k_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1024,
+                4096
+              ],
+              "bytes": 8388608,
+              "sha256": "477234c65dac0720a9b6cac5a9f249cc049c94d9aa2d866ccaeeaebb9a4f9928"
+            },
+            "layers.1.self_attn.v_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1024,
+                4096
+              ],
+              "bytes": 8388608,
+              "sha256": "744abf054e30c320c2fdb7c2d96dffc71724e7ae2de5a6e5355a86a6ce968a70"
+            },
+            "layers.1.self_attn.o_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                4096
+              ],
+              "bytes": 33554432,
+              "sha256": "1475c32f6bf42e2b6d1dfd6c3b06729581729542950311819e542ebdc86ccd82"
+            },
+            "layers.1.self_attn.q_norm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                128
+              ],
+              "bytes": 256,
+              "sha256": "55b96ff17a75a27baf11c44e8c25d5b22442e8729263f5840d04f14c8f4a7e22"
+            },
+            "layers.1.self_attn.k_norm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                128
+              ],
+              "bytes": 256,
+              "sha256": "4186a3b0235f89c46705b9fd11be7e43bd034b6f840731ac7f5a455b94c3dd00"
+            },
+            "layers.1.mlp.gate_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                12288,
+                4096
+              ],
+              "bytes": 100663296,
+              "sha256": "592ab233a7381d4d95ada3c9e71803b075e34ec497a56256856ca06f957d81ff"
+            },
+            "layers.1.mlp.up_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                12288,
+                4096
+              ],
+              "bytes": 100663296,
+              "sha256": "269b3c61283fe4de216edc22238b3eff6a8e0eb8270f7e5740d0722e3ea8d959"
+            },
+            "layers.1.mlp.down_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                12288
+              ],
+              "bytes": 100663296,
+              "sha256": "537d8e18f2ea1443af34d6a22978aab7ce500fb5756c0a8d5ee6c42e5614b114"
+            },
+            "layers.1.input_layernorm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096
+              ],
+              "bytes": 8192,
+              "sha256": "1706a6d5591f48f6d5f2eb4a5dc6c74bd8ed922128c9b071158a2c7fb63b471d"
+            },
+            "layers.1.post_attention_layernorm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096
+              ],
+              "bytes": 8192,
+              "sha256": "c2e095bb8ec61a91295aefbd81660c9eeec34f84b2679a720c83aeb4428531fa"
+            },
+            "layers.2.self_attn.q_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                4096
+              ],
+              "bytes": 33554432,
+              "sha256": "390e8ab90e260347a720af0be4ae879cc8dab0143031542f2a0b8f2ce7248390"
+            },
+            "layers.2.self_attn.k_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1024,
+                4096
+              ],
+              "bytes": 8388608,
+              "sha256": "0b6e79ae0c77ff870daf58539d56ca637b2eb7077bc74ba03c61200755237dda"
+            },
+            "layers.2.self_attn.v_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1024,
+                4096
+              ],
+              "bytes": 8388608,
+              "sha256": "ad563b914ad8790263ffec92a85c307b105e9a6c199c981e309259be104c2812"
+            },
+            "layers.2.self_attn.o_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                4096
+              ],
+              "bytes": 33554432,
+              "sha256": "ae5c631f33f3faf92aa90d9ed5fdbfdf0ad5f8989c7d23c2e0471889a1a4b27e"
+            },
+            "layers.2.self_attn.q_norm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                128
+              ],
+              "bytes": 256,
+              "sha256": "168e2ac154da6f8833d9475df3f90e7fa48f96c85572a049eba8093118f6ba9a"
+            },
+            "layers.2.self_attn.k_norm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                128
+              ],
+              "bytes": 256,
+              "sha256": "9547bf762790eb64113aefd91d4cc005960e165a849c2b380d12f99c434e4d72"
+            },
+            "layers.2.mlp.gate_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                12288,
+                4096
+              ],
+              "bytes": 100663296,
+              "sha256": "ab4ba0dc5123c8c012f5735260b39c3aa48a16f9d6e22245fb27e687d4ff10de"
+            },
+            "layers.2.mlp.up_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                12288,
+                4096
+              ],
+              "bytes": 100663296,
+              "sha256": "7ab2e51a66fe9f1f7dc5bd24d75db815157436e7c23b950d15b277c91742cf85"
+            },
+            "layers.2.mlp.down_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                12288
+              ],
+              "bytes": 100663296,
+              "sha256": "c5d3aaaaa000beb07d4bb62344ee280b9d0adc4ee455584595cc2842fb2ffa0c"
+            },
+            "layers.2.input_layernorm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096
+              ],
+              "bytes": 8192,
+              "sha256": "f69d10a9b586183131a8914380342572bfcb000068dfb72065acdc050c80ceb6"
+            },
+            "layers.2.post_attention_layernorm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096
+              ],
+              "bytes": 8192,
+              "sha256": "6ce9f137f3f9c1ba0c3e05be2bfe67e86353d5fae303293cae2803e1d73d4dd6"
+            },
+            "layers.3.self_attn.q_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                4096
+              ],
+              "bytes": 33554432,
+              "sha256": "010def74e302a5808ff7100432cbafc49c7aa6be37810c30984e8156248767f7"
+            },
+            "layers.3.self_attn.k_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1024,
+                4096
+              ],
+              "bytes": 8388608,
+              "sha256": "8ad1ea684dbe1b0285dd0803ff108c1a4f38613b6891f4e334dfc142c2e0ba8d"
+            },
+            "layers.3.self_attn.v_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1024,
+                4096
+              ],
+              "bytes": 8388608,
+              "sha256": "c05b64f806a920277fc3da93a7239c71df2bcec6964b00c8d456f51d8e92b4bc"
+            },
+            "layers.3.self_attn.o_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                4096
+              ],
+              "bytes": 33554432,
+              "sha256": "9b517ef460b989b0e6ac295abd26c31dddb5b8804c953e0686415d1d082fd047"
+            },
+            "layers.3.self_attn.q_norm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                128
+              ],
+              "bytes": 256,
+              "sha256": "29dcc0585cdb8045ae23fbec810bcf98f29596f14c6bc5dc979095fbe3619a11"
+            },
+            "layers.3.self_attn.k_norm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                128
+              ],
+              "bytes": 256,
+              "sha256": "ffe22b7ad8ca1e048511d89052aaae031cb32060d00fa41fdefffb77611f07f6"
+            },
+            "layers.3.mlp.gate_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                12288,
+                4096
+              ],
+              "bytes": 100663296,
+              "sha256": "1de7d672f9d0687a891960b332f005f5dfd065abe79c395aba0774a988cba020"
+            },
+            "layers.3.mlp.up_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                12288,
+                4096
+              ],
+              "bytes": 100663296,
+              "sha256": "c16d87a1ca9ab60376ffec1ac2242982bd6cffa5dfbd3486684eaa941f8926b4"
+            },
+            "layers.3.mlp.down_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                12288
+              ],
+              "bytes": 100663296,
+              "sha256": "599214b348e0fe44da96d963500fc585b3a3b8a7e2f207bea0b810e960633ea0"
+            },
+            "layers.3.input_layernorm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096
+              ],
+              "bytes": 8192,
+              "sha256": "4de8a5e15d421821e7f12e0b372ddf7793c003e8a0a1ca5c8a9d9377f50e28cb"
+            },
+            "layers.3.post_attention_layernorm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096
+              ],
+              "bytes": 8192,
+              "sha256": "d628f179cc0f6595deaa0aff2918b1cc4dcfa334fb26d51a069caa85820bb4f0"
+            },
+            "layers.4.self_attn.q_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                4096
+              ],
+              "bytes": 33554432,
+              "sha256": "6cad5f285d83935e6b6899b45fe0827252c9c9e4e2d7392efd2620a91f6261df"
+            },
+            "layers.4.self_attn.k_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1024,
+                4096
+              ],
+              "bytes": 8388608,
+              "sha256": "bec818cda01e29c2a97d519134fd3635259e7841eb2e5d6c0dedc9009b0aaae2"
+            },
+            "layers.4.self_attn.v_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1024,
+                4096
+              ],
+              "bytes": 8388608,
+              "sha256": "74b8918ecb6039c4a4496ec7f412f98f45bbe8897e3b65237f98d02a9531fb79"
+            },
+            "layers.4.self_attn.o_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                4096
+              ],
+              "bytes": 33554432,
+              "sha256": "4b829db793b547b01c26ffafe621df37ff69b80331c67820a158ed4df1df00fd"
+            },
+            "layers.4.self_attn.q_norm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                128
+              ],
+              "bytes": 256,
+              "sha256": "bdef423dc4b7ca7b831327db578763d4d75e396e7cc2984d6e3eef5bc47b79a2"
+            },
+            "layers.4.self_attn.k_norm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                128
+              ],
+              "bytes": 256,
+              "sha256": "e441b9c0b6123bcaeb38dc0fda716d4b52e76aed48e68a5c3986a1d405015437"
+            },
+            "layers.4.mlp.gate_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                12288,
+                4096
+              ],
+              "bytes": 100663296,
+              "sha256": "3aee24708e1304b634cfeba125b0447568db7eceb42bf3264ebe5fa0052b0a21"
+            },
+            "layers.4.mlp.up_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                12288,
+                4096
+              ],
+              "bytes": 100663296,
+              "sha256": "bca4733b9844a189b303ff2fc99b1f95c9bce3649a4d416385b17303f339e6e8"
+            },
+            "layers.4.mlp.down_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                12288
+              ],
+              "bytes": 100663296,
+              "sha256": "1e918ce73d3b374a52d0e3895e7a342ae6c7af2866d8f22cf30e485df2bd0835"
+            },
+            "layers.4.input_layernorm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096
+              ],
+              "bytes": 8192,
+              "sha256": "00118152dedb5d0260b56d9dc7cd4f0ef5eeea35640499f39a4fad101d3627e0"
+            },
+            "layers.4.post_attention_layernorm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096
+              ],
+              "bytes": 8192,
+              "sha256": "dbcf50e1055e8dc4fa0f6b35e42c32fead167b79c637cc6b510524326f16631f"
+            },
+            "norm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096
+              ],
+              "bytes": 8192,
+              "sha256": "6ae2e0b3f6bfff262d5a152ec905636e0b9483fb3a439aa147f1ef9dc3d62fb7"
+            },
+            "fc.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                20480
+              ],
+              "bytes": 167772160,
+              "sha256": "8c4a8b5593c701b9c2b2ff0647ecda230ba127c3b20839d579e9b6e5c1d5bc09"
+            },
+            "hidden_norm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096
+              ],
+              "bytes": 8192,
+              "sha256": "f94127164e414901d6a3d2666f68ce28e49d9466fa6fc78dd1e798b18ec1bbb0"
+            }
+          },
+          "effective_lrs_after": [
+            0.0003
+          ]
+        }
+      },
+      "displacement": {
+        "left_norm": 4167.63617490249,
+        "right_norm": 4167.63670424677,
+        "difference_norm": 1.2164601109607565,
+        "left_dot_difference": 1.466226894950464,
+        "changed_entries": 112812837,
+        "elements": 1048626432
+      },
+      "native_gradient_present": [
+        "layers.0.self_attn.q_proj.weight",
+        "layers.0.self_attn.k_proj.weight",
+        "layers.0.self_attn.v_proj.weight",
+        "layers.0.self_attn.o_proj.weight",
+        "layers.0.self_attn.q_norm.weight",
+        "layers.0.self_attn.k_norm.weight",
+        "layers.0.mlp.gate_proj.weight",
+        "layers.0.mlp.up_proj.weight",
+        "layers.0.mlp.down_proj.weight",
+        "layers.0.input_layernorm.weight",
+        "layers.0.post_attention_layernorm.weight",
+        "layers.1.self_attn.q_proj.weight",
+        "layers.1.self_attn.k_proj.weight",
+        "layers.1.self_attn.v_proj.weight",
+        "layers.1.self_attn.o_proj.weight",
+        "layers.1.self_attn.q_norm.weight",
+        "layers.1.self_attn.k_norm.weight",
+        "layers.1.mlp.gate_proj.weight",
+        "layers.1.mlp.up_proj.weight",
+        "layers.1.mlp.down_proj.weight",
+        "layers.1.input_layernorm.weight",
+        "layers.1.post_attention_layernorm.weight",
+        "layers.2.self_attn.q_proj.weight",
+        "layers.2.self_attn.k_proj.weight",
+        "layers.2.self_attn.v_proj.weight",
+        "layers.2.self_attn.o_proj.weight",
+        "layers.2.self_attn.q_norm.weight",
+        "layers.2.self_attn.k_norm.weight",
+        "layers.2.mlp.gate_proj.weight",
+        "layers.2.mlp.up_proj.weight",
+        "layers.2.mlp.down_proj.weight",
+        "layers.2.input_layernorm.weight",
+        "layers.2.post_attention_layernorm.weight",
+        "layers.3.self_attn.q_proj.weight",
+        "layers.3.self_attn.k_proj.weight",
+        "layers.3.self_attn.v_proj.weight",
+        "layers.3.self_attn.o_proj.weight",
+        "layers.3.self_attn.q_norm.weight",
+        "layers.3.self_attn.k_norm.weight",
+        "layers.3.mlp.gate_proj.weight",
+        "layers.3.mlp.up_proj.weight",
+        "layers.3.mlp.down_proj.weight",
+        "layers.3.input_layernorm.weight",
+        "layers.3.post_attention_layernorm.weight",
+        "layers.4.self_attn.q_proj.weight",
+        "layers.4.self_attn.k_proj.weight",
+        "layers.4.self_attn.v_proj.weight",
+        "layers.4.self_attn.o_proj.weight",
+        "layers.4.self_attn.q_norm.weight",
+        "layers.4.self_attn.k_norm.weight",
+        "layers.4.mlp.gate_proj.weight",
+        "layers.4.mlp.up_proj.weight",
+        "layers.4.mlp.down_proj.weight",
+        "layers.4.input_layernorm.weight",
+        "layers.4.post_attention_layernorm.weight",
+        "norm.weight",
+        "fc.weight",
+        "hidden_norm.weight"
+      ],
+      "native_gradient_none": [],
+      "mismatches": [],
+      "peak_allocated_bytes": 15882450432,
+      "peak_reserved_bytes": 18580766720
+    },
+    {
+      "case": "alpha_1",
+      "alpha": 1.0,
+      "status": "passed",
+      "prestate": {
+        "status": "passed",
+        "mismatches": [],
+        "global_step": 768,
+        "presentations": 1536,
+        "schedule_position": 0,
+        "exact_weights_adam_rng_gradients_runtime": true
+      },
+      "update": {
+        "status": "completed",
+        "window": 1,
+        "trial_index": 1,
+        "alpha": 1.0,
+        "optimizer_applications": 1,
+        "response_forwards": 0,
+        "response_backwards": 0,
+        "response_presentations": 0,
+        "sampling_draws": 0,
+        "restored_pre": {
+          "status": "passed",
+          "mismatches": [],
+          "global_step": 768,
+          "presentations": 1536,
+          "schedule_position": 0,
+          "exact_weights_adam_rng_gradients_runtime": true
+        },
+        "original_lrs": [
+          0.0003
+        ],
+        "requested_lrs": [
+          0.0003
+        ],
+        "clip_norm": 0.466796875,
+        "clip_factor": 1.0,
+        "clip_factor_dtype": "torch.bfloat16",
+        "adam_observation": {
+          "applications": 1,
+          "effective_lrs_before": [
+            0.0003
+          ],
+          "clipped_gradients": {
+            "layers.0.self_attn.q_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                4096
+              ],
+              "bytes": 33554432,
+              "sha256": "0978cf7439c0f8cc9992e128cb7ee5405a17a7387651a8bdc70941e5a0e28650"
+            },
+            "layers.0.self_attn.k_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1024,
+                4096
+              ],
+              "bytes": 8388608,
+              "sha256": "def559f04d997843be958fe8ba0109170522bed8fcc3b733c4524879839d51af"
+            },
+            "layers.0.self_attn.v_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1024,
+                4096
+              ],
+              "bytes": 8388608,
+              "sha256": "37af69780b73c39299964ca6da421fc68490f5ce4e9c8faff469b4b228731b6b"
+            },
+            "layers.0.self_attn.o_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                4096
+              ],
+              "bytes": 33554432,
+              "sha256": "cb000de82be2785263d76b2cc5e4420a99f3a1180f0b9db2da66bf6e1825e9d5"
+            },
+            "layers.0.self_attn.q_norm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                128
+              ],
+              "bytes": 256,
+              "sha256": "c575436ac5fe2eab8acf2210a4c659c35407406624ba0a23395b73afd7796ae3"
+            },
+            "layers.0.self_attn.k_norm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                128
+              ],
+              "bytes": 256,
+              "sha256": "2a9d28ac27e90c1540cc70f41849629f6190c0eafb05c4b2363f235cec6a8828"
+            },
+            "layers.0.mlp.gate_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                12288,
+                4096
+              ],
+              "bytes": 100663296,
+              "sha256": "3c520edad9a3aeed6006cca8806a7ce1cfcb7e6c27dc05dbd033c1bbf11326d5"
+            },
+            "layers.0.mlp.up_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                12288,
+                4096
+              ],
+              "bytes": 100663296,
+              "sha256": "a40714c7732d5189ccb32c7617abc8a1500e2e9fc880b7e3972c897907c0fee4"
+            },
+            "layers.0.mlp.down_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                12288
+              ],
+              "bytes": 100663296,
+              "sha256": "117e79c36659fa505e2887515f49581d08578ef0fb3beae02ff47a7710ec0091"
+            },
+            "layers.0.input_layernorm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096
+              ],
+              "bytes": 8192,
+              "sha256": "c123f3d9f4f1ca06417ab6b887c5878921e4895b34a1e8b26eb6d07b3f4972eb"
+            },
+            "layers.0.post_attention_layernorm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096
+              ],
+              "bytes": 8192,
+              "sha256": "23dc37f9e22fa1db56785fb227fc4949a3f28731a0cbf9ee693bc6abd4a0c954"
+            },
+            "layers.1.self_attn.q_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                4096
+              ],
+              "bytes": 33554432,
+              "sha256": "5ce6337c02925014b85ed92759543f4afbd07679dd2e303d0553fcd3fde2046f"
+            },
+            "layers.1.self_attn.k_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1024,
+                4096
+              ],
+              "bytes": 8388608,
+              "sha256": "477234c65dac0720a9b6cac5a9f249cc049c94d9aa2d866ccaeeaebb9a4f9928"
+            },
+            "layers.1.self_attn.v_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1024,
+                4096
+              ],
+              "bytes": 8388608,
+              "sha256": "744abf054e30c320c2fdb7c2d96dffc71724e7ae2de5a6e5355a86a6ce968a70"
+            },
+            "layers.1.self_attn.o_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                4096
+              ],
+              "bytes": 33554432,
+              "sha256": "1475c32f6bf42e2b6d1dfd6c3b06729581729542950311819e542ebdc86ccd82"
+            },
+            "layers.1.self_attn.q_norm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                128
+              ],
+              "bytes": 256,
+              "sha256": "55b96ff17a75a27baf11c44e8c25d5b22442e8729263f5840d04f14c8f4a7e22"
+            },
+            "layers.1.self_attn.k_norm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                128
+              ],
+              "bytes": 256,
+              "sha256": "4186a3b0235f89c46705b9fd11be7e43bd034b6f840731ac7f5a455b94c3dd00"
+            },
+            "layers.1.mlp.gate_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                12288,
+                4096
+              ],
+              "bytes": 100663296,
+              "sha256": "592ab233a7381d4d95ada3c9e71803b075e34ec497a56256856ca06f957d81ff"
+            },
+            "layers.1.mlp.up_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                12288,
+                4096
+              ],
+              "bytes": 100663296,
+              "sha256": "269b3c61283fe4de216edc22238b3eff6a8e0eb8270f7e5740d0722e3ea8d959"
+            },
+            "layers.1.mlp.down_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                12288
+              ],
+              "bytes": 100663296,
+              "sha256": "537d8e18f2ea1443af34d6a22978aab7ce500fb5756c0a8d5ee6c42e5614b114"
+            },
+            "layers.1.input_layernorm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096
+              ],
+              "bytes": 8192,
+              "sha256": "1706a6d5591f48f6d5f2eb4a5dc6c74bd8ed922128c9b071158a2c7fb63b471d"
+            },
+            "layers.1.post_attention_layernorm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096
+              ],
+              "bytes": 8192,
+              "sha256": "c2e095bb8ec61a91295aefbd81660c9eeec34f84b2679a720c83aeb4428531fa"
+            },
+            "layers.2.self_attn.q_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                4096
+              ],
+              "bytes": 33554432,
+              "sha256": "390e8ab90e260347a720af0be4ae879cc8dab0143031542f2a0b8f2ce7248390"
+            },
+            "layers.2.self_attn.k_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1024,
+                4096
+              ],
+              "bytes": 8388608,
+              "sha256": "0b6e79ae0c77ff870daf58539d56ca637b2eb7077bc74ba03c61200755237dda"
+            },
+            "layers.2.self_attn.v_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1024,
+                4096
+              ],
+              "bytes": 8388608,
+              "sha256": "ad563b914ad8790263ffec92a85c307b105e9a6c199c981e309259be104c2812"
+            },
+            "layers.2.self_attn.o_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                4096
+              ],
+              "bytes": 33554432,
+              "sha256": "ae5c631f33f3faf92aa90d9ed5fdbfdf0ad5f8989c7d23c2e0471889a1a4b27e"
+            },
+            "layers.2.self_attn.q_norm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                128
+              ],
+              "bytes": 256,
+              "sha256": "168e2ac154da6f8833d9475df3f90e7fa48f96c85572a049eba8093118f6ba9a"
+            },
+            "layers.2.self_attn.k_norm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                128
+              ],
+              "bytes": 256,
+              "sha256": "9547bf762790eb64113aefd91d4cc005960e165a849c2b380d12f99c434e4d72"
+            },
+            "layers.2.mlp.gate_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                12288,
+                4096
+              ],
+              "bytes": 100663296,
+              "sha256": "ab4ba0dc5123c8c012f5735260b39c3aa48a16f9d6e22245fb27e687d4ff10de"
+            },
+            "layers.2.mlp.up_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                12288,
+                4096
+              ],
+              "bytes": 100663296,
+              "sha256": "7ab2e51a66fe9f1f7dc5bd24d75db815157436e7c23b950d15b277c91742cf85"
+            },
+            "layers.2.mlp.down_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                12288
+              ],
+              "bytes": 100663296,
+              "sha256": "c5d3aaaaa000beb07d4bb62344ee280b9d0adc4ee455584595cc2842fb2ffa0c"
+            },
+            "layers.2.input_layernorm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096
+              ],
+              "bytes": 8192,
+              "sha256": "f69d10a9b586183131a8914380342572bfcb000068dfb72065acdc050c80ceb6"
+            },
+            "layers.2.post_attention_layernorm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096
+              ],
+              "bytes": 8192,
+              "sha256": "6ce9f137f3f9c1ba0c3e05be2bfe67e86353d5fae303293cae2803e1d73d4dd6"
+            },
+            "layers.3.self_attn.q_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                4096
+              ],
+              "bytes": 33554432,
+              "sha256": "010def74e302a5808ff7100432cbafc49c7aa6be37810c30984e8156248767f7"
+            },
+            "layers.3.self_attn.k_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1024,
+                4096
+              ],
+              "bytes": 8388608,
+              "sha256": "8ad1ea684dbe1b0285dd0803ff108c1a4f38613b6891f4e334dfc142c2e0ba8d"
+            },
+            "layers.3.self_attn.v_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1024,
+                4096
+              ],
+              "bytes": 8388608,
+              "sha256": "c05b64f806a920277fc3da93a7239c71df2bcec6964b00c8d456f51d8e92b4bc"
+            },
+            "layers.3.self_attn.o_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                4096
+              ],
+              "bytes": 33554432,
+              "sha256": "9b517ef460b989b0e6ac295abd26c31dddb5b8804c953e0686415d1d082fd047"
+            },
+            "layers.3.self_attn.q_norm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                128
+              ],
+              "bytes": 256,
+              "sha256": "29dcc0585cdb8045ae23fbec810bcf98f29596f14c6bc5dc979095fbe3619a11"
+            },
+            "layers.3.self_attn.k_norm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                128
+              ],
+              "bytes": 256,
+              "sha256": "ffe22b7ad8ca1e048511d89052aaae031cb32060d00fa41fdefffb77611f07f6"
+            },
+            "layers.3.mlp.gate_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                12288,
+                4096
+              ],
+              "bytes": 100663296,
+              "sha256": "1de7d672f9d0687a891960b332f005f5dfd065abe79c395aba0774a988cba020"
+            },
+            "layers.3.mlp.up_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                12288,
+                4096
+              ],
+              "bytes": 100663296,
+              "sha256": "c16d87a1ca9ab60376ffec1ac2242982bd6cffa5dfbd3486684eaa941f8926b4"
+            },
+            "layers.3.mlp.down_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                12288
+              ],
+              "bytes": 100663296,
+              "sha256": "599214b348e0fe44da96d963500fc585b3a3b8a7e2f207bea0b810e960633ea0"
+            },
+            "layers.3.input_layernorm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096
+              ],
+              "bytes": 8192,
+              "sha256": "4de8a5e15d421821e7f12e0b372ddf7793c003e8a0a1ca5c8a9d9377f50e28cb"
+            },
+            "layers.3.post_attention_layernorm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096
+              ],
+              "bytes": 8192,
+              "sha256": "d628f179cc0f6595deaa0aff2918b1cc4dcfa334fb26d51a069caa85820bb4f0"
+            },
+            "layers.4.self_attn.q_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                4096
+              ],
+              "bytes": 33554432,
+              "sha256": "6cad5f285d83935e6b6899b45fe0827252c9c9e4e2d7392efd2620a91f6261df"
+            },
+            "layers.4.self_attn.k_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1024,
+                4096
+              ],
+              "bytes": 8388608,
+              "sha256": "bec818cda01e29c2a97d519134fd3635259e7841eb2e5d6c0dedc9009b0aaae2"
+            },
+            "layers.4.self_attn.v_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1024,
+                4096
+              ],
+              "bytes": 8388608,
+              "sha256": "74b8918ecb6039c4a4496ec7f412f98f45bbe8897e3b65237f98d02a9531fb79"
+            },
+            "layers.4.self_attn.o_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                4096
+              ],
+              "bytes": 33554432,
+              "sha256": "4b829db793b547b01c26ffafe621df37ff69b80331c67820a158ed4df1df00fd"
+            },
+            "layers.4.self_attn.q_norm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                128
+              ],
+              "bytes": 256,
+              "sha256": "bdef423dc4b7ca7b831327db578763d4d75e396e7cc2984d6e3eef5bc47b79a2"
+            },
+            "layers.4.self_attn.k_norm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                128
+              ],
+              "bytes": 256,
+              "sha256": "e441b9c0b6123bcaeb38dc0fda716d4b52e76aed48e68a5c3986a1d405015437"
+            },
+            "layers.4.mlp.gate_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                12288,
+                4096
+              ],
+              "bytes": 100663296,
+              "sha256": "3aee24708e1304b634cfeba125b0447568db7eceb42bf3264ebe5fa0052b0a21"
+            },
+            "layers.4.mlp.up_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                12288,
+                4096
+              ],
+              "bytes": 100663296,
+              "sha256": "bca4733b9844a189b303ff2fc99b1f95c9bce3649a4d416385b17303f339e6e8"
+            },
+            "layers.4.mlp.down_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                12288
+              ],
+              "bytes": 100663296,
+              "sha256": "1e918ce73d3b374a52d0e3895e7a342ae6c7af2866d8f22cf30e485df2bd0835"
+            },
+            "layers.4.input_layernorm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096
+              ],
+              "bytes": 8192,
+              "sha256": "00118152dedb5d0260b56d9dc7cd4f0ef5eeea35640499f39a4fad101d3627e0"
+            },
+            "layers.4.post_attention_layernorm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096
+              ],
+              "bytes": 8192,
+              "sha256": "dbcf50e1055e8dc4fa0f6b35e42c32fead167b79c637cc6b510524326f16631f"
+            },
+            "norm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096
+              ],
+              "bytes": 8192,
+              "sha256": "6ae2e0b3f6bfff262d5a152ec905636e0b9483fb3a439aa147f1ef9dc3d62fb7"
+            },
+            "fc.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                20480
+              ],
+              "bytes": 167772160,
+              "sha256": "8c4a8b5593c701b9c2b2ff0647ecda230ba127c3b20839d579e9b6e5c1d5bc09"
+            },
+            "hidden_norm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096
+              ],
+              "bytes": 8192,
+              "sha256": "f94127164e414901d6a3d2666f68ce28e49d9466fa6fc78dd1e798b18ec1bbb0"
+            }
+          },
+          "effective_lrs_after": [
+            0.0003
+          ]
+        },
+        "moment_clip_option_parity": {
+          "status": "passed",
+          "mismatches": []
+        },
+        "cached_state_semantics": {
+          "status": "passed",
+          "mismatches": [],
+          "global_step": 769,
+          "presentations": 1536,
+          "schedule_position": 0,
+          "exact_weights_adam_rng_gradients_runtime": true
+        },
+        "displacement": {
+          "left_norm": 4167.63617490249,
+          "right_norm": 4167.63670424677,
+          "difference_norm": 1.2164601109607565,
+          "left_dot_difference": 1.466226894950464,
+          "changed_entries": 112812837,
+          "elements": 1048626432
+        },
+        "end_step": 769,
+        "end_presentations": 1536,
+        "restored_group_lrs": [
+          0.0003
+        ],
+        "restored_native": {
+          "status": "passed",
+          "mismatches": [],
+          "global_step": 769,
+          "presentations": 1538,
+          "schedule_position": 2,
+          "exact_weights_adam_rng_gradients_runtime": true
+        },
+        "wall_s": 28.620266327634454
+      },
+      "displacement": {
+        "left_norm": 4167.63617490249,
+        "right_norm": 4167.63670424677,
+        "difference_norm": 1.2164601109607565,
+        "left_dot_difference": 1.466226894950464,
+        "changed_entries": 112812837,
+        "elements": 1048626432
+      },
+      "mismatches": [],
+      "peak_allocated_bytes": 15092774912,
+      "peak_reserved_bytes": 18580766720
+    },
+    {
+      "case": "alpha_1_repeat",
+      "alpha": 1.0,
+      "status": "passed",
+      "prestate": {
+        "status": "passed",
+        "mismatches": [],
+        "global_step": 768,
+        "presentations": 1536,
+        "schedule_position": 0,
+        "exact_weights_adam_rng_gradients_runtime": true
+      },
+      "update": {
+        "status": "completed",
+        "window": 1,
+        "trial_index": 2,
+        "alpha": 1.0,
+        "optimizer_applications": 1,
+        "response_forwards": 0,
+        "response_backwards": 0,
+        "response_presentations": 0,
+        "sampling_draws": 0,
+        "restored_pre": {
+          "status": "passed",
+          "mismatches": [],
+          "global_step": 768,
+          "presentations": 1536,
+          "schedule_position": 0,
+          "exact_weights_adam_rng_gradients_runtime": true
+        },
+        "original_lrs": [
+          0.0003
+        ],
+        "requested_lrs": [
+          0.0003
+        ],
+        "clip_norm": 0.466796875,
+        "clip_factor": 1.0,
+        "clip_factor_dtype": "torch.bfloat16",
+        "adam_observation": {
+          "applications": 1,
+          "effective_lrs_before": [
+            0.0003
+          ],
+          "clipped_gradients": {
+            "layers.0.self_attn.q_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                4096
+              ],
+              "bytes": 33554432,
+              "sha256": "0978cf7439c0f8cc9992e128cb7ee5405a17a7387651a8bdc70941e5a0e28650"
+            },
+            "layers.0.self_attn.k_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1024,
+                4096
+              ],
+              "bytes": 8388608,
+              "sha256": "def559f04d997843be958fe8ba0109170522bed8fcc3b733c4524879839d51af"
+            },
+            "layers.0.self_attn.v_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1024,
+                4096
+              ],
+              "bytes": 8388608,
+              "sha256": "37af69780b73c39299964ca6da421fc68490f5ce4e9c8faff469b4b228731b6b"
+            },
+            "layers.0.self_attn.o_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                4096
+              ],
+              "bytes": 33554432,
+              "sha256": "cb000de82be2785263d76b2cc5e4420a99f3a1180f0b9db2da66bf6e1825e9d5"
+            },
+            "layers.0.self_attn.q_norm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                128
+              ],
+              "bytes": 256,
+              "sha256": "c575436ac5fe2eab8acf2210a4c659c35407406624ba0a23395b73afd7796ae3"
+            },
+            "layers.0.self_attn.k_norm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                128
+              ],
+              "bytes": 256,
+              "sha256": "2a9d28ac27e90c1540cc70f41849629f6190c0eafb05c4b2363f235cec6a8828"
+            },
+            "layers.0.mlp.gate_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                12288,
+                4096
+              ],
+              "bytes": 100663296,
+              "sha256": "3c520edad9a3aeed6006cca8806a7ce1cfcb7e6c27dc05dbd033c1bbf11326d5"
+            },
+            "layers.0.mlp.up_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                12288,
+                4096
+              ],
+              "bytes": 100663296,
+              "sha256": "a40714c7732d5189ccb32c7617abc8a1500e2e9fc880b7e3972c897907c0fee4"
+            },
+            "layers.0.mlp.down_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                12288
+              ],
+              "bytes": 100663296,
+              "sha256": "117e79c36659fa505e2887515f49581d08578ef0fb3beae02ff47a7710ec0091"
+            },
+            "layers.0.input_layernorm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096
+              ],
+              "bytes": 8192,
+              "sha256": "c123f3d9f4f1ca06417ab6b887c5878921e4895b34a1e8b26eb6d07b3f4972eb"
+            },
+            "layers.0.post_attention_layernorm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096
+              ],
+              "bytes": 8192,
+              "sha256": "23dc37f9e22fa1db56785fb227fc4949a3f28731a0cbf9ee693bc6abd4a0c954"
+            },
+            "layers.1.self_attn.q_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                4096
+              ],
+              "bytes": 33554432,
+              "sha256": "5ce6337c02925014b85ed92759543f4afbd07679dd2e303d0553fcd3fde2046f"
+            },
+            "layers.1.self_attn.k_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1024,
+                4096
+              ],
+              "bytes": 8388608,
+              "sha256": "477234c65dac0720a9b6cac5a9f249cc049c94d9aa2d866ccaeeaebb9a4f9928"
+            },
+            "layers.1.self_attn.v_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1024,
+                4096
+              ],
+              "bytes": 8388608,
+              "sha256": "744abf054e30c320c2fdb7c2d96dffc71724e7ae2de5a6e5355a86a6ce968a70"
+            },
+            "layers.1.self_attn.o_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                4096
+              ],
+              "bytes": 33554432,
+              "sha256": "1475c32f6bf42e2b6d1dfd6c3b06729581729542950311819e542ebdc86ccd82"
+            },
+            "layers.1.self_attn.q_norm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                128
+              ],
+              "bytes": 256,
+              "sha256": "55b96ff17a75a27baf11c44e8c25d5b22442e8729263f5840d04f14c8f4a7e22"
+            },
+            "layers.1.self_attn.k_norm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                128
+              ],
+              "bytes": 256,
+              "sha256": "4186a3b0235f89c46705b9fd11be7e43bd034b6f840731ac7f5a455b94c3dd00"
+            },
+            "layers.1.mlp.gate_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                12288,
+                4096
+              ],
+              "bytes": 100663296,
+              "sha256": "592ab233a7381d4d95ada3c9e71803b075e34ec497a56256856ca06f957d81ff"
+            },
+            "layers.1.mlp.up_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                12288,
+                4096
+              ],
+              "bytes": 100663296,
+              "sha256": "269b3c61283fe4de216edc22238b3eff6a8e0eb8270f7e5740d0722e3ea8d959"
+            },
+            "layers.1.mlp.down_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                12288
+              ],
+              "bytes": 100663296,
+              "sha256": "537d8e18f2ea1443af34d6a22978aab7ce500fb5756c0a8d5ee6c42e5614b114"
+            },
+            "layers.1.input_layernorm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096
+              ],
+              "bytes": 8192,
+              "sha256": "1706a6d5591f48f6d5f2eb4a5dc6c74bd8ed922128c9b071158a2c7fb63b471d"
+            },
+            "layers.1.post_attention_layernorm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096
+              ],
+              "bytes": 8192,
+              "sha256": "c2e095bb8ec61a91295aefbd81660c9eeec34f84b2679a720c83aeb4428531fa"
+            },
+            "layers.2.self_attn.q_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                4096
+              ],
+              "bytes": 33554432,
+              "sha256": "390e8ab90e260347a720af0be4ae879cc8dab0143031542f2a0b8f2ce7248390"
+            },
+            "layers.2.self_attn.k_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1024,
+                4096
+              ],
+              "bytes": 8388608,
+              "sha256": "0b6e79ae0c77ff870daf58539d56ca637b2eb7077bc74ba03c61200755237dda"
+            },
+            "layers.2.self_attn.v_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1024,
+                4096
+              ],
+              "bytes": 8388608,
+              "sha256": "ad563b914ad8790263ffec92a85c307b105e9a6c199c981e309259be104c2812"
+            },
+            "layers.2.self_attn.o_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                4096
+              ],
+              "bytes": 33554432,
+              "sha256": "ae5c631f33f3faf92aa90d9ed5fdbfdf0ad5f8989c7d23c2e0471889a1a4b27e"
+            },
+            "layers.2.self_attn.q_norm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                128
+              ],
+              "bytes": 256,
+              "sha256": "168e2ac154da6f8833d9475df3f90e7fa48f96c85572a049eba8093118f6ba9a"
+            },
+            "layers.2.self_attn.k_norm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                128
+              ],
+              "bytes": 256,
+              "sha256": "9547bf762790eb64113aefd91d4cc005960e165a849c2b380d12f99c434e4d72"
+            },
+            "layers.2.mlp.gate_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                12288,
+                4096
+              ],
+              "bytes": 100663296,
+              "sha256": "ab4ba0dc5123c8c012f5735260b39c3aa48a16f9d6e22245fb27e687d4ff10de"
+            },
+            "layers.2.mlp.up_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                12288,
+                4096
+              ],
+              "bytes": 100663296,
+              "sha256": "7ab2e51a66fe9f1f7dc5bd24d75db815157436e7c23b950d15b277c91742cf85"
+            },
+            "layers.2.mlp.down_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                12288
+              ],
+              "bytes": 100663296,
+              "sha256": "c5d3aaaaa000beb07d4bb62344ee280b9d0adc4ee455584595cc2842fb2ffa0c"
+            },
+            "layers.2.input_layernorm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096
+              ],
+              "bytes": 8192,
+              "sha256": "f69d10a9b586183131a8914380342572bfcb000068dfb72065acdc050c80ceb6"
+            },
+            "layers.2.post_attention_layernorm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096
+              ],
+              "bytes": 8192,
+              "sha256": "6ce9f137f3f9c1ba0c3e05be2bfe67e86353d5fae303293cae2803e1d73d4dd6"
+            },
+            "layers.3.self_attn.q_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                4096
+              ],
+              "bytes": 33554432,
+              "sha256": "010def74e302a5808ff7100432cbafc49c7aa6be37810c30984e8156248767f7"
+            },
+            "layers.3.self_attn.k_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1024,
+                4096
+              ],
+              "bytes": 8388608,
+              "sha256": "8ad1ea684dbe1b0285dd0803ff108c1a4f38613b6891f4e334dfc142c2e0ba8d"
+            },
+            "layers.3.self_attn.v_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1024,
+                4096
+              ],
+              "bytes": 8388608,
+              "sha256": "c05b64f806a920277fc3da93a7239c71df2bcec6964b00c8d456f51d8e92b4bc"
+            },
+            "layers.3.self_attn.o_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                4096
+              ],
+              "bytes": 33554432,
+              "sha256": "9b517ef460b989b0e6ac295abd26c31dddb5b8804c953e0686415d1d082fd047"
+            },
+            "layers.3.self_attn.q_norm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                128
+              ],
+              "bytes": 256,
+              "sha256": "29dcc0585cdb8045ae23fbec810bcf98f29596f14c6bc5dc979095fbe3619a11"
+            },
+            "layers.3.self_attn.k_norm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                128
+              ],
+              "bytes": 256,
+              "sha256": "ffe22b7ad8ca1e048511d89052aaae031cb32060d00fa41fdefffb77611f07f6"
+            },
+            "layers.3.mlp.gate_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                12288,
+                4096
+              ],
+              "bytes": 100663296,
+              "sha256": "1de7d672f9d0687a891960b332f005f5dfd065abe79c395aba0774a988cba020"
+            },
+            "layers.3.mlp.up_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                12288,
+                4096
+              ],
+              "bytes": 100663296,
+              "sha256": "c16d87a1ca9ab60376ffec1ac2242982bd6cffa5dfbd3486684eaa941f8926b4"
+            },
+            "layers.3.mlp.down_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                12288
+              ],
+              "bytes": 100663296,
+              "sha256": "599214b348e0fe44da96d963500fc585b3a3b8a7e2f207bea0b810e960633ea0"
+            },
+            "layers.3.input_layernorm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096
+              ],
+              "bytes": 8192,
+              "sha256": "4de8a5e15d421821e7f12e0b372ddf7793c003e8a0a1ca5c8a9d9377f50e28cb"
+            },
+            "layers.3.post_attention_layernorm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096
+              ],
+              "bytes": 8192,
+              "sha256": "d628f179cc0f6595deaa0aff2918b1cc4dcfa334fb26d51a069caa85820bb4f0"
+            },
+            "layers.4.self_attn.q_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                4096
+              ],
+              "bytes": 33554432,
+              "sha256": "6cad5f285d83935e6b6899b45fe0827252c9c9e4e2d7392efd2620a91f6261df"
+            },
+            "layers.4.self_attn.k_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1024,
+                4096
+              ],
+              "bytes": 8388608,
+              "sha256": "bec818cda01e29c2a97d519134fd3635259e7841eb2e5d6c0dedc9009b0aaae2"
+            },
+            "layers.4.self_attn.v_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1024,
+                4096
+              ],
+              "bytes": 8388608,
+              "sha256": "74b8918ecb6039c4a4496ec7f412f98f45bbe8897e3b65237f98d02a9531fb79"
+            },
+            "layers.4.self_attn.o_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                4096
+              ],
+              "bytes": 33554432,
+              "sha256": "4b829db793b547b01c26ffafe621df37ff69b80331c67820a158ed4df1df00fd"
+            },
+            "layers.4.self_attn.q_norm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                128
+              ],
+              "bytes": 256,
+              "sha256": "bdef423dc4b7ca7b831327db578763d4d75e396e7cc2984d6e3eef5bc47b79a2"
+            },
+            "layers.4.self_attn.k_norm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                128
+              ],
+              "bytes": 256,
+              "sha256": "e441b9c0b6123bcaeb38dc0fda716d4b52e76aed48e68a5c3986a1d405015437"
+            },
+            "layers.4.mlp.gate_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                12288,
+                4096
+              ],
+              "bytes": 100663296,
+              "sha256": "3aee24708e1304b634cfeba125b0447568db7eceb42bf3264ebe5fa0052b0a21"
+            },
+            "layers.4.mlp.up_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                12288,
+                4096
+              ],
+              "bytes": 100663296,
+              "sha256": "bca4733b9844a189b303ff2fc99b1f95c9bce3649a4d416385b17303f339e6e8"
+            },
+            "layers.4.mlp.down_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                12288
+              ],
+              "bytes": 100663296,
+              "sha256": "1e918ce73d3b374a52d0e3895e7a342ae6c7af2866d8f22cf30e485df2bd0835"
+            },
+            "layers.4.input_layernorm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096
+              ],
+              "bytes": 8192,
+              "sha256": "00118152dedb5d0260b56d9dc7cd4f0ef5eeea35640499f39a4fad101d3627e0"
+            },
+            "layers.4.post_attention_layernorm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096
+              ],
+              "bytes": 8192,
+              "sha256": "dbcf50e1055e8dc4fa0f6b35e42c32fead167b79c637cc6b510524326f16631f"
+            },
+            "norm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096
+              ],
+              "bytes": 8192,
+              "sha256": "6ae2e0b3f6bfff262d5a152ec905636e0b9483fb3a439aa147f1ef9dc3d62fb7"
+            },
+            "fc.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                20480
+              ],
+              "bytes": 167772160,
+              "sha256": "8c4a8b5593c701b9c2b2ff0647ecda230ba127c3b20839d579e9b6e5c1d5bc09"
+            },
+            "hidden_norm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096
+              ],
+              "bytes": 8192,
+              "sha256": "f94127164e414901d6a3d2666f68ce28e49d9466fa6fc78dd1e798b18ec1bbb0"
+            }
+          },
+          "effective_lrs_after": [
+            0.0003
+          ]
+        },
+        "moment_clip_option_parity": {
+          "status": "passed",
+          "mismatches": []
+        },
+        "cached_state_semantics": {
+          "status": "passed",
+          "mismatches": [],
+          "global_step": 769,
+          "presentations": 1536,
+          "schedule_position": 0,
+          "exact_weights_adam_rng_gradients_runtime": true
+        },
+        "displacement": {
+          "left_norm": 4167.63617490249,
+          "right_norm": 4167.63670424677,
+          "difference_norm": 1.2164601109607565,
+          "left_dot_difference": 1.466226894950464,
+          "changed_entries": 112812837,
+          "elements": 1048626432
+        },
+        "end_step": 769,
+        "end_presentations": 1536,
+        "restored_group_lrs": [
+          0.0003
+        ],
+        "restored_native": {
+          "status": "passed",
+          "mismatches": [],
+          "global_step": 769,
+          "presentations": 1538,
+          "schedule_position": 2,
+          "exact_weights_adam_rng_gradients_runtime": true
+        },
+        "wall_s": 28.79489491134882
+      },
+      "displacement": {
+        "left_norm": 4167.63617490249,
+        "right_norm": 4167.63670424677,
+        "difference_norm": 1.2164601109607565,
+        "left_dot_difference": 1.466226894950464,
+        "changed_entries": 112812837,
+        "elements": 1048626432
+      },
+      "mismatches": [],
+      "peak_allocated_bytes": 15092774912,
+      "peak_reserved_bytes": 18580766720
+    },
+    {
+      "case": "alpha_0",
+      "alpha": 0.0,
+      "status": "passed",
+      "prestate": {
+        "status": "passed",
+        "mismatches": [],
+        "global_step": 768,
+        "presentations": 1536,
+        "schedule_position": 0,
+        "exact_weights_adam_rng_gradients_runtime": true
+      },
+      "update": {
+        "status": "completed",
+        "window": 1,
+        "trial_index": 3,
+        "alpha": 0.0,
+        "optimizer_applications": 1,
+        "response_forwards": 0,
+        "response_backwards": 0,
+        "response_presentations": 0,
+        "sampling_draws": 0,
+        "restored_pre": {
+          "status": "passed",
+          "mismatches": [],
+          "global_step": 768,
+          "presentations": 1536,
+          "schedule_position": 0,
+          "exact_weights_adam_rng_gradients_runtime": true
+        },
+        "original_lrs": [
+          0.0003
+        ],
+        "requested_lrs": [
+          0.0
+        ],
+        "clip_norm": 0.466796875,
+        "clip_factor": 1.0,
+        "clip_factor_dtype": "torch.bfloat16",
+        "adam_observation": {
+          "applications": 1,
+          "effective_lrs_before": [
+            0.0
+          ],
+          "clipped_gradients": {
+            "layers.0.self_attn.q_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                4096
+              ],
+              "bytes": 33554432,
+              "sha256": "0978cf7439c0f8cc9992e128cb7ee5405a17a7387651a8bdc70941e5a0e28650"
+            },
+            "layers.0.self_attn.k_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1024,
+                4096
+              ],
+              "bytes": 8388608,
+              "sha256": "def559f04d997843be958fe8ba0109170522bed8fcc3b733c4524879839d51af"
+            },
+            "layers.0.self_attn.v_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1024,
+                4096
+              ],
+              "bytes": 8388608,
+              "sha256": "37af69780b73c39299964ca6da421fc68490f5ce4e9c8faff469b4b228731b6b"
+            },
+            "layers.0.self_attn.o_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                4096
+              ],
+              "bytes": 33554432,
+              "sha256": "cb000de82be2785263d76b2cc5e4420a99f3a1180f0b9db2da66bf6e1825e9d5"
+            },
+            "layers.0.self_attn.q_norm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                128
+              ],
+              "bytes": 256,
+              "sha256": "c575436ac5fe2eab8acf2210a4c659c35407406624ba0a23395b73afd7796ae3"
+            },
+            "layers.0.self_attn.k_norm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                128
+              ],
+              "bytes": 256,
+              "sha256": "2a9d28ac27e90c1540cc70f41849629f6190c0eafb05c4b2363f235cec6a8828"
+            },
+            "layers.0.mlp.gate_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                12288,
+                4096
+              ],
+              "bytes": 100663296,
+              "sha256": "3c520edad9a3aeed6006cca8806a7ce1cfcb7e6c27dc05dbd033c1bbf11326d5"
+            },
+            "layers.0.mlp.up_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                12288,
+                4096
+              ],
+              "bytes": 100663296,
+              "sha256": "a40714c7732d5189ccb32c7617abc8a1500e2e9fc880b7e3972c897907c0fee4"
+            },
+            "layers.0.mlp.down_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                12288
+              ],
+              "bytes": 100663296,
+              "sha256": "117e79c36659fa505e2887515f49581d08578ef0fb3beae02ff47a7710ec0091"
+            },
+            "layers.0.input_layernorm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096
+              ],
+              "bytes": 8192,
+              "sha256": "c123f3d9f4f1ca06417ab6b887c5878921e4895b34a1e8b26eb6d07b3f4972eb"
+            },
+            "layers.0.post_attention_layernorm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096
+              ],
+              "bytes": 8192,
+              "sha256": "23dc37f9e22fa1db56785fb227fc4949a3f28731a0cbf9ee693bc6abd4a0c954"
+            },
+            "layers.1.self_attn.q_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                4096
+              ],
+              "bytes": 33554432,
+              "sha256": "5ce6337c02925014b85ed92759543f4afbd07679dd2e303d0553fcd3fde2046f"
+            },
+            "layers.1.self_attn.k_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1024,
+                4096
+              ],
+              "bytes": 8388608,
+              "sha256": "477234c65dac0720a9b6cac5a9f249cc049c94d9aa2d866ccaeeaebb9a4f9928"
+            },
+            "layers.1.self_attn.v_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1024,
+                4096
+              ],
+              "bytes": 8388608,
+              "sha256": "744abf054e30c320c2fdb7c2d96dffc71724e7ae2de5a6e5355a86a6ce968a70"
+            },
+            "layers.1.self_attn.o_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                4096
+              ],
+              "bytes": 33554432,
+              "sha256": "1475c32f6bf42e2b6d1dfd6c3b06729581729542950311819e542ebdc86ccd82"
+            },
+            "layers.1.self_attn.q_norm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                128
+              ],
+              "bytes": 256,
+              "sha256": "55b96ff17a75a27baf11c44e8c25d5b22442e8729263f5840d04f14c8f4a7e22"
+            },
+            "layers.1.self_attn.k_norm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                128
+              ],
+              "bytes": 256,
+              "sha256": "4186a3b0235f89c46705b9fd11be7e43bd034b6f840731ac7f5a455b94c3dd00"
+            },
+            "layers.1.mlp.gate_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                12288,
+                4096
+              ],
+              "bytes": 100663296,
+              "sha256": "592ab233a7381d4d95ada3c9e71803b075e34ec497a56256856ca06f957d81ff"
+            },
+            "layers.1.mlp.up_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                12288,
+                4096
+              ],
+              "bytes": 100663296,
+              "sha256": "269b3c61283fe4de216edc22238b3eff6a8e0eb8270f7e5740d0722e3ea8d959"
+            },
+            "layers.1.mlp.down_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                12288
+              ],
+              "bytes": 100663296,
+              "sha256": "537d8e18f2ea1443af34d6a22978aab7ce500fb5756c0a8d5ee6c42e5614b114"
+            },
+            "layers.1.input_layernorm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096
+              ],
+              "bytes": 8192,
+              "sha256": "1706a6d5591f48f6d5f2eb4a5dc6c74bd8ed922128c9b071158a2c7fb63b471d"
+            },
+            "layers.1.post_attention_layernorm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096
+              ],
+              "bytes": 8192,
+              "sha256": "c2e095bb8ec61a91295aefbd81660c9eeec34f84b2679a720c83aeb4428531fa"
+            },
+            "layers.2.self_attn.q_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                4096
+              ],
+              "bytes": 33554432,
+              "sha256": "390e8ab90e260347a720af0be4ae879cc8dab0143031542f2a0b8f2ce7248390"
+            },
+            "layers.2.self_attn.k_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1024,
+                4096
+              ],
+              "bytes": 8388608,
+              "sha256": "0b6e79ae0c77ff870daf58539d56ca637b2eb7077bc74ba03c61200755237dda"
+            },
+            "layers.2.self_attn.v_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1024,
+                4096
+              ],
+              "bytes": 8388608,
+              "sha256": "ad563b914ad8790263ffec92a85c307b105e9a6c199c981e309259be104c2812"
+            },
+            "layers.2.self_attn.o_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                4096
+              ],
+              "bytes": 33554432,
+              "sha256": "ae5c631f33f3faf92aa90d9ed5fdbfdf0ad5f8989c7d23c2e0471889a1a4b27e"
+            },
+            "layers.2.self_attn.q_norm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                128
+              ],
+              "bytes": 256,
+              "sha256": "168e2ac154da6f8833d9475df3f90e7fa48f96c85572a049eba8093118f6ba9a"
+            },
+            "layers.2.self_attn.k_norm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                128
+              ],
+              "bytes": 256,
+              "sha256": "9547bf762790eb64113aefd91d4cc005960e165a849c2b380d12f99c434e4d72"
+            },
+            "layers.2.mlp.gate_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                12288,
+                4096
+              ],
+              "bytes": 100663296,
+              "sha256": "ab4ba0dc5123c8c012f5735260b39c3aa48a16f9d6e22245fb27e687d4ff10de"
+            },
+            "layers.2.mlp.up_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                12288,
+                4096
+              ],
+              "bytes": 100663296,
+              "sha256": "7ab2e51a66fe9f1f7dc5bd24d75db815157436e7c23b950d15b277c91742cf85"
+            },
+            "layers.2.mlp.down_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                12288
+              ],
+              "bytes": 100663296,
+              "sha256": "c5d3aaaaa000beb07d4bb62344ee280b9d0adc4ee455584595cc2842fb2ffa0c"
+            },
+            "layers.2.input_layernorm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096
+              ],
+              "bytes": 8192,
+              "sha256": "f69d10a9b586183131a8914380342572bfcb000068dfb72065acdc050c80ceb6"
+            },
+            "layers.2.post_attention_layernorm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096
+              ],
+              "bytes": 8192,
+              "sha256": "6ce9f137f3f9c1ba0c3e05be2bfe67e86353d5fae303293cae2803e1d73d4dd6"
+            },
+            "layers.3.self_attn.q_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                4096
+              ],
+              "bytes": 33554432,
+              "sha256": "010def74e302a5808ff7100432cbafc49c7aa6be37810c30984e8156248767f7"
+            },
+            "layers.3.self_attn.k_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1024,
+                4096
+              ],
+              "bytes": 8388608,
+              "sha256": "8ad1ea684dbe1b0285dd0803ff108c1a4f38613b6891f4e334dfc142c2e0ba8d"
+            },
+            "layers.3.self_attn.v_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1024,
+                4096
+              ],
+              "bytes": 8388608,
+              "sha256": "c05b64f806a920277fc3da93a7239c71df2bcec6964b00c8d456f51d8e92b4bc"
+            },
+            "layers.3.self_attn.o_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                4096
+              ],
+              "bytes": 33554432,
+              "sha256": "9b517ef460b989b0e6ac295abd26c31dddb5b8804c953e0686415d1d082fd047"
+            },
+            "layers.3.self_attn.q_norm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                128
+              ],
+              "bytes": 256,
+              "sha256": "29dcc0585cdb8045ae23fbec810bcf98f29596f14c6bc5dc979095fbe3619a11"
+            },
+            "layers.3.self_attn.k_norm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                128
+              ],
+              "bytes": 256,
+              "sha256": "ffe22b7ad8ca1e048511d89052aaae031cb32060d00fa41fdefffb77611f07f6"
+            },
+            "layers.3.mlp.gate_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                12288,
+                4096
+              ],
+              "bytes": 100663296,
+              "sha256": "1de7d672f9d0687a891960b332f005f5dfd065abe79c395aba0774a988cba020"
+            },
+            "layers.3.mlp.up_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                12288,
+                4096
+              ],
+              "bytes": 100663296,
+              "sha256": "c16d87a1ca9ab60376ffec1ac2242982bd6cffa5dfbd3486684eaa941f8926b4"
+            },
+            "layers.3.mlp.down_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                12288
+              ],
+              "bytes": 100663296,
+              "sha256": "599214b348e0fe44da96d963500fc585b3a3b8a7e2f207bea0b810e960633ea0"
+            },
+            "layers.3.input_layernorm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096
+              ],
+              "bytes": 8192,
+              "sha256": "4de8a5e15d421821e7f12e0b372ddf7793c003e8a0a1ca5c8a9d9377f50e28cb"
+            },
+            "layers.3.post_attention_layernorm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096
+              ],
+              "bytes": 8192,
+              "sha256": "d628f179cc0f6595deaa0aff2918b1cc4dcfa334fb26d51a069caa85820bb4f0"
+            },
+            "layers.4.self_attn.q_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                4096
+              ],
+              "bytes": 33554432,
+              "sha256": "6cad5f285d83935e6b6899b45fe0827252c9c9e4e2d7392efd2620a91f6261df"
+            },
+            "layers.4.self_attn.k_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1024,
+                4096
+              ],
+              "bytes": 8388608,
+              "sha256": "bec818cda01e29c2a97d519134fd3635259e7841eb2e5d6c0dedc9009b0aaae2"
+            },
+            "layers.4.self_attn.v_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1024,
+                4096
+              ],
+              "bytes": 8388608,
+              "sha256": "74b8918ecb6039c4a4496ec7f412f98f45bbe8897e3b65237f98d02a9531fb79"
+            },
+            "layers.4.self_attn.o_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                4096
+              ],
+              "bytes": 33554432,
+              "sha256": "4b829db793b547b01c26ffafe621df37ff69b80331c67820a158ed4df1df00fd"
+            },
+            "layers.4.self_attn.q_norm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                128
+              ],
+              "bytes": 256,
+              "sha256": "bdef423dc4b7ca7b831327db578763d4d75e396e7cc2984d6e3eef5bc47b79a2"
+            },
+            "layers.4.self_attn.k_norm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                128
+              ],
+              "bytes": 256,
+              "sha256": "e441b9c0b6123bcaeb38dc0fda716d4b52e76aed48e68a5c3986a1d405015437"
+            },
+            "layers.4.mlp.gate_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                12288,
+                4096
+              ],
+              "bytes": 100663296,
+              "sha256": "3aee24708e1304b634cfeba125b0447568db7eceb42bf3264ebe5fa0052b0a21"
+            },
+            "layers.4.mlp.up_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                12288,
+                4096
+              ],
+              "bytes": 100663296,
+              "sha256": "bca4733b9844a189b303ff2fc99b1f95c9bce3649a4d416385b17303f339e6e8"
+            },
+            "layers.4.mlp.down_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                12288
+              ],
+              "bytes": 100663296,
+              "sha256": "1e918ce73d3b374a52d0e3895e7a342ae6c7af2866d8f22cf30e485df2bd0835"
+            },
+            "layers.4.input_layernorm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096
+              ],
+              "bytes": 8192,
+              "sha256": "00118152dedb5d0260b56d9dc7cd4f0ef5eeea35640499f39a4fad101d3627e0"
+            },
+            "layers.4.post_attention_layernorm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096
+              ],
+              "bytes": 8192,
+              "sha256": "dbcf50e1055e8dc4fa0f6b35e42c32fead167b79c637cc6b510524326f16631f"
+            },
+            "norm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096
+              ],
+              "bytes": 8192,
+              "sha256": "6ae2e0b3f6bfff262d5a152ec905636e0b9483fb3a439aa147f1ef9dc3d62fb7"
+            },
+            "fc.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                20480
+              ],
+              "bytes": 167772160,
+              "sha256": "8c4a8b5593c701b9c2b2ff0647ecda230ba127c3b20839d579e9b6e5c1d5bc09"
+            },
+            "hidden_norm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096
+              ],
+              "bytes": 8192,
+              "sha256": "f94127164e414901d6a3d2666f68ce28e49d9466fa6fc78dd1e798b18ec1bbb0"
+            }
+          },
+          "effective_lrs_after": [
+            0.0
+          ]
+        },
+        "moment_clip_option_parity": {
+          "status": "passed",
+          "mismatches": []
+        },
+        "cached_state_semantics": {
+          "status": "passed",
+          "mismatches": [],
+          "global_step": 769,
+          "presentations": 1536,
+          "schedule_position": 0,
+          "exact_weights_adam_rng_gradients_runtime": true
+        },
+        "displacement": {
+          "left_norm": 4167.63617490249,
+          "right_norm": 4167.63617490249,
+          "difference_norm": 0.0,
+          "left_dot_difference": 0.0,
+          "changed_entries": 0,
+          "elements": 1048626432
+        },
+        "end_step": 769,
+        "end_presentations": 1536,
+        "restored_group_lrs": [
+          0.0003
+        ],
+        "restored_native": {
+          "status": "passed",
+          "mismatches": [],
+          "global_step": 769,
+          "presentations": 1538,
+          "schedule_position": 2,
+          "exact_weights_adam_rng_gradients_runtime": true
+        },
+        "wall_s": 28.575586775317788
+      },
+      "displacement": {
+        "left_norm": 4167.63617490249,
+        "right_norm": 4167.63617490249,
+        "difference_norm": 0.0,
+        "left_dot_difference": 0.0,
+        "changed_entries": 0,
+        "elements": 1048626432
+      },
+      "mismatches": [],
+      "peak_allocated_bytes": 15092774912,
+      "peak_reserved_bytes": 18580766720
+    },
+    {
+      "case": "alpha_half",
+      "alpha": 0.5,
+      "status": "passed",
+      "prestate": {
+        "status": "passed",
+        "mismatches": [],
+        "global_step": 768,
+        "presentations": 1536,
+        "schedule_position": 0,
+        "exact_weights_adam_rng_gradients_runtime": true
+      },
+      "update": {
+        "status": "completed",
+        "window": 1,
+        "trial_index": 4,
+        "alpha": 0.5,
+        "optimizer_applications": 1,
+        "response_forwards": 0,
+        "response_backwards": 0,
+        "response_presentations": 0,
+        "sampling_draws": 0,
+        "restored_pre": {
+          "status": "passed",
+          "mismatches": [],
+          "global_step": 768,
+          "presentations": 1536,
+          "schedule_position": 0,
+          "exact_weights_adam_rng_gradients_runtime": true
+        },
+        "original_lrs": [
+          0.0003
+        ],
+        "requested_lrs": [
+          0.00015
+        ],
+        "clip_norm": 0.466796875,
+        "clip_factor": 1.0,
+        "clip_factor_dtype": "torch.bfloat16",
+        "adam_observation": {
+          "applications": 1,
+          "effective_lrs_before": [
+            0.00015
+          ],
+          "clipped_gradients": {
+            "layers.0.self_attn.q_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                4096
+              ],
+              "bytes": 33554432,
+              "sha256": "0978cf7439c0f8cc9992e128cb7ee5405a17a7387651a8bdc70941e5a0e28650"
+            },
+            "layers.0.self_attn.k_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1024,
+                4096
+              ],
+              "bytes": 8388608,
+              "sha256": "def559f04d997843be958fe8ba0109170522bed8fcc3b733c4524879839d51af"
+            },
+            "layers.0.self_attn.v_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1024,
+                4096
+              ],
+              "bytes": 8388608,
+              "sha256": "37af69780b73c39299964ca6da421fc68490f5ce4e9c8faff469b4b228731b6b"
+            },
+            "layers.0.self_attn.o_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                4096
+              ],
+              "bytes": 33554432,
+              "sha256": "cb000de82be2785263d76b2cc5e4420a99f3a1180f0b9db2da66bf6e1825e9d5"
+            },
+            "layers.0.self_attn.q_norm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                128
+              ],
+              "bytes": 256,
+              "sha256": "c575436ac5fe2eab8acf2210a4c659c35407406624ba0a23395b73afd7796ae3"
+            },
+            "layers.0.self_attn.k_norm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                128
+              ],
+              "bytes": 256,
+              "sha256": "2a9d28ac27e90c1540cc70f41849629f6190c0eafb05c4b2363f235cec6a8828"
+            },
+            "layers.0.mlp.gate_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                12288,
+                4096
+              ],
+              "bytes": 100663296,
+              "sha256": "3c520edad9a3aeed6006cca8806a7ce1cfcb7e6c27dc05dbd033c1bbf11326d5"
+            },
+            "layers.0.mlp.up_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                12288,
+                4096
+              ],
+              "bytes": 100663296,
+              "sha256": "a40714c7732d5189ccb32c7617abc8a1500e2e9fc880b7e3972c897907c0fee4"
+            },
+            "layers.0.mlp.down_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                12288
+              ],
+              "bytes": 100663296,
+              "sha256": "117e79c36659fa505e2887515f49581d08578ef0fb3beae02ff47a7710ec0091"
+            },
+            "layers.0.input_layernorm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096
+              ],
+              "bytes": 8192,
+              "sha256": "c123f3d9f4f1ca06417ab6b887c5878921e4895b34a1e8b26eb6d07b3f4972eb"
+            },
+            "layers.0.post_attention_layernorm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096
+              ],
+              "bytes": 8192,
+              "sha256": "23dc37f9e22fa1db56785fb227fc4949a3f28731a0cbf9ee693bc6abd4a0c954"
+            },
+            "layers.1.self_attn.q_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                4096
+              ],
+              "bytes": 33554432,
+              "sha256": "5ce6337c02925014b85ed92759543f4afbd07679dd2e303d0553fcd3fde2046f"
+            },
+            "layers.1.self_attn.k_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1024,
+                4096
+              ],
+              "bytes": 8388608,
+              "sha256": "477234c65dac0720a9b6cac5a9f249cc049c94d9aa2d866ccaeeaebb9a4f9928"
+            },
+            "layers.1.self_attn.v_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1024,
+                4096
+              ],
+              "bytes": 8388608,
+              "sha256": "744abf054e30c320c2fdb7c2d96dffc71724e7ae2de5a6e5355a86a6ce968a70"
+            },
+            "layers.1.self_attn.o_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                4096
+              ],
+              "bytes": 33554432,
+              "sha256": "1475c32f6bf42e2b6d1dfd6c3b06729581729542950311819e542ebdc86ccd82"
+            },
+            "layers.1.self_attn.q_norm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                128
+              ],
+              "bytes": 256,
+              "sha256": "55b96ff17a75a27baf11c44e8c25d5b22442e8729263f5840d04f14c8f4a7e22"
+            },
+            "layers.1.self_attn.k_norm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                128
+              ],
+              "bytes": 256,
+              "sha256": "4186a3b0235f89c46705b9fd11be7e43bd034b6f840731ac7f5a455b94c3dd00"
+            },
+            "layers.1.mlp.gate_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                12288,
+                4096
+              ],
+              "bytes": 100663296,
+              "sha256": "592ab233a7381d4d95ada3c9e71803b075e34ec497a56256856ca06f957d81ff"
+            },
+            "layers.1.mlp.up_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                12288,
+                4096
+              ],
+              "bytes": 100663296,
+              "sha256": "269b3c61283fe4de216edc22238b3eff6a8e0eb8270f7e5740d0722e3ea8d959"
+            },
+            "layers.1.mlp.down_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                12288
+              ],
+              "bytes": 100663296,
+              "sha256": "537d8e18f2ea1443af34d6a22978aab7ce500fb5756c0a8d5ee6c42e5614b114"
+            },
+            "layers.1.input_layernorm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096
+              ],
+              "bytes": 8192,
+              "sha256": "1706a6d5591f48f6d5f2eb4a5dc6c74bd8ed922128c9b071158a2c7fb63b471d"
+            },
+            "layers.1.post_attention_layernorm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096
+              ],
+              "bytes": 8192,
+              "sha256": "c2e095bb8ec61a91295aefbd81660c9eeec34f84b2679a720c83aeb4428531fa"
+            },
+            "layers.2.self_attn.q_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                4096
+              ],
+              "bytes": 33554432,
+              "sha256": "390e8ab90e260347a720af0be4ae879cc8dab0143031542f2a0b8f2ce7248390"
+            },
+            "layers.2.self_attn.k_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1024,
+                4096
+              ],
+              "bytes": 8388608,
+              "sha256": "0b6e79ae0c77ff870daf58539d56ca637b2eb7077bc74ba03c61200755237dda"
+            },
+            "layers.2.self_attn.v_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1024,
+                4096
+              ],
+              "bytes": 8388608,
+              "sha256": "ad563b914ad8790263ffec92a85c307b105e9a6c199c981e309259be104c2812"
+            },
+            "layers.2.self_attn.o_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                4096
+              ],
+              "bytes": 33554432,
+              "sha256": "ae5c631f33f3faf92aa90d9ed5fdbfdf0ad5f8989c7d23c2e0471889a1a4b27e"
+            },
+            "layers.2.self_attn.q_norm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                128
+              ],
+              "bytes": 256,
+              "sha256": "168e2ac154da6f8833d9475df3f90e7fa48f96c85572a049eba8093118f6ba9a"
+            },
+            "layers.2.self_attn.k_norm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                128
+              ],
+              "bytes": 256,
+              "sha256": "9547bf762790eb64113aefd91d4cc005960e165a849c2b380d12f99c434e4d72"
+            },
+            "layers.2.mlp.gate_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                12288,
+                4096
+              ],
+              "bytes": 100663296,
+              "sha256": "ab4ba0dc5123c8c012f5735260b39c3aa48a16f9d6e22245fb27e687d4ff10de"
+            },
+            "layers.2.mlp.up_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                12288,
+                4096
+              ],
+              "bytes": 100663296,
+              "sha256": "7ab2e51a66fe9f1f7dc5bd24d75db815157436e7c23b950d15b277c91742cf85"
+            },
+            "layers.2.mlp.down_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                12288
+              ],
+              "bytes": 100663296,
+              "sha256": "c5d3aaaaa000beb07d4bb62344ee280b9d0adc4ee455584595cc2842fb2ffa0c"
+            },
+            "layers.2.input_layernorm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096
+              ],
+              "bytes": 8192,
+              "sha256": "f69d10a9b586183131a8914380342572bfcb000068dfb72065acdc050c80ceb6"
+            },
+            "layers.2.post_attention_layernorm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096
+              ],
+              "bytes": 8192,
+              "sha256": "6ce9f137f3f9c1ba0c3e05be2bfe67e86353d5fae303293cae2803e1d73d4dd6"
+            },
+            "layers.3.self_attn.q_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                4096
+              ],
+              "bytes": 33554432,
+              "sha256": "010def74e302a5808ff7100432cbafc49c7aa6be37810c30984e8156248767f7"
+            },
+            "layers.3.self_attn.k_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1024,
+                4096
+              ],
+              "bytes": 8388608,
+              "sha256": "8ad1ea684dbe1b0285dd0803ff108c1a4f38613b6891f4e334dfc142c2e0ba8d"
+            },
+            "layers.3.self_attn.v_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1024,
+                4096
+              ],
+              "bytes": 8388608,
+              "sha256": "c05b64f806a920277fc3da93a7239c71df2bcec6964b00c8d456f51d8e92b4bc"
+            },
+            "layers.3.self_attn.o_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                4096
+              ],
+              "bytes": 33554432,
+              "sha256": "9b517ef460b989b0e6ac295abd26c31dddb5b8804c953e0686415d1d082fd047"
+            },
+            "layers.3.self_attn.q_norm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                128
+              ],
+              "bytes": 256,
+              "sha256": "29dcc0585cdb8045ae23fbec810bcf98f29596f14c6bc5dc979095fbe3619a11"
+            },
+            "layers.3.self_attn.k_norm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                128
+              ],
+              "bytes": 256,
+              "sha256": "ffe22b7ad8ca1e048511d89052aaae031cb32060d00fa41fdefffb77611f07f6"
+            },
+            "layers.3.mlp.gate_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                12288,
+                4096
+              ],
+              "bytes": 100663296,
+              "sha256": "1de7d672f9d0687a891960b332f005f5dfd065abe79c395aba0774a988cba020"
+            },
+            "layers.3.mlp.up_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                12288,
+                4096
+              ],
+              "bytes": 100663296,
+              "sha256": "c16d87a1ca9ab60376ffec1ac2242982bd6cffa5dfbd3486684eaa941f8926b4"
+            },
+            "layers.3.mlp.down_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                12288
+              ],
+              "bytes": 100663296,
+              "sha256": "599214b348e0fe44da96d963500fc585b3a3b8a7e2f207bea0b810e960633ea0"
+            },
+            "layers.3.input_layernorm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096
+              ],
+              "bytes": 8192,
+              "sha256": "4de8a5e15d421821e7f12e0b372ddf7793c003e8a0a1ca5c8a9d9377f50e28cb"
+            },
+            "layers.3.post_attention_layernorm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096
+              ],
+              "bytes": 8192,
+              "sha256": "d628f179cc0f6595deaa0aff2918b1cc4dcfa334fb26d51a069caa85820bb4f0"
+            },
+            "layers.4.self_attn.q_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                4096
+              ],
+              "bytes": 33554432,
+              "sha256": "6cad5f285d83935e6b6899b45fe0827252c9c9e4e2d7392efd2620a91f6261df"
+            },
+            "layers.4.self_attn.k_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1024,
+                4096
+              ],
+              "bytes": 8388608,
+              "sha256": "bec818cda01e29c2a97d519134fd3635259e7841eb2e5d6c0dedc9009b0aaae2"
+            },
+            "layers.4.self_attn.v_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1024,
+                4096
+              ],
+              "bytes": 8388608,
+              "sha256": "74b8918ecb6039c4a4496ec7f412f98f45bbe8897e3b65237f98d02a9531fb79"
+            },
+            "layers.4.self_attn.o_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                4096
+              ],
+              "bytes": 33554432,
+              "sha256": "4b829db793b547b01c26ffafe621df37ff69b80331c67820a158ed4df1df00fd"
+            },
+            "layers.4.self_attn.q_norm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                128
+              ],
+              "bytes": 256,
+              "sha256": "bdef423dc4b7ca7b831327db578763d4d75e396e7cc2984d6e3eef5bc47b79a2"
+            },
+            "layers.4.self_attn.k_norm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                128
+              ],
+              "bytes": 256,
+              "sha256": "e441b9c0b6123bcaeb38dc0fda716d4b52e76aed48e68a5c3986a1d405015437"
+            },
+            "layers.4.mlp.gate_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                12288,
+                4096
+              ],
+              "bytes": 100663296,
+              "sha256": "3aee24708e1304b634cfeba125b0447568db7eceb42bf3264ebe5fa0052b0a21"
+            },
+            "layers.4.mlp.up_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                12288,
+                4096
+              ],
+              "bytes": 100663296,
+              "sha256": "bca4733b9844a189b303ff2fc99b1f95c9bce3649a4d416385b17303f339e6e8"
+            },
+            "layers.4.mlp.down_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                12288
+              ],
+              "bytes": 100663296,
+              "sha256": "1e918ce73d3b374a52d0e3895e7a342ae6c7af2866d8f22cf30e485df2bd0835"
+            },
+            "layers.4.input_layernorm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096
+              ],
+              "bytes": 8192,
+              "sha256": "00118152dedb5d0260b56d9dc7cd4f0ef5eeea35640499f39a4fad101d3627e0"
+            },
+            "layers.4.post_attention_layernorm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096
+              ],
+              "bytes": 8192,
+              "sha256": "dbcf50e1055e8dc4fa0f6b35e42c32fead167b79c637cc6b510524326f16631f"
+            },
+            "norm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096
+              ],
+              "bytes": 8192,
+              "sha256": "6ae2e0b3f6bfff262d5a152ec905636e0b9483fb3a439aa147f1ef9dc3d62fb7"
+            },
+            "fc.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                20480
+              ],
+              "bytes": 167772160,
+              "sha256": "8c4a8b5593c701b9c2b2ff0647ecda230ba127c3b20839d579e9b6e5c1d5bc09"
+            },
+            "hidden_norm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096
+              ],
+              "bytes": 8192,
+              "sha256": "f94127164e414901d6a3d2666f68ce28e49d9466fa6fc78dd1e798b18ec1bbb0"
+            }
+          },
+          "effective_lrs_after": [
+            0.00015
+          ]
+        },
+        "moment_clip_option_parity": {
+          "status": "passed",
+          "mismatches": []
+        },
+        "cached_state_semantics": {
+          "status": "passed",
+          "mismatches": [],
+          "global_step": 769,
+          "presentations": 1536,
+          "schedule_position": 0,
+          "exact_weights_adam_rng_gradients_runtime": true
+        },
+        "displacement": {
+          "left_norm": 4167.63617490249,
+          "right_norm": 4167.636185891178,
+          "difference_norm": 0.43988004092246613,
+          "left_dot_difference": -0.05095037819099105,
+          "changed_entries": 57574114,
+          "elements": 1048626432
+        },
+        "end_step": 769,
+        "end_presentations": 1536,
+        "restored_group_lrs": [
+          0.0003
+        ],
+        "restored_native": {
+          "status": "passed",
+          "mismatches": [],
+          "global_step": 769,
+          "presentations": 1538,
+          "schedule_position": 2,
+          "exact_weights_adam_rng_gradients_runtime": true
+        },
+        "wall_s": 28.42028628475964
+      },
+      "displacement": {
+        "left_norm": 4167.63617490249,
+        "right_norm": 4167.636185891178,
+        "difference_norm": 0.43988004092246613,
+        "left_dot_difference": -0.05095037819099105,
+        "changed_entries": 57574114,
+        "elements": 1048626432
+      },
+      "mismatches": [],
+      "peak_allocated_bytes": 15092774912,
+      "peak_reserved_bytes": 18580766720
+    },
+    {
+      "case": "alpha_half_repeat",
+      "alpha": 0.5,
+      "status": "passed",
+      "prestate": {
+        "status": "passed",
+        "mismatches": [],
+        "global_step": 768,
+        "presentations": 1536,
+        "schedule_position": 0,
+        "exact_weights_adam_rng_gradients_runtime": true
+      },
+      "update": {
+        "status": "completed",
+        "window": 1,
+        "trial_index": 5,
+        "alpha": 0.5,
+        "optimizer_applications": 1,
+        "response_forwards": 0,
+        "response_backwards": 0,
+        "response_presentations": 0,
+        "sampling_draws": 0,
+        "restored_pre": {
+          "status": "passed",
+          "mismatches": [],
+          "global_step": 768,
+          "presentations": 1536,
+          "schedule_position": 0,
+          "exact_weights_adam_rng_gradients_runtime": true
+        },
+        "original_lrs": [
+          0.0003
+        ],
+        "requested_lrs": [
+          0.00015
+        ],
+        "clip_norm": 0.466796875,
+        "clip_factor": 1.0,
+        "clip_factor_dtype": "torch.bfloat16",
+        "adam_observation": {
+          "applications": 1,
+          "effective_lrs_before": [
+            0.00015
+          ],
+          "clipped_gradients": {
+            "layers.0.self_attn.q_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                4096
+              ],
+              "bytes": 33554432,
+              "sha256": "0978cf7439c0f8cc9992e128cb7ee5405a17a7387651a8bdc70941e5a0e28650"
+            },
+            "layers.0.self_attn.k_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1024,
+                4096
+              ],
+              "bytes": 8388608,
+              "sha256": "def559f04d997843be958fe8ba0109170522bed8fcc3b733c4524879839d51af"
+            },
+            "layers.0.self_attn.v_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1024,
+                4096
+              ],
+              "bytes": 8388608,
+              "sha256": "37af69780b73c39299964ca6da421fc68490f5ce4e9c8faff469b4b228731b6b"
+            },
+            "layers.0.self_attn.o_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                4096
+              ],
+              "bytes": 33554432,
+              "sha256": "cb000de82be2785263d76b2cc5e4420a99f3a1180f0b9db2da66bf6e1825e9d5"
+            },
+            "layers.0.self_attn.q_norm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                128
+              ],
+              "bytes": 256,
+              "sha256": "c575436ac5fe2eab8acf2210a4c659c35407406624ba0a23395b73afd7796ae3"
+            },
+            "layers.0.self_attn.k_norm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                128
+              ],
+              "bytes": 256,
+              "sha256": "2a9d28ac27e90c1540cc70f41849629f6190c0eafb05c4b2363f235cec6a8828"
+            },
+            "layers.0.mlp.gate_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                12288,
+                4096
+              ],
+              "bytes": 100663296,
+              "sha256": "3c520edad9a3aeed6006cca8806a7ce1cfcb7e6c27dc05dbd033c1bbf11326d5"
+            },
+            "layers.0.mlp.up_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                12288,
+                4096
+              ],
+              "bytes": 100663296,
+              "sha256": "a40714c7732d5189ccb32c7617abc8a1500e2e9fc880b7e3972c897907c0fee4"
+            },
+            "layers.0.mlp.down_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                12288
+              ],
+              "bytes": 100663296,
+              "sha256": "117e79c36659fa505e2887515f49581d08578ef0fb3beae02ff47a7710ec0091"
+            },
+            "layers.0.input_layernorm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096
+              ],
+              "bytes": 8192,
+              "sha256": "c123f3d9f4f1ca06417ab6b887c5878921e4895b34a1e8b26eb6d07b3f4972eb"
+            },
+            "layers.0.post_attention_layernorm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096
+              ],
+              "bytes": 8192,
+              "sha256": "23dc37f9e22fa1db56785fb227fc4949a3f28731a0cbf9ee693bc6abd4a0c954"
+            },
+            "layers.1.self_attn.q_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                4096
+              ],
+              "bytes": 33554432,
+              "sha256": "5ce6337c02925014b85ed92759543f4afbd07679dd2e303d0553fcd3fde2046f"
+            },
+            "layers.1.self_attn.k_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1024,
+                4096
+              ],
+              "bytes": 8388608,
+              "sha256": "477234c65dac0720a9b6cac5a9f249cc049c94d9aa2d866ccaeeaebb9a4f9928"
+            },
+            "layers.1.self_attn.v_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1024,
+                4096
+              ],
+              "bytes": 8388608,
+              "sha256": "744abf054e30c320c2fdb7c2d96dffc71724e7ae2de5a6e5355a86a6ce968a70"
+            },
+            "layers.1.self_attn.o_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                4096
+              ],
+              "bytes": 33554432,
+              "sha256": "1475c32f6bf42e2b6d1dfd6c3b06729581729542950311819e542ebdc86ccd82"
+            },
+            "layers.1.self_attn.q_norm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                128
+              ],
+              "bytes": 256,
+              "sha256": "55b96ff17a75a27baf11c44e8c25d5b22442e8729263f5840d04f14c8f4a7e22"
+            },
+            "layers.1.self_attn.k_norm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                128
+              ],
+              "bytes": 256,
+              "sha256": "4186a3b0235f89c46705b9fd11be7e43bd034b6f840731ac7f5a455b94c3dd00"
+            },
+            "layers.1.mlp.gate_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                12288,
+                4096
+              ],
+              "bytes": 100663296,
+              "sha256": "592ab233a7381d4d95ada3c9e71803b075e34ec497a56256856ca06f957d81ff"
+            },
+            "layers.1.mlp.up_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                12288,
+                4096
+              ],
+              "bytes": 100663296,
+              "sha256": "269b3c61283fe4de216edc22238b3eff6a8e0eb8270f7e5740d0722e3ea8d959"
+            },
+            "layers.1.mlp.down_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                12288
+              ],
+              "bytes": 100663296,
+              "sha256": "537d8e18f2ea1443af34d6a22978aab7ce500fb5756c0a8d5ee6c42e5614b114"
+            },
+            "layers.1.input_layernorm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096
+              ],
+              "bytes": 8192,
+              "sha256": "1706a6d5591f48f6d5f2eb4a5dc6c74bd8ed922128c9b071158a2c7fb63b471d"
+            },
+            "layers.1.post_attention_layernorm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096
+              ],
+              "bytes": 8192,
+              "sha256": "c2e095bb8ec61a91295aefbd81660c9eeec34f84b2679a720c83aeb4428531fa"
+            },
+            "layers.2.self_attn.q_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                4096
+              ],
+              "bytes": 33554432,
+              "sha256": "390e8ab90e260347a720af0be4ae879cc8dab0143031542f2a0b8f2ce7248390"
+            },
+            "layers.2.self_attn.k_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1024,
+                4096
+              ],
+              "bytes": 8388608,
+              "sha256": "0b6e79ae0c77ff870daf58539d56ca637b2eb7077bc74ba03c61200755237dda"
+            },
+            "layers.2.self_attn.v_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1024,
+                4096
+              ],
+              "bytes": 8388608,
+              "sha256": "ad563b914ad8790263ffec92a85c307b105e9a6c199c981e309259be104c2812"
+            },
+            "layers.2.self_attn.o_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                4096
+              ],
+              "bytes": 33554432,
+              "sha256": "ae5c631f33f3faf92aa90d9ed5fdbfdf0ad5f8989c7d23c2e0471889a1a4b27e"
+            },
+            "layers.2.self_attn.q_norm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                128
+              ],
+              "bytes": 256,
+              "sha256": "168e2ac154da6f8833d9475df3f90e7fa48f96c85572a049eba8093118f6ba9a"
+            },
+            "layers.2.self_attn.k_norm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                128
+              ],
+              "bytes": 256,
+              "sha256": "9547bf762790eb64113aefd91d4cc005960e165a849c2b380d12f99c434e4d72"
+            },
+            "layers.2.mlp.gate_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                12288,
+                4096
+              ],
+              "bytes": 100663296,
+              "sha256": "ab4ba0dc5123c8c012f5735260b39c3aa48a16f9d6e22245fb27e687d4ff10de"
+            },
+            "layers.2.mlp.up_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                12288,
+                4096
+              ],
+              "bytes": 100663296,
+              "sha256": "7ab2e51a66fe9f1f7dc5bd24d75db815157436e7c23b950d15b277c91742cf85"
+            },
+            "layers.2.mlp.down_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                12288
+              ],
+              "bytes": 100663296,
+              "sha256": "c5d3aaaaa000beb07d4bb62344ee280b9d0adc4ee455584595cc2842fb2ffa0c"
+            },
+            "layers.2.input_layernorm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096
+              ],
+              "bytes": 8192,
+              "sha256": "f69d10a9b586183131a8914380342572bfcb000068dfb72065acdc050c80ceb6"
+            },
+            "layers.2.post_attention_layernorm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096
+              ],
+              "bytes": 8192,
+              "sha256": "6ce9f137f3f9c1ba0c3e05be2bfe67e86353d5fae303293cae2803e1d73d4dd6"
+            },
+            "layers.3.self_attn.q_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                4096
+              ],
+              "bytes": 33554432,
+              "sha256": "010def74e302a5808ff7100432cbafc49c7aa6be37810c30984e8156248767f7"
+            },
+            "layers.3.self_attn.k_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1024,
+                4096
+              ],
+              "bytes": 8388608,
+              "sha256": "8ad1ea684dbe1b0285dd0803ff108c1a4f38613b6891f4e334dfc142c2e0ba8d"
+            },
+            "layers.3.self_attn.v_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1024,
+                4096
+              ],
+              "bytes": 8388608,
+              "sha256": "c05b64f806a920277fc3da93a7239c71df2bcec6964b00c8d456f51d8e92b4bc"
+            },
+            "layers.3.self_attn.o_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                4096
+              ],
+              "bytes": 33554432,
+              "sha256": "9b517ef460b989b0e6ac295abd26c31dddb5b8804c953e0686415d1d082fd047"
+            },
+            "layers.3.self_attn.q_norm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                128
+              ],
+              "bytes": 256,
+              "sha256": "29dcc0585cdb8045ae23fbec810bcf98f29596f14c6bc5dc979095fbe3619a11"
+            },
+            "layers.3.self_attn.k_norm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                128
+              ],
+              "bytes": 256,
+              "sha256": "ffe22b7ad8ca1e048511d89052aaae031cb32060d00fa41fdefffb77611f07f6"
+            },
+            "layers.3.mlp.gate_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                12288,
+                4096
+              ],
+              "bytes": 100663296,
+              "sha256": "1de7d672f9d0687a891960b332f005f5dfd065abe79c395aba0774a988cba020"
+            },
+            "layers.3.mlp.up_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                12288,
+                4096
+              ],
+              "bytes": 100663296,
+              "sha256": "c16d87a1ca9ab60376ffec1ac2242982bd6cffa5dfbd3486684eaa941f8926b4"
+            },
+            "layers.3.mlp.down_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                12288
+              ],
+              "bytes": 100663296,
+              "sha256": "599214b348e0fe44da96d963500fc585b3a3b8a7e2f207bea0b810e960633ea0"
+            },
+            "layers.3.input_layernorm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096
+              ],
+              "bytes": 8192,
+              "sha256": "4de8a5e15d421821e7f12e0b372ddf7793c003e8a0a1ca5c8a9d9377f50e28cb"
+            },
+            "layers.3.post_attention_layernorm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096
+              ],
+              "bytes": 8192,
+              "sha256": "d628f179cc0f6595deaa0aff2918b1cc4dcfa334fb26d51a069caa85820bb4f0"
+            },
+            "layers.4.self_attn.q_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                4096
+              ],
+              "bytes": 33554432,
+              "sha256": "6cad5f285d83935e6b6899b45fe0827252c9c9e4e2d7392efd2620a91f6261df"
+            },
+            "layers.4.self_attn.k_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1024,
+                4096
+              ],
+              "bytes": 8388608,
+              "sha256": "bec818cda01e29c2a97d519134fd3635259e7841eb2e5d6c0dedc9009b0aaae2"
+            },
+            "layers.4.self_attn.v_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1024,
+                4096
+              ],
+              "bytes": 8388608,
+              "sha256": "74b8918ecb6039c4a4496ec7f412f98f45bbe8897e3b65237f98d02a9531fb79"
+            },
+            "layers.4.self_attn.o_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                4096
+              ],
+              "bytes": 33554432,
+              "sha256": "4b829db793b547b01c26ffafe621df37ff69b80331c67820a158ed4df1df00fd"
+            },
+            "layers.4.self_attn.q_norm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                128
+              ],
+              "bytes": 256,
+              "sha256": "bdef423dc4b7ca7b831327db578763d4d75e396e7cc2984d6e3eef5bc47b79a2"
+            },
+            "layers.4.self_attn.k_norm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                128
+              ],
+              "bytes": 256,
+              "sha256": "e441b9c0b6123bcaeb38dc0fda716d4b52e76aed48e68a5c3986a1d405015437"
+            },
+            "layers.4.mlp.gate_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                12288,
+                4096
+              ],
+              "bytes": 100663296,
+              "sha256": "3aee24708e1304b634cfeba125b0447568db7eceb42bf3264ebe5fa0052b0a21"
+            },
+            "layers.4.mlp.up_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                12288,
+                4096
+              ],
+              "bytes": 100663296,
+              "sha256": "bca4733b9844a189b303ff2fc99b1f95c9bce3649a4d416385b17303f339e6e8"
+            },
+            "layers.4.mlp.down_proj.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                12288
+              ],
+              "bytes": 100663296,
+              "sha256": "1e918ce73d3b374a52d0e3895e7a342ae6c7af2866d8f22cf30e485df2bd0835"
+            },
+            "layers.4.input_layernorm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096
+              ],
+              "bytes": 8192,
+              "sha256": "00118152dedb5d0260b56d9dc7cd4f0ef5eeea35640499f39a4fad101d3627e0"
+            },
+            "layers.4.post_attention_layernorm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096
+              ],
+              "bytes": 8192,
+              "sha256": "dbcf50e1055e8dc4fa0f6b35e42c32fead167b79c637cc6b510524326f16631f"
+            },
+            "norm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096
+              ],
+              "bytes": 8192,
+              "sha256": "6ae2e0b3f6bfff262d5a152ec905636e0b9483fb3a439aa147f1ef9dc3d62fb7"
+            },
+            "fc.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096,
+                20480
+              ],
+              "bytes": 167772160,
+              "sha256": "8c4a8b5593c701b9c2b2ff0647ecda230ba127c3b20839d579e9b6e5c1d5bc09"
+            },
+            "hidden_norm.weight": {
+              "dtype": "torch.bfloat16",
+              "shape": [
+                4096
+              ],
+              "bytes": 8192,
+              "sha256": "f94127164e414901d6a3d2666f68ce28e49d9466fa6fc78dd1e798b18ec1bbb0"
+            }
+          },
+          "effective_lrs_after": [
+            0.00015
+          ]
+        },
+        "moment_clip_option_parity": {
+          "status": "passed",
+          "mismatches": []
+        },
+        "cached_state_semantics": {
+          "status": "passed",
+          "mismatches": [],
+          "global_step": 769,
+          "presentations": 1536,
+          "schedule_position": 0,
+          "exact_weights_adam_rng_gradients_runtime": true
+        },
+        "displacement": {
+          "left_norm": 4167.63617490249,
+          "right_norm": 4167.636185891178,
+          "difference_norm": 0.43988004092246613,
+          "left_dot_difference": -0.05095037819099105,
+          "changed_entries": 57574114,
+          "elements": 1048626432
+        },
+        "end_step": 769,
+        "end_presentations": 1536,
+        "restored_group_lrs": [
+          0.0003
+        ],
+        "restored_native": {
+          "status": "passed",
+          "mismatches": [],
+          "global_step": 769,
+          "presentations": 1538,
+          "schedule_position": 2,
+          "exact_weights_adam_rng_gradients_runtime": true
+        },
+        "wall_s": 27.389126433059573
+      },
+      "displacement": {
+        "left_norm": 4167.63617490249,
+        "right_norm": 4167.636185891178,
+        "difference_norm": 0.43988004092246613,
+        "left_dot_difference": -0.05095037819099105,
+        "changed_entries": 57574114,
+        "elements": 1048626432
+      },
+      "mismatches": [],
+      "peak_allocated_bytes": 15092774912,
+      "peak_reserved_bytes": 18580766720
+    }
+  ],
+  "optimizer_steps": 6,
+  "native_response_presentations": 2,
+  "response_forwards": 2,
+  "response_backwards": 2,
+  "complete_response_generations": 0,
+  "cached_gradient_response_work": 0,
+  "startup": "separate; at most two backwards and zero Adam applications",
+  "fixed_pair": [
+    "train_00791",
+    "train_00865"
+  ],
+  "wall_s": 220.07335803471506,
+  "physical_work_at_exit": {
+    "attempted": {
+      "response_forward": 4,
+      "response_backward": 4,
+      "optimizer_step": 6
+    },
+    "completed": {
+      "response_forward": 4,
+      "response_backward": 4,
+      "optimizer_step": 6
+    },
+    "failed": {},
+    "physical": {
+      "draft_forwards": 4,
+      "layer_forwards": 20,
+      "objective_chunk": 216,
+      "vocabulary_head_calls": 432
+    },
+    "unknown": {
+      "response_forward": 0,
+      "response_backward": 0,
+      "optimizer_step": 0
+    },
+    "by_category": {
+      "qualification": {
+        "draft_forwards": 2,
+        "layer_forwards": 10,
+        "objective_chunk": 96,
+        "vocabulary_head_calls": 192
+      },
+      "startup": {
+        "draft_forwards": 2,
+        "layer_forwards": 10,
+        "objective_chunk": 120,
+        "vocabulary_head_calls": 240
+      }
+    },
+    "wall_s": 287.3769108429551,
+    "nested_clocks_not_additive": true
+  }
+}
