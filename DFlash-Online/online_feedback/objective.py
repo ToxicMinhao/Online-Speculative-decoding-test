@@ -203,6 +203,12 @@ class TargetObjectiveModel(OnlineDFlashModel):
             selected_weights = weights * selection
             eligible = selected_weights > 0
             correct = ((proposals == labels) & eligible).sum().float()
+            prefix_roles = getattr(self, 'native_prefix_roles', None)
+            if prefix_roles is not None:
+                token_loss = prefix_roles.control_rows(
+                    token_loss, proposals, labels, weights, selection,
+                    self.eos_token_ids, chunk_key=hidden.storage_offset(),
+                )
             terms = (
                 (token_loss * selected_weights).sum(), selected_weights.sum(),
                 correct, eligible.sum().float(), statistics,
@@ -474,6 +480,9 @@ class TargetObjectiveModel(OnlineDFlashModel):
             retention_assignment, retention_floors = retention.prepare_response(
                 anchors, keep, labels, weights, self.eos_token_ids,
             )
+        prefix_roles = getattr(self, 'native_prefix_roles', None)
+        if prefix_roles is not None:
+            prefix_roles.begin_response()
         if retention is not None and retention.active:
             terms = checkpointed_chunk_reduce(
                 self._chunk_loss, output_hidden, reference_hidden, labels, weights, teacher_hidden,
@@ -529,6 +538,8 @@ class TargetObjectiveModel(OnlineDFlashModel):
             # mixing them. Dividing that mixture again changes its arithmetic.
             loss = reduce_response(terms, denominator)
             loss_terms = (loss, loss.new_ones(()))
+        if prefix_roles is not None:
+            prefix_roles.finish_response(loss, denominator, redistribution_metrics)
         accuracy = correct / positions.clamp_min(1)
         metrics = {
             'loss_terms': loss_terms,

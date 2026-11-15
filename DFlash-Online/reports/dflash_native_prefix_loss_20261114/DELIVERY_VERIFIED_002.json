@@ -1,0 +1,46 @@
+{
+  "status": "passed",
+  "model_operations": 0,
+  "single_fresh_connection": true,
+  "scientific_retry": false,
+  "ssh_returncode": 0,
+  "files": 62530,
+  "raw_bytes": 640935301,
+  "archive_identity": {
+    "bytes": 37020336,
+    "sha256": "4228815c198390fe4c600f499a02350a9eacf6d87ca423e635b1a4bd18508383"
+  },
+  "inventory_identity": {
+    "bytes": 9800949,
+    "sha256": "7841887b536584b0261823dcb22ca9b84f89acdcf5a4320a89472135f69717a0"
+  },
+  "tensor_suffixes_not_retrieved": [
+    ".pt",
+    ".safetensors",
+    ".bin",
+    ".pkl",
+    ".npy",
+    ".npz"
+  ],
+  "remote_evidence_unchanged": true,
+  "free_bytes_after": 54063263744,
+  "postflight": {
+    "disk_free_bytes": 159135883264,
+    "host_available_bytes": 147672465408,
+    "gpus": {
+      "fields": [
+        "index",
+        "uuid",
+        "memory_used_MiB",
+        "memory_free_MiB",
+        "utilization_percent"
+      ],
+      "returncode": 0,
+      "stdout": "0, GPU-9986735a-3e68-d1bd-5998-9634ef24341e, 0, 81153, 0\n1, GPU-c6943f33-bcd0-a724-0b35-f77af6b0a3f1, 0, 81153, 0\n",
+      "stderr": ""
+    }
+  },
+  "finished_at_utc": "2026-11-15T02:41:26Z",
+  "exit_code": "0",
+  "note": "Compact evidence authenticated; large tensor checkpoints remain on A800. Private evidence inventory remains local."
+}

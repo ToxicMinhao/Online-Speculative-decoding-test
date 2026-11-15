@@ -1,0 +1,108 @@
+{
+  "execution_commit": "2549f02d9b1edba8fb86f8e91a497e68c224d586",
+  "status": "passed",
+  "optimizer_steps": 6,
+  "response_forwards": 10,
+  "response_backwards": 10,
+  "wall_s": 122.47784163616598,
+  "source_receipt_identity": {
+    "bytes": 280659,
+    "sha256": "dede40d92f6060678a0629d6843345530c0eae136cbac2342e575904f564d68b"
+  },
+  "cases": [
+    {
+      "case": "N",
+      "status": "passed",
+      "mismatches": [],
+      "peak_allocated_bytes": 15882450432,
+      "peak_reserved_bytes": 18580766720
+    },
+    {
+      "case": "ALL",
+      "status": "passed",
+      "mismatches": [],
+      "peak_allocated_bytes": 15855037952,
+      "peak_reserved_bytes": 18580766720
+    },
+    {
+      "case": "E",
+      "status": "passed",
+      "role_gradient_check": {
+        "status": "passed",
+        "role": "E",
+        "prefix_occurrences": 2937,
+        "error_occurrences": 291,
+        "active_nonzero": 291,
+        "failures": []
+      },
+      "mismatches": [],
+      "peak_allocated_bytes": 15853332992,
+      "peak_reserved_bytes": 18580766720
+    },
+    {
+      "case": "C",
+      "status": "passed",
+      "role_gradient_check": {
+        "status": "passed",
+        "role": "C",
+        "prefix_occurrences": 2937,
+        "error_occurrences": 291,
+        "active_nonzero": 2937,
+        "failures": []
+      },
+      "mismatches": [],
+      "peak_allocated_bytes": 15854960128,
+      "peak_reserved_bytes": 18580766720
+    },
+    {
+      "case": "H",
+      "status": "passed",
+      "zero_reference_comparison": {
+        "draft_state_dict": {
+          "actual_mapping_type": "dict",
+          "expected_mapping_type": "dict",
+          "actual_key_count": 58,
+          "expected_key_count": 58,
+          "shared_key_count": 58,
+          "missing_expected_keys": [],
+          "unexpected_actual_keys": [],
+          "mismatch_count": 0,
+          "mismatches": [],
+          "compared_tensor_count": 58,
+          "tensor_mismatch_count": 0,
+          "tensor_mismatches": []
+        },
+        "backend": {
+          "actual_mapping_type": "dict",
+          "expected_mapping_type": "dict",
+          "actual_key_count": 1,
+          "expected_key_count": 1,
+          "shared_key_count": 1,
+          "missing_expected_keys": [],
+          "unexpected_actual_keys": [],
+          "mismatch_count": 0,
+          "mismatches": []
+        }
+      },
+      "displacement": {
+        "left_norm": 4167.63617490249,
+        "right_norm": 4167.636708293258,
+        "difference_norm": 0.9326663058820043,
+        "left_dot_difference": 1.788045562437311,
+        "changed_entries": 95357380,
+        "elements": 1048626432
+      },
+      "mismatches": [],
+      "peak_allocated_bytes": 21384539648,
+      "peak_reserved_bytes": 23412604928
+    },
+    {
+      "case": "N_repeat",
+      "status": "passed",
+      "mismatches": [],
+      "peak_allocated_bytes": 15851767808,
+      "peak_reserved_bytes": 23412604928
+    }
+  ],
+  "historical_failure": "Execution001 remains failed and is charged separately; this is a new authorized attempt."
+}

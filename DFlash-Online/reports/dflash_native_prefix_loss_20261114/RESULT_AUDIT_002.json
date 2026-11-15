@@ -1,0 +1,955 @@
+{
+  "status": "AUDIT_PASSED",
+  "frozen_contract_source": "fdccdf5482f2125f212476547522068f953c564a",
+  "retry_source_reference": "2549f02d9b1edba8fb86f8e91a497e68c224d586",
+  "actual_execution_commit": "2549f02d9b1edba8fb86f8e91a497e68c224d586",
+  "disclosure": "Independent arithmetic, same-team audit; author of production reducer. No model rerun or raw-token reconstruction. Native validity relies on retained qualification/parity receipts.",
+  "check_count": 32821,
+  "failures": [],
+  "grid": {
+    "planned": 20480,
+    "recorded": 20480,
+    "duplicate": 0,
+    "missing": 0,
+    "unexpected": 0,
+    "invalid": 0,
+    "unknown": 0,
+    "explicit_unattempted": 0,
+    "unattempted": 0
+  },
+  "independently_recomputed_primary": {
+    "request_order": [
+      "retention-e7-gsm8k-0005",
+      "retention-e7-gsm8k-0008",
+      "retention-e7-gsm8k-0015",
+      "retention-e7-gsm8k-0025",
+      "retention-e7-gsm8k-0032",
+      "retention-e7-gsm8k-0034",
+      "retention-e7-gsm8k-0166",
+      "retention-e7-gsm8k-0173",
+      "retention-e7-gsm8k-0196",
+      "retention-e7-gsm8k-0231",
+      "retention-e7-gsm8k-0239",
+      "retention-e7-gsm8k-0248",
+      "retention-e7-gsm8k-0251",
+      "retention-e7-gsm8k-0264",
+      "retention-e7-gsm8k-0318",
+      "retention-e7-gsm8k-0333",
+      "retention-e7-gsm8k-0373",
+      "retention-e7-gsm8k-0384",
+      "retention-e7-gsm8k-0393",
+      "retention-e7-gsm8k-0405",
+      "retention-e7-gsm8k-0410",
+      "retention-e7-gsm8k-0462",
+      "retention-e7-gsm8k-0487",
+      "retention-e7-gsm8k-0501",
+      "retention-e7-gsm8k-0518",
+      "retention-e7-gsm8k-0525",
+      "retention-e7-gsm8k-0539",
+      "retention-e7-gsm8k-0566",
+      "retention-e7-gsm8k-0579",
+      "retention-e7-gsm8k-0580",
+      "retention-e7-gsm8k-0623",
+      "retention-e7-gsm8k-0654",
+      "retention-e7-gsm8k-0660",
+      "retention-e7-gsm8k-0684",
+      "retention-e7-gsm8k-0734",
+      "retention-e7-gsm8k-0746",
+      "retention-e7-gsm8k-0775",
+      "retention-e7-gsm8k-0818",
+      "retention-e7-gsm8k-0820",
+      "retention-e7-gsm8k-0844",
+      "retention-e7-gsm8k-0846",
+      "retention-e7-gsm8k-0847",
+      "retention-e7-gsm8k-0896",
+      "retention-e7-gsm8k-0898",
+      "retention-e7-gsm8k-0969",
+      "retention-e7-gsm8k-0997",
+      "retention-e7-gsm8k-1022",
+      "retention-e7-gsm8k-1049",
+      "retention-e7-gsm8k-1070",
+      "retention-e7-gsm8k-1071",
+      "retention-e7-gsm8k-1108",
+      "retention-e7-gsm8k-1115",
+      "retention-e7-gsm8k-1152",
+      "retention-e7-gsm8k-1158",
+      "retention-e7-gsm8k-1175",
+      "retention-e7-gsm8k-1226",
+      "retention-e7-gsm8k-1233",
+      "retention-e7-gsm8k-1251",
+      "retention-e7-gsm8k-1274",
+      "retention-e7-gsm8k-1276",
+      "retention-e7-gsm8k-1279",
+      "retention-e7-gsm8k-1295",
+      "retention-e7-gsm8k-1296",
+      "retention-e7-gsm8k-1302"
+    ],
+    "contrasts": {
+      "E_N": {
+        "estimate": 0.015625,
+        "lower": 0.00244140625,
+        "upper": 0.02880859375,
+        "exact": {
+          "numerator": 1,
+          "denominator": 64
+        },
+        "improved": 22,
+        "regressed": 12,
+        "tied": 30
+      },
+      "E_H": {
+        "estimate": 0.0126953125,
+        "lower": -0.00537109375,
+        "upper": 0.02880859375,
+        "exact": {
+          "numerator": 13,
+          "denominator": 1024
+        },
+        "improved": 25,
+        "regressed": 9,
+        "tied": 30
+      },
+      "C_H": {
+        "estimate": -0.0009765625,
+        "lower": -0.015869140625,
+        "upper": 0.014404296875,
+        "exact": {
+          "numerator": -1,
+          "denominator": 1024
+        },
+        "improved": 18,
+        "regressed": 16,
+        "tied": 30
+      },
+      "C_N": {
+        "estimate": 0.001953125,
+        "lower": -0.013671875,
+        "upper": 0.01806640625,
+        "exact": {
+          "numerator": 1,
+          "denominator": 512
+        },
+        "improved": 17,
+        "regressed": 17,
+        "tied": 30
+      },
+      "H_P": {
+        "estimate": 0.012939453125,
+        "lower": -0.0034240722656249944,
+        "upper": 0.0302734375,
+        "exact": {
+          "numerator": 53,
+          "denominator": 4096
+        },
+        "improved": 23,
+        "regressed": 20,
+        "tied": 21
+      }
+    },
+    "pass_means": [
+      {
+        "E_N": 0.0078125,
+        "E_H": 0.0107421875,
+        "C_H": -0.00341796875,
+        "C_N": -0.00634765625,
+        "H_P": 0.0107421875
+      },
+      {
+        "E_N": 0.0234375,
+        "E_H": 0.0146484375,
+        "C_H": 0.00146484375,
+        "C_N": 0.01025390625,
+        "H_P": 0.01513671875
+      }
+    ],
+    "gross_counts": {
+      "N_acquired": 177,
+      "N_lost": 136,
+      "N_net": 41,
+      "N_earlier_error": 43,
+      "N_repairs_pre_blocker": 52,
+      "E_acquired": 194,
+      "E_lost": 89,
+      "E_net": 105,
+      "E_earlier_error": 40,
+      "E_repairs_pre_blocker": 57,
+      "C_acquired": 163,
+      "C_lost": 114,
+      "C_net": 49,
+      "C_earlier_error": 37,
+      "C_repairs_pre_blocker": 47,
+      "H_acquired": 154,
+      "H_lost": 101,
+      "H_net": 53,
+      "H_earlier_error": 39,
+      "H_repairs_pre_blocker": 50,
+      "E_displaced_native_blocker_repair": 8,
+      "C_displaced_native_blocker_repair": 15,
+      "H_displaced_native_blocker_repair": 16,
+      "E_N_net": 64,
+      "E_N_acquisition_difference": 17,
+      "E_N_loss_difference": -47,
+      "E_H_net": 52,
+      "E_H_acquisition_difference": 40,
+      "E_H_loss_difference": -12,
+      "C_H_net": -4,
+      "C_H_acquisition_difference": 9,
+      "C_H_loss_difference": 13,
+      "C_N_net": 8,
+      "C_N_acquisition_difference": -14,
+      "C_N_loss_difference": -22,
+      "H_P_net": 53,
+      "H_P_acquisition_difference": 154,
+      "H_P_loss_difference": 101
+    },
+    "blocker_denominator": 3577,
+    "draws": 10000,
+    "seed": 1707,
+    "bit_generator": "PCG64",
+    "quantile": "linear",
+    "request_means": [
+      [
+        -0.03125,
+        -0.375,
+        -0.140625,
+        0.203125,
+        0.15625
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.015625,
+        0.015625,
+        0.0,
+        0.0,
+        0.0625
+      ],
+      [
+        0.0,
+        0.015625,
+        0.0,
+        -0.015625,
+        -0.015625
+      ],
+      [
+        0.0,
+        0.03125,
+        0.03125,
+        0.0,
+        -0.015625
+      ],
+      [
+        0.03125,
+        0.03125,
+        0.0,
+        0.0,
+        -0.015625
+      ],
+      [
+        -0.015625,
+        -0.046875,
+        -0.015625,
+        0.015625,
+        0.03125
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.09375,
+        0.0,
+        0.0,
+        0.09375,
+        0.0
+      ],
+      [
+        0.015625,
+        0.03125,
+        0.0,
+        -0.015625,
+        -0.03125
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.03125,
+        0.03125,
+        0.03125,
+        0.03125,
+        0.0
+      ],
+      [
+        -0.046875,
+        -0.015625,
+        0.046875,
+        0.015625,
+        -0.046875
+      ],
+      [
+        0.0,
+        0.109375,
+        0.125,
+        0.015625,
+        -0.09375
+      ],
+      [
+        0.125,
+        0.125,
+        0.171875,
+        0.171875,
+        0.046875
+      ],
+      [
+        0.09375,
+        0.09375,
+        0.0,
+        0.0,
+        -0.078125
+      ],
+      [
+        -0.015625,
+        -0.078125,
+        -0.046875,
+        0.015625,
+        0.0625
+      ],
+      [
+        0.0625,
+        0.015625,
+        -0.046875,
+        0.0,
+        0.015625
+      ],
+      [
+        0.0,
+        0.171875,
+        0.171875,
+        0.0,
+        0.09375
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.03125,
+        0.015625,
+        0.015625,
+        0.03125,
+        0.078125
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.015625
+      ],
+      [
+        0.0,
+        -0.015625,
+        0.0,
+        0.015625,
+        0.0
+      ],
+      [
+        -0.171875,
+        0.03125,
+        0.03125,
+        -0.171875,
+        -0.015625
+      ],
+      [
+        0.15625,
+        0.0,
+        0.0,
+        0.15625,
+        0.078125
+      ],
+      [
+        0.0,
+        -0.015625,
+        -0.03125,
+        -0.015625,
+        0.03125
+      ],
+      [
+        0.109375,
+        0.109375,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        -0.09375,
+        -0.09375,
+        -0.171875,
+        -0.171875,
+        0.09375
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.015625,
+        0.015625,
+        0.0,
+        0.15625
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.03125,
+        0.015625,
+        -0.125,
+        -0.109375,
+        0.046875
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -0.015625
+      ],
+      [
+        0.0,
+        0.015625,
+        0.0,
+        -0.015625,
+        -0.015625
+      ],
+      [
+        0.046875,
+        0.0,
+        -0.046875,
+        0.0,
+        0.0
+      ],
+      [
+        -0.015625,
+        0.0,
+        0.0,
+        -0.015625,
+        0.0625
+      ],
+      [
+        0.0,
+        0.0,
+        0.015625,
+        0.015625,
+        -0.046875
+      ],
+      [
+        0.140625,
+        0.0,
+        0.015625,
+        0.15625,
+        0.3125
+      ],
+      [
+        0.015625,
+        0.015625,
+        0.015625,
+        0.015625,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -0.015625
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.140625,
+        0.140625,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        -0.03125,
+        0.0,
+        0.03125,
+        0.0,
+        0.0
+      ],
+      [
+        0.046875,
+        0.0,
+        -0.15625,
+        -0.109375,
+        -0.0625
+      ],
+      [
+        -0.015625,
+        -0.03125,
+        -0.03125,
+        -0.015625,
+        0.015625
+      ],
+      [
+        0.0,
+        0.0,
+        -0.140625,
+        -0.140625,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        -0.03125,
+        -0.03125,
+        0.09375
+      ],
+      [
+        0.0,
+        -0.015625,
+        -0.03125,
+        -0.015625,
+        0.03125
+      ],
+      [
+        0.125,
+        0.125,
+        0.125,
+        0.125,
+        -0.125
+      ],
+      [
+        -0.015625,
+        0.0,
+        -0.03125,
+        -0.046875,
+        0.015625
+      ],
+      [
+        0.046875,
+        0.078125,
+        -0.015625,
+        -0.046875,
+        0.015625
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.078125,
+        0.078125,
+        0.0,
+        0.0,
+        -0.0625
+      ],
+      [
+        -0.078125,
+        0.15625,
+        0.15625,
+        -0.078125,
+        -0.015625
+      ],
+      [
+        0.046875,
+        0.015625,
+        0.015625,
+        0.046875,
+        -0.015625
+      ],
+      [
+        0.0,
+        0.015625,
+        0.015625,
+        0.0,
+        0.015625
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -0.03125
+      ],
+      [
+        0.0625,
+        0.0,
+        0.0,
+        0.0625,
+        -0.171875
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.203125
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        -0.046875,
+        -0.046875,
+        0.0
+      ],
+      [
+        -0.015625,
+        0.0,
+        0.015625,
+        0.0,
+        -0.015625
+      ]
+    ]
+  },
+  "independently_recomputed_source": {
+    "grid": {
+      "planned": 42270,
+      "recorded": 42270,
+      "duplicate": 0,
+      "missing": 0,
+      "unexpected": 0,
+      "invalid": 0,
+      "unknown": 0,
+      "explicit_unattempted": 0,
+      "unattempted": 0
+    },
+    "denominators": {
+      "sampled_anchor_slots": 8454,
+      "kept_anchor_occurrences": 8454,
+      "dropped_or_padded_anchor_slots": 0,
+      "eligible_blocks": 8454,
+      "zero_supervision_anchor_slots": 0,
+      "kept_but_zero_supervision_anchor_occurrences": 0,
+      "scored_proposal_occurrences": 123450,
+      "pre_correct_prefix_occurrences": 66993,
+      "blocks_with_pre_first_error": 6356
+    },
+    "gross_counts": {
+      "N_acquired": 2948,
+      "N_lost": 139,
+      "N_net": 2809,
+      "N_earlier_error": 38,
+      "N_repairs_pre_blocker": 961,
+      "E_acquired": 2119,
+      "E_lost": 153,
+      "E_net": 1966,
+      "E_earlier_error": 49,
+      "E_repairs_pre_blocker": 698,
+      "C_acquired": 1051,
+      "C_lost": 162,
+      "C_net": 889,
+      "C_earlier_error": 49,
+      "C_repairs_pre_blocker": 358,
+      "H_acquired": 383,
+      "H_lost": 359,
+      "H_net": 24,
+      "H_earlier_error": 122,
+      "H_repairs_pre_blocker": 112,
+      "E_displaced_native_blocker_repair": 291,
+      "C_displaced_native_blocker_repair": 611,
+      "H_displaced_native_blocker_repair": 853,
+      "E_N_net": -843,
+      "E_N_acquisition_difference": -829,
+      "E_N_loss_difference": 14,
+      "E_H_net": 1942,
+      "E_H_acquisition_difference": 1736,
+      "E_H_loss_difference": -206,
+      "C_H_net": 865,
+      "C_H_acquisition_difference": 668,
+      "C_H_loss_difference": -197,
+      "C_N_net": -1920,
+      "C_N_acquisition_difference": -1897,
+      "C_N_loss_difference": 23,
+      "H_P_net": 24,
+      "H_P_acquisition_difference": 383,
+      "H_P_loss_difference": 359
+    }
+  },
+  "independently_reconciled_work": {
+    "attempted": {
+      "response_forward": 492,
+      "response_backward": 332,
+      "optimizer_step": 182
+    },
+    "completed": {
+      "response_forward": 492,
+      "response_backward": 332,
+      "optimizer_step": 182
+    },
+    "failed": {},
+    "unknown": {},
+    "completed_by_category": {
+      "startup": {
+        "response_forward": 2,
+        "response_backward": 2
+      },
+      "qualification": {
+        "response_forward": 10,
+        "response_backward": 10,
+        "optimizer_step": 6
+      },
+      "native": {
+        "response_forward": 256,
+        "response_backward": 256,
+        "optimizer_step": 128
+      },
+      "source_observation": {
+        "response_forward": 160
+      },
+      "disposable": {
+        "response_forward": 64,
+        "response_backward": 64,
+        "optimizer_step": 48
+      }
+    },
+    "physical": {
+      "draft_forwards": 492,
+      "layer_forwards": 2460,
+      "objective_chunk": 21220,
+      "vocabulary_head_calls": 47790
+    },
+    "authenticated_prior_attempt": {
+      "adam_steps": 5,
+      "gpu_seconds": 203.0700637307018,
+      "execution_commit": "fdccdf5482f2125f212476547522068f953c564a",
+      "training_work": {
+        "attempted": {
+          "response_forward": 10,
+          "response_backward": 10,
+          "optimizer_step": 5
+        },
+        "completed": {
+          "response_forward": 10,
+          "response_backward": 10,
+          "optimizer_step": 5
+        },
+        "failed": {},
+        "unknown": {},
+        "physical": {
+          "draft_forwards": 10,
+          "layer_forwards": 50,
+          "objective_chunk": 504,
+          "vocabulary_head_calls": 1008
+        }
+      },
+      "native_budget": {
+        "attempted": {
+          "model_load": 2,
+          "draft_block": 119,
+          "target_call": 117,
+          "context_forward": 178
+        },
+        "completed": {
+          "draft_block": 119,
+          "target_call": 117,
+          "model_load": 2,
+          "context_forward": 178
+        },
+        "failed": {},
+        "unknown": {},
+        "remaining": {
+          "draft_block": 23488,
+          "model_load": 82
+        },
+        "gpu_seconds": 203.0700637307018,
+        "gpu_seconds_limit": 10800.0
+      }
+    },
+    "independent_cumulative_work": {
+      "completed_adam_steps": 187,
+      "attempted_adam_steps": 187,
+      "gpu_seconds": 7004.039942357689,
+      "adam_limit": 187,
+      "gpu_seconds_limit": 10800
+    }
+  },
+  "fallacy_checklist": [
+    {
+      "category": "Simpson's paradox",
+      "required_review": "Inspect equal-request primary plus prespecified pass/window descriptions; heterogeneous signs remain visible.",
+      "status": "PENDING_HUMAN_RESULT_REVIEW"
+    },
+    {
+      "category": "Ecological fallacy",
+      "required_review": "Unit is a request mean over fixed windows/starts, not independent tokens, blocks, or future conversations.",
+      "status": "PENDING_HUMAN_RESULT_REVIEW"
+    },
+    {
+      "category": "Berkson's paradox",
+      "required_review": "The reused development panel and naturally supported qualification pair limit the population; do not filter outcomes.",
+      "status": "PENDING_HUMAN_RESULT_REVIEW"
+    },
+    {
+      "category": "Collider bias",
+      "required_review": "Primary includes all sealed paired starts, not only repaired, accepted, selected, or favorable blocks.",
+      "status": "PENDING_HUMAN_RESULT_REVIEW"
+    },
+    {
+      "category": "Base-rate neglect",
+      "required_review": "Show 4096 paired block/windows, old-blocker count, and separate source eligible/padded/zero-supervision denominators.",
+      "status": "PENDING_HUMAN_RESULT_REVIEW"
+    },
+    {
+      "category": "Regression to the mean",
+      "required_review": "Windows and requests were fixed before outcomes; use same-prestate N control instead of promoting extreme cases.",
+      "status": "PENDING_HUMAN_RESULT_REVIEW"
+    },
+    {
+      "category": "Survivorship bias",
+      "required_review": "Invalid, failed, unknown and unattempted work remain explicit; incomplete grids have no completed efficacy conclusion.",
+      "status": "PENDING_HUMAN_RESULT_REVIEW"
+    },
+    {
+      "category": "Look-elsewhere effect",
+      "required_review": "Only E\u2212N is primary; C/H, per-pass, source and repairs are descriptive, not alternate winning hypotheses.",
+      "status": "PENDING_HUMAN_RESULT_REVIEW"
+    },
+    {
+      "category": "Garden of forking paths",
+      "required_review": "Freeze 16 windows, 64 requests, four starts, PCG64/1707, 10000 draws and linear quantiles; no posthoc tuning.",
+      "status": "PENDING_HUMAN_RESULT_REVIEW"
+    },
+    {
+      "category": "Correlation versus causation",
+      "required_review": "Same-state intervention tests a total local update effect; it does not isolate direction from magnitude or establish serving speedup.",
+      "status": "PENDING_HUMAN_RESULT_REVIEW"
+    },
+    {
+      "category": "Reverse causality",
+      "required_review": "All disposable states derive from the same pre-update state; probe outcomes cannot alter training or window selection.",
+      "status": "PENDING_HUMAN_RESULT_REVIEW"
+    }
+  ],
+  "fallacy_categories_covered": "11/11 prepared; not an automatic claim that interpretive review passed",
+  "input_identities": [
+    {
+      "label": "SUMMARY.json",
+      "bytes": 18948
+    },
+    {
+      "label": "PLAN.json",
+      "bytes": 343908
+    },
+    {
+      "label": "PROBE_KEYS.json",
+      "bytes": 50467
+    },
+    {
+      "label": "PROBE_OUTCOMES.json",
+      "bytes": 12984845
+    },
+    {
+      "label": "SOURCE_OUTCOMES.json",
+      "bytes": 44520575
+    },
+    {
+      "label": "WORK_AND_COSTS.json",
+      "bytes": 3985
+    },
+    {
+      "label": "PHYSICAL_WORK.jsonl",
+      "bytes": 419605
+    },
+    {
+      "label": "STATUS.json",
+      "bytes": 2764
+    },
+    {
+      "label": "WORK_AND_COSTS.json",
+      "bytes": 2010
+    },
+    {
+      "label": "PHYSICAL_WORK.jsonl",
+      "bytes": 10795
+    },
+    {
+      "label": "RESULT.json",
+      "bytes": 57876919
+    },
+    {
+      "label": "RESULT.json",
+      "bytes": 3781
+    },
+    {
+      "label": "RESULT.json",
+      "bytes": 280659
+    },
+    {
+      "label": "STATE_PARITY.json",
+      "bytes": 45106
+    },
+    {
+      "label": "FINAL_NATIVE_PARITY.json",
+      "bytes": 219
+    },
+    {
+      "label": "STATUS.json",
+      "bytes": 537
+    },
+    {
+      "label": "UPDATE_RECEIPTS.json",
+      "bytes": 1806048
+    }
+  ],
+  "private_full_audit_identity": {
+    "bytes": 22983,
+    "sha256": "8566267ac86dda776b6e972fff34098ca83b0c87d7717d169eaf1aa4740fe6d1"
+  }
+}

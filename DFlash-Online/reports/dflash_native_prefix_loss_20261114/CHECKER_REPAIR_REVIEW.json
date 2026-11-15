@@ -1,0 +1,19 @@
+{
+  "source_commit": "5e9952315b749ad5edc3cd661d33e36cb6128a6e",
+  "original_execution_commit": "fdccdf5482f2125f212476547522068f953c564a",
+  "review": "same-team read-only implementation/report review",
+  "cause_confirmed": "dict versus OrderedDict, rejected before comparing tensors",
+  "unchanged": [
+    "algorithm",
+    "BF16 recurrence",
+    "strict equality",
+    "optimizer",
+    "anchors",
+    "scientific panel"
+  ],
+  "new_cpu_tests": 2,
+  "focused_tests_passed": 59,
+  "gpu_requalification": "not_run",
+  "original_failure_preserved": true,
+  "authorship_overlap": "runner agent authored patch; separate core agent reviewed source and report; no independent GPU replication"
+}

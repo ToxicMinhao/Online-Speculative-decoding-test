@@ -1,0 +1,41 @@
+{
+  "scope": "read-only source review plus analysis implementation, not native GPU validation",
+  "reviewer": "separate same-family agent; analysis author; runner/core nonauthor",
+  "status": "no concrete blocker found in inspected source",
+  "reviewed_files": {
+    "experiments/native_prefix_loss/analysis.py": "7e2fa227b2a3b22a08457dc2c008e573a8121cb883dff5601b8a12c996f9e0db",
+    "experiments/native_prefix_loss/prepare.py": "cb0d291b06878386352dafac597dcf36068340e750cd396f282822283cf27332",
+    "experiments/native_prefix_loss/campaign.py": "d31da1457a4bb7ca01fedb0d40b2c4c6dfc5f4fc40bc76c431a83bebe3beec7f",
+    "experiments/native_prefix_loss/probe_client.py": "67b4d919206f3b532371e78cfaead139e7a20c6a7710d37af522fc7e7238f370",
+    "experiments/native_prefix_loss/training.py": "c7d47384af01561a4d880cd00ed86a3ab2b9f4f5b608a196dfceb871095fc5dc",
+    "experiments/native_prefix_loss/state.py": "1fc1036a0ecabe72000d42e10611f9eadd22c2a1f791a63996f5470e954e1305",
+    "experiments/native_prefix_loss/qualification.py": "b8d299eee4a2bdc37324e3b30760bc20adb19334991465f4f1c76541fa0aa58b",
+    "online_feedback/native_prefix_roles.py": "b77eb36f4c3031bfb713b0e52ccf7a8f88bed4f64c52524bf25247a7e1cef57d",
+    "online_feedback/objective.py": "9bec90d5ad231b3b9240acdfd5dd0f99005f5ccde63794800f1104e19412f651"
+  },
+  "tests": {
+    "command": "PYTHONPATH=.:training /home/minhao2/miniconda3/envs/dflash/bin/python -m unittest discover -s tests -p test_native_prefix*.py -v",
+    "passed": 31,
+    "scope": "CPU; at receipt time runner integration tests not yet present"
+  },
+  "limits": [
+    "GPU ALL/restored-native exact parity unestablished",
+    "Natural prefix/error role activation unestablished",
+    "Complete storage/time admission and full runner integration owned by executor",
+    "Artifact identity and final result will require post-run validation"
+  ],
+  "notes": [
+    "H zero-current-gradient Adam is distinct from static P",
+    "Native full backward remains authoritative",
+    "Controlled row feeds both selected numerator and aggregate K+ group terms",
+    "State restoration excludes physical ledger",
+    "PR46 worker gates original saved proposals before verification",
+    "Report preserves raw scalar rows before validation; no completed efficacy on missing/invalid evidence"
+  ],
+  "initial_test_environment_errors": [
+    "base Python has no Torch",
+    "dflash environment without training PYTHONPATH cannot import SpecForge"
+  ],
+  "model_operations": 0,
+  "remote_operations": 0
+}

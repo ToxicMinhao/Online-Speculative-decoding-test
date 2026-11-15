@@ -1,0 +1,139 @@
+{
+  "native_budget": {
+    "attempted": {
+      "model_load": 84,
+      "draft_block": 23425,
+      "target_call": 23484,
+      "context_forward": 448601
+    },
+    "completed": {
+      "draft_block": 23425,
+      "target_call": 23484,
+      "model_load": 84,
+      "context_forward": 448601
+    },
+    "failed": {},
+    "unknown": {},
+    "remaining": {
+      "draft_block": 182,
+      "model_load": 0
+    },
+    "gpu_seconds": 6800.969878626987,
+    "gpu_seconds_limit": 10596.929936269298
+  },
+  "training": {
+    "attempted": {
+      "response_forward": 492,
+      "response_backward": 332,
+      "optimizer_step": 182
+    },
+    "completed": {
+      "response_forward": 492,
+      "response_backward": 332,
+      "optimizer_step": 182
+    },
+    "failed": {},
+    "unknown": {},
+    "physical": {
+      "draft_forwards": 492,
+      "layer_forwards": 2460,
+      "objective_chunk": 21220,
+      "vocabulary_head_calls": 47790
+    }
+  },
+  "prior_attempt": {
+    "approved_cumulative_adam_limit": 187,
+    "status_identity": {
+      "bytes": 2764,
+      "sha256": "3fcc430368d9f52be0a7a0a0900640181cf75cda0e001065daf2c17287e31e27"
+    },
+    "status_path": "[private location]/STATUS.json",
+    "training_work_identity": {
+      "bytes": 10795,
+      "sha256": "fcc553b1070a6f640f1afc9532621f0ef2d6e33998585d212efd15456d944b1d"
+    },
+    "training_work_path": "[private location]/PHYSICAL_WORK.jsonl",
+    "work_costs_identity": {
+      "bytes": 2010,
+      "sha256": "eb851da11f450bda9884423e3313bafcc1693e6b7fb452e333ff74ed7ab5e60e"
+    },
+    "work_costs_path": "[private location]/WORK_AND_COSTS.json"
+  },
+  "budget_accounting": {
+    "prior_adam_steps": 5,
+    "prior_gpu_seconds": 203.0700637307018,
+    "current_attempt_adam_limit": 182,
+    "cumulative_adam_limit": 187,
+    "cumulative_gpu_seconds_limit": 10800,
+    "current_attempt_gpu_seconds_limit": 10596.929936269298,
+    "prior_execution_commit": "fdccdf5482f2125f212476547522068f953c564a",
+    "prior_training_work": {
+      "attempted": {
+        "response_forward": 10,
+        "response_backward": 10,
+        "optimizer_step": 5
+      },
+      "completed": {
+        "response_forward": 10,
+        "response_backward": 10,
+        "optimizer_step": 5
+      },
+      "failed": {},
+      "unknown": {},
+      "physical": {
+        "draft_forwards": 10,
+        "layer_forwards": 50,
+        "objective_chunk": 504,
+        "vocabulary_head_calls": 1008
+      }
+    },
+    "prior_native_budget": {
+      "attempted": {
+        "model_load": 2,
+        "draft_block": 119,
+        "target_call": 117,
+        "context_forward": 178
+      },
+      "completed": {
+        "draft_block": 119,
+        "target_call": 117,
+        "model_load": 2,
+        "context_forward": 178
+      },
+      "failed": {},
+      "unknown": {},
+      "remaining": {
+        "draft_block": 23488,
+        "model_load": 82
+      },
+      "gpu_seconds": 203.0700637307018,
+      "gpu_seconds_limit": 10800.0
+    }
+  },
+  "cumulative": {
+    "completed_adam_steps": 187,
+    "attempted_adam_steps": 187,
+    "gpu_seconds": 7004.039942357689,
+    "adam_limit": 187,
+    "gpu_seconds_limit": 10800
+  },
+  "phases": {
+    "native_probe_qualification": {
+      "status": "completed",
+      "wall_s": 29.614015063270926
+    },
+    "training_qualification_and_native_trajectory": {
+      "status": "completed",
+      "wall_s": 3609.1317149531096
+    },
+    "independent_native_probes": {
+      "status": "completed",
+      "wall_s": 2707.3779820855707
+    }
+  },
+  "campaign_wall_s": 6872.811598079279,
+  "maximum_gpu_card_seconds": 10800,
+  "new_complete_response_generations": 0,
+  "clocks": "Phase intervals include nested work; do not sum nested timers.",
+  "delayed_evaluation": "Exact exported window weights; outcomes unavailable to training or selection."
+}

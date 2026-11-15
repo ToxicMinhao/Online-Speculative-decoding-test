@@ -1,0 +1,208 @@
+{
+  "status": "RESULT_REVIEW_COMPLETE",
+  "execution_commit": "2549f02d9b1edba8fb86f8e91a497e68c224d586",
+  "numeric_audit_checks": 32821,
+  "numeric_audit_failures": 0,
+  "primary": {
+    "estimate": 0.015625,
+    "lower": 0.00244140625,
+    "upper": 0.02880859375,
+    "exact": {
+      "numerator": 1,
+      "denominator": 64
+    },
+    "improved": 22,
+    "regressed": 12,
+    "tied": 30
+  },
+  "source_denominators": {
+    "sampled_anchor_slots": 8454,
+    "kept_anchor_occurrences": 8454,
+    "dropped_or_padded_anchor_slots": 0,
+    "eligible_blocks": 8454,
+    "zero_supervision_anchor_slots": 0,
+    "kept_but_zero_supervision_anchor_occurrences": 0,
+    "scored_proposal_occurrences": 123450,
+    "pre_correct_prefix_occurrences": 66993,
+    "blocks_with_pre_first_error": 6356
+  },
+  "independent_gross_counts": {
+    "N_acquired": 177,
+    "N_lost": 136,
+    "N_net": 41,
+    "N_earlier_error": 43,
+    "N_repairs_pre_blocker": 52,
+    "E_acquired": 194,
+    "E_lost": 89,
+    "E_net": 105,
+    "E_earlier_error": 40,
+    "E_repairs_pre_blocker": 57,
+    "C_acquired": 163,
+    "C_lost": 114,
+    "C_net": 49,
+    "C_earlier_error": 37,
+    "C_repairs_pre_blocker": 47,
+    "H_acquired": 154,
+    "H_lost": 101,
+    "H_net": 53,
+    "H_earlier_error": 39,
+    "H_repairs_pre_blocker": 50,
+    "E_displaced_native_blocker_repair": 8,
+    "C_displaced_native_blocker_repair": 15,
+    "H_displaced_native_blocker_repair": 16,
+    "E_N_net": 64,
+    "E_N_acquisition_difference": 17,
+    "E_N_loss_difference": -47,
+    "E_H_net": 52,
+    "E_H_acquisition_difference": 40,
+    "E_H_loss_difference": -12,
+    "C_H_net": -4,
+    "C_H_acquisition_difference": 9,
+    "C_H_loss_difference": 13,
+    "C_N_net": 8,
+    "C_N_acquisition_difference": -14,
+    "C_N_loss_difference": -22,
+    "H_P_net": 53,
+    "H_P_acquisition_difference": 154,
+    "H_P_loss_difference": 101
+  },
+  "source_gross_counts": {
+    "N_acquired": 2948,
+    "N_lost": 139,
+    "N_net": 2809,
+    "N_earlier_error": 38,
+    "N_repairs_pre_blocker": 961,
+    "E_acquired": 2119,
+    "E_lost": 153,
+    "E_net": 1966,
+    "E_earlier_error": 49,
+    "E_repairs_pre_blocker": 698,
+    "C_acquired": 1051,
+    "C_lost": 162,
+    "C_net": 889,
+    "C_earlier_error": 49,
+    "C_repairs_pre_blocker": 358,
+    "H_acquired": 383,
+    "H_lost": 359,
+    "H_net": 24,
+    "H_earlier_error": 122,
+    "H_repairs_pre_blocker": 112,
+    "E_displaced_native_blocker_repair": 291,
+    "C_displaced_native_blocker_repair": 611,
+    "H_displaced_native_blocker_repair": 853,
+    "E_N_net": -843,
+    "E_N_acquisition_difference": -829,
+    "E_N_loss_difference": 14,
+    "E_H_net": 1942,
+    "E_H_acquisition_difference": 1736,
+    "E_H_loss_difference": -206,
+    "C_H_net": 865,
+    "C_H_acquisition_difference": 668,
+    "C_H_loss_difference": -197,
+    "C_N_net": -1920,
+    "C_N_acquisition_difference": -1897,
+    "C_N_loss_difference": 23,
+    "H_P_net": 24,
+    "H_P_acquisition_difference": 383,
+    "H_P_loss_difference": 359
+  },
+  "displacement_ratio_to_native": {
+    "E": {
+      "minimum": 0.8956717089798952,
+      "median": 0.9453353197178094,
+      "maximum": 0.9699991937175547
+    },
+    "C": {
+      "minimum": 0.8280414807058994,
+      "median": 0.9009513294790592,
+      "maximum": 0.9453991282707763
+    },
+    "H": {
+      "minimum": 0.7861850025041593,
+      "median": 0.8763865915524823,
+      "maximum": 0.9279115997911164
+    }
+  },
+  "window_signs": {
+    "positive": 11,
+    "negative": 3,
+    "tied": 2
+  },
+  "pass_means": [
+    {
+      "E_N": 0.0078125,
+      "E_H": 0.0107421875,
+      "C_H": -0.00341796875,
+      "C_N": -0.00634765625,
+      "H_P": 0.0107421875
+    },
+    {
+      "E_N": 0.0234375,
+      "E_H": 0.0146484375,
+      "C_H": 0.00146484375,
+      "C_N": 0.01025390625,
+      "H_P": 0.01513671875
+    }
+  ],
+  "fallacy_categories_covered": "11/11",
+  "fallacy_scan": [
+    {
+      "category": "Simpson\u2019s paradox",
+      "status": "CHECKED_NO_PRIMARY_SIGN_REVERSAL",
+      "finding": "E\u2212N is positive in both fixed pass averages (+0.0078125, +0.0234375). Individual windows remain heterogeneous: 11 positive, three negative and two tied. No window is excluded or substituted."
+    },
+    {
+      "category": "Ecological fallacy",
+      "status": "CHECKED_LIMITATION",
+      "finding": "The inferential units are 64 request means, with starts and 16 windows retained inside each request. The 20,480 state outcomes and overlapping source anchors are not independent observations; no future-conversation or seed-wide conclusion is made."
+    },
+    {
+      "category": "Berkson\u2019s paradox",
+      "status": "CHECKED_LIMITATION",
+      "finding": "The fixed panel is reused development data, and its four native starts per request define a restricted evaluation population. Requests were not selected by these intervention results. This is not fresh confirmation or a random sample of deployment use."
+    },
+    {
+      "category": "Collider bias",
+      "status": "CHECKED_NO_OUTCOME_FILTER",
+      "finding": "The primary includes all 4,096 paired starts/windows, not just old errors, successful repairs, favorable windows or source-selected positions. Blocker-conditioned descriptions do not replace the primary population."
+    },
+    {
+      "category": "Base-rate neglect",
+      "status": "CHECKED_DENOMINATORS",
+      "finding": "There are 4,096 paired block/windows with 3,577 original blocker opportunities. Source observations have 8,454 kept/eligible anchors, zero padded or zero-supervision anchors, 123,450 scored proposal occurrences and 6,356 old blockers. Position counts and block repair counts stay separate."
+    },
+    {
+      "category": "Regression to the mean",
+      "status": "CHECKED_CONTROL",
+      "finding": "Windows and requests are sealed and E/N derive from the same complete P state. This is not an uncontrolled before/after comparison selected for extreme regression. Source and independent results are separated."
+    },
+    {
+      "category": "Survivorship bias",
+      "status": "CHECKED_COMPLETE_AND_FAILURE_PRESERVED",
+      "finding": "All 20,480 current outcomes are valid; none are missing, invalid or unknown. The earlier failed H checker and its five Adam applications/203.070064 GPU seconds remain charged and preserved, not relabeled as successful qualification."
+    },
+    {
+      "category": "Look-elsewhere effect",
+      "status": "CHECKED_LIMITATION",
+      "finding": "E\u2212N is the prespecified primary local screen. E\u2212H, C\u2212H, C\u2212N, H\u2212P, fitting and pass/window comparisons remain descriptive; they are not promoted as alternate winners. Repeated prior project screens and reused development data limit confirmatory strength."
+    },
+    {
+      "category": "Garden of forking paths",
+      "status": "CHECKED_FROZEN_ANALYSIS",
+      "finding": "All 16 windows, 64 requests, four starts, role definitions, exact reduction order, 10,000 PCG64/1707 whole-request draws and linear quantiles are retained. The retry corrected the checker schema and carried prior cost; it did not tune scientific settings."
+    },
+    {
+      "category": "Correlation versus causation",
+      "status": "CHECKED_SCOPE",
+      "finding": "The same-prestate intervention supports the total local effect of withholding current prefix gradients under this specified optimizer. E displacement norms are 0.895672\u20130.969999 of N (median 0.945335), so pure directional/role-specific causation is not isolated. No serving or long-run benefit is established."
+    },
+    {
+      "category": "Reverse causality",
+      "status": "CHECKED_TEMPORAL_ORDER",
+      "finding": "Independent native probe outcomes were scored after the fixed native trajectory. Disposable branches do not advance the trajectory or choose future inputs/windows. Source observers are isolated and exact restoration/final native parity receipts passed."
+    }
+  ],
+  "decision": "The prespecified positive local screen passes. A separately designed scale control and short actual continuation are warranted for consideration, not authorized or already demonstrated.",
+  "unresolved": "E\u2212H and C\u2212H intervals include zero; neither superiority nor equivalence to H is established. Reused development panel, one native trajectory, local one-step branches and changed update magnitude limit inference.",
+  "disclosure": "Same-team audit with production-reducer authorship overlap. Independent arithmetic and ledger reconstruction; no new GPU execution or independent tensor/proposal rerun."
+}

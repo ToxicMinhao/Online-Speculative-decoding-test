@@ -1,0 +1,169 @@
+{
+  "execution_commit": "2549f02d9b1edba8fb86f8e91a497e68c224d586",
+  "exact_original_yaml_identity": {
+    "bytes": 1548,
+    "sha256": "52e973bc012d92937c0fe87d53a763ecf130810cd3c576dec1a4262910f5e655"
+  },
+  "model": {
+    "target_backend": "sglang",
+    "embedding_key": "model.embed_tokens.weight",
+    "lm_head_key": "lm_head.weight",
+    "torch_dtype": "bfloat16",
+    "use_liger_kernel": false
+  },
+  "training": {
+    "strategy": "dflash",
+    "num_epochs": 1,
+    "max_steps": 7424,
+    "batch_size": 1,
+    "accumulation_steps": 2,
+    "fsdp_sharding": "NO_SHARD",
+    "optimizer_cpu_offload": false,
+    "learning_rate": 0.0003,
+    "lr_scheduler": "constant",
+    "warmup_ratio": 0.0,
+    "max_grad_norm": 1.0,
+    "attention_backend": "flex_attention",
+    "num_anchors": 512,
+    "objective_chunk_blocks": 8,
+    "loss_type": "dflash",
+    "lk_loss_type": null,
+    "loss_decay_gamma": 7.0,
+    "log_interval": 1,
+    "dist_timeout": 30,
+    "seed": 17
+  },
+  "online_feedback": {
+    "responses_per_event": 128,
+    "passes_per_event": 2,
+    "max_events": 58,
+    "optimizer": "bf16_adamw",
+    "weight_decay": 0.01,
+    "shuffle_responses": true,
+    "kl_precision": "bfloat16"
+  },
+  "data": {
+    "max_length": 2272,
+    "chat_template": "qwen",
+    "dataloader_num_workers": 0
+  },
+  "serving": {
+    "attention_backend": "fa3",
+    "block_size": 16,
+    "cache_policy": "idle_full_flush_before_every_request_and_publication",
+    "concurrency": 1,
+    "context_limit": 4096,
+    "max_new_tokens": 2048,
+    "precision": "bfloat16",
+    "reasoning": "off",
+    "temperature": 0
+  },
+  "constants": {
+    "windows": [
+      8,
+      16,
+      24,
+      32,
+      40,
+      48,
+      56,
+      64,
+      72,
+      80,
+      88,
+      96,
+      104,
+      112,
+      120,
+      128
+    ],
+    "states": [
+      "P",
+      "N",
+      "E",
+      "C",
+      "H"
+    ],
+    "source_step": 768,
+    "destination_step": 896,
+    "native_steps": 128,
+    "qualification_adam": 6,
+    "main_adam": 176,
+    "maximum_adam": 182,
+    "ordinary_response_forwards": 320,
+    "ordinary_response_backwards": 320,
+    "qualification_response_forwards_max": 12,
+    "qualification_response_backwards_max": 12,
+    "source_scoring_response_forwards_max": 160,
+    "independent_conceptual_blocks": 20480,
+    "qualification_blocks_max": 32,
+    "new_complete_response_generations": 0,
+    "head_chunk_blocks": 8,
+    "block_size": 16,
+    "bootstrap_draws": 10000,
+    "bootstrap_seed": 1707,
+    "bootstrap_rng": "PCG64",
+    "bootstrap_quantile": "linear",
+    "card_seconds_limit": 10800,
+    "primary": "E_minus_N",
+    "primary_unit": "accepted draft proposals per fixed block",
+    "role_gate": "torch.where(active_role, token_loss, token_loss.detach())",
+    "denominator": "unchanged native K+ selected-weight denominator",
+    "native_backward": "authoritative full backward; never sum or subtract role gradients",
+    "history": "explicit zero tensors for native-present gradients; preserve None",
+    "source_reuse": false,
+    "historical_probe_outcome_reuse": false
+  },
+  "retry_budget": {
+    "prior_adam_steps": 5,
+    "prior_gpu_seconds": 203.0700637307018,
+    "current_attempt_adam_limit": 182,
+    "cumulative_adam_limit": 187,
+    "cumulative_gpu_seconds_limit": 10800,
+    "current_attempt_gpu_seconds_limit": 10596.929936269298,
+    "prior_execution_commit": "fdccdf5482f2125f212476547522068f953c564a",
+    "prior_training_work": {
+      "attempted": {
+        "response_forward": 10,
+        "response_backward": 10,
+        "optimizer_step": 5
+      },
+      "completed": {
+        "response_forward": 10,
+        "response_backward": 10,
+        "optimizer_step": 5
+      },
+      "failed": {},
+      "unknown": {},
+      "physical": {
+        "draft_forwards": 10,
+        "layer_forwards": 50,
+        "objective_chunk": 504,
+        "vocabulary_head_calls": 1008
+      }
+    },
+    "prior_native_budget": {
+      "attempted": {
+        "model_load": 2,
+        "draft_block": 119,
+        "target_call": 117,
+        "context_forward": 178
+      },
+      "completed": {
+        "draft_block": 119,
+        "target_call": 117,
+        "model_load": 2,
+        "context_forward": 178
+      },
+      "failed": {},
+      "unknown": {},
+      "remaining": {
+        "draft_block": 23488,
+        "model_load": 82
+      },
+      "gpu_seconds": 203.0700637307018,
+      "gpu_seconds_limit": 10800.0
+    }
+  },
+  "note": "Configuration extract, not a replacement YAML. Native state resumes at step 768 without reseeding; event ends at 896. Original max_events/max_steps remain inherited horizons, not requested work."
+}

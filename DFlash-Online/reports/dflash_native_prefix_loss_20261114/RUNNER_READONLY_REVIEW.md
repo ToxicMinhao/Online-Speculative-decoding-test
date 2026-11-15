@@ -1,0 +1,19 @@
+# Native prefix-loss runner review
+
+Scope: same-team source review of `training.py`, `state.py`, `qualification.py`, and `runner.py`; no A800 access or model execution.
+
+The current implementation preserves the intended distinction between P and H. H receives explicit zeros for exactly the native-present gradients, executes the existing clipped AdamW path once, consumes no model forward/backward or sampling draw, and records its different presentation/counter semantics. The direct reference mirrors the installed Torch 2.9.1 noncapturable single/foreach BF16 operation sequence; native GPU/runtime qualification is still required. CPU fixtures now cover both foreach choices and a None-gradient parameter with existing moments.
+
+The controller captures complete P and N endpoints, starts E/C/H from P, and restores N after each disposable trial. The source observer uses fixed retained anchors, eval/no_grad, and the existing runtime-isolation helper; each observation is followed by complete state verification. Native final-state comparison remains authoritative. Physical counters are outside restorable scientific state.
+
+One concrete failure-evidence gap was found and repaired during review: role receipts were initially exposed only when the inherited pair returned successfully. The runner now persists them in `finally`; the controller serializes partial scalar terms and explicitly marks nonfinite values, preserving the original exception. This changes diagnostic retention only.
+
+The requested observer-restoration and complete P/N/E/C/H window fixtures were added. Independent execution in the retained `/home/minhao2/.venvs/dflash-specforge/bin/python` environment, with CUDA visibility disabled, passed 16 discovered tests (eight runner tests plus eight imported replay fixtures). The observer test checks full and partial eight-block head shapes, fixed-anchor handling, modes, caches, gradients, RNG and scientific work restoration; the complete-window test checks five exports, four optimizer applications, ten source observations and authoritative N continuation. An initial invocation in the older dflash environment failed at import because pydantic was absent; that is a local test-environment issue, before model execution, not a native scientific failure. No dependency was installed. Core/objective tests separately passed (38).
+
+No source-level trajectory correctness blocker was found in the inspected portions after the failure-save repair. This does not establish native BF16 equality, resource admission, or successful execution.
+
+## Implementation follow-up (runner author)
+
+The duplicated discovery of imported replay test classes was removed by importing the fixture module rather than its `unittest.TestCase` class. The eight dedicated runner tests pass independently in the same CPU environment; the initial import failure and earlier 16-test discovery remain recorded above. Native N now labels its existing per-response scalar as both the full and gradient-enabled objective, without installing the role hook or altering arithmetic. Source rows preserve zero-supervision/disabled-anchor occurrences with explicit `eligible_block` and denominator-scope fields. These are accounting/diagnostic changes, not additional model evaluations.
+
+The admission prior uses at most 0.5 seconds per source response (160 observations); the relevant completed PR45 measured approximately 161.6984 seconds for 512 fitted-response forwards, or 0.316 seconds each. The first-pair qualification supplies the live per-update rate. A separate 1,200-second allowance covers state copying, export and loading, and the probe allowance is sealed in the plan. These are conservative resource estimates, not efficacy thresholds. The runtime refuses to begin the scientific trajectory if the full remaining estimate exceeds the unchanged occupied-card cap.
