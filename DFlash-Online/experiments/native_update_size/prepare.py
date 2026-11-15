@@ -89,12 +89,29 @@ def build(spec):
     for row in read(root/'preparation/HISTORICAL_RAW_BINDINGS.json'):
         artifacts.append(artifact_row(row['path'],'KEEP_EVIDENCE','CPU verdict rescoring / historical reuse',row['identity']))
     keepers=read(spec['paper_keepers'])
-    write_json(root/'PAPER_KEEPERS.json',keepers)
     # The paper keeper draft is an explicit list, not authority to remove other files.
     entries=(keepers.get('selected_paper_assets',[]) + keepers.get('uncertain_closed_assets',[])) if isinstance(keepers,dict) else keepers
     for row in entries:
         if row.get('path'):
-            artifacts.append(artifact_row(row['path'],row.get('class','KEEP_PAPER'),'selected paper/native dependency',row.get('identity')))
+            path=Path(row['path'])
+            if row.get('class')=='KEEP_PAPER' and path.is_file():
+                expected=row.get('identity')
+                if expected and expected.get('sha256'):check_identity(path,expected)
+                row['verified_identity']=identity(path)
+                row['status']='present; current content authenticated'
+            elif not path.exists():row['status']='already absent; no substitution or deletion'
+            artifacts.append(artifact_row(row['path'],row.get('class','KEEP_PAPER'),'selected paper/native dependency',row.get('verified_identity',row.get('identity'))))
+    write_json(root/'PAPER_KEEPERS.json',keepers)
+    for window in range(8,129,8):
+        for state in ('S_low','S_high'):
+            row=artifact_row(root/f'training/exports/window_{window:03d}_{state}/model.safetensors',
+                             'TEMP_CONTROL','sealed scalar scoring and geometry',
+                             release='all16windows, scoring, raw CPU audit and report verified; unique NEW files only')
+            row.update(classification='TEMP_CONTROL',status='planned, not created')
+            artifacts.append(row)
+    row=artifact_row(root/'rolling_validation/model.safetensors','TEMP_VALIDATION','exact original-file comparison',
+                     release='only after own SHA256/size pass and durable receipt; failed file becomes REVIEW')
+    row.update(classification='TEMP_VALIDATION',status='planned, not created');artifacts.append(row)
     unique={row['path']:row for row in artifacts}
     write_json(root/'ARTIFACT_MANIFEST.json',list(unique.values()))
     with (root/'ARTIFACT_MANIFEST.csv').open('w',newline='') as stream:
@@ -102,6 +119,10 @@ def build(spec):
         writer=csv.DictWriter(stream,fieldnames=fields);writer.writeheader();writer.writerows(unique.values())
     (root/'sealed').mkdir(exist_ok=True)
     write_json(root/'sealed/PLAN.json',plan)
+    from .resources import resource_snapshot
+    resources=resource_snapshot(plan)
+    write_json(root/'preparation/RESOURCE_PREFLIGHT.json',resources)
+    if resources['status']!='passed':raise ValueError('Runtime/import/resource inventory did not qualify')
     gate=gate0(plan,root/'gate0')
     # No additional old asset was positively proven disposable in this audit.
     # Ample headroom is not a reason to invent a reclamation target.

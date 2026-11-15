@@ -24,6 +24,14 @@ def historical_bindings(spec, output):
     if old['execution_commit']!='2549f02d9b1edba8fb86f8e91a497e68c224d586':
         raise ValueError('Require original PR47 execution002 source')
     source=authenticate_source(old['source_manifest'],old['input_identities'][old['source_manifest']],old['execution_commit'])
+    historical_manifest=read(old['source_manifest'])
+    current_manifest=read(spec['source_manifest'])
+    reused_source_checks=[]
+    for name,pin in historical_manifest['files'].items():
+        if name.endswith('.py'):
+            if current_manifest['files'].get(name)!=pin:
+                raise ValueError('Inherited scientific helper source changed: '+name)
+            reused_source_checks.append(name)
     original_root=Path(old['root'])
     for path,expected in spec['historical_receipt_identities'].items():
         check_identity(path,expected)
@@ -111,7 +119,7 @@ def historical_bindings(spec, output):
                  update_receipts_identity=identity(original_root/'training/UPDATE_RECEIPTS.json'),
                  export_receipts_identity=identity(original_root/'training/PROBE_EXPORTS.json'),
                  raw_bindings_identity=identity(output/'HISTORICAL_RAW_BINDINGS.json'),original_archive_manifest_identity=spec['historical_archive_manifest_identity'],windows=16,matched_rows=len(rows),
-                 all_raw_verdicts_rescored=True,missing=dict(missing),full_E_tensor_validation='available only at8/128',
+                 all_raw_verdicts_rescored=True,inherited_python_source_exact=reused_source_checks,missing=dict(missing),full_E_tensor_validation='available only at8/128',
                  cpu_s=time.perf_counter()-started)
     write_json(output/'HISTORICAL_REUSE.json',receipt)
     return old,windows,live,receipt
