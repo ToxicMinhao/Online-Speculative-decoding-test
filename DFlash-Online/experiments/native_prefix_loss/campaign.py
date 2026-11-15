@@ -19,7 +19,7 @@ import traceback
 
 from online_feedback.storage import write_json
 from experiments.verification_transition.budget import WorkBudget, BudgetService
-from .prepare import read, identity, CONSTANTS, authenticate_source
+from .prepare import read, identity, CONSTANTS, authenticate_source, attempt_accounting
 from experiments.threatened_repair_replay.work import read_ledger
 
 
@@ -34,9 +34,13 @@ def capacity(plan):
 
 
 def checked_accounting(plan):
-    return dict(prior_adam_steps=0, prior_gpu_seconds=0.0,
-        current_attempt_adam_limit=182, cumulative_adam_limit=182,
-        cumulative_gpu_seconds_limit=10800, current_attempt_gpu_seconds_limit=10800.)
+    prior = plan.get('prior_attempt')
+    if (Path(plan.get('root', '')).name == 'execution_002') != (prior is not None):
+        raise ValueError('The approved retry requires execution_002 and authenticated prior-attempt evidence')
+    accounting = attempt_accounting(prior)
+    if plan.get('budget_accounting', accounting) != accounting:
+        raise ValueError('Sealed prior-attempt accounting changed')
+    return accounting
 
 
 def preflight(plan):

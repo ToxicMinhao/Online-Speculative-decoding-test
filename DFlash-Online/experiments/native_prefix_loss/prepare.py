@@ -7,6 +7,8 @@ from __future__ import annotations
 
 import argparse
 from copy import deepcopy
+import json
+import math
 from pathlib import Path
 
 from experiments.threatened_repair_replay.prepare import (
@@ -34,6 +36,69 @@ CONSTANTS = dict(
 )
 
 
+def attempt_accounting(prior=None):
+    """Charge the approved retry for authenticated work from execution_001.
+
+    Scientific work and the new process's 182-Adam limit stay unchanged. Only
+    the approved cumulative Adam limit increases; the three-hour clock does not.
+    """
+    accounting = dict(prior_adam_steps=0, prior_gpu_seconds=0.0,
+        current_attempt_adam_limit=CONSTANTS['maximum_adam'],
+        cumulative_adam_limit=CONSTANTS['maximum_adam'],
+        cumulative_gpu_seconds_limit=CONSTANTS['card_seconds_limit'],
+        current_attempt_gpu_seconds_limit=float(CONSTANTS['card_seconds_limit']))
+    if prior is None:
+        return accounting
+    if prior['approved_cumulative_adam_limit'] != 187:
+        raise ValueError('This retry requires the approved cumulative 187-Adam limit')
+    for stem in ('status', 'work_costs', 'training_work'):
+        checked_identity(prior[stem+'_path'], prior.get(stem+'_identity'))
+    status, costs = read(prior['status_path']), read(prior['work_costs_path'])
+    if (status['status'] != 'failed'
+            or status['phase'] != 'training_qualification_and_native_trajectory'
+            or status['execution_commit'] != 'fdccdf5482f2125f212476547522068f953c564a'):
+        raise ValueError('Prior attempt must be the retained execution_001 qualification failure')
+    from experiments.threatened_repair_replay.work import read_ledger
+    work = read_ledger(prior['training_work_path'])
+    records = [json.loads(line) for line in Path(prior['training_work_path']).read_text().splitlines()]
+    starts = {row['serial']:row for row in records if row['phase'] == 'started'}
+    for row in records:
+        if row['phase'] == 'ledger_closed':
+            continue
+        if (row['phase'] not in ('started', 'completed', 'failed')
+                or row.get('category') not in ('startup', 'qualification')):
+            raise ValueError('Prior attempt contains scientific or malformed work')
+        start = starts[row['serial']]
+        if (row['kind'], row['category']) != (start['kind'], start['category']):
+            raise ValueError('Prior work completion differs from its recorded start')
+        if row['kind'] == 'optimizer_step' and row['category'] != 'qualification':
+            raise ValueError('Prior Adam applications must be disposable qualification steps')
+    if (not records or records[-1]['phase'] != 'ledger_closed'
+            or sum(row['phase'] == 'ledger_closed' for row in records) != 1
+            or work['unknown'] or work['failed']
+            or work['attempted'].get('optimizer_step', 0) != 5
+            or work['completed'].get('optimizer_step', 0) != 5):
+        raise ValueError('Prior attempt must contain exactly five completed, known qualification Adam steps')
+    seconds = costs['native_budget']['gpu_seconds']
+    if (isinstance(seconds, bool) or not isinstance(seconds, (int, float))
+            or not math.isfinite(seconds) or not 0 < seconds < CONSTANTS['card_seconds_limit']
+            or costs['native_budget']['gpu_seconds_limit'] != CONSTANTS['card_seconds_limit']):
+        raise ValueError('Prior occupied GPU time must be finite and below the original cap')
+    if (costs['training'] != work or costs['native_budget'] != status['budget']
+            or costs['prior_attempt'] is not None
+            or costs['budget_accounting'] != accounting or status['budget_accounting'] != accounting
+            or costs['cumulative'] != dict(completed_adam_steps=5, attempted_adam_steps=5,
+                gpu_seconds=seconds, adam_limit=182, gpu_seconds_limit=10800)
+            or status['cumulative_gpu_seconds'] != seconds):
+        raise ValueError('Prior cost, status and physical-work receipts do not reconcile')
+    accounting.update(prior_adam_steps=work['completed']['optimizer_step'], prior_gpu_seconds=seconds,
+        cumulative_adam_limit=187,
+        current_attempt_gpu_seconds_limit=CONSTANTS['card_seconds_limit']-seconds,
+        prior_execution_commit=status['execution_commit'], prior_training_work=work,
+        prior_native_budget=status['budget'])
+    return accounting
+
+
 def prepare(spec):
     output = Path(spec['output'])
     if output.exists():
@@ -43,10 +108,19 @@ def prepare(spec):
     if previous['execution_commit'] != 'd51718a7fa993a1494e593d15a8539090227d8b8':
         raise ValueError('Require the authenticated completed PR46 input plan')
     source = authenticate_source(spec['source_manifest'], spec['source_manifest_identity'], spec['execution_commit'])
+    prior = spec.get('prior_attempt')
+    accounting = attempt_accounting(prior)
+    if (output.parent.name == 'execution_002') != (prior is not None):
+        raise ValueError('The approved retry requires execution_002 and authenticated prior-attempt evidence')
+    if prior is not None and Path(prior['status_path']).parent.resolve() == output.parent.resolve():
+        raise ValueError('Retry must preserve the failed attempt in a separate destination')
     inputs = deepcopy(previous['input_identities'])
     inputs.pop(previous['source_manifest'], None)
     inputs[str(spec['previous_plan'])] = spec['previous_plan_identity']
     inputs[spec['source_manifest']] = spec['source_manifest_identity']
+    if prior is not None:
+        for stem in ('status', 'work_costs', 'training_work'):
+            inputs[str(Path(prior[stem+'_path']))] = prior[stem+'_identity']
     for name, expected in previous['immutable_files'].items():
         path = Path(spec['previous_plan']).parent / name
         checked_identity(path, expected)
@@ -73,6 +147,7 @@ def prepare(spec):
         probe_keys=str(output/'PROBE_KEYS.json'), input_identities=inputs,
         immutable_files={p.name:identity(p) for p in output.iterdir()},
         previous_plan=spec['previous_plan'],
+        prior_attempt=deepcopy(prior), budget_accounting=accounting,
         storage=dict(maximum_additional_bytes=additional, reserve_bytes=8*1024**3),
         storage_calculation=dict(weight_bytes=weight_bytes, recovery_bytes=recovery_bytes,
             weight_copies=82, recovery_copies=4, compact_allowance_bytes=4*1024**3),
