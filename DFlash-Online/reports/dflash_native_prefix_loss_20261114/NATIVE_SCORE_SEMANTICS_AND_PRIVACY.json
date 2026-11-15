@@ -1,0 +1,91 @@
+{
+  "status": "passed",
+  "scope": "native_raw_score_semantics_and_publication_boundary",
+  "execution_commit": "2549f02d9b1edba8fb86f8e91a497e68c224d586",
+  "per_state": {
+    "P": {
+      "rows": 4096,
+      "accepted_positions": 22016,
+      "valid_proposal_positions": 59952,
+      "matched_eos_blocks": 95,
+      "censored_cap_blocks": 0,
+      "zero_acceptance_blocks": 585,
+      "fully_matching_available_blocks": 519
+    },
+    "N": {
+      "rows": 4096,
+      "accepted_positions": 22057,
+      "valid_proposal_positions": 59952,
+      "matched_eos_blocks": 96,
+      "censored_cap_blocks": 0,
+      "zero_acceptance_blocks": 589,
+      "fully_matching_available_blocks": 524
+    },
+    "E": {
+      "rows": 4096,
+      "accepted_positions": 22121,
+      "valid_proposal_positions": 59952,
+      "matched_eos_blocks": 96,
+      "censored_cap_blocks": 0,
+      "zero_acceptance_blocks": 586,
+      "fully_matching_available_blocks": 523
+    },
+    "C": {
+      "rows": 4096,
+      "accepted_positions": 22065,
+      "valid_proposal_positions": 59952,
+      "matched_eos_blocks": 95,
+      "censored_cap_blocks": 0,
+      "zero_acceptance_blocks": 588,
+      "fully_matching_available_blocks": 527
+    },
+    "H": {
+      "rows": 4096,
+      "accepted_positions": 22069,
+      "valid_proposal_positions": 59952,
+      "matched_eos_blocks": 96,
+      "censored_cap_blocks": 0,
+      "zero_acceptance_blocks": 586,
+      "fully_matching_available_blocks": 525
+    }
+  },
+  "interpretation": {
+    "primary": "E exceeds N by 64 accepted proposal occurrences across 4096 matched block/window comparisons; average 0.015625 per block. This raw scoring audit does not itself rerun the separate statistical confidence-interval calculation.",
+    "decomposition": "47 fewer lost prefix occurrences plus 17 more acquired occurrences account for the 64-position E-minus-N difference.",
+    "prefix_units": "An accepted prefix excludes the known seed and includes a matching EOS. Fully matching available cap suffixes are censored.",
+    "P_and_H": "P is each exact current pre-window checkpoint; H applies native Adam history and decay with zero current gradients. Neither is a released frozen baseline.",
+    "source_vs_transfer": "The retained source summary reports stronger fitting for N than E (net +2809 versus +1966 source occurrences); source logits are outside this native raw-token audit. This is a separate conditioning/population comparison.",
+    "Adam_limit": "E-minus-H interval includes zero; this does not establish equivalence or isolate the benefit of current error gradients from optimizer history.",
+    "local_only": "All 16 E/C/H branches are disposable one-step interventions along N, not an E-trained trajectory. No serving latency, full-generation gain, deployed improvement or general prefix-gradient harm is established.",
+    "scale": "Effects of gradient magnitude, clipping, Adam history and BF16 remain unresolved by this screen."
+  },
+  "publication_allowed": [
+    "Aggregate counts and comparisons",
+    "Per-request/window scalar outcome tables with approved synthetic request IDs",
+    "Token-free audit summaries",
+    "Execution/configuration/source identities"
+  ],
+  "private_evidence": [
+    "PARENT_K6.json canonical prompt/response token arrays",
+    "Raw native RPC and .trace.json records",
+    "Sealed raw request definitions and token-bearing manifests",
+    "Detailed training batches, weights and optimizer tensors"
+  ],
+  "limits": [
+    "No model rerun; native reconstruction cache claims remain receipts, not a CPU KV proof.",
+    "Checkpoint weight identity/parameter parity belongs to the separate state audit.",
+    "Same-team reviewer implemented role-gradient hooks; this independent scalar scorer is not blinded authorship."
+  ],
+  "model_operations": 0,
+  "independently_reduced_gross_counts": {
+    "N_acquired": 177,
+    "N_lost": 136,
+    "E_acquired": 194,
+    "E_lost": 89,
+    "C_acquired": 163,
+    "C_lost": 114,
+    "H_acquired": 154,
+    "H_lost": 101,
+    "E_minus_N": 64
+  }
+}
