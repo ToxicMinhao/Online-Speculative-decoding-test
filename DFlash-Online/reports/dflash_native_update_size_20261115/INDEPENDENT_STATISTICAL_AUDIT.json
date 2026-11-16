@@ -1,0 +1,151 @@
+{
+  "status": "passed",
+  "scope": "Independent CPU raw-token rescoring and statistical reduction; no model work",
+  "execution_commit": "5d4e0ff65c5976318a50ebb181923447068169c8",
+  "checks": 524512,
+  "raw_rows": 20480,
+  "raw_native_records_checked": {
+    "historical": 12288,
+    "matched_eos": 479,
+    "censored_at_cap": 0,
+    "new": 8192
+  },
+  "request_count": 64,
+  "paired_block_windows": 4096,
+  "contrasts": {
+    "E_N": {
+      "estimate": 0.015625,
+      "lower": 0.00244140625,
+      "upper": 0.02880859375,
+      "request_positive": 22,
+      "request_negative": 12,
+      "request_tie": 30
+    },
+    "E_S_low": {
+      "estimate": 0.0087890625,
+      "lower": -0.0029296875,
+      "upper": 0.019287109375,
+      "request_positive": 22,
+      "request_negative": 8,
+      "request_tie": 34
+    },
+    "E_S_high": {
+      "estimate": 0.0166015625,
+      "lower": 0.00537109375,
+      "upper": 0.02880859375,
+      "request_positive": 19,
+      "request_negative": 8,
+      "request_tie": 37
+    },
+    "S_low_N": {
+      "estimate": 0.0068359375,
+      "lower": -0.00830078125,
+      "upper": 0.02294921875,
+      "request_positive": 15,
+      "request_negative": 14,
+      "request_tie": 35
+    },
+    "S_high_N": {
+      "estimate": -0.0009765625,
+      "lower": -0.018798828125,
+      "upper": 0.016357421875,
+      "request_positive": 18,
+      "request_negative": 20,
+      "request_tie": 26
+    },
+    "S_high_S_low": {
+      "estimate": -0.0078125,
+      "lower": -0.02099609375,
+      "upper": 0.00439453125,
+      "request_positive": 14,
+      "request_negative": 14,
+      "request_tie": 36
+    }
+  },
+  "gross_counts": {
+    "N_acquired": 177,
+    "N_lost": 136,
+    "N_net": 41,
+    "N_earlier_break": 43,
+    "N_repairs_pre_blocker": 52,
+    "E_acquired": 194,
+    "E_lost": 89,
+    "E_net": 105,
+    "E_earlier_break": 40,
+    "E_repairs_pre_blocker": 57,
+    "S_low_acquired": 154,
+    "S_low_lost": 85,
+    "S_low_net": 69,
+    "S_low_earlier_break": 39,
+    "S_low_repairs_pre_blocker": 45,
+    "S_high_acquired": 143,
+    "S_high_lost": 106,
+    "S_high_net": 37,
+    "S_high_earlier_break": 38,
+    "S_high_repairs_pre_blocker": 44,
+    "E_displaced_native_repair": 8,
+    "S_low_displaced_native_repair": 12,
+    "S_high_displaced_native_repair": 19,
+    "E_N_acquisition_difference": 17,
+    "E_N_loss_difference": -47,
+    "E_N_net": 64,
+    "E_S_low_acquisition_difference": 40,
+    "E_S_low_loss_difference": 4,
+    "E_S_low_net": 36,
+    "E_S_high_acquisition_difference": 51,
+    "E_S_high_loss_difference": -17,
+    "E_S_high_net": 68,
+    "S_low_N_acquisition_difference": -23,
+    "S_low_N_loss_difference": -51,
+    "S_low_N_net": 28,
+    "S_high_N_acquisition_difference": -34,
+    "S_high_N_loss_difference": -30,
+    "S_high_N_net": -4,
+    "S_high_S_low_acquisition_difference": -11,
+    "S_high_S_low_loss_difference": 21,
+    "S_high_S_low_net": -32
+  },
+  "denominators": {
+    "paired_block_windows": 4096,
+    "valid_proposal_occurrences": 59952,
+    "pre_first_blocker_opportunities": 3577,
+    "pre_prefix_break_opportunities": 3511,
+    "native_repair_displacement_opportunities": 52
+  },
+  "pass_views": {
+    "0": {
+      "E_N": 0.0078125,
+      "E_S_low": -0.00048828125,
+      "E_S_high": 0.00927734375,
+      "S_low_N": 0.00830078125,
+      "S_high_N": -0.00146484375,
+      "S_high_S_low": -0.009765625
+    },
+    "1": {
+      "E_N": 0.0234375,
+      "E_S_low": 0.01806640625,
+      "E_S_high": 0.02392578125,
+      "S_low_N": 0.00537109375,
+      "S_high_N": -0.00048828125,
+      "S_high_S_low": -0.005859375
+    }
+  },
+  "primary_joint_advancement_passed": false,
+  "decision": "UNRESOLVED_STOP_THIS_SCREEN",
+  "bootstrap": {
+    "draws": 10000,
+    "seed": 1707,
+    "generator": "PCG64",
+    "unit": "whole request",
+    "percentiles": "linear"
+  },
+  "seconds": 1.4663410666398704,
+  "numpy_version": "2.3.2",
+  "source_hashes": {
+    "/home/minhao2/EAGLE_SPEC/research/dflash_native_update_size_20261115/final_review/statistics/audit.py": "61fd99c49abdf6e298ad7a7cccdbd380f7cdcf2358b8b6b18780e5553c85c4a2",
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_native_update_size_20261115/delivery/execution_003/raw/probes/PROBE_OUTCOMES.json": "d85a099f5edc945143a01f959b335fce156002c63bdc3fcd6ad9ec9d2e6ce87c",
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_native_update_size_20261115/delivery/execution_003/raw/final_report/SUMMARY.json": "ce726d27109ca51212d57128580a00c6f14b709f2ac0383659a9478524d43c5d",
+    "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_native_prefix_loss_20261114/delivery/execution_002_stream/retained/sealed/PROBE_KEYS.json": "ff20e335776f151d17eb47f4ed71c91ea00df6616fbbbfc08b245607ad6c1779"
+  },
+  "independence": "Separate same-model agent; production analysis inspected for contract, never imported or called. Native execution itself not independently rerun."
+}
