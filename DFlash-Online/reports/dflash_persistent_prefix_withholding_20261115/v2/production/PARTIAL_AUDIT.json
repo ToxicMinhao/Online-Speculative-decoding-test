@@ -1,0 +1,153 @@
+{
+  "audit_status": "passed",
+  "experiment_status": "INCOMPLETE_NO_EFFICACY_CLAIM",
+  "assertions": 4121758,
+  "error_count": 0,
+  "errors": [],
+  "unavailable": [],
+  "execution_commit": "db6e1221d8d1b234d9d07e246025d1afd5dc30d5",
+  "scientific_binding": "96201293877a6e432ee6077874c9d936a17a38b67646175b512b0536fa865272",
+  "work": [
+    {
+      "kind": "adam",
+      "main_planned": 640,
+      "prior_completed": 10,
+      "main_attempted": 535,
+      "main_completed": 535,
+      "unclosed_ledger_operations": 0,
+      "main_unattempted": 105,
+      "cumulative_attempted": 545,
+      "cumulative_completed": 545
+    },
+    {
+      "kind": "response_forward",
+      "main_planned": 1290,
+      "prior_completed": 26,
+      "main_attempted": 1081,
+      "main_completed": 1080,
+      "unclosed_ledger_operations": 1,
+      "main_unattempted": 209,
+      "cumulative_attempted": 1107,
+      "cumulative_completed": 1106
+    },
+    {
+      "kind": "response_backward",
+      "main_planned": 1290,
+      "prior_completed": 26,
+      "main_attempted": 1080,
+      "main_completed": 1080,
+      "unclosed_ledger_operations": 0,
+      "main_unattempted": 210,
+      "cumulative_attempted": 1106,
+      "cumulative_completed": 1106
+    },
+    {
+      "kind": "feedback_generation",
+      "main_planned": 384,
+      "prior_completed": 0,
+      "main_attempted": 384,
+      "main_completed": 384,
+      "unclosed_ledger_operations": 0,
+      "main_unattempted": 0,
+      "cumulative_attempted": 384,
+      "cumulative_completed": 384
+    },
+    {
+      "kind": "reference_generation",
+      "main_planned": 24,
+      "prior_completed": 0,
+      "main_attempted": 0,
+      "main_completed": 0,
+      "unclosed_ledger_operations": 0,
+      "main_unattempted": 24,
+      "cumulative_attempted": 0,
+      "cumulative_completed": 0
+    },
+    {
+      "kind": "qualification_generation",
+      "main_planned": 0,
+      "prior_completed": 8,
+      "main_attempted": 0,
+      "main_completed": 0,
+      "unclosed_ledger_operations": 0,
+      "main_unattempted": 0,
+      "cumulative_attempted": 8,
+      "cumulative_completed": 8
+    },
+    {
+      "kind": "warmup_generation",
+      "main_planned": 72,
+      "prior_completed": 0,
+      "main_attempted": 0,
+      "main_completed": 0,
+      "unclosed_ledger_operations": 0,
+      "main_unattempted": 72,
+      "cumulative_attempted": 0,
+      "cumulative_completed": 0
+    },
+    {
+      "kind": "scored_generation",
+      "main_planned": 1152,
+      "prior_completed": 0,
+      "main_attempted": 0,
+      "main_completed": 0,
+      "unclosed_ledger_operations": 0,
+      "main_unattempted": 1152,
+      "cumulative_attempted": 0,
+      "cumulative_completed": 0
+    },
+    {
+      "kind": "teacher_preparation",
+      "main_planned": 384,
+      "prior_completed": 0,
+      "main_attempted": 384,
+      "main_completed": 384,
+      "unclosed_ledger_operations": 0,
+      "main_unattempted": 0,
+      "cumulative_attempted": 384,
+      "cumulative_completed": 384
+    },
+    {
+      "kind": "training_initialization",
+      "main_planned": 5,
+      "prior_completed": 3,
+      "main_attempted": 5,
+      "main_completed": 5,
+      "unclosed_ledger_operations": 0,
+      "main_unattempted": 0,
+      "cumulative_attempted": 8,
+      "cumulative_completed": 8
+    }
+  ],
+  "pending": {
+    "3453": {
+      "task": "S8",
+      "label": "forward_loss",
+      "counts": {
+        "response_forward": 1
+      }
+    }
+  },
+  "stale_inherited_unknown": {
+    "adam": 0,
+    "response_forward": 0,
+    "response_backward": 0,
+    "feedback_generation": 0,
+    "reference_generation": 0,
+    "qualification_generation": 0,
+    "warmup_generation": 0,
+    "scored_generation": 0,
+    "teacher_preparation": 0,
+    "training_initialization": 0
+  },
+  "model_work_performed": 0,
+  "efficacy_examined": false,
+  "limitations": [
+    "No final scored generations or new canonical reference generations executed; no E/S efficacy comparison is available.",
+    "Raw WORK carries inherited unknown=0 fields; one pending forward reservation is retained as unresolved rather than silently treated as completed or unattempted.",
+    "S8 has no durable partial event recovery or export; only its own complete S7 recovery remains. Starting S8 again would repeat its23 consumed updates, not resume step919.",
+    "Checkpoint exactness is audited from retained native receipts and authenticated endpoint metadata; no model-sized tensors were reread.",
+    "No append-only shared reservation journal exists; aggregate WORK is reconciled against raw per-presentation/window records and generated-response/preparation receipts."
+  ],
+  "scope": "Audit of retained partial execution and accounting; no efficacy or successful rerun claim."
+}

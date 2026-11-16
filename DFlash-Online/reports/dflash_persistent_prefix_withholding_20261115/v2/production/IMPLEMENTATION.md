@@ -1,5 +1,7 @@
 # Production-only continuation after passed qualification
 
+**Post-execution status:** production stopped because the actual continuation package omitted its seeded canonical-reference destination. The CPU checks below did not cover that packaging path. [Incomplete-run report](REPORT.md) supersedes the launch-readiness interpretation; no efficacy result exists.
+
 ## Material passport
 
 ARS experiment execution, Stage1/projectNone. Scope: the authorized PR49 production addendum; no algorithm, data-panel, numerical, acceptance or time/storage-cap change. Historical training execution `eb0aa345671086651254d5f79092809ea9b406b7` and serving execution `c471708969cf8c131c0c965b9fc7a801b63cc55a` remain separately identified. Qualification establishes correctness, not E efficacy.
