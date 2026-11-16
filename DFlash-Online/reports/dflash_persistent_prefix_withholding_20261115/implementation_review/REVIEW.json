@@ -1,0 +1,44 @@
+{
+  "status": "read_only_source_review_no_native_qualification",
+  "scope": "implementation feasibility and provisional cost components",
+  "code_root": "/home/minhao2/EAGLE_SPEC/research/dflash_native_update_size_20261115/implementation_checkout/DFlash-Online",
+  "inspected_reports": [
+    "reports/dflash_native_prefix_loss_20261114/REPORT.md",
+    "reports/dflash_native_update_size_20261115/REPORT.md",
+    "reports/dflash_role_loss_pilot_20261107/REPORT.md"
+  ],
+  "S_lr": {
+    "formula": "float(original_lr) * 0.96",
+    "repr": "0.00028799999999999995",
+    "hex": "0x1.2dfd694ccab3ep-12",
+    "equals_literal_2_88e_minus4": false
+  },
+  "rates": {
+    "pr48_native_qualification_pair_s": 9.455849561840296,
+    "pr48_pair_gradient_observation_s": 5.185178464278579,
+    "pr48_native_event_sum_training_s": 485.75329149514437,
+    "pr32_gsm8k_KPLUS_mean_event_training_s": 341.9219218790531,
+    "pr32_gsm8k_feedback_request_mean_s": 0.7919947027221497,
+    "pr32_gsm8k_terminal_preparation_mean_s": 0.03973725292598829,
+    "pr32_gsm8k_backend_loading_s": 20.50785607472062,
+    "pr32_gsm8k_trainer_loading_s": 18.114340990781784,
+    "pr32_gsm8k_final_serving_mean_s": 0.85957421875,
+    "five_events_at_pr48_actual_native_training_s": 2428.766457475722,
+    "five_events_at_pr48_qualification_pair_rate_s": 6051.743719577789,
+    "final1152_plus72warmups_at_pr32_mean_s": 1052.11884375,
+    "384_feedback_at_pr32_mean_s": 304.1259658453055,
+    "384_terminal_preparations_at_pr32_mean_s": 15.259105123579502
+  },
+  "not_a_launch_admission": true,
+  "missing_for_cost_admission": [
+    "Fresh eligible panel and its input-length metadata",
+    "Current eight-case qualification measured worst-device/arm timing and host peak",
+    "Pinned target-only generator qualification/provenance and AR metadata rate",
+    "Full installed runtime finite initialization/graph-capture bound",
+    "Two-worker publication/I/O/RAM schedule"
+  ],
+  "remote_operations": 0,
+  "model_forwards": 0,
+  "optimizer_steps": 0,
+  "production_code_changes": 0
+}
