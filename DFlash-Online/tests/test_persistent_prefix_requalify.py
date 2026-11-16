@@ -221,6 +221,19 @@ class RequalificationTests(unittest.TestCase):
         child.assert_not_called()
         self.assertIn("compiler growth", R.read(self.root/"REQUALIFICATION.json")["final_storage_error"])
 
+    def test_final_storage_failure_preserves_receipts_and_returns_failure(self):
+        self.storage.side_effect = [dict(status="passed")]*4+[RuntimeError("final storage")]
+        with self.patches(), patch.object(R, "run_qualification_child", side_effect=self.child_pass), \
+                patch.object(Q, "compare_cards", return_value=dict(status="passed")), \
+                patch.object(S, "compare_serving_cards", return_value=dict(status="passed")), \
+                patch.object(A, "qualify_resources", return_value=dict(status="passed")):
+            with self.assertRaisesRegex(RuntimeError, "final storage or accounting"):
+                R.run(self.plan_path)
+        result = R.read(self.root/"REQUALIFICATION.json")
+        self.assertEqual(result["status"], "stopped")
+        self.assertIn("final storage", result["final_storage_error"])
+        self.assertEqual(R.read(self.root/"CUMULATIVE_WORK.json")["cumulative"]["completed"]["adam"], 10)
+
 
 if __name__ == "__main__":
     unittest.main()

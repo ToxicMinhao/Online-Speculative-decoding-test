@@ -194,6 +194,8 @@ def run(plan_path):
                 original_records_preserved=True, prior=prior, started_phases=receipt["started_phases"]))
             receipt.update(status="stopped", accounting_error=repr(error))
             write_json(root/"REQUALIFICATION.json", receipt)
+    if receipt["status"] == "stopped":
+        raise RuntimeError("Qualification stopped during final storage or accounting checks")
     return receipt
 
 
