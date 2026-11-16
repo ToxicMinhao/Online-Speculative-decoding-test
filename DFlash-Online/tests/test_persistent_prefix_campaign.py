@@ -1,10 +1,11 @@
 """CPU scheduling and accounting checks; no model construction or CUDA use."""
 from copy import deepcopy
 import json
+import os
 from pathlib import Path
 import tempfile
 import unittest
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 from experiments.persistent_prefix_withholding import campaign as C, task_runner as T
 from experiments.persistent_prefix_withholding.resources import LIMITS, HOST_HEADROOM_BYTES
@@ -18,6 +19,41 @@ def costs():
 
 
 class SchedulingTests(unittest.TestCase):
+    def test_task_receives_qualified_compilers_without_other_environment_changes(self):
+        from experiments.persistent_prefix_withholding import launch as L
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root/"logs").mkdir()
+            plan = dict(root=directory, source_root=directory, training_python="python")
+            task = C.Task("N_collect", (), "collection", {})
+            sequence = []
+            def available():
+                sequence.append("compiler_check")
+            def spawn(*args, **kwargs):
+                sequence.append("spawn")
+                environment = kwargs["env"]
+                self.assertEqual({name:environment[name] for name in L.QUALIFIED_COMPILERS}, L.QUALIFIED_COMPILERS)
+                self.assertEqual(environment["CUDA_VISIBLE_DEVICES"], "GPU-A")
+                self.assertEqual(environment["OMP_NUM_THREADS"], "7")
+                self.assertEqual(environment["LD_LIBRARY_PATH"], "/retained/library")
+                self.assertNotIn("RANK", environment)
+                return Mock()
+            with patch.dict(os.environ, CC="wrong", CXX="wrong", OMP_NUM_THREADS="7",
+                            LD_LIBRARY_PATH="/retained/library", RANK="1"), \
+                    patch.object(L, "check_compilers", side_effect=available), \
+                    patch.object(C.subprocess, "Popen", side_effect=spawn):
+                worker = C.start_task(root/"PLAN.json", plan, task, "GPU-A")
+            worker["log"].close()
+            self.assertEqual(sequence, ["compiler_check", "spawn"])
+
+    def test_missing_compiler_prevents_task_spawn(self):
+        from experiments.persistent_prefix_withholding import launch as L
+        with patch.object(L, "check_compilers", side_effect=FileNotFoundError("compiler")), \
+                patch.object(C.subprocess, "Popen") as spawn:
+            with self.assertRaisesRegex(FileNotFoundError, "compiler"):
+                C.start_task("unused", {}, C.Task("N_collect", (), "collection", {}), "GPU-A")
+        spawn.assert_not_called()
+
     def test_exact_task_budget_and_own_dependencies(self):
         tasks = C.task_graph(costs(), 24)
         indexed = {task.name: task for task in tasks}

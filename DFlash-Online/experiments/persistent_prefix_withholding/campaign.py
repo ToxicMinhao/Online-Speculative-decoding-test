@@ -160,8 +160,11 @@ def gpu_admission(plan, task, uuid):
 
 
 def start_task(plan_path, plan, task, uuid):
+    from .launch import QUALIFIED_COMPILERS, check_compilers
+    check_compilers()
     root = Path(plan["root"])
     environment = dict(os.environ)
+    environment.update(QUALIFIED_COMPILERS)
     environment["CUDA_VISIBLE_DEVICES"] = uuid
     environment["PYTHONPATH"] = os.pathsep.join([plan["source_root"], str(Path(plan["source_root"])/"training"),
         str(Path(plan["source_root"])/"inference"), environment.get("PYTHONPATH", "")])
