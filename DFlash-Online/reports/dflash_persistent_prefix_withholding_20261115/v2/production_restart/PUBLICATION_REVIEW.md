@@ -1,0 +1,7 @@
+# Completed PR49 restart publication review
+
+No blocking publication finding. 83 local evidence/table/privacy checks passed. Public RESULTS exactly match the delivered final summary after removal of private paired structures; the three published per-request/repeat/warmup tables are byte-identical to delivered tables. Summed counts, repeat timing totals, gross saved/added calls, all request outcomes and the negative fixed decision agree with retained evidence. The standalone audit source is the exact executed source and its receipt reports657,982 checks and zero errors.
+
+The report correctly distinguishes imported db6e1221 work from af708012 restart work, retains23 discarded S8 steps and one unknown forward, keeps native acceptance separate from stop-clipped matching, and states conditional reused-development uncertainty and no training-inclusive claim. Storage is explicitly labelled budget-charged allocation; the original epoch, approved six-hour elapsed extension and unchanged four-card-hour limit remain visible. No private prompt, response or token payloads were found in published JSON. Source paths and numerical/identity metadata remain public as intended.
+
+Conclusion is supported for this prespecified candidate and panel: E is worse than N and S on both primary metrics; S descriptively improves over N. This does not isolate the cause of E regressions or establish a universally optimal learning rate. No source changes, remote access, model work or follow-up experiment were performed in this review.

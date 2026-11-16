@@ -1,0 +1,107 @@
+{
+  "execution_commit": "af708012e729437068fbef93cb11c9996a9109a9",
+  "binding": "96201293877a6e432ee6077874c9d936a17a38b67646175b512b0536fa865272",
+  "runtime_contract": {
+    "native_runtime_sha256": {
+      "entrypoints/engine.py": "2bcd4b04c325d4ed65f867490c5bac9e915e02f05471c83dacb5a4a097cf1f2a",
+      "layers/logits_processor.py": "5c6c54bec37b941652e29908c773a756fe6c86f99932ab80043672a1eaa0f086",
+      "models/dflash.py": "d4fcfe005a1acc51a4938d038e1dbc1a2c8ff245842f4253338527335b2327b2",
+      "models/qwen3.py": "e23ee8af21eac46685852854a5fe585cf58477d4a1f8047887d6afeefaf8e32d",
+      "server_args.py": "bd60199803698e4ffe6dc44499a8d42be73f42db28056cb6750411523cf56c04",
+      "speculative/dflash_info.py": "9c7ac23a1bf0840eec8218f02f2adbfc3e419099cd19822137ce5c6e0e902218",
+      "speculative/dflash_worker.py": "9397402f5cfbf60b00b7d27d551e5e9e1b605be9b084d028d4ddda76c475dc8c"
+    },
+    "serving": {
+      "cuda": "13.0",
+      "python_version": "3.12.14",
+      "torch": "2.9.1+cu130",
+      "transformers": "4.57.1"
+    },
+    "training": {
+      "python": "3.12.15",
+      "torch": "2.13.0+cu130",
+      "transformers": "5.12.1"
+    }
+  },
+  "operational_amendment": {
+    "authority": "PR49_PACKAGING_RESTART_20261116",
+    "scientific_binding": "96201293877a6e432ee6077874c9d936a17a38b67646175b512b0536fa865272",
+    "original_limits": {
+      "adam": 648,
+      "response_forward": 1310,
+      "response_backward": 1310,
+      "feedback_generation": 384,
+      "reference_generation": 128,
+      "qualification_generation": 8,
+      "warmup_generation": 72,
+      "scored_generation": 1152,
+      "teacher_preparation": 384,
+      "training_initialization": 7
+    },
+    "effective_limits": {
+      "adam": 673,
+      "response_forward": 1365,
+      "response_backward": 1364,
+      "feedback_generation": 384,
+      "reference_generation": 128,
+      "qualification_generation": 8,
+      "warmup_generation": 72,
+      "scored_generation": 1152,
+      "teacher_preparation": 384,
+      "training_initialization": 9
+    }
+  },
+  "elapsed_time_amendment": {
+    "authority": "PR49_PACKAGING_RESTART_20261116",
+    "scientific_binding": "96201293877a6e432ee6077874c9d936a17a38b67646175b512b0536fa865272",
+    "original_elapsed_s": 14400,
+    "effective_elapsed_s": 21600,
+    "occupied_card_cap_s": 14400,
+    "first_model_load_epoch": 1794802603.911516
+  },
+  "devices": {
+    "A": "GPU-9986735a-3e68-d1bd-5998-9634ef24341e",
+    "B": "GPU-c6943f33-bcd0-a724-0b35-f77af6b0a3f1"
+  },
+  "storage_plan": {
+    "status": "passed",
+    "peak_new_bytes": 101511086491,
+    "allocation_cap_bytes": 110000000000,
+    "prepared_feature_bytes": 39932574048,
+    "temporary_feature_bytes": 216026616,
+    "checkpoint_bytes": 35683048012,
+    "atomic_publication_bytes": 8396447227,
+    "row_bytes": 49164,
+    "serialization_margin_bytes": 4211404796,
+    "compact_bytes": 5000000000,
+    "compiler_bytes": 4294967296,
+    "source_and_workspace_bytes": 2147483648,
+    "prior_allocation_bytes": 1629134848,
+    "required_initial_free_bytes": 501511086491,
+    "publication_concurrency": 1,
+    "unique_features_retained": true
+  },
+  "bootstrap": {
+    "draws": 10000,
+    "seed": 1708,
+    "generator": "PCG64",
+    "order": "lexicographic source_id",
+    "unit": "paired whole request, all arms and three repeat times together",
+    "percentiles": [
+      2.5,
+      97.5
+    ],
+    "method": "linear"
+  },
+  "selected_tier_counts": {
+    "A": 128
+  },
+  "eligible_tier_counts": {
+    "A": 1061,
+    "B": 256
+  },
+  "prior_exposure_lower_bound": 128,
+  "warmup_requests": 2,
+  "scored_requests": 128,
+  "scored_generations": 1152
+}

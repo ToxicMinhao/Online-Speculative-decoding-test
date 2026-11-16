@@ -1,0 +1,159 @@
+{
+  "failed_execution_commit": "db6e1221d8d1b234d9d07e246025d1afd5dc30d5",
+  "restart_execution_commit": "af708012e729437068fbef93cb11c9996a9109a9",
+  "failed_attempt_costs": [
+    {
+      "task": "references",
+      "occupied_card_s": 0.09930920600891113,
+      "physical_gpu_uuid": "GPU-c6943f33-bcd0-a724-0b35-f77af6b0a3f1",
+      "started_epoch": 1794809662.525826,
+      "pid": 2021518
+    },
+    {
+      "task": "S8",
+      "occupied_card_s": 114.6136224269867,
+      "physical_gpu_uuid": "GPU-9986735a-3e68-d1bd-5998-9634ef24341e",
+      "started_epoch": 1794809549.5719671,
+      "pid": 2020737
+    }
+  ],
+  "failed_S8_completed_adam": 23,
+  "failed_S8_unknown_forward": 1,
+  "reused_complete_tasks": [
+    "E7",
+    "S7",
+    "N_collect",
+    "E_collect",
+    "S_collect",
+    "E8",
+    "N8"
+  ],
+  "fresh_only_tasks": [
+    "S8",
+    "references",
+    "final"
+  ],
+  "all_failed_work_charged": true,
+  "clock_restarted": false,
+  "elapsed_cap_change": [
+    14400,
+    21600
+  ],
+  "occupied_card_cap_s": 14400,
+  "execution_commit": "af708012e729437068fbef93cb11c9996a9109a9",
+  "delivery": {
+    "status": "verified",
+    "files": 3840,
+    "raw_bytes": 185484125,
+    "archive": {
+      "bytes": 16626850,
+      "sha256": "b2a76d94b737689aea3de127699db09feee4b2fdcc52c1a90a858c35dd765610"
+    },
+    "preserved_remote_tensors": true,
+    "imported_seven_tasks": "Retained independently verified prior delivery; not duplicated in this archive",
+    "errors": []
+  },
+  "code_review_tests": 220,
+  "package_review_checks": 244,
+  "independent_checks": 657982,
+  "independent_errors": 0,
+  "source_entries": 4461,
+  "source_postflight_mismatches": [],
+  "endpoint_identity_checks": [
+    {
+      "path": "/data/sources/minhao/runs/dflash_persistent_prefix_withholding_20261115/production_continuation_001/tasks/E8/trainer/training_state.pt",
+      "actual": {
+        "bytes": 6302233947,
+        "sha256": "a555095c896626d2322a8478cdb9aa7a70db02a320c1bc153961ad1a89f052c1"
+      },
+      "expected": {
+        "bytes": 6302233947,
+        "sha256": "a555095c896626d2322a8478cdb9aa7a70db02a320c1bc153961ad1a89f052c1"
+      },
+      "equal": true
+    },
+    {
+      "path": "/data/sources/minhao/runs/dflash_persistent_prefix_withholding_20261115/production_continuation_001/tasks/E8/trainer/events/event_008/export/model.safetensors",
+      "actual": {
+        "bytes": 2097259104,
+        "sha256": "e0b180cf9f7d2d4fb6884e427193bb31ec67d24e92a32bc78a2ddb49327bd7fc"
+      },
+      "expected": {
+        "bytes": 2097259104,
+        "sha256": "e0b180cf9f7d2d4fb6884e427193bb31ec67d24e92a32bc78a2ddb49327bd7fc"
+      },
+      "equal": true
+    },
+    {
+      "path": "/data/sources/minhao/runs/dflash_persistent_prefix_withholding_20261115/production_continuation_001/tasks/N8/trainer/training_state.pt",
+      "actual": {
+        "bytes": 6300160347,
+        "sha256": "ca03aefcc4f58a67b146a63474ecb652b83edb9a4f3c18294db3104399db57ce"
+      },
+      "expected": {
+        "bytes": 6300160347,
+        "sha256": "ca03aefcc4f58a67b146a63474ecb652b83edb9a4f3c18294db3104399db57ce"
+      },
+      "equal": true
+    },
+    {
+      "path": "/data/sources/minhao/runs/dflash_persistent_prefix_withholding_20261115/production_continuation_001/tasks/N8/trainer/events/event_008/export/model.safetensors",
+      "actual": {
+        "bytes": 2097259104,
+        "sha256": "d79f30f80f7a6fecc3505290a2ecf2d81c910175aa389f47f93e9f5c9b765454"
+      },
+      "expected": {
+        "bytes": 2097259104,
+        "sha256": "d79f30f80f7a6fecc3505290a2ecf2d81c910175aa389f47f93e9f5c9b765454"
+      },
+      "equal": true
+    },
+    {
+      "path": "/data/sources/minhao/runs/dflash_persistent_prefix_withholding_20261115/production_restart_001/tasks/S8/trainer/training_state.pt",
+      "actual": {
+        "bytes": 6300162779,
+        "sha256": "b3813d9de09404cf5977972eae0672d6a8d8fa4a2803bf6c934e4075733f8acf"
+      },
+      "expected": {
+        "bytes": 6300162779,
+        "sha256": "b3813d9de09404cf5977972eae0672d6a8d8fa4a2803bf6c934e4075733f8acf"
+      },
+      "equal": true
+    },
+    {
+      "path": "/data/sources/minhao/runs/dflash_persistent_prefix_withholding_20261115/production_restart_001/tasks/S8/trainer/events/event_008/export/model.safetensors",
+      "actual": {
+        "bytes": 2097259104,
+        "sha256": "4ace4a675a534f7cc206fd2e3528dafdc0a5fbd5457ab95686f3e45062a8877c"
+      },
+      "expected": {
+        "bytes": 2097259104,
+        "sha256": "4ace4a675a534f7cc206fd2e3528dafdc0a5fbd5457ab95686f3e45062a8877c"
+      },
+      "equal": true
+    }
+  ],
+  "actual_clock": {
+    "occupied_s": 4400.162635803223,
+    "elapsed_s": 14054.324910640717,
+    "active": {}
+  },
+  "restart_wall_s": 1586.0986177921295,
+  "storage": {
+    "status": "passed",
+    "allocated_new_bytes": 47853293568,
+    "free_bytes": 660914491392,
+    "projected_remaining_peak_bytes": 57920999835,
+    "upcoming_bytes": 387728318,
+    "compiler": {
+      "root": "/data/sources/minhao/.cache",
+      "baseline_allocated_bytes": 5022478336,
+      "allocated_bytes": 5054238720,
+      "growth_bytes": 31760384,
+      "reserved_growth_bytes": 4294967296
+    }
+  },
+  "postflight_free_bytes": 660896772096,
+  "qualification_repeated": false,
+  "model_steps_in_analysis": 0
+}
