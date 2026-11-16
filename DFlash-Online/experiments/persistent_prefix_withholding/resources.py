@@ -23,6 +23,25 @@ LIMITS = {
 }
 
 
+PRODUCTION_AMENDMENT = "PR49_PRODUCTION_CONTINUATION_20261115"
+
+
+def effective_limits(plan):
+    """Operational retries never change the sealed scientific binding or limits."""
+    amendment = plan.get("operational_amendment")
+    if amendment is None:
+        return dict(LIMITS)
+    expected = dict(LIMITS, adam=650, response_forward=1316,
+                    response_backward=1316, training_initialization=8)
+    if (amendment.get("authority") != PRODUCTION_AMENDMENT
+            or amendment.get("scientific_binding") != plan.get("binding")
+            or amendment.get("original_limits") != LIMITS
+            or amendment.get("effective_limits") != expected
+            or plan.get("limits") != LIMITS):
+        raise ValueError("Invalid production-only operational amendment")
+    return expected
+
+
 def storage_plan(prompt_lengths, *, weight_bytes, recovery_bytes,
                  hidden_size, captured_layers, prior_allocation_bytes=0):
     """Bound all three own-feedback pools at the fixed output cap.

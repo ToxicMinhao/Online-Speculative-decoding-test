@@ -130,12 +130,14 @@ class AdmissionTests(unittest.TestCase):
         insufficient=self.run_admission(available=23*GIB+HOST_HEADROOM_BYTES-1)
         self.assertEqual(insufficient['status'],'blocked')
 
-    def test_insufficient_parallel_ram_prices_serial_elapsed(self):
+    def test_insufficient_parallel_ram_serializes_only_incompatible_pairs(self):
         result=self.run_admission(available=60*GIB)
         self.assertFalse(result['two_trainers_admitted'])
         self.assertFalse(result['mixed_training_serving_admitted'])
         remaining=sum(t.estimated_card_s for t in task_graph(result['costs'],24))
-        self.assertEqual(result['time']['conservative_total_elapsed_s'],25.+1.5*remaining+1800)
+        self.assertLess(result['time']['conservative_total_elapsed_s'],25.+1.5*remaining+1800)
+        self.assertEqual(result['time']['conservative_total_elapsed_s'],
+                         25.+1.5*result['remaining_schedule']['remaining_elapsed_s']+1800)
 
     def test_two_native_workers_also_must_fit_parallel_schedule(self):
         _,_,training,serving=fixtures()
@@ -147,7 +149,10 @@ class AdmissionTests(unittest.TestCase):
         self.assertTrue(result['two_trainers_admitted'])
         self.assertTrue(result['mixed_training_serving_admitted'])
         remaining=sum(t.estimated_card_s for t in task_graph(result['costs'],24))
-        self.assertEqual(result['time']['conservative_total_elapsed_s'],25.+1.5*remaining+1800)
+        self.assertFalse(result['two_serving_workers_admitted'])
+        self.assertLess(result['time']['conservative_total_elapsed_s'],25.+1.5*remaining+1800)
+        self.assertEqual(result['time']['conservative_total_elapsed_s'],
+                         25.+1.5*result['remaining_schedule']['remaining_elapsed_s']+1800)
 
     def test_native_vram_bound_uses_peak_not_only_final_sample(self):
         result=self.run_admission()

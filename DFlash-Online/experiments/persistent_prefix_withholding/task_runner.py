@@ -21,7 +21,7 @@ import time
 import traceback
 
 from online_feedback.storage import write_json
-from .resources import ALLOCATION_BYTES, CARD_SECONDS, ELAPSED_SECONDS, FREE_RESERVE_BYTES, LIMITS
+from .resources import ALLOCATION_BYTES, CARD_SECONDS, ELAPSED_SECONDS, FREE_RESERVE_BYTES, LIMITS, effective_limits
 
 
 def read(path):
@@ -48,10 +48,22 @@ class SharedWork:
     def reserve(self, counts, label):
         with exclusive(self.root / "WORK.lock"):
             state = read(self.root / "WORK.json")
+            limits = dict(LIMITS)
+            if state.get("operational_amendment") is not None:
+                plan = read(self.root / "sealed/PLAN.json")
+                limits = effective_limits(plan)
+                if (state["operational_amendment"] != plan["operational_amendment"]
+                        or state.get("limits") != limits
+                        or state.get("scientific_binding") != plan["binding"]):
+                    raise ValueError("Shared ledger differs from authenticated operational limits")
+            elif (self.root / "sealed/PLAN.json").exists():
+                plan = read(self.root / "sealed/PLAN.json")
+                if plan.get("operational_amendment") is not None:
+                    raise ValueError("Amended production ledger is missing its limit binding")
             for kind, amount in counts.items():
-                if kind not in LIMITS or type(amount) is not int or amount < 0:
+                if kind not in limits or type(amount) is not int or amount < 0:
                     raise ValueError("Unknown or negative scientific work reservation")
-                if state["attempted"][kind] + amount > LIMITS[kind]:
+                if state["attempted"][kind] + amount > limits[kind]:
                     raise RuntimeError("Shared scientific work cap exceeded: " + kind)
             for kind, amount in counts.items():
                 state["attempted"][kind] += amount
@@ -359,13 +371,14 @@ def collect_task(plan, task, base, ledger, uuid):
 
 
 def reference_task(plan, base, ledger, uuid):
-    from .references import canonical_record, file_identity, record_errors
-    requests = read(plan["missing_references"])
-    if isinstance(requests, dict):
-        requests = requests["requests"]
-    merged = read(plan["references"])
-    if not requests:
-        return dict(status="completed", new_reference_generations=0)
+    from .references import canonical_record, file_identity, load_missing_requests, record_errors
+    requests, merged = load_missing_requests(plan)
+    write_json(base / "BOUND_REFERENCE_REQUESTS.json", dict(
+        status="validated_before_backend", requests=requests,
+        reused_count=len(merged), missing_count=len(requests),
+        input_identities={key: file_identity(plan[key]) for key in
+                          ("data_panel", "missing_references", "reused_references")},
+        checkpoint=plan["origin_export"], collect_features=False, teacher_preparations=0))
     backend = None
     try:
         backend = create_backend(plan, base, plan["origin_export"], uuid)

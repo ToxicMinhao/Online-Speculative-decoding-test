@@ -7,6 +7,7 @@ campaign gates; historical output availability never changes the sealed panel.
 from __future__ import annotations
 
 import argparse
+from copy import deepcopy
 import hashlib
 import json
 from pathlib import Path
@@ -18,6 +19,79 @@ from online_feedback.native import validate_generation
 def file_identity(path):
     payload = Path(path).read_bytes()
     return {"bytes": len(payload), "sha256": hashlib.sha256(payload).hexdigest()}
+
+
+def resolve_missing_requests(panel, missing, reused):
+    """Bind the audit's identity-only rows to the unchanged 128-request panel.
+
+    The audit intentionally does not duplicate prompts in MISSING_REFERENCES.
+    Resolve the complete list on CPU, before allocating the reference backend.
+    """
+    from .data import token_digest
+    from .evaluation import validate_references
+
+    requests = panel["requests"]
+    if len(requests) != 128 or len(reused) != 104 or len(missing) != 24:
+        raise ValueError("Require exactly 104 reused and 24 missing references for 128 requests")
+    by_id = {}
+    source_ids = set()
+    for ordinal, request in enumerate(requests):
+        request_id, source_id = request.get("request_id"), request.get("source_id")
+        prompt = request.get("prompt_ids")
+        if (not request_id or not source_id or request_id in by_id or source_id in source_ids
+                or request.get("panel_ordinal") != ordinal
+                or not isinstance(prompt, list) or not prompt or len(prompt) + 2048 > 4096
+                or any(type(token) is not int or token < 0 for token in prompt)
+                or request.get("prompt_ids_sha256") != token_digest(prompt)
+                or request.get("max_new_tokens") != 2048
+                or request.get("stop_token_ids") != [151645, 151643]
+                or request.get("collect_feedback") is not False):
+            raise ValueError("Sealed reference panel has incomplete identity or changed generation settings")
+        by_id[request_id] = request
+        source_ids.add(source_id)
+    resolved, missing_ids, missing_sources = [], set(), set()
+    for entry in missing:
+        request_id, source_id = entry.get("request_id"), entry.get("source_id")
+        request = by_id.get(request_id)
+        if (entry.get("role") != "panel" or request is None
+                or source_id != request["source_id"]
+                or request_id in missing_ids or source_id in missing_sources):
+            raise ValueError("Missing reference identity, role or uniqueness differs from the sealed panel")
+        # Do not silently ignore a stale, privately enriched execution manifest.
+        for field in ("prompt_ids", "stop_token_ids", "panel_ordinal", "max_new_tokens", "collect_feedback"):
+            if field in entry and entry[field] != request[field]:
+                raise ValueError("Missing-reference fields contradict the sealed panel: " + field)
+        missing_ids.add(request_id)
+        missing_sources.add(source_id)
+        resolved.append(deepcopy(request))
+    reused_ids = set(reused)
+    if reused_ids & missing_ids or reused_ids | missing_ids != set(by_id):
+        raise ValueError("Reused and missing references must cover the fixed panel exactly once")
+    for request_id, reference in reused.items():
+        if reference.get("source_id") != by_id[request_id]["source_id"]:
+            raise ValueError("Reused reference source identity differs from the sealed panel")
+        content = {key: value for key, value in reference.items() if key != "binding_digest"}
+        digest = hashlib.sha256(json.dumps(content, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
+        if reference.get("binding_digest") != digest:
+            raise ValueError("Reused canonical reference binding is invalid")
+    validate_references([by_id[key] for key in reused], reused)
+    return resolved
+
+
+def load_missing_requests(plan):
+    """Authenticate immutable inputs and reject any partial-generation retry."""
+    values = {}
+    for key in ("data_panel", "missing_references", "reused_references"):
+        path = plan[key]
+        if file_identity(path) != plan["input_identities"].get(path):
+            raise ValueError("Reference input differs from its sealed identity: " + key)
+        values[key] = json.loads(Path(path).read_text())
+    requests = resolve_missing_requests(values["data_panel"], values["missing_references"],
+                                        values["reused_references"])
+    merged = json.loads(Path(plan["references"]).read_text())
+    if merged != values["reused_references"]:
+        raise ValueError("Reference destination must contain exactly the 104 authenticated reused references")
+    return requests, merged
 
 
 def record_errors(record, request):

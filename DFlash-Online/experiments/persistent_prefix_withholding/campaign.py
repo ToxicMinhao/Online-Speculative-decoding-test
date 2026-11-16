@@ -4,6 +4,7 @@ from __future__ import annotations
 import argparse
 from dataclasses import dataclass
 import json
+import math
 import os
 from pathlib import Path
 import signal
@@ -12,7 +13,7 @@ import time
 import traceback
 
 from online_feedback.storage import write_json
-from .resources import CARD_SECONDS, ELAPSED_SECONDS, HOST_HEADROOM_BYTES, LIMITS, time_admission
+from .resources import CARD_SECONDS, ELAPSED_SECONDS, HOST_HEADROOM_BYTES, LIMITS, effective_limits, time_admission
 from .task_runner import clock_status, read, storage_boundary
 
 REQUIRED_COSTS = frozenset(("training_event", "training_startup", "training_load", "publication",
@@ -70,32 +71,125 @@ def ordered_ready(tasks, completed, active):
     return sorted(ready, key=lambda task: (-path_cost(task.name), task.name))
 
 
-def planned_elapsed(tasks):
-    """Deterministic two-card dry schedule; final evaluation owns both cards."""
-    completed, running, now = set(), {}, 0.
+def remaining_schedule(tasks, *, completed, active, devices, task_memory_bytes,
+                       available_host_bytes):
+    """Price the same feasible two-card queue at entry and later boundaries.
+
+    ``active`` contains fixed UUIDs, conservative remaining seconds and observed
+    resident RAM. MemAvailable already excludes those residents, so add them back
+    once before reserving each running worker's full peak. Pending tasks retain
+    their full sealed estimate. A final sweep exclusively occupies card A while
+    both cards are otherwise idle. Card-seconds and elapsed seconds stay distinct.
+    """
+    by_name = {task.name: task for task in tasks}
+    completed = set(completed)
+    if (len(by_name) != len(tasks) or set(devices) != {"A", "B"}
+            or len(set(devices.values())) != 2 or completed & set(active)
+            or not (completed | set(active)) <= by_name.keys()):
+        raise ValueError("Invalid task or physical-card scheduling state")
+    if any(not set(task.dependencies) <= by_name.keys() for task in tasks):
+        raise ValueError("Task dependency is absent from the sealed queue")
+    if any(not set(by_name[name].dependencies) <= completed for name in completed | set(active)):
+        raise ValueError("Completed/active task has an unfinished dependency")
+    bounds = {task.name: task_memory_bytes[task.kind] for task in tasks}
+    values = [available_host_bytes, *bounds.values(), *(task.estimated_card_s for task in tasks)]
+    if not all(math.isfinite(value) and value >= 0 for value in values):
+        raise ValueError("Task duration and host reservations must be finite and nonnegative")
+    running, trace, components = {}, [], {}
+    memory_capacity = available_host_bytes-HOST_HEADROOM_BYTES
+    for name, row in active.items():
+        remaining = row['remaining_s']
+        resident = row['resident_bytes']
+        if (row['uuid'] not in devices.values() or not math.isfinite(remaining)
+                or remaining < 0 or not math.isfinite(resident) or resident < 0):
+            raise ValueError("Invalid active worker reservation")
+        memory_capacity += resident
+        running[name] = dict(finish=remaining, uuid=row['uuid'],
+                             reserved_bytes=max(bounds[name], resident))
+        components[name] = remaining
+        trace.append(dict(task=name, uuid=row['uuid'], start_s=0., finish_s=remaining,
+                          active_at_boundary=True, reserved_host_bytes=max(bounds[name], resident)))
+    if len({row['uuid'] for row in running.values()}) != len(running):
+        raise ValueError("Two active workers cannot share a physical card")
+    if any(by_name[name].kind == 'final' for name in running) and len(running) != 1:
+        raise ValueError("Final evaluation must have both cards otherwise idle")
+    if any(by_name[name].kind == 'final' for name in running) and len(completed) != len(tasks)-1:
+        raise ValueError("Final evaluation cannot overlap unfinished production tasks")
+    if any(by_name[name].kind == 'final' and row['uuid'] != devices['A'] for name, row in running.items()):
+        raise ValueError("Final evaluation must use its fixed physical card A")
+    for task in tasks:
+        if task.name not in completed and task.name not in active:
+            components[task.name] = task.estimated_card_s
+    if running and sum(row['reserved_bytes'] for row in running.values()) > memory_capacity:
+        return dict(status='blocked', reason='Active worker reservations exceed available host capacity',
+            remaining_components=components, remaining_card_s=sum(components.values()),
+            remaining_elapsed_s=None, schedule=trace, host_capacity_bytes=memory_capacity)
+    now = 0.
     while len(completed) < len(tasks):
+        idle = [uuid for uuid in devices.values() if uuid not in {row['uuid'] for row in running.values()}]
         for task in ordered_ready(tasks, completed, set(running)):
-            if len(running) == 2 or (task.kind == "final" and running):
+            if not idle or any(by_name[name].kind == 'final' for name in running):
                 break
-            running[task.name] = now + task.estimated_card_s
-            if task.kind == "final":
-                break
+            if task.kind == 'final' and (running or len(completed) != len(tasks)-1):
+                continue
+            reserved = sum(row['reserved_bytes'] for row in running.values())
+            if reserved+bounds[task.name] > memory_capacity:
+                continue
+            uuid = devices['A'] if task.kind == 'final' else idle[0]
+            running[task.name] = dict(finish=now+task.estimated_card_s, uuid=uuid,
+                                      reserved_bytes=bounds[task.name])
+            trace.append(dict(task=task.name, uuid=uuid, start_s=now,
+                              finish_s=now+task.estimated_card_s, active_at_boundary=False,
+                              reserved_host_bytes=bounds[task.name]))
+            idle.remove(uuid)
         if not running:
-            raise ValueError("Campaign dependency graph has no ready task")
-        now = min(running.values())
-        done = {name for name, finish in running.items() if finish <= now}
+            return dict(status='blocked', reason='No feasible ready task under dependencies and host reserve',
+                remaining_components=components, remaining_card_s=sum(components.values()),
+                remaining_elapsed_s=None, schedule=trace, host_capacity_bytes=memory_capacity)
+        now = min(row['finish'] for row in running.values())
+        done = {name for name, row in running.items() if row['finish'] <= now}
         completed.update(done)
         for name in done:
             del running[name]
-    return now
+    return dict(status='passed', remaining_components=components,
+        remaining_card_s=sum(components.values()), remaining_elapsed_s=now,
+        schedule=trace, host_capacity_bytes=memory_capacity,
+        active_remaining_policy='Full sealed remaining reservation unless an explicit smaller bound is supplied')
+
+
+def planned_elapsed(tasks):
+    """Legacy pure dry-run helper; production uses measured host reservations."""
+    result = remaining_schedule(tasks, completed=set(), active={}, devices=dict(A='A', B='B'),
+        task_memory_bytes={task.kind: 0 for task in tasks}, available_host_bytes=HOST_HEADROOM_BYTES)
+    if result['status'] != 'passed':
+        raise ValueError(result['reason'])
+    return result['remaining_elapsed_s']
+
+
+def schedule_admission(plan, tasks, *, completed, active, clock, available_host_bytes=None):
+    """One accounting path for initial admission and all production boundaries."""
+    residents = {name: dict(uuid=row['uuid'], remaining_s=row['task'].estimated_card_s,
+        resident_bytes=process_tree_rss(row['process'].pid)) for name, row in active.items()}
+    schedule = remaining_schedule(tasks, completed=completed, active=residents,
+        devices=plan['devices'], task_memory_bytes=plan['task_memory_bytes'],
+        available_host_bytes=current_memory() if available_host_bytes is None else available_host_bytes)
+    if schedule['status'] != 'passed':
+        return dict(status='blocked', remaining_schedule=schedule)
+    admission = time_admission(occupied_spent_s=clock['occupied_s'],
+        remaining_components=schedule['remaining_components'], elapsed_spent_s=clock['elapsed_s'],
+        remaining_schedule_s=schedule['remaining_elapsed_s'])
+    return dict(admission, remaining_schedule=schedule)
 
 
 def mandatory_gates(plan):
     """No production entry until source, native and resource gates are complete."""
     for label in ("A", "B", "cross_card", "serving"):
         receipt = read(plan["qualification_receipts"][label])
-        if (receipt.get("status") != "passed"
-                or receipt.get("execution_commit") != plan["execution_commit"]):
+        compatible = receipt.get("execution_commit") == plan["execution_commit"]
+        if plan.get('production_continuation'):
+            from .production_continue import qualified_receipt_matches
+            compatible = qualified_receipt_matches(plan, label, receipt)
+        if receipt.get("status") != "passed" or not compatible:
             raise ValueError("Unpassed qualification gate: " + label)
     for label in ("cpu_gate", "reference_provenance", "resource_admission"):
         receipt = read(plan[label])
@@ -204,9 +298,7 @@ def run_campaign(plan_path):
     missing = missing["requests"] if isinstance(missing, dict) else missing
     tasks = task_graph(plan["costs"], len(missing))
     clock = clock_status(root)
-    priced = time_admission(occupied_spent_s=clock["occupied_s"],
-        remaining_components={task.name: task.estimated_card_s for task in tasks},
-        elapsed_spent_s=clock["elapsed_s"], remaining_schedule_s=planned_elapsed(tasks))
+    priced = schedule_admission(plan, tasks, completed=set(), active={}, clock=clock)
     write_json(root / "PRODUCTION_ADMISSION.json", priced)
     if priced["status"] != "passed":
         raise RuntimeError("The complete fixed comparison does not fit the declared time cap")
@@ -214,9 +306,14 @@ def run_campaign(plan_path):
     initial_work = read(root / "WORK.json")
     if initial_work["pending"] or initial_work["attempted"] != initial_work["completed"]:
         raise ValueError("Unknown qualification work prevents production entry")
+    remaining_work = production_expectations(len(missing))
+    limits = effective_limits(plan)
+    if any(initial_work['attempted'][kind]+amount > limits[kind]
+           for kind, amount in remaining_work.items()):
+        raise ValueError("Complete production work exceeds the effective operational limits")
     progress = dict(status="running", execution_commit=plan["execution_commit"], completed=[],
         schedule=[], idle_reasons=[], automatic_retry=False, production_admission=priced,
-        initial_work=initial_work, production_expected=production_expectations(len(missing)))
+        initial_work=initial_work, production_expected=remaining_work, effective_limits=limits)
     write_json(root / "CAMPAIGN.json", progress)
     active, completed = {}, set()
     try:
@@ -244,10 +341,7 @@ def run_campaign(plan_path):
             # Fixed task boundaries reprice cost only, never losses or efficacy.
             # Charge a running task's full remaining estimate conservatively.
             clock = clock_status(root)
-            admission = time_admission(occupied_spent_s=clock["occupied_s"],
-                remaining_components={t.name: t.estimated_card_s for t in remaining},
-                elapsed_spent_s=clock["elapsed_s"],
-                remaining_schedule_s=sum(t.estimated_card_s for t in remaining))
+            admission = schedule_admission(plan, tasks, completed=completed, active=active, clock=clock)
             progress["latest_admission"] = admission
             idle_devices = [uuid for uuid in plan["devices"].values() if uuid not in {w["uuid"] for w in active.values()}]
             for task in ordered_ready(tasks, completed, set(active)):

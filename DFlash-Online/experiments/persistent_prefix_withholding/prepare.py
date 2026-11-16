@@ -8,6 +8,7 @@ from pathlib import Path
 import shutil
 
 from .preflight import identity
+from .references import resolve_missing_requests
 from .resources import storage_plan, LIMITS
 from .state import arm_lr
 
@@ -30,6 +31,9 @@ def build(workspace, destination, *, remote_root, source_root, execution_commit)
     for name in ('REUSED_REFERENCES.json','WARMUP_REFERENCES.json','MISSING_REFERENCES.json',
                  'REUSE_RECEIPT.json','REUSE_PROVENANCE.json','INSTALLED_SOURCE_IDENTITIES.json'):
         shutil.copyfile(references/name,sealed/name)
+    resolve_missing_requests(json.loads((sealed/'PANEL.json').read_text()),
+        json.loads((sealed/'MISSING_REFERENCES.json').read_text()),
+        json.loads((sealed/'REUSED_REFERENCES.json').read_text()))
     shutil.copyfile(references/'RUNTIME_READINESS.md',sealed/'RUNTIME_READINESS.md')
     shutil.copyfile(task/'v2_reviews/HISTORICAL_COST_BASIS.json', sealed/'HISTORICAL_COST_BASIS.json')
     prior_raw = research/'dflash_native_update_size_20261115/delivery/execution_003/raw'

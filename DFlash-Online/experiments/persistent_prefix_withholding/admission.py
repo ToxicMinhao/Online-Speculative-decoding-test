@@ -4,7 +4,7 @@ from __future__ import annotations
 import math
 from pathlib import Path
 
-from .campaign import task_graph, planned_elapsed, current_memory
+from .campaign import task_graph, remaining_schedule, current_memory
 from .resources import HOST_HEADROOM_BYTES, time_admission
 from .task_runner import clock_status, read
 
@@ -63,16 +63,18 @@ def qualify_resources(plan, training, serving):
     two_trainers = 2*training_host+HOST_HEADROOM_BYTES <= available
     mixed = training_host+serving_host+HOST_HEADROOM_BYTES <= available
     two_serving = 2*serving_host+HOST_HEADROOM_BYTES <= available
-    # If no two safe working sets fit, price elapsed time serially. The actual
-    # queue rechecks live RAM and VRAM before every task admission.
-    schedule = (planned_elapsed(graph) if two_trainers and mixed and two_serving
-                else sum(t.estimated_card_s for t in graph))
-    timing = time_admission(occupied_spent_s=clock['occupied_s'],
-        remaining_components={task.name: task.estimated_card_s for task in graph},
-        elapsed_spent_s=clock['elapsed_s'], remaining_schedule_s=schedule)
+    # Use the same dependency/card/RAM calendar as every production boundary.
+    # A memory constraint can serialize one pair without serializing all tasks.
+    schedule = remaining_schedule(graph, completed=set(), active={},
+        devices=plan.get('devices', dict(A='A', B='B')), task_memory_bytes=host,
+        available_host_bytes=available)
+    timing = (time_admission(occupied_spent_s=clock['occupied_s'],
+        remaining_components=schedule['remaining_components'],
+        elapsed_spent_s=clock['elapsed_s'], remaining_schedule_s=schedule['remaining_elapsed_s'])
+        if schedule['status'] == 'passed' else dict(status='blocked', reason=schedule['reason']))
     memory_ok = max(host.values())+HOST_HEADROOM_BYTES <= available
     return dict(status='passed' if timing['status']=='passed' and memory_ok else 'blocked',
-        execution_commit=plan['execution_commit'], costs=costs, time=timing,
+        execution_commit=plan['execution_commit'], costs=costs, time=timing, remaining_schedule=schedule,
         task_memory_bytes=host, task_vram_bytes=vram,
         available_host_bytes=available, two_trainers_admitted=two_trainers,
         mixed_training_serving_admitted=mixed,

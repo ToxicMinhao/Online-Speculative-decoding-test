@@ -10,7 +10,7 @@ from online_feedback.storage import write_json
 from . import analysis
 from .campaign import production_expectations
 from .evaluation import SCOPE
-from .resources import LIMITS
+from .resources import LIMITS, effective_limits
 
 TASKS = ("E7", "S7", "N_collect", "E_collect", "S_collect", "N8", "E8", "S8", "references", "final")
 
@@ -31,6 +31,14 @@ def planned_work(plan):
         return None
     missing = missing["requests"] if isinstance(missing, dict) else missing
     planned = production_expectations(len(missing))
+    if plan.get("production_continuation"):
+        manifest = optional(plan["production_continuation"]["manifest"])
+        retained = optional(manifest["work"]["path"]) if manifest else None
+        if retained is None:
+            return None
+        for kind, amount in retained["cumulative"]["attempted"].items():
+            planned[kind] += amount
+        return planned
     planned["adam"] += 8
     planned["response_forward"] += 20  # Sixteen qualification plus four startup.
     planned["response_backward"] += 20
@@ -74,12 +82,13 @@ def work_accounting(root, plan):
         work = qualification_work(root)
         source = "retained qualification ledgers" if work else None
     rows = []
-    for kind in LIMITS:
+    limits = effective_limits(plan)
+    for kind in limits:
         attempted = work.get("attempted", {}).get(kind) if work else None
         completed = work.get("completed", {}).get(kind) if work else None
         failed = work.get("failed", {}).get(kind,0) if work else None
         amount = planned[kind] if planned is not None else None
-        rows.append(dict(kind=kind, planned=amount, hard_cap=LIMITS[kind],
+        rows.append(dict(kind=kind, planned=amount, hard_cap=limits[kind],
             attempted=attempted, completed=completed,
             failed=failed, unknown=None if attempted is None or completed is None else attempted-completed-failed,
             unattempted=None if attempted is None or amount is None else max(0, amount-attempted)))
@@ -151,12 +160,20 @@ def assemble_report(plan_path, *, native_trace_resolver=None):
     qualification = {kind: {slot: optional(root/kind/slot/"STATUS.json") for slot in ("A", "B")}
                      for kind in ("qualification", "serving_qualification")}
     required_gates = {"A", "B", "cross_card", "serving", "cpu_gate", "reference_provenance", "resource_admission"}
+    def valid_commit(label):
+        receipt = gates.get(label, {}).get("receipt")
+        if not receipt:
+            return False
+        if label != "cpu_gate" and plan.get("production_continuation"):
+            from .production_continue import qualified_receipt_matches
+            return qualified_receipt_matches(plan, label, receipt)
+        return receipt.get("execution_commit") == plan["execution_commit"]
     ready = bool(campaign and campaign.get("status") == "completed"
         and campaign.get("execution_commit") == plan["execution_commit"]
         and all(task["status"] == "completed" for task in tasks)
         and required_gates <= set(gates)
         and all(gates[name]["receipt"] and gates[name]["receipt"].get("status") == "passed" for name in required_gates)
-        and all(gates[name]["receipt"].get("execution_commit") == plan["execution_commit"]
+        and all(valid_commit(name)
                 for name in ("A", "B", "cross_card", "serving", "cpu_gate"))
         and work["accounting_complete"])
     efficacy = None
