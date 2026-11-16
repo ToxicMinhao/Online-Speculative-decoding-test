@@ -1,0 +1,242 @@
+{
+  "status": "partial_evidence_validated",
+  "experiment_qualification": "incomplete",
+  "training_qualification": "passed",
+  "serving_qualification": "unqualified",
+  "stages": {
+    "training_A": {
+      "status": "passed",
+      "exact_origin_restoration": true
+    },
+    "training_B": {
+      "status": "passed",
+      "exact_origin_restoration": true
+    },
+    "serving_A": {
+      "status": "failed",
+      "calls_receipt_available": false,
+      "error": "RuntimeError('SGLang startup failed; inspect /data/sources/minhao/runs/dflash_persistent_prefix_withholding_20261115/qualification_retry_002/serving_qualification/A/runtime/worker.log')",
+      "generation_count": "unresolved from this stage receipt; preserve cumulative accounting"
+    },
+    "serving_B": {
+      "status": "unattempted_or_unavailable",
+      "calls_receipt_available": false,
+      "error": null,
+      "generation_count": "unresolved from this stage receipt; preserve cumulative accounting"
+    }
+  },
+  "cumulative_work": {
+    "attempt": {
+      "attempted": {
+        "adam": 8,
+        "response_forward": 20,
+        "response_backward": 20,
+        "feedback_generation": 0,
+        "reference_generation": 0,
+        "qualification_generation": 0,
+        "warmup_generation": 0,
+        "scored_generation": 0,
+        "teacher_preparation": 0,
+        "training_initialization": 2
+      },
+      "completed": {
+        "adam": 8,
+        "response_forward": 20,
+        "response_backward": 20,
+        "feedback_generation": 0,
+        "reference_generation": 0,
+        "qualification_generation": 0,
+        "warmup_generation": 0,
+        "scored_generation": 0,
+        "teacher_preparation": 0,
+        "training_initialization": 2
+      },
+      "failed": {
+        "adam": 0,
+        "response_forward": 0,
+        "response_backward": 0,
+        "feedback_generation": 0,
+        "reference_generation": 0,
+        "qualification_generation": 0,
+        "warmup_generation": 0,
+        "scored_generation": 0,
+        "teacher_preparation": 0,
+        "training_initialization": 0
+      },
+      "unknown": {
+        "adam": 0,
+        "response_forward": 0,
+        "response_backward": 0,
+        "feedback_generation": 0,
+        "reference_generation": 0,
+        "qualification_generation": 0,
+        "warmup_generation": 0,
+        "scored_generation": 0,
+        "teacher_preparation": 0,
+        "training_initialization": 0
+      }
+    },
+    "cumulative": {
+      "attempted": {
+        "adam": 10,
+        "response_forward": 26,
+        "response_backward": 26,
+        "feedback_generation": 0,
+        "reference_generation": 0,
+        "qualification_generation": 0,
+        "warmup_generation": 0,
+        "scored_generation": 0,
+        "teacher_preparation": 0,
+        "training_initialization": 3
+      },
+      "completed": {
+        "adam": 10,
+        "response_forward": 26,
+        "response_backward": 26,
+        "feedback_generation": 0,
+        "reference_generation": 0,
+        "qualification_generation": 0,
+        "warmup_generation": 0,
+        "scored_generation": 0,
+        "teacher_preparation": 0,
+        "training_initialization": 3
+      },
+      "failed": {
+        "adam": 0,
+        "response_forward": 0,
+        "response_backward": 0,
+        "feedback_generation": 0,
+        "reference_generation": 0,
+        "qualification_generation": 0,
+        "warmup_generation": 0,
+        "scored_generation": 0,
+        "teacher_preparation": 0,
+        "training_initialization": 0
+      },
+      "unknown": {
+        "adam": 0,
+        "response_forward": 0,
+        "response_backward": 0,
+        "feedback_generation": 0,
+        "reference_generation": 0,
+        "qualification_generation": 0,
+        "warmup_generation": 0,
+        "scored_generation": 0,
+        "teacher_preparation": 0,
+        "training_initialization": 0
+      }
+    },
+    "unattempted": {
+      "adam": 0,
+      "response_forward": 0,
+      "response_backward": 0,
+      "feedback_generation": 0,
+      "reference_generation": 0,
+      "qualification_generation": null,
+      "warmup_generation": 0,
+      "scored_generation": 0,
+      "teacher_preparation": 0,
+      "training_initialization": 0
+    },
+    "unresolved_sources": [
+      "/data/sources/minhao/runs/dflash_persistent_prefix_withholding_20261115/qualification_retry_002/serving_qualification/A/calls/RESULT.json"
+    ],
+    "counts_are_lower_bounds": true,
+    "planned_retry": {
+      "adam": 8,
+      "response_forward": 20,
+      "response_backward": 20,
+      "training_initialization": 2,
+      "qualification_generation": 8
+    },
+    "original_campaign_limits_unchanged": {
+      "adam": 648,
+      "response_forward": 1310,
+      "response_backward": 1310,
+      "feedback_generation": 384,
+      "reference_generation": 128,
+      "qualification_generation": 8,
+      "warmup_generation": 72,
+      "scored_generation": 1152,
+      "teacher_preparation": 384,
+      "training_initialization": 7
+    }
+  },
+  "assertions": 81258,
+  "error_count": 0,
+  "errors": [],
+  "unavailable": [
+    "research/dflash_persistent_prefix_withholding_20261115/delivery/qualification_retry_002/serving_qualification/A/calls/RESULT.json",
+    "research/dflash_persistent_prefix_withholding_20261115/delivery/qualification_retry_002/serving_qualification/B/STATUS.json",
+    "research/dflash_persistent_prefix_withholding_20261115/delivery/qualification_retry_002/serving_qualification/B/calls/RESULT.json"
+  ],
+  "source_identities": {
+    "research/dflash_persistent_prefix_withholding_20261115/delivery/qualification_retry_002/sealed/WARMUPS.json": {
+      "bytes": 7514,
+      "sha256": "16702d191a7023bf235c45b39a13795b5b8edb1fe5f4702c5939377d428b51f3"
+    },
+    "research/dflash_persistent_prefix_withholding_20261115/delivery/qualification_retry_002/sealed/WARMUP_REFERENCES.json": {
+      "bytes": 12144,
+      "sha256": "033e7340ca43105c5313edfa5df6beb8de3be1796258e7afc41af514186255a9"
+    },
+    "research/dflash_persistent_prefix_withholding_20261115/delivery/qualification_retry_002/qualification/A/STATUS.json": {
+      "bytes": 838458,
+      "sha256": "54f38469327772621e322609af1e13e2bf9c0d89f17d051438cd47399843947d"
+    },
+    "research/dflash_persistent_prefix_withholding_20261115/delivery/qualification_retry_002/qualification/A/cases/RESULT.json": {
+      "bytes": 784604,
+      "sha256": "886955d33e05786c5b8c80a87516ab86a45762dabcebc0fa6eeb2f843e2c6c7d"
+    },
+    "research/dflash_persistent_prefix_withholding_20261115/delivery/qualification_retry_002/qualification/A/PHYSICAL_WORK.jsonl": {
+      "bytes": 11387,
+      "sha256": "b1f9204ac4ab6c3ab505921ca2a9da9abd83551a0d411a7358f752d5a114dcb5"
+    },
+    "research/dflash_persistent_prefix_withholding_20261115/delivery/qualification_retry_002/qualification/A/trainer/events/qualification_E/PRESENTATIONS.jsonl": {
+      "bytes": 36650,
+      "sha256": "604e2914a8935f0801fd52a3014e6294837d9c15cd9f04bd0f276ea18df5cc69"
+    },
+    "research/dflash_persistent_prefix_withholding_20261115/delivery/qualification_retry_002/qualification/A/trainer/events/qualification_E_repeat/PRESENTATIONS.jsonl": {
+      "bytes": 36663,
+      "sha256": "3bf9aacee2106f53e34dfe431915a54ecd6d4edb3d7428d597bfa8164165f9e1"
+    },
+    "research/dflash_persistent_prefix_withholding_20261115/delivery/qualification_retry_002/qualification/B/STATUS.json": {
+      "bytes": 504871,
+      "sha256": "194ae27f213ab52b62be76d7f3ab6a74f8ec239e68b11604d2b6968b2ab1bc34"
+    },
+    "research/dflash_persistent_prefix_withholding_20261115/delivery/qualification_retry_002/qualification/B/cases/RESULT.json": {
+      "bytes": 471398,
+      "sha256": "55029f936189bea5f0d6901931f56d9d84cf277c0962d5a896ab23e2c897b9e3"
+    },
+    "research/dflash_persistent_prefix_withholding_20261115/delivery/qualification_retry_002/qualification/B/PHYSICAL_WORK.jsonl": {
+      "bytes": 7762,
+      "sha256": "91fd9927a67b61bea4900d3a00be0746ea0d9e27a9530ad498de3c4837f09526"
+    },
+    "research/dflash_persistent_prefix_withholding_20261115/delivery/qualification_retry_002/qualification/B/trainer/events/qualification_E/PRESENTATIONS.jsonl": {
+      "bytes": 36650,
+      "sha256": "79f17f612629b3bf4d6b2929b7c76a76da063e3941a4e4d863f9d2686a73de32"
+    },
+    "research/dflash_persistent_prefix_withholding_20261115/delivery/qualification_retry_002/serving_qualification/A/STATUS.json": {
+      "bytes": 1637,
+      "sha256": "41c5f40433690f81a304833061c2dd83e8527e0d6e3f4a019c8cdad1ac6df2ec"
+    },
+    "research/dflash_persistent_prefix_withholding_20261115/delivery/execution_v2_002/qualification/A/PHYSICAL_WORK.jsonl": {
+      "bytes": 5965,
+      "sha256": "ad9c075e19cf563a6d6450b88c3275bbe582d2a8ee86bd43c4bec46de0cefefa"
+    },
+    "research/dflash_persistent_prefix_withholding_20261115/delivery/qualification_retry_002/CUMULATIVE_WORK.json": {
+      "bytes": 3730,
+      "sha256": "b24aeb808bb73147ddfe8bf2980b58b795647d9b37611a7b8fc4275702cfbaa4"
+    },
+    "research/dflash_persistent_prefix_withholding_20261115/delivery/qualification_retry_002/REQUALIFICATION.json": {
+      "bytes": 3088,
+      "sha256": "c17158a538f4aa1575c0a6aace7fc210c934a5714dc5c761aee9d6594c228e94"
+    }
+  },
+  "limit": "Tensor comparisons use retained full-tensor identities; no model tensors or GPU execution are recreated.",
+  "sealed_reference_inputs_loaded": true,
+  "canonical_reference_audited": false,
+  "model_forwards": 0,
+  "optimizer_steps": 0,
+  "generations": 0,
+  "remote_operations": 0
+}

@@ -1,0 +1,256 @@
+K+ PERSISTENT PREFIX WITHHOLDING — TWO-A800 EXECUTOR HANDOFF
+Version 2 | 2026-11-16 UTC (2026-11-15, America/Cambridge_Bay)
+Status: user-authorized revised development-data contract, implementation, qualification and bounded feasibility campaign. PR49 readiness alone does not qualify the implementation for production.
+
+0. PURPOSE, AUTHORITY AND THE DECISION
+
+Build and test one fixed candidate: carry PR47's E prefix-gradient-withholding rule through two actual update events, preserving the candidate's own weights, optimizer history and current role selection. Compare against native K+ and one fixed ordinary lower-learning-rate control. Final full-request acceptance and serving time determine practical usefulness.
+
+This is an explicitly revised feasibility plan following the user's approval. PR48 remains UNRESOLVED_STOP_THIS_SCREEN; its original gate did not pass and is not being reinterpreted. We now test accumulated behavior and practical utility, not another local attribution question. Native K+ stays the reference throughout.
+
+Version2 supersedes the version1 launch contract archived in PR49 (original SHA256:e6e676044508226b8f00bd53dfbadc14580aaa91c371abdc58f608b21cc90f6c). Preserve that archived document and PR49's INCOMPLETE_DATA_GATE finding unchanged. This prospective revision is made before any new candidate model work: it explicitly permits documented development-data reuse, specifies the reference-output routes, acknowledges completed cleanup and corrects resource estimates. It does not change N/E/S, training, evaluation counts, practical thresholds or hard caps.
+
+Use THIS document alone for new scientific execution. The older Kplus_Experiment_And_Storage_Handoff.txt is the historical PR48 protocol, not a launch instruction for this campaign. Preserve its historical records and its exact protected-input/temporary-retirement classifications. The cleanup rules restated below apply to this new run. No new coefficient sweep, loss family, replay, head, adaptive gate, OSD retraining, EAGLE port, event-7 evaluation panel or extra local probe is authorized.
+
+Run autonomously once the explicit CPU, GPU, data and resource gates below pass. Routine implementation choices within this contract need no further confirmation. A failed gate is reported with evidence; do not silently change the arms, panel, precision, budget or acceptance criteria to continue.
+
+1. EVIDENCE AND HISTORY CHECK
+
+Repository: https://github.com/ToxicMinhao/Online-Speculative-decoding-test
+PR47 execution:2549f02d9b1edba8fb86f8e91a497e68c224d586; report:7eeb3e4645259a28a0e79cd3626706a1e4f7cb88.
+PR48 execution:5d4e0ff65c5976318a50ebb181923447068169c8; reviewed report:a21f9d47e8e05779ada99b713f764c27411ba899.
+PR32 execution:cdb640543d8fe3a43c8e63af4ccaaa002e09a599; report:18bd839cbd85f268a07f7da3abb9f9e14ba16bf0.
+PR49 reviewed readiness/audit head:9e0fce894fad78ca676899eeaa772f491108c97e; report directory:DFlash-Online/reports/dflash_persistent_prefix_withholding_20261115/.
+
+PR49 found at least1311 previously exposed questions among1319 pinned GSM8K test questions, leaving at most8 globally unused before further exclusions. Therefore version1's128 globally unused panel was impossible under the authenticated inventory. That was a planning/data-contract failure, not an E result. PR49 performed zero new model work and did not implement/qualify the persistent adapter. Its audit scripts and manifests should be reused as evidence and extended for the revised eligibility rules below; do not rerun an exhaustive freshness search.
+
+Read the pinned reports and closest implementation paths before editing. PR32 ROLE kept prefix KL and replaced first-error loss; MIX changed both. PR21/22 studied prefix protection and half LR; PR23 found half LR weaker than K on the full GSM8K run. PR44–46 retention/replay did not establish an upgrade. PR47 withheld current prefix gradients only for disposable one-step alternatives, then restored native N. PR48 supplied ordinary size controls, not a persistent E trajectory. This campaign adds the missing accumulated E behavior; do not claim prefix modification or smaller-LR controls were never studied.
+
+PR47 E-N:+0.015625 proposals/fixed block, conditional95%CI[+0.002441,+0.028809]. PR48 E-S_low:+0.008789,CI[-0.002930,+0.019287]; E-S_high:+0.016602,CI[+0.005371,+0.028809]. Both primary lower bounds had to be positive; they were not. Neither scalar control clearly improved N.
+Useful descriptive clue: E acquired194/lost89 prefix occurrences; S_low154/85; N177/136. E's remaining advantage was acquisition at similar loss, not uniquely stronger preservation. This is a hypothesis about useful learning, not proof of a mechanism or expected speedup. Prior local E-N gain was only about0.29% relative fixed-block acceptance.
+
+Why this experiment now: local evidence exists but cannot predict the effect of carrying E's altered optimizer history and role selection forward. A continuing E model may benefit, or may accumulate prefix damage. Two events test this risk and include one feedback collection after adaptation. It remains a short, single-seed pilot starting from an already trained K+ model, not from-scratch error-only training or long-run robustness.
+
+2. THREE FIXED ARMS AND EXACT ALGORITHM
+
+N: native K+, inherited LR nominally3e-4.
+E: native K+ first-error learning with current correct-prefix KL row gradients stopped; same LR as N.
+S: ordinary native K+ with fixed LR multiplier0.96 for both events.
+
+The0.96 choice is the rounded median of PR48's geometry-selected alpha values (median0.9619140625), not selected using new outcomes. S is a deployable constant-LR comparator. It is NOT norm-matched to E after trajectories diverge, and it does not represent every possible LR choice.
+
+For E, at every current training forward:
+- Use that arm's CURRENT drafter and native training block layout to obtain proposals, native selection, correct-prefix roles and first-error roles. These masks/weights remain detached as in native K+.
+- Reuse the qualified operation: controlled_rows = torch.where(error_role, token_loss, token_loss.detach()).
+- Apply it at the existing native role hook BEFORE both the ordinary selected-loss numerator and K+'s first-error redistribution numerators. Preserve the exact native reducer/order, original selected-weight denominator, original full-response normalization where used, K+ bounded redistribution and immediate-successor priority logic.
+- Preserve scalar forward values. The difference is the enabled gradient, not a new loss scale or renormalization over errors alone.
+- Preserve full attention/context, all native blocks, target features, anchors, KL temperature and original selection. Stopping direct prefix-token KL gradients does not detach prefix hidden states or prevent error gradients from flowing through context representations.
+- A repaired position can leave the first-error set; a position that later becomes the first error can enter it. Do not keep event-7 error labels fixed or borrow N's changing masks for E.
+- Perform the native finite check, single clip, BF16 AdamW and zero-grad. A zero current error gradient does not authorize skipping Adam: native-present zero gradients still carry momentum/decay semantics. Preserve None-versus-zero membership.
+- Advance E's own weights, moments, counters, sampler and RNG. Never restore N after a production E update.
+
+N/S use the original objective without a role controller. All arms keep the frozen target/head/embedding, trainable backbone, BF16 parameters and moments, no FP32 master weights, optimizer betas/epsilon/decay/clipping, accumulation and serving settings inherited from the authenticated native contract. Learning-rate scheduling must remain the inherited constant recipe; do not add warmup, rescaling or a scheduler.
+
+S initial state migration:
+The optimizer loader checks its saved recipe as well as parameter-group options. Validate original K6 first. In a separately declared CPU fork, preserve every parameter, Adam moment/step, RNG value, counter and historical receipt; change only the current arm/config identity and LR in BOTH saved optimizer recipe options and saved parameter groups. Compute the LR once as float(original_lr)*0.96, record repr/float.hex and use the same value everywhere (approximately2.88e-4; avoid different literal rounding paths). Instantiate S with the matching recipe and verify restoration. Never edit the original K6 file or reset moments. Store a migration receipt and field-by-field allowed differences; a second full origin copy is unnecessary. S8 resumes S7 without another migration. N/E retain the original LR recipe.
+
+3. IMPLEMENTATION BOUNDARY — AVOID THE OLD DISPOSABLE TRAINER
+
+Reuse online_feedback/native_prefix_roles.py and its objective.py hook, ordinary native training arithmetic, exact state/counter checks and full-response scorer. Use the persistent campaign/data/evaluation patterns from experiments/role_loss_pilot where appropriate; keep scientific changes isolated in a new module, e.g. experiments/persistent_prefix_withholding.
+
+Do NOT run NativePrefixTrainer/ThreatReplayTrainer unchanged for this trajectory. Its inherited _train_passes defaults role=N, hardcodes start768/presentations1536, and the retention ancestor restricts event_007 and historical schedules. Merely installing an E controller once can silently disable it on the next run_pair. The old WindowController restores N by design.
+
+Implement a narrow persistent event adapter with immutable arm identity, explicit event identity, own-state resume, dynamic expected counters and event-specific native schedules. Do not broadly weaken historical validators. E role identity must survive save/load through the declared algorithm contract; a transient Python controller object is not a resume contract. Reinstall and validate it before any training forward. Record enabled-role counts/gradient checks at predeclared boundary presentations using already computed tensors; no extra model passes or retained vocabulary arrays.
+
+Expected shared logical boundaries:
+K6:global_step768,presentations1536.
+Own event7 endpoint:896,1792.
+Own event8 endpoint:1024,2048.
+Keep original historical event receipts and inherited horizon7424; qualify the exact recovered config rather than assuming these numbers authorize a mismatching source.
+
+4. INPUTS, DATA AND ENDPOINT REUSE
+
+Resolve actual paths and SHA256/byte/tensor identities from retained manifests; do not guess current paths from old directory names.
+Required: complete K6 recovery and serving export/config; original N7 complete recovery/export; exact128 event7 feedback/features and presentation schedule; target/draft/tokenizer/runtime identities; pinned source plus all required runtime overlays; source datasets/tokenization policy; compact PR47/48 evidence and original paper keeper list.
+
+Default route REUSES N7 in place. Qualify its ancestry to the identical K6, event7 inputs, native objective, two-pass schedule and optimizer/runtime; bind PR48's exact final-native parity and original hashes. A weight export alone is insufficient for N8. A missing/unqualified N7 stops this route. Do not automatically replay another128 native updates or reconstruct the14 missing E models. Reused N7 is freshly scored only as part of its prescribed event8 feedback collection; final comparisons use contemporaneous N8/E8/S8 timing.
+
+Event7:
+- Train E7 and S7 on the exact retained128 feedback packets, two passes, two-response accumulation,128 Adam steps per arm.
+- Keep the original schedule/anchors/RNG contract, while current role membership evolves independently with each arm's weights.
+- Save complete own states and weight exports at the end. No full-request evaluation of event7 candidates and no choosing an earlier endpoint.
+
+Event8:
+- Seal the next128 requests from the same authenticated native training stream, ordinarily indices896..1023 (zero-based), only after verifying that they are outside K6+event7 training ancestry. Preserve original request IDs, wrapping, order and limits. Document any previous project exposure; 'new feedback' does not mean never used by another historical experiment.
+- The128 input requests are identical across N/E/S. Freeze each arm at its own event7 endpoint throughout collection. Generate its own complete responses and native feedback, then prepare its own target features through the existing verified path.
+- Train each arm on its own128 packets for two passes/128 updates. Preserve its own event7 optimizer/RNG; serving and target preparation run separately or under qualified RNG preservation so they cannot consume training RNG.
+- Do not substitute N feedback for E/S. Greedy target-correct outputs may coincide; equal answer tokens alone do not prove native feature tensors/capture paths coincide. Any physical deduplication requires full input/target/alignment/tensor identity and retains separate per-arm trace/provenance. Conservatively budget all three feature sets.
+
+Development final evaluation panel — explicit prior exposure, strict adaptation separation:
+- Exactly128 same-domain requests from openai/gsm8k, configuration main, test split, revision740312add88f781978c0658806c59bc2815b9866. Preserve the native tokenizer, wrapper and input/context admissibility rules. Do not change source/split/domain or reduce panel size.
+- First fix the same two old-development short/long warmup/qualification requests, using input/previous runtime metadata before new scoring. They need authenticated reference outputs under the reference contract below and never enter final statistics or new training.
+- HARD exclusions: every input used for adaptation in the complete shared K6 ancestry, event7 and the planned event8 of ANY arm; the two warmup/qualification inputs; duplicates; inadmissible prompts. Resolve source aliases and compare canonical source ID, normalized question text, rendered prompt and token-array hashes across training/evaluation. Unknown current ancestry or unresolved input identity blocks readiness; it cannot be treated as an unexposed example.
+- Documented earlier benchmark, target-only AR, or unrelated project evaluation exposure is permitted. Prior use must remain in EXPOSURE; do not rename an old request to claim freshness. No panel input/reference/output may influence adaptation, endpoint choice or coefficient choice in this campaign.
+- Build tier A from hard-eligible requests without documented direct PR44–48 probe/development exposure. Build tier B from the remaining hard-eligible requests with such direct exposure OR uncertain direct-probe classification. Record exactly which manifests were checked and their limits. This is a preference for less directly reused data, not a claim that A is globally fresh or independent of project development.
+- Rank each tier by the unchanged input-only key SHA256('kplus-persistent-prefix-v1|eval|<dataset>|<source_id>'), then source_id tie-break. Fix dataset='openai/gsm8k:main:test@740312add88f781978c0658806c59bc2815b9866' and source_id='gsm8k:main:test:<source_row>'. Take the first128 from A when available; otherwise take all A and fill the shortfall from ranked B. This fallback is explicitly authorized by version2 and depends only on input/exposure inventory, never model outcomes. Stop for a data shortfall only if fewer than128 hard-eligible requests remain, or a hard identity/ancestry/admissibility gate fails.
+- Seal tier membership, counts, selected IDs, hashes, reasons for each exclusion and known exposure sources before any new GPU work. Publish known lower-bound exposure, not an unverified exhaustive negative. Do not inspect historical acceptance, margins, timing, improvement, labels or output length to rank/select requests; reference availability must not alter selection.
+- Re-sort the selected128 by the same hash key and seal four fixed32-request blocks. Seal within-block permutations using NumPy PCG64 seed1708, consuming draws in repeat0..2,block0..3 order. All arms see the same order in each repeat/block. Never replace a selected request after qualification or evaluation starts.
+- The primary analysis covers all128 selected requests. Exposure tiers are descriptive accounting, not separately optimized panels or alternative pass gates. Label every resulting comparison DEVELOPMENT_FEASIBILITY_REUSED_DATA, including a panel consisting entirely of tier A. No fresh confirmation or independent holdout claim follows.
+
+Canonical/reference-output contract — a fixed target-greedy correctness reference:
+- Resolve and seal reference provenance before candidate scoring. For each selected request, retain exact tokens, termination, prompt identity, target weights/config, tokenizer, wrapper, greedy/precision/backend/stop/context/cap settings, source execution and qualification receipt. Do not assume an old filename containing 'canonical' proves compatibility. Old latency or acceptance measurements are never used in the new arm comparison.
+- Prefer existing authenticated target-only greedy references with the identical effective protocol. Existing native-verifier references may also be reused ONLY when prior source/trace/qualification evidence establishes that their committed tokens follow the pinned target-greedy verifier, including initial/bonus tokens, rejection replacement and EOS/cap clipping. Record reference_kind='target_only_AR' or 'native_greedy_target_verifier'; never relabel the latter as target-only AR.
+- For missing compatible references, allow at most128 new untimed complete reference generations in total. Use an already qualified target-only path when one is authenticated. Otherwise use one fixed candidate-independent reference checkpoint, authenticated original K6, with the existing native target-greedy verifier path. The same frozen reference checkpoint and source/runtime contract apply to all missing references; no N8/E8/S8-generated output or majority agreement can define the reference. This route is explicitly authorized by version2; target weights remain fixed and no learning is performed.
+- Before either route is admitted, source review must bind the actual installed generation/verification code and prior correctness qualification, including the token-commit/stop rules. Reuse already computed verifier target-token observations where available; no additional diagnostic model passes are authorized. The eight serving qualification generations in section5 are runtime parity checks against two retained independently authenticated references, not by themselves a proof that an unknown decoder is correct. If qualified reference evidence cannot be authenticated, stop INCOMPLETE_REFERENCE_PROVENANCE; do not silently invent a new backend or accept candidate agreement as correctness.
+- Concrete native fallback: SGLangDFlashBackend.generate(..., purpose='evaluation') at fixed K6, with collect_features=False and no teacher preparation. The existing online_feedback/sglang_hooks.py captures actual target-verification argmax tokens, checks prefix/replacement commits and binds captured output coverage; experiments/o_half_matched_lr/archive.py:full_trace_errors provides a separate CPU reconstruction of block commits. Reuse and authenticate these checks on retained/new reference records without additional model passes. Also bind the installed target-prefill/greedy-sampler source for the FIRST output token: a recorded next_token_ids field alone does not prove its argmax origin. This route establishes qualified native-verifier correctness/consistency, not a new independent target-only AR reproduction.
+- Complete and seal the chosen128 reference records before final timing; new reference shards may run alongside independent training tasks under the two-card budget. Canonicals are evaluation evidence only, never feedback. Reusing compatible records reduces actual work but does not free budget for extra experiments. All reference calls, model activations, resident time and output bytes count against the existing shared caps.
+
+5. CPU AND GPU QUALIFICATION
+
+CPU before any GPU work:
+1) Authenticate all live dependencies, source, environments and two physical GPU UUIDs; build per-host artifact/ownership/link inventory.
+2) Verify N7 reuse, event7 schedule, event8 disjointness, revised128-request development-panel eligibility/exposure and reference-route provenance; seal all data and methods. Preserve PR49 historical audit receipts; add a version2 decision receipt rather than overwriting the old failed-freshness result.
+3) Test persistent two-update behavior, own-state round-trip resume, E role reinstatement, absence of hidden N restoration, native/all-on equality, zero-error/empty-role handling, original normalization/redistribution, and exact S recipe migration. Include current-role changes after a repair. Reuse meaningful native regression tests.
+4) Seal work caps, finite runtime startup/capture routines, feedback feature byte bounds, two-GPU scheduling rules and memory admission. Do not allocate full historical run copies.
+
+GPU qualification: exactly EIGHT disposable Adam applications, each from the same restored complete K6 and fixed first scheduled response pair; no favorable-pair search.
+GPU A: legacy native N; new adapter ALL-enabled; new E; repeat E; new S. Five applications.
+GPU B: new N; new E; new S. Three applications.
+One physical UUID per worker via CUDA_VISIBLE_DEVICES; it is logical cuda:0 with one matching CUDA RNG state. Preserve scientific RNG contents across cards; compare runtime device metadata separately.
+
+Requirements:
+- ALL exactly matches legacy N in native forward values, selection/weights/denominator, preclip gradients, BF16 endpoint, Adam state, counters and scientific RNG.
+- E at common P keeps native forward/selection/denominator/priority values. The fixed pair must contain both valid correct-prefix and first-error occurrences: excluded prefix-row gradients are zero, and connected first-error gradients are nonzero. Repeat E is exact. Missing either role or usable error gradient is a qualification shortfall, not permission to search another favorable pair.
+- S at common P keeps native forward/preclip gradients and updated moments, uses the actual migrated LR in the inner optimizer step, and preserves all other options. Later production S moments need not match N after divergence.
+- GPU B matches the corresponding GPU A scientific endpoints/gradients/optimizer results. Cross-card disagreement blocks this parallel route; do not relax equality or silently change precision.
+- Restore qualification origins fully and release CPU snapshots/gradient copies before production. Physical work ledgers are never restored away.
+
+These eight cases cost16 response forwards/backwards. Allow at most two discarded startup responses per training-runtime initialization, each with at most one forward/backward and zero Adam. At most seven such initializations: two qualification plus E7,S7,N8,E8,S8. Total startup<=14 forward/backward responses. Reusing a process can reduce work, never increase the cap.
+
+Serving qualification: at most EIGHT untimed complete generations: the same two fixed warmup requests, twice on each physical card at K6. Require exact reference tokens, termination and repeat/card-consistent native counts. Include any real generation used for warmup inside these eight; no hidden full-response startup calls.
+
+Any failure preserves evidence and stops the scientific campaign. No automatic scientific retry. A later identical administrative resume without replaying completed model work requires authenticated pending-work/state reconciliation within the existing caps; unknown work is counted conservatively and is not silently reset.
+
+6. TWO-A800 EXECUTION SCHEDULE
+
+Use two independent single-GPU workers. Do not use DDP or change the native batch/accumulation recipe. Maintain separate arm outputs, optimizer/RNG/sampler states, CUDA visibility, ports and request logs. One project model job per card; never share a live optimizer/model between arms.
+
+Execution graph:
+CPU gates -> two-card qualification -> E7 and S7 training in parallel.
+N7 is already available. For each arm independently: own event7 endpoint ->128 own-feedback generations -> own teacher preparation -> own event8 training -> final export/recovery validation.
+Both cards also handle independent untimed canonical-reference shards when memory/time allows.
+All N8/E8/S8 endpoints and canonicals complete -> global quiet barrier -> final timing on one card.
+
+Use a dependency-aware two-worker queue rather than serially completing all six logical transitions. E7/S7 normally start together. An available card takes ready untimed work; dependencies are per arm, not an unnecessary global barrier. Prefer tasks on the longest estimated remaining dependency path, priced before outcomes. Log the actual schedule and any idle reason. Do not inspect efficacy results to schedule or stop arms.
+
+Host RAM is a real admission constraint. PR49 observed148.45GB MemAvailable at2026-11-16T02:07Z; this is a historical observation, not current admission. PR48's old80GiB-per-trainer admission cannot simply be doubled plus reserve. This campaign must not retain PR48's per-window P/N copies, scalar trial states or model-sized gradient archives. Measure the simpler persistent workers during qualification.
+- For each task pair, reserve measured peak host working sets, known feature/recovery/publication buffers and at least32GiB additional host headroom; avoid double-counting already resident workers when using current MemAvailable.
+- Admit two trainers only if their combined requirement fits current host RAM and both GPUs have sufficient free VRAM. Otherwise pipeline one trainer with one lighter feedback/canonical task if that combination fits. If no safe parallel combination fits, serialize only the affected phase and explain the measured bottleneck.
+- Schedule heavy checkpoint writes/hash scans to avoid simultaneous host-memory and I/O peaks. Keep GPU state live during a write only when priced; release idle processes before starting other tasks.
+- Shared read-only model/features stay canonical on disk. Do not create one copy per GPU. Preserve RNG when an arm moves between cards.
+
+Final speed measurement must use ONE fixed physical GPU for ALL arms. The other card is idle throughout timed blocks. Suspend project training, canonical generation, teacher preparation, large hashing, transfer, cleanup and heavy CPU audits. Check both GPUs and host quiescence at block boundaries. This temporary idle period prevents a sub-percent effect from becoming a shared-resource or device-speed artifact; parallel untimed work provides the wall-clock saving.
+
+7. FINAL FULL-REQUEST EVALUATION
+
+Only N8,E8,S8 are evaluated. Serving: pinned native greedy Qwen3-8B/DFlash, BF16, FA3, block16 (known seed plus15 proposals), context4096, original2048 output-token/EOS rule, ordinary native cache handling, no adaptation during evaluation. Preserve all source-specific wrapper/stop IDs and the exact native full-request timer boundary. Request latency excludes model activation and prescribed warmups, includes ordinary request prefill/decode/cache work. Training time is a separate cost, not the claimed serving improvement.
+
+Three repeats x four32-request blocks x three arms =1152 scored complete generations.
+Zero-based repeat r,block b: base=(N,E,S) if b even, otherwise(N,S,E); left-rotate base by (r+floor(b/2)) mod3.
+
+                   Block1   Block2   Block3   Block4
+Repeat1            N/E/S    N/S/E    E/S/N    S/E/N
+Repeat2            E/S/N    S/E/N    S/N/E    E/N/S
+Repeat3            S/N/E    E/N/S    N/E/S    N/S/E
+
+All six orders occur twice; each fixed block places each arm first/second/third once. Use each sealed within-block request permutation unchanged across its three arms.
+There are36 logical arm activations. Run exactly the same two old-development warmup requests after each activation, even if an adjacent phase uses the same arm:72 unscored warmup generations. Use the qualified existing draft activation path; reuse the loaded target when supported. Count actual swaps/loads and activation validation separately.
+
+For every scored generation retain request/prompt identity, endpoint identity, repeat/block/order, physical GPU UUID, complete token/termination record, accepted proposal counts, verifier calls, committed target-token counts, cap/EOS status and timings. All1152 outputs must match the sealed canonical tokens and termination. Deterministic acceptance/verifier counts must match across repeats for each arm/request. No invalid request or inconvenient outlier can be omitted.
+
+External interference, token mismatch, missing rows or changed repeat counts invalidate affected scientific claims. Preserve the full accounting and stop; do not selectively rerun a slow block or add favorable repeats. No efficacy inspection until all prescribed final measurements are complete and sealed.
+
+8. ESTIMANDS, UNCERTAINTY AND FIXED DECISION
+
+Use full-response native acceptance, not the PR47 fixed-block statistic. For arm a/request i, A_ai is explicitly the sum of metadata.trace[*].native_accepted_draft_tokens, exposed as native_accepted_draft_tokens by the qualified evaluator; V_ai is metadata.verification_calls. Preserve native EOS/cap treatment and validate the inherited identities native_accepted_draft_tokens=committed_progress-verification_calls and committed_progress=output_tokens-1, plus raw block agreement. Repeats must agree. Define pooled acceptance L_a=sum_i A_ai/sum_i V_ai. Separately report score_record's accepted_draft_tokens (the stop-clipped matching count), its per-call ratio, equal-request mean A_ai/V_ai, total committed tokens/calls, absolute counts and native acceptance histogram. Do not substitute the matching count or switch definitions after results.
+Average three request times within each arm/request: Tbar_ai. Time reduction R(a,b)=1-sum_i Tbar_ai/sum_i Tbar_bi. Speedup=sum_i Tbar_bi/sum_i Tbar_ai. Acceptance improvement Q(a,b)=L_a/L_b-1. Report absolute L_a-L_b as well.
+If a valid request ends at the first token with V_ai=0, keep its output and latency in the fixed primary panel and pooled totals. Compute the supplementary equal-request A_ai/V_ai mean only over V_ai>0 and report the zero-call count. Do not drop or replace that request. If an entire arm has zero total verifier calls, the acceptance ratio is undefined and no acceptance-based pass can be claimed.
+
+Primary practical comparison E versus N at event8. Secondary E versus S and S versus N are mandatory published comparisons. Use10000 common paired whole-request bootstrap draws, NumPy PCG64 seed1708, deterministic source-ID order, linear2.5/97.5 percentiles. Recompute ratios of sums within each draw. Carry all arms, counts and all three repeat times together with each sampled request. Do not treat384 repeat/request entries, blocks, tokens or two GPUs as independent training replicates.
+
+FEASIBILITY_PASS requires all validity gates and ALL of:
+1) E/N time-reduction point estimate >=0.005 (0.5%).
+2) Its paired95% lower bound >0.
+3) Pooled E/N acceptance-improvement paired95% lower bound >0.
+4) E/N aggregate time reduction >0 in EACH of the three complete repeats.
+
+The0.5% is a practical pilot investment threshold, consistent with earlier useful-effect screening, not a theoretical minimum or a claim of statistical power. It is fixed before new outcomes. A subthreshold positive result is reported faithfully but does not earn an expanded continuation under this handoff.
+
+If E passes versus N AND E/S time and pooled-acceptance95% lower bounds are positive, report FEASIBLE_E_WITH_ADDED_VALUE_OVER_FIXED_LR_CONTROL. This supports E against these two tested baselines, not all LR choices or a pure gradient-direction claim.
+If E passes versus N but does not clear both E/S bounds, report FEASIBLE_E_LR_ALTERNATIVE_UNRESOLVED. Use E_INFERIOR_TO_S only if BOTH E/S time-reduction and acceptance-improvement95% upper bounds are below zero; if only one is below zero, report that metric-specific result/tradeoff without a global inferiority claim. This is practical evidence against N, not established prefix-specific benefit or equivalence with S. Do not call two nonsignificant arms equal. Publish S/N with the same practical criteria descriptively.
+If E fails the practical gate with valid complete data, report NO_PRACTICAL_ADVANCEMENT_THIS_PILOT and distinguish subthreshold, unresolved, acceptance-only or negative results. Park this fixed persistent-withholding candidate; no automatic panel expansion, coefficient adjustment, extra event or another local probe follows.
+Protocol/resource failures are INCOMPLETE/INVALID, not algorithm failures. Stop with exact consumed work and missing evidence.
+
+Report every repeat and all four block views without selecting favorable subsets. Report DEVELOPMENT_FEASIBILITY_REUSED_DATA alongside the practical decision. Request-bootstrap intervals are conditional on one training origin/seed, this deliberately reused panel and these timing sessions; they do not correct for the project's prior adaptive use of the dataset or method selection. Neither tier A nor positive bounds establish an independent confirmatory result; common block/session disturbances are not fully captured. The repeat-direction guard helps but does not establish multi-seed or hardware robustness. No conference-ready generalization, training-inclusive speedup or long-horizon claim follows from this pilot.
+
+9. HARD WORK AND TIME CAPS — SHARED ACROSS BOTH CARDS
+
+Default N7-reuse route only:
+Production: five new training events (E7,S7,N8,E8,S8),640 Adam,1280 response forwards/backwards.
+Qualification:8 Adam,16 response forwards/backwards.
+Discarded training startup:<=14 response forwards/backwards,zero Adam.
+TOTAL:<=648 attempted Adam applications and<=1310 attempted response forwards and1310 backwards, including failures/unknown work.
+Six logical event transitions are reported; the historical N7 transition is not newly incurred work.
+
+Complete-generation caps:
+- Event8 own-feedback:384 (128 per arm).
+- Newly generated reference outputs:<=128, using only a provenance-qualified route in section4; reused reference records incur no new generation count.
+- Serving qualification:<=8.
+- Final warmup:72.
+- Final scored:1152.
+- TOTAL<=1744 complete generations, each at the fixed2048-token cap; no extra diagnostic generations.
+Event8 terminal teacher preparations:<=384 native preparation invocations (one per captured response; exact internal chunk/target work instrumented). Reuse event7 features. No extra source-fitting or frozen-checkpoint diagnostic forward passes.
+
+Record all model/weight activations, target calls, draft blocks, graph capture/reconstruction/context work, vocabulary-head operations, I/O and failures. Before launch seal the finite existing runtime initialization/graph-capture routines and their per-initialization work bound from actual source; these calls are not free or unbounded just because they are not complete generations. They remain inside time/storage admission. Keep attempted/completed/failed/unknown counters independently of model checkpoint restoration.
+
+Time: maximum14400 occupied GPU-card seconds (FOUR card-hours SUMMED across both A800s), and FOUR elapsed hours from first GPU model load through completion of scientific GPU work. Count qualification, startup, model loads, resident idle waits, copies/exports while the card remains occupied, failed/unknown attempts and concurrent use of both cards. This is not four hours per GPU. CPU preparation/implementation and post-GPU analysis are separately timed.
+
+Before production, price ALL remaining fixed work using measured qualification pair/serving rates, current data lengths and source/runtime costs; use worst relevant arm/device, include the actual chosen reference route, feature capture/preparation,36 activations/72warmups and publication. Apply1.5 times the remaining estimate plus1800 card-seconds contingency; spent+1.5*remaining+1800 must fit14400 and the actual two-worker schedule must fit the elapsed cap. With zero spent, raw remaining work must fit8400seconds (140card-minutes); qualification reduces that allowance. Price any target-only AR route at conservative AR cost, not speculative-decoding speed. Reused references save only actual avoided work. Use metadata/source-backed estimates without an unbudgeted pilot.
+PR49 corrected the historical cost interpretation: PR48 actual native event training was485.753s, whereas its9.456s qualification pair included5.185s of model-sized gradient observation. The resulting63.34card-minute ordinary-rate and123.72card-minute qualification-rate projections are PARTIAL historical component sums. Both omit reference generation, qualification, startup/graphs, loads,36activations, publication and resident waits/contention. Neither is a launch admission or promised completion time. Record measured compute separately from qualification observation overhead; do not carry obsolete model-sized gradient archives into production.
+Recheck admission at fixed event/task boundaries using cost rates only. If the full fixed comparison cannot fit, stop before starting the next task; no fewer requests/repeats/arms and no automatic cap increase. Publish predicted versus actual occupied-card and elapsed time, including why a card was idle.
+
+10. STORAGE, CLEANUP AND RETENTION
+
+Shared-server rule: one protected input/evidence/paper manifest and one new-run allocation budget across both workers. Keep the110GB decimal hard additional-allocation cap from BEFORE source/preparation staging across all attempts, including atomic-write overlap and caches. Leave at least400GB filesystem free AFTER projected remaining peak, or the stricter administrator reserve. A full110GB allowance requires510GB free. PR49's last post-cleanup measurement was704.843GB free; remeasure before admission. Carry PR49 preparation/staging allocations and all earlier campaign attempts into the same110GB baseline; version2 does not reset it.
+
+PR48 closeout is COMPLETE: at2026-11-16T02:17Z the exact34 authorized temporary files had been retired,75,508,737,531logical bytes /75,508,854,784allocated bytes. Preserve the validation/deletion journal and canonical keeper identities; reconcile those paths as ALREADY_RETIRED. Do not run that deletion list again, count75.5GB of savings again, or expand it to other files. A reappearing path is a new object requiring identity/dependency review, not an automatic deletion target. The original N7 canonical keeper hashes were preserved. The recorded open-use check covered project-container processes, not every host process. No further broad historical cleanup is authorized by this amendment. Never clean up during timed measurements.
+
+Protect original K6/N7, original E8/E128, original P/N boundaries/witnesses, all historical unique feedback/raw evidence, exact active runtimes/source and explicitly identified K/K+/OSD/PR36 paper keepers. The14 absent E models and28 absent P/N exports are already absent, not deletion targets. Public reports/hashes alone are not substitutes for unique raw inputs.
+
+New checkpoint lifecycle:
+- Reuse N7 in place; keep six logical event7/event8 serving endpoints but normally create only five new exports (~10.5GB).
+- New E7/S7 complete recovery states remain until their own event8 recovery/export and state/provenance checks pass; then these NEW superseded event7 recoveries may retire. Never apply that release rule to original N7.
+- Retain N8/E8/S8 complete recoveries (~18.9GB total) and the five new weight exports through final audit and next-step decision. Mark these as review-dependent retention, not automatic permanent paper assets.
+- Budget overlapping old/new recoveries, export atomic copies, both workers' publications, source/cache/log growth and ALL three event8 feedback/feature sets before launch. Model export size previously measured2,097,259,072bytes; derive actual recovery sizes from current schema.
+- Unique event8 responses, verification traces and teacher features are KEEP_INPUT through review; compact raw evaluation, canonical tokens, schedules, source, config, calibration/qualification/failure/work/statistical records are KEEP_EVIDENCE.
+- Do not serialize per-step weights, gradients, KV caches or all hidden states. Qualification snapshots stay in RAM when possible and are released after evidence/parity; bound any necessary file explicitly.
+- Derive a conservative feature byte bound from tensor shapes/dtypes, all prompt/output caps and packet schema; old average packet size is not a worst-case bound. Project writes before each response/publication. Dedup only after actual identity checks, preserving arm bindings.
+- If the complete peak cannot fit110GB, stop before production. Do not delete unique features/KEEP data, truncate generation or silently increase storage.
+
+Aim for<=5GB new compact durable evidence; this is a planning target, not authority to omit raw records. After audit, retire only verified new redundant scratch/validation copies with durable evidence and no live dependency. Final optimizer-state retirement is a later review decision. No recursive deletion of broad runs/research/models roots or other users' files. Moving a file on the same filesystem does not reclaim space.
+
+11. REQUIRED DELIVERABLES AND TERMINAL ACTION
+
+Before launch: clean execution commit and source/runtime manifest; sealed version2 PLAN, ARMS, exact S migration, DATA/EXCLUSIONS/EXPOSURE with A/B selection counts, reference_kind/provenance and generation-route receipt, event schedules, input identities, artifact/paper keeper manifests, two-GPU DAG/device bindings, timing order, finite startup work, work/time/RAM/storage admission and qualification results. Keep PR49's archived version1 report intact and publish the prospective amendment plus eligibility decision. Once all existing gates pass, continue within this handoff without another permission round; a gate failure gets an exact incomplete/invalid report, not a silent protocol change.
+
+After execution:
+- REPORT with DEVELOPMENT_FEASIBILITY_REUSED_DATA, the practical decision, all three contrasts, exposure counts, reference provenance, limitations and exact status.
+- Per-arm/event response/feature/training counters, current-role diagnostics from existing forwards, complete state boundaries and resume/endpoint checks. No new fitted probe.
+- All1152 scored rows plus separate72warmup and<=8serving-qualification records; canonical token/termination/repeat-count audit; per-request averages, repeat totals, block views, pooled counts and bootstrap source/seed.
+- Independent CPU reduction from raw tokens/traces and independent implementation/work review; assertion counts are not additional experiments or replications.
+- Actual per-GPU schedule, sum of occupied-card time versus elapsed time, loading/I/O/teacher/training/serving cost breakdown, peak host/GPU memory and idle causes.
+- Storage baseline/peak or sampled bounds, exact PR48 cleanup status, newly retired files, final retained input/recovery/export/evidence bytes and remaining largest owned consumers with reasons.
+
+Publish compact code/reports/tables in a draft PR following the established project workflow; keep private prompts/tokens/features/model tensors outside public Git. Do not merge. Preserve every failed/negative result. Return the complete report and stop at event8. No additional experiment follows automatically, including after a positive result.
+
+This version2 handoff was prepared without executing GPU work or deleting server data. It authorizes the executor to implement and qualify the fixed campaign, then run only after the stated gates pass; it is not a claim that readiness is already complete.

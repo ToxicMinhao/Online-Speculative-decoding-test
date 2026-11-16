@@ -1,0 +1,176 @@
+{
+  "status": "completed",
+  "scope": "RETROSPECTIVE_CAPTURE_ENABLED_COLLECTION_COUNTS",
+  "collection_execution_commit": "db6e1221d8d1b234d9d07e246025d1afd5dc30d5",
+  "analysis_commit": "97a3f90b1b80f0d8bdcfc1f1910aa7cd4dd378c9",
+  "new_model_work": 0,
+  "latency_excluded": true,
+  "request_count": 128,
+  "contrasts_in_declared_order": [
+    "E_vs_N",
+    "S_vs_N",
+    "E_vs_S"
+  ],
+  "totals": {
+    "N": {
+      "requests": 128,
+      "output_tokens": 30648,
+      "eos": 128,
+      "cap_hits": 0,
+      "zero_calls": 0,
+      "V": 4402,
+      "A": 26118,
+      "P": 30520,
+      "M": 26234,
+      "native_acceptance": 5.933212176283507,
+      "progress_per_call": 6.933212176283507
+    },
+    "E": {
+      "requests": 128,
+      "output_tokens": 30648,
+      "eos": 128,
+      "cap_hits": 0,
+      "zero_calls": 0,
+      "V": 4468,
+      "A": 26052,
+      "P": 30520,
+      "M": 26164,
+      "native_acceptance": 5.830796777081468,
+      "progress_per_call": 6.830796777081468
+    },
+    "S": {
+      "requests": 128,
+      "output_tokens": 30648,
+      "eos": 128,
+      "cap_hits": 0,
+      "zero_calls": 0,
+      "V": 4393,
+      "A": 26127,
+      "P": 30520,
+      "M": 26245,
+      "native_acceptance": 5.947416344183929,
+      "progress_per_call": 6.947416344183929
+    }
+  },
+  "comparisons": {
+    "E_vs_N": {
+      "absolute_acceptance_change": -0.10241539920203913,
+      "relative_acceptance_change_pct": -1.7261374809992236,
+      "call_reduction_pct": -1.4993184915947297,
+      "net_calls_saved": -66,
+      "gross_saved": 73,
+      "gross_added": 139,
+      "fewer_calls": 38,
+      "more_calls": 61,
+      "tied_calls": 29,
+      "intervals": {
+        "absolute_acceptance_change": {
+          "interval": [
+            -0.1815632979943327,
+            -0.028521341789007962
+          ],
+          "undefined_draws": 0
+        },
+        "relative_acceptance_change_pct": {
+          "interval": [
+            -3.0111660820169583,
+            -0.48533788596829014
+          ],
+          "undefined_draws": 0
+        },
+        "call_reduction_pct": {
+          "interval": [
+            -2.6503831191514644,
+            -0.41654859211124823
+          ],
+          "undefined_draws": 0
+        }
+      }
+    },
+    "S_vs_N": {
+      "absolute_acceptance_change": 0.014204167900421893,
+      "relative_acceptance_change_pct": 0.2394009767120675,
+      "call_reduction_pct": 0.2044525215810995,
+      "net_calls_saved": 9,
+      "gross_saved": 61,
+      "gross_added": 52,
+      "fewer_calls": 44,
+      "more_calls": 42,
+      "tied_calls": 42,
+      "intervals": {
+        "absolute_acceptance_change": {
+          "interval": [
+            -0.028481928621744788,
+            0.05824816105885199
+          ],
+          "undefined_draws": 0
+        },
+        "relative_acceptance_change_pct": {
+          "interval": [
+            -0.47334151845039474,
+            0.9767539232092783
+          ],
+          "undefined_draws": 0
+        },
+        "call_reduction_pct": {
+          "interval": [
+            -0.4077721912973864,
+            0.8293040511992453
+          ],
+          "undefined_draws": 0
+        }
+      }
+    },
+    "E_vs_S": {
+      "absolute_acceptance_change": -0.11661956710246102,
+      "relative_acceptance_change_pct": -1.9608441775983088,
+      "call_reduction_pct": -1.7072615524698385,
+      "net_calls_saved": -75,
+      "gross_saved": 67,
+      "gross_added": 142,
+      "fewer_calls": 35,
+      "more_calls": 67,
+      "tied_calls": 26,
+      "intervals": {
+        "absolute_acceptance_change": {
+          "interval": [
+            -0.1922478387138981,
+            -0.04380940032493562
+          ],
+          "undefined_draws": 0
+        },
+        "relative_acceptance_change_pct": {
+          "interval": [
+            -3.1797295387755686,
+            -0.749956205432243
+          ],
+          "undefined_draws": 0
+        },
+        "call_reduction_pct": {
+          "interval": [
+            -2.805323953447976,
+            -0.6447249514595804
+          ],
+          "undefined_draws": 0
+        }
+      }
+    }
+  },
+  "bootstrap": {
+    "seed": 1708,
+    "generator": "NumPy Generator(PCG64)",
+    "draws": 10000,
+    "requests_per_draw": 128,
+    "ordered_source_list_sha256": "61823b98a02047903d3f3decef0afbddc134a1f4270abc04e8f4d3ff7e4d6520",
+    "source_list_encoding": "UTF-8 compact JSON [[source_id,request_id],...] sorted by those strings",
+    "draw_matrix_sha256": "9452d31c101d13134469e707d4a0c4b7a6d015448159c568d4b5cad8c5506834",
+    "draw_matrix_encoding": "row-major little-endian int64",
+    "numpy_version": "2.3.5",
+    "percentile_method": "linear",
+    "percentiles": [
+      2.5,
+      97.5
+    ],
+    "shared_draws": true
+  }
+}

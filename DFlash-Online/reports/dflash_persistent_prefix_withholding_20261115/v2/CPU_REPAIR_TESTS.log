@@ -1,0 +1,50 @@
+CPU restore-repair test evidence
+
+This log is transcribed from the retained exec/write_stdin tool results. It is
+not an original shell redirection, and the tests were not rerun to create it.
+Commands ran locally with CUDA_VISIBLE_DEVICES='' (no visible GPUs).
+Working directory:
+/home/minhao2/EAGLE_SPEC/research/dflash_persistent_prefix_withholding_20261115/implementation_checkout/DFlash-Online
+
+1. Focused qualification + persistent training tests
+Command:
+CUDA_VISIBLE_DEVICES='' PYTHONPATH=.:tests:training:inference /home/minhao2/.venvs/dflash-specforge/bin/python -m unittest test_persistent_prefix_qualification test_persistent_prefix_training
+Tool session: 86407
+Initial output chunk: 1cfbe9
+Final output chunk: 048e4e
+Exit code: 0
+Combined retained terminal output:
+......................
+----------------------------------------------------------------------
+Ran 22 tests in 21.581s
+
+OK
+
+2. Complete persistent-prefix CPU discovery
+Command:
+CUDA_VISIBLE_DEVICES='' PYTHONPATH=.:tests:training:inference /home/minhao2/.venvs/dflash-specforge/bin/python -m unittest discover -s tests -p 'test_persistent_prefix*.py'
+Tool session: 80333
+Initial output chunk: cea3ca
+Final output chunk: ff6c81
+Exit code: 0
+Combined retained terminal output:
+.....................................................................................................................................
+----------------------------------------------------------------------
+Ran 133 tests in 28.872s
+
+OK
+
+3. Whitespace validation
+Command: git diff --check
+Retained tool result: exit 0, no output.
+
+Limitations:
+- These are CPU implementation checks, including tiny BF16 AdamW fixtures;
+  they do not establish GPU requalification or cross-card native parity.
+- The qualification restore repair awaits independent source review and
+  publication by the parent agent. No algorithm or tolerance was changed.
+- Original failed native qualification remains failed and preserved. No GPU
+  retry, complete-response generation, or production training was launched.
+- A preceding invocation used unittest tests/test_persistent_prefix_qualification.py
+  and failed import before tests ran (ModuleNotFoundError for tests package).
+  The corrected module-name commands above produced the reported passing runs.

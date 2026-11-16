@@ -1,0 +1,359 @@
+{
+  "stages": [
+    {
+      "stage": "training_A",
+      "status": "passed",
+      "physical_gpu_uuid": "GPU-9986735a-3e68-d1bd-5998-9634ef24341e",
+      "loading_s": 27.66754355095327,
+      "startup_s": 17.25804820470512,
+      "qualification_s": 89.98428359255195,
+      "worker_wall_s": 137.9873942565173,
+      "worker_occupied_card_s": 137.98739446140826,
+      "peak_gpu_allocated_bytes": 17041992704,
+      "peak_gpu_reserved_bytes": 18580766720,
+      "max_main_process_rss_bytes": 21107855360,
+      "sampled_process_tree_peak_rss_bytes": 34398892032,
+      "physical_work": {
+        "attempted": {
+          "model_load": 1,
+          "response_forward": 12,
+          "response_backward": 12,
+          "optimizer_step": 5
+        },
+        "completed": {
+          "model_load": 1,
+          "response_forward": 12,
+          "response_backward": 12,
+          "optimizer_step": 5
+        },
+        "failed": {},
+        "physical": {
+          "draft_forwards": 12,
+          "layer_forwards": 60,
+          "objective_chunk": 600,
+          "vocabulary_head_calls": 1200
+        },
+        "unknown": {
+          "model_load": 0,
+          "response_forward": 0,
+          "response_backward": 0,
+          "optimizer_step": 0
+        },
+        "by_category": {
+          "qualification": {
+            "draft_forwards": 10,
+            "layer_forwards": 50,
+            "objective_chunk": 480,
+            "vocabulary_head_calls": 960
+          },
+          "startup": {
+            "draft_forwards": 2,
+            "layer_forwards": 10,
+            "objective_chunk": 120,
+            "vocabulary_head_calls": 240
+          }
+        },
+        "wall_s": 137.98730824887753,
+        "nested_clocks_not_additive": true
+      }
+    },
+    {
+      "stage": "training_B",
+      "status": "passed",
+      "physical_gpu_uuid": "GPU-c6943f33-bcd0-a724-0b35-f77af6b0a3f1",
+      "loading_s": 27.488379208371043,
+      "startup_s": 17.96544935554266,
+      "qualification_s": 61.05120668374002,
+      "worker_wall_s": 109.82963980734348,
+      "worker_occupied_card_s": 109.8296400103718,
+      "peak_gpu_allocated_bytes": 17041992704,
+      "peak_gpu_reserved_bytes": 18580766720,
+      "max_main_process_rss_bytes": 21102944256,
+      "sampled_process_tree_peak_rss_bytes": 34392018944,
+      "physical_work": {
+        "attempted": {
+          "model_load": 1,
+          "response_forward": 8,
+          "response_backward": 8,
+          "optimizer_step": 3
+        },
+        "completed": {
+          "model_load": 1,
+          "response_forward": 8,
+          "response_backward": 8,
+          "optimizer_step": 3
+        },
+        "failed": {},
+        "physical": {
+          "draft_forwards": 8,
+          "layer_forwards": 40,
+          "objective_chunk": 408,
+          "vocabulary_head_calls": 816
+        },
+        "unknown": {
+          "model_load": 0,
+          "response_forward": 0,
+          "response_backward": 0,
+          "optimizer_step": 0
+        },
+        "by_category": {
+          "qualification": {
+            "draft_forwards": 6,
+            "layer_forwards": 30,
+            "objective_chunk": 288,
+            "vocabulary_head_calls": 576
+          },
+          "startup": {
+            "draft_forwards": 2,
+            "layer_forwards": 10,
+            "objective_chunk": 120,
+            "vocabulary_head_calls": 240
+          }
+        },
+        "wall_s": 109.82954055443406,
+        "nested_clocks_not_additive": true
+      }
+    },
+    {
+      "stage": "serving_A",
+      "status": "failed",
+      "physical_gpu_uuid": "GPU-9986735a-3e68-d1bd-5998-9634ef24341e",
+      "worker_wall_s": 22.07992574572563,
+      "worker_occupied_card_s": 22.079926539212465,
+      "max_main_process_rss_bytes": 859578368,
+      "sampled_process_tree_peak_rss_bytes": 8757202944,
+      "complete_generation_state": "constructor failed before evaluate was called; zero complete-request calls",
+      "internal_graph_initialization_work": "not fully recorded",
+      "error": "RuntimeError('SGLang startup failed; inspect /data/sources/minhao/runs/dflash_persistent_prefix_withholding_20261115/qualification_retry_002/serving_qualification/A/runtime/worker.log')"
+    }
+  ],
+  "qualification_only": true,
+  "production_launched": false,
+  "counter_value_basis": "Independent retained IEEE-float32 SHA verification in QUALIFICATION_RETRY_PARTIAL_AUDIT.json",
+  "clocks": "Per-worker wall/occupied timers are nested within launcher leases. Do not sum loading/startup/qualification and worker totals.",
+  "native_generation": "No complete-request evaluate call was entered; no serving parity or speed result exists.",
+  "cumulative_raw": {
+    "attempt": {
+      "attempted": {
+        "adam": 8,
+        "response_forward": 20,
+        "response_backward": 20,
+        "feedback_generation": 0,
+        "reference_generation": 0,
+        "qualification_generation": 0,
+        "warmup_generation": 0,
+        "scored_generation": 0,
+        "teacher_preparation": 0,
+        "training_initialization": 2
+      },
+      "completed": {
+        "adam": 8,
+        "response_forward": 20,
+        "response_backward": 20,
+        "feedback_generation": 0,
+        "reference_generation": 0,
+        "qualification_generation": 0,
+        "warmup_generation": 0,
+        "scored_generation": 0,
+        "teacher_preparation": 0,
+        "training_initialization": 2
+      },
+      "failed": {
+        "adam": 0,
+        "response_forward": 0,
+        "response_backward": 0,
+        "feedback_generation": 0,
+        "reference_generation": 0,
+        "qualification_generation": 0,
+        "warmup_generation": 0,
+        "scored_generation": 0,
+        "teacher_preparation": 0,
+        "training_initialization": 0
+      },
+      "unknown": {
+        "adam": 0,
+        "response_forward": 0,
+        "response_backward": 0,
+        "feedback_generation": 0,
+        "reference_generation": 0,
+        "qualification_generation": 0,
+        "warmup_generation": 0,
+        "scored_generation": 0,
+        "teacher_preparation": 0,
+        "training_initialization": 0
+      }
+    },
+    "cumulative": {
+      "attempted": {
+        "adam": 10,
+        "response_forward": 26,
+        "response_backward": 26,
+        "feedback_generation": 0,
+        "reference_generation": 0,
+        "qualification_generation": 0,
+        "warmup_generation": 0,
+        "scored_generation": 0,
+        "teacher_preparation": 0,
+        "training_initialization": 3
+      },
+      "completed": {
+        "adam": 10,
+        "response_forward": 26,
+        "response_backward": 26,
+        "feedback_generation": 0,
+        "reference_generation": 0,
+        "qualification_generation": 0,
+        "warmup_generation": 0,
+        "scored_generation": 0,
+        "teacher_preparation": 0,
+        "training_initialization": 3
+      },
+      "failed": {
+        "adam": 0,
+        "response_forward": 0,
+        "response_backward": 0,
+        "feedback_generation": 0,
+        "reference_generation": 0,
+        "qualification_generation": 0,
+        "warmup_generation": 0,
+        "scored_generation": 0,
+        "teacher_preparation": 0,
+        "training_initialization": 0
+      },
+      "unknown": {
+        "adam": 0,
+        "response_forward": 0,
+        "response_backward": 0,
+        "feedback_generation": 0,
+        "reference_generation": 0,
+        "qualification_generation": 0,
+        "warmup_generation": 0,
+        "scored_generation": 0,
+        "teacher_preparation": 0,
+        "training_initialization": 0
+      }
+    },
+    "unattempted": {
+      "adam": 0,
+      "response_forward": 0,
+      "response_backward": 0,
+      "feedback_generation": 0,
+      "reference_generation": 0,
+      "qualification_generation": null,
+      "warmup_generation": 0,
+      "scored_generation": 0,
+      "teacher_preparation": 0,
+      "training_initialization": 0
+    },
+    "unresolved_sources": [
+      "/data/sources/minhao/runs/dflash_persistent_prefix_withholding_20261115/qualification_retry_002/serving_qualification/A/calls/RESULT.json"
+    ],
+    "counts_are_lower_bounds": true,
+    "planned_retry": {
+      "adam": 8,
+      "response_forward": 20,
+      "response_backward": 20,
+      "training_initialization": 2,
+      "qualification_generation": 8
+    },
+    "original_campaign_limits_unchanged": {
+      "adam": 648,
+      "response_forward": 1310,
+      "response_backward": 1310,
+      "feedback_generation": 384,
+      "reference_generation": 128,
+      "qualification_generation": 8,
+      "warmup_generation": 72,
+      "scored_generation": 1152,
+      "teacher_preparation": 384,
+      "training_initialization": 7
+    }
+  },
+  "launcher": {
+    "status": "stopped",
+    "execution_commit": "eb0aa345671086651254d5f79092809ea9b406b7",
+    "scope": "qualification_only",
+    "began_epoch": 1794804508.0303414,
+    "automatic_retry": false,
+    "production_launched": false,
+    "completed_phases": [
+      "cpu_preflight",
+      "training_A",
+      "training_B"
+    ],
+    "started_phases": [
+      "training_A",
+      "training_B",
+      "serving_A"
+    ],
+    "storage_boundaries": [
+      {
+        "before": "training_A",
+        "status": "passed",
+        "allocated_new_bytes": 5112086528,
+        "free_bytes": 704000417792,
+        "projected_remaining_peak_bytes": 99858157979,
+        "upcoming_bytes": 0,
+        "compiler": {
+          "root": "/data/sources/minhao/.cache",
+          "baseline_allocated_bytes": 5022478336,
+          "allocated_bytes": 5039001600,
+          "growth_bytes": 16523264,
+          "reserved_growth_bytes": 4294967296
+        }
+      },
+      {
+        "before": "training_B",
+        "status": "passed",
+        "allocated_new_bytes": 5115518976,
+        "free_bytes": 703996952576,
+        "projected_remaining_peak_bytes": 99854725531,
+        "upcoming_bytes": 0,
+        "compiler": {
+          "root": "/data/sources/minhao/.cache",
+          "baseline_allocated_bytes": 5022478336,
+          "allocated_bytes": 5039001600,
+          "growth_bytes": 16523264,
+          "reserved_growth_bytes": 4294967296
+        }
+      },
+      {
+        "before": "serving_A",
+        "status": "passed",
+        "allocated_new_bytes": 5116694528,
+        "free_bytes": 703995699200,
+        "projected_remaining_peak_bytes": 99853549979,
+        "upcoming_bytes": 0,
+        "compiler": {
+          "root": "/data/sources/minhao/.cache",
+          "baseline_allocated_bytes": 5022478336,
+          "allocated_bytes": 5039001600,
+          "growth_bytes": 16523264,
+          "reserved_growth_bytes": 4294967296
+        }
+      }
+    ],
+    "error": "RuntimeError('Qualification failed: serving_A')",
+    "traceback": "Traceback (most recent call last):\n  File \"/data/sources/minhao/persistent_prefix_source_20261116_v2_003/DFlash-Online/experiments/persistent_prefix_withholding/requalify.py\", line 160, in run\n    reports[kind][slot] = run_qualification_child(plan_path, plan, kind, slot)\n                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/data/sources/minhao/persistent_prefix_source_20261116_v2_003/DFlash-Online/experiments/persistent_prefix_withholding/launch.py\", line 55, in run_qualification_child\n    raise RuntimeError('Qualification failed: '+name)\nRuntimeError: Qualification failed: serving_A\n",
+    "wall_s": 331.1233193874359,
+    "clock": {
+      "occupied_s": 367.07596135139465,
+      "elapsed_s": 2235.2422502040863,
+      "active": {}
+    },
+    "final_storage": {
+      "status": "passed",
+      "allocated_new_bytes": 5116792832,
+      "free_bytes": 703995584512,
+      "projected_remaining_peak_bytes": 99853451675,
+      "upcoming_bytes": 0,
+      "compiler": {
+        "root": "/data/sources/minhao/.cache",
+        "baseline_allocated_bytes": 5022478336,
+        "allocated_bytes": 5039001600,
+        "growth_bytes": 16523264,
+        "reserved_growth_bytes": 4294967296
+      }
+    }
+  }
+}

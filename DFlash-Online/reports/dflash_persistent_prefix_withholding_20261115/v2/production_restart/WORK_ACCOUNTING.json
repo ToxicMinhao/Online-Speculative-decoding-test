@@ -1,0 +1,131 @@
+{
+  "execution_commit": "af708012e729437068fbef93cb11c9996a9109a9",
+  "source": "WORK.json",
+  "source_records": null,
+  "rows": [
+    {
+      "kind": "adam",
+      "planned": 673,
+      "hard_cap": 673,
+      "attempted": 673,
+      "completed": 673,
+      "failed": 0,
+      "unknown": 0,
+      "unattempted": 0
+    },
+    {
+      "kind": "response_forward",
+      "planned": 1365,
+      "hard_cap": 1365,
+      "attempted": 1365,
+      "completed": 1364,
+      "failed": 0,
+      "unknown": 1,
+      "unattempted": 0
+    },
+    {
+      "kind": "response_backward",
+      "planned": 1364,
+      "hard_cap": 1364,
+      "attempted": 1364,
+      "completed": 1364,
+      "failed": 0,
+      "unknown": 0,
+      "unattempted": 0
+    },
+    {
+      "kind": "feedback_generation",
+      "planned": 384,
+      "hard_cap": 384,
+      "attempted": 384,
+      "completed": 384,
+      "failed": 0,
+      "unknown": 0,
+      "unattempted": 0
+    },
+    {
+      "kind": "reference_generation",
+      "planned": 24,
+      "hard_cap": 128,
+      "attempted": 24,
+      "completed": 24,
+      "failed": 0,
+      "unknown": 0,
+      "unattempted": 0
+    },
+    {
+      "kind": "qualification_generation",
+      "planned": 8,
+      "hard_cap": 8,
+      "attempted": 8,
+      "completed": 8,
+      "failed": 0,
+      "unknown": 0,
+      "unattempted": 0
+    },
+    {
+      "kind": "warmup_generation",
+      "planned": 72,
+      "hard_cap": 72,
+      "attempted": 72,
+      "completed": 72,
+      "failed": 0,
+      "unknown": 0,
+      "unattempted": 0
+    },
+    {
+      "kind": "scored_generation",
+      "planned": 1152,
+      "hard_cap": 1152,
+      "attempted": 1152,
+      "completed": 1152,
+      "failed": 0,
+      "unknown": 0,
+      "unattempted": 0
+    },
+    {
+      "kind": "teacher_preparation",
+      "planned": 384,
+      "hard_cap": 384,
+      "attempted": 384,
+      "completed": 384,
+      "failed": 0,
+      "unknown": 0,
+      "unattempted": 0
+    },
+    {
+      "kind": "training_initialization",
+      "planned": 9,
+      "hard_cap": 9,
+      "attempted": 9,
+      "completed": 9,
+      "failed": 0,
+      "unknown": 0,
+      "unattempted": 0
+    }
+  ],
+  "pending": {},
+  "inherited_pending": {
+    "3453": {
+      "task": "S8",
+      "label": "forward_loss",
+      "counts": {
+        "response_forward": 1
+      }
+    }
+  },
+  "expected_completed": {
+    "adam": 673,
+    "response_forward": 1364,
+    "response_backward": 1364,
+    "feedback_generation": 384,
+    "reference_generation": 24,
+    "qualification_generation": 8,
+    "warmup_generation": 72,
+    "scored_generation": 1152,
+    "teacher_preparation": 384,
+    "training_initialization": 9
+  },
+  "accounting_complete": true,
+  "missing_global_ledger": null
+}

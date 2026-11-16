@@ -1,0 +1,467 @@
+{
+  "training_audit_unchanged": "QUALIFICATION_RETRY_PARTIAL_AUDIT.json",
+  "final_serving_audit": "SERVING_CONTINUATION_AUDIT.json",
+  "serving_workers": [
+    {
+      "slot": "A",
+      "status": "passed",
+      "physical_gpu_uuid": "GPU-9986735a-3e68-d1bd-5998-9634ef24341e",
+      "loading_s": 22.330766217783093,
+      "weight_check_before_s": 2.121623119339347,
+      "weight_check_after_s": 2.1240055933594704,
+      "wall_s": 31.672808181494474,
+      "occupied_card_s": 31.67281047999859,
+      "max_main_process_rss_bytes": 862801920,
+      "sampled_process_tree_peak_rss_bytes": 8398581760,
+      "gpu_memory_after_loading": {
+        "uuid": "GPU-9986735a-3e68-d1bd-5998-9634ef24341e",
+        "used_bytes": 58630078464,
+        "free_bytes": 26466058240,
+        "scope": "device-wide nvidia-smi sample, not an isolated allocation peak"
+      },
+      "gpu_memory_after_generations": {
+        "uuid": "GPU-9986735a-3e68-d1bd-5998-9634ef24341e",
+        "used_bytes": 58823016448,
+        "free_bytes": 26273120256,
+        "scope": "device-wide nvidia-smi sample, not an isolated allocation peak"
+      }
+    },
+    {
+      "slot": "B",
+      "status": "passed",
+      "physical_gpu_uuid": "GPU-c6943f33-bcd0-a724-0b35-f77af6b0a3f1",
+      "loading_s": 22.574560409411788,
+      "weight_check_before_s": 2.1265421602874994,
+      "weight_check_after_s": 2.4822791665792465,
+      "wall_s": 32.01501454040408,
+      "occupied_card_s": 32.01501511968672,
+      "max_main_process_rss_bytes": 859934720,
+      "sampled_process_tree_peak_rss_bytes": 8880443392,
+      "gpu_memory_after_loading": {
+        "uuid": "GPU-c6943f33-bcd0-a724-0b35-f77af6b0a3f1",
+        "used_bytes": 58630078464,
+        "free_bytes": 26466058240,
+        "scope": "device-wide nvidia-smi sample, not an isolated allocation peak"
+      },
+      "gpu_memory_after_generations": {
+        "uuid": "GPU-c6943f33-bcd0-a724-0b35-f77af6b0a3f1",
+        "used_bytes": 58823016448,
+        "free_bytes": 26273120256,
+        "scope": "device-wide nvidia-smi sample, not an isolated allocation peak"
+      }
+    }
+  ],
+  "serving_initialization_graph_work": [
+    {
+      "slot": "A",
+      "records": 17,
+      "attempted": 51,
+      "completed": 51,
+      "failed": 0,
+      "extra_model_calls": 0
+    },
+    {
+      "slot": "B",
+      "records": 17,
+      "attempted": 51,
+      "completed": 51,
+      "failed": 0,
+      "extra_model_calls": 0
+    }
+  ],
+  "prior_failed_graph_work": {
+    "attempted": 1,
+    "completed": 0,
+    "failed": 1,
+    "complete_request_generations": 0,
+    "source": "delivery/qualification_retry_002/serving_qualification/A/runtime/PHYSICAL_WORK.json",
+    "note": "This later-authenticated receipt resolves the earlier partial review wording that internal graph work was not fully recorded. Original failed/partial records remain unchanged."
+  },
+  "cumulative_work": {
+    "attempt": {
+      "attempted": {
+        "adam": 0,
+        "response_forward": 0,
+        "response_backward": 0,
+        "feedback_generation": 0,
+        "reference_generation": 0,
+        "qualification_generation": 8,
+        "warmup_generation": 0,
+        "scored_generation": 0,
+        "teacher_preparation": 0,
+        "training_initialization": 0
+      },
+      "completed": {
+        "adam": 0,
+        "response_forward": 0,
+        "response_backward": 0,
+        "feedback_generation": 0,
+        "reference_generation": 0,
+        "qualification_generation": 8,
+        "warmup_generation": 0,
+        "scored_generation": 0,
+        "teacher_preparation": 0,
+        "training_initialization": 0
+      },
+      "failed": {
+        "adam": 0,
+        "response_forward": 0,
+        "response_backward": 0,
+        "feedback_generation": 0,
+        "reference_generation": 0,
+        "qualification_generation": 0,
+        "warmup_generation": 0,
+        "scored_generation": 0,
+        "teacher_preparation": 0,
+        "training_initialization": 0
+      },
+      "unknown": {
+        "adam": 0,
+        "response_forward": 0,
+        "response_backward": 0,
+        "feedback_generation": 0,
+        "reference_generation": 0,
+        "qualification_generation": 0,
+        "warmup_generation": 0,
+        "scored_generation": 0,
+        "teacher_preparation": 0,
+        "training_initialization": 0
+      }
+    },
+    "cumulative": {
+      "attempted": {
+        "adam": 10,
+        "response_forward": 26,
+        "response_backward": 26,
+        "feedback_generation": 0,
+        "reference_generation": 0,
+        "qualification_generation": 8,
+        "warmup_generation": 0,
+        "scored_generation": 0,
+        "teacher_preparation": 0,
+        "training_initialization": 3
+      },
+      "completed": {
+        "adam": 10,
+        "response_forward": 26,
+        "response_backward": 26,
+        "feedback_generation": 0,
+        "reference_generation": 0,
+        "qualification_generation": 8,
+        "warmup_generation": 0,
+        "scored_generation": 0,
+        "teacher_preparation": 0,
+        "training_initialization": 3
+      },
+      "failed": {
+        "adam": 0,
+        "response_forward": 0,
+        "response_backward": 0,
+        "feedback_generation": 0,
+        "reference_generation": 0,
+        "qualification_generation": 0,
+        "warmup_generation": 0,
+        "scored_generation": 0,
+        "teacher_preparation": 0,
+        "training_initialization": 0
+      },
+      "unknown": {
+        "adam": 0,
+        "response_forward": 0,
+        "response_backward": 0,
+        "feedback_generation": 0,
+        "reference_generation": 0,
+        "qualification_generation": 0,
+        "warmup_generation": 0,
+        "scored_generation": 0,
+        "teacher_preparation": 0,
+        "training_initialization": 0
+      }
+    },
+    "unattempted": {
+      "adam": 0,
+      "response_forward": 0,
+      "response_backward": 0,
+      "feedback_generation": 0,
+      "reference_generation": 0,
+      "qualification_generation": 0,
+      "warmup_generation": 0,
+      "scored_generation": 0,
+      "teacher_preparation": 0,
+      "training_initialization": 0
+    },
+    "unresolved_sources": [],
+    "counts_are_lower_bounds": false,
+    "planned_retry": {
+      "adam": 0,
+      "response_forward": 0,
+      "response_backward": 0,
+      "feedback_generation": 0,
+      "reference_generation": 0,
+      "qualification_generation": 8,
+      "warmup_generation": 0,
+      "scored_generation": 0,
+      "teacher_preparation": 0,
+      "training_initialization": 0
+    },
+    "original_campaign_limits_unchanged": {
+      "adam": 648,
+      "response_forward": 1310,
+      "response_backward": 1310,
+      "feedback_generation": 384,
+      "reference_generation": 128,
+      "qualification_generation": 8,
+      "warmup_generation": 72,
+      "scored_generation": 1152,
+      "teacher_preparation": 384,
+      "training_initialization": 7
+    }
+  },
+  "clock": {
+    "inherited_occupied_card_s": 367.07596135139465,
+    "cumulative_occupied_card_s": 435.09486651420593,
+    "new_serving_lease_s": 68.01890516281128,
+    "first_model_load_epoch": 1794802603.911516,
+    "finished": [
+      {
+        "task": "training_A",
+        "occupied_card_s": 89.01599144935608,
+        "physical_gpu_uuid": "GPU-9986735a-3e68-d1bd-5998-9634ef24341e",
+        "started_epoch": 1794802603.9123712,
+        "pid": 2000432
+      },
+      {
+        "task": "training_A",
+        "occupied_card_s": 141.02997088432312,
+        "physical_gpu_uuid": "GPU-9986735a-3e68-d1bd-5998-9634ef24341e",
+        "started_epoch": 1794804560.4606643,
+        "pid": 2004796
+      },
+      {
+        "task": "training_B",
+        "occupied_card_s": 113.02461981773376,
+        "physical_gpu_uuid": "GPU-c6943f33-bcd0-a724-0b35-f77af6b0a3f1",
+        "started_epoch": 1794804701.8014379,
+        "pid": 2004796
+      },
+      {
+        "task": "serving_A",
+        "occupied_card_s": 24.00537919998169,
+        "physical_gpu_uuid": "GPU-9986735a-3e68-d1bd-5998-9634ef24341e",
+        "started_epoch": 1794804815.1471858,
+        "pid": 2004796
+      },
+      {
+        "task": "serving_A",
+        "occupied_card_s": 34.01185846328735,
+        "physical_gpu_uuid": "GPU-9986735a-3e68-d1bd-5998-9634ef24341e",
+        "started_epoch": 1794805666.1253526,
+        "pid": 2008152
+      },
+      {
+        "task": "serving_B",
+        "occupied_card_s": 34.007046699523926,
+        "physical_gpu_uuid": "GPU-c6943f33-bcd0-a724-0b35-f77af6b0a3f1",
+        "started_epoch": 1794805700.4713678,
+        "pid": 2008152
+      }
+    ]
+  },
+  "resource_admission": {
+    "status": "passed",
+    "execution_commit": "c471708969cf8c131c0c965b9fc7a801b63cc55a",
+    "costs": {
+      "training_event": 485.75329149514437,
+      "training_startup": 26.134447399526834,
+      "training_load": 39.99290696904063,
+      "publication": 82.68484097532928,
+      "feedback_response": 0.8511824223868278,
+      "teacher_response": 0.08530465669935326,
+      "reference_response": 1.4310595157510904,
+      "serving_load": 25.008314836770296,
+      "scored_request": 1.0682955685314393,
+      "warmup_request": 1.2313333414494991,
+      "activation": 1.899422163143754,
+      "resident_wait": 82.68484097532928
+    },
+    "time": {
+      "status": "passed",
+      "occupied_spent_s": 435.09486651420593,
+      "raw_remaining_card_s": 5906.385578285227,
+      "conservative_total_card_s": 11094.673233942047,
+      "conservative_total_elapsed_s": 10743.791756620558,
+      "remaining_components": {
+        "E7": 717.2503278143704,
+        "S7": 717.2503278143704,
+        "N_collect": 227.56350193513074,
+        "N8": 717.2503278143704,
+        "E_collect": 227.56350193513074,
+        "E8": 717.2503278143704,
+        "S_collect": 227.56350193513074,
+        "S8": 717.2503278143704,
+        "references": 142.03858419012573,
+        "final": 1495.4048492178567
+      },
+      "card_cap_s": 14400,
+      "elapsed_cap_s": 14400
+    },
+    "task_memory_bytes": {
+      "training": 47283793920,
+      "collection": 13175410688,
+      "reference": 13175410688,
+      "final": 13175410688
+    },
+    "task_vram_bytes": {
+      "training": 20728250368,
+      "collection": 63117983744,
+      "reference": 63117983744,
+      "final": 63117983744
+    },
+    "available_host_bytes": 147304714240,
+    "two_trainers_admitted": true,
+    "mixed_training_serving_admitted": true,
+    "two_serving_workers_admitted": true,
+    "host_bound_policy": "Measured qualification process-tree peak plus12GiB trainer/publication or4GiB native capture/preparation; global32GiB reserve",
+    "historical_cost_basis": "/data/sources/minhao/runs/dflash_persistent_prefix_withholding_20261115/serving_continuation_001/sealed/HISTORICAL_COST_BASIS.json",
+    "storage_gate": "/data/sources/minhao/runs/dflash_persistent_prefix_withholding_20261115/serving_continuation_001/CPU_PREFLIGHT.json",
+    "storage_checked_again_by_production_supervisor": true,
+    "measured_worst_pair_compute_s": 2.049481377005577,
+    "measured_native_s_per_output_token": 0.0030971962249780123,
+    "projected_panel_output_mean": 344.9234375,
+    "unknown_output_length_policy": "Historical selected-reference p95 for24 missing panel answers; previous128-response event mean for prospective feedback. Estimates, not guaranteed lengths.",
+    "candidate_outcomes_used_for_pricing": false,
+    "safety_multiplier": 1.5,
+    "additional_card_seconds_contingency": 1800,
+    "scientific_settings_changed": false
+  },
+  "scope": "Qualification only; no efficacy or deployment speed claim, no production training started.",
+  "timing_note": "Per-worker loading/weight-check/request timers are nested within worker and launcher leases; do not add nested clocks.",
+  "retained_training_workers": [
+    {
+      "stage": "training_A",
+      "status": "passed",
+      "physical_gpu_uuid": "GPU-9986735a-3e68-d1bd-5998-9634ef24341e",
+      "loading_s": 27.66754355095327,
+      "startup_s": 17.25804820470512,
+      "qualification_s": 89.98428359255195,
+      "worker_wall_s": 137.9873942565173,
+      "worker_occupied_card_s": 137.98739446140826,
+      "peak_gpu_allocated_bytes": 17041992704,
+      "peak_gpu_reserved_bytes": 18580766720,
+      "max_main_process_rss_bytes": 21107855360,
+      "sampled_process_tree_peak_rss_bytes": 34398892032,
+      "physical_work": {
+        "attempted": {
+          "model_load": 1,
+          "response_forward": 12,
+          "response_backward": 12,
+          "optimizer_step": 5
+        },
+        "completed": {
+          "model_load": 1,
+          "response_forward": 12,
+          "response_backward": 12,
+          "optimizer_step": 5
+        },
+        "failed": {},
+        "physical": {
+          "draft_forwards": 12,
+          "layer_forwards": 60,
+          "objective_chunk": 600,
+          "vocabulary_head_calls": 1200
+        },
+        "unknown": {
+          "model_load": 0,
+          "response_forward": 0,
+          "response_backward": 0,
+          "optimizer_step": 0
+        },
+        "by_category": {
+          "qualification": {
+            "draft_forwards": 10,
+            "layer_forwards": 50,
+            "objective_chunk": 480,
+            "vocabulary_head_calls": 960
+          },
+          "startup": {
+            "draft_forwards": 2,
+            "layer_forwards": 10,
+            "objective_chunk": 120,
+            "vocabulary_head_calls": 240
+          }
+        },
+        "wall_s": 137.98730824887753,
+        "nested_clocks_not_additive": true
+      }
+    },
+    {
+      "stage": "training_B",
+      "status": "passed",
+      "physical_gpu_uuid": "GPU-c6943f33-bcd0-a724-0b35-f77af6b0a3f1",
+      "loading_s": 27.488379208371043,
+      "startup_s": 17.96544935554266,
+      "qualification_s": 61.05120668374002,
+      "worker_wall_s": 109.82963980734348,
+      "worker_occupied_card_s": 109.8296400103718,
+      "peak_gpu_allocated_bytes": 17041992704,
+      "peak_gpu_reserved_bytes": 18580766720,
+      "max_main_process_rss_bytes": 21102944256,
+      "sampled_process_tree_peak_rss_bytes": 34392018944,
+      "physical_work": {
+        "attempted": {
+          "model_load": 1,
+          "response_forward": 8,
+          "response_backward": 8,
+          "optimizer_step": 3
+        },
+        "completed": {
+          "model_load": 1,
+          "response_forward": 8,
+          "response_backward": 8,
+          "optimizer_step": 3
+        },
+        "failed": {},
+        "physical": {
+          "draft_forwards": 8,
+          "layer_forwards": 40,
+          "objective_chunk": 408,
+          "vocabulary_head_calls": 816
+        },
+        "unknown": {
+          "model_load": 0,
+          "response_forward": 0,
+          "response_backward": 0,
+          "optimizer_step": 0
+        },
+        "by_category": {
+          "qualification": {
+            "draft_forwards": 6,
+            "layer_forwards": 30,
+            "objective_chunk": 288,
+            "vocabulary_head_calls": 576
+          },
+          "startup": {
+            "draft_forwards": 2,
+            "layer_forwards": 10,
+            "objective_chunk": 120,
+            "vocabulary_head_calls": 240
+          }
+        },
+        "wall_s": 109.82954055443406,
+        "nested_clocks_not_additive": true
+      }
+    }
+  ],
+  "retained_failed_serving_initialization": {
+    "stage": "serving_A",
+    "status": "failed",
+    "physical_gpu_uuid": "GPU-9986735a-3e68-d1bd-5998-9634ef24341e",
+    "worker_wall_s": 22.07992574572563,
+    "worker_occupied_card_s": 22.079926539212465,
+    "max_main_process_rss_bytes": 859578368,
+    "sampled_process_tree_peak_rss_bytes": 8757202944,
+    "complete_generation_state": "constructor failed before evaluate was called; zero complete-request calls",
+    "error": "RuntimeError('SGLang startup failed; inspect /data/sources/minhao/runs/dflash_persistent_prefix_withholding_20261115/qualification_retry_002/serving_qualification/A/runtime/worker.log')"
+  },
+  "qualification_counts_note": "Cumulative10Adam26responseF/B3training initializations includes the original failed2Adam6F/B1initialization; successful retry8Adam20F/B2initializations is not repeated. New serving-only phase adds8complete generations and102successful internal graph initialization forwards; the prior failed initialization adds1attempt0completion. Graph calls are separate from training response-forward counts."
+}

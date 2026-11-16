@@ -1,0 +1,80 @@
+{
+  "status": "QUALIFICATION_PASSED_NO_PRODUCTION",
+  "training_execution_commit": "eb0aa345671086651254d5f79092809ea9b406b7",
+  "serving_execution_commit": "c471708969cf8c131c0c965b9fc7a801b63cc55a",
+  "restoration_fix_commit": "e50d185dc36efb6fa390026251046e30bef1033d",
+  "compiler_fix_commit": "1d16ab1",
+  "training_checks_passed": 8,
+  "serving_generations_valid": 8,
+  "invalid_generations": 0,
+  "new_production_training": 0,
+  "new_exports": 0,
+  "cumulative_work": {
+    "attempted": {
+      "adam": 10,
+      "response_forward": 26,
+      "response_backward": 26,
+      "feedback_generation": 0,
+      "reference_generation": 0,
+      "qualification_generation": 8,
+      "warmup_generation": 0,
+      "scored_generation": 0,
+      "teacher_preparation": 0,
+      "training_initialization": 3
+    },
+    "completed": {
+      "adam": 10,
+      "response_forward": 26,
+      "response_backward": 26,
+      "feedback_generation": 0,
+      "reference_generation": 0,
+      "qualification_generation": 8,
+      "warmup_generation": 0,
+      "scored_generation": 0,
+      "teacher_preparation": 0,
+      "training_initialization": 3
+    },
+    "failed": {
+      "adam": 0,
+      "response_forward": 0,
+      "response_backward": 0,
+      "feedback_generation": 0,
+      "reference_generation": 0,
+      "qualification_generation": 0,
+      "warmup_generation": 0,
+      "scored_generation": 0,
+      "teacher_preparation": 0,
+      "training_initialization": 0
+    },
+    "unknown": {
+      "adam": 0,
+      "response_forward": 0,
+      "response_backward": 0,
+      "feedback_generation": 0,
+      "reference_generation": 0,
+      "qualification_generation": 0,
+      "warmup_generation": 0,
+      "scored_generation": 0,
+      "teacher_preparation": 0,
+      "training_initialization": 0
+    }
+  },
+  "occupied_card_s": 435.09486651420593,
+  "elapsed_original_clock_s": 3131.7135906219482,
+  "serving_continuation_wall_s": 120.95818138122559,
+  "free_bytes": 703724396544,
+  "failed_graph_initialization": {
+    "attempted": 1,
+    "completed": 0,
+    "failed": 1
+  },
+  "completed_graph_initialization_forwards": 102,
+  "original_failure_records_preserved": true,
+  "raw_artifact_root": "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_persistent_prefix_withholding_20261115/delivery",
+  "method_result": "No efficacy claim; bounded implementation/runtime qualification only",
+  "training_audit_assertions": 81258,
+  "serving_audit_assertions": 93040,
+  "audit_errors": 0,
+  "verified_compact_delivery_files": 186,
+  "later_cpu_only_campaign_launcher_commit": "8558c7a174a4d6b44f357ace3ee0e668119d255b"
+}

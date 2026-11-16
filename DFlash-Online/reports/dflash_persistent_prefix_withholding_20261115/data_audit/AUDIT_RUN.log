@@ -1,0 +1,30 @@
+{
+  "status": "FAIL_FRESH_PANEL_INSUFFICIENT",
+  "requested": 128,
+  "pinned_test_rows": 1319,
+  "proven_completed_unique_test_requests": 1311,
+  "maximum_possible_fresh_requests": 8,
+  "minimum_shortfall": 120,
+  "remaining_rows_not_certified_fresh": [
+    270,
+    418,
+    438,
+    725,
+    799,
+    833,
+    1113,
+    1302
+  ],
+  "event8": {
+    "input_range": [
+      896,
+      1023
+    ],
+    "count": 128,
+    "ids_text_tokens_disjoint_from_first896": true,
+    "event7_feature_and_schedule_identity_passed": true,
+    "event7_current_input_request_ids_match_native_stream": true,
+    "scope": "Input-only retained-manifest validation; live recovery ancestry and remote hashes remain separate gates.",
+    "older_project_exposure": "These requests exist in the original full58-event stream; no globally-new training claim."
+  }
+}

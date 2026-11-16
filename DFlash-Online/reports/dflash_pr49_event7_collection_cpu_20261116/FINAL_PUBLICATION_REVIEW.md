@@ -1,0 +1,15 @@
+# Final publication review
+
+**No blocking scientific, numerical, provenance, privacy or reporting discrepancy found.** Review used only local retained evidence and the proposed public package; no remote operation or model work was performed. The public fixture import now names the tracked independent-reader module; all five publication fixtures pass.
+
+The public count tables and `SUMMARY.json` pass another **7,523 exact/count or declared floating-point comparison checks** against the independent raw-reader result saved before primary implementation review. All 384 request rows, 128 paired identities/differences, aggregate counts, three contrasts, nine intervals and bootstrap identity hashes agree. The public report's rounding matches those results: E/N acceptance −1.726%, call reduction −1.499%, 66 net extra calls; S/N +0.239%, +0.204%, nine net saved; E/S −1.961%, −1.707%, 75 net extra. Gross gains/losses and request signs are correct.
+
+The narrative distinguishes event-seven collection from final event-eight evaluation, and each arm's own chronology from global overlap. It properly limits the conclusion: E's deficit already existed before its own event-eight learning; S's positive point remains unresolved on this population. It neither subtracts panel effects as a learning curve nor equates interval overlap with equivalence. Native acceptance and verification calls are correctly identified as algebraically linked. No collection latency, causal loss-row explanation, independent confirmation or new mechanism claim is made.
+
+Required deliverables are present: report; collection/analysis/source identities and authenticated checkpoint/provenance receipts; 384-row and 128-pair tables; complete validation; common-bootstrap summary; independent reduction receipt; source and fixture references; process/resource accounting; and the explicit stop statement. Analysis commit `97a3f90b1b80f0d8bdcfc1f1910aa7cd4dd378c9`, collection commit `db6e1221d8d1b234d9d07e246025d1afd5dc30d5` and unchanged restart import commit are distinguished correctly.
+
+The structure/privacy/resource scan passes **3,610 checks**: all local Markdown links resolve, public JSON exposes no private prompt/response/proposal token-array fields, process time totals and maximum RSS reconcile, recorded artifact allocation stays below one GB, and forbidden new work counters remain zero. Public request/source IDs and provenance path identities are retained deliberately; private text, model tensors, feature tensors and raw token arrays are excluded. Toy token arrays in fixture source are not private data.
+
+The report accurately discloses twelve primary and five independent fixtures, the pre-reduction test/checker repairs, one-origin/reused-data scope, unadjusted descriptive intervals, same-team audit limitations, and 11/11 ARS interpretation coverage. The preserved raw scientific outcomes were not replaced. No additional analysis or experiment is required to publish this bounded result.
+
+Machine-readable receipts: `PUBLICATION_COUNTS_CHECK.json` and `PUBLICATION_STRUCTURE_CHECK.json` in this audit directory.

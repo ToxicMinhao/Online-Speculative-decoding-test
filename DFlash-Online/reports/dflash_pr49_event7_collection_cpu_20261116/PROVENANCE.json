@@ -1,0 +1,222 @@
+{
+  "status": "passed",
+  "source_commit": "db6e1221d8d1b234d9d07e246025d1afd5dc30d5",
+  "restart_commit": "af708012e729437068fbef93cb11c9996a9109a9",
+  "report_commit": "27e307cbd29efb08106cacb16e7cfe2bbdd54738",
+  "checkpoints": {
+    "N": {
+      "export": "/data/sources/minhao/runs/dflash_recent_repair_retention_event7_20261112/execution_001/training/NATIVE/trainer/events/event_007/export",
+      "state": "/data/sources/minhao/runs/dflash_recent_repair_retention_event7_20261112/execution_001/training/NATIVE/trainer/training_state.pt",
+      "weights_identity": {
+        "bytes": 2097259104,
+        "sha256": "30123d8de0bab8462a7afb77669079a65f62e771437232dcb0cba21413bed2cb"
+      },
+      "state_identity": {
+        "bytes": 6299188123,
+        "sha256": "be5cccf3a7d4cee1ca65d0df390d5f4de3d198643a97fc5125afc68442e1fa45"
+      },
+      "global_step": 896,
+      "parity_receipt": "/data/sources/minhao/runs/dflash_persistent_prefix_withholding_20261115/qualification_retry_002/sealed/N7_PARITY.json"
+    },
+    "E": {
+      "state": "/data/sources/minhao/runs/dflash_persistent_prefix_withholding_20261115/production_continuation_001/tasks/E7/trainer/training_state.pt",
+      "export": "/data/sources/minhao/runs/dflash_persistent_prefix_withholding_20261115/production_continuation_001/tasks/E7/trainer/events/event_007/export",
+      "state_identity": {
+        "bytes": 6300253595,
+        "sha256": "9e91f780d88c3af9ecfa63edb260a4b12b82f8b8a6b1732923445ee4d355d6ef"
+      },
+      "weights_identity": {
+        "bytes": 2097259104,
+        "sha256": "a9e81654a5815225956764ecdef958278d5c6afc28298c5b7de3e7a8780e8dc6"
+      },
+      "global_step": 896,
+      "presentations": 1792
+    },
+    "S": {
+      "state": "/data/sources/minhao/runs/dflash_persistent_prefix_withholding_20261115/production_continuation_001/tasks/S7/trainer/training_state.pt",
+      "export": "/data/sources/minhao/runs/dflash_persistent_prefix_withholding_20261115/production_continuation_001/tasks/S7/trainer/events/event_007/export",
+      "state_identity": {
+        "bytes": 6299191195,
+        "sha256": "430f0472e9332264e937a986676af6e1d8639369895a672918683e42eabeec87"
+      },
+      "weights_identity": {
+        "bytes": 2097259104,
+        "sha256": "18cfc549d3b17b818e680f0a7a898d8df3ed4d23d3edde4976dbaec8ce10ea44"
+      },
+      "global_step": 896,
+      "presentations": 1792
+    }
+  },
+  "chronology": {
+    "N": {
+      "collection_start": 1794808886.7995152,
+      "collection_finish": 1794809065.18322,
+      "own_event8_training_start": 1794809239.678517,
+      "own_collection_precedes_training": true
+    },
+    "E": {
+      "collection_start": 1794808932.691955,
+      "collection_finish": 1794809107.199576,
+      "own_event8_training_start": 1794809107.7213507,
+      "own_collection_precedes_training": true
+    },
+    "S": {
+      "collection_start": 1794809065.6558914,
+      "collection_finish": 1794809239.146387,
+      "own_event8_training_start": 1794809548.2248266,
+      "own_collection_precedes_training": true
+    }
+  },
+  "cross_arm_overlap": {
+    "E8_training_overlapped_S_collection": true,
+    "interpretation": "Own-arm chronological validity passes; no global collection-before-all-training claim and no collection latency comparison."
+  },
+  "runtime": {
+    "target": "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/target",
+    "engine": {
+      "model_path": "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/target",
+      "speculative_algorithm": "DFLASH",
+      "speculative_num_draft_tokens": 16,
+      "dtype": "bfloat16",
+      "attention_backend": "fa3",
+      "tp_size": 1,
+      "max_running_requests": 1,
+      "context_length": 4112,
+      "random_seed": 17,
+      "skip_server_warmup": true
+    },
+    "stop_token_ids": [
+      151645,
+      151643
+    ],
+    "max_new_tokens": 2048,
+    "application_context_limit": 4096,
+    "sampler": {
+      "temperature": 0,
+      "top_p": 1,
+      "top_k": 1,
+      "ignore_eos": false
+    },
+    "inherited_tokenizer_identities": {
+      "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/target/config.json": {
+        "bytes": 728,
+        "sha256": "f7c4eadfbbf522470667b797a3c89be2524832d2d599797248dc304fff447c30"
+      },
+      "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/target/generation_config.json": {
+        "bytes": 239,
+        "sha256": "2325da0f15bb848e018c5ae071b7943332e9f871d6b60e2ed22ca97d4cb993d2"
+      },
+      "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/target/tokenizer.json": {
+        "bytes": 11422654,
+        "sha256": "aeb13307a71acd8fe81861d94ad54ab689df773318809eed3cbe794b4492dae4"
+      },
+      "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/target/tokenizer_config.json": {
+        "bytes": 9732,
+        "sha256": "d5d09f07b48c3086c508b30d1c9114bd1189145b74e982a265350c923acd8101"
+      }
+    },
+    "runtime_contract": {
+      "native_runtime_sha256": {
+        "entrypoints/engine.py": "2bcd4b04c325d4ed65f867490c5bac9e915e02f05471c83dacb5a4a097cf1f2a",
+        "layers/logits_processor.py": "5c6c54bec37b941652e29908c773a756fe6c86f99932ab80043672a1eaa0f086",
+        "models/dflash.py": "d4fcfe005a1acc51a4938d038e1dbc1a2c8ff245842f4253338527335b2327b2",
+        "models/qwen3.py": "e23ee8af21eac46685852854a5fe585cf58477d4a1f8047887d6afeefaf8e32d",
+        "server_args.py": "bd60199803698e4ffe6dc44499a8d42be73f42db28056cb6750411523cf56c04",
+        "speculative/dflash_info.py": "9c7ac23a1bf0840eec8218f02f2adbfc3e419099cd19822137ce5c6e0e902218",
+        "speculative/dflash_worker.py": "9397402f5cfbf60b00b7d27d551e5e9e1b605be9b084d028d4ddda76c475dc8c"
+      },
+      "serving": {
+        "cuda": "13.0",
+        "python_version": "3.12.14",
+        "torch": "2.9.1+cu130",
+        "transformers": "4.57.1"
+      },
+      "training": {
+        "python": "3.12.15",
+        "torch": "2.13.0+cu130",
+        "transformers": "5.12.1"
+      }
+    },
+    "model_files_reread": false
+  },
+  "expected_records": 384,
+  "authenticated_records": 384,
+  "checks": 5177,
+  "errors": [],
+  "model_work": 0,
+  "remote_operations": 0,
+  "tensors_read": 0,
+  "source_anchors": [
+    {
+      "source_name": "experiments/persistent_prefix_withholding/task_runner.py",
+      "execution_commit": "db6e1221d8d1b234d9d07e246025d1afd5dc30d5",
+      "git_object": "db6e1221d8d1b234d9d07e246025d1afd5dc30d5:DFlash-Online/experiments/persistent_prefix_withholding/task_runner.py",
+      "remote_path": "/data/sources/minhao/persistent_prefix_source_20261116_v2_005/DFlash-Online/experiments/persistent_prefix_withholding/task_runner.py",
+      "identity": {
+        "bytes": 24737,
+        "sha256": "f0f6a1556fa0b8904eb0cb302c262b9f34c50a7025b8c45a3e867a7cedda5500"
+      }
+    },
+    {
+      "source_name": "experiments/persistent_prefix_withholding/worker.py",
+      "execution_commit": "db6e1221d8d1b234d9d07e246025d1afd5dc30d5",
+      "git_object": "db6e1221d8d1b234d9d07e246025d1afd5dc30d5:DFlash-Online/experiments/persistent_prefix_withholding/worker.py",
+      "remote_path": "/data/sources/minhao/persistent_prefix_source_20261116_v2_005/DFlash-Online/experiments/persistent_prefix_withholding/worker.py",
+      "identity": {
+        "bytes": 6965,
+        "sha256": "004fe8cba5723437585f9c5af0e6f54b2ce234f9083c198d52ae7215d52cc3cc"
+      }
+    },
+    {
+      "source_name": "online_feedback/sglang_backend.py",
+      "execution_commit": "db6e1221d8d1b234d9d07e246025d1afd5dc30d5",
+      "git_object": "db6e1221d8d1b234d9d07e246025d1afd5dc30d5:DFlash-Online/online_feedback/sglang_backend.py",
+      "remote_path": "/data/sources/minhao/persistent_prefix_source_20261116_v2_005/DFlash-Online/online_feedback/sglang_backend.py",
+      "identity": {
+        "bytes": 14478,
+        "sha256": "a2869e4004dbf1347c7f885331fd8857d77482721d9e97610379b6faa7be82f3"
+      }
+    },
+    {
+      "source_name": "online_feedback/sglang_worker.py",
+      "execution_commit": "db6e1221d8d1b234d9d07e246025d1afd5dc30d5",
+      "git_object": "db6e1221d8d1b234d9d07e246025d1afd5dc30d5:DFlash-Online/online_feedback/sglang_worker.py",
+      "remote_path": "/data/sources/minhao/persistent_prefix_source_20261116_v2_005/DFlash-Online/online_feedback/sglang_worker.py",
+      "identity": {
+        "bytes": 7642,
+        "sha256": "9c3bfd15cdb23f0e82a3137977f72ba9e9fdb580a0d607d786c987d1b9c28d5b"
+      }
+    },
+    {
+      "source_name": "online_feedback/sglang_hooks.py",
+      "execution_commit": "db6e1221d8d1b234d9d07e246025d1afd5dc30d5",
+      "git_object": "db6e1221d8d1b234d9d07e246025d1afd5dc30d5:DFlash-Online/online_feedback/sglang_hooks.py",
+      "remote_path": "/data/sources/minhao/persistent_prefix_source_20261116_v2_005/DFlash-Online/online_feedback/sglang_hooks.py",
+      "identity": {
+        "bytes": 27584,
+        "sha256": "9ceee7d580c1f08cdfe2ba867bb9a6388e1ff25365611a8fce83a5e422d9dd1a"
+      }
+    },
+    {
+      "source_name": "online_feedback/native.py",
+      "execution_commit": "db6e1221d8d1b234d9d07e246025d1afd5dc30d5",
+      "git_object": "db6e1221d8d1b234d9d07e246025d1afd5dc30d5:DFlash-Online/online_feedback/native.py",
+      "remote_path": "/data/sources/minhao/persistent_prefix_source_20261116_v2_005/DFlash-Online/online_feedback/native.py",
+      "identity": {
+        "bytes": 13390,
+        "sha256": "94772df576947ee5e5589033c4c461a7528e374a42808e7c2bea37cc3501f6a2"
+      }
+    },
+    {
+      "source_name": "experiments/o_half_matched_lr/archive.py",
+      "execution_commit": "db6e1221d8d1b234d9d07e246025d1afd5dc30d5",
+      "git_object": "db6e1221d8d1b234d9d07e246025d1afd5dc30d5:DFlash-Online/experiments/o_half_matched_lr/archive.py",
+      "remote_path": "/data/sources/minhao/persistent_prefix_source_20261116_v2_005/DFlash-Online/experiments/o_half_matched_lr/archive.py",
+      "identity": {
+        "bytes": 13651,
+        "sha256": "ce5ce084950eb02711daac09ac060910a894e2db3a58589cfd8241065511234d"
+      }
+    }
+  ],
+  "schema_note": "EXPECTED_ANCESTRY is prospective through event8 (1024 responses); authenticated learned prefixes are first768 for K6 and first896 for N7. The collection128 is the final128 prospective entries, not prior learned feedback."
+}

@@ -1,0 +1,145 @@
+{
+  "schema": "persistent_prefix_freshness_independent_crosscheck_v1",
+  "created_utc": "2026-11-16T02:13:36.894803+00:00",
+  "material_passport": {
+    "origin_skill": "ARS-Codex 3.24.2",
+    "origin_mode": "experiment-agent validate",
+    "verification_status": "ANALYZED",
+    "version_label": "data_crosscheck_v1"
+  },
+  "status": "CPU_DATA_GATE_FAIL_INSUFFICIENT_UNUSED_SAME_SPLIT_REQUESTS",
+  "readiness": "STOP_BEFORE_MODEL_WORK",
+  "required_requests": 128,
+  "dataset": {
+    "dataset": "openai/gsm8k",
+    "revision": "740312add88f781978c0658806c59bc2815b9866",
+    "config": "main",
+    "split": "test",
+    "rows": 1319,
+    "sha256": "ee7b8da9e381df27b9e3f7758a159ab2bdaa4dbaa910546cbbc47e0cb44e4f59"
+  },
+  "actual_execution_counts": {
+    "adaflash_ar_timed_rows": 1024,
+    "adaflash_ar_warmup_rows": 1,
+    "adaflash_ar_unique_questions": 1024,
+    "objective_check_rows": 276,
+    "objective_check_unique_questions": 276,
+    "intersection": 0,
+    "used_union_lower_bound": 1300,
+    "eligible_upper_bound": 19,
+    "panel_shortfall_lower_bound": 109
+  },
+  "scope": "Only two executed histories are needed for this upper bound; no exhaustive project exclusion union claimed.",
+  "uncovered_status": "Not certified eligible; other earlier evaluation/probe/development use, adaptation and admissibility exclusions can only reduce this set.",
+  "matching": {
+    "exact_source_question_bijection": 1319,
+    "normalized_distinct_questions": 1319,
+    "native_eval_token_arrays_exact_matches": 1024,
+    "objective_check_exact_content_hash_matches": 276,
+    "objective_check_exact_rendered_hash_matches": 276
+  },
+  "uncovered_source_indices": [
+    39,
+    119,
+    229,
+    270,
+    411,
+    418,
+    435,
+    438,
+    469,
+    543,
+    676,
+    725,
+    799,
+    833,
+    1010,
+    1113,
+    1286,
+    1287,
+    1302
+  ],
+  "assertions_passed": 6354,
+  "new_work": {
+    "gpu_model_work": 0,
+    "model_forward": 0,
+    "adam": 0,
+    "complete_generations": 0,
+    "ssh_calls": 0,
+    "network_calls": 0,
+    "experiment_code_changes": 0
+  },
+  "environment": {
+    "python": "3.12.15",
+    "executable": "/home/minhao2/.venvs/dflash-specforge/bin/python",
+    "pyarrow": "26.0.0"
+  },
+  "script": {
+    "path": "/home/minhao2/EAGLE_SPEC/research/dflash_persistent_prefix_withholding_20261115/data_crosscheck/crosscheck_freshness.py",
+    "bytes": 11625,
+    "sha256": "b1d51df4bcc067caec4af5d066e9fe0c280139858aecd8f680d8839b400540e0"
+  },
+  "sources": [
+    {
+      "path": "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_persistent_prefix_withholding_20261115/HANDOFF.txt",
+      "bytes": 34593,
+      "sha256": "e6e676044508226b8f00bd53dfbadc14580aaa91c371abdc58f608b21cc90f6c"
+    },
+    {
+      "path": "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_full_k_gsm8k_20261031/production_002/sealed/ORIGINAL_MANIFEST.json",
+      "bytes": 10868762,
+      "sha256": "764fa339938a240259949040134581a2231de542b7c799af5a7eb85c5ea1dbd4"
+    },
+    {
+      "path": "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/projected_target_feasibility_20261022/data/approved/manifest.json",
+      "bytes": 377080,
+      "sha256": "16873890b95ce1676695c4d0263e255d6beaccd16fd4284684ae570c53a0d9ce"
+    },
+    {
+      "path": "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/target_variant_specialization_001/data/source_cache/openai--gsm8k/740312add88f781978c0658806c59bc2815b9866/main/test-00000-of-00001.parquet",
+      "bytes": 419088,
+      "sha256": "ee7b8da9e381df27b9e3f7758a159ab2bdaa4dbaa910546cbbc47e0cb44e4f59"
+    },
+    {
+      "path": "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_paid_learning_20261004/data_audit_sources/gsm8k_test.jsonl",
+      "bytes": 883471,
+      "sha256": "cb43c23920f1be552cc83406d4c0c760bf3a7c183dced158f88a7ad005104f97"
+    },
+    {
+      "path": "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/adaflash_reproduction_20260930/runs/serving_c1_reference_001/gpu0_ar/REQUEST_MANIFEST.json",
+      "bytes": 2096643,
+      "sha256": "448be13dab1909441a8697380656b8c5878af544ac55fc630aead91b6ffc20f1"
+    },
+    {
+      "path": "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/adaflash_reproduction_20260930/runs/serving_c1_reference_001/gpu0_ar/REQUESTS.jsonl",
+      "bytes": 5302463,
+      "sha256": "7de526cc699eebc20b0a5d419030179e13a99ef3fcd1ae1059d9e366c2f3514c"
+    },
+    {
+      "path": "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/adaflash_reproduction_20260930/runs/serving_c1_reference_001/gpu0_ar/RESULT.json",
+      "bytes": 4040,
+      "sha256": "d8cc84953fc4c823344d01cc1eb093ef485cb1df48837165f43cfb0edfb76567"
+    },
+    {
+      "path": "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_objective_check_20261005/retrieved_001/run_001/evaluation/code_s0_buffered_gsm8k/REQUEST_MANIFEST.json",
+      "bytes": 118844,
+      "sha256": "ba19f7f6fa7d1dc98b812a09b85dedb7464965e34898a990d9d4f384173d68a9"
+    },
+    {
+      "path": "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_objective_check_20261005/retrieved_001/run_001/evaluation/code_s0_buffered_gsm8k/EVALUATION.jsonl",
+      "bytes": 1577175,
+      "sha256": "4cd764af85b6b23f7cea7b5a26911d4a2c1d1638e38b857e3d81edd2054cd824"
+    },
+    {
+      "path": "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_objective_check_20261005/retrieved_001/run_001/evaluation/code_s0_buffered_gsm8k/RESULT.json",
+      "bytes": 12217,
+      "sha256": "76ed574fbd90bc9e4321bdcea54eb4d80c6b301941ab4d05d44e1dd906f4ff63"
+    }
+  ],
+  "independence": "Recomputed directly from pinned source and raw history; no other agent's audit/report/results read.",
+  "limitations": [
+    "This is a local historical evidence audit, not a GPU reproducibility rerun.",
+    "No current tokenizer/model environment qualification is needed to prove the upper bound.",
+    "No efficacy or method-failure conclusion follows from a data-readiness stop."
+  ]
+}

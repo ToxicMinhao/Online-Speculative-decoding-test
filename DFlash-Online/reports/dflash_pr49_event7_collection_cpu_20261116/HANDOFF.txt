@@ -1,0 +1,247 @@
+K+ RESEARCH HANDOFF — PR49 EVENT-7 COLLECTION, CPU-ONLY REDUCTION
+Date: 2026-11-16
+Status: Authorized analysis of existing evidence; no new model experiment.
+Suggested report directory:
+DFlash-Online/reports/dflash_pr49_event7_collection_cpu_20261116/
+
+Purpose
+-------
+Determine how N7, E7 and S7 performed on the same 128 next-event requests, using the 384 generation records already saved in PR49. Each collector held a fixed event-seven checkpoint. Its parameters had not learned from that arm's event-eight feedback.
+
+This addresses an unresolved question: was E already worse on these requests before its event-eight update, and does S's favorable final-panel result also appear on this other request population? It does not identify a new algorithm or promise an upgrade. Its value is narrowing the explanation before spending more GPU time.
+
+Why this task now; duplication check
+-----------------------------------
+PR47/48 investigated disposable update interventions and update-size controls. PR49 subsequently tested persistent E against native N and fixed lower-LR S with own-feedback continuation. The published PR49 serving table evaluates final event-eight checkpoints on a separate 128-request development panel. Its collection cost table counts the 384 feedback generations but does not publish this paired event-seven acceptance comparison.
+
+Those collection records now provide an intermediate measurement without another training run. Check the retained prior analysis inventories before implementation: if an equivalent complete, authenticated collection reduction already exists, reuse and verify it, then report the result; do not manufacture a duplicate probe. Clearly distinguish final-panel reduction from collection-record reduction.
+
+The completed PR49 decision stays unchanged: keep native K+; park persistent E. Final-panel E/N native acceptance was -1.370%, while S/N was +1.382%. These are motivation, not the results of this analysis.
+
+Fixed arms
+----------
+N7: native K+, original LR 3e-4, authenticated native event-seven endpoint.
+E7: persistent correct-prefix direct-loss-gradient withholding at the qualified hook; other K+ objective/normalization/context logic retained; LR 3e-4.
+S7: ordinary full-objective K+, constant LR 0.96 times original LR (approximately 2.88e-4), with its own continuing optimizer state.
+Use the existing endpoints only. S is an update-strength control, not a newly validated mechanism. Do not infer trajectory-wise norm matching.
+
+Source passport
+---------------
+Repository: ToxicMinhao/Online-Speculative-decoding-test
+Completed report:
+https://github.com/ToxicMinhao/Online-Speculative-decoding-test/blob/27e307cbd29efb08106cacb16e7cfe2bbdd54738/DFlash-Online/reports/dflash_persistent_prefix_withholding_20261115/v2/production_restart/REPORT.md
+
+The collection tasks executed at:
+db6e1221d8d1b234d9d07e246025d1afd5dc30d5
+They were reused unchanged by restart execution:
+af708012e729437068fbef93cb11c9996a9109a9
+Report commit:
+27e307cbd29efb08106cacb16e7cfe2bbdd54738
+
+Original source root, subject to authenticated relocation:
+ /data/sources/minhao/runs/dflash_persistent_prefix_withholding_20261115/production_continuation_001
+Records:
+ tasks/N_collect/records/<request_id>.json
+ tasks/E_collect/records/<request_id>.json
+ tasks/S_collect/records/<request_id>.json
+
+Resolve actual paths from sealed plans, restart imports and delivery manifests. A newer directory name is not provenance. Preserve original source identity when using a verified mirror. Do not mistakenly analyze final N8/E8/S8 records or the abandoned partial S8 attempt.
+
+Implementation anchors to inspect in the pinned source:
+- task_runner.py::endpoint and collect_task, in the PR49 experiment package;
+- online_feedback/sglang_backend.py::generate;
+- online_feedback/sglang_hooks.py::RequestCapture.verification and finish;
+- online_feedback/native.py::validate_generation;
+- experiments/o_half_matched_lr/archive.py::full_trace_errors;
+- PR49's independent_audit.py::native_counts.
+The final evaluation reducer expects capture-disabled final-panel references/repeats; do not run it unchanged on collection records.
+
+Authorization and resource envelope
+-----------------------------------
+Perform local/remote CPU reads, implement a small standalone reducer, validate it, reduce the retained evidence, and deliver code plus a compact report. No torch/backend/trainer imports or model/tensor deserialization are needed.
+
+New GPU work: ZERO on both A800s. No generation, teacher preparation, model load, optimizer step, AR reference creation, checkpoint export, or reconstruction.
+Use at most four CPU threads and stream records; do not reserve GPUs. Set CUDA_VISIBLE_DEVICES empty for this analysis process. Reuse the qualified Python/NumPy environment; no environment duplication.
+Keep new analysis artifacts under 1 GB. This is ample for compact tables, manifests, tests and report; do not copy the raw run tree. If missing inputs or unexpected resource needs prevent completion, report the specific blocker and stop the dependent analysis. No automatic GPU fallback or new algorithm trial.
+
+1. Establish the fixed paired population
+---------------------------------------
+Read the original sealed plan and its event8_inputs request list, N7 parity/ancestry receipt, E7/S7 endpoint and boundary receipts, collection status/result/features manifests, engine settings and import/source manifests.
+
+Require:
+- Exactly 128 distinct sealed requests per arm, one generation per request: 384 records total.
+- Pair by sealed source/request identity and exact prompt token equality. A hash accelerates binding but does not replace array equality where arrays are available.
+- Resolve any different source-ID and request-ID fields explicitly; retain both.
+- Match request index, session persistent_<arm>_event8, checkpoint_id, purpose serving, and sealed input order.
+- All records in an arm bind to the same authenticated event-seven export.
+- Each arm's collection completed before THAT ARM's event-eight training. The collector contains no update/publication operation.
+
+Chronology qualification: E8 training overlapped S_collect in the actual schedule. Do NOT require all 384 generations to predate every arm's event-eight training. The valid statement concerns each worker's immutable own event-seven model, not global wall-clock ordering. This overlap reinforces the exclusion of collection latency.
+
+Check the common qualified target/tokenizer, stop-token list, greedy runtime, max_new_tokens=2048, block_size=16 and context_limit=4096 against source receipts and records. Do not invent fresh target-only AR references.
+
+2. Authenticate raw generation evidence
+---------------------------------------
+For every record, read metadata.trace, metadata.capture and the independently persisted JSON identified by metadata.native_trace_path. Authenticate relocation with the existing manifest and hash mapping. Hash the small JSON inputs actually consumed; inherit the established checkpoint identity receipts without rereading huge model files.
+
+Require capture mode and native validity:
+- metadata.feedback_capture_in_timed_request is true;
+- capture.collect_features is true and native_capture_validated is true;
+- the expected passed validation status and label binding scope native_prefill_and_committed_verification;
+- capture prompt_ids/response_ids equal the outer record;
+- capture.target_argmax_ids equal response_ids;
+- capture.covered_token_ids equal (prompt_ids + response_ids)[:-1], with consistent row count;
+- capture.blocks equal metadata.trace;
+- independently persisted native JSON equals the embedded capture.
+
+Validate full output/termination:
+- Nonempty valid integer token arrays; sealed context and generation limits respected.
+- No stop token before the final output token.
+- EOS finish has a final stop token.
+- Length finish has 2048 output tokens and a non-stop final token, following the pinned producer convention.
+- After authenticating each arm's native verifier evidence, require exact all-arm response token arrays, finish reason and cap status for every paired request.
+
+Do not assume the collection is all-EOS merely because the final evaluation panel was. Retain legitimate cap-hit and one-token/zero-call outputs. Do not discard them to improve agreement or ratios.
+
+Missing deliberately retired native .pt tensors are not missing count evidence. Prepared feedback features, teacher hidden states, logits and optimizer tensors are unnecessary. If core JSON evidence is missing or authentication/token equality fails, retain the complete discrepancy inventory and all identifiable rows; mark the primary comparison incomplete. Do not substitute scalar metadata, generate replacements, or publish a favorable matched subset.
+
+3. Reconstruct native counts, including terminal clipping
+--------------------------------------------------------
+Use the native convention already qualified in PR49, not a newly chosen metric.
+
+For each verification block:
+  draft = draft_tokens
+  target = target_argmax
+  w = verify_size
+  c = committed_progress
+  a = first mismatch index between draft and target, or len(draft) if all match
+
+Check integer types for widths, progress and count fields, then:
+  w == len(draft) + 1 == len(target), 1 <= w <= 16
+  1 <= c <= w, c <= a + 1
+  committed_tokens == (draft[:a] + [target[a]])[:c] == target[:c]
+  output_start == cumulative prior committed_progress
+  anchor_token == response_ids[output_start]
+  committed_tokens == response_ids[output_start+1 : output_start+c+1]
+  positions == range(prompt_length+output_start, prompt_length+output_start+w)
+  raw_accepted_draft_tokens_before_stop == a
+  accepted_draft_tokens == min(a, c)
+  native_accepted_draft_tokens == c - 1
+  stop_clipped == (c < a + 1)
+
+Reconcile any retained finished flags with the pinned hook's termination convention.
+
+For request i and arm X:
+  V_Xi = number of verification blocks
+  P_Xi = sum of committed_progress
+  A_Xi = sum of native_accepted_draft_tokens
+  M_Xi = sum of accepted_draft_tokens
+
+Require:
+  P_Xi = len(response_ids) - 1
+  A_Xi = P_Xi - V_Xi
+  metadata totals actually stored agree with the reconstructed totals
+
+Native A is reconstructed from trace[*].native_accepted_draft_tokens; it need not exist as a top-level metadata field.
+
+A is the PRIMARY native accepted-proposal count. M is a separate matching-count audit column. Never substitute M for A: stopping can make them differ. The initial prefill token is not a verified draft proposal.
+
+With identical output arrays, P_Xi is common across arms. Thus acceptance and call savings are algebraically linked; they are not two independent proofs of a mechanism. A legitimate V=0 request stays in all 128 rows, contributes zero A and zero V to pooled totals, and has an undefined per-request acceptance ratio; do not impute a ratio or drop the request.
+
+Do not align verification blocks, rejection slots or walks across arms. Different drafts change block boundaries. These records alone do not identify repair retention, gradient conflicts or the causal role of individual loss rows.
+
+4. Fixed quantitative reduction
+-------------------------------
+Report ALL three contrasts in a declared order:
+  E versus N; S versus N; E versus S.
+Positive values below favor the first named arm X over reference Y.
+
+Per arm:
+  request count, output tokens, EOS/cap/zero-call counts;
+  total V, A, P and audit-only M;
+  pooled native acceptance L_X = sum_i A_Xi / sum_i V_Xi;
+  committed progress per call = sum_i P_Xi / sum_i V_Xi.
+
+Per contrast:
+  absolute acceptance change = L_X - L_Y [tokens per verification];
+  relative acceptance change = 100 * (L_X / L_Y - 1) [%];
+  call reduction = 100 * (sum V_Y - sum V_X) / sum V_Y [%];
+  net calls saved = sum_i (V_Yi - V_Xi) [calls];
+  gross saved = sum_i max(V_Yi - V_Xi, 0) [calls];
+  gross added = sum_i max(V_Xi - V_Yi, 0) [calls];
+  number of requests with fewer/more/tied calls for X;
+  audit identity: net saved = gross saved - gross added.
+
+Include a 128-row paired table with every request's counts and all three call differences, so concentration in a few requests is visible without a favorable subgroup analysis. Do not substitute the mean of per-request ratios for pooled acceptance.
+
+Uncertainty:
+- Sort by the authenticated sealed source ID, with request ID as a declared tie-breaker.
+- NumPy Generator(PCG64(1708)); 10,000 draws of 128 request indices with replacement.
+- Use the SAME draws across all arms and contrasts; a request's entire three-arm record travels together.
+- Recompute pooled quantities from sampled total counts for each draw.
+- Report linear 2.5th/97.5th percentile intervals for absolute/relative acceptance change and call reduction. Store the ordered source-list hash, draw-matrix hash, NumPy version and percentile method.
+- Handle any undefined denominator explicitly, including undefined draws; do not silently drop/redraw them or turn them into zero. Explain which interval cannot be defined if this occurs.
+
+These are descriptive paired-request intervals conditional on one origin/seed and the reused collection population. They are not training-seed replication, multiplicity-adjusted confirmation or a correction for the project's prior method selection. Publish the three point estimates and intervals together. Do not invent an efficacy threshold, tune a method, or declare an algorithm selected from their signs.
+
+EXCLUDE all collection elapsed-time, generation-time and request-latency rankings. Features were captured and other GPU tasks overlapped. Call reduction is a decoding-work proxy, not a measured speedup percentage. No block-level bootstrap, independent-arm bootstrap or 384-independent-sample claim.
+
+5. Validate the reducer without model execution
+----------------------------------------------
+Use small CPU fixtures for:
+- an ordinary first rejection / full-match bonus block;
+- terminal clipping where native and matching counters differ;
+- a valid one-token zero-call output;
+- duplicate/missing identity and cross-arm output mismatch rejection.
+These checks protect the actual risk in the reducer; do not build a new training test suite.
+
+Have a separate direct reader independently recompute V, P, A and all 128 paired call differences from raw traces. It must not simply read the reducer's CSV or call its counting helper. Counts and source identities must agree exactly. Independently verify pooled summaries and bootstrap indexing/percentiles, allowing only documented floating-point rounding. A second implementation is audit evidence, not scientific replication.
+
+6. Interpretation required in the report
+----------------------------------------
+State what the completed result supports, what it rules out, and what remains unresolved:
+
+Observed collection result | Permitted inference / subsequent decision
+E below N | This collection-panel deficit exists before E's own event-eight learning; that later training is not necessary for this deficit. This does not identify the cause of the final-panel deficit or isolate a harmful gradient component.
+E neutral/above N despite negative final E | There is no demonstrated E7-to-E8 reversal: collection and final evaluation use different request populations. Neither population differences nor later training effects have been isolated. Keep E parked.
+S above N | A second request population supports the fixed control at this origin/checkpoint, with stated uncertainty. This strengthens the case for separately designing independent-origin validation; it does not establish a substantive K+ extension.
+S neutral/below N | The final S advantage does not establish a uniform benefit across these conditions. Do not infer an optimal learning rate, early/late crossover or an adaptive schedule.
+Wide intervals / little separation | Report the available resolution. Do not search for a favorable slice or automatically enlarge the run.
+Evidence incomplete | Report exactly what is missing and the effect on interpretation. No efficacy conclusion from an outcome-selected subset.
+
+Interpret sign, magnitude, spread and gross gains/losses together; the table is not a significance-based branching algorithm. Multiple rows may apply. No result automatically authorizes a new GPU experiment.
+
+Explicitly state:
+- This is retrospective analysis of already generated data, not fresh confirmation.
+- Own event-eight updates occur later than the corresponding fixed checkpoint's collection; those updates did not produce these predictions.
+- Subject to the existing ancestry receipts, the arms derive from the same authenticated K6 recovery, retained event-seven prepared feedback packets and fixed schedule. N7 is the parity-qualified reused native endpoint. The updates differ; this comparison does not uniquely diagnose optimizer moments, repair history or gradient direction.
+- The final PR49 panel and this collection panel differ. Do not subtract their effects as a temporal degradation estimate.
+- Native K+ stays the primary method; E remains closed, and S remains a control.
+- Record the resulting lesson in the research ledger before proposing another intervention. If a next mechanism is suggested, name the remaining observed limitation and the additional causal link needed; do not turn this report into a parameter sweep.
+
+7. Deliverables and storage retention
+------------------------------------
+Deliver a compact report and reproducible CPU command, with:
+- source commit, analysis commit, manifest/path mappings and authenticated checkpoint receipts;
+- validation summary with expected/observed counts and any discrepancies;
+- 384 per-arm request rows and 128 complete paired rows;
+- per-arm totals and all three contrasts with the specified intervals;
+- independent reduction receipt and meaningful fixture results;
+- actual CPU wall time, peak RAM, new bytes written, and ZERO new GPU work;
+- interpretation under section 6 and a clear stop statement.
+
+Suggested files:
+  REPORT.md, SOURCE_MANIFEST.json, VALIDATION.json,
+  PER_REQUEST.csv, PAIRED_REQUESTS.csv, SUMMARY.json,
+  INDEPENDENT_REDUCTION.json, RESOURCE_USAGE.json,
+  reducer/auditor source and minimal fixtures.
+An equivalent compact existing layout is fine. Keep source prompts, token arrays, user text, feature tensors and model tensors out of public Git. Public tables may use existing approved source IDs or a stable pseudonymous request key. Preserve the private mapping for audit.
+
+Retain the existing original collection records, native JSON traces, sealed input list, endpoint/ancestry receipts and authenticated relocation manifests. Do not duplicate them just to create an analysis bundle. Preserve the compact new reducer/report/count tables and input identities.
+
+This handoff authorizes NO deletion. In particular, do not retire checkpoints, optimizer states, own-feedback packets, failure records or prior raw evidence based on this analysis. Existing broader retention decisions are separate. Do not clean unrelated users' files. Local disposable analysis scratch may be removed only after its needed outputs are retained, without touching source evidence.
+
+Final stop
+----------
+Finish this CPU analysis and return the report. Do not start fixed-S replication, another E variant, replay, a controller, an LR sweep, new checkpoint reconstruction, or new dataset generation. A subsequent algorithm handoff requires a new evidence-based decision.
+

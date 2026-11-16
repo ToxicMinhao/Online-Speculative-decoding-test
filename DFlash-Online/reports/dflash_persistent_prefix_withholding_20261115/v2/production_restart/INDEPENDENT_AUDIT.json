@@ -1,0 +1,821 @@
+{
+  "status": "passed",
+  "extra_model_forwards": 0,
+  "extra_optimizer_steps": 0,
+  "extra_generations": 0,
+  "production_analysis_helpers_used": false,
+  "efficacy_computed": true,
+  "scope": "DEVELOPMENT_FEASIBILITY_REUSED_DATA",
+  "independent_recomputation_scope": "Fresh native raw tokens/traces and paired whole-request statistics; no new model execution",
+  "work": {
+    "attempted": {
+      "adam": 673,
+      "response_forward": 1365,
+      "response_backward": 1364,
+      "feedback_generation": 384,
+      "reference_generation": 24,
+      "qualification_generation": 8,
+      "warmup_generation": 72,
+      "scored_generation": 1152,
+      "teacher_preparation": 384,
+      "training_initialization": 9
+    },
+    "completed": {
+      "adam": 673,
+      "response_forward": 1364,
+      "response_backward": 1364,
+      "feedback_generation": 384,
+      "reference_generation": 24,
+      "qualification_generation": 8,
+      "warmup_generation": 72,
+      "scored_generation": 1152,
+      "teacher_preparation": 384,
+      "training_initialization": 9
+    },
+    "unknown_response_forward": 1,
+    "inherited_pending": {
+      "3453": {
+        "task": "S8",
+        "label": "forward_loss",
+        "counts": {
+          "response_forward": 1
+        }
+      }
+    },
+    "new_work": {
+      "adam": 128,
+      "response_forward": 258,
+      "response_backward": 258,
+      "feedback_generation": 0,
+      "reference_generation": 24,
+      "qualification_generation": 0,
+      "warmup_generation": 72,
+      "scored_generation": 1152,
+      "teacher_preparation": 0,
+      "training_initialization": 1
+    },
+    "clock": {
+      "first_model_load_epoch": 1794802603.911516,
+      "completed_card_s": 4400.162635803223,
+      "active": {},
+      "finished": [
+        {
+          "task": "training_A",
+          "occupied_card_s": 89.01599144935608,
+          "physical_gpu_uuid": "GPU-9986735a-3e68-d1bd-5998-9634ef24341e",
+          "started_epoch": 1794802603.9123712,
+          "pid": 2000432
+        },
+        {
+          "task": "training_A",
+          "occupied_card_s": 141.02997088432312,
+          "physical_gpu_uuid": "GPU-9986735a-3e68-d1bd-5998-9634ef24341e",
+          "started_epoch": 1794804560.4606643,
+          "pid": 2004796
+        },
+        {
+          "task": "training_B",
+          "occupied_card_s": 113.02461981773376,
+          "physical_gpu_uuid": "GPU-c6943f33-bcd0-a724-0b35-f77af6b0a3f1",
+          "started_epoch": 1794804701.8014379,
+          "pid": 2004796
+        },
+        {
+          "task": "serving_A",
+          "occupied_card_s": 24.00537919998169,
+          "physical_gpu_uuid": "GPU-9986735a-3e68-d1bd-5998-9634ef24341e",
+          "started_epoch": 1794804815.1471858,
+          "pid": 2004796
+        },
+        {
+          "task": "serving_A",
+          "occupied_card_s": 34.01185846328735,
+          "physical_gpu_uuid": "GPU-9986735a-3e68-d1bd-5998-9634ef24341e",
+          "started_epoch": 1794805666.1253526,
+          "pid": 2008152
+        },
+        {
+          "task": "serving_B",
+          "occupied_card_s": 34.007046699523926,
+          "physical_gpu_uuid": "GPU-c6943f33-bcd0-a724-0b35-f77af6b0a3f1",
+          "started_epoch": 1794805700.4713678,
+          "pid": 2008152
+        },
+        {
+          "task": "S7",
+          "occupied_card_s": 437.33598494529724,
+          "physical_gpu_uuid": "GPU-c6943f33-bcd0-a724-0b35-f77af6b0a3f1",
+          "started_epoch": 1794808446.9666722,
+          "pid": 2013639
+        },
+        {
+          "task": "E7",
+          "occupied_card_s": 483.0792212486267,
+          "physical_gpu_uuid": "GPU-9986735a-3e68-d1bd-5998-9634ef24341e",
+          "started_epoch": 1794808446.5397143,
+          "pid": 2013630
+        },
+        {
+          "task": "N_collect",
+          "occupied_card_s": 176.6259422302246,
+          "physical_gpu_uuid": "GPU-c6943f33-bcd0-a724-0b35-f77af6b0a3f1",
+          "started_epoch": 1794808887.2278893,
+          "pid": 2015922
+        },
+        {
+          "task": "E_collect",
+          "occupied_card_s": 173.01102495193481,
+          "physical_gpu_uuid": "GPU-9986735a-3e68-d1bd-5998-9634ef24341e",
+          "started_epoch": 1794808933.1210663,
+          "pid": 2016692
+        },
+        {
+          "task": "S_collect",
+          "occupied_card_s": 172.08474016189575,
+          "physical_gpu_uuid": "GPU-c6943f33-bcd0-a724-0b35-f77af6b0a3f1",
+          "started_epoch": 1794809066.0889935,
+          "pid": 2017725
+        },
+        {
+          "task": "E8",
+          "occupied_card_s": 437.4804377555847,
+          "physical_gpu_uuid": "GPU-9986735a-3e68-d1bd-5998-9634ef24341e",
+          "started_epoch": 1794809108.1289816,
+          "pid": 2018439
+        },
+        {
+          "task": "N8",
+          "occupied_card_s": 419.7793776988983,
+          "physical_gpu_uuid": "GPU-c6943f33-bcd0-a724-0b35-f77af6b0a3f1",
+          "started_epoch": 1794809240.088286,
+          "pid": 2019343
+        },
+        {
+          "task": "references",
+          "occupied_card_s": 0.09930920600891113,
+          "physical_gpu_uuid": "GPU-c6943f33-bcd0-a724-0b35-f77af6b0a3f1",
+          "started_epoch": 1794809662.525826,
+          "pid": 2021518
+        },
+        {
+          "task": "S8",
+          "occupied_card_s": 114.6136224269867,
+          "physical_gpu_uuid": "GPU-9986735a-3e68-d1bd-5998-9634ef24341e",
+          "started_epoch": 1794809549.5719671,
+          "pid": 2020737
+        },
+        {
+          "task": "references",
+          "occupied_card_s": 56.61125183105469,
+          "physical_gpu_uuid": "GPU-c6943f33-bcd0-a724-0b35-f77af6b0a3f1",
+          "started_epoch": 1794815160.3818035,
+          "pid": 2029639
+        },
+        {
+          "task": "S8",
+          "occupied_card_s": 416.72732305526733,
+          "physical_gpu_uuid": "GPU-9986735a-3e68-d1bd-5998-9634ef24341e",
+          "started_epoch": 1794815159.800143,
+          "pid": 2029590
+        },
+        {
+          "task": "final",
+          "occupied_card_s": 1077.619533777237,
+          "physical_gpu_uuid": "GPU-9986735a-3e68-d1bd-5998-9634ef24341e",
+          "started_epoch": 1794815579.3497074,
+          "pid": 2033702
+        }
+      ]
+    },
+    "task_provenance": {
+      "E7": {
+        "execution_commit": "db6e1221d8d1b234d9d07e246025d1afd5dc30d5",
+        "reused": true,
+        "status": "completed",
+        "physical_gpu_uuid": "GPU-9986735a-3e68-d1bd-5998-9634ef24341e"
+      },
+      "S7": {
+        "execution_commit": "db6e1221d8d1b234d9d07e246025d1afd5dc30d5",
+        "reused": true,
+        "status": "completed",
+        "physical_gpu_uuid": "GPU-c6943f33-bcd0-a724-0b35-f77af6b0a3f1"
+      },
+      "N_collect": {
+        "execution_commit": "db6e1221d8d1b234d9d07e246025d1afd5dc30d5",
+        "reused": true,
+        "status": "completed",
+        "physical_gpu_uuid": "GPU-c6943f33-bcd0-a724-0b35-f77af6b0a3f1"
+      },
+      "E_collect": {
+        "execution_commit": "db6e1221d8d1b234d9d07e246025d1afd5dc30d5",
+        "reused": true,
+        "status": "completed",
+        "physical_gpu_uuid": "GPU-9986735a-3e68-d1bd-5998-9634ef24341e"
+      },
+      "S_collect": {
+        "execution_commit": "db6e1221d8d1b234d9d07e246025d1afd5dc30d5",
+        "reused": true,
+        "status": "completed",
+        "physical_gpu_uuid": "GPU-c6943f33-bcd0-a724-0b35-f77af6b0a3f1"
+      },
+      "E8": {
+        "execution_commit": "db6e1221d8d1b234d9d07e246025d1afd5dc30d5",
+        "reused": true,
+        "status": "completed",
+        "physical_gpu_uuid": "GPU-9986735a-3e68-d1bd-5998-9634ef24341e"
+      },
+      "N8": {
+        "execution_commit": "db6e1221d8d1b234d9d07e246025d1afd5dc30d5",
+        "reused": true,
+        "status": "completed",
+        "physical_gpu_uuid": "GPU-c6943f33-bcd0-a724-0b35-f77af6b0a3f1"
+      },
+      "S8": {
+        "execution_commit": "af708012e729437068fbef93cb11c9996a9109a9",
+        "reused": false,
+        "status": "completed",
+        "physical_gpu_uuid": "GPU-9986735a-3e68-d1bd-5998-9634ef24341e"
+      },
+      "references": {
+        "execution_commit": "af708012e729437068fbef93cb11c9996a9109a9",
+        "reused": false,
+        "status": "completed",
+        "physical_gpu_uuid": "GPU-c6943f33-bcd0-a724-0b35-f77af6b0a3f1"
+      },
+      "final": {
+        "execution_commit": "af708012e729437068fbef93cb11c9996a9109a9",
+        "reused": false,
+        "status": "completed",
+        "physical_gpu_uuid": "GPU-9986735a-3e68-d1bd-5998-9634ef24341e"
+      }
+    },
+    "task_costs": [
+      {
+        "task": "E7",
+        "execution_commit": "db6e1221d8d1b234d9d07e246025d1afd5dc30d5",
+        "reused": true,
+        "wall_s": 483.47062635421753,
+        "costs": {
+          "training_s": 346.8116853311658,
+          "checkpoint_save_s": 17.994585618376732,
+          "export_s": 14.376018397510052,
+          "event_wall_s_before_commit": 409.81413914449513
+        },
+        "loading_s": 29.447394285351038,
+        "startup": {
+          "status": "completed",
+          "optimizer_steps": 0,
+          "physical_work": {
+            "counts": {
+              "draft_forwards": 2,
+              "layer_forwards": 10,
+              "objective_chunks": 120,
+              "vocabulary_head_calls": 240,
+              "response_forwards": 2
+            },
+            "response_observations": 2,
+            "optimizer_window_observations": 0
+          },
+          "wall_s": 25.639240076765418,
+          "work": {
+            "attempts": {
+              "response_forwards": 2,
+              "response_backwards": 2,
+              "optimizer_steps": 0
+            },
+            "completed": {
+              "response_forwards": 2,
+              "response_backwards": 2,
+              "optimizer_steps": 0
+            },
+            "unknown": {
+              "response_forwards": 0,
+              "response_backwards": 0,
+              "optimizer_steps": 0
+            }
+          }
+        }
+      },
+      {
+        "task": "S7",
+        "execution_commit": "db6e1221d8d1b234d9d07e246025d1afd5dc30d5",
+        "reused": true,
+        "wall_s": 437.72216176986694,
+        "costs": {
+          "training_s": 332.1086655501276,
+          "checkpoint_save_s": 17.82304227538407,
+          "export_s": 13.848460610955954,
+          "event_wall_s_before_commit": 368.32371956296265
+        },
+        "loading_s": 29.369251165539026,
+        "startup": {
+          "status": "completed",
+          "optimizer_steps": 0,
+          "physical_work": {
+            "counts": {
+              "draft_forwards": 2,
+              "layer_forwards": 10,
+              "objective_chunks": 120,
+              "vocabulary_head_calls": 240,
+              "response_forwards": 2
+            },
+            "response_observations": 2,
+            "optimizer_window_observations": 0
+          },
+          "wall_s": 21.872035587206483,
+          "work": {
+            "attempts": {
+              "response_forwards": 2,
+              "response_backwards": 2,
+              "optimizer_steps": 0
+            },
+            "completed": {
+              "response_forwards": 2,
+              "response_backwards": 2,
+              "optimizer_steps": 0
+            },
+            "unknown": {
+              "response_forwards": 0,
+              "response_backwards": 0,
+              "optimizer_steps": 0
+            }
+          }
+        }
+      },
+      {
+        "task": "N_collect",
+        "execution_commit": "db6e1221d8d1b234d9d07e246025d1afd5dc30d5",
+        "reused": true,
+        "wall_s": 177.01350569725037,
+        "costs": null,
+        "loading_s": 22.009464411064982,
+        "startup": null
+      },
+      {
+        "task": "E_collect",
+        "execution_commit": "db6e1221d8d1b234d9d07e246025d1afd5dc30d5",
+        "reused": true,
+        "wall_s": 173.39944338798523,
+        "costs": null,
+        "loading_s": 20.757030362263322,
+        "startup": null
+      },
+      {
+        "task": "S_collect",
+        "execution_commit": "db6e1221d8d1b234d9d07e246025d1afd5dc30d5",
+        "reused": true,
+        "wall_s": 172.47706651687622,
+        "costs": null,
+        "loading_s": 19.758658599108458,
+        "startup": null
+      },
+      {
+        "task": "E8",
+        "execution_commit": "db6e1221d8d1b234d9d07e246025d1afd5dc30d5",
+        "reused": true,
+        "wall_s": 437.8893027305603,
+        "costs": {
+          "training_s": 321.884718965739,
+          "checkpoint_save_s": 18.77812372148037,
+          "export_s": 14.925802752375603,
+          "event_wall_s_before_commit": 358.18919541314244
+        },
+        "loading_s": 27.1392879486084,
+        "startup": {
+          "status": "completed",
+          "optimizer_steps": 0,
+          "physical_work": {
+            "counts": {
+              "draft_forwards": 2,
+              "layer_forwards": 10,
+              "objective_chunks": 122,
+              "vocabulary_head_calls": 244,
+              "response_forwards": 2
+            },
+            "response_observations": 2,
+            "optimizer_window_observations": 0
+          },
+          "wall_s": 27.804329255595803,
+          "work": {
+            "attempts": {
+              "response_forwards": 2,
+              "response_backwards": 2,
+              "optimizer_steps": 0
+            },
+            "completed": {
+              "response_forwards": 2,
+              "response_backwards": 2,
+              "optimizer_steps": 0
+            },
+            "unknown": {
+              "response_forwards": 0,
+              "response_backwards": 0,
+              "optimizer_steps": 0
+            }
+          }
+        }
+      },
+      {
+        "task": "N8",
+        "execution_commit": "db6e1221d8d1b234d9d07e246025d1afd5dc30d5",
+        "reused": true,
+        "wall_s": 420.19038486480713,
+        "costs": {
+          "training_s": 319.38646194152534,
+          "checkpoint_save_s": 19.474791644141078,
+          "export_s": 15.068087991327047,
+          "event_wall_s_before_commit": 356.22455892525613
+        },
+        "loading_s": 28.650301018729806,
+        "startup": {
+          "status": "completed",
+          "optimizer_steps": 0,
+          "physical_work": {
+            "counts": {
+              "draft_forwards": 2,
+              "layer_forwards": 10,
+              "objective_chunks": 122,
+              "vocabulary_head_calls": 244,
+              "response_forwards": 2
+            },
+            "response_observations": 2,
+            "optimizer_window_observations": 0
+          },
+          "wall_s": 18.375740345567465,
+          "work": {
+            "attempts": {
+              "response_forwards": 2,
+              "response_backwards": 2,
+              "optimizer_steps": 0
+            },
+            "completed": {
+              "response_forwards": 2,
+              "response_backwards": 2,
+              "optimizer_steps": 0
+            },
+            "unknown": {
+              "response_forwards": 0,
+              "response_backwards": 0,
+              "optimizer_steps": 0
+            }
+          }
+        }
+      },
+      {
+        "task": "S8",
+        "execution_commit": "af708012e729437068fbef93cb11c9996a9109a9",
+        "reused": false,
+        "wall_s": 417.22880840301514,
+        "costs": {
+          "training_s": 314.0995112154633,
+          "checkpoint_save_s": 18.19710191898048,
+          "export_s": 14.803488044068217,
+          "event_wall_s_before_commit": 349.76794276945293
+        },
+        "loading_s": 28.513178342953324,
+        "startup": {
+          "status": "completed",
+          "optimizer_steps": 0,
+          "physical_work": {
+            "counts": {
+              "draft_forwards": 2,
+              "layer_forwards": 10,
+              "objective_chunks": 122,
+              "vocabulary_head_calls": 244,
+              "response_forwards": 2
+            },
+            "response_observations": 2,
+            "optimizer_window_observations": 0
+          },
+          "wall_s": 19.323828287422657,
+          "work": {
+            "attempts": {
+              "response_forwards": 2,
+              "response_backwards": 2,
+              "optimizer_steps": 0
+            },
+            "completed": {
+              "response_forwards": 2,
+              "response_backwards": 2,
+              "optimizer_steps": 0
+            },
+            "unknown": {
+              "response_forwards": 0,
+              "response_backwards": 0,
+              "optimizer_steps": 0
+            }
+          }
+        }
+      },
+      {
+        "task": "references",
+        "execution_commit": "af708012e729437068fbef93cb11c9996a9109a9",
+        "reused": false,
+        "wall_s": 57.15171456336975,
+        "costs": null,
+        "loading_s": 21.01034164056182,
+        "startup": null
+      },
+      {
+        "task": "final",
+        "execution_commit": "af708012e729437068fbef93cb11c9996a9109a9",
+        "reused": false,
+        "wall_s": 1078.119782924652,
+        "costs": null,
+        "loading_s": null,
+        "startup": null
+      }
+    ],
+    "cost_interpretation": "Old and new costs remain distinct; component timers overlap task wall time."
+  },
+  "independently_recomputed": {
+    "method_totals": {
+      "N": {
+        "verification_calls": 5835,
+        "native_accepted_draft_tokens": 33906,
+        "accepted_draft_tokens": 34026,
+        "committed_progress": 39741,
+        "output_tokens": 39869,
+        "request_latency_s": 100.76237880624831,
+        "native_generate_s": 98.57160030926268,
+        "cache_maintenance_s": 0.04183158464729786,
+        "native_accepted_tokens_per_call": 5.810796915167095,
+        "matched_accepted_tokens_per_call": 5.831362467866324,
+        "committed_progress_per_call": 6.810796915167095,
+        "calls_per_1000_output_tokens": 146.35431036645014,
+        "equal_request_native_acceptance_mean": 6.120237289158143,
+        "equal_request_denominator": 128,
+        "zero_call_requests": 0,
+        "cap_hit_requests": 0,
+        "native_acceptance_histogram": {
+          "4": 432,
+          "1": 764,
+          "3": 497,
+          "5": 333,
+          "2": 594,
+          "12": 143,
+          "0": 749,
+          "13": 124,
+          "6": 297,
+          "15": 730,
+          "9": 202,
+          "11": 161,
+          "14": 135,
+          "10": 197,
+          "8": 222,
+          "7": 255
+        }
+      },
+      "E": {
+        "verification_calls": 5904,
+        "native_accepted_draft_tokens": 33837,
+        "accepted_draft_tokens": 33951,
+        "committed_progress": 39741,
+        "output_tokens": 39869,
+        "request_latency_s": 102.07584539800882,
+        "native_generate_s": 99.7709049868087,
+        "cache_maintenance_s": 0.07009111282726128,
+        "native_accepted_tokens_per_call": 5.73119918699187,
+        "matched_accepted_tokens_per_call": 5.750508130081301,
+        "committed_progress_per_call": 6.73119918699187,
+        "calls_per_1000_output_tokens": 148.08497830394543,
+        "equal_request_native_acceptance_mean": 6.041518446239049,
+        "equal_request_denominator": 128,
+        "zero_call_requests": 0,
+        "cap_hit_requests": 0,
+        "native_acceptance_histogram": {
+          "4": 432,
+          "1": 766,
+          "2": 660,
+          "5": 347,
+          "13": 144,
+          "9": 188,
+          "0": 714,
+          "6": 332,
+          "15": 694,
+          "11": 155,
+          "14": 135,
+          "8": 229,
+          "10": 186,
+          "7": 268,
+          "3": 521,
+          "12": 133
+        }
+      },
+      "S": {
+        "verification_calls": 5767,
+        "native_accepted_draft_tokens": 33974,
+        "accepted_draft_tokens": 34091,
+        "committed_progress": 39741,
+        "output_tokens": 39869,
+        "request_latency_s": 99.55028748884797,
+        "native_generate_s": 97.43453726296623,
+        "cache_maintenance_s": 0.04239067000647386,
+        "native_accepted_tokens_per_call": 5.891104560430033,
+        "matched_accepted_tokens_per_call": 5.9113924050632916,
+        "committed_progress_per_call": 6.891104560430033,
+        "calls_per_1000_output_tokens": 144.6487245729765,
+        "equal_request_native_acceptance_mean": 6.2242477463209305,
+        "equal_request_denominator": 128,
+        "zero_call_requests": 0,
+        "cap_hit_requests": 0,
+        "native_acceptance_histogram": {
+          "4": 422,
+          "1": 748,
+          "2": 582,
+          "5": 348,
+          "12": 147,
+          "6": 305,
+          "0": 704,
+          "13": 124,
+          "15": 735,
+          "9": 191,
+          "11": 162,
+          "14": 133,
+          "7": 263,
+          "10": 195,
+          "8": 225,
+          "3": 483
+        }
+      }
+    },
+    "comparisons": {
+      "E_vs_N": {
+        "candidate": "E",
+        "reference": "N",
+        "time_reduction": {
+          "point": -0.013035287647249039,
+          "ci95": [
+            -0.02317162852674597,
+            -0.0031935267604815366
+          ],
+          "undefined_draws": 0
+        },
+        "call_reduction": {
+          "point": -0.011825192802056517,
+          "ci95": [
+            -0.022222315062388514,
+            -0.0015847651353761653
+          ],
+          "undefined_draws": 0
+        },
+        "acceptance_improvement": {
+          "point": -0.013698246443179296,
+          "ci95": [
+            -0.025496480069902214,
+            -0.0018593800931044524
+          ],
+          "undefined_draws": 0
+        },
+        "acceptance_difference": {
+          "point": -0.0795977281752247,
+          "ci95": [
+            -0.14894388013003318,
+            -0.010833406357322389
+          ],
+          "undefined_draws": 0
+        },
+        "speedup": 0.9871324446382088,
+        "repeat_time_reductions": [
+          -0.012253915137484306,
+          -0.01645483094247635,
+          -0.010396127354312501
+        ],
+        "requests_fewer_calls": 41,
+        "requests_more_calls": 72,
+        "request_call_ties": 15,
+        "gross_calls_saved": 110,
+        "gross_calls_added": 179
+      },
+      "E_vs_S": {
+        "candidate": "E",
+        "reference": "S",
+        "time_reduction": {
+          "point": -0.025369669670153083,
+          "ci95": [
+            -0.03517775314185631,
+            -0.015698072142434093
+          ],
+          "undefined_draws": 0
+        },
+        "call_reduction": {
+          "point": -0.02375585226287491,
+          "ci95": [
+            -0.03400760844242419,
+            -0.013769934469177014
+          ],
+          "undefined_draws": 0
+        },
+        "acceptance_improvement": {
+          "point": -0.027143530011711547,
+          "ci95": [
+            -0.03843211407797739,
+            -0.01588313430715397
+          ],
+          "undefined_draws": 0
+        },
+        "acceptance_difference": {
+          "point": -0.15990537343816325,
+          "ci95": [
+            -0.2279737322876494,
+            -0.09280688821812963
+          ],
+          "undefined_draws": 0
+        },
+        "speedup": 0.9752580260362936,
+        "repeat_time_reductions": [
+          -0.023979577472358127,
+          -0.029236308506989106,
+          -0.022893619277011723
+        ],
+        "requests_fewer_calls": 40,
+        "requests_more_calls": 77,
+        "request_call_ties": 11,
+        "gross_calls_saved": 80,
+        "gross_calls_added": 217
+      },
+      "S_vs_N": {
+        "candidate": "S",
+        "reference": "N",
+        "time_reduction": {
+          "point": 0.012029205064035042,
+          "ci95": [
+            0.005895602938804467,
+            0.01821542100801339
+          ],
+          "undefined_draws": 0
+        },
+        "call_reduction": {
+          "point": 0.011653813196229601,
+          "ci95": [
+            0.00515449403256171,
+            0.01814100963769286
+          ],
+          "undefined_draws": 0
+        },
+        "acceptance_improvement": {
+          "point": 0.013820418513220245,
+          "ci95": [
+            0.006079536354424197,
+            0.02163978345468328
+          ],
+          "undefined_draws": 0
+        },
+        "acceptance_difference": {
+          "point": 0.08030764526293854,
+          "ci95": [
+            0.035478665801652466,
+            0.12604310834193158
+          ],
+          "undefined_draws": 0
+        },
+        "speedup": 1.0121756686793708,
+        "repeat_time_reductions": [
+          0.011451070502614957,
+          0.012418409124191898,
+          0.012217782658115128
+        ],
+        "requests_fewer_calls": 62,
+        "requests_more_calls": 33,
+        "request_call_ties": 33,
+        "gross_calls_saved": 119,
+        "gross_calls_added": 51
+      }
+    },
+    "decision": {
+      "outcome": "NO_PRACTICAL_ADVANCEMENT_THIS_PILOT",
+      "scope": "DEVELOPMENT_FEASIBILITY_REUSED_DATA",
+      "feasibility_pass": false,
+      "practical_checks": {
+        "time_point_at_least_half_percent": false,
+        "time_lower_bound_positive": false,
+        "acceptance_lower_bound_positive": false,
+        "all_three_time_directions_positive": false
+      },
+      "s_vs_n_descriptive_practical_pass": true,
+      "automatic_followup_authorized": false
+    },
+    "request_count": 128,
+    "bootstrap": {
+      "draws": 10000,
+      "seed": 1708,
+      "generator": "PCG64",
+      "order": "lexicographic source_id",
+      "unit": "paired whole request, all arms and three repeat times together",
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "method": "linear"
+    }
+  },
+  "canonical_authentication": {
+    "historical_bindings_reused": 106,
+    "new_source_records_reopened": 24,
+    "limitation": "The106 historical bindings reuse pinned prior source authentication; their Fenrir original source files are not reopened here."
+  },
+  "checks": 657982,
+  "error_count": 0,
+  "errors": [],
+  "audit_wall_s": 2.4362575113773346
+}

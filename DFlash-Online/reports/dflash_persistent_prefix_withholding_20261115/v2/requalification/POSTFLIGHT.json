@@ -1,0 +1,72 @@
+{
+  "time_epoch": 1794805848.474854,
+  "input_checks": [
+    {
+      "path": "/data/sources/minhao/runs/dflash_functional_step_geometry_20261108/pilot_r1_001/campaign_001/gsm8k/event_006/KPLUS/trainer/training_state.pt",
+      "actual": {
+        "bytes": 6298193179,
+        "sha256": "15ac28e1235851a15158e789af1480fd2d82535903b1dec5d992ec843c9ae3a1"
+      },
+      "expected": {
+        "bytes": 6298193179,
+        "sha256": "15ac28e1235851a15158e789af1480fd2d82535903b1dec5d992ec843c9ae3a1"
+      },
+      "equal": true
+    },
+    {
+      "path": "/data/sources/minhao/runs/dflash_recent_repair_retention_event7_20261112/execution_001/training/NATIVE/trainer/training_state.pt",
+      "actual": {
+        "bytes": 6299188123,
+        "sha256": "be5cccf3a7d4cee1ca65d0df390d5f4de3d198643a97fc5125afc68442e1fa45"
+      },
+      "expected": {
+        "bytes": 6299188123,
+        "sha256": "be5cccf3a7d4cee1ca65d0df390d5f4de3d198643a97fc5125afc68442e1fa45"
+      },
+      "equal": true
+    },
+    {
+      "path": "/data/sources/minhao/runs/dflash_functional_step_geometry_20261108/pilot_r1_001/campaign_001/gsm8k/event_006/KPLUS/trainer/events/event_006/export/model.safetensors",
+      "actual": {
+        "bytes": 2097259104,
+        "sha256": "8c257620e44226c5c0469e5886224ed5d2dcf9fa2a94eddbdd10d7e36c697560"
+      },
+      "expected": {
+        "bytes": 2097259104,
+        "sha256": "8c257620e44226c5c0469e5886224ed5d2dcf9fa2a94eddbdd10d7e36c697560"
+      },
+      "equal": true
+    },
+    {
+      "path": "/data/sources/minhao/runs/dflash_recent_repair_retention_event7_20261112/execution_001/training/NATIVE/trainer/events/event_007/export/model.safetensors",
+      "actual": {
+        "bytes": 2097259104,
+        "sha256": "30123d8de0bab8462a7afb77669079a65f62e771437232dcb0cba21413bed2cb"
+      },
+      "expected": {
+        "bytes": 2097259104,
+        "sha256": "30123d8de0bab8462a7afb77669079a65f62e771437232dcb0cba21413bed2cb"
+      },
+      "equal": true
+    }
+  ],
+  "source_entries": 4423,
+  "source_mismatches": [],
+  "storage": {
+    "status": "passed",
+    "allocated_new_bytes": 5385371648,
+    "free_bytes": 703724396544,
+    "projected_remaining_peak_bytes": 99598541211,
+    "upcoming_bytes": 0,
+    "compiler": {
+      "root": "/data/sources/minhao/.cache",
+      "baseline_allocated_bytes": 5022478336,
+      "allocated_bytes": 5039001600,
+      "growth_bytes": 16523264,
+      "reserved_growth_bytes": 4294967296
+    }
+  },
+  "free_bytes": 703724396544,
+  "gpus": "0, GPU-9986735a-3e68-d1bd-5998-9634ef24341e, 0 MiB, 0 %\n1, GPU-c6943f33-bcd0-a724-0b35-f77af6b0a3f1, 0 MiB, 0 %\n",
+  "processes": ""
+}

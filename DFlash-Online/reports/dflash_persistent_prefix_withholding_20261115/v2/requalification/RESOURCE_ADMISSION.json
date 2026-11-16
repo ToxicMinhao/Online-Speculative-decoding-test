@@ -1,0 +1,67 @@
+{
+  "status": "passed",
+  "execution_commit": "c471708969cf8c131c0c965b9fc7a801b63cc55a",
+  "costs": {
+    "training_event": 485.75329149514437,
+    "training_startup": 26.134447399526834,
+    "training_load": 39.99290696904063,
+    "publication": 82.68484097532928,
+    "feedback_response": 0.8511824223868278,
+    "teacher_response": 0.08530465669935326,
+    "reference_response": 1.4310595157510904,
+    "serving_load": 25.008314836770296,
+    "scored_request": 1.0682955685314393,
+    "warmup_request": 1.2313333414494991,
+    "activation": 1.899422163143754,
+    "resident_wait": 82.68484097532928
+  },
+  "time": {
+    "status": "passed",
+    "occupied_spent_s": 435.09486651420593,
+    "raw_remaining_card_s": 5906.385578285227,
+    "conservative_total_card_s": 11094.673233942047,
+    "conservative_total_elapsed_s": 10743.791756620558,
+    "remaining_components": {
+      "E7": 717.2503278143704,
+      "S7": 717.2503278143704,
+      "N_collect": 227.56350193513074,
+      "N8": 717.2503278143704,
+      "E_collect": 227.56350193513074,
+      "E8": 717.2503278143704,
+      "S_collect": 227.56350193513074,
+      "S8": 717.2503278143704,
+      "references": 142.03858419012573,
+      "final": 1495.4048492178567
+    },
+    "card_cap_s": 14400,
+    "elapsed_cap_s": 14400
+  },
+  "task_memory_bytes": {
+    "training": 47283793920,
+    "collection": 13175410688,
+    "reference": 13175410688,
+    "final": 13175410688
+  },
+  "task_vram_bytes": {
+    "training": 20728250368,
+    "collection": 63117983744,
+    "reference": 63117983744,
+    "final": 63117983744
+  },
+  "available_host_bytes": 147304714240,
+  "two_trainers_admitted": true,
+  "mixed_training_serving_admitted": true,
+  "two_serving_workers_admitted": true,
+  "host_bound_policy": "Measured qualification process-tree peak plus12GiB trainer/publication or4GiB native capture/preparation; global32GiB reserve",
+  "historical_cost_basis": "/data/sources/minhao/runs/dflash_persistent_prefix_withholding_20261115/serving_continuation_001/sealed/HISTORICAL_COST_BASIS.json",
+  "storage_gate": "/data/sources/minhao/runs/dflash_persistent_prefix_withholding_20261115/serving_continuation_001/CPU_PREFLIGHT.json",
+  "storage_checked_again_by_production_supervisor": true,
+  "measured_worst_pair_compute_s": 2.049481377005577,
+  "measured_native_s_per_output_token": 0.0030971962249780123,
+  "projected_panel_output_mean": 344.9234375,
+  "unknown_output_length_policy": "Historical selected-reference p95 for24 missing panel answers; previous128-response event mean for prospective feedback. Estimates, not guaranteed lengths.",
+  "candidate_outcomes_used_for_pricing": false,
+  "safety_multiplier": 1.5,
+  "additional_card_seconds_contingency": 1800,
+  "scientific_settings_changed": false
+}
