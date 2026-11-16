@@ -25,13 +25,16 @@ SCOPE = "DEVELOPMENT_FEASIBILITY_REUSED_DATA"
 SESSION = "persistent_prefix_withholding_event8"
 
 
-def arm_order(repeat, block):
-    base = METHODS if block % 2 == 0 else ("N", "S", "E")
+def arm_order(repeat, block, methods=METHODS):
+    methods = tuple(methods)
+    if len(methods) != 3 or len(set(methods)) != 3:
+        raise ValueError("Require three distinct fixed methods")
+    base = methods if block % 2 == 0 else (methods[0], methods[2], methods[1])
     shift = (repeat + block // 2) % 3
     return base[shift:] + base[:shift]
 
 
-def evaluation_schedule(requests, within_block_permutations):
+def evaluation_schedule(requests, within_block_permutations, *, methods=METHODS):
     """Use the sealed permutations; never choose a new order during evaluation."""
     if (len(requests) != PANEL_SIZE or len(within_block_permutations) != REPEATS
             or [r["panel_ordinal"] for r in requests] != list(range(PANEL_SIZE))):
@@ -43,14 +46,14 @@ def evaluation_schedule(requests, within_block_permutations):
         for block, ordinals in enumerate(blocks):
             if sorted(ordinals) != list(range(block * BLOCK_SIZE, (block + 1) * BLOCK_SIZE)):
                 raise ValueError("A request permutation changed its fixed block")
-            for position, method in enumerate(arm_order(repeat, block)):
+            for position, method in enumerate(arm_order(repeat, block, methods)):
                 schedule.append(dict(activation=len(schedule), repeat=repeat,
                     block_ordinal=block, position=position, method=method,
                     request_ordinals=list(ordinals)))
     return schedule
 
 
-def schedule_balance(schedule):
+def schedule_balance(schedule, *, methods=METHODS):
     orders = defaultdict(dict)
     for entry in schedule:
         orders[entry["repeat"], entry["block_ordinal"]][entry["position"]] = entry["method"]
@@ -59,7 +62,7 @@ def schedule_balance(schedule):
         scored_generations=sum(len(row["request_ordinals"]) for row in schedule),
         orders=[dict(order=list(order), count=count) for order, count in sorted(counts.items())],
         positions={method: [sum(row[p] == method for row in orders.values()) for p in range(3)]
-                   for method in METHODS})
+                   for method in methods})
 
 
 def validate_references(requests, canonicals):
@@ -94,11 +97,11 @@ def label_for(slot):
     return f"{slot['panel_ordinal']:04d}_r{slot['repeat']}_{slot['method']}"
 
 
-def measure(record, request, checkpoint, canonical, slot, physical_gpu_uuid):
+def measure(record, request, checkpoint, canonical, slot, physical_gpu_uuid, *, session=SESSION):
     """Validate raw native decisions before admitting any returned measurement."""
     label = label_for(slot)
     try:
-        errors = validate_record(record, request, checkpoint, canonical, label=label, session=SESSION)
+        errors = validate_record(record, request, checkpoint, canonical, label=label, session=session)
         row = score_record(record, request_id=request["request_id"], repeat=slot["repeat"], method=slot["method"])
         trace = record["metadata"]["trace"]
         native_accepted = sum(block["native_accepted_draft_tokens"] for block in trace)
@@ -133,14 +136,15 @@ def boundary_errors(check, physical_gpu_uuid):
 def evaluate_final(backend, requests, checkpoints, root, *, canonicals,
                    warmup_requests, warmup_canonicals, schedule,
                    within_block_permutations, physical_gpu_uuid, boundary_check,
-                   execution_commit):
+                   execution_commit, methods=METHODS, session=SESSION):
     """Execute once, preserving invalid/unknown work before stopping on failure."""
-    planned = evaluation_schedule(requests, within_block_permutations)
+    methods = tuple(methods)
+    planned = evaluation_schedule(requests, within_block_permutations, methods=methods)
     if schedule != planned:
         raise ValueError("The sealed activation or request order changed")
     checkpoints = {method: str(path) for method, path in checkpoints.items()}
-    if set(checkpoints) != set(METHODS) or len(set(checkpoints.values())) != 3:
-        raise ValueError("Require three distinct N8/E8/S8 endpoints")
+    if set(checkpoints) != set(methods) or len(set(checkpoints.values())) != 3:
+        raise ValueError("Require three distinct event-eight endpoints")
     if (len(warmup_requests) != 2 or [r["panel_ordinal"] for r in warmup_requests] != [0, 1]
             or {r["source_id"] for r in requests} & {r["source_id"] for r in warmup_requests}):
         raise ValueError("Require two fixed old-development warmups outside the final panel")
@@ -153,7 +157,7 @@ def evaluate_final(backend, requests, checkpoints, root, *, canonicals,
     root = Path(root)
     root.mkdir(parents=True, exist_ok=False)
     write_json(root / "PROTOCOL.json", dict(schedule=planned, checkpoints=checkpoints,
-        physical_gpu_uuid=physical_gpu_uuid, scope=SCOPE, capture=False,
+        physical_gpu_uuid=physical_gpu_uuid, scope=SCOPE, capture=False, methods=list(methods), session=session,
         within_block_permutations=within_block_permutations, event=8,
         execution_commit=execution_commit,
         planned_scored=1152, planned_warmups=72, canonical_source="sealed_authenticated_references"))
@@ -216,13 +220,13 @@ def evaluate_final(backend, requests, checkpoints, root, *, canonicals,
                 progress["attempted_generations"] += 1
                 persist_status()
                 record = backend.generate(request["prompt_ids"], max_new_tokens=2048,
-                    request_id=label, session_id=SESSION, request_index=request["panel_ordinal"],
+                    request_id=label, session_id=session, request_index=request["panel_ordinal"],
                     purpose="evaluation", save_to=path)
                 progress["returned_generations"] += 1
                 # Persist raw values, including nonfinite evidence, before validation.
                 with _temporary_file(path) as temporary:
                     temporary.write_text(json.dumps(record, allow_nan=True) + "\n")
-                row, errors = measure(record, request, checkpoint, canonical, slot, physical_gpu_uuid)
+                row, errors = measure(record, request, checkpoint, canonical, slot, physical_gpu_uuid, session=session)
                 key = phase, method, request["request_id"]
                 previous = grouped[key]
                 errors.extend(repeat_errors([*previous, row], method))
@@ -266,7 +270,9 @@ def _audit_raw_records(root, *, native_trace_resolver=None):
     errors, rebuilt = [], []
     resolve_native = native_trace_resolver or Path
     status = json.loads((root / "STATUS.json").read_text())
-    planned = evaluation_schedule(requests, protocol["within_block_permutations"])
+    methods = tuple(protocol.get("methods", METHODS))
+    session = protocol.get("session", SESSION)
+    planned = evaluation_schedule(requests, protocol["within_block_permutations"], methods=methods)
     if (protocol["schedule"] != planned or protocol["scope"] != SCOPE
             or protocol["capture"] is not False or protocol["event"] != 8
             or protocol["planned_scored"] != 1152 or protocol["planned_warmups"] != 72):
@@ -287,7 +293,7 @@ def _audit_raw_records(root, *, native_trace_resolver=None):
         if (any(saved.get(key) != value for key, value in entry.items()) or saved.get("errors")
                 or publication_errors(saved, protocol["checkpoints"][entry["method"]])):
             errors.append("activation_identity")
-    for method in METHODS:
+    for method in methods:
         weights = json.loads((root / f"WEIGHTS_{method}.json").read_text())
         if weights["errors"] or weight_check_errors(weights["native_reply"], protocol["checkpoints"][method]):
             errors.append("loaded_weights_" + method)
@@ -317,7 +323,7 @@ def _audit_raw_records(root, *, native_trace_resolver=None):
         if json.loads(Path(native_path).read_text()) != record["metadata"]["capture"]:
             errors.append(label_for(slot) + ": native_capture_changed")
         rebuilt_row, invalid = measure(record, request, protocol["checkpoints"][slot["method"]],
-            refs[request["request_id"]], slot, protocol["physical_gpu_uuid"])
+            refs[request["request_id"]], slot, protocol["physical_gpu_uuid"], session=session)
         if any(saved.get(key) != value for key, value in rebuilt_row.items()):
             invalid.append("saved_measurement_differs_from_raw")
         if saved.get("valid_measurement") is not True or saved.get("errors"):

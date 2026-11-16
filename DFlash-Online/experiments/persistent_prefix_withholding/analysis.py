@@ -18,13 +18,13 @@ BOOTSTRAP_SEED = 1708
 BOOTSTRAP_DRAWS = 10000
 
 
-def reduce_requests(rows):
+def reduce_requests(rows, *, methods=METHODS):
     """One count trajectory and three-repeat mean time per arm and request."""
     grouped, identities = defaultdict(list), {}
     for row in rows:
         if row.get("phase") == "warmup":
             continue
-        if (row.get("phase") != "scored" or row.get("method") not in METHODS
+        if (row.get("phase") != "scored" or row.get("method") not in methods
                 or row.get("event") != 8 or row.get("scope") != SCOPE
                 or row.get("valid_measurement") is not True or row.get("errors")
                 or row.get("validation_status") != "valid"):
@@ -42,7 +42,7 @@ def reduce_requests(rows):
     result = []
     for ordinal, (source_id, request_id) in sorted(identities.items(), key=lambda item: item[1][0]):
         paired = dict(panel_ordinal=ordinal, source_id=source_id, request_id=request_id)
-        for method in METHODS:
+        for method in methods:
             records = sorted(grouped[ordinal, method], key=lambda row: row["repeat"])
             if [row["repeat"] for row in records] != list(range(REPEATS)):
                 raise ValueError("Every request requires three distinct repeats from every arm")
@@ -75,7 +75,7 @@ def reduce_requests(rows):
             paired[method].update(checkpoint_id=first["checkpoint_id"], cap_hit=first["cap_hit"],
                 finish_reason=first["finish_reason"], native_acceptance_histogram=histogram,
                 repeat_request_latency_s=[row["request_latency_s"] for row in records])
-        if len({(paired[m]["output_tokens"], paired[m]["finish_reason"]) for m in METHODS}) != 1:
+        if len({(paired[m]["output_tokens"], paired[m]["finish_reason"]) for m in methods}) != 1:
             raise ValueError("Paired output length or termination differs")
         result.append(paired)
     if len({row["physical_gpu_uuid"] for row in rows}) != 1:
