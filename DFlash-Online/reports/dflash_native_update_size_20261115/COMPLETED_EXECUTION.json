@@ -1,0 +1,42 @@
+{
+  "status": "completed",
+  "phase": "complete",
+  "execution_commit": "5d4e0ff65c5976318a50ebb181923447068169c8",
+  "phases": {
+    "read_only_preflight": {
+      "status": "completed",
+      "wall_s": 63.15580677613616
+    },
+    "qualification_and_native_calibration": {
+      "status": "completed",
+      "wall_s": 5819.077216295525
+    },
+    "fixed_native_scoring": {
+      "status": "completed",
+      "wall_s": 1181.1111884210259
+    }
+  },
+  "wall_s": 7211.199474448338,
+  "budget": {
+    "attempted": {
+      "model_load": 37,
+      "draft_block": 11050,
+      "target_call": 11111,
+      "context_forward": 182295
+    },
+    "completed": {
+      "draft_block": 11050,
+      "target_call": 11111,
+      "model_load": 37,
+      "context_forward": 182295
+    },
+    "failed": {},
+    "unknown": {},
+    "remaining": {
+      "draft_block": 77,
+      "model_load": 3
+    },
+    "gpu_seconds": 7147.992936467752,
+    "gpu_seconds_limit": 10800
+  }
+}

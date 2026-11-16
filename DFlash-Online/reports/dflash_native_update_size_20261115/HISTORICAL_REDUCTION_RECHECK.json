@@ -1,0 +1,26 @@
+{
+  "status": "passed",
+  "scope": "CPU historical E-N reduction only; synthetic scalar rows exercised adapter and are not experimental observations",
+  "historical_rows": 12288,
+  "requests": 64,
+  "windows": 16,
+  "paired_block_windows": 4096,
+  "E_N": {
+    "estimate": 0.015625,
+    "lower": 0.00244140625,
+    "upper": 0.02880859375,
+    "exact": {
+      "numerator": 1,
+      "denominator": 64
+    }
+  },
+  "denominators": {
+    "paired_block_windows": 4096,
+    "valid_proposal_occurrences": 59952,
+    "pre_first_blocker_opportunities": 3577,
+    "pre_prefix_break_opportunities": 3511,
+    "native_repair_displacement_opportunities": 52,
+    "scope": "Paired block/window occurrences; no multiplication by five states or independent-token interpretation"
+  },
+  "new_model_work": 0
+}

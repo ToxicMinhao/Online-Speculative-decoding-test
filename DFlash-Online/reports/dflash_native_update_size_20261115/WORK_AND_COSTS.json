@@ -1,0 +1,62 @@
+{
+  "native_budget": {
+    "attempted": {
+      "model_load": 37,
+      "draft_block": 11050,
+      "target_call": 11111,
+      "context_forward": 182295
+    },
+    "completed": {
+      "draft_block": 11050,
+      "target_call": 11111,
+      "model_load": 37,
+      "context_forward": 182295
+    },
+    "failed": {},
+    "unknown": {},
+    "remaining": {
+      "draft_block": 77,
+      "model_load": 3
+    },
+    "gpu_seconds": 7147.992936467752,
+    "gpu_seconds_limit": 10800
+  },
+  "training": {
+    "attempted": {
+      "response_forward": 260,
+      "response_backward": 260,
+      "optimizer_step": 283
+    },
+    "completed": {
+      "response_forward": 260,
+      "response_backward": 260,
+      "optimizer_step": 283
+    },
+    "failed": {},
+    "unknown": {},
+    "physical": {
+      "draft_forwards": 260,
+      "layer_forwards": 1300,
+      "objective_chunk": 16556,
+      "vocabulary_head_calls": 33112
+    }
+  },
+  "phases": {
+    "read_only_preflight": {
+      "status": "completed",
+      "wall_s": 63.15580677613616
+    },
+    "qualification_and_native_calibration": {
+      "status": "completed",
+      "wall_s": 5819.077216295525
+    },
+    "fixed_native_scoring": {
+      "status": "completed",
+      "wall_s": 1181.1111884210259
+    }
+  },
+  "campaign_wall_s": 7211.199474448338,
+  "cpu_gate0_s": 121.64948312751949,
+  "scope": "one native trajectory; no E regeneration, source-fitting or complete responses",
+  "clocks": "Phase times include nested operations; never sum nested timers."
+}

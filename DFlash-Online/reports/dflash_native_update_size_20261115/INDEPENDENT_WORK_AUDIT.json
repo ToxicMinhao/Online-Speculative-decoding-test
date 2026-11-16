@@ -1,0 +1,68 @@
+{
+  "status": "passed",
+  "checks": 621322,
+  "scope": "CPU reconciliation of retained execution receipts and ledgers; no new model execution",
+  "execution_commit": "5d4e0ff65c5976318a50ebb181923447068169c8",
+  "gate0_cpu_wall_s": 121.64948312751949,
+  "cpu_preparation_elapsed_s": 499,
+  "prior_cpu_administrative_failure_s": 76,
+  "prior_cpu_failure_gpu_or_adam": 0,
+  "qualification_cases": 6,
+  "windows": 16,
+  "controls": 32,
+  "calibration_trials": 149,
+  "training_counts": {
+    "response_forward": 260,
+    "response_backward": 260,
+    "optimizer_step": 283
+  },
+  "training_categories": {
+    "('startup', 'response_forward')": 2,
+    "('startup', 'response_backward')": 2,
+    "('qualification', 'response_forward')": 2,
+    "('qualification', 'response_backward')": 2,
+    "('qualification', 'optimizer_step')": 6,
+    "('native', 'response_forward')": 256,
+    "('native', 'response_backward')": 256,
+    "('native', 'optimizer_step')": 128,
+    "('calibration', 'optimizer_step')": 149
+  },
+  "physical_counts": {
+    "draft_forwards": 260,
+    "layer_forwards": 1300,
+    "objective_chunk": 16556,
+    "vocabulary_head_calls": 33112
+  },
+  "native_ledger_lines": 408990,
+  "native_counts": {
+    "draft_block": 11050,
+    "target_call": 11111,
+    "model_load": 37,
+    "context_forward": 182295
+  },
+  "scored_endpoint_blocks": 8192,
+  "extra_endpoint_blocks": 32,
+  "first_native_draft_gpu_seconds": 6000.866312079132,
+  "identity_modes": {
+    "direct original tensor comparison": 4,
+    "exact reconstructed original-file identity; no pre-cleanup tensor fingerprints": 28
+  },
+  "maximum_relative_bracket_error": 0.002445333788722651,
+  "native_state_restored_and_final_exact": true,
+  "occupied_card_s": 7147.992936467752,
+  "campaign_wall_s": 7211.199474448338,
+  "qualification_training_wall_s": 5819.077216295525,
+  "scoring_wall_s": 1181.1111884210259,
+  "storage_admission_samples": 69,
+  "largest_admission_projection_bytes": 95555110400,
+  "observed_postflight_new_allocated_bytes": 76359950336,
+  "postflight_free_bytes": 629333057536,
+  "peak_scope": "Admission samples and postflight observed allocation, not continuous storage high-water measurement",
+  "retirement_control_bytes": 67112290304,
+  "retirement_performed": false,
+  "limitations": [
+    "Exact GPU tensor/moment comparisons rely on retained runtime parity receipts; CPU audit rechecks their identities and consistency, not reruns absent GPU states.",
+    "The two newly published native endpoint/recovery payloads are not included in the 32-control retirement recommendation; compare full retained native identity and retention requirements separately.",
+    "Earlier failed CPU preparation consumed76s administrative work and zero GPU/Adam; prior staging is included in allocation roots."
+  ]
+}

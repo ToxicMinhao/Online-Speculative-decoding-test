@@ -1,0 +1,469 @@
+{
+  "status": "completed",
+  "decision": "UNRESOLVED_STOP_THIS_SCREEN",
+  "execution_commit": "5d4e0ff65c5976318a50ebb181923447068169c8",
+  "validity": {
+    "complete": true,
+    "all_required_checks_passed": true,
+    "gates": {
+      "cpu_gate0": true,
+      "historical_source_and_reuse": true,
+      "native_six_case_qualification": true,
+      "all_sixteen_windows": true,
+      "final_native_parity": true,
+      "exact_reuse_sentinels": true,
+      "all_scalar_outcomes": true
+    },
+    "errors": []
+  },
+  "work": {
+    "native_budget": {
+      "attempted": {
+        "model_load": 37,
+        "draft_block": 11050,
+        "target_call": 11111,
+        "context_forward": 182295
+      },
+      "completed": {
+        "draft_block": 11050,
+        "target_call": 11111,
+        "model_load": 37,
+        "context_forward": 182295
+      },
+      "failed": {},
+      "unknown": {},
+      "remaining": {
+        "draft_block": 77,
+        "model_load": 3
+      },
+      "gpu_seconds": 7147.992936467752,
+      "gpu_seconds_limit": 10800
+    },
+    "training": {
+      "attempted": {
+        "response_forward": 260,
+        "response_backward": 260,
+        "optimizer_step": 283
+      },
+      "completed": {
+        "response_forward": 260,
+        "response_backward": 260,
+        "optimizer_step": 283
+      },
+      "failed": {},
+      "unknown": {},
+      "physical": {
+        "draft_forwards": 260,
+        "layer_forwards": 1300,
+        "objective_chunk": 16556,
+        "vocabulary_head_calls": 33112
+      }
+    },
+    "phases": {
+      "read_only_preflight": {
+        "status": "completed",
+        "wall_s": 63.15580677613616
+      },
+      "qualification_and_native_calibration": {
+        "status": "completed",
+        "wall_s": 5819.077216295525
+      },
+      "fixed_native_scoring": {
+        "status": "completed",
+        "wall_s": 1181.1111884210259
+      }
+    },
+    "campaign_wall_s": 7211.199474448338,
+    "cpu_gate0_s": 121.64948312751949,
+    "scope": "one native trajectory; no E regeneration, source-fitting or complete responses",
+    "clocks": "Phase times include nested operations; never sum nested timers."
+  },
+  "grid": {
+    "planned": 20480,
+    "recorded": 20480,
+    "valid": 20480,
+    "invalid": 0,
+    "unknown": 0,
+    "unattempted": 0,
+    "duplicate": 0,
+    "unexpected": 0
+  },
+  "comparison": {
+    "unit": "accepted draft proposals per fixed block",
+    "primary_contrasts": [
+      "E_S_low",
+      "E_S_high"
+    ],
+    "historical_contrast": "E_N",
+    "request_count": 64,
+    "window_count": 16,
+    "sealed_starts": 256,
+    "paired_block_windows": 4096,
+    "conceptual_observations": 20480,
+    "historical_observations": 12288,
+    "new_logical_control_observations": 8192,
+    "levels": {
+      "P": 5.375,
+      "N": 5.385009765625,
+      "E": 5.400634765625,
+      "S_low": 5.391845703125,
+      "S_high": 5.384033203125
+    },
+    "contrasts": {
+      "E_N": {
+        "estimate": 0.015625,
+        "exact": {
+          "numerator": 1,
+          "denominator": 64
+        },
+        "primary": false,
+        "measurement_origin": "historical_PR47_recomputed",
+        "lower": 0.00244140625,
+        "upper": 0.02880859375
+      },
+      "E_S_low": {
+        "estimate": 0.0087890625,
+        "exact": {
+          "numerator": 9,
+          "denominator": 1024
+        },
+        "primary": true,
+        "measurement_origin": "historical_and_new_or_new_controls",
+        "lower": -0.0029296875,
+        "upper": 0.019287109375
+      },
+      "E_S_high": {
+        "estimate": 0.0166015625,
+        "exact": {
+          "numerator": 17,
+          "denominator": 1024
+        },
+        "primary": true,
+        "measurement_origin": "historical_and_new_or_new_controls",
+        "lower": 0.00537109375,
+        "upper": 0.02880859375
+      },
+      "S_low_N": {
+        "estimate": 0.0068359375,
+        "exact": {
+          "numerator": 7,
+          "denominator": 1024
+        },
+        "primary": false,
+        "measurement_origin": "historical_and_new_or_new_controls",
+        "lower": -0.00830078125,
+        "upper": 0.02294921875
+      },
+      "S_high_N": {
+        "estimate": -0.0009765625,
+        "exact": {
+          "numerator": -1,
+          "denominator": 1024
+        },
+        "primary": false,
+        "measurement_origin": "historical_and_new_or_new_controls",
+        "lower": -0.018798828125,
+        "upper": 0.016357421875
+      },
+      "S_high_S_low": {
+        "estimate": -0.0078125,
+        "exact": {
+          "numerator": -1,
+          "denominator": 128
+        },
+        "primary": false,
+        "measurement_origin": "historical_and_new_or_new_controls",
+        "lower": -0.02099609375,
+        "upper": 0.00439453125
+      }
+    },
+    "gross_counts": {
+      "N_acquired": 177,
+      "N_lost": 136,
+      "N_net": 41,
+      "N_earlier_break": 43,
+      "N_repairs_pre_blocker": 52,
+      "E_acquired": 194,
+      "E_lost": 89,
+      "E_net": 105,
+      "E_earlier_break": 40,
+      "E_repairs_pre_blocker": 57,
+      "S_low_acquired": 154,
+      "S_low_lost": 85,
+      "S_low_net": 69,
+      "S_low_earlier_break": 39,
+      "S_low_repairs_pre_blocker": 45,
+      "S_high_acquired": 143,
+      "S_high_lost": 106,
+      "S_high_net": 37,
+      "S_high_earlier_break": 38,
+      "S_high_repairs_pre_blocker": 44,
+      "E_displaced_native_repair": 8,
+      "S_low_displaced_native_repair": 12,
+      "S_high_displaced_native_repair": 19,
+      "E_N_acquisition_difference": 17,
+      "E_N_loss_difference": -47,
+      "E_N_net": 64,
+      "E_S_low_acquisition_difference": 40,
+      "E_S_low_loss_difference": 4,
+      "E_S_low_net": 36,
+      "E_S_high_acquisition_difference": 51,
+      "E_S_high_loss_difference": -17,
+      "E_S_high_net": 68,
+      "S_low_N_acquisition_difference": -23,
+      "S_low_N_loss_difference": -51,
+      "S_low_N_net": 28,
+      "S_high_N_acquisition_difference": -34,
+      "S_high_N_loss_difference": -30,
+      "S_high_N_net": -4,
+      "S_high_S_low_acquisition_difference": -11,
+      "S_high_S_low_loss_difference": 21,
+      "S_high_S_low_net": -32
+    },
+    "denominators": {
+      "paired_block_windows": 4096,
+      "valid_proposal_occurrences": 59952,
+      "pre_first_blocker_opportunities": 3577,
+      "pre_prefix_break_opportunities": 3511,
+      "native_repair_displacement_opportunities": 52,
+      "scope": "Paired block/window occurrences; no multiplication by five states or independent-token interpretation"
+    },
+    "all_scalar_arms_exact_aliases": false,
+    "all_integer_decompositions_pass": true,
+    "reduction": "four starts within request/window; sixteen windows within request; equal requests",
+    "distinct_primary_comparisons": 2,
+    "bootstrap": {
+      "draws": 10000,
+      "seed": 1707,
+      "bit_generator": "PCG64",
+      "request_order": [
+        "retention-e7-gsm8k-0005",
+        "retention-e7-gsm8k-0008",
+        "retention-e7-gsm8k-0015",
+        "retention-e7-gsm8k-0025",
+        "retention-e7-gsm8k-0032",
+        "retention-e7-gsm8k-0034",
+        "retention-e7-gsm8k-0166",
+        "retention-e7-gsm8k-0173",
+        "retention-e7-gsm8k-0196",
+        "retention-e7-gsm8k-0231",
+        "retention-e7-gsm8k-0239",
+        "retention-e7-gsm8k-0248",
+        "retention-e7-gsm8k-0251",
+        "retention-e7-gsm8k-0264",
+        "retention-e7-gsm8k-0318",
+        "retention-e7-gsm8k-0333",
+        "retention-e7-gsm8k-0373",
+        "retention-e7-gsm8k-0384",
+        "retention-e7-gsm8k-0393",
+        "retention-e7-gsm8k-0405",
+        "retention-e7-gsm8k-0410",
+        "retention-e7-gsm8k-0462",
+        "retention-e7-gsm8k-0487",
+        "retention-e7-gsm8k-0501",
+        "retention-e7-gsm8k-0518",
+        "retention-e7-gsm8k-0525",
+        "retention-e7-gsm8k-0539",
+        "retention-e7-gsm8k-0566",
+        "retention-e7-gsm8k-0579",
+        "retention-e7-gsm8k-0580",
+        "retention-e7-gsm8k-0623",
+        "retention-e7-gsm8k-0654",
+        "retention-e7-gsm8k-0660",
+        "retention-e7-gsm8k-0684",
+        "retention-e7-gsm8k-0734",
+        "retention-e7-gsm8k-0746",
+        "retention-e7-gsm8k-0775",
+        "retention-e7-gsm8k-0818",
+        "retention-e7-gsm8k-0820",
+        "retention-e7-gsm8k-0844",
+        "retention-e7-gsm8k-0846",
+        "retention-e7-gsm8k-0847",
+        "retention-e7-gsm8k-0896",
+        "retention-e7-gsm8k-0898",
+        "retention-e7-gsm8k-0969",
+        "retention-e7-gsm8k-0997",
+        "retention-e7-gsm8k-1022",
+        "retention-e7-gsm8k-1049",
+        "retention-e7-gsm8k-1070",
+        "retention-e7-gsm8k-1071",
+        "retention-e7-gsm8k-1108",
+        "retention-e7-gsm8k-1115",
+        "retention-e7-gsm8k-1152",
+        "retention-e7-gsm8k-1158",
+        "retention-e7-gsm8k-1175",
+        "retention-e7-gsm8k-1226",
+        "retention-e7-gsm8k-1233",
+        "retention-e7-gsm8k-1251",
+        "retention-e7-gsm8k-1274",
+        "retention-e7-gsm8k-1276",
+        "retention-e7-gsm8k-1279",
+        "retention-e7-gsm8k-1295",
+        "retention-e7-gsm8k-1296",
+        "retention-e7-gsm8k-1302"
+      ],
+      "method": "paired whole requests; common draws; linear 2.5/97.5 percentiles",
+      "scope": "conditional on one native trajectory and reused development panel",
+      "intervals": {
+        "E_N": {
+          "lower": 0.00244140625,
+          "upper": 0.02880859375
+        },
+        "E_S_low": {
+          "lower": -0.0029296875,
+          "upper": 0.019287109375
+        },
+        "E_S_high": {
+          "lower": 0.00537109375,
+          "upper": 0.02880859375
+        },
+        "S_low_N": {
+          "lower": -0.00830078125,
+          "upper": 0.02294921875
+        },
+        "S_high_N": {
+          "lower": -0.018798828125,
+          "upper": 0.016357421875
+        },
+        "S_high_S_low": {
+          "lower": -0.02099609375,
+          "upper": 0.00439453125
+        }
+      }
+    },
+    "pass_descriptions": [
+      {
+        "pass_index": 0,
+        "windows": 8,
+        "a_P": 5.3681640625,
+        "a_N": 5.3818359375,
+        "a_E": 5.3896484375,
+        "a_S_low": 5.39013671875,
+        "a_S_high": 5.38037109375,
+        "N_acquired": 0.052734375,
+        "N_lost": 0.0390625,
+        "N_net": 0.013671875,
+        "N_earlier_break": 0.01171875,
+        "N_repairs_pre_blocker": 0.015625,
+        "E_acquired": 0.05029296875,
+        "E_lost": 0.02880859375,
+        "E_net": 0.021484375,
+        "E_earlier_break": 0.01123046875,
+        "E_repairs_pre_blocker": 0.015625,
+        "S_low_acquired": 0.0478515625,
+        "S_low_lost": 0.02587890625,
+        "S_low_net": 0.02197265625,
+        "S_low_earlier_break": 0.0107421875,
+        "S_low_repairs_pre_blocker": 0.013671875,
+        "S_high_acquired": 0.04638671875,
+        "S_high_lost": 0.0341796875,
+        "S_high_net": 0.01220703125,
+        "S_high_earlier_break": 0.01171875,
+        "S_high_repairs_pre_blocker": 0.01513671875,
+        "E_displaced_native_repair": 0.00244140625,
+        "S_low_displaced_native_repair": 0.00390625,
+        "S_high_displaced_native_repair": 0.00439453125,
+        "E_N_acquisition_difference": -0.00244140625,
+        "E_N_loss_difference": -0.01025390625,
+        "E_N_net": 0.0078125,
+        "E_S_low_acquisition_difference": 0.00244140625,
+        "E_S_low_loss_difference": 0.0029296875,
+        "E_S_low_net": -0.00048828125,
+        "E_S_high_acquisition_difference": 0.00390625,
+        "E_S_high_loss_difference": -0.00537109375,
+        "E_S_high_net": 0.00927734375,
+        "S_low_N_acquisition_difference": -0.0048828125,
+        "S_low_N_loss_difference": -0.01318359375,
+        "S_low_N_net": 0.00830078125,
+        "S_high_N_acquisition_difference": -0.00634765625,
+        "S_high_N_loss_difference": -0.0048828125,
+        "S_high_N_net": -0.00146484375,
+        "S_high_S_low_acquisition_difference": -0.00146484375,
+        "S_high_S_low_loss_difference": 0.00830078125,
+        "S_high_S_low_net": -0.009765625
+      },
+      {
+        "pass_index": 1,
+        "windows": 8,
+        "a_P": 5.3818359375,
+        "a_N": 5.38818359375,
+        "a_E": 5.41162109375,
+        "a_S_low": 5.3935546875,
+        "a_S_high": 5.3876953125,
+        "N_acquired": 0.03369140625,
+        "N_lost": 0.02734375,
+        "N_net": 0.00634765625,
+        "N_earlier_break": 0.00927734375,
+        "N_repairs_pre_blocker": 0.009765625,
+        "E_acquired": 0.04443359375,
+        "E_lost": 0.0146484375,
+        "E_net": 0.02978515625,
+        "E_earlier_break": 0.00830078125,
+        "E_repairs_pre_blocker": 0.01220703125,
+        "S_low_acquired": 0.02734375,
+        "S_low_lost": 0.015625,
+        "S_low_net": 0.01171875,
+        "S_low_earlier_break": 0.00830078125,
+        "S_low_repairs_pre_blocker": 0.00830078125,
+        "S_high_acquired": 0.0234375,
+        "S_high_lost": 0.017578125,
+        "S_high_net": 0.005859375,
+        "S_high_earlier_break": 0.0068359375,
+        "S_high_repairs_pre_blocker": 0.00634765625,
+        "E_displaced_native_repair": 0.00146484375,
+        "S_low_displaced_native_repair": 0.001953125,
+        "S_high_displaced_native_repair": 0.0048828125,
+        "E_N_acquisition_difference": 0.0107421875,
+        "E_N_loss_difference": -0.0126953125,
+        "E_N_net": 0.0234375,
+        "E_S_low_acquisition_difference": 0.01708984375,
+        "E_S_low_loss_difference": -0.0009765625,
+        "E_S_low_net": 0.01806640625,
+        "E_S_high_acquisition_difference": 0.02099609375,
+        "E_S_high_loss_difference": -0.0029296875,
+        "E_S_high_net": 0.02392578125,
+        "S_low_N_acquisition_difference": -0.00634765625,
+        "S_low_N_loss_difference": -0.01171875,
+        "S_low_N_net": 0.00537109375,
+        "S_high_N_acquisition_difference": -0.01025390625,
+        "S_high_N_loss_difference": -0.009765625,
+        "S_high_N_net": -0.00048828125,
+        "S_high_S_low_acquisition_difference": -0.00390625,
+        "S_high_S_low_loss_difference": 0.001953125,
+        "S_high_S_low_net": -0.005859375
+      }
+    ],
+    "request_signs": {
+      "E_N": {
+        "improved": 22,
+        "regressed": 12,
+        "tied": 30
+      },
+      "E_S_low": {
+        "improved": 22,
+        "regressed": 8,
+        "tied": 34
+      },
+      "E_S_high": {
+        "improved": 19,
+        "regressed": 8,
+        "tied": 37
+      },
+      "S_low_N": {
+        "improved": 15,
+        "regressed": 14,
+        "tied": 35
+      },
+      "S_high_N": {
+        "improved": 18,
+        "regressed": 20,
+        "tied": 26
+      },
+      "S_high_S_low": {
+        "improved": 14,
+        "regressed": 14,
+        "tied": 36
+      }
+    }
+  }
+}
