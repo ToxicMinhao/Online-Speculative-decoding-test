@@ -26,6 +26,12 @@ inherited evaluation tests pass. The final 53-test orchestration suite took
 48.819 seconds. These are CPU checks; they do not establish native parity,
 resource fit or efficacy.
 
+A subsequent staging review adds an explicit owned-process open-file/mapping
+check before retiring byte-equivalent new feature duplicates, plus the fixed
+C7/N7/S7 secondary count reducer. Thirteen additional CPU tests pass (four
+retirement checks and nine secondary-analysis tests), bringing the new-test
+total to **78**. These changes add no model work or algorithm adjustment.
+
 Review caught and repaired three execution issues before GPU work: a final
 qualification restore drew another permutation after restoring RNG; one generic
 reducer still used the old E arm name; and failure cleanup could obscure the

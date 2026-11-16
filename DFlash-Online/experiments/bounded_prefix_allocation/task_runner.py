@@ -10,7 +10,9 @@ import argparse
 import os
 from pathlib import Path
 import resource
+import re
 import signal
+import stat
 import time
 import traceback
 
@@ -54,6 +56,71 @@ def own_features(plan, origin):
             or len(expected) != 128 or receipt["feature_paths"] != expected):
         raise ValueError("C8 requires its complete immutable C7 feedback pool")
     return expected
+
+
+def check_retirement_live_use(record, prepared, root, base, backend_pid):
+    """Check this worker's exact new duplicates before their existing byte check.
+
+    Collection is synchronous and these paths belong exclusively to this task.
+    Its parent process and descendants include the native backend and engine;
+    no other task receives these temporary paths. Inspecting unrelated users'
+    processes is neither necessary nor sufficient for this ownership contract.
+    """
+    import psutil
+
+    record_id = record["record_id"]
+    if Path(record_id).name != record_id:
+        raise ValueError("Unsafe feedback record identity")
+    receipt_path = Path(base) / "preparation_retirement" / (record_id + ".LIVE_USE.json")
+    receipt = dict(status="checking", record_id=record_id, parent_pid=os.getpid(),
+        backend_pid=backend_pid, scope="current collection process and all descendants",
+        targets=[], inspected_processes=[], matches=[], additional_model_forwards=0)
+    started = time.perf_counter()
+    try:
+        base, root = Path(base).absolute(), Path(root).absolute()
+        if base != root / "tasks/C_collect" or base.resolve() != base:
+            raise ValueError("Retirement must stay inside the owned collection task")
+        feature = base / "loop/features" / (record_id + ".pt")
+        trace = Path(record["metadata"]["native_trace_path"])
+        capture = Path(record["metadata"]["capture"]["feature_path"])
+        terminal = Path(prepared["terminal_feature"]["tensor_path"])
+        if (Path(prepared["feature_path"]) != feature or trace.parent != base / "native"
+                or re.fullmatch(r"request_[0-9]{6}\.json", trace.name) is None
+                or capture != trace.with_suffix(".pt")
+                or terminal != feature.with_suffix(".terminal.pt")):
+            raise ValueError("Retirement paths differ from this response's exact native paths")
+        targets = {str(capture), str(terminal)}
+        for path in (capture, terminal):
+            info = path.lstat()
+            if (path.resolve() != path or not stat.S_ISREG(info.st_mode) or info.st_nlink != 1):
+                raise ValueError("Retirement target is linked or is not an exclusive regular file")
+            receipt["targets"].append(dict(path=str(path), device=info.st_dev, inode=info.st_ino,
+                                           bytes=info.st_size, links=info.st_nlink))
+        parent = psutil.Process(os.getpid())
+        processes = [parent, *parent.children(recursive=True)]
+        if backend_pid not in {process.pid for process in processes}:
+            raise ValueError("Native backend is absent from the owned process tree")
+        for process in processes:
+            row = dict(pid=process.pid, open_file_count=0, mapped_file_count=0)
+            receipt["inspected_processes"].append(row)
+            for kind, entries in (("open", process.open_files()),
+                                  ("mapped", process.memory_maps(grouped=False))):
+                row["open_file_count" if kind == "open" else "mapped_file_count"] = len(entries)
+                for entry in entries:
+                    # /proc can append this suffix to a still-live mapping.
+                    path = entry.path.removesuffix(" (deleted)")
+                    if path.startswith("/") and os.path.realpath(path) in targets:
+                        receipt["matches"].append(dict(pid=process.pid, kind=kind, path=entry.path))
+        if receipt["matches"]:
+            raise ValueError("Disposable feature file is still open or memory-mapped")
+        receipt["status"] = "passed"
+    except BaseException as error:
+        receipt.update(status="failed", error=repr(error))
+        raise
+    finally:
+        receipt["inspection_s"] = time.perf_counter() - started
+        write_json(receipt_path, receipt)
+    return receipt
 
 
 def train_task(plan, task, base, ledger):
@@ -184,6 +251,7 @@ def collect_task(plan, task, base, ledger, uuid):
             started = time.perf_counter()
             # Deletes only decoded-byte-equivalent new capture/terminal copies;
             # compact provenance and the durable own training packet remain.
+            check_retirement_live_use(record, prepared, plan["root"], base, backend.worker.pid)
             retire_redundant_features(record, prepared, plan["root"], base)
             result["redundant_capture_retirement_s"] += time.perf_counter()-started
             packets.append(str(packet))
