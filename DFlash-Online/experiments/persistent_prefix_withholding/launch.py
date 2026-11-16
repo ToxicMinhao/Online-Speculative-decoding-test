@@ -18,9 +18,25 @@ from online_feedback.storage import write_json
 from .resources import CARD_SECONDS, ELAPSED_SECONDS, LIMITS
 from .task_runner import clock_status, occupied_card, read
 
+# Retained qualified serving launcher: recent_repair_retention_event7 final_001
+# retained/RUN_SCRIPT.sh. The backend already supplies its qualified library paths.
+QUALIFIED_COMPILERS = {
+    'CC': '/data/conda_envs/minhao/dflash_tree_qualification_v2/bin/x86_64-conda-linux-gnu-gcc',
+    'CXX': '/data/conda_envs/minhao/dflash_tree_qualification_v2/bin/x86_64-conda-linux-gnu-g++',
+}
+
+
+def check_compilers():
+    """Reject a missing qualified toolchain before allocating a GPU worker."""
+    for name, path in QUALIFIED_COMPILERS.items():
+        if not Path(path).is_file() or not os.access(path, os.X_OK):
+            raise FileNotFoundError('Qualified compiler is not executable: '+name+'='+path)
+    return dict(QUALIFIED_COMPILERS)
+
 
 def child_environment(plan, slot=None):
     environment = dict(os.environ)
+    environment.update(QUALIFIED_COMPILERS)
     environment['CUDA_VISIBLE_DEVICES'] = '' if slot is None else plan['devices'][slot]
     environment['PYTHONPATH'] = os.pathsep.join([
         plan['source_root'], str(Path(plan['source_root'])/'training'),
@@ -32,6 +48,7 @@ def child_environment(plan, slot=None):
 
 def run_qualification_child(plan_path, plan, kind, slot):
     """Lease a card and enforce both clocks even inside a long native call."""
+    check_compilers()
     root = Path(plan['root'])
     name = kind+'_'+slot
     module = ('qualification_entry' if kind == 'training' else 'serving_qualification')

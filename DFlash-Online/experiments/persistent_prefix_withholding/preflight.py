@@ -28,6 +28,8 @@ def identity(path):
 def runtime_inventory(plan):
     """Read actual package versions, installed verifier sources and GPU IDs."""
     import os
+    from .launch import check_compilers
+    compilers = check_compilers()
     environment = dict(os.environ, CUDA_VISIBLE_DEVICES='')
     script = ("import importlib.metadata as m,json,platform,torch,transformers; "
               "print(json.dumps(dict(versions=dict(python=platform.python_version(),"
@@ -72,7 +74,7 @@ def runtime_inventory(plan):
         raise RuntimeError('Insufficient host RAM for first bounded qualification')
     return dict(versions=versions, installed_sources=observed_sources, physical_cards=cards,
                 gpu_processes=processes, available_host_bytes=available,
-                first_single_trainer_required_bytes=initial_required)
+                first_single_trainer_required_bytes=initial_required, qualified_compilers=compilers)
 
 
 def check_environment(observed, expected, name):

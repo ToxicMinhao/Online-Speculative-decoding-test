@@ -81,13 +81,40 @@ class LauncherTests(unittest.TestCase):
 
     def test_environment_keeps_single_uuid_and_removes_distributed_state(self):
         with patch.dict(os.environ, CUDA_VISIBLE_DEVICES='other', WORLD_SIZE='2', LOCAL_RANK='1',
-                        RANK='1', MASTER_ADDR='external', MASTER_PORT='1234'):
+                        RANK='1', MASTER_ADDR='external', MASTER_PORT='1234',
+                        CC='unqualified-cc', CXX='unqualified-cxx', OMP_NUM_THREADS='7',
+                        LD_LIBRARY_PATH='/unchanged/library'):
             cpu = L.child_environment(self.plan)
             gpu = L.child_environment(self.plan, 'B')
         self.assertEqual(cpu['CUDA_VISIBLE_DEVICES'], '')
         self.assertEqual(gpu['CUDA_VISIBLE_DEVICES'], 'GPU-B')
         self.assertTrue(gpu['PYTHONPATH'].startswith(str(self.root)+os.pathsep))
         self.assertFalse(set(('WORLD_SIZE','LOCAL_RANK','RANK','MASTER_ADDR','MASTER_PORT')) & set(gpu))
+        for environment in (cpu, gpu):
+            for name, path in L.QUALIFIED_COMPILERS.items():
+                self.assertEqual(environment[name], path)
+            self.assertEqual(environment['OMP_NUM_THREADS'], '7')
+            self.assertEqual(environment['LD_LIBRARY_PATH'], '/unchanged/library')
+
+    def test_qualified_compilers_must_exist_and_be_executable(self):
+        with patch.object(L.Path, 'is_file', return_value=True), \
+                patch.object(L.os, 'access', return_value=True) as access:
+            self.assertEqual(L.check_compilers(), L.QUALIFIED_COMPILERS)
+        self.assertEqual([call.args for call in access.call_args_list],
+                         [(path, os.X_OK) for path in L.QUALIFIED_COMPILERS.values()])
+        for missing, executable in ((False,True), (True,False)):
+            with patch.object(L.Path, 'is_file', return_value=missing), \
+                    patch.object(L.os, 'access', return_value=executable):
+                with self.assertRaisesRegex(FileNotFoundError, 'Qualified compiler'):
+                    L.check_compilers()
+
+    def test_missing_compiler_stops_before_gpu_worker_or_card_lease(self):
+        with patch.object(L, 'check_compilers', side_effect=FileNotFoundError('compiler')), \
+                patch.object(L.subprocess, 'Popen') as worker, patch.object(L, 'occupied_card') as lease:
+            with self.assertRaisesRegex(FileNotFoundError, 'compiler'):
+                L.run_qualification_child(self.plan_path, self.plan, 'serving', 'A')
+        worker.assert_not_called()
+        lease.assert_not_called()
 
     def test_failed_cpu_preflight_launches_no_qualification_or_campaign(self):
         with patch.object(L.subprocess, 'run', side_effect=subprocess.CalledProcessError(1, 'cpu')) as cpu, \
@@ -140,6 +167,7 @@ class LauncherTests(unittest.TestCase):
         child = Mock(pid=987654, returncode=None)
         child.poll.return_value = None
         with patch.object(L.subprocess, 'Popen', return_value=child), \
+             patch.object(L, 'check_compilers'), \
              patch.object(L, 'clock_status', return_value=dict(occupied_s=CARD_SECONDS, elapsed_s=0)), \
              patch.object(L.os, 'killpg') as kill:
             with self.assertRaisesRegex(TimeoutError, 'time cap'):
@@ -158,7 +186,7 @@ class LauncherTests(unittest.TestCase):
         write_json(self.root/'qualification/A/STATUS.json', dict(status='failed'))
         child = Mock(pid=987654, returncode=0)
         child.poll.return_value = 0
-        with patch.object(L.subprocess, 'Popen', return_value=child):
+        with patch.object(L.subprocess, 'Popen', return_value=child), patch.object(L, 'check_compilers'):
             with self.assertRaisesRegex(RuntimeError, 'Unpassed native'):
                 L.run_qualification_child(self.plan_path, self.plan, 'training', 'A')
 
