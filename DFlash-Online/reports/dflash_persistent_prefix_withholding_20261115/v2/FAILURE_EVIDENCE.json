@@ -1,0 +1,126 @@
+{
+  "scope": "DEVELOPMENT_FEASIBILITY_REUSED_DATA",
+  "status": "INCOMPLETE_NO_EFFICACY_CLAIM",
+  "execution_commit": "e032cbc1fba90a7a6aa6a3460bc0a8c954810497",
+  "failure": "ALL versus legacy N endpoint",
+  "forward_exact": true,
+  "preclip_exact": true,
+  "rng_exact": true,
+  "adam_moments_exact": true,
+  "parameter_tensor_count": 58,
+  "different_weight_tensors": [
+    "layers.0.self_attn.q_proj.weight",
+    "layers.0.self_attn.k_proj.weight",
+    "layers.0.self_attn.v_proj.weight",
+    "layers.0.self_attn.o_proj.weight",
+    "layers.0.mlp.gate_proj.weight",
+    "layers.0.mlp.up_proj.weight",
+    "layers.0.mlp.down_proj.weight",
+    "layers.1.self_attn.q_proj.weight",
+    "layers.1.self_attn.k_proj.weight",
+    "layers.1.self_attn.v_proj.weight",
+    "layers.1.self_attn.o_proj.weight",
+    "layers.1.mlp.gate_proj.weight",
+    "layers.1.mlp.up_proj.weight",
+    "layers.1.mlp.down_proj.weight",
+    "layers.2.self_attn.q_proj.weight",
+    "layers.2.self_attn.k_proj.weight",
+    "layers.2.self_attn.v_proj.weight",
+    "layers.2.self_attn.o_proj.weight",
+    "layers.2.mlp.gate_proj.weight",
+    "layers.2.mlp.up_proj.weight",
+    "layers.2.mlp.down_proj.weight",
+    "layers.3.self_attn.q_proj.weight",
+    "layers.3.self_attn.k_proj.weight",
+    "layers.3.self_attn.v_proj.weight",
+    "layers.3.self_attn.o_proj.weight",
+    "layers.3.mlp.gate_proj.weight",
+    "layers.3.mlp.up_proj.weight",
+    "layers.3.mlp.down_proj.weight",
+    "layers.4.self_attn.q_proj.weight",
+    "layers.4.self_attn.k_proj.weight",
+    "layers.4.self_attn.v_proj.weight",
+    "layers.4.self_attn.o_proj.weight",
+    "layers.4.mlp.gate_proj.weight",
+    "layers.4.mlp.up_proj.weight",
+    "layers.4.mlp.down_proj.weight",
+    "fc.weight"
+  ],
+  "adam_step_tensors": 58,
+  "legacy_native_adam_step": 769,
+  "all_adapter_adam_step": 770,
+  "logical_global_steps": [
+    769,
+    769
+  ],
+  "physical_work": {
+    "attempted": {
+      "model_load": 1,
+      "response_forward": 6,
+      "response_backward": 6,
+      "optimizer_step": 2
+    },
+    "completed": {
+      "model_load": 1,
+      "response_forward": 6,
+      "response_backward": 6,
+      "optimizer_step": 2
+    },
+    "failed": {},
+    "physical": {
+      "draft_forwards": 6,
+      "layer_forwards": 30,
+      "objective_chunk": 312,
+      "vocabulary_head_calls": 624
+    },
+    "unknown": {
+      "model_load": 0,
+      "response_forward": 0,
+      "response_backward": 0,
+      "optimizer_step": 0
+    },
+    "by_category": {
+      "qualification": {
+        "draft_forwards": 4,
+        "layer_forwards": 20,
+        "objective_chunk": 192,
+        "vocabulary_head_calls": 384
+      },
+      "startup": {
+        "draft_forwards": 2,
+        "layer_forwards": 10,
+        "objective_chunk": 120,
+        "vocabulary_head_calls": 240
+      }
+    },
+    "wall_s": 85.22993490286171,
+    "nested_clocks_not_additive": true
+  },
+  "occupied_card_s": 89.01599144935608,
+  "cpu_preflight_s": 58.020941430702806,
+  "sampled_process_tree_peak_rss_bytes": 34904080384,
+  "peak_gpu_allocated_bytes": 17041992704,
+  "peak_gpu_reserved_bytes": 18580766720,
+  "original_state_files_unchanged": true,
+  "source_files_rechecked": 4412,
+  "storage": {
+    "epoch": 1794802961.549209,
+    "root_allocated_bytes": {
+      "/data/sources/minhao/runs/dflash_persistent_prefix_withholding_20261115": 33296384,
+      "/data/sources/minhao/persistent_prefix_source_20261116_v2_001": 254550016,
+      "/data/sources/minhao/persistent_prefix_source_20261116_v2_002": 256622592
+    },
+    "unique_declared_roots_bytes": 544468992,
+    "compiler_baseline_bytes": 5022478336,
+    "compiler_now_bytes": 5039001600,
+    "compiler_growth_bytes": 16523264,
+    "sampled_not_continuous_peak": true,
+    "filesystem_free_bytes": 704275832832,
+    "retired_new_paths": [],
+    "cleanup_PR48_already_complete": true
+  },
+  "GPU_retry_performed": false,
+  "production_events": 0,
+  "complete_generations": 0,
+  "efficacy": null
+}
