@@ -21,7 +21,7 @@ import time
 import traceback
 
 from online_feedback.storage import write_json
-from .resources import ALLOCATION_BYTES, CARD_SECONDS, ELAPSED_SECONDS, FREE_RESERVE_BYTES, LIMITS, effective_limits
+from .resources import ALLOCATION_BYTES, CARD_SECONDS, ELAPSED_SECONDS, FREE_RESERVE_BYTES, LIMITS, effective_limits, effective_elapsed_limit
 
 
 def read(path):
@@ -214,7 +214,7 @@ def storage_boundary(plan, *, upcoming_bytes=0, check_compiler=True):
 
 def work_boundary(plan, *, upcoming_bytes=0, check_compiler=False):
     clock = clock_status(plan["root"])
-    if clock["occupied_s"] >= CARD_SECONDS or clock["elapsed_s"] >= ELAPSED_SECONDS:
+    if clock["occupied_s"] >= CARD_SECONDS or clock["elapsed_s"] >= effective_elapsed_limit(plan):
         raise RuntimeError("Persistent campaign shared time cap reached")
     return dict(storage=storage_boundary(plan, upcoming_bytes=upcoming_bytes, check_compiler=check_compiler), clock=clock)
 
@@ -303,7 +303,7 @@ def train_task(plan, task, base, ledger):
             global_step=trainer.global_step, presentations=trainer.presentations),
             boundary=boundary, costs=receipt["costs"], physical_work=dict(trainer.work))
         write_json(base / "RESULT.json", result)
-        if event == 8 and arm in ("E", "S"):
+        if event == 8 and arm in ("E", "S") and not plan.get("production_restart"):
             old = endpoint(plan, arm, 7)
             old_path = Path(old["state"])
             allowed = Path(plan["root"]) / "tasks" / f"{arm}7" / "trainer" / "training_state.pt"

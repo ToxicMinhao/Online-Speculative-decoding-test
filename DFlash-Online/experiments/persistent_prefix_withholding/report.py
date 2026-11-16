@@ -26,6 +26,9 @@ def optional(path):
 
 
 def planned_work(plan):
+    if plan.get("production_restart"):
+        from .production_continue import bound_json
+        return bound_json(plan["restart_import"])["expected_attempted"] if plan.get("restart_import") else None
     missing = optional(plan["missing_references"])
     if missing is None or isinstance(missing, dict) and missing.get("status") == "unreadable":
         return None
@@ -92,10 +95,20 @@ def work_accounting(root, plan):
             attempted=attempted, completed=completed,
             failed=failed, unknown=None if attempted is None or completed is None else attempted-completed-failed,
             unattempted=None if attempted is None or amount is None else max(0, amount-attempted)))
+    expected_completed = planned
+    inherited_pending = None
+    if plan.get("production_restart") and plan.get("restart_import"):
+        from .production_continue import bound_json
+        proof = bound_json(plan["restart_import"])
+        expected_completed = proof["expected_completed"]
+        inherited_pending = proof["failed_pending"]
     return dict(source=source, source_records=work.get("source_records") if work else None, rows=rows,
         pending=None if work is None else work.get("pending"),
+        inherited_pending=inherited_pending,
+        expected_completed=expected_completed,
         accounting_complete=bool(work and planned is not None and not work.get("pending")
-            and all(row["attempted"] == row["completed"] == row["planned"] for row in rows)),
+            and all(row["attempted"] == row["planned"]
+                    and row["completed"] == expected_completed[row["kind"]] for row in rows)),
         missing_global_ledger="Qualification receipts remain separate; absent totals are not inferred as zero." if work is None else None)
 
 
@@ -164,6 +177,9 @@ def assemble_report(plan_path, *, native_trace_resolver=None):
         receipt = gates.get(label, {}).get("receipt")
         if not receipt:
             return False
+        if label != "cpu_gate" and plan.get("production_restart"):
+            from .production_restart import qualified_receipt_matches
+            return qualified_receipt_matches(plan, label, receipt)
         if label != "cpu_gate" and plan.get("production_continuation"):
             from .production_continue import qualified_receipt_matches
             return qualified_receipt_matches(plan, label, receipt)
@@ -190,6 +206,11 @@ def assemble_report(plan_path, *, native_trace_resolver=None):
         physical_devices=plan.get("devices"), fixed_cost_prices=plan.get("costs"),
         source_plan=str(plan_path), source_binding=plan.get("binding"),
         cost_scope="Task/event wall times include nested operations; do not add them to their component times.",
+        restart_scope=(dict(import_receipt=plan.get("restart_import"),
+            historical_failed_forward_remains_unknown=True,
+            note="The interrupted attempt is preserved; the replacement S8 starts from exact complete S7. "
+                 "Final validity is checked on the completed replacement trajectory, not inferred for the failed attempt.")
+            if plan.get("production_restart") else None),
         limitations=["One training origin and seed on deliberately reused development data.",
             "No independent confirmation, long-horizon claim, or training-inclusive speedup.",
             "N7 was reused; N has one new event while E and S each have two new events.",

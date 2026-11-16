@@ -1,4 +1,4 @@
-"""CPU-only complete launch-path controls for authenticated qualification reuse."""
+"""Qualification-reuse accounting units; staging has separate end-to-end tests."""
 from copy import deepcopy
 from pathlib import Path
 import tempfile
@@ -7,6 +7,7 @@ from unittest.mock import patch
 
 from experiments.persistent_prefix_withholding import production_continue as M
 from experiments.persistent_prefix_withholding import campaign as C, admission as A, launch as L, report as R
+from experiments.persistent_prefix_withholding import staging as S
 from experiments.persistent_prefix_withholding.resources import LIMITS
 from online_feedback.storage import write_json
 
@@ -116,12 +117,14 @@ class ProductionContinuationTests(unittest.TestCase):
         write_json(self.plan["cpu_gate"], dict(status="passed", execution_commit="new"))
 
     def test_imports_complete_work_and_clock_without_qualification(self):
-        with patch.object(M.subprocess, "run", side_effect=self.cpu_pass), \
+        with patch.object(S, "reference_readiness", return_value=dict(status="passed")) as readiness, \
+                patch.object(M.subprocess, "run", side_effect=self.cpu_pass), \
                 patch.object(A, "qualify_resources", return_value=dict(status="passed", costs={}, task_memory_bytes={}, task_vram_bytes={})), \
                 patch.object(C, "run_campaign", return_value=dict(status="completed")) as campaign, \
                 patch.object(L, "run_qualification_child") as qualification:
             result = M.run(self.plan_path)
         qualification.assert_not_called()
+        readiness.assert_called_once()
         campaign.assert_called_once()
         self.assertEqual(result["status"], "completed")
         imported = M.read(self.root/"INITIAL_WORK.json")
@@ -182,7 +185,8 @@ class ProductionContinuationTests(unittest.TestCase):
             M.authenticate_continuation(self.plan)
 
     def test_blocked_fresh_admission_starts_no_worker(self):
-        with patch.object(M.subprocess, "run", side_effect=self.cpu_pass), \
+        with patch.object(S, "reference_readiness", return_value=dict(status="passed")), \
+                patch.object(M.subprocess, "run", side_effect=self.cpu_pass), \
                 patch.object(A, "qualify_resources", return_value=dict(status="blocked")), \
                 patch.object(C, "run_campaign") as campaign, patch.object(L, "run_qualification_child") as qualification:
             with self.assertRaisesRegex(RuntimeError, "Fresh full-work"):
@@ -190,6 +194,18 @@ class ProductionContinuationTests(unittest.TestCase):
         campaign.assert_not_called()
         qualification.assert_not_called()
         self.assertEqual(M.read(self.root/"CLOCK.json"), self.clock)
+
+    def test_reference_readiness_failure_precedes_preflight_and_workers(self):
+        with patch.object(S,"reference_readiness",side_effect=FileNotFoundError("canonical seed")) as readiness, \
+                patch.object(M.subprocess,"run") as preflight, \
+                patch.object(C,"run_campaign") as campaign:
+            with self.assertRaises(FileNotFoundError):
+                M.run(self.plan_path)
+        readiness.assert_called_once()
+        preflight.assert_not_called()
+        campaign.assert_not_called()
+        self.assertFalse((self.root/"WORK.json").exists())
+        self.assertFalse((self.root/"CLOCK.json").exists())
 
 
 if __name__ == "__main__":

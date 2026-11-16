@@ -78,18 +78,24 @@ def resolve_missing_requests(panel, missing, reused):
     return resolved
 
 
-def load_missing_requests(plan):
-    """Authenticate immutable inputs and reject any partial-generation retry."""
+def load_reference_inputs(plan, *, input_resolver=Path):
+    """Authenticate the immutable audit inputs, including during CPU packaging."""
     values = {}
     for key in ("data_panel", "missing_references", "reused_references"):
-        path = plan[key]
-        if file_identity(path) != plan["input_identities"].get(path):
+        path = Path(input_resolver(plan[key]))
+        if file_identity(path) != plan["input_identities"].get(plan[key]):
             raise ValueError("Reference input differs from its sealed identity: " + key)
-        values[key] = json.loads(Path(path).read_text())
+        values[key] = json.loads(path.read_text())
     requests = resolve_missing_requests(values["data_panel"], values["missing_references"],
                                         values["reused_references"])
+    return requests, values["reused_references"]
+
+
+def load_missing_requests(plan):
+    """Authenticate immutable inputs and reject any partial-generation retry."""
+    requests, reused = load_reference_inputs(plan)
     merged = json.loads(Path(plan["references"]).read_text())
-    if merged != values["reused_references"]:
+    if merged != reused:
         raise ValueError("Reference destination must contain exactly the 104 authenticated reused references")
     return requests, merged
 

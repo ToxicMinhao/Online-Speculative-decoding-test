@@ -13,7 +13,7 @@ import time
 import traceback
 
 from online_feedback.storage import write_json
-from .resources import CARD_SECONDS, ELAPSED_SECONDS, HOST_HEADROOM_BYTES, LIMITS, effective_limits, time_admission
+from .resources import CARD_SECONDS, ELAPSED_SECONDS, HOST_HEADROOM_BYTES, LIMITS, effective_limits, effective_elapsed_limit, time_admission
 from .task_runner import clock_status, read, storage_boundary
 
 REQUIRED_COSTS = frozenset(("training_event", "training_startup", "training_load", "publication",
@@ -177,7 +177,7 @@ def schedule_admission(plan, tasks, *, completed, active, clock, available_host_
         return dict(status='blocked', remaining_schedule=schedule)
     admission = time_admission(occupied_spent_s=clock['occupied_s'],
         remaining_components=schedule['remaining_components'], elapsed_spent_s=clock['elapsed_s'],
-        remaining_schedule_s=schedule['remaining_elapsed_s'])
+        remaining_schedule_s=schedule['remaining_elapsed_s'], elapsed_cap_s=effective_elapsed_limit(plan))
     return dict(admission, remaining_schedule=schedule)
 
 
@@ -186,7 +186,10 @@ def mandatory_gates(plan):
     for label in ("A", "B", "cross_card", "serving"):
         receipt = read(plan["qualification_receipts"][label])
         compatible = receipt.get("execution_commit") == plan["execution_commit"]
-        if plan.get('production_continuation'):
+        if plan.get('production_restart'):
+            from .production_restart import qualified_receipt_matches
+            compatible = qualified_receipt_matches(plan, label, receipt)
+        elif plan.get('production_continuation'):
             from .production_continue import qualified_receipt_matches
             compatible = qualified_receipt_matches(plan, label, receipt)
         if receipt.get("status") != "passed" or not compatible:
@@ -297,29 +300,40 @@ def run_campaign(plan_path):
     missing = read(plan["missing_references"])
     missing = missing["requests"] if isinstance(missing, dict) else missing
     tasks = task_graph(plan["costs"], len(missing))
+    restart = None
+    if plan.get("production_restart"):
+        from .production_continue import bound_json
+        restart = bound_json(plan["restart_import"])
+        if (restart["status"] != "passed" or restart["execution_commit"] != plan["execution_commit"]
+                or restart["binding"] != plan["binding"]):
+            raise ValueError("Restart import does not identify the current execution")
+    initial_completed = set(restart["reused_tasks"]) if restart else set()
     clock = clock_status(root)
-    priced = schedule_admission(plan, tasks, completed=set(), active={}, clock=clock)
+    priced = schedule_admission(plan, tasks, completed=initial_completed, active={}, clock=clock)
     write_json(root / "PRODUCTION_ADMISSION.json", priced)
     if priced["status"] != "passed":
         raise RuntimeError("The complete fixed comparison does not fit the declared time cap")
     storage_boundary(plan)
     initial_work = read(root / "WORK.json")
-    if initial_work["pending"] or initial_work["attempted"] != initial_work["completed"]:
+    if restart:
+        if initial_work != restart["initial_work"]:
+            raise ValueError("Restart work differs from the authenticated imported ledger")
+    elif initial_work["pending"] or initial_work["attempted"] != initial_work["completed"]:
         raise ValueError("Unknown qualification work prevents production entry")
-    remaining_work = production_expectations(len(missing))
+    remaining_work = restart["remaining"] if restart else production_expectations(len(missing))
     limits = effective_limits(plan)
     if any(initial_work['attempted'][kind]+amount > limits[kind]
            for kind, amount in remaining_work.items()):
         raise ValueError("Complete production work exceeds the effective operational limits")
-    progress = dict(status="running", execution_commit=plan["execution_commit"], completed=[],
+    progress = dict(status="running", execution_commit=plan["execution_commit"], completed=sorted(initial_completed),
         schedule=[], idle_reasons=[], automatic_retry=False, production_admission=priced,
         initial_work=initial_work, production_expected=remaining_work, effective_limits=limits)
     write_json(root / "CAMPAIGN.json", progress)
-    active, completed = {}, set()
+    active, completed = {}, set(initial_completed)
     try:
         while len(completed) < len(tasks):
             clock = clock_status(root)
-            if clock["occupied_s"] >= CARD_SECONDS or clock["elapsed_s"] >= ELAPSED_SECONDS:
+            if clock["occupied_s"] >= CARD_SECONDS or clock["elapsed_s"] >= effective_elapsed_limit(plan):
                 raise RuntimeError("The shared occupied-card or elapsed time cap was reached")
             for name, worker in list(active.items()):
                 code = worker["process"].poll()
@@ -372,8 +386,9 @@ def run_campaign(plan_path):
             raise RuntimeError("Unknown scientific work remains after nominal completion")
         for kind, amount in progress["production_expected"].items():
             expected = initial_work["completed"][kind] + amount
+            attempted = initial_work["attempted"][kind] + amount
             if (progress["work"]["completed"][kind] != expected
-                    or progress["work"]["attempted"][kind] != expected):
+                    or progress["work"]["attempted"][kind] != attempted):
                 raise RuntimeError("Final production work differs: " + kind)
     except BaseException as error:
         progress.update(status="failed", error=repr(error), traceback=traceback.format_exc())

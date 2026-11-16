@@ -18,7 +18,7 @@ ORCHESTRATION_FILES = frozenset(
     "experiments/persistent_prefix_withholding/"+name for name in (
         "campaign.py", "resources.py", "launch.py", "preflight.py", "prepare.py",
         "task_runner.py", "references.py", "production_continue.py", "continue_serving.py",
-        "requalify.py", "admission.py", "report.py"))
+        "requalify.py", "admission.py", "report.py", "staging.py", "production_restart.py"))
 SCIENTIFIC_VALUES = ("target", "origin_state", "origin_export", "origin_config",
     "native_n7_state", "native_n7_export", "training_python", "worker_python", "devices",
     "runtime_contract", "event7_feature_paths", "compiler_root", "compiler_baseline_allocated_bytes",
@@ -184,6 +184,8 @@ def run(plan_path):
     write_json(root/"PRODUCTION_CONTINUATION.json", status)
     try:
         proof, receipts = authenticate_continuation(plan)
+        from .staging import reference_readiness
+        write_json(root/"REFERENCE_READINESS.json", reference_readiness(plan))
         write_json(root/"QUALIFICATION_REUSE.json", proof)
         plan["qualification_reuse"] = dict(path=str(root/"QUALIFICATION_REUSE.json"),
                                           identity=file_identity(root/"QUALIFICATION_REUSE.json"))

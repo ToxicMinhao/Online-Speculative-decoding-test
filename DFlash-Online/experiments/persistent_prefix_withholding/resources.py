@@ -24,6 +24,7 @@ LIMITS = {
 
 
 PRODUCTION_AMENDMENT = "PR49_PRODUCTION_CONTINUATION_20261115"
+RESTART_AMENDMENT = "PR49_PACKAGING_RESTART_20261116"
 
 
 def effective_limits(plan):
@@ -31,15 +32,38 @@ def effective_limits(plan):
     amendment = plan.get("operational_amendment")
     if amendment is None:
         return dict(LIMITS)
-    expected = dict(LIMITS, adam=650, response_forward=1316,
-                    response_backward=1316, training_initialization=8)
-    if (amendment.get("authority") != PRODUCTION_AMENDMENT
+    authority = amendment.get("authority")
+    if authority == RESTART_AMENDMENT:
+        expected = dict(LIMITS, adam=673, response_forward=1365,
+                        response_backward=1364, training_initialization=9)
+        if not plan.get("production_restart"):
+            raise ValueError("Restart limits require the bound restart evidence")
+    else:
+        expected = dict(LIMITS, adam=650, response_forward=1316,
+                        response_backward=1316, training_initialization=8)
+    if (authority not in (PRODUCTION_AMENDMENT, RESTART_AMENDMENT)
             or amendment.get("scientific_binding") != plan.get("binding")
             or amendment.get("original_limits") != LIMITS
             or amendment.get("effective_limits") != expected
             or plan.get("limits") != LIMITS):
         raise ValueError("Invalid production-only operational amendment")
     return expected
+
+
+def effective_elapsed_limit(plan):
+    """The explicit restart extension preserves the original first-load epoch."""
+    amendment = plan.get("elapsed_time_amendment")
+    if amendment is None:
+        return ELAPSED_SECONDS
+    if (not plan.get("production_restart")
+            or amendment.get("authority") != RESTART_AMENDMENT
+            or amendment.get("scientific_binding") != plan.get("binding")
+            or amendment.get("original_elapsed_s") != ELAPSED_SECONDS
+            or amendment.get("effective_elapsed_s") != 21600
+            or amendment.get("occupied_card_cap_s") != CARD_SECONDS
+            or amendment.get("first_model_load_epoch") != 1794802603.911516):
+        raise ValueError("Invalid explicit elapsed-time extension")
+    return 21600
 
 
 def storage_plan(prompt_lengths, *, weight_bytes, recovery_bytes,
@@ -83,7 +107,7 @@ def storage_plan(prompt_lengths, *, weight_bytes, recovery_bytes,
 
 
 def time_admission(*, occupied_spent_s, remaining_components, elapsed_spent_s,
-                   remaining_schedule_s):
+                   remaining_schedule_s, elapsed_cap_s=ELAPSED_SECONDS):
     """Apply the prespecified margin to a full, source-priced remaining plan."""
     values = [occupied_spent_s, elapsed_spent_s, remaining_schedule_s,
               *remaining_components.values()]
@@ -93,12 +117,12 @@ def time_admission(*, occupied_spent_s, remaining_components, elapsed_spent_s,
     admitted_card = occupied_spent_s + 1.5*remaining + 1800
     admitted_elapsed = elapsed_spent_s + 1.5*remaining_schedule_s + 1800
     return dict(status='passed' if admitted_card <= CARD_SECONDS and
-                admitted_elapsed <= ELAPSED_SECONDS else 'blocked',
+                admitted_elapsed <= elapsed_cap_s else 'blocked',
                 occupied_spent_s=occupied_spent_s, raw_remaining_card_s=remaining,
                 conservative_total_card_s=admitted_card,
                 conservative_total_elapsed_s=admitted_elapsed,
                 remaining_components=dict(remaining_components),
-                card_cap_s=CARD_SECONDS, elapsed_cap_s=ELAPSED_SECONDS)
+                card_cap_s=CARD_SECONDS, elapsed_cap_s=elapsed_cap_s)
 
 
 def admit_task_pair(*, available_host_bytes, new_working_sets, resident_counted=False):
