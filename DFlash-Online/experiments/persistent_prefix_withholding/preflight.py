@@ -29,18 +29,16 @@ def runtime_inventory(plan):
     """Read actual package versions, installed verifier sources and GPU IDs."""
     import os
     environment = dict(os.environ, CUDA_VISIBLE_DEVICES='')
-    script = ("import importlib.metadata as m,json,platform; "
-              "print(json.dumps(dict(python=platform.python_version(),"
-              "torch=m.version('torch'),transformers=m.version('transformers'))))")
+    script = ("import importlib.metadata as m,json,platform,torch,transformers; "
+              "print(json.dumps(dict(versions=dict(python=platform.python_version(),"
+              "torch=torch.__version__,transformers=transformers.__version__),"
+              "package_metadata=dict(torch=m.version('torch'),transformers=m.version('transformers')),"
+              "cuda_version=torch.version.cuda,cuda_initialized=torch.cuda.is_initialized())))")
     versions = {}
     for name, key in (('training', 'training_python'), ('serving', 'worker_python')):
         observed = json.loads(subprocess.check_output(
             [plan[key], '-c', script], env=environment, text=True))
-        expected = plan['runtime_contract'][name]
-        expected = {('python' if k == 'python_version' else k): v
-                    for k, v in expected.items() if k != 'cuda'}
-        if observed != expected:
-            raise ValueError('Pinned environment differs: '+name)
+        check_environment(observed, plan['runtime_contract'][name], name)
         versions[name] = observed
     runtime = Path(plan['worker_python']).parent.parent/'lib/python3.12/site-packages/sglang/srt'
     expected_sources = json.loads(Path(plan['installed_runtime_identities']).read_text())
@@ -75,6 +73,22 @@ def runtime_inventory(plan):
     return dict(versions=versions, installed_sources=observed_sources, physical_cards=cards,
                 gpu_processes=processes, available_host_bytes=available,
                 first_single_trainer_required_bytes=initial_required)
+
+
+def check_environment(observed, expected, name):
+    """Compare imported versions with the same imported-version historical pin.
+
+    Distribution metadata may omit PyTorch's CUDA local-version suffix. Keep
+    it in the receipt, but do not compare it to a different version surface.
+    """
+    versions = {('python' if key == 'python_version' else key): value
+                for key, value in expected.items() if key != 'cuda'}
+    if observed['versions'] != versions:
+        raise ValueError('Pinned environment differs: '+name)
+    if 'cuda' in expected and observed['cuda_version'] != expected['cuda']:
+        raise ValueError('Pinned CUDA runtime differs: '+name)
+    if observed['cuda_initialized']:
+        raise ValueError('CPU environment inspection initialized CUDA')
 
 
 def inspect(root):

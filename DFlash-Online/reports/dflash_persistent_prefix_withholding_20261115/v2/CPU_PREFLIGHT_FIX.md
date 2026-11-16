@@ -1,0 +1,5 @@
+# CPU preflight version-surface correction
+
+Attempt `execution_v2_001`, execution commit `116ae86fcbd9694bd095854b8db2f2e8cde787e6`, stopped before GPU work. Its runtime checker compared distribution metadata against the retained imported-module version. The training environment's wheel metadata reports `torch=2.13.0`, while `torch.__version__` reports the pinned `2.13.0+cu130`. Imported Python `3.12.15` and Transformers `5.12.1` also match. CUDA was not initialized.
+
+The correction compares imported versions with imported-version pins, retains distribution metadata separately, and checks the serving CUDA pin and CPU-only inspection. It changes no environment, training rule, data, numerical tolerance or scientific budget. Three focused CPU tests pass. Preserve the original failed preflight, launch record, environment comparison and partial transport files; no model forwards, optimizer applications or generations were consumed. Resume CPU preparation in a separate directory, carrying prior allocation into the same storage cap; this is not a GPU qualification retry.
