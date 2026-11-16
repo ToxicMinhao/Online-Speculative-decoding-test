@@ -1,0 +1,106 @@
+{
+  "status": "bounded_retention_proof_passed_pending_remote_identity_checks",
+  "execution_commit": "5d4e0ff65c5976318a50ebb181923447068169c8",
+  "source_identity_checks": [
+    {
+      "path": "experiments/native_update_size/runner.py",
+      "bytes": 20793,
+      "sha256": "1faa11f9e770da5ea943db32a412cada6f5a9523ac20f67d9a878291eb25f38b"
+    },
+    {
+      "path": "experiments/threatened_repair_replay/state.py",
+      "bytes": 11434,
+      "sha256": "34fa692d832809d8a76fe2982adae5633775f3ef4bf466d06cd0c09b4cf9c3ef"
+    },
+    {
+      "path": "experiments/full_k_gsm8k/training.py",
+      "bytes": 25022,
+      "sha256": "2c1abaa0656f7fa12d70d47daba0657112011448489af6574fcbce2a21025a59"
+    },
+    {
+      "path": "experiments/recent_repair_retention/training.py",
+      "bytes": 29531,
+      "sha256": "6654015408d4d0514a1d4989cfae8ab5dde73810a5588558f21e7929622a1e63"
+    },
+    {
+      "path": "online_feedback/training.py",
+      "bytes": 35690,
+      "sha256": "315db6b9a494c3cebf1b8e3f23ff9193ffac15ad546399ced7644ffc20097c2b"
+    },
+    {
+      "path": "online_feedback/storage.py",
+      "bytes": 1194,
+      "sha256": "d4fd33e0d0bc4b3ea784c26f44c65730516829dc25d1aa096318f20aff32b58e"
+    },
+    {
+      "path": "training/specforge/export/to_hf.py",
+      "bytes": 4569,
+      "sha256": "4cd2f2e0239d896a54db221f42b2874fc8322b2387ce7e16641dc209f86d0d19"
+    }
+  ],
+  "publication_receipt_equal": true,
+  "final_native_parity": {
+    "status": "passed",
+    "mismatches": [],
+    "global_step": 896,
+    "presentations": 1792,
+    "weights_optimizer_counters_rng_exact": true,
+    "metadata_scope": "run/output identity and additive diagnostics may differ"
+  },
+  "candidates": [
+    {
+      "kind": "redundant_native_weight_export",
+      "path": "/data/sources/minhao/runs/dflash_native_update_size_20261115/execution_003/training/trainer/events/event_007/export/model.safetensors",
+      "expected_logical_bytes": 2097259104,
+      "observed_allocated_bytes": 2097262592,
+      "new_sha256": null,
+      "new_sha256_status": "Not in downloaded compact manifest; record remotely before deletion.",
+      "classification": "TEMP_VALIDATION_REDUNDANT_NATIVE",
+      "canonical_keeper": {
+        "path": "/data/sources/minhao/runs/dflash_recent_repair_retention_event7_20261112/execution_001/training/NATIVE/trainer/events/event_007/export/model.safetensors",
+        "identity": {
+          "bytes": 2097259104,
+          "sha256": "30123d8de0bab8462a7afb77669079a65f62e771437232dcb0cba21413bed2cb"
+        },
+        "classification": "KEEP_INPUT"
+      },
+      "equivalence": "scientific tensor/optimizer/counter/RNG parity plus audited publication provenance; NOT asserted byte-identical whole-file duplication",
+      "release_condition": "Final report published and both final audits passed; remotely authenticate canonical keeper identity, new file size and unique non-symlink physical path; record new hash in retirement journal; preserve compact receipts and original KEEP files"
+    },
+    {
+      "kind": "redundant_native_recovery",
+      "path": "/data/sources/minhao/runs/dflash_native_update_size_20261115/execution_003/training/trainer/training_state.pt",
+      "expected_logical_bytes": 6299188123,
+      "observed_allocated_bytes": 6299189248,
+      "new_sha256": null,
+      "new_sha256_status": "Not in downloaded compact manifest; record remotely before deletion.",
+      "classification": "TEMP_VALIDATION_REDUNDANT_NATIVE",
+      "canonical_keeper": {
+        "path": "/data/sources/minhao/runs/dflash_recent_repair_retention_event7_20261112/execution_001/training/NATIVE/trainer/training_state.pt",
+        "identity": {
+          "bytes": 6299188123,
+          "sha256": "be5cccf3a7d4cee1ca65d0df390d5f4de3d198643a97fc5125afc68442e1fa45"
+        },
+        "classification": "KEEP_INPUT"
+      },
+      "equivalence": "scientific tensor/optimizer/counter/RNG parity plus audited publication provenance; NOT asserted byte-identical whole-file duplication",
+      "release_condition": "Final report published and both final audits passed; remotely authenticate canonical keeper identity, new file size and unique non-symlink physical path; record new hash in retirement journal; preserve compact receipts and original KEEP files"
+    }
+  ],
+  "total_logical_bytes": 8396447227,
+  "total_observed_allocated_bytes": 8396451840,
+  "scientific_state_claim": "Exact published native endpoint is scientifically redundant with original NATIVE7. New output paths, run metadata and additive diagnostics need not be file-byte-identical.",
+  "retained_evidence": [
+    "training/RESULT.json",
+    "training/trainer/events/event_007/RESULT.json",
+    "training/FINAL_NATIVE_PARITY.json",
+    "sealed/PLAN.json",
+    "SOURCE.json",
+    "ARTIFACT_MANIFEST.json",
+    "DOWNLOAD_MANIFEST.json"
+  ],
+  "retirement_scope": "Only the two named new bulk files. Leave directory configuration, receipt files, controls and all original inputs untouched by this supplemental recommendation.",
+  "capability_lost": "Direct opening of the newly generated PR48 bulk checkpoint/recovery is lost; equivalent original NATIVE7 scientific state and all compact PR48 provenance remain. This is retirement, not archiving.",
+  "remote_operations": 0,
+  "deletions": 0
+}

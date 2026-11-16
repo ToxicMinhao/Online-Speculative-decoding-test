@@ -86,7 +86,7 @@ The authenticated private delivery contains 25,384 files / 288,073,661 bytes, al
 
 Postflight before temporary-payload retirement: project 968.047 GB plus 31.698 GB environments = 999.745 GB allocated; filesystem free 629.314 GB. A separate baseline-relative scan measured 76.360 GB of new allocation across all sealed roots, including prior attempts/caches, against the110GBcap and 400GBfree reserve. This is a measured postflight value, not a continuous peak measurement; admission receipts and sampled high-water accounting are reported separately.
 
-The 32 selected controls and the newly generated redundant native weight/recovery files are disposable. Their retirement follows final audit/report publication, with exact paths, retained originals and lost replay capability recorded separately in STORAGE_BEFORE_AFTER.json. Existing paper keepers and active inputs are not part of that deletion.
+The 32 selected controls and two scientifically redundant new native payloads total 75.509 GB and qualify for retirement after remote identity checks. That maintenance is **pending because SSH access is intermittent**: two banner timeouts surrounded a successful read-only check showing 629.332 GB free and both GPUs idle. No payload was deleted, and no scientific work is outstanding. The prepared exact inventory, original-keeper proof and independent scope review are retained; STORAGE_BEFORE_AFTER.json records zero removed files. Original paper keepers, inputs and all compact evidence remain protected. This is a maintenance blocker, not an incomplete experimental comparison.
 
 ## Limits and conclusion
 

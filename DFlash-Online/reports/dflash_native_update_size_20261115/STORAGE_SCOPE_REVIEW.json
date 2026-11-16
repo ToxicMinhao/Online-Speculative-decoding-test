@@ -1,0 +1,19 @@
+{
+  "status": "passed",
+  "reviewer": "separate same-model-family agent",
+  "scope": "Read-only code and exact retirement-plan review",
+  "file_count": 34,
+  "logical_bytes": 75508737531,
+  "checks": [
+    "Plan exactly matches independent control/native inventories",
+    "No protected path overlap",
+    "Sealed control hashes and original keeper hashes checked",
+    "Unique regular files; no symlinks or protected inode aliases",
+    "Whole-batch validation before deletion",
+    "No recursive removal",
+    "Completed experiment and no active GPU/open-file use required"
+  ],
+  "limitation": "If interrupted between unlink and journal entry, reconcile against durable VALIDATED.json before further action; do not blindly rerun.",
+  "remote_operations": 0,
+  "deletions": 0
+}
