@@ -15,6 +15,76 @@ from experiments.persistent_prefix_withholding import qualification_entry as E
 
 
 class QualificationTests(unittest.TestCase):
+    @staticmethod
+    def optimizer_fixture():
+        generator = torch.Generator().manual_seed(17)
+        initial = (torch.randn(4096, generator=generator) * .05).bfloat16()
+        gradient = (torch.randn(4096, generator=generator) * .2).bfloat16()
+        parameter = torch.nn.Parameter(initial.clone())
+        optimizer = torch.optim.AdamW([parameter], lr=3e-4, weight_decay=.01)
+        state = optimizer.state_dict()
+        state['state'][0] = dict(step=torch.tensor(768.), exp_avg=torch.zeros_like(parameter),
+                                exp_avg_sq=torch.zeros_like(parameter))
+        backend = dict(optimizer=dict(recipe={'fixed': True}, optimizer_state_dict=state))
+        return parameter, optimizer, initial, gradient, backend
+
+    def test_non_capturable_loader_alias_explains_changed_adam_counter(self):
+        parameter, optimizer, initial, gradient, backend = self.optimizer_fixture()
+        source = backend['optimizer']['optimizer_state_dict']
+        endpoints = []
+        # Reproduce CUDA's transfer ownership on CPU: moments get separate
+        # storage, while the real PyTorch loader retains the CPU step tensor.
+        for expected_step in (769., 770.):
+            copied = deepcopy(source)
+            copied['state'][0]['step'] = source['state'][0]['step']
+            optimizer.load_state_dict(copied)
+            self.assertIs(optimizer.state[parameter]['step'], source['state'][0]['step'])
+            with torch.no_grad():
+                parameter.copy_(initial)
+            parameter.grad = gradient.clone()
+            optimizer.step()
+            self.assertEqual(source['state'][0]['step'].item(), expected_step)
+            endpoints.append(parameter.detach().clone())
+        self.assertGreater(torch.count_nonzero(endpoints[0] != endpoints[1]).item(), 0)
+
+    def test_cuda_restore_clones_host_steps_and_repeated_updates_match(self):
+        parameter, optimizer, initial, gradient, backend = self.optimizer_fixture()
+        untouched = deepcopy(backend)
+        endpoints, adam_states = [], []
+        for _ in range(2):
+            isolated = Q.isolated_backend_for_load(backend, torch.device('cuda'))
+            source_state = backend['optimizer']['optimizer_state_dict']['state'][0]
+            load_state = isolated['optimizer']['optimizer_state_dict']['state'][0]
+            self.assertIsNot(load_state['step'], source_state['step'])
+            self.assertIs(load_state['exp_avg'], source_state['exp_avg'])
+            self.assertIs(load_state['exp_avg_sq'], source_state['exp_avg_sq'])
+            # No GPU is allocated: emulate only the moment copies that happen
+            # on actual CUDA load, leaving the helper's step ownership intact.
+            load_state['exp_avg'] = load_state['exp_avg'].clone()
+            load_state['exp_avg_sq'] = load_state['exp_avg_sq'].clone()
+            optimizer.load_state_dict(isolated['optimizer']['optimizer_state_dict'])
+            with torch.no_grad():
+                parameter.copy_(initial)
+            parameter.grad = gradient.clone()
+            optimizer.step()
+            endpoints.append(parameter.detach().clone())
+            adam_states.append(Q.tree_identity(optimizer.state_dict()))
+            self.assertEqual(source_state['step'].item(), 768.)
+            self.assertEqual(optimizer.state[parameter]['step'].item(), 769.)
+        self.assertTrue(torch.equal(endpoints[0], endpoints[1]))
+        self.assertEqual(adam_states[0], adam_states[1])
+        self.assertEqual(Q.tree_identity(backend), Q.tree_identity(untouched))
+
+    def test_cpu_restore_owns_moments_as_well_as_counters(self):
+        _, _, _, _, backend = self.optimizer_fixture()
+        isolated = Q.isolated_backend_for_load(backend, torch.device('cpu'))
+        source_state = backend['optimizer']['optimizer_state_dict']['state'][0]
+        loaded_state = isolated['optimizer']['optimizer_state_dict']['state'][0]
+        for field in ('step', 'exp_avg', 'exp_avg_sq'):
+            self.assertIsNot(loaded_state[field], source_state[field])
+            loaded_state[field].add_(1)
+            self.assertFalse(torch.equal(loaded_state[field], source_state[field]))
+
     def test_termination_signals_raise_so_existing_finally_runs(self):
         with patch.object(E.signal, 'signal') as install:
             E.install_interrupt_handlers()

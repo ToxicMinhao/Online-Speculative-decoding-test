@@ -9,6 +9,7 @@ from __future__ import annotations
 import argparse
 from contextlib import contextmanager
 import fcntl
+import hashlib
 import json
 import os
 from pathlib import Path
@@ -126,20 +127,49 @@ def compiler_cache_growth(plan):
     return receipt
 
 
+def _authenticated_source_links(plan):
+    """Read exact authored links from current and explicitly pinned prior sources."""
+    current = dict(source_root=plan["source_root"],
+                   source_manifest=plan["source_manifest"],
+                   execution_commit=plan["execution_commit"])
+    links = {}
+    for entry in [current, *plan.get("prior_source_manifests", [])]:
+        source = Path(entry["source_root"]).absolute()
+        payload = Path(entry["source_manifest"]).read_bytes()
+        if entry is not current:
+            actual = dict(bytes=len(payload), sha256=hashlib.sha256(payload).hexdigest())
+            if actual != entry["manifest_identity"]:
+                raise ValueError("Prior source manifest identity differs")
+        manifest = json.loads(payload)
+        if manifest["dirty"] or manifest["commit"] != entry["execution_commit"]:
+            raise ValueError("Source manifest does not identify its clean published checkout")
+        for name, item in manifest["files"].items():
+            if item.get("kind") != "symlink":
+                continue
+            relative = Path(name)
+            if not relative.parts or relative.is_absolute() or ".." in relative.parts:
+                raise ValueError("Source manifest link escapes its source root")
+            links[source / relative] = (source, item["target"])
+    return links
+
+
 def storage_boundary(plan, *, upcoming_bytes=0, check_compiler=True):
     """Charge all declared new roots once per inode, including old staging."""
     seen, allocation = set(), 0
-    source = Path(plan["source_root"]).absolute()
+    source_links = None
     for value in plan["allocation_roots"]:
         root = Path(value)
         if not root.exists():
             continue
         for path in [root, *root.rglob("*")]:
             if path.is_symlink():
-                # Preserve authenticated, internal authored source links. Do not
-                # follow them or admit any mutable run-state link.
-                if (path.absolute() == source or not path.absolute().is_relative_to(source)
-                        or not path.resolve().is_relative_to(source.resolve()) or not path.exists()):
+                # Include prior staging in the same allocation budget without
+                # following links or admitting any mutable run-state link.
+                if source_links is None:
+                    source_links = _authenticated_source_links(plan)
+                declared = source_links.get(path.absolute())
+                if (declared is None or os.readlink(path) != declared[1]
+                        or not path.resolve().is_relative_to(declared[0].resolve()) or not path.exists()):
                     raise ValueError("Only authenticated internal source symlinks are admissible")
             try:
                 stat = path.lstat()

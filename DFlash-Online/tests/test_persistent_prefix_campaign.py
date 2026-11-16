@@ -170,7 +170,11 @@ class AccountingTests(unittest.TestCase):
         (source/"docs/web").mkdir(parents=True)
         (source/"docs/data").mkdir()
         (source/"docs/web/data").symlink_to("../data")
+        manifest=self.root/"SOURCE.json"
+        T.write_json(manifest,dict(commit="current",dirty=False,
+            files={"docs/web/data":dict(kind="symlink",target="../data")}))
         plan=dict(root=str(self.root),source_root=str(source),allocation_roots=[str(self.root)],
+                  source_manifest=str(manifest),execution_commit="current",
                   storage={"peak_new_bytes":1},compiler_growth_reserved_bytes=0)
         from types import SimpleNamespace
         with patch.object(T.shutil,"disk_usage",return_value=SimpleNamespace(free=10**12)):

@@ -82,6 +82,28 @@ def forward_identity(rows):
             for row in rows]
 
 
+def isolated_backend_for_load(backend, device):
+    """Keep the reusable origin independent of mutable optimizer state.
+
+    CUDA loading copies CPU moments to the parameter device, but noncapturable
+    AdamW deliberately keeps its scalar ``step`` tensor on CPU without copying.
+    Clone those counters explicitly. CPU fixtures also need distinct moments.
+    """
+    if torch.device(device).type == "cpu":
+        return deepcopy(backend)
+    optimizer = backend["optimizer"]
+    saved = optimizer["optimizer_state_dict"]
+    states = {key: {**value, "step": value["step"].clone()}
+              for key, value in saved["state"].items()}
+    return {**backend, "optimizer": {**optimizer,
+        "optimizer_state_dict": {**saved, "state": states}}}
+
+
+def _source_step_counters(source):
+    states = source["backend"]["optimizer"]["optimizer_state_dict"]["state"]
+    return {str(key): float(value["step"].item()) for key, value in states.items()}
+
+
 def _restore_arm(trainer, source, runtime, arm, role):
     """Explicit disposable migration; never used in production continuation."""
     import yaml
@@ -101,11 +123,8 @@ def _restore_arm(trainer, source, runtime, arm, role):
     trainer.backend.optimizer.recipe["optimizer_options"]["lr"] = contracts.arm_lr(arm)
     trainer.backend.optimizer.optimizer.param_groups[0]["lr"] = contracts.arm_lr(arm)
     trainer.bundle.draft_model.load_state_dict(candidate["draft_state_dict"], strict=True)
-    saved_backend = candidate["backend"]
-    # CPU fixture Adam may retain CPU tensor aliases. Production GPU loading
-    # converts these CPU tensors into distinct device allocations itself.
-    if next(trainer.bundle.draft_model.parameters()).device.type == "cpu":
-        saved_backend = deepcopy(saved_backend)
+    saved_backend = isolated_backend_for_load(candidate["backend"],
+        next(trainer.bundle.draft_model.parameters()).device)
     trainer.backend.load_state_dict(saved_backend)
     trainer.global_step, trainer.presentations = source["global_step"], source["presentations"]
     trainer.core._micro = trainer.presentations
@@ -146,6 +165,12 @@ def qualify(trainer, feature_paths, output, *, device_slot):
                   complete_generations=0, work_before=dict(trainer.work), startup_separate=True)
     original_forward = trainer._native_forward
     try:
+        # Capture the oracle before any disposable update. Reconstructing it
+        # from a mutated source at the end would conceal restore-state aliasing.
+        expected = dict(weights={name:tensor_identity(value) for name,value in source["draft_state_dict"].items()},
+            optimizer=tree_identity(source["backend"]["optimizer"]), rng=tree_identity(source["rng"]),
+            global_step=768, presentations=1536, micro=1536, accumulation_remainder=0)
+        report["source_step_counters_before"] = _source_step_counters(source)
         features = SpecForgeEventTrainer._prepare_event(trainer, "event_007", feature_paths, 2)
         for label, arm, role in CASES[device_slot]:
             migration = _restore_arm(trainer, source, runtime, arm, role)
@@ -191,6 +216,7 @@ def qualify(trainer, feature_paths, output, *, device_slot):
             report["response_presentations_completed"] += len(rows)
             row.update(status="completed", forward=forward_identity(rows),
                        endpoint=scientific_identity(trainer),
+                       source_step_counters_after=_source_step_counters(source),
                        pair_wall_s=pair_elapsed, preclip_observation_s=observation_started,
                        pair_wall_excluding_preclip_observer_s=pair_elapsed-observation_started,
                        work_cumulative=dict(trainer.work))
@@ -198,6 +224,8 @@ def qualify(trainer, feature_paths, output, *, device_slot):
                 roles = dict(responses=[response for receipt in trainer.role_receipts for response in receipt["responses"]])
                 row["gradient_roles"] = gradient_role_check(roles, "E")
             write_json(output / "RESULT.json", report)
+            _assert_equal(row["source_step_counters_after"], report["source_step_counters_before"],
+                          "Reusable origin Adam counters changed during qualification")
             if arm == "E" and row["gradient_roles"]["status"] != "passed":
                 raise ValueError("The fixed pair failed E role-gradient qualification")
             baseline = report["cases"][0]
@@ -220,9 +248,6 @@ def qualify(trainer, feature_paths, output, *, device_slot):
             write_json(output / "RESULT.json", report)
         _restore_arm(trainer, source, runtime, "N", None)
         restored = scientific_identity(trainer)
-        expected = dict(weights={name:tensor_identity(value) for name,value in source["draft_state_dict"].items()},
-            optimizer=tree_identity(source["backend"]["optimizer"]), rng=tree_identity(source["rng"]),
-            global_step=768, presentations=1536, micro=1536, accumulation_remainder=0)
         _assert_equal(restored, expected, "Final exact K6 restoration")
         report.update(status="passed", exact_origin_restoration=True)
     except BaseException as error:
