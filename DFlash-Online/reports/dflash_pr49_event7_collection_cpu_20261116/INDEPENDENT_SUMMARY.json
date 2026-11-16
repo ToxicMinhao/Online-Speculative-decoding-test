@@ -1,0 +1,152 @@
+{
+  "totals": {
+    "N": {
+      "V": 4402,
+      "P": 30520,
+      "A": 26118,
+      "M": 26234,
+      "output_tokens": 30648,
+      "requests": 128,
+      "eos": 128,
+      "cap": 0,
+      "zero_call": 0,
+      "pooled_native_acceptance": 5.933212176283507,
+      "progress_per_call": 6.933212176283507
+    },
+    "E": {
+      "V": 4468,
+      "P": 30520,
+      "A": 26052,
+      "M": 26164,
+      "output_tokens": 30648,
+      "requests": 128,
+      "eos": 128,
+      "cap": 0,
+      "zero_call": 0,
+      "pooled_native_acceptance": 5.830796777081468,
+      "progress_per_call": 6.830796777081468
+    },
+    "S": {
+      "V": 4393,
+      "P": 30520,
+      "A": 26127,
+      "M": 26245,
+      "output_tokens": 30648,
+      "requests": 128,
+      "eos": 128,
+      "cap": 0,
+      "zero_call": 0,
+      "pooled_native_acceptance": 5.947416344183929,
+      "progress_per_call": 6.947416344183929
+    }
+  },
+  "contrasts": {
+    "E_vs_N": {
+      "absolute_acceptance": {
+        "point": -0.10241539920203913,
+        "ci95": [
+          -0.1815632979943327,
+          -0.028521341789007962
+        ],
+        "undefined_draws": 0
+      },
+      "relative_acceptance_pct": {
+        "point": -1.7261374809992236,
+        "ci95": [
+          -3.0111660820169583,
+          -0.48533788596829014
+        ],
+        "undefined_draws": 0
+      },
+      "call_reduction_pct": {
+        "point": -1.4993184915947297,
+        "ci95": [
+          -2.6503831191514644,
+          -0.41654859211124823
+        ],
+        "undefined_draws": 0
+      },
+      "net_calls_saved": -66,
+      "gross_saved": 73,
+      "gross_added": 139,
+      "fewer": 38,
+      "more": 61,
+      "tied": 29
+    },
+    "S_vs_N": {
+      "absolute_acceptance": {
+        "point": 0.014204167900421893,
+        "ci95": [
+          -0.028481928621744788,
+          0.05824816105885199
+        ],
+        "undefined_draws": 0
+      },
+      "relative_acceptance_pct": {
+        "point": 0.2394009767120675,
+        "ci95": [
+          -0.47334151845039474,
+          0.9767539232092783
+        ],
+        "undefined_draws": 0
+      },
+      "call_reduction_pct": {
+        "point": 0.2044525215810995,
+        "ci95": [
+          -0.4077721912973864,
+          0.8293040511992453
+        ],
+        "undefined_draws": 0
+      },
+      "net_calls_saved": 9,
+      "gross_saved": 61,
+      "gross_added": 52,
+      "fewer": 44,
+      "more": 42,
+      "tied": 42
+    },
+    "E_vs_S": {
+      "absolute_acceptance": {
+        "point": -0.11661956710246102,
+        "ci95": [
+          -0.1922478387138981,
+          -0.04380940032493562
+        ],
+        "undefined_draws": 0
+      },
+      "relative_acceptance_pct": {
+        "point": -1.9608441775983088,
+        "ci95": [
+          -3.1797295387755686,
+          -0.749956205432243
+        ],
+        "undefined_draws": 0
+      },
+      "call_reduction_pct": {
+        "point": -1.7072615524698385,
+        "ci95": [
+          -2.805323953447976,
+          -0.6447249514595804
+        ],
+        "undefined_draws": 0
+      },
+      "net_calls_saved": -75,
+      "gross_saved": 67,
+      "gross_added": 142,
+      "fewer": 35,
+      "more": 67,
+      "tied": 26
+    }
+  },
+  "bootstrap": {
+    "draws": 10000,
+    "seed": 1708,
+    "generator": "PCG64",
+    "numpy_version": "2.3.5",
+    "percentile_method": "linear",
+    "sorted_identity_order": "source_id then request_id",
+    "ordered_source_list_sha256": "61823b98a02047903d3f3decef0afbddc134a1f4270abc04e8f4d3ff7e4d6520",
+    "draw_matrix_sha256": "9452d31c101d13134469e707d4a0c4b7a6d015448159c568d4b5cad8c5506834",
+    "draw_hash_encoding": "C-order little-endian int64 bytes"
+  }
+}

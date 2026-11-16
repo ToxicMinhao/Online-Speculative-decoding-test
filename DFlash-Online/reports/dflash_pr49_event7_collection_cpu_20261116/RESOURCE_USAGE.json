@@ -1,0 +1,53 @@
+{
+  "status": "completed_cpu_only",
+  "analysis_commit": "97a3f90b1b80f0d8bdcfc1f1910aa7cd4dd378c9",
+  "processes": [
+    {
+      "name": "provenance",
+      "wall_s": 1.0099398512393236,
+      "peak_rss_bytes": 41476096
+    },
+    {
+      "name": "primary_reducer",
+      "wall_s": 0.7069022501818836,
+      "peak_rss_bytes": 93544448
+    },
+    {
+      "name": "independent_raw_reducer",
+      "wall_s": 0.5616700267419219,
+      "peak_rss_bytes": 810393600
+    }
+  ],
+  "listed_process_wall_s": 2.278512128163129,
+  "maximum_observed_process_rss_bytes": 810393600,
+  "threads_per_analysis_process": 1,
+  "maximum_concurrent_analysis_threads": 2,
+  "cuda_visible_devices": "",
+  "forbidden_model_modules_loaded": [],
+  "new_gpu_work": 0,
+  "model_loads": 0,
+  "tensor_deserializations": 0,
+  "generations": 0,
+  "teacher_preparations": 0,
+  "optimizer_steps": 0,
+  "remote_operations": 0,
+  "deletions": 0,
+  "fixture_tests": 12,
+  "independent_fixture_tests": 5,
+  "expected_initial_preparation_minutes": [
+    30,
+    45
+  ],
+  "initial_expected_reduction_minutes": [
+    0,
+    3
+  ],
+  "artifact_cap_bytes": 1000000000,
+  "private_mapping_retained": true,
+  "source_evidence_duplicated": false,
+  "new_artifact_bytes_at_publication": 3399480,
+  "preparation_elapsed_s_at_publication": 991.2331812381744,
+  "storage_free_bytes_at_publication": 12481228800,
+  "remote_operations_scope": "remote server operations; Git publication is separate",
+  "publication_fixture_tests": 5
+}

@@ -1,0 +1,11 @@
+# Independent reducer review
+
+The separate raw-reader results were saved in `independent_001/` before reading the primary reducer. This is an implementation audit, not an independent scientific replication. No model, tensor, GPU, remote operation or generation was used.
+
+The primary implementation reconstructs the native counts from each verification block and distinguishes native accepted proposals from terminal-clipped matching counts. Its 2,048-token cap and one-token zero-call handling, exact paired output requirement, pooled ratios, common paired-request PCG64 draws and linear percentile intervals agree with the handoff. It withholds primary statistics if any accumulated identity, trace or all-pairs check fails. All eleven focused fixtures independently passed with CUDA hidden and each CPU thread setting equal to one.
+
+One failure-reporting issue was reported before primary execution: missing collection `RESULT.json`, missing top-level sealed metadata, or unavailable provenance inputs can raise outside the final evidence writer. For example, `Evidence.read` returns `None` after recording a missing collection result, then `reduce` subscripts `result['own_checkpoint']`. This prevents the required incomplete report and identifiable-row inventory from being written. Missing individual response/native JSON is already handled correctly. The recommendation is a narrow incomplete-report path, retaining every readable row and suppressing primary statistics, plus a focused entry-level missing-input fixture.
+
+No second scientific or numerical issue was found in this source review. The current independent totals and intervals remain unchanged. Final count/statistics comparison awaits the primary reduction.
+
+The missing-input path was repaired before primary execution: absent manifests, plan/population, collection results and provenance now produce incomplete evidence receipts; readable unbound records remain visible. The added entry-level fixture omits E's result and provenance and verifies three identifiable rows, retained discrepancies and no pooled primary claim. All twelve fixtures independently pass after the repair. No blocking issue remains in the reviewed valid-data reduction path.

@@ -36,7 +36,15 @@ analysis_output=/home/minhao2/EAGLE_SPEC/research/dflash_pr49_event7_collection_
   --delivery "$analysis_evidence/production_continuation_001" \
   --output "$analysis_output/independent"
 
+"$analysis_python" -m experiments.pr49_collection_cpu.compare \
+  --independent "$analysis_output/independent" \
+  --primary "$analysis_output/reduction" \
+  --output "$analysis_output/INDEPENDENT_REDUCTION.json"
+
 "$analysis_python" -m unittest discover -s tests -p test_pr49_collection_cpu.py -v
+"$analysis_python" -m unittest discover \
+  -s reports/dflash_pr49_event7_collection_cpu_20261116 \
+  -p test_independent_reader.py -v
 ```
 
 The analysis directory must remain private: manifests contain local path mappings,
