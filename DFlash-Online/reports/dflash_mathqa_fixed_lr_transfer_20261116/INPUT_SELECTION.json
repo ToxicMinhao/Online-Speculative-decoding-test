@@ -1,0 +1,20 @@
+{
+  "execution_commit": "15284b323a307d01118e2630e665ed0191ba7c33",
+  "schema": "mathqa_fixed_lr_transfer_data_seal_v1",
+  "status": "passed",
+  "selection_prefix": "kplus_mathqa_lr_transfer_20261116_v1",
+  "source_catalog_rows": 2985,
+  "excluded_rows": 1025,
+  "eligible_rows": 1960,
+  "validation": {
+    "status": "passed",
+    "scored": 256,
+    "warmup": 2,
+    "adaptation": 256,
+    "new_canonical_generations": 258,
+    "no_new_model_work": true
+  },
+  "normalization": "NFKC then collapse whitespace and strip, preserving case/punctuation; content=Problem+newline+original options; normalization never changes model input",
+  "first_model_work_before_seal": false,
+  "freshness": "Relative to enumerated project inventories, not universal exposure."
+}

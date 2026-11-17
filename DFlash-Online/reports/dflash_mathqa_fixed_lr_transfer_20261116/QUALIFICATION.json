@@ -1,0 +1,32 @@
+{
+  "execution_commit": "15284b323a307d01118e2630e665ed0191ba7c33",
+  "status": "passed",
+  "training_cases_per_gpu": 5,
+  "disposable_adam_steps": 10,
+  "disposable_core_presentations": 20,
+  "qualification_startup_forward_backward_each": 4,
+  "native_generations": 8,
+  "native_factor_one": "Exact loss, gradient, clip, update, optimizer and RNG identities on both cards.",
+  "scaled": "Exact pre-step objective/gradients; actual literal LR 2.88e-4; own save/reload next update exact.",
+  "cross_card_training": {
+    "status": "passed",
+    "errors": [],
+    "exact_cross_card": true,
+    "extra_model_work": 0,
+    "same_card_checks_passed": true
+  },
+  "cross_card_serving": {
+    "status": "passed",
+    "exact_native_counts_and_outputs": true,
+    "same_card_checks_passed": true,
+    "extra_generations": 0
+  },
+  "scientific_failures": 0,
+  "scientific_retries": 0,
+  "cpu_tests": {
+    "integrated": 64,
+    "inherited_staging": 19,
+    "focused_preparation": 20,
+    "note": "Focused preparation tests overlap the integrated suite; these are not 103 distinct tests."
+  }
+}

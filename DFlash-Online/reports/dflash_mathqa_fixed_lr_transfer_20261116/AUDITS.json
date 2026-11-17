@@ -1,0 +1,52 @@
+{
+  "execution_commit": "15284b323a307d01118e2630e665ed0191ba7c33",
+  "status": "passed",
+  "raw": {
+    "status": "passed",
+    "checks": 1670281,
+    "wall_s": 5.553605780005455,
+    "errors": [],
+    "independence": "No production metric/schedule/native-validation helper imported. Raw counts, ratios and PCG64 bootstrap are local.",
+    "limits": "Compact scalar/trace evidence only; no model or optimizer tensors loaded."
+  },
+  "training": {
+    "status": "passed",
+    "checks": 21091,
+    "errors": [],
+    "missing": [],
+    "observed_rows": {
+      "main_presentations": 1024,
+      "main_adam_windows": 512,
+      "recorded_startup_receipts": 6
+    },
+    "evidence_limits": [
+      "Compact receipts recheck recorded counters, rates, bindings, metrics and runtime validation outcomes.",
+      "Full weights, Adam moments and RNG payloads are not reloaded by this audit; exact state restoration is runtime receipt evidence.",
+      "No independently reconstructed token logits or prefix masks: native support/controller claims rely on published execution source and runtime contract checks.",
+      "Worker/event/training times overlap and must not be added; summed occupied-card time is distinct from elapsed time.",
+      "No serving efficacy analysis is performed here."
+    ]
+  },
+  "reader_identities": {
+    "analysis_audit.py": {
+      "bytes": 38993,
+      "sha256": "91a7755968ba32446c6d59897ef4165dc3ed7505c46d3ed63d85a407f10d187a"
+    },
+    "training_audit.py": {
+      "bytes": 21231,
+      "sha256": "d064097d215a090b6990725a3bc4418cc5efb50ec56b25f2724b9ea9282fe0e8"
+    },
+    "compact_retrieval.py": {
+      "bytes": 17252,
+      "sha256": "7e51a9d8744724a3174bb2134532f9e81a05f883f94a631e8d387bbc28992fb9"
+    }
+  },
+  "original_reader_failure": "First raw audit stopped after 182398 successful checks because it expected production PRESENTATIONS.jsonl. Production rows are in event RESULT.json; the private reader was corrected to the published schema. Original failure remains retained. No model work or scientific criterion changed.",
+  "publication": {
+    "status": "passed",
+    "checks": 95055,
+    "interpretation_categories_checked": 11,
+    "note": "Publication auditor corrected its own input-row expectation from258 to514 including adaptation; original private reader failure retained. No scientific or public measurement changed.",
+    "root_followup": "Final root check caught absolute checkpoint paths in two CSVs and CRLF formatting before push. Paths were replaced by @execution/ relative identifiers, numeric records unchanged; first local commit was unpublished and replaced."
+  }
+}

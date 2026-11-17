@@ -1,0 +1,331 @@
+{
+  "execution_commit": "15284b323a307d01118e2630e665ed0191ba7c33",
+  "training": [
+    {
+      "task": "N5",
+      "arm": "N",
+      "event": 5,
+      "learning_rate": 0.0003,
+      "start_step": 512,
+      "end_step": 640,
+      "presentations": 256,
+      "adam_steps": 128,
+      "loading_s": 66.60560590028763,
+      "startup_s": 39.25546160526574,
+      "training_s": 510.6923226509243,
+      "persistence_s": 19.532086964696646,
+      "export_s": 14.560765136033297,
+      "event_wall_s": 556.8027145583183,
+      "publication_wait_s": 0.00010464712977409363,
+      "boundary_verification_s": 19.724394978955388,
+      "worker_wall_s": 696.4309604167938,
+      "W1": 22228.998363494873,
+      "W2": 11118.021126747131,
+      "error_weight_moved": 2711.647279858589
+    },
+    {
+      "task": "N6",
+      "arm": "N",
+      "event": 6,
+      "learning_rate": 0.0003,
+      "start_step": 640,
+      "end_step": 768,
+      "presentations": 256,
+      "adam_steps": 128,
+      "loading_s": 63.94416926801205,
+      "startup_s": 43.118443278595805,
+      "training_s": 520.4542979691178,
+      "persistence_s": 20.168639039620757,
+      "export_s": 14.751390375196934,
+      "event_wall_s": 572.6782399788499,
+      "publication_wait_s": 7.853657007217407e-05,
+      "boundary_verification_s": 30.313873656094074,
+      "worker_wall_s": 724.1270127296448,
+      "W1": 22546.87770652771,
+      "W2": 11659.799847841263,
+      "error_weight_moved": 2797.075163066387
+    },
+    {
+      "task": "S5",
+      "arm": "S",
+      "event": 5,
+      "learning_rate": 0.000288,
+      "start_step": 512,
+      "end_step": 640,
+      "presentations": 256,
+      "adam_steps": 128,
+      "loading_s": 67.08408737927675,
+      "startup_s": 38.24133530072868,
+      "training_s": 511.03946559876204,
+      "persistence_s": 18.038270907476544,
+      "export_s": 14.588598061352968,
+      "event_wall_s": 556.7173691391945,
+      "publication_wait_s": 8.547864854335785e-05,
+      "boundary_verification_s": 19.69432365708053,
+      "worker_wall_s": 695.8551080226898,
+      "W1": 22340.151710510254,
+      "W2": 10970.005423069,
+      "error_weight_moved": 2697.7766474485397
+    },
+    {
+      "task": "S6",
+      "arm": "S",
+      "event": 6,
+      "learning_rate": 0.000288,
+      "start_step": 640,
+      "end_step": 768,
+      "presentations": 256,
+      "adam_steps": 128,
+      "loading_s": 62.93630333431065,
+      "startup_s": 42.123126953840256,
+      "training_s": 519.3823540546,
+      "persistence_s": 18.778830936178565,
+      "export_s": 14.991633296012878,
+      "event_wall_s": 570.6228758245707,
+      "publication_wait_s": 7.865950465202332e-05,
+      "boundary_verification_s": 20.115342194214463,
+      "worker_wall_s": 709.5182416439056,
+      "W1": 22645.5289311409,
+      "W2": 11528.688486456871,
+      "error_weight_moved": 2785.0059671401978
+    }
+  ],
+  "collection": {
+    "common5": {
+      "arm": "COMMON",
+      "event": 5,
+      "generated_responses": 128,
+      "teacher_preparations": 128,
+      "generation_s": 203.70743500255048,
+      "preparation_s": 24.340207122266293,
+      "redundant_capture_retirement_s": 44.25768646039069,
+      "loading_s": 20.00946151278913,
+      "worker_wall_s": 304.9170296192169
+    },
+    "N_collect6": {
+      "arm": "N",
+      "event": 6,
+      "generated_responses": 128,
+      "teacher_preparations": 128,
+      "generation_s": 195.7026339881122,
+      "preparation_s": 22.391170574352145,
+      "redundant_capture_retirement_s": 43.00590943917632,
+      "loading_s": 21.508971026167274,
+      "worker_wall_s": 298.1736137866974
+    },
+    "S_collect6": {
+      "arm": "S",
+      "event": 6,
+      "generated_responses": 128,
+      "teacher_preparations": 128,
+      "generation_s": 195.54228485748172,
+      "preparation_s": 22.708584778010845,
+      "redundant_capture_retirement_s": 46.01861444674432,
+      "loading_s": 20.759668154641986,
+      "worker_wall_s": 302.9369366168976
+    }
+  },
+  "training_memory": {
+    "N5": {
+      "peak_gpu_allocated_bytes": 22612722688,
+      "peak_gpu_reserved_bytes": 24723324928,
+      "host_maxrss_bytes": 21099610112
+    },
+    "N6": {
+      "peak_gpu_allocated_bytes": 20749620736,
+      "peak_gpu_reserved_bytes": 22923968512,
+      "host_maxrss_bytes": 21382299648
+    },
+    "S5": {
+      "peak_gpu_allocated_bytes": 22612722688,
+      "peak_gpu_reserved_bytes": 24723324928,
+      "host_maxrss_bytes": 21436948480
+    },
+    "S6": {
+      "peak_gpu_allocated_bytes": 20749620736,
+      "peak_gpu_reserved_bytes": 22923968512,
+      "host_maxrss_bytes": 21469388800
+    }
+  },
+  "qualification": [
+    {
+      "slot": "A",
+      "loading_s": 70.02170117944479,
+      "startup_s": 39.04612094722688,
+      "persistence_export_s": 37.313630906865,
+      "wall_s": 489.671103477478,
+      "observer_s": 25.389859395101666,
+      "counts": {
+        "training_initialization_attempted": 1,
+        "training_initialization_completed": 1,
+        "response_forward_attempted": 12,
+        "response_forward_completed": 12,
+        "response_backward_attempted": 12,
+        "response_backward_completed": 12,
+        "adam_attempted": 5,
+        "adam_completed": 5
+      }
+    },
+    {
+      "slot": "B",
+      "loading_s": 67.23099497519433,
+      "startup_s": 39.329428255558014,
+      "persistence_export_s": 37.98274075612426,
+      "wall_s": 488.07194805145264,
+      "observer_s": 25.574870739132166,
+      "counts": {
+        "training_initialization_attempted": 1,
+        "training_initialization_completed": 1,
+        "response_forward_attempted": 12,
+        "response_forward_completed": 12,
+        "response_backward_attempted": 12,
+        "response_backward_completed": 12,
+        "adam_attempted": 5,
+        "adam_completed": 5
+      }
+    }
+  ],
+  "evaluation": {
+    "status": "completed",
+    "planned_generations": 1584,
+    "attempted_generations": 1584,
+    "returned_generations": 1584,
+    "publications": 24,
+    "logical_activations": 24,
+    "activation_s": 123.09398523531854,
+    "weight_validation_s": 6.0427851136773825,
+    "optimizer_steps": 0,
+    "feedback_collections": 0,
+    "teacher_preparations": 0,
+    "automatic_retry": false,
+    "completed_valid_generations": 1584,
+    "invalid_generations": 0,
+    "scored_generations": 1536,
+    "warmup_generations": 48,
+    "unknown_generation_attempts": 0,
+    "interrupted_attempt": null,
+    "unattempted_generations": 0,
+    "evaluation_wall_s": 2143.8539690710604,
+    "cost_scope": "Evaluation wrapper includes checkpoint publication, validation, warmups, native generation and evidence IO.",
+    "loading_cost": "Backend construction is outside this function and must be recorded by the task runner.",
+    "nested_timers_not_additive": true,
+    "measured_time_by_phase": {
+      "warmup": {
+        "request_latency_s": 140.0375606622547,
+        "native_generate_s": 138.46760226413608,
+        "cache_maintenance_s": 0.02879406325519085
+      },
+      "scored": {
+        "request_latency_s": 1849.148482983932,
+        "native_generate_s": 1809.6228201705962,
+        "cache_maintenance_s": 0.792533278465271
+      }
+    },
+    "serving_summed_request_means": {
+      "N": 308.36289511621,
+      "S": 308.01993254510063
+    }
+  },
+  "final_backend_loading_s": 21.009119611233473,
+  "reference_worker_wall_s": 382.8927118778229,
+  "model_clock": {
+    "occupied_s": 7354.790981531143,
+    "elapsed_s": 6403.517638206482,
+    "active": {}
+  },
+  "supervisor_wall_s": 6499.130457639694,
+  "clock_segments": [
+    {
+      "task": "common5",
+      "occupied_card_s": 304.73008275032043,
+      "physical_gpu_uuid": "GPU-9986735a-3e68-d1bd-5998-9634ef24341e",
+      "started_epoch": 1794888093.0426853,
+      "pid": 2338802
+    },
+    {
+      "task": "references",
+      "occupied_card_s": 382.6948835849762,
+      "physical_gpu_uuid": "GPU-c6943f33-bcd0-a724-0b35-f77af6b0a3f1",
+      "started_epoch": 1794888400.0489671,
+      "pid": 2340951
+    },
+    {
+      "task": "training_A",
+      "occupied_card_s": 490.75490283966064,
+      "physical_gpu_uuid": "GPU-9986735a-3e68-d1bd-5998-9634ef24341e",
+      "started_epoch": 1794888399.858637,
+      "pid": 2340950
+    },
+    {
+      "task": "training_B",
+      "occupied_card_s": 488.76331305503845,
+      "physical_gpu_uuid": "GPU-c6943f33-bcd0-a724-0b35-f77af6b0a3f1",
+      "started_epoch": 1794888893.9411805,
+      "pid": 2344291
+    },
+    {
+      "task": "serving_A",
+      "occupied_card_s": 43.68842339515686,
+      "physical_gpu_uuid": "GPU-9986735a-3e68-d1bd-5998-9634ef24341e",
+      "started_epoch": 1794889387.1526396,
+      "pid": 2347600
+    },
+    {
+      "task": "serving_B",
+      "occupied_card_s": 42.14994668960571,
+      "physical_gpu_uuid": "GPU-c6943f33-bcd0-a724-0b35-f77af6b0a3f1",
+      "started_epoch": 1794889433.1619565,
+      "pid": 2347976
+    },
+    {
+      "task": "N5",
+      "occupied_card_s": 696.2383992671967,
+      "physical_gpu_uuid": "GPU-9986735a-3e68-d1bd-5998-9634ef24341e",
+      "started_epoch": 1794889477.7568986,
+      "pid": 2348359
+    },
+    {
+      "task": "N_collect6",
+      "occupied_card_s": 297.9665536880493,
+      "physical_gpu_uuid": "GPU-9986735a-3e68-d1bd-5998-9634ef24341e",
+      "started_epoch": 1794890178.0359006,
+      "pid": 2353195
+    },
+    {
+      "task": "S5",
+      "occupied_card_s": 695.6498138904572,
+      "physical_gpu_uuid": "GPU-c6943f33-bcd0-a724-0b35-f77af6b0a3f1",
+      "started_epoch": 1794890178.0367806,
+      "pid": 2353196
+    },
+    {
+      "task": "S_collect6",
+      "occupied_card_s": 302.72207951545715,
+      "physical_gpu_uuid": "GPU-c6943f33-bcd0-a724-0b35-f77af6b0a3f1",
+      "started_epoch": 1794890877.4045742,
+      "pid": 2357974
+    },
+    {
+      "task": "N6",
+      "occupied_card_s": 723.9116003513336,
+      "physical_gpu_uuid": "GPU-9986735a-3e68-d1bd-5998-9634ef24341e",
+      "started_epoch": 1794890877.4052439,
+      "pid": 2357973
+    },
+    {
+      "task": "S6",
+      "occupied_card_s": 709.3113379478455,
+      "physical_gpu_uuid": "GPU-c6943f33-bcd0-a724-0b35-f77af6b0a3f1",
+      "started_epoch": 1794891604.7093565,
+      "pid": 2362915
+    },
+    {
+      "task": "final",
+      "occupied_card_s": 2176.2096445560455,
+      "physical_gpu_uuid": "GPU-9986735a-3e68-d1bd-5998-9634ef24341e",
+      "started_epoch": 1794892317.9649565,
+      "pid": 2367914
+    }
+  ],
+  "cost_note": "Nested timers overlap and must not be summed as disjoint components. Training/collection ran on different schedules; no tiny training-time advantage is claimed."
+}

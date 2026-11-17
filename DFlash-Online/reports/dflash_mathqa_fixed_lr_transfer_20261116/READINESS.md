@@ -1,5 +1,7 @@
 # MathQA fixed learning-rate transfer: preparation
 
+Completed execution: `15284b323a307d01118e2630e665ed0191ba7c33`. See the [final report](REPORT.md). The readiness observations below describe the pre-execution stage.
+
 ## Material passport
 
 ARS experiment-agent run workflow; fixed user-adopted November16 handoff.
