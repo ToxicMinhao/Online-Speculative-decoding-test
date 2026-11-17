@@ -103,13 +103,15 @@ def allocation_summaries(base, candidate, valid, prefix):
     ))
     # A small [prefix length, slot, statistic] table, summed across response chunks.
     slots = base.shape[-1]
-    positions = torch.arange(slots, device=base.device).expand_as(base)
-    index = (lengths.unsqueeze(-1) * slots + positions)[prefix]
     values = torch.stack((torch.ones_like(base), base, candidate, difference, difference.abs()), -1)
-    by_slot = base.new_zeros((slots + 1) * slots, 5)
-    by_slot.index_add_(0, index, values[prefix])
+    # Keep a fixed reduction layout. A floating-point scatter into repeated
+    # length/slot indices can reorder CUDA additions and spoil exact replay of
+    # these diagnostics even when the scientific state itself is unchanged.
+    groups = torch.arange(slots + 1, device=base.device).reshape(-1, 1, 1)
+    membership = (groups == lengths.reshape(1, -1, 1)) & prefix.reshape(1, -1, slots)
+    by_slot = torch.where(membership.unsqueeze(-1), values.reshape(1, -1, slots, 5), 0.).sum(1)
     by_length = torch.bincount(lengths.reshape(-1), minlength=slots + 1).float()
-    return scalars, by_slot.reshape(slots + 1, slots, 5), by_length
+    return scalars, by_slot, by_length
 
 
 class PrefixAllocation:

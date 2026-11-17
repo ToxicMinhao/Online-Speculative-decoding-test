@@ -137,6 +137,25 @@ class PrefixAllocationTests(unittest.TestCase):
         self.assertEqual(by_length.tolist(), [0.] * 5)
         self.assertEqual(float(counts.sum()), 0.)
 
+    def test_summary_repeated_prefix_lengths_match_independent_slot_oracle(self):
+        base = torch.arange(1, 33, dtype=torch.float32).reshape(2, 4, 4) / 8
+        lengths = torch.tensor([[3, 2, 3, 4], [2, 3, 0, 4]])
+        prefix = torch.arange(4) < lengths.unsqueeze(-1)
+        difference = torch.tensor([.125, -.125, .0625, -.0625]).expand_as(base) * prefix
+        candidate = base + difference
+        _, actual, histogram = allocation_summaries(base, candidate, torch.ones_like(prefix), prefix)
+        expected = torch.zeros(5, 4, 5)
+        for block_base, block_candidate, block_prefix in zip(
+                base.reshape(-1, 4), candidate.reshape(-1, 4), prefix.reshape(-1, 4)):
+            length = int(block_prefix.sum())
+            for slot in range(length):
+                old, new = float(block_base[slot]), float(block_candidate[slot])
+                expected[length, slot] += torch.tensor([1., old, new, new-old, abs(new-old)])
+        torch.testing.assert_close(actual, expected, rtol=0, atol=0)
+        self.assertEqual(histogram.tolist(), [1., 0., 2., 3., 2.])
+        repeated = allocation_summaries(base, candidate, torch.ones_like(prefix), prefix)[1]
+        torch.testing.assert_close(actual, repeated, rtol=0, atol=0)
+
     def test_zero_value_delta_keeps_its_nonzero_derivative_and_signed_loss(self):
         q,b,v,p=coefficient_fixture([.9,.8,.6,.7,.2],4)
         labels=torch.zeros_like(b,dtype=torch.long);proposals=labels.clone();proposals[...,-1]=1
