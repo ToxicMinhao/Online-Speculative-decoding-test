@@ -51,7 +51,8 @@ def verify_source(root, manifest):
 
 READINESS_READERS = ('experiments.bounded_prefix_allocation.prepare',
                      'experiments.mathqa_fixed_lr_transfer.prepare',
-                     'experiments.unchanged_c_mathqa_transfer.prepare')
+                     'experiments.unchanged_c_mathqa_transfer.prepare',
+                     'experiments.c_paired_confirmation.prepare')
 
 
 def check_inputs(plan, package_root, reader):
