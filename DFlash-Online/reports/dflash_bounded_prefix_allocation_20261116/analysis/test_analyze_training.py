@@ -111,5 +111,20 @@ class TrainingReaderTests(unittest.TestCase):
         self.assertEqual(result['status'],'failed')
         self.assertIn('qualification native/cap0 raw equality: preclip',result['errors'])
 
+    def test_retained_FP32_cancellation_is_bounded_but_corruption_is_rejected(self):
+        # C7 presentation51, prefix length4, slot3: actual retained summaries.
+        group=dict(occurrences=37.,native_weight_sum=27.80467414855957,
+            candidate_weight_sum=26.06849479675293,signed_weight_change=-1.736161470413208,
+            absolute_weight_change=1.7587625980377197)
+        audit=A.Audit(self.root)
+        self.assertFalse(audit.near(group['candidate_weight_sum']-group['native_weight_sum'],
+                                    group['signed_weight_change'],group['occurrences']))
+        error,bound=A.signed_reduction_roundoff(group)
+        self.assertEqual(error,1.7881393432617188e-05)
+        self.assertLess(error,bound)
+        group['signed_weight_change'] += .01
+        error,bound=A.signed_reduction_roundoff(group)
+        self.assertGreater(error,bound)
+
 
 if __name__=='__main__':unittest.main()

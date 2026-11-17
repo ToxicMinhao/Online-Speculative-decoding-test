@@ -25,6 +25,26 @@ EXPECTED_WORK = dict(adam=261, response_forward=528, response_backward=528,
     qualification_generation=8, warmup_generation=72, scored_generation=1152)
 
 
+def signed_reduction_roundoff(group):
+    """Bound a bookkeeping identity between three independently rounded sums.
+
+    For n represented FP32 row coefficients, each sum has at most n-1
+    nonzero additions; forming each row difference adds one rounding. With
+    unit roundoff u=2^-24, gamma_(n+1)/(1-gamma_(n+1)) times the three observed
+    absolute masses conservatively bounds these reductions and converts their
+    observed masses to exact-sum bounds. JSON/Python subtraction is FP64.
+    This is not the mechanism's per-block mass or coefficient-bound tolerance.
+    """
+    n = int(group['occurrences'])
+    u = 2.0**-24
+    gamma = (n+1)*u/(1-(n+1)*u)
+    scale = (abs(group['candidate_weight_sum']) + abs(group['native_weight_sum'])
+             + group['absolute_weight_change'])
+    bound = gamma/(1-gamma)*scale
+    error = abs((group['candidate_weight_sum']-group['native_weight_sum'])-group['signed_weight_change'])
+    return error, bound
+
+
 class Audit:
     def __init__(self, root):
         self.root = Path(root)
@@ -48,6 +68,8 @@ class Audit:
 
 def summarize_observations(rows, audit, event):
     totals, slots, lengths, responses = Counter(), defaultdict(Counter), Counter(), []
+    roundoff = dict(groups=0, legacy_identity_failures=0, maximum_absolute_error=0.,
+                    maximum_error_to_analytic_bound=0.)
     for ordinal, row in enumerate(rows):
         tag = f'C{event}/presentation{ordinal}'
         audit.check(row['scope'] == 'one_original_response_forward', tag+': original-forward scope')
@@ -78,8 +100,14 @@ def summarize_observations(rows, audit, event):
             before, after = group['native_weight_sum'], group['candidate_weight_sum']
             tol = 2e-7*group['occurrences'] + 2e-6*abs(before)
             audit.check(.75*before-tol <= after <= 1.25*before+tol, tag+': aggregate relative bounds')
-            audit.check(audit.near(after-before, group['signed_weight_change'], group['occurrences']),
-                        tag+': signed movement consistency')
+            error, rounding_bound = signed_reduction_roundoff(group)
+            audit.check(error <= rounding_bound, tag+': signed movement FP32 reduction consistency')
+            roundoff['groups'] += 1
+            roundoff['legacy_identity_failures'] += int(not audit.near(
+                after-before, group['signed_weight_change'], group['occurrences']))
+            roundoff['maximum_absolute_error'] = max(roundoff['maximum_absolute_error'], error)
+            roundoff['maximum_error_to_analytic_bound'] = max(
+                roundoff['maximum_error_to_analytic_bound'], error/rounding_bound if rounding_bound else 0.)
             for name in SLOT_FIELDS:
                 slots[key][name] += group[name]
         audit.check(sum(g['occurrences'] for g in groups) == summary['prefix_positions'], tag+': complete slot coverage')
@@ -112,7 +140,7 @@ def summarize_observations(rows, audit, event):
             mean_candidate_coefficient=values['candidate_weight_sum']/count,
             mean_signed_change=values['signed_weight_change']/count,
             mean_absolute_change=values['absolute_weight_change']/count))
-    return dict(event=event,responses=len(rows),totals=dict(totals),
+    return dict(event=event,responses=len(rows),totals=dict(totals), signed_reduction_roundoff=roundoff,
         prefix_length_counts=dict(lengths), changed_block_fraction=totals['changed_blocks']/totals['blocks']
             if totals['blocks'] else None,
         moved_prefix_mass_share=totals['weight_moved']/totals['prefix_weight_before']
@@ -205,6 +233,7 @@ def analyze(root, output):
         training_costs=costs, work=work, clock=clock,
         limits=['This reader reports only retained training/qualification evidence, not serving efficacy.',
                 'Mass/bounds/support checks use recorded per-block violation counts and independent aggregate consistency.',
+                'Signed sum consistency uses an analytic FP32 reduction bound; the original per-block scientific tolerances remain unchanged.',
                 'The active qualification fixture directly checks native first-error terms. Production zero support violations are implementation receipts.',
                 'Per-event task/event/training/publication timers are nested; do not sum them as independent costs.',
                 'Historical N/S training time is not a fresh matched overhead control.'], inputs=audit.inputs)
