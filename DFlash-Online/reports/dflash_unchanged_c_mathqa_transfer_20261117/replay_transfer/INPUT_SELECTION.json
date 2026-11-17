@@ -1,0 +1,35 @@
+{
+  "eligible_rows": 1702,
+  "excluded_rows": 1283,
+  "execution_commit": "3b25b068f0caa0035aeb4c8d58ba498f02a814cc",
+  "exposure_scope": "Unexposed in the enumerated retained project inventories, including completed PR51; no universal exposure claim",
+  "first_model_work_before_seal": false,
+  "input_only_eligibility": "Nonempty pinned prompt; prompt length<=2048; full cap2048 fits4096",
+  "model_prompt_rendering": "Original Qwen user question plus newline-newline Options: original options; enable_thinking=False; no reasoning suffix",
+  "normalization": "NFKC then collapse whitespace and strip, preserving case/punctuation; content=Problem+newline+original options; normalization never changes model input",
+  "private_seal_identity": {
+    "bytes": 8760,
+    "sha256": "84bb958bd2c621398948bfe939e101bdfeaccc33e89f193a5324a85b7993b622"
+  },
+  "selection_prefix": "kplus_unchanged_c_mathqa_transfer_20261117_v1",
+  "source": {
+    "archive_sha256": "7344f30456a7aef3176d4866cc953b35b41bec44eda6b00cdbcfde2876b2f07a",
+    "bytes": 2346754,
+    "git_blob": "193fb150706468110459ddcdc52ad48e3f0b7491",
+    "member": "test.json",
+    "repository": "math-QA/math-QA",
+    "revision": "4f958013c164a40745a5b771dfb005df308deb4a",
+    "rows": 2985,
+    "sha256": "dfe7bc4691caf26842ccd4cf14e8f978327bab4f2989e0b076a4e6b38a9371d1"
+  },
+  "source_catalog_rows": 2985,
+  "status": "passed",
+  "validation": {
+    "adaptation": 256,
+    "new_canonical_generations": 258,
+    "no_new_model_work": true,
+    "scored": 256,
+    "status": "passed",
+    "warmup": 2
+  }
+}

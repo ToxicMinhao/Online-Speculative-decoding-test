@@ -1,0 +1,119 @@
+{
+  "coefficients": {
+    "authorship": "Same-team reader with C/replay implementation authorship overlap; no experiment or publication reducer imported.",
+    "bound_inputs": {
+      "COEFFICIENTS.json": {
+        "bytes": 1981,
+        "sha256": "ecca0ae6ed822a7eca6cdc2410733afdf177134c31eaf926ef40740f7b25d984"
+      },
+      "COEFFICIENT_LENGTH_SLOT.csv": {
+        "bytes": 30657,
+        "sha256": "91dc908bf7a76754c6bb8b043110813a6ab014faba599406ce0ad30e58d0197e"
+      },
+      "COEFFICIENT_PREFIX_LENGTH.csv": {
+        "bytes": 1822,
+        "sha256": "e311c52e2fa5e50e01e01422a0ad83814e614a4a021d030c0bbe2a37a9f296ea"
+      },
+      "raw_C5": {
+        "bytes": 8902809,
+        "sha256": "1148fdc12ca5456e43307f224ddd937b826afef01082f7f661e11e9183d6016f"
+      },
+      "raw_C6": {
+        "bytes": 8921242,
+        "sha256": "f0beb5c778c8991c48091d3ffbe0e3adfe4131a270200d3b0bb351e50b7735e3"
+      }
+    },
+    "checks": 63756,
+    "errors": [],
+    "identity": {
+      "bytes": 2297,
+      "sha256": "185f9aa87b159c9ae7d808dcf633ce59b882806d810590eea82fe6eab3e03630"
+    },
+    "rows": {
+      "lengths": 34,
+      "slots": 240
+    },
+    "scope": "Independent reductions of retained scalar summaries, not reconstruction of per-block probabilities or model forwards.",
+    "status": "passed"
+  },
+  "execution_commit": "3b25b068f0caa0035aeb4c8d58ba498f02a814cc",
+  "final": {
+    "bootstrap_draws": 10000,
+    "bootstrap_seed": 1717,
+    "canonical_scope": "Frozen-origin native greedy target-verifier agreement; not target-only AR comparison.",
+    "checks": 1991303,
+    "delivery_files_reauthenticated": 7670,
+    "errors": [],
+    "identity": {
+      "bytes": 2129789,
+      "sha256": "38df3feace56bd0c55250847ebfc7118c0cbec3045441c471433d6520f3a3c36"
+    },
+    "independence": "No production metric/schedule/native-validation helper imported. Raw counts, ratios and PCG64 bootstrap are local.",
+    "limits": "Compact scalar/trace evidence only; no model or optimizer tensors loaded.",
+    "status": "passed",
+    "wall_s": 6.2376425024122
+  },
+  "reader_repair": {
+    "first_attempt": {
+      "checks": 83390,
+      "identity": {
+        "bytes": 335450,
+        "sha256": "7b6f93659bde61eb42fe2fe4201541f588d75d89cbb2c2b5fc70d5660d0ebedd"
+      },
+      "missing_inputs": 0,
+      "reported_errors": 7684,
+      "status": "failed"
+    },
+    "repair_note_identity": {
+      "bytes": 1319,
+      "sha256": "64a2ae1f261512cd94828848fa3f1de228b3f2d4503987b5f731fc1b6eff10e5"
+    },
+    "scientific_execution_changed": false,
+    "scope": "CPU reader physical-slot indexing and already-declared publication-path exclusions only; no GPU failure or rerun."
+  },
+  "retrieval": {
+    "after_epoch": 1794923634.4079528,
+    "archive": {
+      "archive_identity": {
+        "bytes": 105453930,
+        "sha256": "62b0cfa8872d5da203c3f80836cc1026fd5f7d9b4a2e64af804c9871c56da97a"
+      },
+      "files": 8940,
+      "status": "passed",
+      "unpacked_bytes": 756748406
+    },
+    "before_epoch": 1794923620.7344923,
+    "both_cards_idle_after_completion": true,
+    "identity": {
+      "bytes": 20653,
+      "sha256": "380a713b9b42f95650e5d6256f88c1705adb4a67ec74df3c5903c13757b86174"
+    },
+    "manifest_identity": {
+      "bytes": 1397095,
+      "sha256": "5a4e2bae8cfc72648b393ed3e94d516fa455dd99ddea7593196c21969e2f8a9e"
+    }
+  },
+  "training": {
+    "authorship": "Separate standard-library reader; author overlaps with C and replay wrapper implementation. Not blind independent replication.",
+    "checks": 83386,
+    "delivery_files_reauthenticated": 52,
+    "errors": [],
+    "evidence_limits": [
+      "Compact audit does not load full model/Adam/RNG tensors; exact runtime endpoint and restore receipts remain the evidence.",
+      "Replay scientific per-response/window/presentation rows are independently compared with retained PR51 compact receipts.",
+      "Current-pool functional reproducibility does not establish historical feature byte identity.",
+      "Source equality verifies unchanged PR50 allocation/objective; no independent GPU logits or gradient reconstruction."
+    ],
+    "identity": {
+      "bytes": 16068,
+      "sha256": "7a5ef74db7ff8b41ad780310c3e948c18f735278962d8a444f27547c96a60bd8"
+    },
+    "missing": [],
+    "observed_rows": {
+      "C_responses": 512,
+      "C_windows": 256,
+      "startup_receipts": 6
+    },
+    "status": "passed"
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "comparison_exclusions": {
+    "endpoint": [
+      "run_id"
+    ],
+    "endpoint.config_text": [
+      "run_id",
+      "output_dir"
+    ],
+    "event": [
+      "checkpoint_path",
+      "costs",
+      "export_path",
+      "full_state_path",
+      "status"
+    ],
+    "event.costs": [
+      "checkpoint_save_s",
+      "event_wall_s_before_commit",
+      "export_s",
+      "training_s"
+    ],
+    "event.objective_work": [
+      "kplus_chunk_s",
+      "kplus_response_s",
+      "projection_s",
+      "reference_forward_s",
+      "reference_head_s",
+      "reference_setup_s",
+      "selection_s",
+      "teacher_head_s"
+    ],
+    "presentation": [
+      "training_s"
+    ]
+  },
+  "current_feature_manifest_identity": {
+    "bytes": 200482,
+    "sha256": "b94e7ce8b9e35a5561ee1ba4108aebbc75adab3a06939c3f3f6575f949eef934"
+  },
+  "execution_commit": "3b25b068f0caa0035aeb4c8d58ba498f02a814cc",
+  "historical_feature_identity_verified": false,
+  "interpretation": "The current pool reproduces both original E5 controls exactly; historical feature bytes remain unproved.",
+  "private_gate_identity": {
+    "bytes": 6262,
+    "sha256": "f114dbae3347740bf0643e3f28b45bea6921d5749d21081e2cb01ced5406c9e8"
+  },
+  "status": "passed",
+  "typed_receipt_kind": "FUNCTIONAL_E5_REPLAY_QUALIFIED"
+}
