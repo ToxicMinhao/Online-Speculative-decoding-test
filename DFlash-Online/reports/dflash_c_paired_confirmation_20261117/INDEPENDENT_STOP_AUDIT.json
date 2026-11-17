@@ -1,0 +1,402 @@
+{
+  "status": "PASSED_BOUNDED_STOP_AUDIT",
+  "new_model_work": 0,
+  "efficacy_evidence": false,
+  "scientific_status": "RESOURCE_BLOCKED_AFTER_PASSED_QUALIFICATION",
+  "completed": {
+    "adam": 12,
+    "response_forward": 28,
+    "response_backward": 28,
+    "training_initialization": 2,
+    "feedback_generation": 0,
+    "teacher_preparation": 0,
+    "canonical_generation": 4,
+    "qualification_generation": 16,
+    "warmup_generation": 0,
+    "scored_generation": 0
+  },
+  "unattempted": {
+    "adam": 1024,
+    "response_forward": 2064,
+    "response_backward": 2064,
+    "training_initialization": 8,
+    "feedback_generation": 512,
+    "teacher_preparation": 512,
+    "canonical_generation": 512,
+    "qualification_generation": 0,
+    "warmup_generation": 96,
+    "scored_generation": 3072
+  },
+  "invalid_work": 0,
+  "unknown_work": 0,
+  "raw_verified_qualification_generations": 16,
+  "raw_verified_origin_warmup_references": 4,
+  "elapsed_admission": {
+    "actual_elapsed_s": 1393.9155132770538,
+    "remaining_raw_s": 9702.483436195034,
+    "prospective_forecast_s": 13213.228467053545,
+    "total_forecast_s": 14607.143980330598,
+    "excess_s": 207.14398033059842,
+    "cap_s": 14400,
+    "remaining_cpu_export_raw_allowance_s": 300
+  },
+  "card_admission": {
+    "actual_occupied_s": 1433.8466596603394,
+    "remaining_raw_s": 11006.696873951605,
+    "prospective_forecast_s": 14908.705936137087,
+    "total_forecast_s": 16342.552595797426,
+    "headroom_s": 1657.447404202574,
+    "cap_s": 18000
+  },
+  "selected_grouping_inferred_from_exact_price": [
+    "parallel"
+  ],
+  "priced_options": {
+    "parallel": {
+      "elapsed_s": 9402.483436195034,
+      "card_s": 11006.696873951605
+    },
+    "serial": {
+      "elapsed_s": 11006.696873951605,
+      "card_s": 11006.696873951605
+    }
+  },
+  "training_price_detail": {
+    "gsm8k": {
+      "pair_case_times_s": [
+        2.4190842173993587,
+        2.3261881712824106,
+        2.4975780453532934,
+        2.5555689223110676,
+        3.0530012156814337,
+        3.073543108999729
+      ],
+      "slowest_case": "reloaded_next_pair",
+      "slowest_pair_s": 3.073543108999729,
+      "loading_s": 73.08127393387258,
+      "discarded_startup_s": 40.850104566663504,
+      "checkpoint_boundary_allowance_s": 45,
+      "qualified_event_estimate_s": 552.3448964525014,
+      "historical_whole_task_s": {
+        "N_first": 466.247722864151,
+        "C_first": 466.247722864151,
+        "N_second": 448.45914697647095,
+        "C_second": 448.45914697647095
+      },
+      "revised_whole_task_s": {
+        "N_first": 552.3448964525014,
+        "C_first": 552.3448964525014,
+        "N_second": 552.3448964525014,
+        "C_second": 552.3448964525014
+      }
+    },
+    "mathqa": {
+      "pair_case_times_s": [
+        5.309898501262069,
+        5.280822914093733,
+        5.675073958933353,
+        5.817510260269046,
+        1.8498676512390375,
+        1.8509987853467464
+      ],
+      "slowest_case": "active",
+      "slowest_pair_s": 5.817510260269046,
+      "loading_s": 74.83980349823833,
+      "discarded_startup_s": 41.310216419398785,
+      "checkpoint_boundary_allowance_s": 45,
+      "qualified_event_estimate_s": 905.791333232075,
+      "historical_whole_task_s": {
+        "N_first": 748.9102220535278,
+        "C_first": 748.9102220535278,
+        "N_second": 784.4930655956268,
+        "C_second": 784.4930655956268
+      },
+      "revised_whole_task_s": {
+        "N_first": 905.791333232075,
+        "C_first": 905.791333232075,
+        "N_second": 905.791333232075,
+        "C_second": 905.791333232075
+      }
+    }
+  },
+  "accounting_note": "Qualification is already in the actual clock; its old allowance is not charged again. Repriced training replaces historical estimates via max. Parallel elapsed uses max and card time uses sum. One future 300s CPU-export allowance sits inside the 1.3 multiplier; the 600s margin is applied once.",
+  "interpretation": "No production endpoint or final serving comparison exists. Resource admission refusal is not evidence of algorithm failure or benefit.",
+  "source_execution_commit": "31b36fd27976fb46bb6754d8b8b7e769c3d6e5f6",
+  "wall_s": 0.11888727825134993,
+  "checks": 17114,
+  "errors": [],
+  "consumed_files": {
+    "sealed/PLAN.json": {
+      "bytes": 609499,
+      "sha256": "9f4a5aa3aa057b5c40e0e987ff78d36fdcfc00ad90398b6be92eed9fd5c204f5"
+    },
+    "WORK.json": {
+      "bytes": 991,
+      "sha256": "906237ee6c56b98f5c33c6ef07f25a15f3091191f1ba10546ac75cab9c789b47"
+    },
+    "CLOCK.json": {
+      "bytes": 1953,
+      "sha256": "155737f7d4b724a15ee3d392904b9ec6c2e0245c8b7f856424f374931ee239b1"
+    },
+    "LAUNCH.json": {
+      "bytes": 3125,
+      "sha256": "163d0a8db78866cf2241371f5f211a0527a5485aa4c539d8eaa38fddcf27d37a"
+    },
+    "QUALIFICATION.json": {
+      "bytes": 942,
+      "sha256": "af9596b0304897ac41f2b4636da2939e1830a9d0b430d215d5d10112437644af"
+    },
+    "sealed/gsm8k/WARMUPS.json": {
+      "bytes": 8245,
+      "sha256": "c3deb09babb546ce4fbf5f79eb0f3c4322a55d3d5404bc204c3a4d6c73526326"
+    },
+    "references/gsm8k/WARMUP_CANONICALS.json": {
+      "bytes": 8667,
+      "sha256": "e59fe040ae137f5ac09ba15f8cd55273f06cba6d97aa64ceb28bf86ace293172"
+    },
+    "qualification/gsm8k_training_A/STATUS.json": {
+      "bytes": 2429855,
+      "sha256": "4227214c12405c24969671554df4a5c07238d8c0c1351f79fc571ed21b269e60"
+    },
+    "qualification/gsm8k_training_A/DETAILS.json": {
+      "bytes": 2274992,
+      "sha256": "10739884d3cdd4e91492890ab79e46893655d8f2fdfb5dba0b3b99e673adda8a"
+    },
+    "tasks/gsm8k_warmup_references/RESULT.json": {
+      "bytes": 540,
+      "sha256": "b20027567210fcd26f280e408226757739c20419e68b59373380171d491f2c52"
+    },
+    "tasks/gsm8k_warmup_references/records/gsm8k-c-pair29-0469.json": {
+      "bytes": 95466,
+      "sha256": "8dbfda83bdb5147b46a3a29da41017580eda31168dc4e950039af0975acfdba2"
+    },
+    "tasks/gsm8k_warmup_references/native/request_000001.json": {
+      "bytes": 41895,
+      "sha256": "b5f80a3843f091e4df30e836f53aedc7fe89bed8c0577207ec2adf76fa30be23"
+    },
+    "tasks/gsm8k_warmup_references/records/gsm8k-c-pair29-0170.json": {
+      "bytes": 104680,
+      "sha256": "b2a7594cb1960ba5ab0eabb643a46b115b80e9fb7a13b93ef3a3d949e4713369"
+    },
+    "tasks/gsm8k_warmup_references/native/request_000002.json": {
+      "bytes": 45877,
+      "sha256": "2645f7098b457bf9b6a044682e858b968e1e3b690dff5121394dd6acba4cde69"
+    },
+    "qualification/gsm8k_serving_A/STATUS.json": {
+      "bytes": 35432,
+      "sha256": "8cb7a3b8577194c06bb202b93cfd8a1118c2b7722333299c0799ad2661c818f9"
+    },
+    "qualification/gsm8k_serving_A/RESULT.json": {
+      "bytes": 31105,
+      "sha256": "6457229806d026fbb30908b9c632053931f8d40643ab0d73e4a382271b2f8091"
+    },
+    "qualification/gsm8k_serving_A/calls/RESULT.json": {
+      "bytes": 27141,
+      "sha256": "48cf6e4f38ff291cd09dfcde95bd124b12aec47bbe83e914ddcd44644572a72a"
+    },
+    "qualification/gsm8k_serving_A/calls/qA_r0_w0.json": {
+      "bytes": 44028,
+      "sha256": "ef8fc9739cc730b10d9417794b95cf366dd37c5049b73f17b5f2014828ace8f0"
+    },
+    "qualification/gsm8k_serving_A/native/request_000001.json": {
+      "bytes": 42953,
+      "sha256": "6ab8d9bf3e053fba6d29c8c3388f29140b02476e50cf895be3771cb509dc350a"
+    },
+    "qualification/gsm8k_serving_A/calls/qA_r0_w1.json": {
+      "bytes": 46553,
+      "sha256": "2c9c3339b71bdfe165977cf6ada55a1da5e2b18370bc331cc649978983795495"
+    },
+    "qualification/gsm8k_serving_A/native/request_000002.json": {
+      "bytes": 45858,
+      "sha256": "fe77e762fd9bbb872447f2b202489da440bf3e51d88d4782b2b23d77a10c1011"
+    },
+    "qualification/gsm8k_serving_A/calls/qA_r1_w0.json": {
+      "bytes": 44028,
+      "sha256": "64db4ef2114689d55d5a49d517b90884d7abac40d8ab92b6cfac0c7a7398e6d0"
+    },
+    "qualification/gsm8k_serving_A/native/request_000003.json": {
+      "bytes": 42953,
+      "sha256": "0a9c50bee1729e9e5cc36b94c6e82f8602951e9495189b5af00932cafbafb15f"
+    },
+    "qualification/gsm8k_serving_A/calls/qA_r1_w1.json": {
+      "bytes": 46551,
+      "sha256": "44f8623abb8ccf1ee687181fe1ddef9c4a94d68f4b185b4ba59b1eb107e12971"
+    },
+    "qualification/gsm8k_serving_A/native/request_000004.json": {
+      "bytes": 45857,
+      "sha256": "8f2c5c55c8d1e1b6fbe201fc741e9a1a8d24eba21796394a896207daabc5aa12"
+    },
+    "qualification/gsm8k_serving_B/STATUS.json": {
+      "bytes": 35430,
+      "sha256": "b2f53fb2bbabb5770d95ac4219e1727cc512bb7e4f323796dc733aea20a60946"
+    },
+    "qualification/gsm8k_serving_B/RESULT.json": {
+      "bytes": 31103,
+      "sha256": "877a74ffb92c77f5cbb3a11d2bd08decba395151a1d96d80b50a6023088d2548"
+    },
+    "qualification/gsm8k_serving_B/calls/RESULT.json": {
+      "bytes": 27139,
+      "sha256": "cabcbb5ee0f681686de2c33e3c9c47032b5b4462f30a1a1ed6b27d46c1c3cf9a"
+    },
+    "qualification/gsm8k_serving_B/calls/qB_r0_w0.json": {
+      "bytes": 44027,
+      "sha256": "e9acef9841c851eeba8e512f93ae3f71f48fb39c403db2c169c1f54e34e2b3ff"
+    },
+    "qualification/gsm8k_serving_B/native/request_000001.json": {
+      "bytes": 42952,
+      "sha256": "ff8fcc0dcc04d088aead8f992aec6966f60fbef701ae90bc4250e7d03785f8af"
+    },
+    "qualification/gsm8k_serving_B/calls/qB_r0_w1.json": {
+      "bytes": 46549,
+      "sha256": "b08b3d88ea85a18bc7dfa10a6642992631c45c76fa88920a62dd1e0c9d1e80c7"
+    },
+    "qualification/gsm8k_serving_B/native/request_000002.json": {
+      "bytes": 45855,
+      "sha256": "3a4ec13f380f7f95cdc6187baa3b3de34c631e9e807d1ebccdb5703e0c225b6e"
+    },
+    "qualification/gsm8k_serving_B/calls/qB_r1_w0.json": {
+      "bytes": 44030,
+      "sha256": "2d3918b4e02477bc85bddbd264ef4866fb9c6de8841be4aaa6380077c93980be"
+    },
+    "qualification/gsm8k_serving_B/native/request_000003.json": {
+      "bytes": 42955,
+      "sha256": "2941145d286e574b8fa8bac659fbbab4f6ed0a6eff16c6844312905d1d5eae0d"
+    },
+    "qualification/gsm8k_serving_B/calls/qB_r1_w1.json": {
+      "bytes": 46550,
+      "sha256": "4c4b3f626ed8fc057886844200466b072777d2e8f0a717ba1523378bec571888"
+    },
+    "qualification/gsm8k_serving_B/native/request_000004.json": {
+      "bytes": 45856,
+      "sha256": "13371fe56d30b593179cbd98355cd621834057bc223ff696c4598c7f9e88899b"
+    },
+    "sealed/mathqa/WARMUPS.json": {
+      "bytes": 6709,
+      "sha256": "3c2f15dde91114c0c0280ca7c216ec20b9f402bcc0c67ad7578f2b20f625c9d6"
+    },
+    "references/mathqa/WARMUP_CANONICALS.json": {
+      "bytes": 29464,
+      "sha256": "7db468c88bf12a2c4a1afd6edb87322b1e71bb47f0c49f12fd362a6aae1457aa"
+    },
+    "qualification/mathqa_training_A/STATUS.json": {
+      "bytes": 2839967,
+      "sha256": "09eb71a9a5fdb5bc2c82bda1af4f3a74b4a0e2c8240d458f470f82eac63f4224"
+    },
+    "qualification/mathqa_training_A/DETAILS.json": {
+      "bytes": 2656118,
+      "sha256": "612ee66c069de78432d7900caf86f045dec438c99f69951552c1fd7859c68fcb"
+    },
+    "tasks/mathqa_warmup_references/RESULT.json": {
+      "bytes": 538,
+      "sha256": "3c879bc89c81934ed5cf9cd2e3dfe3606a3062aad388a2241de3cbeee6cfeed3"
+    },
+    "tasks/mathqa_warmup_references/records/mathqa-c-pair29-0762.json": {
+      "bytes": 822318,
+      "sha256": "5fb775330722f339955b9e47c7987fe2b48b8f1a32637efcdc5d2217d06192fa"
+    },
+    "tasks/mathqa_warmup_references/native/request_000001.json": {
+      "bytes": 358423,
+      "sha256": "5e37fb83199df11bd487479a69a1cb5f400f2bede8e6501e3cd329adb4bd1422"
+    },
+    "tasks/mathqa_warmup_references/records/mathqa-c-pair29-1145.json": {
+      "bytes": 132507,
+      "sha256": "12f8742bc42f3a9587d0a28a1788dc0a9517943781f5f0a7d76c7319f0864b87"
+    },
+    "tasks/mathqa_warmup_references/native/request_000002.json": {
+      "bytes": 58126,
+      "sha256": "ba1565a911ec3617b0a67bdde5d893b59f2ff584cef3995975cf304cad994729"
+    },
+    "qualification/mathqa_serving_A/STATUS.json": {
+      "bytes": 141263,
+      "sha256": "876387163681cd3bf967983e047c29dea70827e6079341d9b40902f4df6d772b"
+    },
+    "qualification/mathqa_serving_A/RESULT.json": {
+      "bytes": 125209,
+      "sha256": "78348cacd7ae949349eba57b16277d95a762245d5f3d7c57e6c1d334bdcf7c6d"
+    },
+    "qualification/mathqa_serving_A/calls/RESULT.json": {
+      "bytes": 109519,
+      "sha256": "dc43b7b54498bddbcd0f49069b338870fb68a9381e904323550ef499d973bc77"
+    },
+    "qualification/mathqa_serving_A/calls/qA_r0_w0.json": {
+      "bytes": 349682,
+      "sha256": "d8437b1a70fb69b6436108b95171d0bf05a82e2bea9ef2b175e2e6f70340d46a"
+    },
+    "qualification/mathqa_serving_A/native/request_000001.json": {
+      "bytes": 355270,
+      "sha256": "57c35532b792807caa8c12ef9f2bf14a571fc0f212057091c3b86fc70cc6e83d"
+    },
+    "qualification/mathqa_serving_A/calls/qA_r0_w1.json": {
+      "bytes": 57742,
+      "sha256": "f55019e358a565ba959e4fb92fa4ccccfa25b63c856c4cc291dc2774d23d3d7d"
+    },
+    "qualification/mathqa_serving_A/native/request_000002.json": {
+      "bytes": 58143,
+      "sha256": "c67b6eedd1dd48dadcdea194ca926c8ef2d2ea9c40ff82219a0422b567a81d94"
+    },
+    "qualification/mathqa_serving_A/calls/qA_r1_w0.json": {
+      "bytes": 349682,
+      "sha256": "fd2cbbdc513ec12ea5a39177fdb9f238e9098820103766782b43ae1fc6668179"
+    },
+    "qualification/mathqa_serving_A/native/request_000003.json": {
+      "bytes": 355270,
+      "sha256": "1791e6d6aaa75dfa72d8055c7a70c2aa5a577d5a3a286864334a3d06c9975170"
+    },
+    "qualification/mathqa_serving_A/calls/qA_r1_w1.json": {
+      "bytes": 57743,
+      "sha256": "11742926d775bb7362bcf3e1a445bda28eabdd0ba4bd9251d0789074a9d63e98"
+    },
+    "qualification/mathqa_serving_A/native/request_000004.json": {
+      "bytes": 58144,
+      "sha256": "356c08d6962dab9e8c130ee8f2e63894d1140f7a30c37d04f0eeb38c7b14fe74"
+    },
+    "qualification/mathqa_serving_B/STATUS.json": {
+      "bytes": 141264,
+      "sha256": "8a046f627555aedfa80840bcf0d49f3265ee0bc88da24f7eb680181f1ad1bcf3"
+    },
+    "qualification/mathqa_serving_B/RESULT.json": {
+      "bytes": 125210,
+      "sha256": "0df66491053a98efbf6d6517742dd5a6bbeeb005023d1593495003ca27796f17"
+    },
+    "qualification/mathqa_serving_B/calls/RESULT.json": {
+      "bytes": 109521,
+      "sha256": "5c37044c6c201dc273f2bf892ec49da7fc733b3e5eba06322145a64e2b5d547e"
+    },
+    "qualification/mathqa_serving_B/calls/qB_r0_w0.json": {
+      "bytes": 349682,
+      "sha256": "7801b0d12e0a662a338f2370c92bc367b51a07c47f5f7303f933fc37410c98a9"
+    },
+    "qualification/mathqa_serving_B/native/request_000001.json": {
+      "bytes": 355270,
+      "sha256": "47294d2e5b0d26bc9be9de3aee6678a774b4abecc1e3494e22fe7bc0b7b42adc"
+    },
+    "qualification/mathqa_serving_B/calls/qB_r0_w1.json": {
+      "bytes": 57741,
+      "sha256": "ee70024fe2fba7354a858abf3f40c7d9b28fb5b25584151f8e326ce83446086d"
+    },
+    "qualification/mathqa_serving_B/native/request_000002.json": {
+      "bytes": 58142,
+      "sha256": "2e87994d83c0f293ab8480bb22e792161eef2a7ab518902935a2cb7141c8bbb4"
+    },
+    "qualification/mathqa_serving_B/calls/qB_r1_w0.json": {
+      "bytes": 349685,
+      "sha256": "4c75cf58494f51272bdead0aa9003556de52eaee80451bfa7c9765a2e2390bf1"
+    },
+    "qualification/mathqa_serving_B/native/request_000003.json": {
+      "bytes": 355272,
+      "sha256": "3f58c72e6186779a5f8e9129b5739fc9ca64c4edac01e119555b62987a084d7a"
+    },
+    "qualification/mathqa_serving_B/calls/qB_r1_w1.json": {
+      "bytes": 57742,
+      "sha256": "b534359b0f1fe8b503b75e52fd929d16193d511d9c011bba00a3dea6579cb2f0"
+    },
+    "qualification/mathqa_serving_B/native/request_000004.json": {
+      "bytes": 58143,
+      "sha256": "05d04501dc5f0926c7183a37932f6ac9a194d52c85671ab72eabfb12d66a764e"
+    }
+  },
+  "audit_source_identity": {
+    "bytes": 14413,
+    "sha256": "60a0b6b6f6e7a5b50717a9995ac72351d38f9883d8c0214246df03d7fb204ec0"
+  }
+}

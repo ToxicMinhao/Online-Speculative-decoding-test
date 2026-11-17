@@ -1,0 +1,602 @@
+{
+  "schema": "paired_c_qualification_only_audit_v1",
+  "status": "passed",
+  "execution_commit": "31b36fd27976fb46bb6754d8b8b7e769c3d6e5f6",
+  "checks": 428,
+  "errors": [],
+  "missing": [],
+  "consumed_files": {
+    "sealed/PLAN.json": {
+      "bytes": 609499,
+      "sha256": "9f4a5aa3aa057b5c40e0e987ff78d36fdcfc00ad90398b6be92eed9fd5c204f5"
+    },
+    "source/prefix_allocation.py": {
+      "bytes": 9544,
+      "sha256": "581234d69a25480285cc375c84a451b498cd28c9f36136e0ae8779ea80641bb9"
+    },
+    "source/objective.py": {
+      "bytes": 33936,
+      "sha256": "e86e7b7449bd3b91956f0ae711509d8f24df9aafaa52367ed22dc7f8c31a3521"
+    },
+    "CPU_PREFLIGHT.json": {
+      "bytes": 204008,
+      "sha256": "4e2ad4941c2c0282f00b22b5f02c42410f4a5671d65d56fefa94c2d641969d4b"
+    },
+    "qualification/gsm8k_training_A/DETAILS.json": {
+      "bytes": 2274992,
+      "sha256": "10739884d3cdd4e91492890ab79e46893655d8f2fdfb5dba0b3b99e673adda8a"
+    },
+    "qualification/gsm8k_training_A/STATUS.json": {
+      "bytes": 2429855,
+      "sha256": "4227214c12405c24969671554df4a5c07238d8c0c1351f79fc571ed21b269e60"
+    },
+    "qualification/gsm8k_training_A/startup/RESULT.json": {
+      "bytes": 710,
+      "sha256": "856309521f566bb6b8fa3fb7a1761607902db8cd67316fbaaf0543c933b8aa1a"
+    },
+    "qualification/gsm8k_training_A/startup/EXACT_RESTORATION.json": {
+      "bytes": 39312,
+      "sha256": "ef31df0741e312811d9dda59b49ef63152e3a75666c15000fd45ade700d7d2f0"
+    },
+    "references/gsm8k/WARMUP_CANONICALS.json": {
+      "bytes": 8667,
+      "sha256": "e59fe040ae137f5ac09ba15f8cd55273f06cba6d97aa64ceb28bf86ace293172"
+    },
+    "qualification/gsm8k_serving_A/STATUS.json": {
+      "bytes": 35432,
+      "sha256": "8cb7a3b8577194c06bb202b93cfd8a1118c2b7722333299c0799ad2661c818f9"
+    },
+    "qualification/gsm8k_serving_A/RESULT.json": {
+      "bytes": 31105,
+      "sha256": "6457229806d026fbb30908b9c632053931f8d40643ab0d73e4a382271b2f8091"
+    },
+    "qualification/gsm8k_serving_A/WEIGHTS_BEFORE.json": {
+      "bytes": 2244,
+      "sha256": "c49b3d34b90d7c3cb747abf5f150f198fda5d48a6ba4b709ffd92a77d26a9065"
+    },
+    "qualification/gsm8k_serving_A/WEIGHTS_AFTER.json": {
+      "bytes": 2244,
+      "sha256": "c49b3d34b90d7c3cb747abf5f150f198fda5d48a6ba4b709ffd92a77d26a9065"
+    },
+    "qualification/gsm8k_serving_B/STATUS.json": {
+      "bytes": 35430,
+      "sha256": "b2f53fb2bbabb5770d95ac4219e1727cc512bb7e4f323796dc733aea20a60946"
+    },
+    "qualification/gsm8k_serving_B/RESULT.json": {
+      "bytes": 31103,
+      "sha256": "877a74ffb92c77f5cbb3a11d2bd08decba395151a1d96d80b50a6023088d2548"
+    },
+    "qualification/gsm8k_serving_B/WEIGHTS_BEFORE.json": {
+      "bytes": 2244,
+      "sha256": "c49b3d34b90d7c3cb747abf5f150f198fda5d48a6ba4b709ffd92a77d26a9065"
+    },
+    "qualification/gsm8k_serving_B/WEIGHTS_AFTER.json": {
+      "bytes": 2244,
+      "sha256": "c49b3d34b90d7c3cb747abf5f150f198fda5d48a6ba4b709ffd92a77d26a9065"
+    },
+    "retirement/gsm8k_QUALIFICATION.json": {
+      "bytes": 2923,
+      "sha256": "23e704a77ab087b24c3f279a2e389b0d843e24cb0c3bb3c0faee252ae42ab6b5"
+    },
+    "qualification/mathqa_training_A/DETAILS.json": {
+      "bytes": 2656118,
+      "sha256": "612ee66c069de78432d7900caf86f045dec438c99f69951552c1fd7859c68fcb"
+    },
+    "qualification/mathqa_training_A/STATUS.json": {
+      "bytes": 2839967,
+      "sha256": "09eb71a9a5fdb5bc2c82bda1af4f3a74b4a0e2c8240d458f470f82eac63f4224"
+    },
+    "qualification/mathqa_training_A/startup/RESULT.json": {
+      "bytes": 710,
+      "sha256": "c5cb296133ee5d28f94990c13305a31e105e71760ed65b0faeaac1136f30ec4e"
+    },
+    "qualification/mathqa_training_A/startup/EXACT_RESTORATION.json": {
+      "bytes": 39312,
+      "sha256": "1a8152b7dbdef4a6371a0648b4f8adf5202b7b1be00f0bf5015448fdc85d072c"
+    },
+    "references/mathqa/WARMUP_CANONICALS.json": {
+      "bytes": 29464,
+      "sha256": "7db468c88bf12a2c4a1afd6edb87322b1e71bb47f0c49f12fd362a6aae1457aa"
+    },
+    "qualification/mathqa_serving_A/STATUS.json": {
+      "bytes": 141263,
+      "sha256": "876387163681cd3bf967983e047c29dea70827e6079341d9b40902f4df6d772b"
+    },
+    "qualification/mathqa_serving_A/RESULT.json": {
+      "bytes": 125209,
+      "sha256": "78348cacd7ae949349eba57b16277d95a762245d5f3d7c57e6c1d334bdcf7c6d"
+    },
+    "qualification/mathqa_serving_A/WEIGHTS_BEFORE.json": {
+      "bytes": 2245,
+      "sha256": "b71c13e8322e5a2516eefaca5309767e634b67bcd654b005658ece30646cbe2c"
+    },
+    "qualification/mathqa_serving_A/WEIGHTS_AFTER.json": {
+      "bytes": 2245,
+      "sha256": "b71c13e8322e5a2516eefaca5309767e634b67bcd654b005658ece30646cbe2c"
+    },
+    "qualification/mathqa_serving_B/STATUS.json": {
+      "bytes": 141264,
+      "sha256": "8a046f627555aedfa80840bcf0d49f3265ee0bc88da24f7eb680181f1ad1bcf3"
+    },
+    "qualification/mathqa_serving_B/RESULT.json": {
+      "bytes": 125210,
+      "sha256": "0df66491053a98efbf6d6517742dd5a6bbeeb005023d1593495003ca27796f17"
+    },
+    "qualification/mathqa_serving_B/WEIGHTS_BEFORE.json": {
+      "bytes": 2245,
+      "sha256": "b71c13e8322e5a2516eefaca5309767e634b67bcd654b005658ece30646cbe2c"
+    },
+    "qualification/mathqa_serving_B/WEIGHTS_AFTER.json": {
+      "bytes": 2245,
+      "sha256": "b71c13e8322e5a2516eefaca5309767e634b67bcd654b005658ece30646cbe2c"
+    },
+    "retirement/mathqa_QUALIFICATION.json": {
+      "bytes": 2927,
+      "sha256": "117c20f4f942db54dd3a36f9f3736a4c4cc0faebc8a7e4ae131da6d5e9dd7298"
+    },
+    "WORK.json": {
+      "bytes": 991,
+      "sha256": "906237ee6c56b98f5c33c6ef07f25a15f3091191f1ba10546ac75cab9c789b47"
+    },
+    "CLOCK.json": {
+      "bytes": 1953,
+      "sha256": "155737f7d4b724a15ee3d392904b9ec6c2e0245c8b7f856424f374931ee239b1"
+    },
+    "LAUNCH.json": {
+      "bytes": 3125,
+      "sha256": "163d0a8db78866cf2241371f5f211a0527a5485aa4c539d8eaa38fddcf27d37a"
+    }
+  },
+  "expected_work": {
+    "adam": 12,
+    "response_forward": 28,
+    "response_backward": 28,
+    "training_initialization": 2,
+    "feedback_generation": 0,
+    "teacher_preparation": 0,
+    "canonical_generation": 4,
+    "qualification_generation": 16,
+    "warmup_generation": 0,
+    "scored_generation": 0
+  },
+  "work": {
+    "limits": {
+      "adam": 1056,
+      "response_forward": 2144,
+      "response_backward": 2144,
+      "training_initialization": 16,
+      "feedback_generation": 512,
+      "teacher_preparation": 512,
+      "canonical_generation": 516,
+      "qualification_generation": 16,
+      "warmup_generation": 96,
+      "scored_generation": 3072
+    },
+    "attempted": {
+      "adam": 12,
+      "response_forward": 28,
+      "response_backward": 28,
+      "training_initialization": 2,
+      "feedback_generation": 0,
+      "teacher_preparation": 0,
+      "canonical_generation": 4,
+      "qualification_generation": 16,
+      "warmup_generation": 0,
+      "scored_generation": 0
+    },
+    "completed": {
+      "adam": 12,
+      "response_forward": 28,
+      "response_backward": 28,
+      "training_initialization": 2,
+      "feedback_generation": 0,
+      "teacher_preparation": 0,
+      "canonical_generation": 4,
+      "qualification_generation": 16,
+      "warmup_generation": 0,
+      "scored_generation": 0
+    },
+    "pending": {},
+    "next_operation": 90
+  },
+  "events": [],
+  "counts": {
+    "events": 0,
+    "responses": 0,
+    "windows": 0,
+    "qualification_datasets": 2,
+    "startup_receipts": 2,
+    "own_pools": 0
+  },
+  "payload_storage": null,
+  "authorship": "Separate standard-library reader; author overlaps with trainer implementation. Not blind external replication.",
+  "limits": [
+    "No model, optimizer or feature tensor payloads are independently loaded. Exact runtime restoration and tensor receipts remain evidence.",
+    "A declared seed and live-state identities are checked against source; CUDA RNG values are not independently generated on CPU.",
+    "Runtime coefficient violation counters plus independent summary checks do not reconstruct each omitted per-token coefficient.",
+    "This audit checks training validity/accounting, not endpoint efficacy or statistical intervals."
+  ],
+  "qualification_datasets": 2,
+  "startup_receipts": 2,
+  "pricing": {
+    "calculation": {
+      "parallel": true,
+      "training": {
+        "gsm8k": {
+          "case": "reloaded_next_pair",
+          "pair_s": 3.073543108999729,
+          "loading_s": 73.08127393387258,
+          "startup_s": 40.850104566663504,
+          "optimizer_windows": 128,
+          "estimated_pair_total_s": 393.41351795196533,
+          "boundary_allowance_s": 45,
+          "measured_event_s": 552.3448964525014,
+          "original_estimates": {
+            "N_first": 466.247722864151,
+            "C_first": 466.247722864151,
+            "N_second": 448.45914697647095,
+            "C_second": 448.45914697647095
+          },
+          "updated_estimates": {
+            "N_first": 552.3448964525014,
+            "C_first": 552.3448964525014,
+            "N_second": 552.3448964525014,
+            "C_second": 552.3448964525014
+          }
+        },
+        "mathqa": {
+          "case": "active",
+          "pair_s": 5.817510260269046,
+          "loading_s": 74.83980349823833,
+          "startup_s": 41.310216419398785,
+          "optimizer_windows": 128,
+          "estimated_pair_total_s": 744.6413133144379,
+          "boundary_allowance_s": 45,
+          "measured_event_s": 905.791333232075,
+          "original_estimates": {
+            "N_first": 748.9102220535278,
+            "C_first": 748.9102220535278,
+            "N_second": 784.4930655956268,
+            "C_second": 784.4930655956268
+          },
+          "updated_estimates": {
+            "N_first": 905.791333232075,
+            "C_first": 905.791333232075,
+            "N_second": 905.791333232075,
+            "C_second": 905.791333232075
+          }
+        }
+      },
+      "estimates": {
+        "gsm8k": {
+          "N_first": 552.3448964525014,
+          "C_first": 552.3448964525014,
+          "N_second": 552.3448964525014,
+          "C_second": 552.3448964525014,
+          "N_collect": 188.32731699943542,
+          "C_collect": 188.32731699943542,
+          "references": 240.56171639362242,
+          "final": 1375.5998185306569
+        },
+        "mathqa": {
+          "N_first": 905.791333232075,
+          "C_first": 905.791333232075,
+          "N_second": 905.791333232075,
+          "C_second": 905.791333232075,
+          "N_collect": 299.9949288368225,
+          "C_collect": 299.9949288368225,
+          "references": 387.0072296904328,
+          "final": 2194.338698926071
+        }
+      },
+      "groups": [
+        {
+          "tasks": [
+            "gsm8k_N_first",
+            "gsm8k_references"
+          ],
+          "elapsed_s": 552.3448964525014,
+          "card_s": 792.9066128461238
+        },
+        {
+          "tasks": [
+            "gsm8k_C_first",
+            "gsm8k_N_collect"
+          ],
+          "elapsed_s": 552.3448964525014,
+          "card_s": 740.6722134519368
+        },
+        {
+          "tasks": [
+            "gsm8k_N_second",
+            "gsm8k_C_collect"
+          ],
+          "elapsed_s": 552.3448964525014,
+          "card_s": 740.6722134519368
+        },
+        {
+          "tasks": [
+            "gsm8k_C_second"
+          ],
+          "elapsed_s": 552.3448964525014,
+          "card_s": 552.3448964525014
+        },
+        {
+          "tasks": [
+            "mathqa_N_first",
+            "mathqa_references"
+          ],
+          "elapsed_s": 905.791333232075,
+          "card_s": 1292.7985629225077
+        },
+        {
+          "tasks": [
+            "mathqa_C_first",
+            "mathqa_N_collect"
+          ],
+          "elapsed_s": 905.791333232075,
+          "card_s": 1205.7862620688975
+        },
+        {
+          "tasks": [
+            "mathqa_N_second",
+            "mathqa_C_collect"
+          ],
+          "elapsed_s": 905.791333232075,
+          "card_s": 1205.7862620688975
+        },
+        {
+          "tasks": [
+            "mathqa_C_second"
+          ],
+          "elapsed_s": 905.791333232075,
+          "card_s": 905.791333232075
+        },
+        {
+          "tasks": [
+            "gsm8k_final"
+          ],
+          "elapsed_s": 1375.5998185306569,
+          "card_s": 1375.5998185306569
+        },
+        {
+          "tasks": [
+            "mathqa_final"
+          ],
+          "elapsed_s": 2194.338698926071,
+          "card_s": 2194.338698926071
+        }
+      ],
+      "cpu_reconstruction_allowance_s": 300,
+      "raw_remaining_elapsed_s": 9702.483436195034,
+      "raw_remaining_card_s": 11006.696873951605,
+      "conservative_elapsed_s": 13213.228467053545,
+      "conservative_card_s": 14908.705936137087,
+      "factor": 1.3,
+      "fixed_margin_s": 600
+    },
+    "recorded_gate": {
+      "clock": {
+        "occupied_s": 1433.8466596603394,
+        "elapsed_s": 1393.9155132770538,
+        "active": {}
+      },
+      "raw_remaining_elapsed_s": 9702.483436195034,
+      "raw_remaining_card_s": 11006.696873951605,
+      "conservative_elapsed_s": 13213.228467053545,
+      "conservative_card_s": 14908.705936137087,
+      "elapsed_cap_s": 14400,
+      "card_cap_s": 18000,
+      "forecast_policy": {
+        "factor": 1.3,
+        "fixed_margin_s": 600,
+        "kind": "planning_estimate_not_upper_bound"
+      },
+      "forecast_is_guaranteed_upper_bound": false
+    },
+    "elapsed_forecast_total_s": 14607.143980330598,
+    "elapsed_shortfall_s": 207.14398033059842,
+    "card_forecast_total_s": 16342.552595797426,
+    "observation": "Consumed qualification time is charged once; future startup/loading are distinct new-event costs. Each parallel group uses its maximum for elapsed time and sum for card time.",
+    "timing_limitations": [
+      "The maximum observed disposable pair is a conservative extrapolation, not a proven bound on every future pair.",
+      "Pair timing includes remaining instrumentation and per-pair receipt writes; observers measured separately are subtracted once.",
+      "Original positive estimates are never reduced; a result above the cap is an admission-policy stop, not elapsed exhaustion."
+    ]
+  },
+  "retirements": [
+    {
+      "status": "completed",
+      "reason": "Disposable qualification payloads; complete compact comparisons and failures retained",
+      "retained_counterparts": [
+        "@execution/qualification/gsm8k_training_A/DETAILS.json"
+      ],
+      "verification": {
+        "training": "passed",
+        "serving_A": "passed",
+        "serving_B": "passed",
+        "cpu_export": "passed"
+      },
+      "started_epoch": 1794955731.8533604,
+      "paths": [
+        {
+          "path": "@execution/qualification/gsm8k_training_A/active_state.pt",
+          "identity": {
+            "bytes": 6298242043,
+            "sha256": "308770b1704b101544817946b15c7669e581f47ea29d0a9de3ee5b76bfef90d6"
+          },
+          "device": 2066,
+          "inode": 1419117185,
+          "links": 1,
+          "allocated_bytes": 6298243072,
+          "removed": true
+        },
+        {
+          "path": "@execution/qualification/gsm8k_training_A/active_export/config.json",
+          "identity": {
+            "bytes": 1211,
+            "sha256": "5749d96966f9ce7e6a9662c9f482b8aa0d461845fb6b9ce09ac2c08311fab2aa"
+          },
+          "device": 2066,
+          "inode": 2557941217,
+          "links": 1,
+          "allocated_bytes": 4096,
+          "removed": true
+        },
+        {
+          "path": "@execution/qualification/gsm8k_training_A/active_export/model.safetensors",
+          "identity": {
+            "bytes": 2097259104,
+            "sha256": "0af3ffd7407bd278692e8d0a2da028fba1481cf52c01d1104f5710a8f04d375e"
+          },
+          "device": 2066,
+          "inode": 2557941216,
+          "links": 1,
+          "allocated_bytes": 2097262592,
+          "removed": true
+        },
+        {
+          "path": "@execution/qualification/gsm8k_training_A/cpu_reconstructed_export/config.json",
+          "identity": {
+            "bytes": 1211,
+            "sha256": "5749d96966f9ce7e6a9662c9f482b8aa0d461845fb6b9ce09ac2c08311fab2aa"
+          },
+          "device": 2066,
+          "inode": 2825723064,
+          "links": 1,
+          "allocated_bytes": 4096,
+          "removed": true
+        },
+        {
+          "path": "@execution/qualification/gsm8k_training_A/cpu_reconstructed_export/model.safetensors",
+          "identity": {
+            "bytes": 2097259104,
+            "sha256": "0af3ffd7407bd278692e8d0a2da028fba1481cf52c01d1104f5710a8f04d375e"
+          },
+          "device": 2066,
+          "inode": 2825723063,
+          "links": 1,
+          "allocated_bytes": 2097262592,
+          "removed": true
+        }
+      ],
+      "free_before": 518441656320,
+      "live_use_checked_pids": [
+        2601041
+      ],
+      "finished_epoch": 1794955742.8154783,
+      "logical_bytes_removed": 10492762673,
+      "allocated_bytes_released": 10492776448,
+      "free_after": 526837223424,
+      "observed_free_change_bytes": 8395567104
+    },
+    {
+      "status": "completed",
+      "reason": "Disposable qualification payloads; complete compact comparisons and failures retained",
+      "retained_counterparts": [
+        "@execution/qualification/mathqa_training_A/DETAILS.json"
+      ],
+      "verification": {
+        "training": "passed",
+        "serving_A": "passed",
+        "serving_B": "passed",
+        "cpu_export": "passed"
+      },
+      "started_epoch": 1794956444.9407353,
+      "paths": [
+        {
+          "path": "@execution/qualification/mathqa_training_A/active_state.pt",
+          "identity": {
+            "bytes": 6297297723,
+            "sha256": "65106e6428c13f3b8967abfaee94601e3c22d62541ddc397d9c4e3c1c9ca458d"
+          },
+          "device": 2066,
+          "inode": 1632318434,
+          "links": 1,
+          "allocated_bytes": 6297300992,
+          "removed": true
+        },
+        {
+          "path": "@execution/qualification/mathqa_training_A/active_export/config.json",
+          "identity": {
+            "bytes": 1211,
+            "sha256": "5749d96966f9ce7e6a9662c9f482b8aa0d461845fb6b9ce09ac2c08311fab2aa"
+          },
+          "device": 2066,
+          "inode": 4165147287,
+          "links": 1,
+          "allocated_bytes": 4096,
+          "removed": true
+        },
+        {
+          "path": "@execution/qualification/mathqa_training_A/active_export/model.safetensors",
+          "identity": {
+            "bytes": 2097259104,
+            "sha256": "987c287ab672f71de915badec7e08d3cd0cef1f9ca59905fd20027163bbd4080"
+          },
+          "device": 2066,
+          "inode": 4165147286,
+          "links": 1,
+          "allocated_bytes": 2097262592,
+          "removed": true
+        },
+        {
+          "path": "@execution/qualification/mathqa_training_A/cpu_reconstructed_export/config.json",
+          "identity": {
+            "bytes": 1211,
+            "sha256": "5749d96966f9ce7e6a9662c9f482b8aa0d461845fb6b9ce09ac2c08311fab2aa"
+          },
+          "device": 2066,
+          "inode": 193412173,
+          "links": 1,
+          "allocated_bytes": 4096,
+          "removed": true
+        },
+        {
+          "path": "@execution/qualification/mathqa_training_A/cpu_reconstructed_export/model.safetensors",
+          "identity": {
+            "bytes": 2097259104,
+            "sha256": "987c287ab672f71de915badec7e08d3cd0cef1f9ca59905fd20027163bbd4080"
+          },
+          "device": 2066,
+          "inode": 193412172,
+          "links": 1,
+          "allocated_bytes": 2097262592,
+          "removed": true
+        }
+      ],
+      "free_before": 518430302208,
+      "live_use_checked_pids": [
+        2601041
+      ],
+      "finished_epoch": 1794956455.5943878,
+      "logical_bytes_removed": 10491818353,
+      "allocated_bytes_released": 10491834368,
+      "free_after": 526824886272,
+      "observed_free_change_bytes": 8394584064
+    }
+  ],
+  "scope": "Completed qualification only; zero production, no efficacy inference",
+  "audit_wall_s": 0.0732631478458643,
+  "publication_redaction": {
+    "fields": [
+      "/retirements/0/retained_counterparts/0",
+      "/retirements/0/paths/0/path",
+      "/retirements/0/paths/1/path",
+      "/retirements/0/paths/2/path",
+      "/retirements/0/paths/3/path",
+      "/retirements/0/paths/4/path",
+      "/retirements/1/retained_counterparts/0",
+      "/retirements/1/paths/0/path",
+      "/retirements/1/paths/1/path",
+      "/retirements/1/paths/2/path",
+      "/retirements/1/paths/3/path",
+      "/retirements/1/paths/4/path"
+    ],
+    "transformation": "Execution-root paths replaced with @execution; measurements unchanged",
+    "private_original_identity": {
+      "bytes": 20804,
+      "sha256": "db1090b0b5f1795d7c906b6eda82215d0622b8a90ddc8a09744b980c2af4db57"
+    }
+  }
+}
