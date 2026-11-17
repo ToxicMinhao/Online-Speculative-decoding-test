@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import importlib
 import json
 import os
 from pathlib import Path
@@ -48,7 +49,19 @@ def verify_source(root, manifest):
     return dict(status="passed", files_checked=len(manifest["files"]), commit=manifest["commit"])
 
 
-def build_bundle(checkout, package_root, archive_path, *, base_source_manifest=None, base_source_root=None):
+READINESS_READERS = ('experiments.bounded_prefix_allocation.prepare',
+                     'experiments.mathqa_fixed_lr_transfer.prepare')
+
+
+def check_inputs(plan, package_root, reader):
+    """Only declared dataset adapters may validate an assembled package."""
+    if reader not in READINESS_READERS:
+        raise ValueError('Unknown staged input reader')
+    return importlib.import_module(reader).reference_readiness(plan, package_root=package_root)
+
+
+def build_bundle(checkout, package_root, archive_path, *, base_source_manifest=None, base_source_root=None,
+                 readiness_reader=READINESS_READERS[0]):
     """Bundle only a clean complete tracked source and already sealed metadata."""
     checkout, package_root, archive_path = map(Path, (checkout, package_root, archive_path))
     manifest = json.loads((package_root / "SOURCE.json").read_text())
@@ -60,8 +73,7 @@ def build_bundle(checkout, package_root, archive_path, *, base_source_manifest=N
             or set(filter(None, tracked)) != set(manifest["files"])):
         raise ValueError("Bundle requires the exact clean published tracked source")
     source = verify_source(checkout, manifest)
-    from .prepare import reference_readiness
-    ready = reference_readiness(plan, package_root=package_root)
+    ready = check_inputs(plan, package_root, readiness_reader)
     transferred = sorted(manifest["files"])
     reuse = None
     if (base_source_manifest is None) != (base_source_root is None):
@@ -155,7 +167,7 @@ def _source_reuse(stream, manifest, source_names, destinations, require_approved
 
 
 def unpack_bundle(archive_path, root, source_root, *, expected_identity, require_plan_destinations=False,
-                  base_source_root_override=None):
+                  base_source_root_override=None, readiness_reader=READINESS_READERS[0]):
     """Exclusive extraction followed by the actual staged input/reference reader.
 
     Local CPU dry runs may map destinations and an authenticated source mirror.
@@ -224,8 +236,7 @@ def unpack_bundle(archive_path, root, source_root, *, expected_identity, require
                 raise ValueError("Packaged input differs: " + original)
             checked_inputs += 1
     sys.path[:0] = [str(source_root), str(source_root / "training"), str(source_root / "inference")]
-    from experiments.bounded_prefix_allocation.prepare import reference_readiness
-    ready = reference_readiness(plan, package_root=root)
+    ready = check_inputs(plan, root, readiness_reader)
     receipt = dict(status="passed", archive_identity=expected_identity, source=source,
         source_reuse=reuse,
         source_reuse_roots=(dict(original=reuse["base_source_root"], effective=str(reuse_base),
@@ -246,6 +257,7 @@ def main():
     parser.add_argument("--bytes", required=True, type=int)
     parser.add_argument("--root", required=True, type=Path)
     parser.add_argument("--source-root", required=True, type=Path)
+    parser.add_argument("--readiness-reader", choices=READINESS_READERS, default=READINESS_READERS[0])
     args = parser.parse_args()
     approved = Path("/data/sources/minhao")
     for path in (args.archive, args.root, args.source_root):
@@ -256,7 +268,8 @@ def main():
             or os.environ.get("HF_ENDPOINT") != "https://hf-mirror.com"):
         raise RuntimeError("Source the approved A800 environment helper before staging")
     result = unpack_bundle(args.archive, args.root, args.source_root,
-        expected_identity=dict(bytes=args.bytes, sha256=args.sha256), require_plan_destinations=True)
+        expected_identity=dict(bytes=args.bytes, sha256=args.sha256), require_plan_destinations=True,
+        readiness_reader=args.readiness_reader)
     if result["torch_imported"]:
         raise RuntimeError("Administrative staging unexpectedly imported Torch")
     print(json.dumps(result))
