@@ -1,0 +1,110 @@
+{
+  "execution_commit": "3b25b068f0caa0035aeb4c8d58ba498f02a814cc",
+  "interpretation": "Historical panels and times remain separate; these values are context, not a pooled learning curve or fresh replication.",
+  "rows": [
+    {
+      "acceptance_improvement": {
+        "ci95": [
+          0.0007212476701487683,
+          0.016291901372989453
+        ],
+        "point": 0.008497829149178848,
+        "undefined_draws": 0
+      },
+      "comparison": "C_vs_N",
+      "dataset": "GSM8K",
+      "execution_commit": "c94b1bb9b32dbd9a1f523105cff4713f7b880ec3",
+      "original_decision": "CLOSE_FIXED_CANDIDATE_AT_THIS_SCREEN",
+      "request_count": 128,
+      "source": "dflash_bounded_prefix_allocation_20261116",
+      "time_reduction": {
+        "ci95": [
+          0.00046977218717594307,
+          0.013098225622422239
+        ],
+        "point": 0.00686001905252609,
+        "undefined_draws": 0
+      }
+    },
+    {
+      "acceptance_improvement": {
+        "ci95": [
+          -0.012599705415659553,
+          0.0019480416190053578
+        ],
+        "point": -0.005250031728347926,
+        "undefined_draws": 0
+      },
+      "comparison": "C_vs_S",
+      "dataset": "GSM8K",
+      "execution_commit": "c94b1bb9b32dbd9a1f523105cff4713f7b880ec3",
+      "original_decision": "CLOSE_FIXED_CANDIDATE_AT_THIS_SCREEN",
+      "request_count": 128,
+      "source": "dflash_bounded_prefix_allocation_20261116",
+      "time_reduction": {
+        "ci95": [
+          -0.010674794132014331,
+          0.0012643412422775157
+        ],
+        "point": -0.004607370116947562,
+        "undefined_draws": 0
+      }
+    },
+    {
+      "acceptance_improvement": {
+        "ci95": [
+          -0.002058712477280508,
+          0.005126474012647712
+        ],
+        "point": 0.001638278661368009,
+        "undefined_draws": 0
+      },
+      "comparison": "S_vs_N",
+      "dataset": "MathQA",
+      "execution_commit": "15284b323a307d01118e2630e665ed0191ba7c33",
+      "original_decision": "PRACTICAL_TIME_GAIN_NOT_SUPPORTED",
+      "request_count": 256,
+      "source": "dflash_mathqa_fixed_lr_transfer_20261116",
+      "time_reduction": {
+        "ci95": [
+          -0.002141269850088301,
+          0.00415330288333412
+        ],
+        "point": 0.0011122044076673498,
+        "undefined_draws": 0
+      }
+    }
+  ],
+  "sources": {
+    "dflash_bounded_prefix_allocation_20261116": {
+      "artifacts": {
+        "REPORT.md": {
+          "bytes": 13220,
+          "sha256": "713d972502b0c70585671df757ad300addcceca1d8fe36e777ef564c7e7dcc64"
+        },
+        "SUMMARY.json": {
+          "bytes": 428837,
+          "sha256": "1dd18006772692b76378e5de85ba5c6a2deaf0b3cf8630be0e300d10d41b928b"
+        }
+      },
+      "execution_commit": "c94b1bb9b32dbd9a1f523105cff4713f7b880ec3",
+      "report_link": "../../dflash_bounded_prefix_allocation_20261116/REPORT.md",
+      "summary_link": "../../dflash_bounded_prefix_allocation_20261116/SUMMARY.json"
+    },
+    "dflash_mathqa_fixed_lr_transfer_20261116": {
+      "artifacts": {
+        "REPORT.md": {
+          "bytes": 12111,
+          "sha256": "bd9cfd607c697b10b38ccc3ea2237e7a4d630b88bcf97bd400857f277c20709a"
+        },
+        "SUMMARY.json": {
+          "bytes": 16348,
+          "sha256": "d55221fdefa6d35444ac6acf192f10952c74acadabb42c0d2eb1e1349c7a1115"
+        }
+      },
+      "execution_commit": "15284b323a307d01118e2630e665ed0191ba7c33",
+      "report_link": "../../dflash_mathqa_fixed_lr_transfer_20261116/REPORT.md",
+      "summary_link": "../../dflash_mathqa_fixed_lr_transfer_20261116/SUMMARY.json"
+    }
+  }
+}

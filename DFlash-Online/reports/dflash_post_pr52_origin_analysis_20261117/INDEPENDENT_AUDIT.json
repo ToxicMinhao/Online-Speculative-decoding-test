@@ -1,0 +1,69 @@
+{
+  "status": "passed",
+  "checks": 15520,
+  "errors": [],
+  "panels": [
+    "PR51",
+    "PR52"
+  ],
+  "verification_status": "ANALYZED",
+  "raw_arithmetic_checks": 2878387,
+  "new_model_work": 0,
+  "inputs": {
+    "independent_audit/attempt002/PR51_independent.json": {
+      "bytes": 475451,
+      "sha256": "5340886e17b07d696c2cf5b633be7977e190b42441da90ab35914a7911cf60e3"
+    },
+    "independent_audit/attempt002/PR51_AUDIT.json": {
+      "bytes": 583112,
+      "sha256": "2b1f646c5cae1cc2f7ff279e25123cbbfd0e4aa66f280648db7ea744db0ec98d"
+    },
+    "analysis/reduction_001/PR51_SUMMARY.json": {
+      "bytes": 30788,
+      "sha256": "0bfbb6234c40b2756cec77b7ba1306850643a9ee4daf2a4e0fd9b32d7adb53c2"
+    },
+    "analysis/reduction_001/PR51_PAIRED_REQUESTS.json": {
+      "bytes": 217810,
+      "sha256": "52a6e890e663772f298d75524d363a208d2ec5134d441c7ce6edc26be9fa913f"
+    },
+    "analysis/reduction_001/PR51_TABLE.csv": {
+      "bytes": 1234,
+      "sha256": "2c1615ac57d85b78e784e86f59462be3ea5539d0b1d486cddba8dfd57bc15c90"
+    },
+    "independent_audit/attempt002/PR52_independent.json": {
+      "bytes": 623616,
+      "sha256": "cbb6d97a65318ff701fbc37fc14188e12c8e7693a9732106ac36099fdb2d5cf3"
+    },
+    "independent_audit/attempt002/PR52_AUDIT.json": {
+      "bytes": 829638,
+      "sha256": "6856b9ee01726380be6e596689399df1a7520675b754f09c597c246816c04c17"
+    },
+    "analysis/reduction_001/PR52_SUMMARY.json": {
+      "bytes": 31929,
+      "sha256": "b3990a3241e2bcf11f29064fbcd68a943fe67bbb49d19dd2ca69eada2d11dff6"
+    },
+    "analysis/reduction_001/PR52_PAIRED_REQUESTS.json": {
+      "bytes": 279994,
+      "sha256": "c9e679cf745546e86c0412cff7d174fe758e0be8b503f96d4b20f814bb9796f4"
+    },
+    "analysis/reduction_001/PR52_TABLE.csv": {
+      "bytes": 1514,
+      "sha256": "020b72ed760cbeb5238ee3d6700788cafb431228cbe904f31c60a5f359de3feb"
+    },
+    "analysis/reduction_001/STATUS.json": {
+      "bytes": 1005,
+      "sha256": "54e9811d7a12309a8986924bf9f1d3ad6d1fda6c5f3ecd9c49c900ee2f077e17"
+    },
+    "review/PROVENANCE.json": {
+      "bytes": 214064,
+      "sha256": "6c23c877ff4d649a8fb910d769363872ae744fb9b03dd04f923d63fe7d063d71"
+    }
+  },
+  "code_review": {
+    "path": "research/dflash_unchanged_c_mathqa_transfer_20261117/implementation_checkout/DFlash-Online/experiments/post_pr52_origin_analysis/reducer.py",
+    "bytes": 22311,
+    "sha256": "a495f7e3f86fd2259f3066162b5d8f4ddb5e4703db7fdd3cae4cf6aa3ffe5671",
+    "scope": "direct source review after independent arithmetic preserved",
+    "concrete_blockers": []
+  }
+}

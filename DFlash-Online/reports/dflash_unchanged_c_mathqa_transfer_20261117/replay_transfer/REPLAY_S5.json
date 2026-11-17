@@ -1,0 +1,65 @@
+{
+  "arm": "S",
+  "categories": {
+    "draft_tensors": "exact",
+    "event_scientific_receipts": "exact",
+    "optimizer_moments_counters_options": "exact",
+    "original_event_ancestry": "exact",
+    "rng": "exact",
+    "sampler_accumulation_boundary": "exact",
+    "scientific_configuration": "exact"
+  },
+  "comparison": "exact scientific values; no numerical tolerance",
+  "endpoint_compared": true,
+  "event_compared": true,
+  "exclusions": {
+    "endpoint": [
+      "run_id"
+    ],
+    "endpoint.config_text": [
+      "run_id",
+      "output_dir"
+    ],
+    "event": [
+      "checkpoint_path",
+      "costs",
+      "export_path",
+      "full_state_path",
+      "status"
+    ],
+    "event.costs": [
+      "checkpoint_save_s",
+      "event_wall_s_before_commit",
+      "export_s",
+      "training_s"
+    ],
+    "event.objective_work": [
+      "kplus_chunk_s",
+      "kplus_response_s",
+      "projection_s",
+      "reference_forward_s",
+      "reference_head_s",
+      "reference_setup_s",
+      "selection_s",
+      "teacher_head_s"
+    ],
+    "presentation": [
+      "training_s"
+    ]
+  },
+  "execution_commit": "3b25b068f0caa0035aeb4c8d58ba498f02a814cc",
+  "extra_optimizer_steps": 0,
+  "first_divergence": null,
+  "historical_event_counters_checked_separately": true,
+  "historical_feature_identity_verified": false,
+  "presentations_compared": 256,
+  "private_artifact_identity": {
+    "bytes": 1453,
+    "sha256": "f4e83230fe983114b7f4ff72df5d1a3c7d48f4034a488be80b215da0ece92400"
+  },
+  "responses_compared": 256,
+  "schema": "mathqa_e5_exact_replay_comparison_v1",
+  "status": "passed",
+  "tensor_comparisons": 235,
+  "windows_compared": 128
+}

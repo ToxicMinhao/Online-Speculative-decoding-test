@@ -1,0 +1,246 @@
+{
+  "CROSS_CARD_SERVING": {
+    "same_card_checks_passed": true,
+    "status": "passed"
+  },
+  "CROSS_CARD_TRAINING": {
+    "errors": [],
+    "same_card_checks_passed": true,
+    "status": "passed"
+  },
+  "execution_commit": "3b25b068f0caa0035aeb4c8d58ba498f02a814cc",
+  "serving_A": {
+    "all_valid": true,
+    "generation_records": 4,
+    "role": "disposable_C",
+    "status": "passed"
+  },
+  "serving_B": {
+    "all_valid": true,
+    "generation_records": 4,
+    "role": "disposable_C",
+    "status": "passed"
+  },
+  "training_A": {
+    "actual_intervention": true,
+    "cases": [
+      {
+        "actual_learning_rate": 0.0003,
+        "case": "pr51_native",
+        "checks": "passed",
+        "status": "completed"
+      },
+      {
+        "actual_learning_rate": 0.0003,
+        "case": "native",
+        "checks": "passed",
+        "status": "completed"
+      },
+      {
+        "actual_learning_rate": 0.0003,
+        "case": "cap_zero",
+        "checks": "passed",
+        "status": "completed"
+      },
+      {
+        "actual_learning_rate": 0.0003,
+        "case": "active",
+        "changed_coefficient_occurrences": 7501.0,
+        "changed_parameter_tensors": 38,
+        "checks": "passed",
+        "status": "completed"
+      },
+      {
+        "actual_learning_rate": 0.0003,
+        "case": "continued_next_pair",
+        "checks": "passed",
+        "status": "completed"
+      },
+      {
+        "actual_learning_rate": 0.0003,
+        "case": "reloaded_next_pair",
+        "checks": "passed",
+        "status": "completed"
+      }
+    ],
+    "exact_native_cap0": true,
+    "exact_native_wrapper": true,
+    "exact_own_resume": true,
+    "operation_counts": {
+      "active": {
+        "adam_attempted": 1,
+        "adam_completed": 1,
+        "response_backward_attempted": 2,
+        "response_backward_completed": 2,
+        "response_forward_attempted": 2,
+        "response_forward_completed": 2
+      },
+      "cap_zero": {
+        "adam_attempted": 1,
+        "adam_completed": 1,
+        "response_backward_attempted": 2,
+        "response_backward_completed": 2,
+        "response_forward_attempted": 2,
+        "response_forward_completed": 2
+      },
+      "continued_next_pair": {
+        "adam_attempted": 1,
+        "adam_completed": 1,
+        "response_backward_attempted": 2,
+        "response_backward_completed": 2,
+        "response_forward_attempted": 2,
+        "response_forward_completed": 2
+      },
+      "loading": {
+        "training_initialization_attempted": 1,
+        "training_initialization_completed": 1
+      },
+      "native": {
+        "adam_attempted": 1,
+        "adam_completed": 1,
+        "response_backward_attempted": 2,
+        "response_backward_completed": 2,
+        "response_forward_attempted": 2,
+        "response_forward_completed": 2
+      },
+      "pr51_native": {
+        "adam_attempted": 1,
+        "adam_completed": 1,
+        "response_backward_attempted": 2,
+        "response_backward_completed": 2,
+        "response_forward_attempted": 2,
+        "response_forward_completed": 2
+      },
+      "reloaded_next_pair": {
+        "adam_attempted": 1,
+        "adam_completed": 1,
+        "response_backward_attempted": 2,
+        "response_backward_completed": 2,
+        "response_forward_attempted": 2,
+        "response_forward_completed": 2
+      },
+      "startup": {
+        "response_backward_attempted": 2,
+        "response_backward_completed": 2,
+        "response_forward_attempted": 2,
+        "response_forward_completed": 2
+      }
+    },
+    "optimizer_applications": 6,
+    "origin_restored": true,
+    "response_presentations": 12,
+    "startup_forward_backward_each": 2,
+    "status": "passed"
+  },
+  "training_B": {
+    "actual_intervention": true,
+    "cases": [
+      {
+        "actual_learning_rate": 0.0003,
+        "case": "pr51_native",
+        "checks": "passed",
+        "status": "completed"
+      },
+      {
+        "actual_learning_rate": 0.0003,
+        "case": "native",
+        "checks": "passed",
+        "status": "completed"
+      },
+      {
+        "actual_learning_rate": 0.0003,
+        "case": "cap_zero",
+        "checks": "passed",
+        "status": "completed"
+      },
+      {
+        "actual_learning_rate": 0.0003,
+        "case": "active",
+        "changed_coefficient_occurrences": 7501.0,
+        "changed_parameter_tensors": 38,
+        "checks": "passed",
+        "status": "completed"
+      },
+      {
+        "actual_learning_rate": 0.0003,
+        "case": "continued_next_pair",
+        "checks": "passed",
+        "status": "completed"
+      },
+      {
+        "actual_learning_rate": 0.0003,
+        "case": "reloaded_next_pair",
+        "checks": "passed",
+        "status": "completed"
+      }
+    ],
+    "exact_native_cap0": true,
+    "exact_native_wrapper": true,
+    "exact_own_resume": true,
+    "operation_counts": {
+      "active": {
+        "adam_attempted": 1,
+        "adam_completed": 1,
+        "response_backward_attempted": 2,
+        "response_backward_completed": 2,
+        "response_forward_attempted": 2,
+        "response_forward_completed": 2
+      },
+      "cap_zero": {
+        "adam_attempted": 1,
+        "adam_completed": 1,
+        "response_backward_attempted": 2,
+        "response_backward_completed": 2,
+        "response_forward_attempted": 2,
+        "response_forward_completed": 2
+      },
+      "continued_next_pair": {
+        "adam_attempted": 1,
+        "adam_completed": 1,
+        "response_backward_attempted": 2,
+        "response_backward_completed": 2,
+        "response_forward_attempted": 2,
+        "response_forward_completed": 2
+      },
+      "loading": {
+        "training_initialization_attempted": 1,
+        "training_initialization_completed": 1
+      },
+      "native": {
+        "adam_attempted": 1,
+        "adam_completed": 1,
+        "response_backward_attempted": 2,
+        "response_backward_completed": 2,
+        "response_forward_attempted": 2,
+        "response_forward_completed": 2
+      },
+      "pr51_native": {
+        "adam_attempted": 1,
+        "adam_completed": 1,
+        "response_backward_attempted": 2,
+        "response_backward_completed": 2,
+        "response_forward_attempted": 2,
+        "response_forward_completed": 2
+      },
+      "reloaded_next_pair": {
+        "adam_attempted": 1,
+        "adam_completed": 1,
+        "response_backward_attempted": 2,
+        "response_backward_completed": 2,
+        "response_forward_attempted": 2,
+        "response_forward_completed": 2
+      },
+      "startup": {
+        "response_backward_attempted": 2,
+        "response_backward_completed": 2,
+        "response_forward_attempted": 2,
+        "response_forward_completed": 2
+      }
+    },
+    "optimizer_applications": 6,
+    "origin_restored": true,
+    "response_presentations": 12,
+    "startup_forward_backward_each": 2,
+    "status": "passed"
+  }
+}
