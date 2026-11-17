@@ -1,0 +1,34 @@
+{
+  "status": "passed",
+  "scope": "CPU bookkeeping audit repair only; execution code/data and scientific tolerances unchanged",
+  "original_failure": {
+    "checks": 255636,
+    "errors": 307,
+    "labels": "signed movement consistency only",
+    "report": "training_analysis/execution_003/TRAINING_AUDIT.json",
+    "sha256": "eba422fbf5b088183abc21224f9839a1a44d5e94baeebd88488fd67fcb89fb63",
+    "retained_auditor": "training_analysis/execution_003_failed_auditor"
+  },
+  "diagnosis": "Difference of separately FP32-reduced coefficient sums need not equal a separate FP32 reduction of per-row differences; the former audit used the near-zero signed result as its relative scale.",
+  "numerical_evidence": {
+    "maximum_absolute_discrepancy": 5.054473876953125e-05,
+    "worst_legacy_tolerance_ratio": 2.416404517921242,
+    "C7_legacy_failures": 167,
+    "C8_legacy_failures": 140
+  },
+  "replacement": "Analytic FP32 reduction identity bound using u=2^-24, gamma_(n+1)/(1-gamma_(n+1))*(abs(sum_a)+abs(sum_b)+sum_abs_delta), where n is the retained occurrence count; not a change to per-block mass/bounds checks.",
+  "maximum_error_to_bound": 0.2359130555303362,
+  "repaired_result": {
+    "report": "training_analysis/execution_003_audit2/TRAINING_AUDIT.json",
+    "checks": 255636,
+    "errors": 0,
+    "wall_s": 0.6,
+    "peak_rss_kb": 107228
+  },
+  "tests": {
+    "count": 6,
+    "elapsed_s": 0.195,
+    "log": "reviews/TRAINING_READER_CPU_TESTS_003.log"
+  },
+  "model_work": 0
+}

@@ -1,0 +1,146 @@
+{
+  "execution_commit": "c94b1bb9b32dbd9a1f523105cff4713f7b880ec3",
+  "base_scientific_commit": "9b2d8d8752c5b48e34a3537743ac349ab159b284",
+  "runtime_contract": {
+    "native_runtime_sha256": {
+      "entrypoints/engine.py": "2bcd4b04c325d4ed65f867490c5bac9e915e02f05471c83dacb5a4a097cf1f2a",
+      "layers/logits_processor.py": "5c6c54bec37b941652e29908c773a756fe6c86f99932ab80043672a1eaa0f086",
+      "models/dflash.py": "d4fcfe005a1acc51a4938d038e1dbc1a2c8ff245842f4253338527335b2327b2",
+      "models/qwen3.py": "e23ee8af21eac46685852854a5fe585cf58477d4a1f8047887d6afeefaf8e32d",
+      "server_args.py": "bd60199803698e4ffe6dc44499a8d42be73f42db28056cb6750411523cf56c04",
+      "speculative/dflash_info.py": "9c7ac23a1bf0840eec8218f02f2adbfc3e419099cd19822137ce5c6e0e902218",
+      "speculative/dflash_worker.py": "9397402f5cfbf60b00b7d27d551e5e9e1b605be9b084d028d4ddda76c475dc8c"
+    },
+    "serving": {
+      "cuda": "13.0",
+      "python_version": "3.12.14",
+      "torch": "2.9.1+cu130",
+      "transformers": "4.57.1"
+    },
+    "training": {
+      "python": "3.12.15",
+      "torch": "2.13.0+cu130",
+      "transformers": "5.12.1"
+    }
+  },
+  "candidate": {
+    "name": "bounded_prefix_allocation_v1",
+    "smoothing": 0.5,
+    "cap": 0.25,
+    "original_denominator": true,
+    "native_base": "KPLUS"
+  },
+  "scope": "DEVELOPMENT_FEASIBILITY_REUSED_DATA",
+  "limits": {
+    "adam": 272,
+    "response_forward": 544,
+    "response_backward": 544,
+    "training_initialization": 4,
+    "feedback_generation": 128,
+    "teacher_preparation": 128,
+    "qualification_generation": 8,
+    "warmup_generation": 72,
+    "scored_generation": 1152
+  },
+  "binding": "e2edacd5723d872ec7cbdcc75c9fdf0af6dd5b628c0cf106ced789ba7dd892ad",
+  "devices": {
+    "A": "GPU-9986735a-3e68-d1bd-5998-9634ef24341e",
+    "B": "GPU-c6943f33-bcd0-a724-0b35-f77af6b0a3f1"
+  },
+  "expected_ancestry": "/data/sources/minhao/runs/dflash_bounded_prefix_allocation_20261116/execution_003/sealed/EXPECTED_ANCESTRY.json",
+  "storage": {
+    "status": "passed",
+    "peak_new_bytes": 58336974264,
+    "allocation_cap_bytes": 80000000000,
+    "reserve_bytes": 400000000000,
+    "required_initial_free_bytes": 458336974264,
+    "row_bytes": 49164,
+    "publication_concurrency": 1,
+    "retained_candidate_boundaries": [
+      7,
+      8
+    ],
+    "existing_dependencies_copied": false,
+    "prepared_feature_bytes": 13310858016,
+    "temporary_feature_bytes": 216026616,
+    "checkpoint_bytes": 16794843766,
+    "atomic_publication_bytes": 8397421883,
+    "qualification_payload_bytes": 8397421883,
+    "compiler_bytes": 4294967296,
+    "compact_bytes": 2000000000,
+    "source_and_workspace_bytes": 2147483648,
+    "serialization_margin_bytes": 2777951156
+  },
+  "analysis_commit": "bef13cb893156a0ec8b468356956185df77b33f3",
+  "controls": {
+    "N": {
+      "state": "/data/sources/minhao/runs/dflash_persistent_prefix_withholding_20261115/production_continuation_001/tasks/N8/trainer/training_state.pt",
+      "export": "/data/sources/minhao/runs/dflash_persistent_prefix_withholding_20261115/production_continuation_001/tasks/N8/trainer/events/event_008/export",
+      "state_identity": {
+        "bytes": 6300160347,
+        "sha256": "ca03aefcc4f58a67b146a63474ecb652b83edb9a4f3c18294db3104399db57ce"
+      },
+      "weights_identity": {
+        "bytes": 2097259104,
+        "sha256": "d79f30f80f7a6fecc3505290a2ecf2d81c910175aa389f47f93e9f5c9b765454"
+      },
+      "global_step": 1024,
+      "presentations": 2048,
+      "source_receipt": "/data/sources/minhao/runs/dflash_bounded_prefix_allocation_20261116/execution_003/sealed/N8_RESULT.json"
+    },
+    "S": {
+      "state": "/data/sources/minhao/runs/dflash_persistent_prefix_withholding_20261115/production_restart_001/tasks/S8/trainer/training_state.pt",
+      "export": "/data/sources/minhao/runs/dflash_persistent_prefix_withholding_20261115/production_restart_001/tasks/S8/trainer/events/event_008/export",
+      "state_identity": {
+        "bytes": 6300162779,
+        "sha256": "b3813d9de09404cf5977972eae0672d6a8d8fa4a2803bf6c934e4075733f8acf"
+      },
+      "weights_identity": {
+        "bytes": 2097259104,
+        "sha256": "4ace4a675a534f7cc206fd2e3528dafdc0a5fbd5457ab95686f3e45062a8877c"
+      },
+      "global_step": 1024,
+      "presentations": 2048,
+      "source_receipt": "/data/sources/minhao/runs/dflash_bounded_prefix_allocation_20261116/execution_003/sealed/S8_RESULT.json"
+    }
+  },
+  "candidate_endpoints": {
+    "C7": {
+      "state": "/data/sources/minhao/runs/dflash_bounded_prefix_allocation_20261116/execution_003/tasks/C7/trainer/training_state.pt",
+      "export": "/data/sources/minhao/runs/dflash_bounded_prefix_allocation_20261116/execution_003/tasks/C7/trainer/events/event_007/export",
+      "state_identity": {
+        "bytes": 6302342043,
+        "sha256": "e0d637160ae8d2d48931c3a229a2f05baa3541b2197cf99237ec02143c9357f3"
+      },
+      "weights_identity": {
+        "bytes": 2097259104,
+        "sha256": "c277372c45eadf0e0a0bcb681fa29b1574199acf16dc4bd33364172c1285e25b"
+      },
+      "global_step": 896,
+      "presentations": 1792
+    },
+    "C8": {
+      "state": "/data/sources/minhao/runs/dflash_bounded_prefix_allocation_20261116/execution_003/tasks/C8/trainer/training_state.pt",
+      "export": "/data/sources/minhao/runs/dflash_bounded_prefix_allocation_20261116/execution_003/tasks/C8/trainer/events/event_008/export",
+      "state_identity": {
+        "bytes": 6306457819,
+        "sha256": "187620261f6c330a1906b03c80bee39b0dcd5c14e87e950f609f021aa11922cb"
+      },
+      "weights_identity": {
+        "bytes": 2097259104,
+        "sha256": "8352b4c2a40c4d2b91acb670e54e5825a2a8d2cf187c0cf51c57ca6bfdd015f0"
+      },
+      "global_step": 1024,
+      "presentations": 2048
+    }
+  },
+  "private_delivery_manifest": {
+    "status": "passed",
+    "files": 4859,
+    "bytes": 251757956,
+    "wall_s": 141.7560522556305,
+    "remote_root": "/data/sources/minhao/runs/dflash_bounded_prefix_allocation_20261116/execution_003",
+    "local_root": "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_bounded_prefix_allocation_20261116/delivery/execution_003",
+    "execution_commit": "c94b1bb9b32dbd9a1f523105cff4713f7b880ec3"
+  }
+}

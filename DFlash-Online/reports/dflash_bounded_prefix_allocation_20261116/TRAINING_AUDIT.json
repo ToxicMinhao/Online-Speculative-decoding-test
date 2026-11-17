@@ -1,0 +1,386 @@
+{
+  "status": "passed",
+  "execution_commit": "c94b1bb9b32dbd9a1f523105cff4713f7b880ec3",
+  "checks": 255636,
+  "errors": [],
+  "events": [
+    {
+      "event": 7,
+      "responses": 256,
+      "totals": {
+        "blocks": 64564.0,
+        "valid_positions": 941612.0,
+        "prefix_positions": 507638.0,
+        "changed_blocks": 56062.0,
+        "changed_positions": 502722.0,
+        "prefix_weight_before": 281142.92694091797,
+        "prefix_weight_after": 281142.92782592773,
+        "weight_moved": 9301.287669181824,
+        "mass_error_abs_sum": 0.007740974426269531,
+        "mass_violations": 0.0,
+        "bounds_violations": 0.0,
+        "support_violations": 0.0,
+        "nonfinite_values": 0.0,
+        "delta_numerator": -1381.8688460588455
+      },
+      "signed_reduction_roundoff": {
+        "groups": 30691,
+        "legacy_identity_failures": 167,
+        "maximum_absolute_error": 5.054473876953125e-05,
+        "maximum_error_to_analytic_bound": 0.2359130555303362
+      },
+      "prefix_length_counts": {
+        "0": 3586.0,
+        "1": 4916.0,
+        "2": 4874.0,
+        "3": 4580.0,
+        "4": 4210.0,
+        "5": 3911.0,
+        "6": 3621.0,
+        "7": 3366.0,
+        "8": 3078.0,
+        "9": 2812.0,
+        "10": 2575.0,
+        "11": 2464.0,
+        "12": 2341.0,
+        "13": 2317.0,
+        "14": 2143.0,
+        "15": 13770.0,
+        "16": 0.0
+      },
+      "changed_block_fraction": 0.8683167090019206,
+      "moved_prefix_mass_share": 0.03308384020323045
+    },
+    {
+      "event": 8,
+      "responses": 256,
+      "totals": {
+        "blocks": 60910.0,
+        "valid_positions": 886796.0,
+        "prefix_positions": 487136.0,
+        "changed_blocks": 53343.0,
+        "changed_positions": 482683.0,
+        "prefix_weight_before": 268955.5283203125,
+        "prefix_weight_after": 268955.5284423828,
+        "weight_moved": 8806.98870563507,
+        "mass_error_abs_sum": 0.007396817207336426,
+        "mass_violations": 0.0,
+        "bounds_violations": 0.0,
+        "support_violations": 0.0,
+        "nonfinite_values": 0.0,
+        "delta_numerator": -1257.490253686905
+      },
+      "signed_reduction_roundoff": {
+        "groups": 30649,
+        "legacy_identity_failures": 140,
+        "maximum_absolute_error": 3.0279159545898438e-05,
+        "maximum_error_to_analytic_bound": 0.2234951523564157
+      },
+      "prefix_length_counts": {
+        "0": 3116.0,
+        "1": 4451.0,
+        "2": 4407.0,
+        "3": 4205.0,
+        "4": 3955.0,
+        "5": 3732.0,
+        "6": 3432.0,
+        "7": 3233.0,
+        "8": 2951.0,
+        "9": 2697.0,
+        "10": 2494.0,
+        "11": 2411.0,
+        "12": 2240.0,
+        "13": 2206.0,
+        "14": 2047.0,
+        "15": 13333.0,
+        "16": 0.0
+      },
+      "changed_block_fraction": 0.875767525857823,
+      "moved_prefix_mass_share": 0.032745148466130025
+    }
+  ],
+  "qualification": {
+    "status": "passed",
+    "cases": [
+      "native",
+      "cap_zero",
+      "active",
+      "continued_next_pair",
+      "reloaded_next_pair"
+    ],
+    "optimizer_applications": 5,
+    "response_presentations": 10,
+    "startup_forward_backward_each": 2,
+    "loading_s": 30.038818031549454,
+    "startup_s": 17.704091539606452,
+    "wall_s": 217.2685158252716,
+    "peak_gpu_allocated_bytes": 17137380864,
+    "peak_gpu_reserved_bytes": 19750977536,
+    "case_costs": [
+      {
+        "case": "native",
+        "status": "completed",
+        "wall_s": 4.8017620872706175,
+        "preclip_observer_s": 2.740231717005372,
+        "block_observer_s": 0.010741563513875008,
+        "pair_wall_excluding_observers_s": 2.0507888067513704
+      },
+      {
+        "case": "cap_zero",
+        "status": "completed",
+        "wall_s": 4.7778998631983995,
+        "preclip_observer_s": 2.616536693647504,
+        "block_observer_s": 0.01118416152894497,
+        "pair_wall_excluding_observers_s": 2.1501790080219507
+      },
+      {
+        "case": "active",
+        "status": "completed",
+        "wall_s": 4.819965532049537,
+        "preclip_observer_s": 2.618571847677231,
+        "block_observer_s": 0.010491101071238518,
+        "pair_wall_excluding_observers_s": 2.1909025833010674
+      },
+      {
+        "case": "continued_next_pair",
+        "status": "completed",
+        "wall_s": 6.17754572071135,
+        "preclip_observer_s": 2.915598353371024,
+        "block_observer_s": 0.01580009236931801,
+        "pair_wall_excluding_observers_s": 3.2461472749710083
+      },
+      {
+        "case": "reloaded_next_pair",
+        "status": "completed",
+        "wall_s": 8.413224712014198,
+        "preclip_observer_s": 2.547344643622637,
+        "block_observer_s": 0.017566999420523643,
+        "pair_wall_excluding_observers_s": 5.848313068971038
+      }
+    ],
+    "unchanged_native_inputs_and_first_error_terms": true
+  },
+  "training_costs": [
+    {
+      "event": 7,
+      "loading_s": 28.93876202404499,
+      "startup_s": 19.536655388772488,
+      "task_wall_s": 466.247722864151,
+      "event_wall_s": 401.5548836886883,
+      "training_s": 365.54582868143916,
+      "checkpoint_save_s": 18.05951363220811,
+      "export_s": 15.310881337150931,
+      "event_wall_s_before_commit": 401.088421555236,
+      "boundary_check_s": 4.096015576273203,
+      "publication_wait_s": 0.00012254342436790466,
+      "physical_work": {
+        "draft_forwards": 256,
+        "layer_forwards": 1280,
+        "objective_chunks": 16340,
+        "vocabulary_head_calls": 32680,
+        "response_forwards": 256
+      },
+      "memory": {
+        "peak_gpu_allocated_bytes": 20514518016,
+        "peak_gpu_reserved_bytes": 25811746816,
+        "host_maxrss_bytes": 14852993024,
+        "scope": "Task including model load, startup, training and publication"
+      },
+      "sampled_process_tree_peak_rss_bytes": 28146229248
+    },
+    {
+      "event": 8,
+      "loading_s": 28.992689384147525,
+      "startup_s": 18.7385220695287,
+      "task_wall_s": 448.45914697647095,
+      "event_wall_s": 383.0942285172641,
+      "training_s": 344.1792459655553,
+      "checkpoint_save_s": 20.252627413719893,
+      "export_s": 15.141771418973804,
+      "event_wall_s_before_commit": 382.6223914194852,
+      "boundary_check_s": 4.476886397227645,
+      "publication_wait_s": 9.242631494998932e-05,
+      "physical_work": {
+        "draft_forwards": 256,
+        "layer_forwards": 1280,
+        "objective_chunks": 15468,
+        "vocabulary_head_calls": 30936,
+        "response_forwards": 256
+      },
+      "memory": {
+        "peak_gpu_allocated_bytes": 20535296000,
+        "peak_gpu_reserved_bytes": 32132562944,
+        "host_maxrss_bytes": 14877847552,
+        "scope": "Task including model load, startup, training and publication"
+      },
+      "sampled_process_tree_peak_rss_bytes": 28573822976
+    }
+  ],
+  "work": {
+    "limits": {
+      "adam": 272,
+      "response_forward": 544,
+      "response_backward": 544,
+      "training_initialization": 4,
+      "feedback_generation": 128,
+      "teacher_preparation": 128,
+      "qualification_generation": 8,
+      "warmup_generation": 72,
+      "scored_generation": 1152
+    },
+    "attempted": {
+      "adam": 261,
+      "response_forward": 528,
+      "response_backward": 528,
+      "training_initialization": 3,
+      "feedback_generation": 128,
+      "teacher_preparation": 128,
+      "qualification_generation": 8,
+      "warmup_generation": 72,
+      "scored_generation": 1152
+    },
+    "completed": {
+      "adam": 261,
+      "response_forward": 528,
+      "response_backward": 528,
+      "training_initialization": 3,
+      "feedback_generation": 128,
+      "teacher_preparation": 128,
+      "qualification_generation": 8,
+      "warmup_generation": 72,
+      "scored_generation": 1152
+    },
+    "pending": {},
+    "next_operation": 2808
+  },
+  "clock": {
+    "first_model_load_epoch": 1794874459.2593615,
+    "completed_card_s": 2459.4527440071106,
+    "active": {},
+    "finished": [
+      {
+        "task": "serving_B",
+        "occupied_card_s": 36.09169626235962,
+        "physical_gpu_uuid": "GPU-c6943f33-bcd0-a724-0b35-f77af6b0a3f1",
+        "started_epoch": 1794874460.5056496,
+        "pid": 2243060
+      },
+      {
+        "task": "training_A",
+        "occupied_card_s": 218.30039596557617,
+        "physical_gpu_uuid": "GPU-9986735a-3e68-d1bd-5998-9634ef24341e",
+        "started_epoch": 1794874460.5141714,
+        "pid": 2243059
+      },
+      {
+        "task": "serving_A",
+        "occupied_card_s": 35.17461657524109,
+        "physical_gpu_uuid": "GPU-9986735a-3e68-d1bd-5998-9634ef24341e",
+        "started_epoch": 1794874682.474379,
+        "pid": 2245779
+      },
+      {
+        "task": "C7",
+        "occupied_card_s": 465.98542618751526,
+        "physical_gpu_uuid": "GPU-9986735a-3e68-d1bd-5998-9634ef24341e",
+        "started_epoch": 1794874720.2316039,
+        "pid": 2246856
+      },
+      {
+        "task": "C_collect",
+        "occupied_card_s": 188.06567668914795,
+        "physical_gpu_uuid": "GPU-9986735a-3e68-d1bd-5998-9634ef24341e",
+        "started_epoch": 1794875189.5322301,
+        "pid": 2250771
+      },
+      {
+        "task": "C8",
+        "occupied_card_s": 448.1924636363983,
+        "physical_gpu_uuid": "GPU-9986735a-3e68-d1bd-5998-9634ef24341e",
+        "started_epoch": 1794875380.8032787,
+        "pid": 2252836
+      },
+      {
+        "task": "final",
+        "occupied_card_s": 1067.6424686908722,
+        "physical_gpu_uuid": "GPU-9986735a-3e68-d1bd-5998-9634ef24341e",
+        "started_epoch": 1794875833.2837594,
+        "pid": 2256517
+      }
+    ]
+  },
+  "limits": [
+    "This reader reports only retained training/qualification evidence, not serving efficacy.",
+    "Mass/bounds/support checks use recorded per-block violation counts and independent aggregate consistency.",
+    "Signed sum consistency uses an analytic FP32 reduction bound; the original per-block scientific tolerances remain unchanged.",
+    "The active qualification fixture directly checks native first-error terms. Production zero support violations are implementation receipts.",
+    "Per-event task/event/training/publication timers are nested; do not sum them as independent costs.",
+    "Historical N/S training time is not a fresh matched overhead control."
+  ],
+  "inputs": {
+    "sealed/PLAN.json": {
+      "bytes": 67606,
+      "sha256": "122b53cbc40a7b2cbb6a23e014a907b5a25bbfba9dc22ec7ed6852ec9869625e"
+    },
+    "tasks/C7/RESULT.json": {
+      "bytes": 3660,
+      "sha256": "4e8f93c36a39a77f635571eaf4ba3ace97c55955a41003685321a73599b3028d"
+    },
+    "tasks/C7/STATUS.json": {
+      "bytes": 1845,
+      "sha256": "b00ff71562dfd8f03df0efc0716b702193737efe73a10147971b6d3cea4075bf"
+    },
+    "tasks/C7/trainer/events/event_007/RESULT.json": {
+      "bytes": 18153848,
+      "sha256": "4537b3efe02a6561d8fc85bc5dd1b31867b1f50808fd1d8eb84a53907d75fd50"
+    },
+    "tasks/C7/trainer/events/event_007/RESPONSE_OBSERVATIONS.jsonl": {
+      "bytes": 8500025,
+      "sha256": "bf8d917f69b5849328de5754606637b12113982fc65c339e5c49bc17aa0c42df"
+    },
+    "tasks/C7/trainer/events/event_007/WINDOW_OBSERVATIONS.jsonl": {
+      "bytes": 29667,
+      "sha256": "2370f5dd63a44a417c861281dc9c3d3b9792789cfa9e1fec46db0734f07404a4"
+    },
+    "tasks/C7/MEMORY.json": {
+      "bytes": 199,
+      "sha256": "a2ca6365520efebf98cc25db5eb9a0dbcf3f34df906492ee44b7289b7a9e2da8"
+    },
+    "tasks/C8/RESULT.json": {
+      "bytes": 3956,
+      "sha256": "6af94b1b31d39b9a6208d13264c95057b9b69f5862cd92e5df8cb253a64bf451"
+    },
+    "tasks/C8/STATUS.json": {
+      "bytes": 1851,
+      "sha256": "30b85ede77ab70d03b1b3a6b8921cf26bc3d533c8f618fa16ee08bd29a6392b0"
+    },
+    "tasks/C8/trainer/events/event_008/RESULT.json": {
+      "bytes": 17842243,
+      "sha256": "dd113be61465a1749cc067290e3b2f6e12228311733114e6861853a150f66223"
+    },
+    "tasks/C8/trainer/events/event_008/RESPONSE_OBSERVATIONS.jsonl": {
+      "bytes": 8451827,
+      "sha256": "3a154b5064e2367d902d676fcce55e37ccd8075cfb0d6f99c778236d85d62be4"
+    },
+    "tasks/C8/trainer/events/event_008/WINDOW_OBSERVATIONS.jsonl": {
+      "bytes": 29694,
+      "sha256": "e3b1b4baa4ced576a0b3412e6d56457e2aa3014031a8480b5b900845fa3f9a1e"
+    },
+    "tasks/C8/MEMORY.json": {
+      "bytes": 199,
+      "sha256": "2e9ed2848eb2eb426df6f46ba2025949de87514dff3533fba1b46effe937e0ab"
+    },
+    "qualification/training/STATUS.json": {
+      "bytes": 1490421,
+      "sha256": "165815abd51c0ded71c8ffa7aa33528e6eb7a4281b04d1b1f15cebb8e0a0eeb5"
+    },
+    "WORK.json": {
+      "bytes": 913,
+      "sha256": "0d051a30126808c79baeddc6e878c14ab51ffc78c8d4424bc86ad1da04c4f7b1"
+    },
+    "CLOCK.json": {
+      "bytes": 1648,
+      "sha256": "ce04ea49aa9df21b2f99a6b69f2f8bb9d41159525090693231d1d50ac59112fd"
+    }
+  }
+}

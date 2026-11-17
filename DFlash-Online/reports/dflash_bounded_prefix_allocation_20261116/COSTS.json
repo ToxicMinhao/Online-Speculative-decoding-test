@@ -1,0 +1,195 @@
+{
+  "execution_commit": "c94b1bb9b32dbd9a1f523105cff4713f7b880ec3",
+  "analysis_commit": "bef13cb893156a0ec8b468356956185df77b33f3",
+  "clock": {
+    "occupied_s": 2459.4527440071106,
+    "elapsed_s": 2442.8451731204987,
+    "active": {}
+  },
+  "postflight": {
+    "clock": {
+      "occupied_s": 2459.4527440071106,
+      "elapsed_s": 2442.583855867386,
+      "active": {}
+    },
+    "allocated_bytes": 28189085696,
+    "charged_bytes": 32484052992,
+    "peak_new_bytes": 58336974264,
+    "free_bytes": 632580435968,
+    "remaining_peak_bytes": 30147888568,
+    "compiler": {
+      "root": "/data/sources/minhao/.cache",
+      "baseline_allocated_bytes": 5054238720,
+      "allocated_bytes": 5054238720,
+      "growth_bytes": 0,
+      "reserved_growth_bytes": 4294967296
+    }
+  },
+  "training": [
+    {
+      "event": 7,
+      "loading_s": 28.93876202404499,
+      "startup_s": 19.536655388772488,
+      "task_wall_s": 466.247722864151,
+      "event_wall_s": 401.5548836886883,
+      "training_s": 365.54582868143916,
+      "checkpoint_save_s": 18.05951363220811,
+      "export_s": 15.310881337150931,
+      "event_wall_s_before_commit": 401.088421555236,
+      "boundary_check_s": 4.096015576273203,
+      "publication_wait_s": 0.00012254342436790466,
+      "physical_work": {
+        "draft_forwards": 256,
+        "layer_forwards": 1280,
+        "objective_chunks": 16340,
+        "vocabulary_head_calls": 32680,
+        "response_forwards": 256
+      },
+      "memory": {
+        "peak_gpu_allocated_bytes": 20514518016,
+        "peak_gpu_reserved_bytes": 25811746816,
+        "host_maxrss_bytes": 14852993024,
+        "scope": "Task including model load, startup, training and publication"
+      },
+      "sampled_process_tree_peak_rss_bytes": 28146229248
+    },
+    {
+      "event": 8,
+      "loading_s": 28.992689384147525,
+      "startup_s": 18.7385220695287,
+      "task_wall_s": 448.45914697647095,
+      "event_wall_s": 383.0942285172641,
+      "training_s": 344.1792459655553,
+      "checkpoint_save_s": 20.252627413719893,
+      "export_s": 15.141771418973804,
+      "event_wall_s_before_commit": 382.6223914194852,
+      "boundary_check_s": 4.476886397227645,
+      "publication_wait_s": 9.242631494998932e-05,
+      "physical_work": {
+        "draft_forwards": 256,
+        "layer_forwards": 1280,
+        "objective_chunks": 15468,
+        "vocabulary_head_calls": 30936,
+        "response_forwards": 256
+      },
+      "memory": {
+        "peak_gpu_allocated_bytes": 20535296000,
+        "peak_gpu_reserved_bytes": 32132562944,
+        "host_maxrss_bytes": 14877847552,
+        "scope": "Task including model load, startup, training and publication"
+      },
+      "sampled_process_tree_peak_rss_bytes": 28573822976
+    }
+  ],
+  "qualification": {
+    "status": "passed",
+    "cases": [
+      "native",
+      "cap_zero",
+      "active",
+      "continued_next_pair",
+      "reloaded_next_pair"
+    ],
+    "optimizer_applications": 5,
+    "response_presentations": 10,
+    "startup_forward_backward_each": 2,
+    "loading_s": 30.038818031549454,
+    "startup_s": 17.704091539606452,
+    "wall_s": 217.2685158252716,
+    "peak_gpu_allocated_bytes": 17137380864,
+    "peak_gpu_reserved_bytes": 19750977536,
+    "case_costs": [
+      {
+        "case": "native",
+        "status": "completed",
+        "wall_s": 4.8017620872706175,
+        "preclip_observer_s": 2.740231717005372,
+        "block_observer_s": 0.010741563513875008,
+        "pair_wall_excluding_observers_s": 2.0507888067513704
+      },
+      {
+        "case": "cap_zero",
+        "status": "completed",
+        "wall_s": 4.7778998631983995,
+        "preclip_observer_s": 2.616536693647504,
+        "block_observer_s": 0.01118416152894497,
+        "pair_wall_excluding_observers_s": 2.1501790080219507
+      },
+      {
+        "case": "active",
+        "status": "completed",
+        "wall_s": 4.819965532049537,
+        "preclip_observer_s": 2.618571847677231,
+        "block_observer_s": 0.010491101071238518,
+        "pair_wall_excluding_observers_s": 2.1909025833010674
+      },
+      {
+        "case": "continued_next_pair",
+        "status": "completed",
+        "wall_s": 6.17754572071135,
+        "preclip_observer_s": 2.915598353371024,
+        "block_observer_s": 0.01580009236931801,
+        "pair_wall_excluding_observers_s": 3.2461472749710083
+      },
+      {
+        "case": "reloaded_next_pair",
+        "status": "completed",
+        "wall_s": 8.413224712014198,
+        "preclip_observer_s": 2.547344643622637,
+        "block_observer_s": 0.017566999420523643,
+        "pair_wall_excluding_observers_s": 5.848313068971038
+      }
+    ],
+    "unchanged_native_inputs_and_first_error_terms": true
+  },
+  "collection": {
+    "generation_s": 87.66443146206439,
+    "preparation_s": 10.74303274601698,
+    "redundant_capture_retirement_s": 41.37274298071861,
+    "loading_s": 20.508696995675564
+  },
+  "final": {
+    "loading_s": 21.75919068045914,
+    "evaluation": {
+      "status": "completed",
+      "planned_generations": 1224,
+      "attempted_generations": 1224,
+      "returned_generations": 1224,
+      "publications": 36,
+      "logical_activations": 36,
+      "activation_s": 37.74745871126652,
+      "weight_validation_s": 11.498348193243146,
+      "optimizer_steps": 0,
+      "feedback_collections": 0,
+      "teacher_preparations": 0,
+      "automatic_retry": false,
+      "completed_valid_generations": 1224,
+      "invalid_generations": 0,
+      "scored_generations": 1152,
+      "warmup_generations": 72,
+      "unknown_generation_attempts": 0,
+      "unattempted_generations": 0,
+      "interrupted_attempt": null,
+      "evaluation_wall_s": 1039.0705832187086
+    },
+    "task_wall_s": 1067.908766746521
+  },
+  "task_wall_s": {
+    "C7": 466.247722864151,
+    "C_collect": 188.32731699943542,
+    "C8": 448.45914697647095,
+    "final": 1067.908766746521
+  },
+  "cpu_preflight_failed_s": 66.39819359779358,
+  "cpu_preflight_passed_s": 59.62992010451853,
+  "transfer": {
+    "status": "passed",
+    "files": 4859,
+    "bytes": 251757956,
+    "wall_s": 141.7560522556305,
+    "remote_root": "/data/sources/minhao/runs/dflash_bounded_prefix_allocation_20261116/execution_003",
+    "local_root": "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_bounded_prefix_allocation_20261116/delivery/execution_003",
+    "execution_commit": "c94b1bb9b32dbd9a1f523105cff4713f7b880ec3"
+  },
+  "nested_timers_not_additive": true
+}

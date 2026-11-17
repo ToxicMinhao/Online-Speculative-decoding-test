@@ -158,8 +158,9 @@ class TargetObjectiveModel(OnlineDFlashModel):
                 # Only the position loss changes. Sampling, teacher alignment,
                 # response masks and weights remain the native OSD path.
                 return point_loss.chunk_terms(logits, teacher_logits, labels, weights)
+            log_probability = F.log_softmax(logits, dim=-1)
             token_loss = F.kl_div(
-                F.log_softmax(logits, dim=-1), teacher_probability, reduction='none',
+                log_probability, teacher_probability, reduction='none',
             ).sum(dim=-1)
         elif self.objective == 'projected':
             with torch.no_grad():
@@ -249,6 +250,13 @@ class TargetObjectiveModel(OnlineDFlashModel):
                 if survival_head is not None:
                     auxiliary = survival_head.chunk_terms(
                         hidden, proposals, labels, weights, self.eos_token_ids,
+                    )
+                    return (*terms, *extra, *auxiliary)
+                prefix_allocation = getattr(self, 'prefix_allocation', None)
+                if prefix_allocation is not None:
+                    auxiliary = prefix_allocation.chunk_terms(
+                        log_probability, token_loss, proposals, labels, weights,
+                        selection, self.eos_token_ids,
                     )
                     return (*terms, *extra, *auxiliary)
                 return (*terms, *extra)
@@ -505,6 +513,7 @@ class TargetObjectiveModel(OnlineDFlashModel):
             )
         loss_sum, denominator, correct, positions = terms[:4]
         redistribution_metrics = {}
+        prefix_allocation = getattr(self, 'prefix_allocation', None)
         if redistribution is not None:
             _synchronize(loss_sum)
             started = time.perf_counter()
@@ -512,7 +521,7 @@ class TargetObjectiveModel(OnlineDFlashModel):
             # The native K+ reducer still receives exactly its original fields.
             native_terms = terms[:11] if (
                 getattr(self, 'survival_head_extension', None) or successor_shuffle is not None
-                or (retention is not None and retention.active)
+                or (retention is not None and retention.active) or prefix_allocation is not None
             ) else terms
             loss_sum, redistribution_metrics = redistribution.reduce_response(native_terms)
             if successor_shuffle is not None:
@@ -520,6 +529,9 @@ class TargetObjectiveModel(OnlineDFlashModel):
             _synchronize(loss_sum)
             self.costs['kplus_response_s'] = self.costs.get('kplus_response_s', 0.0) + (
                 time.perf_counter() - started)
+        if prefix_allocation is not None:
+            loss_sum, allocation_metrics = prefix_allocation.reduce_response(loss_sum, terms[11:])
+            redistribution_metrics.update(allocation_metrics)
         if self.is_osd:
             # Apply the author's epsilon once per response, not once per chunk.
             denominator = denominator + 1e-6
