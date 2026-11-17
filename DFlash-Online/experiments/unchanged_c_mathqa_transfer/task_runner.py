@@ -356,6 +356,8 @@ def final_task(plan,base,ledger,uuid):
 
 def run_task(plan_path,task,uuid):
     plan=read(plan_path)
+    from .replay_gate import validate_main_receipt
+    validate_main_receipt(plan,read(plan['prerequisite']['qualified_receipt']))
     if task not in TASKS or uuid not in plan['devices'].values() or os.environ.get('CUDA_VISIBLE_DEVICES')!=uuid:
         raise ValueError('Task must run on exactly its assigned physical card')
     if task=='final' and uuid!=plan['devices']['A']:raise ValueError('Fixed timing card is A')

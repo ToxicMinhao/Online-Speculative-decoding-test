@@ -10,7 +10,7 @@ import traceback
 from online_feedback.storage import write_json
 from experiments.bounded_prefix_allocation.launch import run_children
 from experiments.persistent_prefix_withholding.launch import child_environment, check_compilers
-from .runtime import initialize_work, read, clock_status, boundary, require_time_for
+from .runtime import start_campaign, validate_continuation, read, clock_status, boundary, require_time_for
 
 MODULE = 'experiments.unchanged_c_mathqa_transfer'
 
@@ -104,6 +104,17 @@ def qualify_resources(plan, cross_card):
         sequential_card_fallback=cross_card['status']!='passed')
 
 
+def cpu_preflight(plan_path,plan,stage):
+    root=Path(plan['root']);name='CPU_PREFLIGHT_'+stage.upper()
+    with (root/'logs'/(name+'.log')).open('x') as log:
+        subprocess.run([plan['training_python'],'-u','-m',MODULE+'.preflight',
+            '--plan',str(plan_path),'--stage',stage],cwd=plan['source_root'],
+            env=child_environment(plan),stdout=log,stderr=subprocess.STDOUT,check=True)
+    result=read(root/(name+'.json'))
+    if result['status']!='passed':raise RuntimeError('Assembled '+stage+' CPU preflight failed')
+    return result
+
+
 def run(plan_path):
     plan_path=Path(plan_path);plan=read(plan_path);root=Path(plan['root'])
     if (root/'LAUNCH.json').exists():
@@ -117,15 +128,45 @@ def run(plan_path):
         plan['compiler_baseline_allocated_bytes']=int(subprocess.check_output(
             ['du','-s','-B1',plan['compiler_root']],text=True).split()[0])
         write_json(plan_path,plan)
-        with (root/'logs/CPU_PREFLIGHT.log').open('x') as log:
-            subprocess.run([plan['training_python'],'-u','-m',MODULE+'.preflight','--plan',str(plan_path)],
-                cwd=plan['source_root'],env=child_environment(plan),stdout=log,stderr=subprocess.STDOUT,check=True)
-        preflight=read(root/'CPU_PREFLIGHT.json')
-        if preflight['status']!='passed':raise RuntimeError('Assembled CPU preflight failed')
-        receipt['completed'].append('cpu_preflight')
-        initialize_work(root)
+        prerequisite=dict(status='cpu_preflight',execution_commit=plan['execution_commit'],
+            binding=plan['binding'],completed=[],automatic_retry=False)
+        write_json(root/'PREREQUISITE_LAUNCH.json',prerequisite)
+        preflight=cpu_preflight(plan_path,plan,'prerequisite')
+        receipt['completed'].append('prerequisite_cpu_preflight')
+        # Keep enough host memory for the historical mmap endpoint alongside the
+        # ordinary trainer. No replay writes a recovery or export duplicate.
+        import psutil
+        replay_host_bytes=plan['host_resource_policy']['training_reservation_bytes']+8*2**30
+        if psutil.virtual_memory().available < replay_host_bytes+16*2**30:
+            raise RuntimeError('Replay trainer plus historical endpoint comparison does not fit host RAM')
+        start_campaign(plan)
         initial=sum(plan['estimated_seconds'].values())
         receipt['time_admission']=require_time_for(plan,initial)
+        receipt['status']='control_replay';write_json(root/'LAUNCH.json',receipt)
+        for arm in ('N','S'):
+            boundary(plan,compiler=True)
+            prerequisite.update(status='running',active_arm=arm)
+            write_json(root/'PREREQUISITE_LAUNCH.json',prerequisite)
+            job=('replay_'+arm+'5','A',MODULE+'.replay_entry',['--arm',arm,'--slot','A'])
+            run_children(plan_path,plan,[job])
+            result_path=root/'prerequisite'/('replay_'+arm+'5')/'RESULT.json'
+            if read(result_path)['status']!='passed':
+                raise RuntimeError('Exact replay failed: '+arm)
+            prerequisite['completed'].append(arm+'5')
+            write_json(root/'PREREQUISITE_LAUNCH.json',prerequisite)
+        from .replay_gate import make_functional_receipt
+        gate=make_functional_receipt(plan,root/'prerequisite/replay_N5/RESULT.json',
+            root/'prerequisite/replay_S5/RESULT.json')
+        write_json(plan['prerequisite']['qualified_receipt'],gate)
+        prerequisite.update(status='passed',clock=clock_status(root))
+        write_json(root/'PREREQUISITE_LAUNCH.json',prerequisite)
+        continuation=validate_continuation(plan)
+        preflight=cpu_preflight(plan_path,plan,'main')
+        main_time=require_time_for(plan,sum(value for name,value in plan['estimated_seconds'].items()
+            if name not in ('N5_replay','S5_replay')))
+        receipt['completed']+=['N5_replay','S5_replay','functional_replay_gate','main_cpu_preflight']
+        write_json(root/'MAIN_LAUNCH.json',dict(status='admitted',execution_commit=plan['execution_commit'],
+            binding=plan['binding'],continuation=continuation,time_admission=main_time,prerequisite_receipt=plan['prerequisite']['qualified_receipt']))
         receipt['status']='qualification_and_references';write_json(root/'LAUNCH.json',receipt)
         # A fresh origin reference worker is independent of disposable training.
         first=[qualification_job('training','A'),task_job(plan,'references','B')]
@@ -171,18 +212,28 @@ def run(plan_path):
         work=read(root/'WORK.json')
         if work['pending'] or work['attempted']!=work['completed']:
             raise RuntimeError('Completed campaign still contains unresolved work')
-        expected=dict(adam=268,response_forward=544,response_backward=544,training_initialization=4,
+        expected=dict(adam=524,response_forward=1060,response_backward=1060,training_initialization=6,
             feedback_generation=128,teacher_preparation=128,canonical_generation=258,
             qualification_generation=8,warmup_generation=72,scored_generation=2304)
         if work['completed']!=expected:raise ValueError('Actual final work differs from the fixed schedule')
         receipt.update(status='completed',work=work,postflight=boundary(plan,compiler=True))
     except BaseException as error:
         receipt.update(status='stopped',error=repr(error),traceback=traceback.format_exc())
+        for name in ('PREREQUISITE_LAUNCH.json','MAIN_LAUNCH.json'):
+            path=root/name
+            if path.exists():
+                stage=read(path)
+                if stage['status']!='passed':
+                    stage.update(status='stopped',error=repr(error))
+                    write_json(path,stage)
         raise
     finally:
         receipt['wall_s']=time.time()-receipt['started_epoch']
         if (root/'CLOCK.json').exists():receipt['clock']=clock_status(root)
         write_json(root/'LAUNCH.json',receipt)
+        if (root/'MAIN_LAUNCH.json').exists():
+            stage=read(root/'MAIN_LAUNCH.json');stage.update(status=receipt['status'],wall_s=receipt['wall_s'])
+            write_json(root/'MAIN_LAUNCH.json',stage)
     return receipt
 
 

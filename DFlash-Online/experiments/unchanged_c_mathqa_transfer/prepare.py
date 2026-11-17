@@ -1,7 +1,7 @@
 """Prepare unchanged C from authenticated PR51 assets and new input-only seals.
 
-No model, optimizer or feedback tensor is copied. Missing historical common-E5
-content authentication blocks package creation; a fresh hash cannot replace it.
+No model, optimizer or feedback tensor is copied. The amended current-pool
+route authorizes control replay only; C still requires its complete exact gate.
 """
 from __future__ import annotations
 import argparse
@@ -64,7 +64,8 @@ def storage_plan(prompt_lengths, *, weight_bytes, recovery_bytes, hidden_size, c
         retained_duplicate_capture_bytes=features + 128 * row_bytes,
         temporary_feature_bytes=2 * (max(lengths) + 2049) * row_bytes,
         checkpoint_bytes=2 * boundary, qualification_payload_bytes=2 * boundary,
-        atomic_publication_bytes=boundary, compiler_bytes=4 * 2**30,
+        atomic_publication_bytes=boundary, replay_checkpoint_bytes=0, replay_publication_bytes=0,
+        compiler_bytes=4 * 2**30,
         compact_bytes=2_000_000_000, source_and_workspace_bytes=2 * 2**30)
     components['serialization_margin_bytes'] = math.ceil(sum(components.values()) * .05)
     peak = sum(components.values())
@@ -73,7 +74,8 @@ def storage_plan(prompt_lengths, *, weight_bytes, recovery_bytes, hidden_size, c
         required_initial_free_bytes=peak + RESERVE_BYTES, row_bytes=row_bytes,
         retained_boundaries=['C5', 'C6'], feature_pools=1, common_event5_copies=0,
         publication_concurrency=1, existing_dependencies_copied=False,
-        duplicate_retirement_required_for_admission=False, **components)
+        duplicate_retirement_required_for_admission=False,
+        replay_boundary_comparison="live read-only original, no replay state/export publication", **components)
 
 
 def authenticated_retained_assets(workspace):
@@ -270,7 +272,8 @@ def unpack_archive(archive_path, destination):
     return dict(plan=plan, readiness=input_readiness(plan, package_root=destination))
 
 
-def build(workspace, destination, *, remote_root, source_root, execution_commit, asset_authentication=None):
+def _build(workspace, destination, *, remote_root, source_root, execution_commit,
+           asset_authentication=None, current_feature_manifest=None):
     import yaml
     from .state import validate_config_text
     workspace, destination = Path(workspace), Path(destination)
@@ -280,7 +283,11 @@ def build(workspace, destination, *, remote_root, source_root, execution_commit,
     if not authentication.is_file():
         blocked_readiness(destination, 'Missing live and historical common-E5 asset authentication: ' + str(authentication))
     try:
-        authenticated = require_asset_authentication(assets, read(authentication))
+        if current_feature_manifest is None:
+            authenticated = require_asset_authentication(assets, read(authentication))
+        else:
+            authenticated = require_current_authentication(assets, read(authentication),
+                identity(current_feature_manifest))
     except (ValueError, KeyError) as error:
         blocked_readiness(destination, str(error))
     old = assets['plan']; delivery = Path(assets['delivery'])
@@ -303,13 +310,14 @@ def build(workspace, destination, *, remote_root, source_root, execution_commit,
         pr51_execution_commit=PR51_COMMIT, compiler_baseline_allocated_bytes=0,
         allocation_roots=[remote_root,source_root], reference_reuse=False, native_control_reuse=True,
         new_reference_generations=258,
-        expected_work=dict(adam=268,response_forward=544,response_backward=544,training_initialization=4,
+        expected_work=dict(adam=524,response_forward=1060,response_backward=1060,training_initialization=6,
             feedback_generation=128,teacher_preparation=128,canonical_generation=258,
             qualification_generation=8,warmup_generation=72,scored_generation=2304),
-        expected_training_initializations=dict(qualification=2,production=2),
+        expected_training_initializations=dict(replay=2,qualification=2,production=2),
         estimated_seconds=dict(training_A=180.,training_B=180.,serving_A=45.,serving_B=45.,
-            references=420.,C5=600.,C_collect6=250.,C6=600.,final=2400.),
+            references=420.,C5=600.,C_collect6=250.,C6=600.,final=2400.,N5_replay=550.,S5_replay=550.),
         estimate_basis='Initial conservative PR51-based values; measured qualification updates admission')
+    plan['retained_asset_identities'] = deepcopy(assets['expected_existing_files'])
     plan['common_e5']['feature_identities'] = {path: authenticated[path] for path in plan['common_e5']['feature_paths']}
     plan['input_identities'].update(plan['common_e5']['feature_identities'])
     def copy(source, name, key=None):
@@ -335,6 +343,24 @@ def build(workspace, destination, *, remote_root, source_root, execution_commit,
     copy(delivery / 'RETRIEVAL_MANIFEST.json', 'PR51_RETRIEVAL_MANIFEST.json', 'pr51_manifest')
     remote_auth = copy(authentication, 'ASSET_AUTHENTICATION.json')
     plan['asset_authentication'] = dict(path=remote_auth, identity=identity(authentication))
+    if current_feature_manifest is not None:
+        from .replay_gate import PREREQUISITE,validate_prerequisite
+        remote_manifest=copy(current_feature_manifest,'CURRENT_E5_FEATURE_MANIFEST.json')
+        plan['prerequisite']=dict(kind=PREREQUISITE,authorized_arms=['N','S'],event=5,
+            historical_feature_identity_verified=False,
+            feature_manifest=dict(path=remote_manifest,identity=identity(current_feature_manifest)),
+            qualified_receipt=remote_root+'/replay/FUNCTIONAL_E5_REPLAY_QUALIFIED.json')
+        plan['replay_configs']={}
+        original_manifest=read(delivery/'RETRIEVAL_MANIFEST.json')
+        for arm in ('N','S'):
+            name='config_'+arm+'.yaml';source=delivery/'sealed'/name
+            if identity(source) != original_manifest['sealed/'+name]:
+                raise ValueError('Original native replay configuration changed: '+arm)
+            plan['replay_configs'][arm]=copy(source,'replay_'+name)
+        # Reuse the same validator with local package paths before any archive.
+        local=deepcopy(plan)
+        local['prerequisite']['feature_manifest']['path']=str(sealed/'CURRENT_E5_FEATURE_MANIFEST.json')
+        validate_prerequisite(local,read(authentication))
     original_text = (sealed / 'ORIGINAL_CONFIG.yaml').read_text()
     config = yaml.safe_load(original_text)
     config.update(run_id='unchanged-c-mathqa-transfer-C', output_dir=remote_root + '/training/C')
@@ -359,8 +385,44 @@ def build(workspace, destination, *, remote_root, source_root, execution_commit,
     _write(destination / 'READINESS.json', dict(status='CPU_PREPARED_REMOTE_PREFLIGHT_PENDING',
         execution_commit=execution_commit, binding=plan['binding'], origin_event=4,
         native_control_reuse=True, scored_requests=256,warmup_requests=2,canonical_generations=258,
-        storage=plan['storage'], model_work=0, gpu_qualified=False))
+        storage=plan['storage'], model_work=0, gpu_qualified=False,
+        stage='prerequisite_replay_only' if current_feature_manifest is not None else 'historical_identity_main'))
     return plan
+
+
+def require_current_authentication(assets, receipt, feature_manifest_identity):
+    """Typed current-byte authentication is valid for N5/S5 replay only."""
+    from .replay_gate import CURRENT_AUTHENTICATION
+    if (receipt.get('kind') != CURRENT_AUTHENTICATION or receipt.get('status') != 'passed'
+            or receipt.get('historical_feature_identity_verified') is not False
+            or receipt.get('authorized_work') != ['N5_REPLAY','S5_REPLAY']
+            or receipt.get('feature_manifest_identity') != feature_manifest_identity):
+        raise ValueError('Expected typed current-pool replay authentication, never historical proof')
+    files=receipt['files']
+    for path,expected in assets['expected_existing_files'].items():
+        if files.get(path) != expected:
+            raise ValueError('Changed original retained asset for replay: '+path)
+    for path in assets['common_e5']['feature_paths']:
+        value=files.get(path)
+        if (not isinstance(value,dict) or set(value) != {'bytes','sha256'}
+                or type(value['bytes']) is not int or value['bytes'] <= 0
+                or not isinstance(value['sha256'],str) or len(value['sha256']) != 64):
+            raise ValueError('Current common-E5 packet lacks a complete file identity: '+path)
+    return files
+
+
+def build(workspace,destination,*,remote_root,source_root,execution_commit,asset_authentication=None):
+    """Original historical-identity route remains strict and unchanged."""
+    return _build(workspace,destination,remote_root=remote_root,source_root=source_root,
+        execution_commit=execution_commit,asset_authentication=asset_authentication)
+
+
+def build_prerequisite(workspace,destination,*,remote_root,source_root,execution_commit,
+                       asset_authentication,current_feature_manifest):
+    """Prepare both stages; only the two native replays may run initially."""
+    return _build(workspace,destination,remote_root=remote_root,source_root=source_root,
+        execution_commit=execution_commit,asset_authentication=asset_authentication,
+        current_feature_manifest=current_feature_manifest)
 
 
 def main():

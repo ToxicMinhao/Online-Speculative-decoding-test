@@ -71,6 +71,8 @@ def serving(plan, slot, base):
 
 
 def run(plan, kind, slot):
+    from .replay_gate import validate_main_receipt
+    validate_main_receipt(plan,read(plan['prerequisite']['qualified_receipt']))
     uuid = plan['devices'][slot]
     if os.environ.get('CUDA_VISIBLE_DEVICES') != uuid:
         raise ValueError('Qualification requires its declared physical GPU')

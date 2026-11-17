@@ -25,3 +25,13 @@ forwards/backwards, eight initializations, four elapsed/card-hours, 90 GB new
 allocation and 400 GB reserve. The plan cannot be sealed without authenticated
 retained dependencies. This implementation does not authorize a restart or
 replace the user's explicit readiness stop.
+
+## Functional replay prerequisite (November 17 amendment)
+
+The current route is `prepare.build_prerequisite`, followed by `launch` once.
+The typed current-file manifest permits only original N5/S5 replays; it does not
+claim historical feature equality. `replay_comparison.py` checks exact retained
+scientific receipts and live endpoints. `replay_gate.py` permits main C work only
+after both comparisons pass. The original clock/work ledger continues through
+main qualification and execution. No replay checkpoint/export is written.
+See the report's `REPLAY_ADDENDUM.md` for scope and revised cumulative caps.

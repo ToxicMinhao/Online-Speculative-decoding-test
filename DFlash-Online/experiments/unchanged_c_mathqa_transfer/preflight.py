@@ -154,20 +154,29 @@ def inspect_states(plan, *, expected_cuda_rng_states=1):
                 ancestry_records=512, controls=controls, mmap=True, map_location="cpu", optimizer_steps=0)
 
 
-def authenticate_retained_assets(plan):
+def authenticate_retained_assets(plan, *, stage="historical"):
     """Require original content evidence before reusing prepared teacher tensors.
 
     A new hash of a current file pins future use but cannot supply a missing
     historical reference. The preparation step preserves that distinction.
     """
-    authentication = read_authentication(plan)
+    if stage in ('prerequisite','main'):
+        from .replay_gate import pinned,validate_prerequisite,validate_main_receipt,require_current_features
+        authentication=pinned(plan['asset_authentication'])
+        admission=validate_prerequisite(plan,authentication)
+        if stage=='main':
+            admission=validate_main_receipt(plan,json.loads(Path(plan['prerequisite']['qualified_receipt']).read_text()))
+        current=require_current_features(plan)
+    else:
+        authentication=read_authentication(plan)
+        admission=current=None
     checked = {}
     for path, expected in authentication['files'].items():
         actual = identity(path)
         if actual != expected:
             raise ValueError('Reused artifact differs from its authenticated identity: '+path)
         checked[path] = actual
-    return dict(status='passed', historical_feature_identity_verified=True, files=checked)
+    return dict(status='passed', historical_feature_identity_verified=stage=='historical', files=checked, admission=admission, current_features=current)
 
 
 def read_authentication(plan):
@@ -181,11 +190,11 @@ def read_authentication(plan):
     return receipt
 
 
-def inspect(plan_path):
+def inspect(plan_path, *, stage="prerequisite"):
     plan = json.loads(Path(plan_path).read_text())
     root = Path(plan["root"])
     started = time.perf_counter()
-    result = dict(status="running", execution_commit=plan["execution_commit"], model_work=0, inputs={})
+    result = dict(stage=stage,status="running", execution_commit=plan["execution_commit"], model_work=0, inputs={})
     try:
         if os.environ.get("CUDA_VISIBLE_DEVICES") != "":
             raise ValueError("CPU preflight requires CUDA_VISIBLE_DEVICES empty")
@@ -204,7 +213,7 @@ def inspect(plan_path):
             result["inputs"][path] = actual
         result["source"] = verify_source(plan)
         result["runtime"] = runtime_inventory(plan)
-        result["retained_assets"] = authenticate_retained_assets(plan)
+        result["retained_assets"] = authenticate_retained_assets(plan,stage=stage)
         result["states"] = inspect_states(plan)
         inputs = load_inputs(plan)
         geometry = json.loads((Path(plan["origin_export"]) / "config.json").read_text())
@@ -229,15 +238,16 @@ def inspect(plan_path):
         raise
     finally:
         result["wall_s"] = time.perf_counter() - started
-        write_json(root / "CPU_PREFLIGHT.json", result)
+        write_json(root / ("CPU_PREFLIGHT_"+stage.upper()+".json"), result)
     return result
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--plan", required=True)
+    parser.add_argument("--stage",choices=("prerequisite","main"),required=True)
     args = parser.parse_args()
-    print(json.dumps(inspect(args.plan)))
+    print(json.dumps(inspect(args.plan,stage=args.stage)))
 
 
 if __name__ == "__main__":

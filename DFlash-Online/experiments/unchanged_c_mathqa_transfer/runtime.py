@@ -9,7 +9,7 @@ from experiments.persistent_prefix_withholding.task_runner import (
 )
 from experiments.bounded_prefix_allocation.runtime import allocated_bytes
 
-LIMITS = dict(adam=272, response_forward=576, response_backward=576,
+LIMITS = dict(adam=528, response_forward=1088, response_backward=1088,
     training_initialization=8, feedback_generation=128, teacher_preparation=128,
     canonical_generation=258, qualification_generation=8,
     warmup_generation=72, scored_generation=2304)
@@ -94,3 +94,31 @@ def require_time_for(plan, elapsed_remaining_s, card_remaining_s=None):
     if clock['elapsed_s']+elapsed > TIME_CAP_S or clock['occupied_s']+cards > TIME_CAP_S:
         raise RuntimeError('Remaining fixed campaign does not fit original clocks: ' + repr(result))
     return result
+
+
+def campaign_identity(plan):
+    return dict(binding=plan['binding'], execution_commit=plan['execution_commit'],
+        feature_manifest=plan['prerequisite']['feature_manifest'], root=plan['root'])
+
+
+def start_campaign(plan):
+    """Start once, immediately before the first replay model load."""
+    initialize_work(plan['root'])
+    for name in ('WORK.json', 'CLOCK.json'):
+        path=Path(plan['root'])/name;receipt=read(path)
+        receipt['campaign_identity']=campaign_identity(plan)
+        write_json(path,receipt)
+
+
+def validate_continuation(plan):
+    """Both stages share the original clock, charged work and sealed identity."""
+    root=Path(plan['root']);work=read(root/'WORK.json');clock=read(root/'CLOCK.json')
+    expected={key:0 for key in LIMITS}
+    expected.update(adam=256,response_forward=516,response_backward=516,training_initialization=2)
+    if (work.get('campaign_identity') != campaign_identity(plan)
+            or clock.get('campaign_identity') != campaign_identity(plan)
+            or work['limits'] != LIMITS or work['pending'] or clock['active']
+            or work['attempted'] != expected or work['completed'] != expected):
+        raise ValueError('Main continuation must retain both exact replay charges and original clock')
+    return dict(status='passed',campaign_identity=campaign_identity(plan),work=work,
+                clock=clock_status(root),clock_reset=False,work_reset=False)
