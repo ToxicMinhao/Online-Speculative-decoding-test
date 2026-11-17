@@ -6,6 +6,7 @@ import gc
 import json
 import os
 from pathlib import Path
+import re
 import shutil
 import subprocess
 import time
@@ -34,6 +35,38 @@ def host_admission(available_bytes, policy=HOST_POLICY):
         concurrent_training_serving_required_bytes=training+serving+headroom,
         parallel_qualification_admitted=available_bytes >= training+serving+headroom,
         two_trainers_admitted=False, policy=dict(policy))
+
+
+def validate_allocation_roots(plan):
+    """Charge this campaign's prior administrative staging without adopting old assets."""
+    root, source = Path(plan["root"]), Path(plan["source_root"]).parent
+    owner = source.parent
+    run_parent = owner / "runs/dflash_bounded_prefix_allocation_20261116"
+    run_match = re.fullmatch(r"execution_([0-9]{3})", root.name)
+    source_match = re.fullmatch(r"bounded_prefix_source_20261116_([0-9]{3})", source.name)
+    if root.parent != run_parent or run_match is None or source_match is None:
+        raise ValueError("Current allocation paths differ from this campaign's run/source names")
+    prior = plan.get("prior_staging_roots", [])
+    if not isinstance(prior, list) or not all(isinstance(value, str) for value in prior):
+        raise ValueError("Prior staging roots must be an explicit list of paths")
+    expected = [str(root), str(source), *prior]
+    if len(set(expected)) != len(expected) or plan["allocation_roots"] != expected:
+        raise ValueError("Charged allocation roots differ from current plus declared prior staging")
+    for value in expected:
+        path = Path(value)
+        if not path.is_absolute() or path.resolve() != path or not path.is_dir():
+            raise ValueError("Charged allocation root is missing or linked: " + value)
+    for value in prior:
+        path = Path(value)
+        earlier_run = re.fullmatch(r"execution_([0-9]{3})", path.name)
+        earlier_source = re.fullmatch(r"bounded_prefix_source_20261116_([0-9]{3})", path.name)
+        if not ((path.parent == run_parent and earlier_run is not None
+                 and int(earlier_run[1]) < int(run_match[1]))
+                or (path.parent == owner and earlier_source is not None
+                    and int(earlier_source[1]) < int(source_match[1]))):
+            raise ValueError("Prior staging root is not an earlier directory of this campaign: " + value)
+    return dict(status="passed", allocation_roots=expected, prior_staging_roots=prior,
+                historical_project_assets_adopted=False)
 
 
 def verify_source(plan):
@@ -204,9 +237,9 @@ def inspect(plan_path):
             raise RuntimeError("Complete peak allocation and free reserve do not fit")
         baseline = plan["compiler_baseline_allocated_bytes"]
         if (type(baseline) is not int or baseline < 0
-                or plan["compiler_growth_reserved_bytes"] != measured["compiler_bytes"]
-                or plan["allocation_roots"] != [plan["root"], str(Path(plan["source_root"]).parent)]):
-            raise ValueError("Compiler baseline or charged allocation roots differ")
+                or plan["compiler_growth_reserved_bytes"] != measured["compiler_bytes"]):
+            raise ValueError("Compiler baseline or reserved growth differs")
+        result["charged_allocation"] = validate_allocation_roots(plan)
         result.update(status="passed", cuda_initialized=False,
                       parallel_qualification_admitted=result["runtime"]["host"]["parallel_qualification_admitted"])
     except BaseException as error:

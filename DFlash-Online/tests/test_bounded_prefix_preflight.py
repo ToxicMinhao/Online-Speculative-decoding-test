@@ -7,7 +7,8 @@ import unittest
 from unittest.mock import patch
 
 from experiments.bounded_prefix_allocation.prepare import identity
-from experiments.bounded_prefix_allocation.preflight import HOST_POLICY, host_admission, verify_source, inspect, inspect_states
+from experiments.bounded_prefix_allocation.preflight import (
+    HOST_POLICY, host_admission, verify_source, inspect, inspect_states, validate_allocation_roots)
 from test_bounded_prefix_prepare import fixture
 
 
@@ -30,6 +31,39 @@ class PreflightTests(unittest.TestCase):
         self.assertEqual(receipt['status'],'passed')
         self.assertFalse(receipt['parallel_qualification_admitted'])
         self.assertEqual(host_admission(minimum-1)['status'],'blocked')
+
+    def allocation_fixture(self):
+        root=self.base/'runs/dflash_bounded_prefix_allocation_20261116/execution_003'
+        source=self.base/'bounded_prefix_source_20261116_003'
+        root.mkdir(parents=True);(source/'DFlash-Online').mkdir(parents=True)
+        return dict(root=str(root),source_root=str(source/'DFlash-Online'),
+                    allocation_roots=[str(root),str(source)])
+
+    def test_declared_prior_administrative_roots_remain_charged(self):
+        plan=self.allocation_fixture()
+        self.assertEqual(validate_allocation_roots(plan)['prior_staging_roots'],[])
+        prior_run=Path(plan['root']).with_name('execution_002')
+        prior_source=self.base/'bounded_prefix_source_20261116_002'
+        prior_run.mkdir();prior_source.mkdir()
+        plan['prior_staging_roots']=[str(prior_run),str(prior_source)]
+        plan['allocation_roots']+=plan['prior_staging_roots']
+        result=validate_allocation_roots(plan)
+        self.assertEqual(result['allocation_roots'],plan['allocation_roots'])
+        self.assertFalse(result['historical_project_assets_adopted'])
+        plan['allocation_roots'].pop()
+        with self.assertRaisesRegex(ValueError,'declared prior staging'):
+            validate_allocation_roots(plan)
+
+    def test_arbitrary_historical_missing_linked_and_duplicate_roots_are_rejected(self):
+        plan=self.allocation_fixture()
+        historical=self.base/'persistent_prefix_source_20261116_v2_006';historical.mkdir()
+        missing=self.base/'bounded_prefix_source_20261116_001'
+        linked=self.base/'bounded_prefix_source_20261116_002';linked.symlink_to(historical,target_is_directory=True)
+        future=self.base/'bounded_prefix_source_20261116_004';future.mkdir()
+        for path in (historical,missing,linked,future,Path(plan['root'])):
+            with self.subTest(path=path):
+                invalid=dict(plan,prior_staging_roots=[str(path)],allocation_roots=plan['allocation_roots']+[str(path)])
+                with self.assertRaises(ValueError):validate_allocation_roots(invalid)
 
     def source_fixture(self):
         root=self.base/'source';root.mkdir();(root/'code.py').write_text('constant = 1\n')
