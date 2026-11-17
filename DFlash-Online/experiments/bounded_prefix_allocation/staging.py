@@ -1,7 +1,9 @@
 """Exact published source plus metadata staging; no model import or execution.
 
-The archive has two namespaces: source/ for the full tracked DFlash-Online tree,
+The archive has two namespaces: source/ for tracked DFlash-Online files,
 and package/ for the sealed run metadata, including all canonical references.
+An optional authenticated reuse manifest copies unchanged source from an older
+published checkout; the complete resulting source is always verified.
 This standalone entry point verifies bytes before importing the staged reader.
 """
 from __future__ import annotations
@@ -46,7 +48,7 @@ def verify_source(root, manifest):
     return dict(status="passed", files_checked=len(manifest["files"]), commit=manifest["commit"])
 
 
-def build_bundle(checkout, package_root, archive_path):
+def build_bundle(checkout, package_root, archive_path, *, base_source_manifest=None, base_source_root=None):
     """Bundle only a clean complete tracked source and already sealed metadata."""
     checkout, package_root, archive_path = map(Path, (checkout, package_root, archive_path))
     manifest = json.loads((package_root / "SOURCE.json").read_text())
@@ -60,16 +62,37 @@ def build_bundle(checkout, package_root, archive_path):
     source = verify_source(checkout, manifest)
     from .prepare import reference_readiness
     ready = reference_readiness(plan, package_root=package_root)
+    transferred = sorted(manifest["files"])
+    reuse = None
+    if (base_source_manifest is None) != (base_source_root is None):
+        raise ValueError("Source reuse requires both a bound manifest and its remote root")
+    if base_source_manifest is not None:
+        base_manifest_path = Path(base_source_manifest["path"])
+        if identity(base_manifest_path) != base_source_manifest["identity"]:
+            raise ValueError("Retained source manifest identity differs")
+        old = json.loads(base_manifest_path.read_text())
+        if old.get("dirty") is not False or len(old["commit"]) != 40 or not Path(base_source_root).is_absolute():
+            raise ValueError("Source reuse requires a clean identified base and absolute root")
+        copied = sorted(name for name, value in manifest["files"].items() if old["files"].get(name) == value)
+        transferred = sorted(set(manifest["files"]) - set(copied))
+        reuse = dict(schema="bounded_prefix_source_reuse_v1", base_source_root=str(base_source_root),
+            base_source_manifest=dict(path="SOURCE_REUSE_BASE.json", identity=base_source_manifest["identity"],
+                                      commit=old["commit"]),
+            execution_commit=manifest["commit"], copied=copied, transferred=transferred)
+        with (package_root / "SOURCE_REUSE_BASE.json").open("xb") as stream:
+            stream.write(base_manifest_path.read_bytes())
+        with (package_root / "SOURCE_REUSE.json").open("x") as stream:
+            json.dump(reuse, stream, indent=2)
     paths = sorted(p for p in package_root.rglob("*") if not p.is_dir())
     if any(path.is_symlink() or not path.is_file() for path in paths):
         raise ValueError("Run package must contain regular files only")
     with tarfile.open(archive_path, "x:gz", dereference=False) as archive:
-        for name in sorted(manifest["files"]):
+        for name in transferred:
             archive.add(checkout / name, arcname="source/" + name, recursive=False)
         for path in paths:
             archive.add(path, arcname="package/" + str(path.relative_to(package_root)), recursive=False)
     return dict(status="passed", archive_identity=identity(archive_path), source=source, readiness=ready,
-                package_files=len(paths), model_work=0)
+                package_files=len(paths), source_reuse=reuse, model_work=0)
 
 
 def _members(stream):
@@ -95,12 +118,51 @@ def _members(stream):
     return rows
 
 
-def unpack_bundle(archive_path, root, source_root, *, expected_identity, require_plan_destinations=False):
+def _source_reuse(stream, manifest, source_names, destinations, require_approved, base_override):
+    """Authenticate the base before writing any new source or run evidence."""
+    if "package/SOURCE_REUSE.json" not in stream.getnames():
+        if base_override is not None:
+            raise ValueError("Local base override requires a source-reuse manifest")
+        if source_names != set(manifest["files"]):
+            raise ValueError("Archive source membership differs")
+        return None, None
+    reuse = json.load(stream.extractfile("package/SOURCE_REUSE.json"))
+    binding = reuse["base_source_manifest"]
+    if binding["path"] != "SOURCE_REUSE_BASE.json":
+        raise ValueError("Unexpected source-reuse manifest path")
+    raw = stream.extractfile("package/" + binding["path"]).read()
+    if dict(bytes=len(raw), sha256=hashlib.sha256(raw).hexdigest()) != binding["identity"]:
+        raise ValueError("Packaged source-reuse manifest identity differs")
+    old = json.loads(raw)
+    expected = sorted(name for name, value in manifest["files"].items() if old["files"].get(name) == value)
+    if (reuse["schema"] != "bounded_prefix_source_reuse_v1" or binding["commit"] != old["commit"]
+            or reuse["execution_commit"] != manifest["commit"] or reuse["copied"] != expected
+            or reuse["transferred"] != sorted(set(manifest["files"])-set(expected))
+            or source_names != set(reuse["transferred"])):
+        raise ValueError("Source-reuse partition or execution identity differs")
+    original = Path(reuse["base_source_root"])
+    if not original.is_absolute():
+        raise ValueError("Source-reuse original root must remain absolute")
+    base = Path(base_override) if base_override is not None else original
+    if not base.is_absolute() or not base.is_dir() or base.resolve() != base:
+        raise ValueError("Source-reuse base is missing or linked")
+    if require_approved and not base.is_relative_to("/data/sources/minhao"):
+        raise ValueError("Source-reuse base is outside the approved owner root")
+    if any(base.is_relative_to(path.resolve()) or path.resolve().is_relative_to(base) for path in destinations.values()):
+        raise ValueError("Source-reuse base overlaps a staging destination")
+    verify_source(base, old)
+    return reuse, base
+
+
+def unpack_bundle(archive_path, root, source_root, *, expected_identity, require_plan_destinations=False,
+                  base_source_root_override=None):
     """Exclusive extraction followed by the actual staged input/reference reader.
 
-    Local CPU fixtures may map destinations to temporary directories. The CLI
-    additionally requires exact approved destinations and the A800 helper.
+    Local CPU dry runs may map destinations and an authenticated source mirror.
+    The CLI requires exact approved destinations and never permits an override.
     """
+    if require_plan_destinations and base_source_root_override is not None:
+        raise ValueError("Local base-source override is forbidden for sealed production destinations")
     archive_path, root, source_root = map(Path, (archive_path, root, source_root))
     if identity(archive_path) != expected_identity:
         raise ValueError("Transferred archive identity differs")
@@ -115,13 +177,15 @@ def unpack_bundle(archive_path, root, source_root, *, expected_identity, require
         manifest = json.load(stream.extractfile("package/SOURCE.json"))
         plan = json.load(stream.extractfile("package/sealed/PLAN.json"))
         source_names = {str(Path(row.name).relative_to("source")) for row in rows if row.name.startswith("source/")}
-        if source_names != set(manifest["files"]) or plan["execution_commit"] != manifest["commit"]:
-            raise ValueError("Archive source membership or execution identity differs")
+        if plan["execution_commit"] != manifest["commit"]:
+            raise ValueError("Archive execution identity differs")
         if Path(plan["source_manifest"]) != Path(plan["root"]) / "SOURCE.json":
             raise ValueError("Sealed source manifest must be the physically packaged file")
         if require_plan_destinations and (str(root) != plan["root"] or str(source_root) != plan["source_root"]):
             raise ValueError("Requested destinations differ from the sealed plan")
         destinations = {"source": source_root, "package": root}
+        reuse, reuse_base = _source_reuse(stream, manifest, source_names, destinations,
+                                         require_plan_destinations, base_source_root_override)
         for row in rows:
             path = Path(row.name)
             destination = destinations[path.parts[0]] / Path(*path.parts[1:])
@@ -141,6 +205,17 @@ def unpack_bundle(archive_path, root, source_root, *, expected_identity, require
                 with stream.extractfile(row) as incoming, destination.open("xb") as outgoing:
                     shutil.copyfileobj(incoming, outgoing, length=1024*1024)
                 destination.chmod(row.mode & 0o777)
+        if reuse is not None:
+            for name in reuse["copied"]:
+                original, destination = reuse_base / relative(name), source_root / relative(name)
+                destination.parent.mkdir(parents=True, exist_ok=True)
+                if manifest["files"][name].get("kind") == "symlink":
+                    destination.symlink_to(original.readlink())
+                else:
+                    # Byte copies, never hardlinks: the historical source stays independent.
+                    with original.open("rb") as incoming, destination.open("xb") as outgoing:
+                        shutil.copyfileobj(incoming, outgoing, length=1024*1024)
+                    destination.chmod(original.stat().st_mode & 0o777)
     source = verify_source(source_root, manifest)
     checked_inputs = 0
     for original, expected in plan["input_identities"].items():
@@ -152,6 +227,9 @@ def unpack_bundle(archive_path, root, source_root, *, expected_identity, require
     from experiments.bounded_prefix_allocation.prepare import reference_readiness
     ready = reference_readiness(plan, package_root=root)
     receipt = dict(status="passed", archive_identity=expected_identity, source=source,
+        source_reuse=reuse,
+        source_reuse_roots=(dict(original=reuse["base_source_root"], effective=str(reuse_base),
+                                local_override=base_source_root_override is not None) if reuse else None),
         readiness=ready, packaged_inputs_checked=checked_inputs,
         source_root=str(source_root), root=str(root), model_work=0,
         torch_imported="torch" in sys.modules, automatic_launch=False)

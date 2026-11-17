@@ -59,3 +59,5 @@ Only the fixed handoff is authorized. No new reference generation, N/S training,
 coefficient tuning, favorable-subset selection or automatic confirmation is
 implemented. Negative valid outcomes complete the experiment; invalid work is
 preserved and cannot be counted as a negative efficacy result.
+
+Administrative staging now reuses byte-verified unchanged source from the retained PR49 checkout and transfers only changed source plus every sealed input/reference. The complete assembled source is verified before any model work. Nineteen staging CPU tests pass, including exact source partitioning, stale or altered base rejection, and a local-only dry-run override forbidden for production. This replaces seven earlier staging tests (90 unique new CPU checks total). No scientific setting or execution budget changed. The failed rsync attempt and stopped slow full-source transfer consumed zero model work and remain recorded.

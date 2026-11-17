@@ -3,6 +3,7 @@ from contextlib import contextmanager
 import io
 import json
 from pathlib import Path
+import shutil
 import subprocess
 import sys
 import tarfile
@@ -134,6 +135,90 @@ print(json.dumps(result))'''
             with self.assertRaisesRegex(ValueError,'approved A800'):
                 S.main()
             unpack.assert_not_called()
+
+
+class SourceReuseTests(FullBundleTests):
+    def setUp(self):
+        super().setUp()
+        self.old_source=self.root/'old_source'
+        shutil.copytree(self.source,self.old_source,symlinks=True)
+        self.old_manifest=self.root/'old_SOURCE.json'
+        _write(self.old_manifest,dict(commit='b'*40,dirty=False,files=self.files))
+        (self.source/'train.py').write_text('print("revised but not executed")\n')
+        (self.source/'new.py').write_text('# new source\n')
+        self.files={str(path.relative_to(self.source)): (
+            dict(kind='symlink',target=str(path.readlink())) if path.is_symlink() else S.identity(path))
+            for path in self.source.rglob('*') if path.is_symlink() or path.is_file()}
+        _write(self.package/'SOURCE.json',dict(commit='c'*40,dirty=False,files=self.files))
+
+    def build(self):
+        with self.clean_git_fixture():
+            return S.build_bundle(self.source,self.package,self.archive,
+                base_source_manifest=dict(path=str(self.old_manifest),identity=S.identity(self.old_manifest)),
+                base_source_root=str(self.old_source))
+
+    def test_reuse_copies_unchanged_and_transfers_changed_and_new_source(self):
+        built=self.build()
+        self.assertEqual(built['source_reuse']['transferred'],['new.py','train.py'])
+        with tarfile.open(self.archive) as archive:
+            self.assertEqual({name for name in archive.getnames() if name.startswith('source/')},
+                             {'source/new.py','source/train.py'})
+            self.assertIn('package/references/CANONICALS.json',archive.getnames())
+        result=self.unpack()
+        self.assertEqual(result['source']['files_checked'],len(self.files))
+        self.assertEqual(result['readiness']['complete_references'],128)
+        old=self.old_source/'training/docs/data/index.txt'
+        copied=self.root/'staged/training/docs/data/index.txt'
+        self.assertNotEqual(old.stat().st_ino,copied.stat().st_ino)
+        self.assertEqual(old.read_bytes(),copied.read_bytes())
+        self.assertNotEqual((self.old_source/'train.py').read_bytes(),(self.root/'staged/train.py').read_bytes())
+        self.assertTrue((self.root/'staged/training/docs/web/data').is_symlink())
+
+    def test_missing_or_modified_base_fails_before_any_destination_write(self):
+        self.build()
+        old=self.old_source/'training/docs/data/index.txt'
+        content=old.read_bytes();old.unlink()
+        with self.assertRaises(FileNotFoundError):self.unpack()
+        self.assertFalse((self.root/'staged').exists())
+        old.write_bytes(content+b'changed')
+        with self.assertRaisesRegex(ValueError,'Source bytes'):self.unpack()
+        self.assertFalse((self.root/'run').exists())
+
+    def test_bound_manifest_mismatch_fails_without_bundle(self):
+        with self.clean_git_fixture():
+            with self.assertRaisesRegex(ValueError,'manifest identity'):
+                S.build_bundle(self.source,self.package,self.archive,
+                    base_source_manifest=dict(path=str(self.old_manifest),identity={'bytes':0,'sha256':'0'*64}),
+                    base_source_root=str(self.old_source))
+        self.assertFalse(self.archive.exists())
+
+    def test_local_override_preserves_remote_manifest_and_authenticates_mirror(self):
+        remote='/data/sources/minhao/retained_test_source/DFlash-Online'
+        with self.clean_git_fixture():
+            S.build_bundle(self.source,self.package,self.archive,
+                base_source_manifest=dict(path=str(self.old_manifest),identity=S.identity(self.old_manifest)),
+                base_source_root=remote)
+        original=(self.package/'SOURCE_REUSE.json').read_bytes()
+        archive_identity=S.identity(self.archive)
+        result=S.unpack_bundle(self.archive,self.root/'run',self.root/'staged',
+            expected_identity=archive_identity,base_source_root_override=self.old_source)
+        self.assertEqual(result['source_reuse_roots'],dict(original=remote,effective=str(self.old_source),local_override=True))
+        self.assertEqual((self.root/'run/SOURCE_REUSE.json').read_bytes(),original)
+        self.assertEqual(S.identity(self.archive),archive_identity)
+        self.assertEqual(result['readiness']['complete_references'],128)
+        self.assertEqual(result['source']['files_checked'],len(self.files))
+        (self.old_source/'train.py').write_text('modified base')
+        with self.assertRaisesRegex(ValueError,'Source bytes'):
+            S.unpack_bundle(self.archive,self.root/'run2',self.root/'staged2',
+                expected_identity=archive_identity,base_source_root_override=self.old_source)
+        self.assertFalse((self.root/'run2').exists())
+
+    def test_override_is_rejected_for_production_before_any_file_work(self):
+        with patch.object(S,'identity') as checked:
+            with self.assertRaisesRegex(ValueError,'forbidden'):
+                S.unpack_bundle(self.archive,self.root/'run',self.root/'staged',
+                    expected_identity={},require_plan_destinations=True,base_source_root_override=self.old_source)
+            checked.assert_not_called()
 
 
 if __name__=='__main__':unittest.main()
