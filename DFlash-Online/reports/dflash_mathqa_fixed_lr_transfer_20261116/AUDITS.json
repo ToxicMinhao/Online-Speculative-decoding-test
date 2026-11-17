@@ -47,6 +47,17 @@
     "checks": 95055,
     "interpretation_categories_checked": 11,
     "note": "Publication auditor corrected its own input-row expectation from258 to514 including adaptation; original private reader failure retained. No scientific or public measurement changed.",
-    "root_followup": "Final root check caught absolute checkpoint paths in two CSVs and CRLF formatting before push. Paths were replaced by @execution/ relative identifiers, numeric records unchanged; first local commit was unpublished and replaced."
+    "root_followup": "Final root check caught absolute checkpoint paths in two CSVs and CRLF formatting before push. Paths were replaced by @execution/ relative identifiers, numeric records unchanged; first local commit was unpublished and replaced.",
+    "final_csv_privacy_recheck": {
+      "status": "passed",
+      "checks": 136142,
+      "errors": 0,
+      "checkpoint_fields_remapped": 1584,
+      "all_other_csv_values_unchanged": true,
+      "all_csv_lf": true,
+      "retired_file_count": 768,
+      "retired_logical_bytes": 12906842752,
+      "qualification_payloads_deleted": 0
+    }
   }
 }
