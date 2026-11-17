@@ -1,5 +1,7 @@
 # PR52 evidence index
 
+**November17 prospective policy revision and retrospective origin analysis:** C is now **candidate retained for contribution assessment; performance preservation unresolved**. The completed report below retains its original decision. See the [CPU-only KPLUS4-origin supplement](../dflash_post_pr52_origin_analysis_20261117/REPORT.md); this adds no GPU work or revised mechanism.
+
 The campaign is complete. Read the [final report](replay_transfer/REPORT.md)
 and its [per-request](replay_transfer/PER_REQUEST.csv) and
 [all-repeat](replay_transfer/ALL_REPEATS.csv) tables.

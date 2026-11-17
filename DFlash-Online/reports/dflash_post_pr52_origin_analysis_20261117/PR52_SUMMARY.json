@@ -1,0 +1,1212 @@
+{
+  "request_count": 256,
+  "method_totals": {
+    "KPLUS4": {
+      "verification_calls": 18944,
+      "native_accepted_draft_tokens": 119435,
+      "accepted_draft_tokens": 119654,
+      "committed_progress": 138379,
+      "output_tokens": 138635,
+      "native_accepted_proposals_per_call": 6.304634712837838,
+      "stop_clipped_matching_per_call": 6.316195101351352,
+      "progress_per_call": 7.304634712837838,
+      "cap_hit_requests": 13,
+      "zero_call_requests": 0,
+      "termination_counts": {
+        "eos": 243,
+        "length": 13
+      }
+    },
+    "N": {
+      "verification_calls": 18664,
+      "native_accepted_draft_tokens": 119715,
+      "accepted_draft_tokens": 119927,
+      "committed_progress": 138379,
+      "output_tokens": 138635,
+      "native_accepted_proposals_per_call": 6.4142198885555075,
+      "stop_clipped_matching_per_call": 6.425578654093442,
+      "progress_per_call": 7.4142198885555075,
+      "cap_hit_requests": 13,
+      "zero_call_requests": 0,
+      "termination_counts": {
+        "eos": 243,
+        "length": 13
+      }
+    },
+    "C": {
+      "verification_calls": 18654,
+      "native_accepted_draft_tokens": 119725,
+      "accepted_draft_tokens": 119932,
+      "committed_progress": 138379,
+      "output_tokens": 138635,
+      "native_accepted_proposals_per_call": 6.4181944891176155,
+      "stop_clipped_matching_per_call": 6.429291304813981,
+      "progress_per_call": 7.4181944891176155,
+      "cap_hit_requests": 13,
+      "zero_call_requests": 0,
+      "termination_counts": {
+        "eos": 243,
+        "length": 13
+      }
+    },
+    "S": {
+      "verification_calls": 18693,
+      "native_accepted_draft_tokens": 119686,
+      "accepted_draft_tokens": 119897,
+      "committed_progress": 138379,
+      "output_tokens": 138635,
+      "native_accepted_proposals_per_call": 6.402717594821591,
+      "stop_clipped_matching_per_call": 6.414005242604183,
+      "progress_per_call": 7.402717594821591,
+      "cap_hit_requests": 13,
+      "zero_call_requests": 0,
+      "termination_counts": {
+        "eos": 243,
+        "length": 13
+      }
+    }
+  },
+  "comparisons": {
+    "N_vs_KPLUS4": {
+      "candidate": "N",
+      "reference": "KPLUS4",
+      "retrospective": true,
+      "acceptance_gain": {
+        "point": 0.017381685174325145,
+        "ci95": [
+          0.010700169314711955,
+          0.02436185833448477
+        ],
+        "undefined_draws": 0
+      },
+      "acceptance_difference": {
+        "point": 0.10958517571766979,
+        "ci95": [
+          0.0674589379878223,
+          0.15372825993883232
+        ],
+        "undefined_draws": 0
+      },
+      "call_reduction": {
+        "point": 0.014780405405405372,
+        "ci95": [
+          0.009141335866921863,
+          0.020592490741717023
+        ],
+        "undefined_draws": 0
+      },
+      "requests_improved": 136,
+      "requests_regressed": 77,
+      "requests_tied": 43,
+      "gross_calls_saved": 484,
+      "gross_calls_added": 204,
+      "net_calls_saved": 280
+    },
+    "C_vs_KPLUS4": {
+      "candidate": "C",
+      "reference": "KPLUS4",
+      "retrospective": true,
+      "acceptance_gain": {
+        "point": 0.01801211036835193,
+        "ci95": [
+          0.011164214773194098,
+          0.025170081964406486
+        ],
+        "undefined_draws": 0
+      },
+      "acceptance_difference": {
+        "point": 0.11355977627977776,
+        "ci95": [
+          0.07026642937641488,
+          0.15842080181218374
+        ],
+        "undefined_draws": 0
+      },
+      "call_reduction": {
+        "point": 0.015308277027026973,
+        "ci95": [
+          0.009544232695453144,
+          0.021236392749556833
+        ],
+        "undefined_draws": 0
+      },
+      "requests_improved": 146,
+      "requests_regressed": 74,
+      "requests_tied": 36,
+      "gross_calls_saved": 511,
+      "gross_calls_added": 221,
+      "net_calls_saved": 290
+    },
+    "S_vs_KPLUS4": {
+      "candidate": "S",
+      "reference": "KPLUS4",
+      "retrospective": true,
+      "acceptance_gain": {
+        "point": 0.015557266431952321,
+        "ci95": [
+          0.008704605243727381,
+          0.02275327958389906
+        ],
+        "undefined_draws": 0
+      },
+      "acceptance_difference": {
+        "point": 0.09808288198375337,
+        "ci95": [
+          0.05475453544419791,
+          0.14310292275156794
+        ],
+        "undefined_draws": 0
+      },
+      "call_reduction": {
+        "point": 0.013249577702702742,
+        "ci95": [
+          0.007465462047291776,
+          0.019232062814633088
+        ],
+        "undefined_draws": 0
+      },
+      "requests_improved": 146,
+      "requests_regressed": 85,
+      "requests_tied": 25,
+      "gross_calls_saved": 476,
+      "gross_calls_added": 225,
+      "net_calls_saved": 251
+    }
+  },
+  "bootstrap": {
+    "seed": 1717,
+    "draws": 10000,
+    "generator": "PCG64",
+    "method": "linear",
+    "unit": "whole paired request with origin and all endpoints; panels separate",
+    "source_order": [
+      {
+        "source_id": "mathqa:test:1022",
+        "request_id": "mathqa-c-transfer-1022"
+      },
+      {
+        "source_id": "mathqa:test:1026",
+        "request_id": "mathqa-c-transfer-1026"
+      },
+      {
+        "source_id": "mathqa:test:1057",
+        "request_id": "mathqa-c-transfer-1057"
+      },
+      {
+        "source_id": "mathqa:test:1060",
+        "request_id": "mathqa-c-transfer-1060"
+      },
+      {
+        "source_id": "mathqa:test:1069",
+        "request_id": "mathqa-c-transfer-1069"
+      },
+      {
+        "source_id": "mathqa:test:1078",
+        "request_id": "mathqa-c-transfer-1078"
+      },
+      {
+        "source_id": "mathqa:test:1083",
+        "request_id": "mathqa-c-transfer-1083"
+      },
+      {
+        "source_id": "mathqa:test:1113",
+        "request_id": "mathqa-c-transfer-1113"
+      },
+      {
+        "source_id": "mathqa:test:1119",
+        "request_id": "mathqa-c-transfer-1119"
+      },
+      {
+        "source_id": "mathqa:test:1140",
+        "request_id": "mathqa-c-transfer-1140"
+      },
+      {
+        "source_id": "mathqa:test:1143",
+        "request_id": "mathqa-c-transfer-1143"
+      },
+      {
+        "source_id": "mathqa:test:1149",
+        "request_id": "mathqa-c-transfer-1149"
+      },
+      {
+        "source_id": "mathqa:test:1159",
+        "request_id": "mathqa-c-transfer-1159"
+      },
+      {
+        "source_id": "mathqa:test:117",
+        "request_id": "mathqa-c-transfer-0117"
+      },
+      {
+        "source_id": "mathqa:test:1176",
+        "request_id": "mathqa-c-transfer-1176"
+      },
+      {
+        "source_id": "mathqa:test:1186",
+        "request_id": "mathqa-c-transfer-1186"
+      },
+      {
+        "source_id": "mathqa:test:1188",
+        "request_id": "mathqa-c-transfer-1188"
+      },
+      {
+        "source_id": "mathqa:test:1190",
+        "request_id": "mathqa-c-transfer-1190"
+      },
+      {
+        "source_id": "mathqa:test:1213",
+        "request_id": "mathqa-c-transfer-1213"
+      },
+      {
+        "source_id": "mathqa:test:1216",
+        "request_id": "mathqa-c-transfer-1216"
+      },
+      {
+        "source_id": "mathqa:test:1222",
+        "request_id": "mathqa-c-transfer-1222"
+      },
+      {
+        "source_id": "mathqa:test:1230",
+        "request_id": "mathqa-c-transfer-1230"
+      },
+      {
+        "source_id": "mathqa:test:1233",
+        "request_id": "mathqa-c-transfer-1233"
+      },
+      {
+        "source_id": "mathqa:test:1246",
+        "request_id": "mathqa-c-transfer-1246"
+      },
+      {
+        "source_id": "mathqa:test:1248",
+        "request_id": "mathqa-c-transfer-1248"
+      },
+      {
+        "source_id": "mathqa:test:1261",
+        "request_id": "mathqa-c-transfer-1261"
+      },
+      {
+        "source_id": "mathqa:test:1270",
+        "request_id": "mathqa-c-transfer-1270"
+      },
+      {
+        "source_id": "mathqa:test:1289",
+        "request_id": "mathqa-c-transfer-1289"
+      },
+      {
+        "source_id": "mathqa:test:1290",
+        "request_id": "mathqa-c-transfer-1290"
+      },
+      {
+        "source_id": "mathqa:test:13",
+        "request_id": "mathqa-c-transfer-0013"
+      },
+      {
+        "source_id": "mathqa:test:1322",
+        "request_id": "mathqa-c-transfer-1322"
+      },
+      {
+        "source_id": "mathqa:test:1355",
+        "request_id": "mathqa-c-transfer-1355"
+      },
+      {
+        "source_id": "mathqa:test:1356",
+        "request_id": "mathqa-c-transfer-1356"
+      },
+      {
+        "source_id": "mathqa:test:1370",
+        "request_id": "mathqa-c-transfer-1370"
+      },
+      {
+        "source_id": "mathqa:test:1374",
+        "request_id": "mathqa-c-transfer-1374"
+      },
+      {
+        "source_id": "mathqa:test:1381",
+        "request_id": "mathqa-c-transfer-1381"
+      },
+      {
+        "source_id": "mathqa:test:1382",
+        "request_id": "mathqa-c-transfer-1382"
+      },
+      {
+        "source_id": "mathqa:test:1392",
+        "request_id": "mathqa-c-transfer-1392"
+      },
+      {
+        "source_id": "mathqa:test:1399",
+        "request_id": "mathqa-c-transfer-1399"
+      },
+      {
+        "source_id": "mathqa:test:1401",
+        "request_id": "mathqa-c-transfer-1401"
+      },
+      {
+        "source_id": "mathqa:test:1408",
+        "request_id": "mathqa-c-transfer-1408"
+      },
+      {
+        "source_id": "mathqa:test:1419",
+        "request_id": "mathqa-c-transfer-1419"
+      },
+      {
+        "source_id": "mathqa:test:1438",
+        "request_id": "mathqa-c-transfer-1438"
+      },
+      {
+        "source_id": "mathqa:test:144",
+        "request_id": "mathqa-c-transfer-0144"
+      },
+      {
+        "source_id": "mathqa:test:1446",
+        "request_id": "mathqa-c-transfer-1446"
+      },
+      {
+        "source_id": "mathqa:test:1449",
+        "request_id": "mathqa-c-transfer-1449"
+      },
+      {
+        "source_id": "mathqa:test:1451",
+        "request_id": "mathqa-c-transfer-1451"
+      },
+      {
+        "source_id": "mathqa:test:147",
+        "request_id": "mathqa-c-transfer-0147"
+      },
+      {
+        "source_id": "mathqa:test:1486",
+        "request_id": "mathqa-c-transfer-1486"
+      },
+      {
+        "source_id": "mathqa:test:1489",
+        "request_id": "mathqa-c-transfer-1489"
+      },
+      {
+        "source_id": "mathqa:test:1493",
+        "request_id": "mathqa-c-transfer-1493"
+      },
+      {
+        "source_id": "mathqa:test:1509",
+        "request_id": "mathqa-c-transfer-1509"
+      },
+      {
+        "source_id": "mathqa:test:151",
+        "request_id": "mathqa-c-transfer-0151"
+      },
+      {
+        "source_id": "mathqa:test:1513",
+        "request_id": "mathqa-c-transfer-1513"
+      },
+      {
+        "source_id": "mathqa:test:1518",
+        "request_id": "mathqa-c-transfer-1518"
+      },
+      {
+        "source_id": "mathqa:test:152",
+        "request_id": "mathqa-c-transfer-0152"
+      },
+      {
+        "source_id": "mathqa:test:1520",
+        "request_id": "mathqa-c-transfer-1520"
+      },
+      {
+        "source_id": "mathqa:test:1536",
+        "request_id": "mathqa-c-transfer-1536"
+      },
+      {
+        "source_id": "mathqa:test:1553",
+        "request_id": "mathqa-c-transfer-1553"
+      },
+      {
+        "source_id": "mathqa:test:1555",
+        "request_id": "mathqa-c-transfer-1555"
+      },
+      {
+        "source_id": "mathqa:test:1578",
+        "request_id": "mathqa-c-transfer-1578"
+      },
+      {
+        "source_id": "mathqa:test:1588",
+        "request_id": "mathqa-c-transfer-1588"
+      },
+      {
+        "source_id": "mathqa:test:1592",
+        "request_id": "mathqa-c-transfer-1592"
+      },
+      {
+        "source_id": "mathqa:test:1593",
+        "request_id": "mathqa-c-transfer-1593"
+      },
+      {
+        "source_id": "mathqa:test:161",
+        "request_id": "mathqa-c-transfer-0161"
+      },
+      {
+        "source_id": "mathqa:test:1610",
+        "request_id": "mathqa-c-transfer-1610"
+      },
+      {
+        "source_id": "mathqa:test:1617",
+        "request_id": "mathqa-c-transfer-1617"
+      },
+      {
+        "source_id": "mathqa:test:1626",
+        "request_id": "mathqa-c-transfer-1626"
+      },
+      {
+        "source_id": "mathqa:test:1631",
+        "request_id": "mathqa-c-transfer-1631"
+      },
+      {
+        "source_id": "mathqa:test:1644",
+        "request_id": "mathqa-c-transfer-1644"
+      },
+      {
+        "source_id": "mathqa:test:1646",
+        "request_id": "mathqa-c-transfer-1646"
+      },
+      {
+        "source_id": "mathqa:test:1657",
+        "request_id": "mathqa-c-transfer-1657"
+      },
+      {
+        "source_id": "mathqa:test:1659",
+        "request_id": "mathqa-c-transfer-1659"
+      },
+      {
+        "source_id": "mathqa:test:1671",
+        "request_id": "mathqa-c-transfer-1671"
+      },
+      {
+        "source_id": "mathqa:test:1681",
+        "request_id": "mathqa-c-transfer-1681"
+      },
+      {
+        "source_id": "mathqa:test:1695",
+        "request_id": "mathqa-c-transfer-1695"
+      },
+      {
+        "source_id": "mathqa:test:1699",
+        "request_id": "mathqa-c-transfer-1699"
+      },
+      {
+        "source_id": "mathqa:test:1706",
+        "request_id": "mathqa-c-transfer-1706"
+      },
+      {
+        "source_id": "mathqa:test:1707",
+        "request_id": "mathqa-c-transfer-1707"
+      },
+      {
+        "source_id": "mathqa:test:1715",
+        "request_id": "mathqa-c-transfer-1715"
+      },
+      {
+        "source_id": "mathqa:test:1716",
+        "request_id": "mathqa-c-transfer-1716"
+      },
+      {
+        "source_id": "mathqa:test:174",
+        "request_id": "mathqa-c-transfer-0174"
+      },
+      {
+        "source_id": "mathqa:test:1748",
+        "request_id": "mathqa-c-transfer-1748"
+      },
+      {
+        "source_id": "mathqa:test:1754",
+        "request_id": "mathqa-c-transfer-1754"
+      },
+      {
+        "source_id": "mathqa:test:1756",
+        "request_id": "mathqa-c-transfer-1756"
+      },
+      {
+        "source_id": "mathqa:test:1762",
+        "request_id": "mathqa-c-transfer-1762"
+      },
+      {
+        "source_id": "mathqa:test:1770",
+        "request_id": "mathqa-c-transfer-1770"
+      },
+      {
+        "source_id": "mathqa:test:1771",
+        "request_id": "mathqa-c-transfer-1771"
+      },
+      {
+        "source_id": "mathqa:test:1777",
+        "request_id": "mathqa-c-transfer-1777"
+      },
+      {
+        "source_id": "mathqa:test:1780",
+        "request_id": "mathqa-c-transfer-1780"
+      },
+      {
+        "source_id": "mathqa:test:1788",
+        "request_id": "mathqa-c-transfer-1788"
+      },
+      {
+        "source_id": "mathqa:test:1794",
+        "request_id": "mathqa-c-transfer-1794"
+      },
+      {
+        "source_id": "mathqa:test:1836",
+        "request_id": "mathqa-c-transfer-1836"
+      },
+      {
+        "source_id": "mathqa:test:184",
+        "request_id": "mathqa-c-transfer-0184"
+      },
+      {
+        "source_id": "mathqa:test:1845",
+        "request_id": "mathqa-c-transfer-1845"
+      },
+      {
+        "source_id": "mathqa:test:1850",
+        "request_id": "mathqa-c-transfer-1850"
+      },
+      {
+        "source_id": "mathqa:test:1854",
+        "request_id": "mathqa-c-transfer-1854"
+      },
+      {
+        "source_id": "mathqa:test:1860",
+        "request_id": "mathqa-c-transfer-1860"
+      },
+      {
+        "source_id": "mathqa:test:187",
+        "request_id": "mathqa-c-transfer-0187"
+      },
+      {
+        "source_id": "mathqa:test:1878",
+        "request_id": "mathqa-c-transfer-1878"
+      },
+      {
+        "source_id": "mathqa:test:1881",
+        "request_id": "mathqa-c-transfer-1881"
+      },
+      {
+        "source_id": "mathqa:test:1889",
+        "request_id": "mathqa-c-transfer-1889"
+      },
+      {
+        "source_id": "mathqa:test:1892",
+        "request_id": "mathqa-c-transfer-1892"
+      },
+      {
+        "source_id": "mathqa:test:1893",
+        "request_id": "mathqa-c-transfer-1893"
+      },
+      {
+        "source_id": "mathqa:test:190",
+        "request_id": "mathqa-c-transfer-0190"
+      },
+      {
+        "source_id": "mathqa:test:1920",
+        "request_id": "mathqa-c-transfer-1920"
+      },
+      {
+        "source_id": "mathqa:test:1938",
+        "request_id": "mathqa-c-transfer-1938"
+      },
+      {
+        "source_id": "mathqa:test:1961",
+        "request_id": "mathqa-c-transfer-1961"
+      },
+      {
+        "source_id": "mathqa:test:1982",
+        "request_id": "mathqa-c-transfer-1982"
+      },
+      {
+        "source_id": "mathqa:test:1994",
+        "request_id": "mathqa-c-transfer-1994"
+      },
+      {
+        "source_id": "mathqa:test:200",
+        "request_id": "mathqa-c-transfer-0200"
+      },
+      {
+        "source_id": "mathqa:test:201",
+        "request_id": "mathqa-c-transfer-0201"
+      },
+      {
+        "source_id": "mathqa:test:2017",
+        "request_id": "mathqa-c-transfer-2017"
+      },
+      {
+        "source_id": "mathqa:test:2028",
+        "request_id": "mathqa-c-transfer-2028"
+      },
+      {
+        "source_id": "mathqa:test:2039",
+        "request_id": "mathqa-c-transfer-2039"
+      },
+      {
+        "source_id": "mathqa:test:2040",
+        "request_id": "mathqa-c-transfer-2040"
+      },
+      {
+        "source_id": "mathqa:test:2087",
+        "request_id": "mathqa-c-transfer-2087"
+      },
+      {
+        "source_id": "mathqa:test:2095",
+        "request_id": "mathqa-c-transfer-2095"
+      },
+      {
+        "source_id": "mathqa:test:2105",
+        "request_id": "mathqa-c-transfer-2105"
+      },
+      {
+        "source_id": "mathqa:test:2110",
+        "request_id": "mathqa-c-transfer-2110"
+      },
+      {
+        "source_id": "mathqa:test:2136",
+        "request_id": "mathqa-c-transfer-2136"
+      },
+      {
+        "source_id": "mathqa:test:2145",
+        "request_id": "mathqa-c-transfer-2145"
+      },
+      {
+        "source_id": "mathqa:test:2148",
+        "request_id": "mathqa-c-transfer-2148"
+      },
+      {
+        "source_id": "mathqa:test:2181",
+        "request_id": "mathqa-c-transfer-2181"
+      },
+      {
+        "source_id": "mathqa:test:2184",
+        "request_id": "mathqa-c-transfer-2184"
+      },
+      {
+        "source_id": "mathqa:test:2199",
+        "request_id": "mathqa-c-transfer-2199"
+      },
+      {
+        "source_id": "mathqa:test:223",
+        "request_id": "mathqa-c-transfer-0223"
+      },
+      {
+        "source_id": "mathqa:test:2237",
+        "request_id": "mathqa-c-transfer-2237"
+      },
+      {
+        "source_id": "mathqa:test:2267",
+        "request_id": "mathqa-c-transfer-2267"
+      },
+      {
+        "source_id": "mathqa:test:227",
+        "request_id": "mathqa-c-transfer-0227"
+      },
+      {
+        "source_id": "mathqa:test:2272",
+        "request_id": "mathqa-c-transfer-2272"
+      },
+      {
+        "source_id": "mathqa:test:2276",
+        "request_id": "mathqa-c-transfer-2276"
+      },
+      {
+        "source_id": "mathqa:test:2292",
+        "request_id": "mathqa-c-transfer-2292"
+      },
+      {
+        "source_id": "mathqa:test:2294",
+        "request_id": "mathqa-c-transfer-2294"
+      },
+      {
+        "source_id": "mathqa:test:2313",
+        "request_id": "mathqa-c-transfer-2313"
+      },
+      {
+        "source_id": "mathqa:test:2324",
+        "request_id": "mathqa-c-transfer-2324"
+      },
+      {
+        "source_id": "mathqa:test:2332",
+        "request_id": "mathqa-c-transfer-2332"
+      },
+      {
+        "source_id": "mathqa:test:2335",
+        "request_id": "mathqa-c-transfer-2335"
+      },
+      {
+        "source_id": "mathqa:test:2342",
+        "request_id": "mathqa-c-transfer-2342"
+      },
+      {
+        "source_id": "mathqa:test:235",
+        "request_id": "mathqa-c-transfer-0235"
+      },
+      {
+        "source_id": "mathqa:test:2360",
+        "request_id": "mathqa-c-transfer-2360"
+      },
+      {
+        "source_id": "mathqa:test:2369",
+        "request_id": "mathqa-c-transfer-2369"
+      },
+      {
+        "source_id": "mathqa:test:2372",
+        "request_id": "mathqa-c-transfer-2372"
+      },
+      {
+        "source_id": "mathqa:test:2373",
+        "request_id": "mathqa-c-transfer-2373"
+      },
+      {
+        "source_id": "mathqa:test:2384",
+        "request_id": "mathqa-c-transfer-2384"
+      },
+      {
+        "source_id": "mathqa:test:2389",
+        "request_id": "mathqa-c-transfer-2389"
+      },
+      {
+        "source_id": "mathqa:test:2411",
+        "request_id": "mathqa-c-transfer-2411"
+      },
+      {
+        "source_id": "mathqa:test:2416",
+        "request_id": "mathqa-c-transfer-2416"
+      },
+      {
+        "source_id": "mathqa:test:2417",
+        "request_id": "mathqa-c-transfer-2417"
+      },
+      {
+        "source_id": "mathqa:test:2430",
+        "request_id": "mathqa-c-transfer-2430"
+      },
+      {
+        "source_id": "mathqa:test:2440",
+        "request_id": "mathqa-c-transfer-2440"
+      },
+      {
+        "source_id": "mathqa:test:2442",
+        "request_id": "mathqa-c-transfer-2442"
+      },
+      {
+        "source_id": "mathqa:test:2443",
+        "request_id": "mathqa-c-transfer-2443"
+      },
+      {
+        "source_id": "mathqa:test:2458",
+        "request_id": "mathqa-c-transfer-2458"
+      },
+      {
+        "source_id": "mathqa:test:248",
+        "request_id": "mathqa-c-transfer-0248"
+      },
+      {
+        "source_id": "mathqa:test:2536",
+        "request_id": "mathqa-c-transfer-2536"
+      },
+      {
+        "source_id": "mathqa:test:2537",
+        "request_id": "mathqa-c-transfer-2537"
+      },
+      {
+        "source_id": "mathqa:test:2540",
+        "request_id": "mathqa-c-transfer-2540"
+      },
+      {
+        "source_id": "mathqa:test:26",
+        "request_id": "mathqa-c-transfer-0026"
+      },
+      {
+        "source_id": "mathqa:test:2624",
+        "request_id": "mathqa-c-transfer-2624"
+      },
+      {
+        "source_id": "mathqa:test:2632",
+        "request_id": "mathqa-c-transfer-2632"
+      },
+      {
+        "source_id": "mathqa:test:2657",
+        "request_id": "mathqa-c-transfer-2657"
+      },
+      {
+        "source_id": "mathqa:test:2671",
+        "request_id": "mathqa-c-transfer-2671"
+      },
+      {
+        "source_id": "mathqa:test:2687",
+        "request_id": "mathqa-c-transfer-2687"
+      },
+      {
+        "source_id": "mathqa:test:2709",
+        "request_id": "mathqa-c-transfer-2709"
+      },
+      {
+        "source_id": "mathqa:test:2721",
+        "request_id": "mathqa-c-transfer-2721"
+      },
+      {
+        "source_id": "mathqa:test:2727",
+        "request_id": "mathqa-c-transfer-2727"
+      },
+      {
+        "source_id": "mathqa:test:2778",
+        "request_id": "mathqa-c-transfer-2778"
+      },
+      {
+        "source_id": "mathqa:test:279",
+        "request_id": "mathqa-c-transfer-0279"
+      },
+      {
+        "source_id": "mathqa:test:2795",
+        "request_id": "mathqa-c-transfer-2795"
+      },
+      {
+        "source_id": "mathqa:test:2824",
+        "request_id": "mathqa-c-transfer-2824"
+      },
+      {
+        "source_id": "mathqa:test:2826",
+        "request_id": "mathqa-c-transfer-2826"
+      },
+      {
+        "source_id": "mathqa:test:2836",
+        "request_id": "mathqa-c-transfer-2836"
+      },
+      {
+        "source_id": "mathqa:test:2838",
+        "request_id": "mathqa-c-transfer-2838"
+      },
+      {
+        "source_id": "mathqa:test:2842",
+        "request_id": "mathqa-c-transfer-2842"
+      },
+      {
+        "source_id": "mathqa:test:2858",
+        "request_id": "mathqa-c-transfer-2858"
+      },
+      {
+        "source_id": "mathqa:test:286",
+        "request_id": "mathqa-c-transfer-0286"
+      },
+      {
+        "source_id": "mathqa:test:287",
+        "request_id": "mathqa-c-transfer-0287"
+      },
+      {
+        "source_id": "mathqa:test:2882",
+        "request_id": "mathqa-c-transfer-2882"
+      },
+      {
+        "source_id": "mathqa:test:2904",
+        "request_id": "mathqa-c-transfer-2904"
+      },
+      {
+        "source_id": "mathqa:test:2906",
+        "request_id": "mathqa-c-transfer-2906"
+      },
+      {
+        "source_id": "mathqa:test:2908",
+        "request_id": "mathqa-c-transfer-2908"
+      },
+      {
+        "source_id": "mathqa:test:291",
+        "request_id": "mathqa-c-transfer-0291"
+      },
+      {
+        "source_id": "mathqa:test:2916",
+        "request_id": "mathqa-c-transfer-2916"
+      },
+      {
+        "source_id": "mathqa:test:2928",
+        "request_id": "mathqa-c-transfer-2928"
+      },
+      {
+        "source_id": "mathqa:test:2936",
+        "request_id": "mathqa-c-transfer-2936"
+      },
+      {
+        "source_id": "mathqa:test:2975",
+        "request_id": "mathqa-c-transfer-2975"
+      },
+      {
+        "source_id": "mathqa:test:315",
+        "request_id": "mathqa-c-transfer-0315"
+      },
+      {
+        "source_id": "mathqa:test:327",
+        "request_id": "mathqa-c-transfer-0327"
+      },
+      {
+        "source_id": "mathqa:test:328",
+        "request_id": "mathqa-c-transfer-0328"
+      },
+      {
+        "source_id": "mathqa:test:354",
+        "request_id": "mathqa-c-transfer-0354"
+      },
+      {
+        "source_id": "mathqa:test:361",
+        "request_id": "mathqa-c-transfer-0361"
+      },
+      {
+        "source_id": "mathqa:test:38",
+        "request_id": "mathqa-c-transfer-0038"
+      },
+      {
+        "source_id": "mathqa:test:382",
+        "request_id": "mathqa-c-transfer-0382"
+      },
+      {
+        "source_id": "mathqa:test:393",
+        "request_id": "mathqa-c-transfer-0393"
+      },
+      {
+        "source_id": "mathqa:test:398",
+        "request_id": "mathqa-c-transfer-0398"
+      },
+      {
+        "source_id": "mathqa:test:411",
+        "request_id": "mathqa-c-transfer-0411"
+      },
+      {
+        "source_id": "mathqa:test:413",
+        "request_id": "mathqa-c-transfer-0413"
+      },
+      {
+        "source_id": "mathqa:test:447",
+        "request_id": "mathqa-c-transfer-0447"
+      },
+      {
+        "source_id": "mathqa:test:453",
+        "request_id": "mathqa-c-transfer-0453"
+      },
+      {
+        "source_id": "mathqa:test:469",
+        "request_id": "mathqa-c-transfer-0469"
+      },
+      {
+        "source_id": "mathqa:test:480",
+        "request_id": "mathqa-c-transfer-0480"
+      },
+      {
+        "source_id": "mathqa:test:487",
+        "request_id": "mathqa-c-transfer-0487"
+      },
+      {
+        "source_id": "mathqa:test:489",
+        "request_id": "mathqa-c-transfer-0489"
+      },
+      {
+        "source_id": "mathqa:test:516",
+        "request_id": "mathqa-c-transfer-0516"
+      },
+      {
+        "source_id": "mathqa:test:517",
+        "request_id": "mathqa-c-transfer-0517"
+      },
+      {
+        "source_id": "mathqa:test:527",
+        "request_id": "mathqa-c-transfer-0527"
+      },
+      {
+        "source_id": "mathqa:test:544",
+        "request_id": "mathqa-c-transfer-0544"
+      },
+      {
+        "source_id": "mathqa:test:557",
+        "request_id": "mathqa-c-transfer-0557"
+      },
+      {
+        "source_id": "mathqa:test:575",
+        "request_id": "mathqa-c-transfer-0575"
+      },
+      {
+        "source_id": "mathqa:test:58",
+        "request_id": "mathqa-c-transfer-0058"
+      },
+      {
+        "source_id": "mathqa:test:626",
+        "request_id": "mathqa-c-transfer-0626"
+      },
+      {
+        "source_id": "mathqa:test:627",
+        "request_id": "mathqa-c-transfer-0627"
+      },
+      {
+        "source_id": "mathqa:test:629",
+        "request_id": "mathqa-c-transfer-0629"
+      },
+      {
+        "source_id": "mathqa:test:651",
+        "request_id": "mathqa-c-transfer-0651"
+      },
+      {
+        "source_id": "mathqa:test:656",
+        "request_id": "mathqa-c-transfer-0656"
+      },
+      {
+        "source_id": "mathqa:test:666",
+        "request_id": "mathqa-c-transfer-0666"
+      },
+      {
+        "source_id": "mathqa:test:676",
+        "request_id": "mathqa-c-transfer-0676"
+      },
+      {
+        "source_id": "mathqa:test:679",
+        "request_id": "mathqa-c-transfer-0679"
+      },
+      {
+        "source_id": "mathqa:test:681",
+        "request_id": "mathqa-c-transfer-0681"
+      },
+      {
+        "source_id": "mathqa:test:687",
+        "request_id": "mathqa-c-transfer-0687"
+      },
+      {
+        "source_id": "mathqa:test:688",
+        "request_id": "mathqa-c-transfer-0688"
+      },
+      {
+        "source_id": "mathqa:test:713",
+        "request_id": "mathqa-c-transfer-0713"
+      },
+      {
+        "source_id": "mathqa:test:717",
+        "request_id": "mathqa-c-transfer-0717"
+      },
+      {
+        "source_id": "mathqa:test:726",
+        "request_id": "mathqa-c-transfer-0726"
+      },
+      {
+        "source_id": "mathqa:test:727",
+        "request_id": "mathqa-c-transfer-0727"
+      },
+      {
+        "source_id": "mathqa:test:75",
+        "request_id": "mathqa-c-transfer-0075"
+      },
+      {
+        "source_id": "mathqa:test:758",
+        "request_id": "mathqa-c-transfer-0758"
+      },
+      {
+        "source_id": "mathqa:test:759",
+        "request_id": "mathqa-c-transfer-0759"
+      },
+      {
+        "source_id": "mathqa:test:76",
+        "request_id": "mathqa-c-transfer-0076"
+      },
+      {
+        "source_id": "mathqa:test:769",
+        "request_id": "mathqa-c-transfer-0769"
+      },
+      {
+        "source_id": "mathqa:test:778",
+        "request_id": "mathqa-c-transfer-0778"
+      },
+      {
+        "source_id": "mathqa:test:780",
+        "request_id": "mathqa-c-transfer-0780"
+      },
+      {
+        "source_id": "mathqa:test:781",
+        "request_id": "mathqa-c-transfer-0781"
+      },
+      {
+        "source_id": "mathqa:test:8",
+        "request_id": "mathqa-c-transfer-0008"
+      },
+      {
+        "source_id": "mathqa:test:80",
+        "request_id": "mathqa-c-transfer-0080"
+      },
+      {
+        "source_id": "mathqa:test:82",
+        "request_id": "mathqa-c-transfer-0082"
+      },
+      {
+        "source_id": "mathqa:test:821",
+        "request_id": "mathqa-c-transfer-0821"
+      },
+      {
+        "source_id": "mathqa:test:822",
+        "request_id": "mathqa-c-transfer-0822"
+      },
+      {
+        "source_id": "mathqa:test:824",
+        "request_id": "mathqa-c-transfer-0824"
+      },
+      {
+        "source_id": "mathqa:test:831",
+        "request_id": "mathqa-c-transfer-0831"
+      },
+      {
+        "source_id": "mathqa:test:832",
+        "request_id": "mathqa-c-transfer-0832"
+      },
+      {
+        "source_id": "mathqa:test:853",
+        "request_id": "mathqa-c-transfer-0853"
+      },
+      {
+        "source_id": "mathqa:test:858",
+        "request_id": "mathqa-c-transfer-0858"
+      },
+      {
+        "source_id": "mathqa:test:883",
+        "request_id": "mathqa-c-transfer-0883"
+      },
+      {
+        "source_id": "mathqa:test:887",
+        "request_id": "mathqa-c-transfer-0887"
+      },
+      {
+        "source_id": "mathqa:test:89",
+        "request_id": "mathqa-c-transfer-0089"
+      },
+      {
+        "source_id": "mathqa:test:914",
+        "request_id": "mathqa-c-transfer-0914"
+      },
+      {
+        "source_id": "mathqa:test:95",
+        "request_id": "mathqa-c-transfer-0095"
+      },
+      {
+        "source_id": "mathqa:test:963",
+        "request_id": "mathqa-c-transfer-0963"
+      },
+      {
+        "source_id": "mathqa:test:965",
+        "request_id": "mathqa-c-transfer-0965"
+      },
+      {
+        "source_id": "mathqa:test:980",
+        "request_id": "mathqa-c-transfer-0980"
+      },
+      {
+        "source_id": "mathqa:test:983",
+        "request_id": "mathqa-c-transfer-0983"
+      },
+      {
+        "source_id": "mathqa:test:987",
+        "request_id": "mathqa-c-transfer-0987"
+      },
+      {
+        "source_id": "mathqa:test:990",
+        "request_id": "mathqa-c-transfer-0990"
+      },
+      {
+        "source_id": "mathqa:test:997",
+        "request_id": "mathqa-c-transfer-0997"
+      }
+    ],
+    "draw_matrix_sha256": "eea6efbfcaea25001f9ab546ab0bdb6c56b1fb45555e88cff7155d9326a5af95"
+  },
+  "reference_latency_used": false,
+  "model_work": 0
+}

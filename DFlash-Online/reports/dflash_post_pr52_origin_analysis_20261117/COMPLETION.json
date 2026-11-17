@@ -1,0 +1,56 @@
+{
+  "status": "COMPLETED_EXISTING_RECORD_ANALYSIS",
+  "analysis_execution_commit": "c6e12678bb3989e088564b6de4239075be62cf3a",
+  "available_contrasts": {
+    "PR51": [
+      "N6/KPLUS4",
+      "S6/KPLUS4"
+    ],
+    "PR52": [
+      "N6/KPLUS4",
+      "C6/KPLUS4",
+      "S6/KPLUS4"
+    ]
+  },
+  "unavailable_contrasts": [],
+  "scope": "CPU-only retrospective origin count analysis; both original complete panels; no origin latency contrast",
+  "candidate_status": "candidate retained for contribution assessment; performance preservation unresolved",
+  "historical_decisions_preserved": true,
+  "initial_estimate_minutes": [
+    30,
+    60
+  ],
+  "elapsed_seconds_through_analysis_and_review": 889.0260555744171,
+  "elapsed_limit_seconds": 3600,
+  "core_reducer_wall_seconds": 10.152956553734839,
+  "resource_wrapper_wall_seconds": 10.25,
+  "reducer_user_cpu_seconds": 11.15,
+  "reducer_system_cpu_seconds": 0.54,
+  "reducer_peak_rss_kib": 135668,
+  "private_output_bytes_at_receipt": 9399253,
+  "public_output_bytes_at_receipt": 4225248,
+  "new_output_limit_bytes": 100000000,
+  "new_outputs_counted_conservatively_including_public_duplicates": 13624501,
+  "fenrir_free_bytes_at_receipt": 7702196224,
+  "model_loads": 0,
+  "model_forwards": 0,
+  "model_backwards": 0,
+  "optimizer_steps": 0,
+  "teacher_preparations": 0,
+  "generations": 0,
+  "a800_operations": 0,
+  "cleanup_paths": [],
+  "checkpoint_feature_copies": 0,
+  "further_experiment_authorized": false,
+  "stage": "Stage 1 / project None",
+  "checks": {
+    "unit_tests": 11,
+    "raw_reducer": 3218804,
+    "independent_raw": 2878387,
+    "independent_reconciliation": 15520,
+    "provenance": 6948,
+    "interpretation_categories": 11,
+    "initial_public_review": 200877
+  },
+  "publication_accounting": "This receipt marks scientific/CPU review completion before the Git publication operation; publication revision/time is recorded separately."
+}

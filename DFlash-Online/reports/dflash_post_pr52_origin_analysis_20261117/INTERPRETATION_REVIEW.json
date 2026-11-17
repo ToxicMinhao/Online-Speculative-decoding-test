@@ -1,0 +1,79 @@
+{
+  "schema": "post_pr52_interpretation_review_v1",
+  "verification_status": "ANALYZED",
+  "status": "passed",
+  "categories_checked": 11,
+  "categories_required": 11,
+  "report_identity": {
+    "bytes": 11578,
+    "sha256": "07af91eefd87139625eaf603dec7131b651e0f5c9ab16158fef3836dfd53af3d"
+  },
+  "execution_commits": {
+    "analysis": "c6e12678bb3989e088564b6de4239075be62cf3a",
+    "PR51": "15284b323a307d01118e2630e665ed0191ba7c33",
+    "PR52": "3b25b068f0caa0035aeb4c8d58ba498f02a814cc"
+  },
+  "findings": [
+    {
+      "category": "Simpson's paradox",
+      "assessment": "Checked; scope limited",
+      "evidence": "The two panels are reported separately. No combined-panel or unmeasured subgroup conclusion is made. Within-panel hidden subgroup heterogeneity is not ruled out by the pooled estimates."
+    },
+    {
+      "category": "Ecological fallacy",
+      "assessment": "Checked",
+      "evidence": "Pooled acceptance is defined from summed token/call counts; request wins, regressions and ties are shown separately. The report does not infer token-level repair or forgetting from aggregate count changes."
+    },
+    {
+      "category": "Berkson's paradox",
+      "assessment": "Checked; eligible-panel scope",
+      "evidence": "All requests from the original fixed, exposure-audited panels are retained. No favorable outcome filtering occurs. Inference remains conditional on these eligible MathQA inputs and fixed checkpoints."
+    },
+    {
+      "category": "Collider bias",
+      "assessment": "Checked",
+      "evidence": "No adjustment, stratification, or exclusion is introduced based on output lengths, acceptance, or success. Caps remain in the estimates. Runtime/card comparability uses prior qualification, not outcome-conditioned filtering."
+    },
+    {
+      "category": "Base-rate neglect",
+      "assessment": "Checked",
+      "evidence": "Both panel denominators are 256. Gross calls saved and added, request regressions and ties, EOS/cap counts, and zero-call counts are visible; the result is not framed as all requests benefiting."
+    },
+    {
+      "category": "Regression to the mean",
+      "assessment": "Checked; retrospective limitation",
+      "evidence": "Inputs were sealed before generation and are not selected because origin or endpoint scores were extreme. The new origin contrasts are explicitly retrospective; they do not establish additional-training-seed robustness."
+    },
+    {
+      "category": "Survivorship bias",
+      "assessment": "Checked",
+      "evidence": "Both complete panels and every endpoint repeat validate. No missing, capped, zero-call, or unfavorable request is discarded. An incomplete evidence set would make that contrast unavailable."
+    },
+    {
+      "category": "Look-elsewhere effect",
+      "assessment": "Checked; pointwise caution",
+      "evidence": "All five handoff-requested origin contrasts are reported, with original draw seeds and no new model run. Intervals are explicitly retrospective and pointwise, not simultaneous or multiplicity-adjusted; there is no paper-wide familywise claim."
+    },
+    {
+      "category": "Garden of forking paths",
+      "assessment": "Checked; retrospective limitation",
+      "evidence": "The fixed request sets, metric semantics, original paired draws and linear quantiles are preserved. The reader metadata repair and timer-wrapper startup failure remain documented. No alternative output-dependent analysis was selected."
+    },
+    {
+      "category": "Correlation versus causation",
+      "assessment": "Checked",
+      "evidence": "Same-input checkpoint comparisons support the stated fixed-trajectory count improvement. C/origin is not attributed to allocation: C/N remains the relevant incremental contrast, and C/N preservation is unresolved. No serving speedup versus origin is claimed."
+    },
+    {
+      "category": "Reverse causality",
+      "assessment": "Checked",
+      "evidence": "The origin precedes adaptation, and fixed endpoint checkpoints were created before the new retrospective reduction. The report does not infer a causal token-level mechanism or a future algorithm from the observed endpoint association."
+    }
+  ],
+  "concrete_unsupported_claims": [],
+  "statistical_caution": "Pointwise, retrospective, request-resampling uncertainty; small effects and fixed/shared trained endpoints. No training-seed or universal nondegradation claim.",
+  "independence": "Separate raw/count/statistic implementation, performed before viewing final reducer numbers; same project context and overlapping historical implementation authorship. Not blinded experimental replication.",
+  "privacy_status": "passed; expected completion and interpretation files pending at first public audit",
+  "candidate_status": "candidate retained for contribution assessment; performance preservation unresolved",
+  "new_model_work": 0
+}
