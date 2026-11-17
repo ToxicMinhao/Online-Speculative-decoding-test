@@ -1,0 +1,47 @@
+{
+  "status": "passed",
+  "execution_commit": "c94b1bb9b32dbd9a1f523105cff4713f7b880ec3",
+  "estimates": {
+    "C7": 886.3269823994488,
+    "C_collect": 203.5655315518379,
+    "C8": 886.3269823994488,
+    "final": 1305.7663890789963,
+    "qualification_training": 300.0,
+    "qualification_serving": 180.0
+  },
+  "timing": {
+    "raw_remaining_s": 3281.9858854297318,
+    "conservative_remaining_s": 5522.978828144598,
+    "clock": {
+      "occupied_s": 289.5667088031769,
+      "elapsed_s": 259.0725727081299,
+      "active": {}
+    },
+    "elapsed_cap_s": 14400,
+    "occupied_cap_s": 14400
+  },
+  "measured_pair_compute_s": 5.848313068971038,
+  "measured_s_per_output_token": 0.003141913068505515,
+  "training_host_reservation_bytes": 41501249536,
+  "serving_host_reservation_bytes": 13138345984,
+  "free_host_bytes": 103325573120,
+  "storage": {
+    "clock": {
+      "occupied_s": 289.5667088031769,
+      "elapsed_s": 259.07262325286865,
+      "active": {}
+    },
+    "allocated_bytes": 9201471488,
+    "charged_bytes": 13496438784,
+    "peak_new_bytes": 58336974264,
+    "free_bytes": 651612893184,
+    "remaining_peak_bytes": 49135502776,
+    "compiler": {
+      "root": "/data/sources/minhao/.cache",
+      "baseline_allocated_bytes": 5054238720,
+      "allocated_bytes": 5054238720,
+      "growth_bytes": 0,
+      "reserved_growth_bytes": 4294967296
+    }
+  }
+}

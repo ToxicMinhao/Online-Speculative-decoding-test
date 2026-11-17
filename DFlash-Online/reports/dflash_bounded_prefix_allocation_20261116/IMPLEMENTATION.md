@@ -1,6 +1,6 @@
 # Bounded prefix allocation: implementation and CPU review
 
-Status: implementation complete; native qualification and production pending.
+Historical implementation chronology below. **Completion update:** native qualification and the complete C7–C8/final campaign passed. The fixed candidate closes under the prespecified scalar-control criterion; see [the completed report](REPORT.md). Earlier pending statuses and intermediate CPU counts below describe their original preparation stages, not the final status.
 Scientific base: `9b2d8d8752c5b48e34a3537743ac349ab159b284`.
 The actual execution commit is recorded in the sealed source manifest, plan,
 qualification receipts and final report. This document makes no GPU result claim.

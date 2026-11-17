@@ -1,0 +1,74 @@
+{
+  "status": "passed",
+  "execution_commit": "c94b1bb9b32dbd9a1f523105cff4713f7b880ec3",
+  "planned_adam": 5,
+  "startup_separate": true,
+  "started_epoch": 1794874460.756989,
+  "loading_s": 30.038818031549454,
+  "startup": {
+    "status": "completed",
+    "optimizer_steps": 0,
+    "physical_work": {
+      "counts": {
+        "draft_forwards": 2,
+        "layer_forwards": 10,
+        "objective_chunks": 120,
+        "vocabulary_head_calls": 240,
+        "response_forwards": 2
+      },
+      "response_observations": 2,
+      "optimizer_window_observations": 0
+    },
+    "wall_s": 17.704091539606452,
+    "work": {
+      "attempts": {
+        "response_forwards": 2,
+        "response_backwards": 2,
+        "optimizer_steps": 0
+      },
+      "completed": {
+        "response_forwards": 2,
+        "response_backwards": 2,
+        "optimizer_steps": 0
+      },
+      "unknown": {
+        "response_forwards": 0,
+        "response_backwards": 0,
+        "optimizer_steps": 0
+      }
+    }
+  },
+  "startup_s": 17.704091539606452,
+  "snapshot": {
+    "global_step": 769,
+    "presentations": 1538,
+    "extra_forward": 0,
+    "extra_backward": 0,
+    "extra_optimizer_steps": 0
+  },
+  "export": "/data/sources/minhao/runs/dflash_bounded_prefix_allocation_20261116/execution_003/qualification/training/active_export",
+  "restore": {
+    "status": "passed",
+    "global_step": 769,
+    "presentations": 1538,
+    "exact_scientific_state": true,
+    "extra_optimizer_steps": 0
+  },
+  "optimizer_applications": 5,
+  "response_presentations": 10,
+  "startup_forward_backward_each": 2,
+  "exact_native_cap0": true,
+  "exact_own_resume": true,
+  "actual_intervention": true,
+  "origin_restored": true,
+  "physical_work": {
+    "draft_forwards": 10,
+    "layer_forwards": 50,
+    "objective_chunks": 576,
+    "vocabulary_head_calls": 1152,
+    "response_forwards": 10
+  },
+  "peak_gpu_allocated_bytes": 17137380864,
+  "peak_gpu_reserved_bytes": 19750977536,
+  "wall_s": 217.2685158252716
+}

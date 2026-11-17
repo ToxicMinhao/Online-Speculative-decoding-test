@@ -1,0 +1,748 @@
+{
+  "status": "passed",
+  "publication_structure": {
+    "status": "passed",
+    "checks": 979578,
+    "errors": [],
+    "notes": [
+      "Python source/tests contain synthetic fixtures and public algorithm constants; privacy scan targets report JSON/CSV data, not those fixtures.",
+      "Ignored __pycache__ exists in analysis directory from CPU testing; not an intended published artifact."
+    ],
+    "read_only": true,
+    "remote_operations": 0,
+    "model_work": 0,
+    "public_json_files": 15,
+    "public_csv_files": 8,
+    "trace_rows": 55785,
+    "scored_rows": 1152,
+    "warmup_rows": 72,
+    "per_request_rows": 384,
+    "wall_s": 1.5963391396217048
+  },
+  "report_review": {
+    "status": "passed",
+    "verification_status": "ANALYZED_REPORT_AGAINST_RETAINED_MACHINE_EVIDENCE",
+    "reviewer": "prefix_core",
+    "utc": "2026-11-17T01:10:47.261083+00:00",
+    "execution_commit": "c94b1bb9b32dbd9a1f523105cff4713f7b880ec3",
+    "analysis_commit": "bef13cb893156a0ec8b468356956185df77b33f3",
+    "reviewed_files": [
+      "REPORT.md",
+      "SUMMARY.json",
+      "COSTS.json",
+      "TRAINING_AUDIT.json",
+      "SECONDARY_COLLECTION.json",
+      "VALIDITY.json",
+      "CONFIGURATION.json",
+      "QUALIFICATION.json",
+      "INDEPENDENT_PRIMARY_AUDIT.json",
+      "TASK/HANDOFF.md"
+    ],
+    "numeric_and_structure_checks": 168,
+    "checks": [
+      {
+        "name": "endpoint.N.verification_calls",
+        "passed": true
+      },
+      {
+        "name": "endpoint.N.native_accepted_tokens_per_call",
+        "passed": true
+      },
+      {
+        "name": "endpoint.N.committed_progress_per_call",
+        "passed": true
+      },
+      {
+        "name": "endpoint.N.request_latency_s",
+        "passed": true
+      },
+      {
+        "name": "endpoint.N.native_generate_s",
+        "passed": true
+      },
+      {
+        "name": "endpoint.N.cache_maintenance_s",
+        "passed": true
+      },
+      {
+        "name": "endpoint.C.verification_calls",
+        "passed": true
+      },
+      {
+        "name": "endpoint.C.native_accepted_tokens_per_call",
+        "passed": true
+      },
+      {
+        "name": "endpoint.C.committed_progress_per_call",
+        "passed": true
+      },
+      {
+        "name": "endpoint.C.request_latency_s",
+        "passed": true
+      },
+      {
+        "name": "endpoint.C.native_generate_s",
+        "passed": true
+      },
+      {
+        "name": "endpoint.C.cache_maintenance_s",
+        "passed": true
+      },
+      {
+        "name": "endpoint.S.verification_calls",
+        "passed": true
+      },
+      {
+        "name": "endpoint.S.native_accepted_tokens_per_call",
+        "passed": true
+      },
+      {
+        "name": "endpoint.S.committed_progress_per_call",
+        "passed": true
+      },
+      {
+        "name": "endpoint.S.request_latency_s",
+        "passed": true
+      },
+      {
+        "name": "endpoint.S.native_generate_s",
+        "passed": true
+      },
+      {
+        "name": "endpoint.S.cache_maintenance_s",
+        "passed": true
+      },
+      {
+        "name": "contrast.C_vs_N.time_reduction.0",
+        "passed": true
+      },
+      {
+        "name": "contrast.C_vs_N.time_reduction.1",
+        "passed": true
+      },
+      {
+        "name": "contrast.C_vs_N.time_reduction.2",
+        "passed": true
+      },
+      {
+        "name": "contrast.C_vs_N.time_reduction.three_values",
+        "passed": true
+      },
+      {
+        "name": "contrast.C_vs_N.acceptance_improvement.0",
+        "passed": true
+      },
+      {
+        "name": "contrast.C_vs_N.acceptance_improvement.1",
+        "passed": true
+      },
+      {
+        "name": "contrast.C_vs_N.acceptance_improvement.2",
+        "passed": true
+      },
+      {
+        "name": "contrast.C_vs_N.acceptance_improvement.three_values",
+        "passed": true
+      },
+      {
+        "name": "contrast.C_vs_N.call_reduction.0",
+        "passed": true
+      },
+      {
+        "name": "contrast.C_vs_N.call_reduction.1",
+        "passed": true
+      },
+      {
+        "name": "contrast.C_vs_N.call_reduction.2",
+        "passed": true
+      },
+      {
+        "name": "contrast.C_vs_N.call_reduction.three_values",
+        "passed": true
+      },
+      {
+        "name": "wins.C_vs_N",
+        "passed": true
+      },
+      {
+        "name": "gross.C_vs_N",
+        "passed": true
+      },
+      {
+        "name": "denominator.C_vs_N",
+        "passed": true
+      },
+      {
+        "name": "contrast.C_vs_S.time_reduction.0",
+        "passed": true
+      },
+      {
+        "name": "contrast.C_vs_S.time_reduction.1",
+        "passed": true
+      },
+      {
+        "name": "contrast.C_vs_S.time_reduction.2",
+        "passed": true
+      },
+      {
+        "name": "contrast.C_vs_S.time_reduction.three_values",
+        "passed": true
+      },
+      {
+        "name": "contrast.C_vs_S.acceptance_improvement.0",
+        "passed": true
+      },
+      {
+        "name": "contrast.C_vs_S.acceptance_improvement.1",
+        "passed": true
+      },
+      {
+        "name": "contrast.C_vs_S.acceptance_improvement.2",
+        "passed": true
+      },
+      {
+        "name": "contrast.C_vs_S.acceptance_improvement.three_values",
+        "passed": true
+      },
+      {
+        "name": "contrast.C_vs_S.call_reduction.0",
+        "passed": true
+      },
+      {
+        "name": "contrast.C_vs_S.call_reduction.1",
+        "passed": true
+      },
+      {
+        "name": "contrast.C_vs_S.call_reduction.2",
+        "passed": true
+      },
+      {
+        "name": "contrast.C_vs_S.call_reduction.three_values",
+        "passed": true
+      },
+      {
+        "name": "wins.C_vs_S",
+        "passed": true
+      },
+      {
+        "name": "gross.C_vs_S",
+        "passed": true
+      },
+      {
+        "name": "denominator.C_vs_S",
+        "passed": true
+      },
+      {
+        "name": "contrast.S_vs_N.time_reduction.0",
+        "passed": true
+      },
+      {
+        "name": "contrast.S_vs_N.time_reduction.1",
+        "passed": true
+      },
+      {
+        "name": "contrast.S_vs_N.time_reduction.2",
+        "passed": true
+      },
+      {
+        "name": "contrast.S_vs_N.time_reduction.three_values",
+        "passed": true
+      },
+      {
+        "name": "contrast.S_vs_N.acceptance_improvement.0",
+        "passed": true
+      },
+      {
+        "name": "contrast.S_vs_N.acceptance_improvement.1",
+        "passed": true
+      },
+      {
+        "name": "contrast.S_vs_N.acceptance_improvement.2",
+        "passed": true
+      },
+      {
+        "name": "contrast.S_vs_N.acceptance_improvement.three_values",
+        "passed": true
+      },
+      {
+        "name": "contrast.S_vs_N.call_reduction.0",
+        "passed": true
+      },
+      {
+        "name": "contrast.S_vs_N.call_reduction.1",
+        "passed": true
+      },
+      {
+        "name": "contrast.S_vs_N.call_reduction.2",
+        "passed": true
+      },
+      {
+        "name": "contrast.S_vs_N.call_reduction.three_values",
+        "passed": true
+      },
+      {
+        "name": "wins.S_vs_N",
+        "passed": true
+      },
+      {
+        "name": "gross.S_vs_N",
+        "passed": true
+      },
+      {
+        "name": "denominator.S_vs_N",
+        "passed": true
+      },
+      {
+        "name": "repeat.0.N",
+        "passed": true
+      },
+      {
+        "name": "repeat.0.C",
+        "passed": true
+      },
+      {
+        "name": "repeat.0.S",
+        "passed": true
+      },
+      {
+        "name": "repeat_ratio.0.C_vs_N",
+        "passed": true
+      },
+      {
+        "name": "repeat_ratio.0.C_vs_S",
+        "passed": true
+      },
+      {
+        "name": "repeat.1.N",
+        "passed": true
+      },
+      {
+        "name": "repeat.1.C",
+        "passed": true
+      },
+      {
+        "name": "repeat.1.S",
+        "passed": true
+      },
+      {
+        "name": "repeat_ratio.1.C_vs_N",
+        "passed": true
+      },
+      {
+        "name": "repeat_ratio.1.C_vs_S",
+        "passed": true
+      },
+      {
+        "name": "repeat.2.N",
+        "passed": true
+      },
+      {
+        "name": "repeat.2.C",
+        "passed": true
+      },
+      {
+        "name": "repeat.2.S",
+        "passed": true
+      },
+      {
+        "name": "repeat_ratio.2.C_vs_N",
+        "passed": true
+      },
+      {
+        "name": "repeat_ratio.2.C_vs_S",
+        "passed": true
+      },
+      {
+        "name": "training.7.blocks",
+        "passed": true
+      },
+      {
+        "name": "training.7.prefix_positions",
+        "passed": true
+      },
+      {
+        "name": "training.7.changed_blocks",
+        "passed": true
+      },
+      {
+        "name": "training.7.changed_positions",
+        "passed": true
+      },
+      {
+        "name": "training.7.moved",
+        "passed": true
+      },
+      {
+        "name": "training.7.mass_violations",
+        "passed": true
+      },
+      {
+        "name": "training.7.bounds_violations",
+        "passed": true
+      },
+      {
+        "name": "training.7.support_violations",
+        "passed": true
+      },
+      {
+        "name": "training.7.nonfinite_values",
+        "passed": true
+      },
+      {
+        "name": "training.8.blocks",
+        "passed": true
+      },
+      {
+        "name": "training.8.prefix_positions",
+        "passed": true
+      },
+      {
+        "name": "training.8.changed_blocks",
+        "passed": true
+      },
+      {
+        "name": "training.8.changed_positions",
+        "passed": true
+      },
+      {
+        "name": "training.8.moved",
+        "passed": true
+      },
+      {
+        "name": "training.8.mass_violations",
+        "passed": true
+      },
+      {
+        "name": "training.8.bounds_violations",
+        "passed": true
+      },
+      {
+        "name": "training.8.support_violations",
+        "passed": true
+      },
+      {
+        "name": "training.8.nonfinite_values",
+        "passed": true
+      },
+      {
+        "name": "cost.7.task_wall_s",
+        "passed": true
+      },
+      {
+        "name": "cost.7.training_s",
+        "passed": true
+      },
+      {
+        "name": "cost.7.loading_s",
+        "passed": true
+      },
+      {
+        "name": "cost.7.startup_s",
+        "passed": true
+      },
+      {
+        "name": "cost.7.checkpoint_save_s",
+        "passed": true
+      },
+      {
+        "name": "cost.7.export_s",
+        "passed": true
+      },
+      {
+        "name": "cost.8.task_wall_s",
+        "passed": true
+      },
+      {
+        "name": "cost.8.training_s",
+        "passed": true
+      },
+      {
+        "name": "cost.8.loading_s",
+        "passed": true
+      },
+      {
+        "name": "cost.8.startup_s",
+        "passed": true
+      },
+      {
+        "name": "cost.8.checkpoint_save_s",
+        "passed": true
+      },
+      {
+        "name": "cost.8.export_s",
+        "passed": true
+      },
+      {
+        "name": "decision.closed",
+        "passed": true
+      },
+      {
+        "name": "decision.only_scalar_condition_failed",
+        "passed": true
+      },
+      {
+        "name": "decision.cs_intervals_unresolved",
+        "passed": true
+      },
+      {
+        "name": "no_equivalence_claim",
+        "passed": true
+      },
+      {
+        "name": "own_state_language",
+        "passed": true
+      },
+      {
+        "name": "training_audit.passed",
+        "passed": true
+      },
+      {
+        "name": "primary_audit.passed",
+        "passed": true
+      },
+      {
+        "name": "secondary_audit.passed",
+        "passed": true
+      },
+      {
+        "name": "validity.no_public_tokens",
+        "passed": true
+      },
+      {
+        "name": "qualification.native_neutrality",
+        "passed": true
+      },
+      {
+        "name": "qualification.intervention_resume",
+        "passed": true
+      },
+      {
+        "name": "qualification.five_steps",
+        "passed": true
+      },
+      {
+        "name": "total.Adam",
+        "passed": true
+      },
+      {
+        "name": "total.forward",
+        "passed": true
+      },
+      {
+        "name": "total.backward",
+        "passed": true
+      },
+      {
+        "name": "total.generation",
+        "passed": true
+      },
+      {
+        "name": "total.no_pending",
+        "passed": true
+      },
+      {
+        "name": "budget.adam",
+        "passed": true
+      },
+      {
+        "name": "budget.response_forward",
+        "passed": true
+      },
+      {
+        "name": "budget.response_backward",
+        "passed": true
+      },
+      {
+        "name": "budget.training_initialization",
+        "passed": true
+      },
+      {
+        "name": "budget.feedback_generation",
+        "passed": true
+      },
+      {
+        "name": "budget.teacher_preparation",
+        "passed": true
+      },
+      {
+        "name": "budget.qualification_generation",
+        "passed": true
+      },
+      {
+        "name": "budget.warmup_generation",
+        "passed": true
+      },
+      {
+        "name": "budget.scored_generation",
+        "passed": true
+      },
+      {
+        "name": "cost.nesting_disclosed",
+        "passed": true
+      },
+      {
+        "name": "cost.candidate_chain",
+        "passed": true
+      },
+      {
+        "name": "cost.elapsed",
+        "passed": true
+      },
+      {
+        "name": "cost.occupied",
+        "passed": true
+      },
+      {
+        "name": "cost.final_task",
+        "passed": true
+      },
+      {
+        "name": "cost.no_serving_task_conflation",
+        "passed": true
+      },
+      {
+        "name": "cost.transfer",
+        "passed": true
+      },
+      {
+        "name": "clock.no_active",
+        "passed": true
+      },
+      {
+        "name": "storage.reserve",
+        "passed": true
+      },
+      {
+        "name": "storage.peak",
+        "passed": true
+      },
+      {
+        "name": "secondary.counts",
+        "passed": true
+      },
+      {
+        "name": "secondary.no_latency",
+        "passed": true
+      },
+      {
+        "name": "commit.146",
+        "passed": true
+      },
+      {
+        "name": "commit.147",
+        "passed": true
+      },
+      {
+        "name": "commit.148",
+        "passed": true
+      },
+      {
+        "name": "commit.149",
+        "passed": true
+      },
+      {
+        "name": "commit.150",
+        "passed": true
+      },
+      {
+        "name": "commit.151",
+        "passed": true
+      },
+      {
+        "name": "link.summary",
+        "passed": true
+      },
+      {
+        "name": "link.per-request",
+        "passed": true
+      },
+      {
+        "name": "link.all repeats",
+        "passed": true
+      },
+      {
+        "name": "link.warmups",
+        "passed": true
+      },
+      {
+        "name": "link.native trace counts",
+        "passed": true
+      },
+      {
+        "name": "link.validity",
+        "passed": true
+      },
+      {
+        "name": "link.independent audit",
+        "passed": true
+      },
+      {
+        "name": "link.allocation audit",
+        "passed": true
+      },
+      {
+        "name": "link.per-slot coefficients",
+        "passed": true
+      },
+      {
+        "name": "link.secondary collection",
+        "passed": true
+      },
+      {
+        "name": "link.configuration/ancestry",
+        "passed": true
+      },
+      {
+        "name": "link.costs",
+        "passed": true
+      },
+      {
+        "name": "link.qualification",
+        "passed": true
+      },
+      {
+        "name": "link.analysis code",
+        "passed": true
+      },
+      {
+        "name": "privacy.no_raw_arrays",
+        "passed": true
+      },
+      {
+        "name": "no_template_placeholders",
+        "passed": true
+      }
+    ],
+    "blockers": [],
+    "prose_changes": [
+      "Separated compressed words/numbers and units throughout.",
+      "Replaced corrected weights with adapted weights to distinguish allocation from a direct parameter correction.",
+      "Lead states failure of the fixed scalar-control advancement criterion, not demonstrated inferiority.",
+      "Named the 17.80-minute quantity the final evaluation task, not pure serving time."
+    ],
+    "timer_accounting": "Task, event, training, initialization, save/export and evaluation-wrapper timers are nested. Candidate-chain total sums only C7, collection and C8 task walls; endpoint means do not include warmup, load or activation. Qualification wrapper is not added again to its own constituent training time.",
+    "interpretation": "C/N meets its thresholds; C/S point estimates are negative with both primary intervals crossing zero. Closing the fixed candidate follows the prespecified rule, not a proof of equivalence or universal inferiority. No additional run is authorized.",
+    "privacy": "Report contains aggregate metrics, source commits and artifact links only. Private prompts, token arrays and raw runtime evidence remain outside Git; validity explicitly records no public token arrays.",
+    "fallacy_scan": {
+      "coverage": "11/11 checked",
+      "simpson": "Request wins/regressions and all repeat totals retained; no uniform subgroup-benefit claim.",
+      "ecological": "No inference that every request benefits from positive pooled totals.",
+      "berkson": "Reused development selection is disclosed; no population generalization.",
+      "collider": "No post-outcome request filtering or adjustment in reported comparison.",
+      "base_rate": "Explicit 128-request denominators, counts and gross savings/additions.",
+      "regression_to_mean": "Fresh contemporaneous control evaluation; no historical timing learning-curve claim.",
+      "survivorship": "All planned returns accounted; zero invalid or unattempted.",
+      "look_elsewhere": "All three contrasts and secondary chronology reported; multiple endpoints not promoted to independent confirmatory evidence.",
+      "forking_paths": "Fixed endpoint, weights, data and thresholds retained; bookkeeping-only reader fix disclosed with historical failures preserved.",
+      "correlation_causation": "Endpoint whole-recipe comparison; no causal claim for confidence, shape or update magnitude.",
+      "reverse_causality": "Training precedes endpoint scoring; collection/final differences are not framed as temporal improvement."
+    },
+    "limits": [
+      "No new model/GPU/remote work or new raw reconstruction was run in this final report review.",
+      "Statistical intervals condition on these reused requests and fixed training origin; they do not cover training-seed uncertainty or establish generalization.",
+      "Historical N/S training times do not establish a fresh matched training-overhead comparison.",
+      "Training per-block validity summaries are implementation receipts, supplemented by independent aggregate consistency and bounded native qualification."
+    ]
+  },
+  "scope": "Separate native agents within the same research session; independent readers, not an independent experiment or blinded human review."
+}
