@@ -186,6 +186,13 @@ class TargetObjectiveModel(OnlineDFlashModel):
                     if self.objective in FIRST_ERROR_OBJECTIVES
                     else torch.ones_like(labels, dtype=torch.bool)
                 )
+                adversarial_block = getattr(self, 'adversarial_block', None)
+                if adversarial_block is not None:
+                    selection = adversarial_block.freeze_selection(
+                        proposals, labels, weights, selection)
+                block_observer = getattr(self, 'block_observer', None)
+                if block_observer is not None:
+                    block_observer(proposals, labels, weights, selection)
                 statistics = selection_statistics(
                     proposals, labels, weights, selection, self.eos_token_ids,
                 )
@@ -209,9 +216,12 @@ class TargetObjectiveModel(OnlineDFlashModel):
             if redistribution is not None:
                 _synchronize(token_loss)
                 started = time.perf_counter()
-                extra = redistribution.chunk_terms(
-                    token_loss, proposals, labels, weights, selection, self.eos_token_ids,
-                )
+                if adversarial_block is None:
+                    extra = redistribution.chunk_terms(
+                        token_loss, proposals, labels, weights, selection, self.eos_token_ids,
+                    )
+                else:
+                    extra = adversarial_block.group_terms(token_loss, labels)
                 _synchronize(extra[0])
                 self.costs['kplus_chunk_s'] = self.costs.get('kplus_chunk_s', 0.0) + (
                     time.perf_counter() - started)
@@ -454,6 +464,9 @@ class TargetObjectiveModel(OnlineDFlashModel):
         if self.is_osd:
             # Apply the author's epsilon once per response, not once per chunk.
             denominator = denominator + 1e-6
+        adversarial_block = getattr(self, 'adversarial_block', None)
+        if adversarial_block is not None:
+            denominator = adversarial_block.freeze_response(terms, denominator)
         reduce_response = getattr(point_loss, 'reduce_response', None)
         if role_loss is not None:
             loss = role_loss.reduce_response(terms, denominator)
