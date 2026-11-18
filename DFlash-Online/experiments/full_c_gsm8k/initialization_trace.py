@@ -7,6 +7,7 @@ ledgers and never starts a new campaign or resets a seed itself.
 import argparse
 from contextlib import ExitStack
 import hashlib
+from importlib.metadata import version
 import json
 from pathlib import Path
 import os
@@ -31,6 +32,12 @@ from specforge.export.to_hf import export_to_hf
 from experiments.full_c_gsm8k.training import FullCTrainer
 from experiments.full_c_gsm8k.runtime import WorkLedger, boundary, occupied_card, read
 from online_feedback.storage import write_json
+
+
+def runtime_versions():
+    """Read installed metadata without loading a package earlier than native startup."""
+    return {'python':platform.python_version(), 'torch':str(torch.__version__),
+            'transformers':version('transformers')}
 
 
 def module_sources():
@@ -122,8 +129,7 @@ def run(plan, output, execution_commit):
         'entry_path':str(Path(__file__).resolve()),
         'entry_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
         'started_epoch':time.time(), 'work_before':read(root/'WORK.json'),
-        'runtime':{'python':platform.python_version(), 'torch':str(torch.__version__),
-                   'transformers':sys.modules['transformers'].__version__},
+        'runtime':runtime_versions(),
         'sources_before':module_sources(), 'planned_initializations':1,
         'planned_forward_backward_adam_generations':0, 'rng_override':False}
     destination = base/'DETAILS.json'

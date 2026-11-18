@@ -4,11 +4,23 @@ from pathlib import Path
 import random
 import tempfile
 import unittest
+from unittest.mock import patch
 
 from experiments.full_c_gsm8k import initialization_trace as trace
 
 
 class TraceTests(unittest.TestCase):
+    def test_runtime_versions_do_not_require_or_import_transformers(self):
+        before = random.getstate()
+        with patch.dict(trace.sys.modules):
+            trace.sys.modules.pop('transformers', None)
+            result = trace.runtime_versions()
+            self.assertNotIn('transformers', trace.sys.modules)
+        self.assertEqual(result['transformers'], trace.version('transformers'))
+        self.assertTrue(result['transformers'])
+        self.assertEqual(random.getstate(), before)
+        self.assertFalse(trace.torch.cuda.is_initialized())
+
     def test_observer_keeps_global_generator_progress_and_records_actual_calls(self):
         before = random.getstate()
         self.addCleanup(lambda: random.setstate(before))
