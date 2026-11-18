@@ -1,0 +1,149 @@
+{
+  "status": "passed",
+  "checks": 50,
+  "errors": [],
+  "model_work_by_this_audit": 0,
+  "remote_operations_by_this_audit": 0,
+  "efficacy_outcome": null,
+  "execution_commit": "2897d483241e0c24b64deab31db09cc10669d9c7",
+  "actual_work": {
+    "adam": 0,
+    "response_forward": 0,
+    "response_backward": 0,
+    "training_initialization": 1,
+    "feedback_generation": 0,
+    "teacher_preparation": 0,
+    "correctness_generation": 0,
+    "canonical_generation": 0,
+    "qualification_generation": 0,
+    "warmup_generation": 0,
+    "scored_generation": 0
+  },
+  "failed_gate": "independent initial-state RNG equality",
+  "training_cases_completed": 0,
+  "memory": {
+    "gpu_allocated_peak_bytes": 6691168768,
+    "gpu_reserved_peak_bytes": 9208594432,
+    "host_ru_maxrss_bytes": 7135477760,
+    "sampled_process_tree_peak_rss_bytes": 5852209152
+  },
+  "time": {
+    "occupied_card_s": 25.50616478919983,
+    "launcher_calendar_s": 60.92483186721802,
+    "cpu_preflight_s": 30.246260337531567,
+    "constructor_s": 22.715172216296196,
+    "qualification_wrapper_s": 24.170737504959106,
+    "phase_s": 25.52767586708069,
+    "timers_nested_not_additive": true
+  },
+  "storage": {
+    "admission_allocated_bytes": 403709952,
+    "admission_projected_full_run_peak_bytes": 71010830983,
+    "post_stop_free_bytes": 517441556480,
+    "actual_initial_checkpoint_written": false,
+    "production_states_written": 0,
+    "prospective_peak_not_realized_usage": true
+  },
+  "cards_idle_at_manifest_epoch": 1794993561.1238105,
+  "observed_mismatch_paths": 8,
+  "failure_saving_limit": {
+    "current_candidate_rng_values_retained": false,
+    "complete_difference_list_retained": false,
+    "other_rng_equality_proved": false
+  },
+  "claims": {
+    "initialization_gate_passed": false,
+    "C_mechanism_tested": false,
+    "training_started": false,
+    "efficacy_outcome": null,
+    "BF16_failure_established": false,
+    "root_cause_established": false,
+    "import_order_hypothesis_only": true,
+    "no_blind_rng_reset": true,
+    "no_native_retry_by_audit": true
+  },
+  "evidence_manifest_identity": {
+    "bytes": 3354,
+    "sha256": "7a9fa5422e4b22e9decd1dcfde1a570babd2111bf921b5b955e9613d8cabc758"
+  },
+  "consumed_evidence_identities": {
+    "CLOCK.json": {
+      "bytes": 362,
+      "sha256": "7ae00296c0eab31bcf93d128e0b51bfc49a9ba1ed7f22af8e42de8cdcba44475"
+    },
+    "COMPILER_BASELINE.json": {
+      "bytes": 579,
+      "sha256": "b4f3e2f812fdfb74fb6ed1be12094a621c10e1c6a2c6164c46eba5714b744d8b"
+    },
+    "CPU_PREFLIGHT.json": {
+      "bytes": 6618,
+      "sha256": "758f1e9d1d291d0f8eed88baebf57a4d86525a097cc39e799d0f65b471cf049d"
+    },
+    "EXIT_CODE": {
+      "bytes": 2,
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+    },
+    "INITIALIZATION_DIAGNOSIS_CPU.json": {
+      "bytes": 1016,
+      "sha256": "0cbb9abfb1704dceb558d9c141a74fd756e706070e27d322abc9c224e4abd2b2"
+    },
+    "LAUNCH.json": {
+      "bytes": 1757,
+      "sha256": "25a5ff340a5053a78986c9a4175ee49fd3726276e1c6b7630e1a3c54a0424024"
+    },
+    "LAUNCHER_PROCESS.json": {
+      "bytes": 349,
+      "sha256": "7745811be14491a05be200d202ae08bc6db8e4307db050000d3c03130a6e24bf"
+    },
+    "RUN_SCRIPT.sh": {
+      "bytes": 749,
+      "sha256": "4e2b1cbd137e9b6b2e88cf48bc6eeae1b92c0a43ee01362dd3affd935c478f85"
+    },
+    "SOURCE.json": {
+      "bytes": 888800,
+      "sha256": "0c7c8b11470fa295f415198e6815c616c23f2f194a1dfe1dc811f83c9d4c48b1"
+    },
+    "STAGING_CHECK.json": {
+      "bytes": 176,
+      "sha256": "2c99060ea3259a4b9ebe352230a3f5a8e4a7dbaa4a8c4ec37583b0ab73116c9d"
+    },
+    "SUPERVISOR.log": {
+      "bytes": 834,
+      "sha256": "1610343358964ca683cb77ce4b33301f5a99b125199078c20e37d2ca8eed3c74"
+    },
+    "WORK.json": {
+      "bytes": 1084,
+      "sha256": "bafc369e92f95c94659a6c4a73232e1b3fe8af4780b39d8bffe5ae77db7358eb"
+    },
+    "logs/CPU_PREFLIGHT.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "logs/qualification_training.log": {
+      "bytes": 2792,
+      "sha256": "6a2f6e741167b540867ee98aa8caf4fcb5febc91066a5e49709b0c5045c8ca2f"
+    },
+    "phases/qualification_training/STATUS.json": {
+      "bytes": 5679,
+      "sha256": "c69fe02e09fddcd6f244902ec4d9fc25e4d60d4a868638434040e416af29e385"
+    },
+    "processes/qualification_training.json": {
+      "bytes": 452,
+      "sha256": "e0007e1f113ff4051dc01111bbe9c7cfd6f98b2fd600c1c99c03dc3eb0a2b94b"
+    },
+    "qualification/training_B/DETAILS.json": {
+      "bytes": 2620,
+      "sha256": "7c35c9428bdf39d036e70bb9edad8565d14cb3cc2198a60abb23030ad932cb17"
+    },
+    "qualification/training_B/RUNTIME_COMPATIBILITY.json": {
+      "bytes": 334,
+      "sha256": "1030c28b940b9da622df226327c3a03eb1611e94ecd5d888ff5c52b0da9e17a2"
+    },
+    "qualification/training_B/WORK.json": {
+      "bytes": 110,
+      "sha256": "56d99ea389a0e0e0de01cb7877a0ff57a040993294a1b53982c88140addc5507"
+    }
+  },
+  "note": "Historical original PR25 passed-initialization labels and current planned budgets are not evidence of completed new work. Current1constructor/0responseFB/0Adam/0generations comes from matched physical ledgers.",
+  "audit_wall_s": 0.007955117151141167
+}

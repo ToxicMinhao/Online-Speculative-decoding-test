@@ -5,6 +5,8 @@ checkpoint publication and the 58-event horizon. This adapter adds only the C
 contract, coefficient observations and exact own-state restoration.
 """
 from copy import deepcopy
+import hashlib
+import json
 import time
 
 from experiments.bounded_prefix_allocation.training import CandidateTrainer
@@ -23,6 +25,65 @@ from online_feedback.training import SpecForgeEventTrainer
 CONTRACT_KEY = 'full_c_gsm8k_v1'
 ARM = 'KPLUS_C'
 RELATIVE_CAP = .25
+
+
+def initial_comparison_evidence(original, current, path):
+    """Preserve compact diagnostics without changing the original equality gate.
+
+    RNG payloads are small and retained exactly as typed JSON. Model tensors are
+    never copied into the receipt. On failure only, independently enumerate every
+    differing path in the same metadata-normalized view used by the native gate.
+    """
+    from experiments.persistent_prefix_withholding.qualification import tree_identity
+    from experiments.ok_continuation.resume import differences
+
+    def encoded(value):
+        import numpy as np
+        import torch
+        if torch.is_tensor(value):
+            return dict(type='tensor',dtype=str(value.dtype),shape=list(value.shape),values=value.detach().cpu().tolist())
+        if isinstance(value,np.ndarray):
+            return dict(type='ndarray',dtype=str(value.dtype),shape=list(value.shape),values=value.tolist())
+        if isinstance(value,(list,tuple)):
+            return dict(type=type(value).__name__,values=[encoded(item) for item in value])
+        return value
+
+    def rng_record(state):
+        return {key:dict(identity=tree_identity(value),state=encoded(value))
+                for key,value in state['rng'].items()}
+
+    report=dict(status='checking',comparison='original exact native initial-state gate',
+        original_rng=rng_record(original),current_rng=rng_record(current),
+        rng_component_equal={key:not differences(original['rng'][key],current['rng'].get(key))
+                             for key in original['rng']},
+        original_global_step=original['global_step'],current_global_step=current['global_step'],
+        tolerance_changed=False,rng_restored_to_match=False,full_model_tensor_payload_saved=False)
+    # Bind the compact payload itself, including scalar/tuple RNG components.
+    for side in ('original_rng','current_rng'):
+        for item in report[side].values():
+            content=json.dumps(item['state'],sort_keys=True,separators=(',',':')).encode()
+            item['state_sha256']=hashlib.sha256(content).hexdigest()
+    write_json(path,report)
+    try:
+        result=native.compare_initial_states(original,current)
+    except BaseException as error:
+        views=[]
+        for state in (original,current):
+            optimizer=deepcopy(state['backend']['optimizer'])
+            optimizer['recipe']['optimizer_options']['lr']=3e-4
+            optimizer['optimizer_state_dict']['param_groups'][0]['lr']=3e-4
+            contract=deepcopy(state['algorithm_contract']);contract.pop(native.CONTRACT_KEY)
+            views.append(dict(weights=state['draft_state_dict'],optimizer=optimizer,rng=state['rng'],
+                contract=contract,global_step=state['global_step'],presentations=state['presentations'],events=state['events']))
+        by_component={key:differences(views[0][key],views[1][key],prefix='state.'+key) for key in views[0]}
+        report.update(status='failed',error=repr(error),component_mismatches=by_component,
+            mismatches=[name for paths in by_component.values() for name in paths])
+        report['mismatch_count']=len(report['mismatches'])
+        write_json(path,report)
+        raise
+    report.update(status='passed',comparison_result=result,mismatches=[],mismatch_count=0)
+    write_json(path,report)
+    return result
 
 
 def experiment_contract(binding):
@@ -185,7 +246,8 @@ class FullCTrainer(kplus.KPlusTrainer):
                 expected_cuda_rng_states=self.expected_cuda_rng_states)
             projected = dict(state, algorithm_contract=kplus.native_contract_view(
                 kplus_contract_view(state['algorithm_contract'], self.binding), self.binding))
-            receipt['original_K_initialization'] = native.compare_initial_states(original, projected)
+            receipt['original_K_initialization'] = initial_comparison_evidence(
+                original, projected, self.output_root/'INITIAL_COMPARISON.json')
             save_torch(destination, state)
             native.verify_live(self, torch.load(destination, map_location='cpu', weights_only=False, mmap=True))
             receipt.update(export_exact=True, state_path=str(destination), comparator_path=str(comparator_path),

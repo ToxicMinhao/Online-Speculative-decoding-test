@@ -1,5 +1,7 @@
 # Full C58 readiness
 
+**Updated status:** executed `2897d483241e0c24b64deab31db09cc10669d9c7` stopped at the exact initial RNG check before any training or serving. See [qualification report](QUALIFICATION_REPORT.md). The original prospective plan below remains preserved.
+
 ## Material Passport
 
 Mode: ARS experiment execution and evidence validation. Scope: the user-approved November 18 full-C and classified cleanup handoff. Stage remains research; native K+ is the primary method and C’s incremental utility is unresolved. This file reports readiness, not GPU performance.
