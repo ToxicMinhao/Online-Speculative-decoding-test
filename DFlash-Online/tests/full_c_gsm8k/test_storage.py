@@ -44,6 +44,18 @@ class StorageTests(unittest.TestCase):
         self.assertEqual(receipt['compact_allowance_excess_bytes'],1_000_000_000)
         self.assertEqual(receipt['remaining_components']['compact'],0)
 
+    def test_retry_source_manifests_remain_available_to_symlink_authentication(self):
+        plan=S.capacity_plan(1000,external_roots=['/old','/new'])
+        prior=[dict(source_root='/old/DFlash-Online',source_manifest='/old/SOURCE.json',
+                    execution_commit='a'*40,manifest_identity={'bytes':1,'sha256':'b'*64})]
+        plan.update(source_root='/new/DFlash-Online',source_manifest='/new/SOURCE.json',
+                    execution_commit='c'*40,prior_source_manifests=prior)
+        current=dict(tensor_bytes=0,compact_bytes=0,external_bytes=0,total_bytes=0)
+        with patch.object(S,'allocation_snapshot',return_value=current) as snapshot,\
+             patch.object(S.shutil,'disk_usage',return_value=SimpleNamespace(free=500_000_000_000)):
+            S.admit(self.root,plan)
+        self.assertEqual(snapshot.call_args.kwargs['source_policy']['prior_source_manifests'],prior)
+
     def test_overall_or_shared_reserve_failure_is_durable(self):
         plan=S.capacity_plan(1000)
         for free,current in ((399_000_000_000,None),(10**15,dict(tensor_bytes=0,compact_bytes=101_000_000_000,external_bytes=0,total_bytes=101_000_000_000))):

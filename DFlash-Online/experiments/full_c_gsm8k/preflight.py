@@ -14,7 +14,7 @@ from .contract import validate_plan
 from .storage import admit
 
 
-def verify(plan):
+def verify(plan, *, output=None):
     import torch
     import transformers
     from experiments.kplus_full_gsm8k.training import validate_config_text
@@ -79,11 +79,13 @@ def verify(plan):
         raise
     finally:
         result['wall_s'] = time.perf_counter()-began
-        write_json(Path(plan['root'])/'CPU_PREFLIGHT.json', result)
+        write_json(Path(plan['root'])/'CPU_PREFLIGHT.json' if output is None else Path(output), result)
     return result
 
 
 if __name__ == '__main__':
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--plan',required=True)
-    verify(json.loads(Path(parser.parse_args().plan).read_text()))
+    parser.add_argument('--output')
+    args=parser.parse_args()
+    verify(json.loads(Path(args.plan).read_text()),output=args.output)

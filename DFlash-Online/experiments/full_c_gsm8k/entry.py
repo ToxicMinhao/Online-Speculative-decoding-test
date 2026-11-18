@@ -48,7 +48,7 @@ def run(plan, phase, *, resume=False):
                 report['result'] = run_training_qualification(plan,'B',ledger=ledger)
             elif phase == 'train':
                 from .campaign import run_arm
-                report['result'] = run_arm(root,resume=resume)
+                report['result'] = run_arm(root,resume=resume,plan=plan)
             else:
                 from .evaluation import evaluate_qualification, evaluate_final
                 from experiments.kplus_full_gsm8k.preflight import timing_barrier

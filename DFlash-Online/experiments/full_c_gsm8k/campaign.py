@@ -137,12 +137,12 @@ def counted_backend(backend, ledger, progress, root):
     backend.generate, backend.prepare_feedback = generate_once, prepare_once
 
 
-def run_arm(root,*,resume=False):
+def run_arm(root,*,resume=False,plan=None):
     from online_feedback.controller import OnlineController
     from online_feedback.sglang_backend import SGLangDFlashBackend
     from .training import FullCTrainer
     root = Path(root)
-    plan = read(root / 'sealed/PLAN.json')
+    plan = read(root / 'sealed/PLAN.json') if plan is None else plan
     validate_plan(plan)
     base = root / 'campaign_001/arms' / ARM
     base.mkdir(parents=True, exist_ok=resume)

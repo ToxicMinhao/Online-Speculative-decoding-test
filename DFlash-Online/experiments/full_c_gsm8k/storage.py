@@ -107,6 +107,8 @@ def admit(root, plan, *, receipt_path=None, arm=ARM):
     root = _inside(root,root,directory=True)
     source_keys = ('source_root','source_manifest','execution_commit')
     source_policy = {key:plan[key] for key in source_keys} if all(key in plan for key in source_keys) else None
+    if source_policy is not None:
+        source_policy['prior_source_manifests'] = plan.get('prior_source_manifests', [])
     current = allocation_snapshot(root,plan['external_roots'],source_policy=source_policy)
     compiler = native.compiler_growth(root)
     cache = compiler['compiler_growth_bytes']
