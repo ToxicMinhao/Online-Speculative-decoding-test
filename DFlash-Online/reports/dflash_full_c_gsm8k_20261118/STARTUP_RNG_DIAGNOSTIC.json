@@ -1,0 +1,47 @@
+{
+  "status": "cause_identified",
+  "execution_commit": "d2cfcba7a3c0e079ae8e27b36bc7766b6ea2206f",
+  "original_failed_execution_commit": "2897d483241e0c24b64deab31db09cc10669d9c7",
+  "mechanism_or_loss_used": false,
+  "cause": "rich.style import draws getrandbits(24) for terminal hyperlink identifiers after qualified seed17",
+  "rich_style_sha256": "ca9e13b0d28d3d4c41cada0559fcbb9331361a1ffd4d803b7ecd942d77db9b4d",
+  "rng_components_exact": {
+    "python": false,
+    "numpy": true,
+    "torch": true,
+    "cuda": true
+  },
+  "mismatch_counts": {
+    "weights": 0,
+    "optimizer": 0,
+    "rng": 625,
+    "contract": 0,
+    "global_step": 0,
+    "presentations": 0,
+    "events": 0
+  },
+  "one_draw_reconstruction": {
+    "original_exact_fresh_seed17": true,
+    "native_current_exact_one_getrandbits24_after_seed17": true,
+    "old_MT_index": 624,
+    "new_MT_index": 1,
+    "all_non_python_components_exact": true,
+    "mismatch_count": 625,
+    "no_model_operations": true
+  },
+  "trace_events": 7,
+  "dropped_trace_events": 0,
+  "native_initializations_added": 1,
+  "forwards_backward_adam_generations_added": 0,
+  "diagnostic_wall_s": 52.90239667892456,
+  "occupied_card_s": 52.893877029418945,
+  "peak_allocated_bytes": 6691168768,
+  "peak_reserved_bytes": 9208594432,
+  "original_failure_evidence_preserved": true,
+  "original_gate_failed_not_waived": true,
+  "repair": "Preload only rich.style before the existing seed call; preserve exact comparison and existing recovery RNG.",
+  "independent_cause_audit": "34 checks passed",
+  "repair_commit": "2601743d8f5197aa120c1b3e05d5bd02d501edbc",
+  "repair_cpu_tests": 9,
+  "native_requalification": "pending"
+}
