@@ -131,5 +131,25 @@ class RunnerTests(unittest.TestCase):
         write_json(self.root/'PRODUCTION_STARTED.json',{})
         with self.assertRaisesRegex(ValueError,'qualification'):R.require_production(self.plan,'gsm8k','warmup_references')
 
+    def test_resume_reuses_old_warmup_identity_and_requires_adopted_gate(self):
+        sub=self.plan['datasets']['gsm8k']
+        write_json(sub['warmup_references'],{'retained':'reference'})
+        old=R.reference_seal(self.plan,'gsm8k',warmups_only=True)
+        write_json(Path(sub['references']).parent/'WARMUP_SEAL.json',old)
+        self.plan.update(original_execution_commit='c'*40,execution_commit='d'*40,
+            adopted_qualification_path=str(self.root/'resume_001/QUALIFICATION.json'))
+        self.assertEqual(R.verify_reference_seal(self.plan,'gsm8k',warmups_only=True),old)
+        gate=dict(status='passed',binding='binding',execution_commit='d'*40)
+        write_json(self.root/'RESOURCE_ADMISSION.json',gate)
+        write_json(self.root/'QUALIFICATION.json',dict(gate,execution_commit='c'*40))
+        with self.assertRaises(FileNotFoundError):R.require_production(self.plan,'gsm8k','N_first')
+        write_json(self.plan['adopted_qualification_path'],gate)
+        R.require_production(self.plan,'gsm8k','N_first')
+        write_json(sub['references'],{})
+        self.assertEqual(R.reference_seal(self.plan,'gsm8k')['execution_commit'],'d'*40)
+        Path(sub['warmup_references']).write_bytes(b'changed')
+        with self.assertRaisesRegex(ValueError,'changed'):
+            R.verify_reference_seal(self.plan,'gsm8k',warmups_only=True)
+
 
 if __name__=='__main__':unittest.main()

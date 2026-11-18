@@ -11,7 +11,7 @@ from online_feedback.storage import write_json
 from experiments.bounded_prefix_allocation.launch import stop_owned
 from experiments.persistent_prefix_withholding.launch import child_environment, check_compilers
 from .runtime import (initialize_work, read, clock_status, boundary, require_time_for,
-                      TIME_CAP_S, CARD_CAP_S)
+                      TIME_CAP_S, CARD_CAP_S, enforce_clock)
 from .resources import production_groups, price_groups
 
 MODULE='experiments.c_paired_confirmation'
@@ -40,8 +40,7 @@ def run_children(plan_path,plan,jobs):
                 physical_gpu_uuid=plan['devices'][slot],execution_commit=plan['execution_commit'],started_epoch=time.time()))
         while True:
             clock=clock_status(root)
-            if clock['elapsed_s']>=TIME_CAP_S or clock['occupied_s']>=CARD_CAP_S:
-                raise TimeoutError('Original four-hour elapsed/five-card-hour cap reached')
+            enforce_clock(plan, clock)
             failed=[name for name,p in processes.items() if p.poll() not in (None,0)]
             if failed:raise RuntimeError('Worker failed; completed evidence preserved: '+','.join(failed))
             if all(p.poll()==0 for p in processes.values()):break
@@ -119,6 +118,47 @@ def admission(plan,groups):
         storage=boundary(plan,compiler=True))
 
 
+
+def execute_production(plan_path, plan, receipt, status_path, resources):
+    """Run the already-admitted fixed production schedule exactly once."""
+    root=Path(plan["root"])
+    marker=root/"PRODUCTION_STARTED.json"
+    if marker.exists():
+        raise FileExistsError("Production was already started; no automatic retry")
+    write_json(marker,dict(execution_commit=plan["execution_commit"],binding=plan["binding"],
+        started_epoch=time.time(),supervisor_receipt=str(status_path)))
+    from .retention import retire_endpoint_export,reconstruct_final_export
+    actual_groups=resources['groups']
+    cpu_reconstruction_pending=not plan['storage']['retain_final_exports']
+    for index,group in enumerate(actual_groups):
+        remaining=price_groups(actual_groups[index:],plan['estimated_seconds'])
+        if cpu_reconstruction_pending:
+            remaining['elapsed_seconds']+=plan['cpu_export_reconstruction_allowance_s']
+        require_time_for(plan,remaining['elapsed_seconds'],remaining['occupied_card_seconds'])
+        boundary(plan,compiler=True)
+        if group[0][1]=='final' and group[0][0]=='gsm8k' and not plan['storage']['retain_final_exports']:
+            for task in ('N_second','C_second'):reconstruct_final_export(plan,'gsm8k',task)
+            cpu_reconstruction_pending=False
+            boundary(plan,compiler=True)
+        receipt['active_tasks']=[d+'_'+t for d,t,_ in group];write_json(status_path,receipt)
+        run_children(plan_path,plan,[task_job(d,t,s,plan) for d,t,s in group])
+        for dataset,task,_ in group:
+            status=read(root/'tasks'/f'{dataset}_{task}'/'STATUS.json')
+            if status['status']!='completed':raise ValueError('Missing completed task receipt')
+            receipt['completed'].append(dataset+'_'+task)
+            if task in ('N_second','C_second'):
+                retire_endpoint_export(plan,dataset,task[0]+'_first')
+            if task=='C_second' and dataset=='gsm8k' and not plan['storage']['retain_final_exports']:
+                for arm in ('N','C'):retire_endpoint_export(plan,dataset,arm+'_second')
+        write_json(status_path,receipt)
+    work=read(root/'WORK.json')
+    if work['pending'] or work['attempted']!=work['completed']:
+        raise ValueError('Unknown or uncompleted work remains')
+    for key,count in plan['expected_work'].items():
+        if work['completed'][key]!=count:raise ValueError('Completed work differs: '+key)
+    receipt.update(status='completed',work=work,postflight=boundary(plan,compiler=True))
+    return receipt
+
 def run(plan_path):
     plan_path=Path(plan_path);plan=read(plan_path);root=Path(plan['root'])
     if (root/'LAUNCH.json').exists():raise FileExistsError('Preserve the original launch; no implicit retry')
@@ -154,36 +194,7 @@ def run(plan_path):
         groups=production_groups();resources=admission(plan,groups)
         write_json(root/'RESOURCE_ADMISSION.json',resources);write_json(plan_path,plan)
         receipt['status']='production';receipt['resources']=resources;write_json(root/'LAUNCH.json',receipt)
-        from .retention import retire_endpoint_export,reconstruct_final_export
-        actual_groups=resources['groups']
-        cpu_reconstruction_pending=not plan['storage']['retain_final_exports']
-        for index,group in enumerate(actual_groups):
-            remaining=price_groups(actual_groups[index:],plan['estimated_seconds'])
-            if cpu_reconstruction_pending:
-                remaining['elapsed_seconds']+=plan['cpu_export_reconstruction_allowance_s']
-            require_time_for(plan,remaining['elapsed_seconds'],remaining['occupied_card_seconds'])
-            boundary(plan,compiler=True)
-            if group[0][1]=='final' and group[0][0]=='gsm8k' and not plan['storage']['retain_final_exports']:
-                for task in ('N_second','C_second'):reconstruct_final_export(plan,'gsm8k',task)
-                cpu_reconstruction_pending=False
-                boundary(plan,compiler=True)
-            receipt['active_tasks']=[d+'_'+t for d,t,_ in group];write_json(root/'LAUNCH.json',receipt)
-            run_children(plan_path,plan,[task_job(d,t,s,plan) for d,t,s in group])
-            for dataset,task,_ in group:
-                status=read(root/'tasks'/f'{dataset}_{task}'/'STATUS.json')
-                if status['status']!='completed':raise ValueError('Missing completed task receipt')
-                receipt['completed'].append(dataset+'_'+task)
-                if task in ('N_second','C_second'):
-                    retire_endpoint_export(plan,dataset,task[0]+'_first')
-                if task=='C_second' and dataset=='gsm8k' and not plan['storage']['retain_final_exports']:
-                    for arm in ('N','C'):retire_endpoint_export(plan,dataset,arm+'_second')
-            write_json(root/'LAUNCH.json',receipt)
-        work=read(root/'WORK.json')
-        if work['pending'] or work['attempted']!=work['completed']:
-            raise ValueError('Unknown or uncompleted work remains')
-        for key,count in plan['expected_work'].items():
-            if work['completed'][key]!=count:raise ValueError('Completed work differs: '+key)
-        receipt.update(status='completed',work=work,postflight=boundary(plan,compiler=True))
+        execute_production(plan_path,plan,receipt,root/'LAUNCH.json',resources)
     except BaseException as error:
         receipt.update(status='stopped',error=repr(error),traceback=traceback.format_exc());raise
     finally:

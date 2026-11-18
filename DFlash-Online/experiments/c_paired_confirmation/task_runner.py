@@ -43,7 +43,8 @@ def require_production(plan, dataset, task):
             raise ValueError('Warmup references belong only to the initial qualification phase')
         return
     for name in ('QUALIFICATION.json', 'RESOURCE_ADMISSION.json'):
-        receipt = read(root/name)
+        path = plan.get('adopted_qualification_path', root/name) if name == 'QUALIFICATION.json' else root/name
+        receipt = read(path)
         if (receipt['status'] != 'passed' or receipt['binding'] != plan['binding']
                 or receipt['execution_commit'] != plan['execution_commit']):
             raise ValueError('Production requires the current complete gate: '+name)
@@ -327,8 +328,12 @@ def collect_task(plan, dataset, task, base, ledger, uuid):
 def reference_seal(plan, dataset, *, warmups_only=False):
     sub = dataset_plan(plan,dataset)
     keys = ('warmup_references',) if warmups_only else ('references','warmup_references')
+    # The two warmup references were completed before the elapsed-only resume.
+    # Preserve their original producer identity; new canonical work uses the
+    # actual resumed execution commit.
+    commit = plan.get('original_execution_commit', plan['execution_commit']) if warmups_only else plan['execution_commit']
     return dict(status='passed',dataset=dataset,binding=plan['binding'],
-        execution_commit=plan['execution_commit'],checkpoint=sub['origin_export'],
+        execution_commit=commit,checkpoint=sub['origin_export'],
         checkpoint_identity=sub['origin_weights_identity'],reference_count=2 if warmups_only else 258,
         files={sub[key]:identity(sub[key]) for key in keys})
 

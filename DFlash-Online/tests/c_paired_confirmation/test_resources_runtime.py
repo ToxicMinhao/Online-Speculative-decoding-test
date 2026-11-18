@@ -107,5 +107,26 @@ class LedgerTests(unittest.TestCase):
             with self.assertRaisesRegex(RuntimeError,'clock'):R.require_time_for(plan,11000,1200)
         self.assertEqual((R.TIME_CAP_S,R.CARD_CAP_S),(14400,18000))
 
+    def test_completion_authorization_lifts_only_elapsed_and_keeps_clock(self):
+        plan=dict(root=str(self.root),forecast={'factor':1.3,'fixed_margin_s':600},
+            elapsed_time_authorization=dict(policy='through_declared_campaign_completion',
+                scope='elapsed_only',original_elapsed_cap_s=14400,
+                user_statement='We will allow more time until experiment finished, how far are we from experiment done?'))
+        before=(self.root/'CLOCK.json').read_bytes()
+        with patch.object(R,'clock_status',return_value={'elapsed_s':90000,'occupied_s':1434}):
+            self.assertEqual(R.enforce_clock(plan)['elapsed_s'],90000)
+            result=R.require_time_for(plan,9703,11006)
+            self.assertIsNone(result['elapsed_cap_s'])
+            self.assertEqual(result['card_cap_s'],18000)
+            self.assertEqual(result['clock']['elapsed_s'],90000)
+            with self.assertRaisesRegex(RuntimeError,'clock'):
+                R.require_time_for(plan,9703,14000)
+        with patch.object(R,'clock_status',return_value={'elapsed_s':90000,'occupied_s':18000}):
+            with self.assertRaises(TimeoutError):R.enforce_clock(plan)
+        self.assertEqual((self.root/'CLOCK.json').read_bytes(),before)
+        for bad in ({},dict(plan['elapsed_time_authorization'],scope='all_resources')):
+            with self.assertRaisesRegex(ValueError,'authorization'):
+                R.elapsed_limit(dict(plan,elapsed_time_authorization=bad))
+
 
 if __name__=='__main__':unittest.main()

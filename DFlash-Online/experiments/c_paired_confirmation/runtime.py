@@ -19,6 +19,31 @@ ALLOCATION_BYTES = 125_000_000_000
 RESERVE_BYTES = 400_000_000_000
 
 
+def elapsed_limit(plan):
+    """Only the explicit completion authorization lifts the elapsed limit.
+
+    The original clock still runs, including the stopped interval. Work,
+    occupied-card time and storage keep their original limits.
+    """
+    authorization = plan.get('elapsed_time_authorization')
+    if authorization is None:
+        return TIME_CAP_S
+    expected = dict(policy='through_declared_campaign_completion',
+        scope='elapsed_only', original_elapsed_cap_s=TIME_CAP_S,
+        user_statement='We will allow more time until experiment finished, how far are we from experiment done?')
+    if authorization != expected:
+        raise ValueError('Unrecognized elapsed-only completion authorization')
+    return None
+
+
+def enforce_clock(plan, clock=None):
+    clock = clock_status(plan['root']) if clock is None else clock
+    limit = elapsed_limit(plan)
+    if clock['occupied_s'] >= CARD_CAP_S or (limit is not None and clock['elapsed_s'] >= limit):
+        raise TimeoutError('Authorized elapsed/card cap reached')
+    return clock
+
+
 class WorkLedger:
     """Charge before execution; failed calls stay visible as pending work."""
     def __init__(self, root, task):
@@ -67,9 +92,7 @@ def initialize_work(root):
 
 
 def boundary(plan, *, upcoming_bytes=0, compiler=False):
-    clock = clock_status(plan['root'])
-    if clock['occupied_s'] >= CARD_CAP_S or clock['elapsed_s'] >= TIME_CAP_S:
-        raise TimeoutError('Original elapsed/card cap reached')
+    clock = enforce_clock(plan)
     allocated = allocated_bytes(plan['allocation_roots'])
     cache = compiler_cache_growth(plan) if compiler else None
     growth = cache['growth_bytes'] if cache else 0
@@ -88,13 +111,15 @@ def require_time_for(plan, elapsed_remaining_s, card_remaining_s=None):
     clock = clock_status(plan['root'])
     card_remaining_s = elapsed_remaining_s if card_remaining_s is None else card_remaining_s
     policy = plan['forecast']
+    limit = elapsed_limit(plan)
     elapsed = policy['factor'] * elapsed_remaining_s + policy['fixed_margin_s']
     cards = policy['factor'] * card_remaining_s + policy['fixed_margin_s']
     result = dict(clock=clock, raw_remaining_elapsed_s=elapsed_remaining_s,
         raw_remaining_card_s=card_remaining_s, conservative_elapsed_s=elapsed,
-        conservative_card_s=cards, elapsed_cap_s=TIME_CAP_S, card_cap_s=CARD_CAP_S,
+        conservative_card_s=cards, elapsed_cap_s=limit, original_elapsed_cap_s=TIME_CAP_S,
+        elapsed_time_authorization=plan.get('elapsed_time_authorization'), card_cap_s=CARD_CAP_S,
         forecast_policy=policy, forecast_is_guaranteed_upper_bound=False)
-    if clock['elapsed_s']+elapsed > TIME_CAP_S or clock['occupied_s']+cards > CARD_CAP_S:
+    if (limit is not None and clock['elapsed_s']+elapsed > limit) or clock['occupied_s']+cards > CARD_CAP_S:
         raise RuntimeError('Remaining fixed campaign does not fit original clocks: ' + repr(result))
     return result
 
