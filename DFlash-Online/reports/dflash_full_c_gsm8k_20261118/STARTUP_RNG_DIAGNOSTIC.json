@@ -43,5 +43,79 @@
   "independent_cause_audit": "34 checks passed",
   "repair_commit": "2601743d8f5197aa120c1b3e05d5bd02d501edbc",
   "repair_cpu_tests": 9,
-  "native_requalification": "pending"
+  "native_requalification": "passed",
+  "requalification_execution_commit": "a32f259d87697f09653c2e2eab786bb17603de1b",
+  "all_full_c_cpu_tests": 54,
+  "cpu_suite_wall_s": 88.978,
+  "source_authentication_checked_files": 4812,
+  "source_manifest_sha256": "f66515b3ae7536c012de5a7248889230f4c0d15a8725368c5e999e70b6ea7bd6",
+  "shared_free_bytes_at_launch": 517418078208,
+  "projected_peak_bytes": 71010830983,
+  "repaired_native_initial_gate": "passed",
+  "repaired_native_rng_components": {
+    "python": true,
+    "numpy": true,
+    "torch": true,
+    "cuda": true
+  },
+  "repaired_native_mismatch_count": 0,
+  "independent_repaired_initial_audit_checks": 27,
+  "qualification_counts": {
+    "adam": 6,
+    "response_forward": 14,
+    "response_backward": 14,
+    "serving_checks": 24,
+    "total_initializations_including_failures": 3
+  },
+  "production_started": false,
+  "qualification_execution_commit": "a32f259d87697f09653c2e2eab786bb17603de1b",
+  "qualification_checks": {
+    "exact_native_wrapper": true,
+    "exact_native_cap0": true,
+    "actual_intervention": true,
+    "exact_own_resume": true,
+    "origin_restored": true,
+    "cpu_reconstruction_verified": true
+  },
+  "serving_summary": {
+    "status": "passed",
+    "planned_generations": 24,
+    "attempted_generations": 24,
+    "returned_generations": 24,
+    "invalid_generations": 0,
+    "publications": 12,
+    "activation_s": 13.85419567860663,
+    "warmup_generations": 0,
+    "automatic_retry": false,
+    "completed_valid_generations": 24,
+    "unknown_generation_attempts": 0,
+    "interrupted_attempt": null,
+    "unattempted_generations": 0,
+    "qualification_wall_s": 53.02139583788812
+  },
+  "qualification_training_wall_s": 217.00630259513855,
+  "qualification_peak_gpu_allocated_bytes": 15121738240,
+  "qualification_peak_gpu_reserved_bytes": 17060331520,
+  "cumulative_work": {
+    "adam": 6,
+    "response_forward": 14,
+    "response_backward": 14,
+    "training_initialization": 3,
+    "feedback_generation": 0,
+    "teacher_preparation": 0,
+    "correctness_generation": 0,
+    "canonical_generation": 0,
+    "qualification_generation": 24,
+    "warmup_generation": 0,
+    "scored_generation": 0
+  },
+  "elapsed_limit_extension": {
+    "original_hours": 24,
+    "authorized_hours": 30,
+    "original_clock_retained": true,
+    "occupied_card_hours_limit_unchanged": 40
+  },
+  "independent_requalification_audit_checks": 3688,
+  "production_continuation_code": "ec56400",
+  "production_continuation_cpu_tests": 16
 }
