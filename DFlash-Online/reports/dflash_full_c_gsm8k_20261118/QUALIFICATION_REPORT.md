@@ -1,5 +1,7 @@
 # Full C58 qualification stop
 
+**Subsequent diagnosis:** this document preserves the first failed attempt. The later native constructor trace identifies a Rich terminal-style initialization draw as the complete Python-only mismatch; all other scientific state matches. The narrow pre-seed import repair retains the exact gate. See [startup RNG report](STARTUP_RNG_REPORT.md) for current evidence and qualification status. Historical unresolved-cause statements below describe what was known at the first stop.
+
 ## Material Passport
 
 ARS experiment execution / evidence review; research stage unchanged. Executed source: `2897d483241e0c24b64deab31db09cc10669d9c7`, PR54. This report covers the first native attempt and CPU diagnosis, not a completed experiment. The preserved original failure remains a failure.
