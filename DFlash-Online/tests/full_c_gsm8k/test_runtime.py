@@ -53,5 +53,22 @@ class RuntimeTests(unittest.TestCase):
         with patch.object(runtime,'clock_status',return_value=dict(elapsed_s=1,occupied_s=144000)):
             with self.assertRaises(TimeoutError):runtime.enforce_clock(plan)
 
+    def test_named_elapsed_amendment_preserves_original_clock_and_card_limit(self):
+        plan={'root':str(self.root),'elapsed_budget_amendment':dict(runtime.ELAPSED_AMENDMENT)}
+        measured=dict(elapsed_s=18710.93,occupied_s=321)
+        with patch.object(runtime,'clock_status',return_value=measured):
+            result=runtime.require_time_for(plan,59800,90000)
+        self.assertEqual(result['elapsed_cap_s'],108000)
+        self.assertEqual(result['card_cap_s'],144000)
+        self.assertEqual(result['clock'],measured)
+        self.assertEqual(result['conservative_elapsed_s'],79540)
+        with patch.object(runtime,'clock_status',return_value=dict(elapsed_s=90000,occupied_s=1)):
+            runtime.enforce_clock(plan)
+            with self.assertRaises(TimeoutError):runtime.enforce_clock({'root':str(self.root)})
+        with patch.object(runtime,'clock_status',return_value=dict(elapsed_s=90000,occupied_s=144000)):
+            with self.assertRaises(TimeoutError):runtime.enforce_clock(plan)
+        plan['elapsed_budget_amendment']['elapsed_cap_s']=111600
+        with self.assertRaisesRegex(ValueError,'24-to-30'):runtime.elapsed_cap(plan)
+
 
 if __name__=='__main__':unittest.main()
