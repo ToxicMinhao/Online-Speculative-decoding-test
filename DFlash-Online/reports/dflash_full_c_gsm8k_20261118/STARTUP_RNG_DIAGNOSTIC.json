@@ -67,7 +67,7 @@
     "serving_checks": 24,
     "total_initializations_including_failures": 3
   },
-  "production_started": false,
+  "production_started": true,
   "qualification_execution_commit": "a32f259d87697f09653c2e2eab786bb17603de1b",
   "qualification_checks": {
     "exact_native_wrapper": true,
@@ -117,5 +117,26 @@
   },
   "independent_requalification_audit_checks": 3688,
   "production_continuation_code": "ec56400",
-  "production_continuation_cpu_tests": 16
+  "production_continuation_cpu_tests": 16,
+  "production_execution_commit": "b4459820b3822c3d760bb3fd880e4d139fa2bbc2",
+  "production_status": "startup",
+  "production_launch": {
+    "status": "production",
+    "execution_commit": "b4459820b3822c3d760bb3fd880e4d139fa2bbc2",
+    "qualified_execution_commit": "a32f259d87697f09653c2e2eab786bb17603de1b",
+    "started_epoch": 1795012506.7302914,
+    "plan": "/data/sources/minhao/runs/dflash_full_c_gsm8k_20261118/execution_001/admin/PRODUCTION_PLAN.json",
+    "qualified_reused": true,
+    "remaining_raw_s": 59800,
+    "remaining_conservative_s": 79540,
+    "elapsed_limit_s": 108000,
+    "occupied_card_limit_s": 144000,
+    "original_clock_preserved": true,
+    "free_bytes": 517398409216,
+    "projected_peak_bytes": 71010830983,
+    "phase": "train_startup",
+    "supervisor_pid": 3064689,
+    "latest_check_epoch": 1795012597.0736227,
+    "production_preflight_s": 30.425541995093226
+  }
 }
