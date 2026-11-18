@@ -1,0 +1,84 @@
+{
+  "status": "QUALIFIED_PRODUCTION_NOT_STARTED",
+  "execution_commit": "31b36fd27976fb46bb6754d8b8b7e769c3d6e5f6",
+  "pr": 53,
+  "source_binding": "e82595ea980cd5533d7ad7003c04ec15981a88ccc054835bf725749674c3e4ee",
+  "qualification_status": "passed",
+  "production_adam": 0,
+  "scored_generations": 0,
+  "completed": {
+    "adam": 12,
+    "response_forward": 28,
+    "response_backward": 28,
+    "training_initialization": 2,
+    "feedback_generation": 0,
+    "teacher_preparation": 0,
+    "canonical_generation": 4,
+    "qualification_generation": 16,
+    "warmup_generation": 0,
+    "scored_generation": 0
+  },
+  "pending": {},
+  "planned_total": {
+    "adam": 1036,
+    "response_forward": 2092,
+    "response_backward": 2092,
+    "training_initialization": 10,
+    "feedback_generation": 512,
+    "teacher_preparation": 512,
+    "canonical_generation": 516,
+    "qualification_generation": 16,
+    "warmup_generation": 96,
+    "scored_generation": 3072
+  },
+  "unattempted": {
+    "adam": 1024,
+    "response_forward": 2064,
+    "response_backward": 2064,
+    "training_initialization": 8,
+    "feedback_generation": 512,
+    "teacher_preparation": 512,
+    "canonical_generation": 512,
+    "qualification_generation": 0,
+    "warmup_generation": 96,
+    "scored_generation": 3072
+  },
+  "failed_model_operations": 0,
+  "clock_at_stop": {
+    "occupied_s": 1433.8466596603394,
+    "elapsed_s": 1393.916588306427,
+    "active": {}
+  },
+  "supervisor_wall_s": 1509.7192640304565,
+  "cpu_preflight_s": 114.07455867901444,
+  "time_admission": {
+    "clock": {
+      "occupied_s": 1433.8466596603394,
+      "elapsed_s": 1393.9155132770538,
+      "active": {}
+    },
+    "raw_remaining_elapsed_s": 9702.483436195034,
+    "raw_remaining_card_s": 11006.696873951605,
+    "conservative_elapsed_s": 13213.228467053545,
+    "conservative_card_s": 14908.705936137087,
+    "elapsed_cap_s": 14400,
+    "card_cap_s": 18000,
+    "forecast_policy": {
+      "factor": 1.3,
+      "fixed_margin_s": 600,
+      "kind": "planning_estimate_not_upper_bound"
+    },
+    "forecast_is_guaranteed_upper_bound": false,
+    "status": "BLOCKED_BY_DECLARED_ELAPSED_FORECAST",
+    "execution_commit": "31b36fd27976fb46bb6754d8b8b7e769c3d6e5f6",
+    "elapsed_total_forecast_s": 14607.143980330598,
+    "elapsed_shortfall_s": 207.14398033059842,
+    "card_total_forecast_s": 16342.552595797426,
+    "scientific_failure": false,
+    "actual_time_cap_reached": false,
+    "automatic_followup_authorized": false
+  },
+  "efficacy_evidence": null,
+  "primary_baseline": "native K+",
+  "stage_advanced": false
+}

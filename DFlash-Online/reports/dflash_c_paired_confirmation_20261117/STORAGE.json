@@ -1,0 +1,178 @@
+{
+  "schema": "c_paired_confirmation_terminal_storage_v1",
+  "execution_commit": "31b36fd27976fb46bb6754d8b8b7e769c3d6e5f6",
+  "binding": "e82595ea980cd5533d7ad7003c04ec15981a88ccc054835bf725749674c3e4ee",
+  "status": "qualification_complete_production_not_started",
+  "planned_peak_new_bytes": 124745480513,
+  "planned_new_allocation_cap_bytes": 125000000000,
+  "shared_free_reserve_bytes": 400000000000,
+  "preflight_shared_free_bytes": 528944218112,
+  "retirements": [
+    {
+      "dataset": "gsm8k",
+      "status": "completed",
+      "receipt_identity": {
+        "bytes": 2923,
+        "sha256": "23e704a77ab087b24c3f279a2e389b0d843e24cb0c3bb3c0faee252ae42ab6b5"
+      },
+      "files": [
+        {
+          "path_relative_to_execution_root": "qualification/gsm8k_training_A/active_state.pt",
+          "identity": {
+            "bytes": 6298242043,
+            "sha256": "308770b1704b101544817946b15c7669e581f47ea29d0a9de3ee5b76bfef90d6"
+          },
+          "allocated_bytes_at_unlink": 6298243072,
+          "removed": true
+        },
+        {
+          "path_relative_to_execution_root": "qualification/gsm8k_training_A/active_export/config.json",
+          "identity": {
+            "bytes": 1211,
+            "sha256": "5749d96966f9ce7e6a9662c9f482b8aa0d461845fb6b9ce09ac2c08311fab2aa"
+          },
+          "allocated_bytes_at_unlink": 4096,
+          "removed": true
+        },
+        {
+          "path_relative_to_execution_root": "qualification/gsm8k_training_A/active_export/model.safetensors",
+          "identity": {
+            "bytes": 2097259104,
+            "sha256": "0af3ffd7407bd278692e8d0a2da028fba1481cf52c01d1104f5710a8f04d375e"
+          },
+          "allocated_bytes_at_unlink": 2097262592,
+          "removed": true
+        },
+        {
+          "path_relative_to_execution_root": "qualification/gsm8k_training_A/cpu_reconstructed_export/config.json",
+          "identity": {
+            "bytes": 1211,
+            "sha256": "5749d96966f9ce7e6a9662c9f482b8aa0d461845fb6b9ce09ac2c08311fab2aa"
+          },
+          "allocated_bytes_at_unlink": 4096,
+          "removed": true
+        },
+        {
+          "path_relative_to_execution_root": "qualification/gsm8k_training_A/cpu_reconstructed_export/model.safetensors",
+          "identity": {
+            "bytes": 2097259104,
+            "sha256": "0af3ffd7407bd278692e8d0a2da028fba1481cf52c01d1104f5710a8f04d375e"
+          },
+          "allocated_bytes_at_unlink": 2097262592,
+          "removed": true
+        }
+      ],
+      "logical_bytes_removed": 10492762673,
+      "allocated_file_bytes_at_unlink": 10492776448,
+      "shared_free_before_bytes": 518441656320,
+      "shared_free_after_bytes": 526837223424,
+      "observed_shared_free_change_bytes": 8395567104,
+      "prior_required_checks": {
+        "training": "passed",
+        "serving_A": "passed",
+        "serving_B": "passed",
+        "cpu_export": "passed"
+      },
+      "retained_evidence": "qualification/gsm8k_training_A/DETAILS.json",
+      "lost_capability": "Disposable qualification endpoint tensor/recovery replay requires re-creation; compact comparisons remain retained"
+    },
+    {
+      "dataset": "mathqa",
+      "status": "completed",
+      "receipt_identity": {
+        "bytes": 2927,
+        "sha256": "117c20f4f942db54dd3a36f9f3736a4c4cc0faebc8a7e4ae131da6d5e9dd7298"
+      },
+      "files": [
+        {
+          "path_relative_to_execution_root": "qualification/mathqa_training_A/active_state.pt",
+          "identity": {
+            "bytes": 6297297723,
+            "sha256": "65106e6428c13f3b8967abfaee94601e3c22d62541ddc397d9c4e3c1c9ca458d"
+          },
+          "allocated_bytes_at_unlink": 6297300992,
+          "removed": true
+        },
+        {
+          "path_relative_to_execution_root": "qualification/mathqa_training_A/active_export/config.json",
+          "identity": {
+            "bytes": 1211,
+            "sha256": "5749d96966f9ce7e6a9662c9f482b8aa0d461845fb6b9ce09ac2c08311fab2aa"
+          },
+          "allocated_bytes_at_unlink": 4096,
+          "removed": true
+        },
+        {
+          "path_relative_to_execution_root": "qualification/mathqa_training_A/active_export/model.safetensors",
+          "identity": {
+            "bytes": 2097259104,
+            "sha256": "987c287ab672f71de915badec7e08d3cd0cef1f9ca59905fd20027163bbd4080"
+          },
+          "allocated_bytes_at_unlink": 2097262592,
+          "removed": true
+        },
+        {
+          "path_relative_to_execution_root": "qualification/mathqa_training_A/cpu_reconstructed_export/config.json",
+          "identity": {
+            "bytes": 1211,
+            "sha256": "5749d96966f9ce7e6a9662c9f482b8aa0d461845fb6b9ce09ac2c08311fab2aa"
+          },
+          "allocated_bytes_at_unlink": 4096,
+          "removed": true
+        },
+        {
+          "path_relative_to_execution_root": "qualification/mathqa_training_A/cpu_reconstructed_export/model.safetensors",
+          "identity": {
+            "bytes": 2097259104,
+            "sha256": "987c287ab672f71de915badec7e08d3cd0cef1f9ca59905fd20027163bbd4080"
+          },
+          "allocated_bytes_at_unlink": 2097262592,
+          "removed": true
+        }
+      ],
+      "logical_bytes_removed": 10491818353,
+      "allocated_file_bytes_at_unlink": 10491834368,
+      "shared_free_before_bytes": 518430302208,
+      "shared_free_after_bytes": 526824886272,
+      "observed_shared_free_change_bytes": 8394584064,
+      "prior_required_checks": {
+        "training": "passed",
+        "serving_A": "passed",
+        "serving_B": "passed",
+        "cpu_export": "passed"
+      },
+      "retained_evidence": "qualification/mathqa_training_A/DETAILS.json",
+      "lost_capability": "Disposable qualification endpoint tensor/recovery replay requires re-creation; compact comparisons remain retained"
+    }
+  ],
+  "total_logical_bytes_removed": 20984581026,
+  "total_allocated_file_bytes_at_unlink": 20984610816,
+  "sum_observed_immediate_shared_free_change_bytes": 16790151168,
+  "immediate_shared_free_change_is_exclusive_attribution": false,
+  "byte_accounting_note": "Logical file lengths and recorded allocated file blocks are separate from immediate shared-filesystem free-space deltas. The latter are observations across each retirement window, not proof that precisely that much space was reclaimed by this job; the difference is not diagnosed here.",
+  "production_recoveries_created": 0,
+  "production_final_exports_created": 0,
+  "new_production_feature_banks_created": 0,
+  "planned_production_recoveries_not_created": 8,
+  "planned_feature_banks_not_created": 4,
+  "historical_artifacts_retired": false,
+  "original_dependencies_preserved": true,
+  "measured_final_run_source_allocation_bytes": 336502784,
+  "measured_allocation_note": "Post-stop read-only du supplement; separate from the archived terminal metadata, no model work.",
+  "retained_compact_evidence": {
+    "files": 222,
+    "raw_bytes": 30782548,
+    "archive_identity": {
+      "archive_bytes": 4138037,
+      "sha256": "e55e0215cc556eeb53a0620542c1dde9d5518fe7b5dbcb6d1e6cb49668b0cfbb"
+    },
+    "shared_free_before_packing_bytes": 528922226688,
+    "shared_free_after_packing_bytes": 528917983232,
+    "no_compute_processes_before_packing": true
+  },
+  "new_model_work_for_this_review": 0,
+  "post_stop_compiler_growth_bytes": 0,
+  "post_stop_shared_free_bytes": 528918040576,
+  "post_stop_epoch": 1794956879.0018475,
+  "no_gpu_processes_at_post_stop": true
+}

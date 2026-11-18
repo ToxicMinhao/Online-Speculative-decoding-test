@@ -1,0 +1,261 @@
+{
+  "status": "passed",
+  "binding": "e82595ea980cd5533d7ad7003c04ec15981a88ccc054835bf725749674c3e4ee",
+  "execution_commit": "31b36fd27976fb46bb6754d8b8b7e769c3d6e5f6",
+  "datasets": {
+    "gsm8k": {
+      "training": "passed",
+      "serving_A": "passed",
+      "serving_B": "passed",
+      "exact_cross_card_counts_and_outputs": true,
+      "scope": "two fixed warmup requests, two repeats per card",
+      "training_result": "private_evidence/qualification/gsm8k_training_A/DETAILS.json"
+    },
+    "mathqa": {
+      "training": "passed",
+      "serving_A": "passed",
+      "serving_B": "passed",
+      "exact_cross_card_counts_and_outputs": true,
+      "scope": "two fixed warmup requests, two repeats per card",
+      "training_result": "private_evidence/qualification/mathqa_training_A/DETAILS.json"
+    }
+  },
+  "details": {
+    "gsm8k": {
+      "loading_s": 73.08127393387258,
+      "startup_s": 40.850104566663504,
+      "wall_s": 590.4046177864075,
+      "optimizer_applications": 6,
+      "response_presentations": 12,
+      "origin_restored": true,
+      "cpu_reconstruction_verified": true,
+      "peak_gpu_allocated_bytes": 17041994240,
+      "peak_gpu_reserved_bytes": 18805161984,
+      "host_maxrss_bytes": 21224685568,
+      "exact_native_wrapper": true,
+      "exact_native_cap0": true,
+      "actual_intervention": true,
+      "exact_own_resume": true,
+      "physical_work": {
+        "draft_forwards": 12,
+        "layer_forwards": 60,
+        "objective_chunks": 720,
+        "vocabulary_head_calls": 1440,
+        "response_forwards": 12
+      },
+      "cases": [
+        {
+          "case": "bare_native",
+          "status": "completed",
+          "checks": "passed",
+          "wall_s": 7.629022687673569,
+          "preclip_observer_s": 5.197742057964206,
+          "block_observer_s": 0.012196412310004234,
+          "pair_wall_excluding_observers_s": 2.4190842173993587
+        },
+        {
+          "case": "native",
+          "status": "completed",
+          "checks": "passed",
+          "wall_s": 7.899591740220785,
+          "preclip_observer_s": 5.560913806781173,
+          "block_observer_s": 0.012489762157201767,
+          "pair_wall_excluding_observers_s": 2.3261881712824106,
+          "native_equivalence": "exact"
+        },
+        {
+          "case": "cap_zero",
+          "status": "completed",
+          "checks": "passed",
+          "wall_s": 8.08330326154828,
+          "preclip_observer_s": 5.573662184178829,
+          "block_observer_s": 0.012063032016158104,
+          "pair_wall_excluding_observers_s": 2.4975780453532934,
+          "native_equivalence": "exact"
+        },
+        {
+          "case": "active",
+          "status": "completed",
+          "checks": "passed",
+          "wall_s": 8.175874963402748,
+          "preclip_observer_s": 5.608264617621899,
+          "block_observer_s": 0.012041423469781876,
+          "pair_wall_excluding_observers_s": 2.5555689223110676,
+          "changed_coefficient_occurrences": 3065.0,
+          "changed_parameter_tensors": 39
+        },
+        {
+          "case": "continued_next_pair",
+          "status": "completed",
+          "checks": "passed",
+          "wall_s": 8.569696528837085,
+          "preclip_observer_s": 5.502295188605785,
+          "block_observer_s": 0.014400124549865723,
+          "pair_wall_excluding_observers_s": 3.0530012156814337
+        },
+        {
+          "case": "reloaded_next_pair",
+          "status": "completed",
+          "checks": "passed",
+          "wall_s": 8.452041421085596,
+          "preclip_observer_s": 5.364122154191136,
+          "block_observer_s": 0.014376157894730568,
+          "pair_wall_excluding_observers_s": 3.073543108999729
+        }
+      ],
+      "cpu_export": {
+        "status": "passed",
+        "exact_metadata_and_tensors": true,
+        "exact_weights_file_identity": true,
+        "wall_s": 33.638841250911355
+      },
+      "stochastic_consumers": {
+        "response_shuffle": "torch.randperm on CPU",
+        "anchors": "qualified native training-device random sampler",
+        "positive_dropout_modules": [],
+        "attention_dropout": [
+          {
+            "name": "draft_model.layers.0.self_attn",
+            "value": 0.0
+          },
+          {
+            "name": "draft_model.layers.1.self_attn",
+            "value": 0.0
+          },
+          {
+            "name": "draft_model.layers.2.self_attn",
+            "value": 0.0
+          },
+          {
+            "name": "draft_model.layers.3.self_attn",
+            "value": 0.0
+          },
+          {
+            "name": "draft_model.layers.4.self_attn",
+            "value": 0.0
+          }
+        ],
+        "constructor_seed17_retained": true,
+        "explicit_continuation_seed": 29
+      }
+    },
+    "mathqa": {
+      "loading_s": 74.83980349823833,
+      "startup_s": 41.310216419398785,
+      "wall_s": 601.1837811470032,
+      "optimizer_applications": 6,
+      "response_presentations": 12,
+      "origin_restored": true,
+      "cpu_reconstruction_verified": true,
+      "peak_gpu_allocated_bytes": 22612724224,
+      "peak_gpu_reserved_bytes": 24723324928,
+      "host_maxrss_bytes": 21388115968,
+      "exact_native_wrapper": true,
+      "exact_native_cap0": true,
+      "actual_intervention": true,
+      "exact_own_resume": true,
+      "physical_work": {
+        "draft_forwards": 12,
+        "layer_forwards": 60,
+        "objective_chunks": 1188,
+        "vocabulary_head_calls": 2376,
+        "response_forwards": 12
+      },
+      "cases": [
+        {
+          "case": "bare_native",
+          "status": "completed",
+          "checks": "passed",
+          "wall_s": 10.646403992548585,
+          "preclip_observer_s": 5.3086955063045025,
+          "block_observer_s": 0.027809984982013702,
+          "pair_wall_excluding_observers_s": 5.309898501262069
+        },
+        {
+          "case": "native",
+          "status": "completed",
+          "checks": "passed",
+          "wall_s": 10.66774776019156,
+          "preclip_observer_s": 5.359453044831753,
+          "block_observer_s": 0.02747180126607418,
+          "pair_wall_excluding_observers_s": 5.280822914093733,
+          "native_equivalence": "exact"
+        },
+        {
+          "case": "cap_zero",
+          "status": "completed",
+          "checks": "passed",
+          "wall_s": 11.211315851658583,
+          "preclip_observer_s": 5.5086192805320024,
+          "block_observer_s": 0.027622612193226814,
+          "pair_wall_excluding_observers_s": 5.675073958933353,
+          "native_equivalence": "exact"
+        },
+        {
+          "case": "active",
+          "status": "completed",
+          "checks": "passed",
+          "wall_s": 11.357727121561766,
+          "preclip_observer_s": 5.512424623593688,
+          "block_observer_s": 0.02779223769903183,
+          "pair_wall_excluding_observers_s": 5.817510260269046,
+          "changed_coefficient_occurrences": 7144.0,
+          "changed_parameter_tensors": 39
+        },
+        {
+          "case": "continued_next_pair",
+          "status": "completed",
+          "checks": "passed",
+          "wall_s": 7.391924932599068,
+          "preclip_observer_s": 5.532816281542182,
+          "block_observer_s": 0.009240999817848206,
+          "pair_wall_excluding_observers_s": 1.8498676512390375
+        },
+        {
+          "case": "reloaded_next_pair",
+          "status": "completed",
+          "checks": "passed",
+          "wall_s": 7.045021573081613,
+          "preclip_observer_s": 5.18525898642838,
+          "block_observer_s": 0.00876380130648613,
+          "pair_wall_excluding_observers_s": 1.8509987853467464
+        }
+      ],
+      "cpu_export": {
+        "status": "passed",
+        "exact_metadata_and_tensors": true,
+        "exact_weights_file_identity": true,
+        "wall_s": 32.29597326181829
+      },
+      "stochastic_consumers": {
+        "response_shuffle": "torch.randperm on CPU",
+        "anchors": "qualified native training-device random sampler",
+        "positive_dropout_modules": [],
+        "attention_dropout": [
+          {
+            "name": "draft_model.layers.0.self_attn",
+            "value": 0.0
+          },
+          {
+            "name": "draft_model.layers.1.self_attn",
+            "value": 0.0
+          },
+          {
+            "name": "draft_model.layers.2.self_attn",
+            "value": 0.0
+          },
+          {
+            "name": "draft_model.layers.3.self_attn",
+            "value": 0.0
+          },
+          {
+            "name": "draft_model.layers.4.self_attn",
+            "value": 0.0
+          }
+        ],
+        "constructor_seed17_retained": true,
+        "explicit_continuation_seed": 29
+      }
+    }
+  }
+}

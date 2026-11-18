@@ -1,0 +1,412 @@
+{
+  "schema": "c_paired_confirmation_data_readiness_v1",
+  "execution_commit": "31b36fd27976fb46bb6754d8b8b7e769c3d6e5f6",
+  "binding": "e82595ea980cd5533d7ad7003c04ec15981a88ccc054835bf725749674c3e4ee",
+  "status": "sealed_input_inventory_passed",
+  "scope": "CPU preparation and final local package review; no GPU qualification or efficacy claim",
+  "selection": {
+    "prefix": "kplus_c_pair_confirm_r29_20261117_v1",
+    "literal": "kplus_c_pair_confirm_r29_20261117_v1|DATASET|source_id|normalized_content_sha256",
+    "normalization": "Unicode NFKC, whitespace collapse and trim; case, punctuation and options preserved",
+    "ordering": "ascending SHA-256 key, then source identity; first 256 scored and next 2 warmups",
+    "answer_or_output_based_selection": false
+  },
+  "source": {
+    "target_repository": "Qwen/Qwen3-8B",
+    "target_revision": "b968826d9c46dd6066d109eabc6255188de91218",
+    "draft_repository": "z-lab/Qwen3-8B-DFlash-b16",
+    "draft_revision": "9b41424b7109f9c5413454f481b09a82b85333f4",
+    "tokenizer_files": {
+      "tokenizer.json": {
+        "bytes": 11422654,
+        "sha256": "aeb13307a71acd8fe81861d94ad54ab689df773318809eed3cbe794b4492dae4"
+      },
+      "tokenizer_config.json": {
+        "bytes": 9732,
+        "sha256": "d5d09f07b48c3086c508b30d1c9114bd1189145b74e982a265350c923acd8101"
+      }
+    },
+    "execution_source_identity": {
+      "bytes": 873267,
+      "sha256": "c002c1f231d1f94294142e0a4b8724b3a7f6f5874dd74d46415726a1adcc779f"
+    },
+    "scientific_files": {
+      "online_feedback/prefix_allocation.py": {
+        "bytes": 9544,
+        "sha256": "581234d69a25480285cc375c84a451b498cd28c9f36136e0ae8779ea80641bb9"
+      },
+      "online_feedback/objective.py": {
+        "bytes": 33936,
+        "sha256": "e86e7b7449bd3b91956f0ae711509d8f24df9aafaa52367ed22dc7f8c31a3521"
+      }
+    }
+  },
+  "datasets": {
+    "gsm8k": {
+      "source_revision": "740312add88f781978c0658806c59bc2815b9866",
+      "source_split": "test",
+      "source_rows": 1319,
+      "hard_excluded": 130,
+      "eligible": 1189,
+      "selected": 256,
+      "warmup": 2,
+      "prompt_lengths": {
+        "scored": {
+          "count": 256,
+          "minimum": 53,
+          "maximum": 184,
+          "total": 22847
+        },
+        "warmup": {
+          "count": 2,
+          "minimum": 82,
+          "maximum": 84,
+          "total": 166
+        },
+        "first_event": {
+          "count": 128,
+          "minimum": 33,
+          "maximum": 180,
+          "total": 9238
+        },
+        "next_event": {
+          "count": 128,
+          "minimum": 37,
+          "maximum": 148,
+          "total": 8600
+        }
+      },
+      "origin_event": 6,
+      "origin_step": 768,
+      "final_step": 1024,
+      "origin_state_identity": {
+        "bytes": 6298193179,
+        "sha256": "15ac28e1235851a15158e789af1480fd2d82535903b1dec5d992ec843c9ae3a1"
+      },
+      "origin_weights_identity": {
+        "bytes": 2097259104,
+        "sha256": "8c257620e44226c5c0469e5886224ed5d2dcf9fa2a94eddbdd10d7e36c697560"
+      },
+      "events": [
+        7,
+        8
+      ],
+      "sealed_files": {
+        "EVALUATION_SCHEDULE.json": {
+          "bytes": 23237,
+          "sha256": "f7e5fb0fee715a4aa101cdfb1b0dded154e94eee4ba312a708ab9c53375f59be"
+        },
+        "EVENT7_INPUTS.json": {
+          "bytes": 310810,
+          "sha256": "8003e5e38e54e60aa363ae31898177f032416f5eb0f1fd3c1d9d43a23156a07f"
+        },
+        "EVENT8_INPUTS.json": {
+          "bytes": 297315,
+          "sha256": "d8b5a2ea53cfb5f79699af228fbf2068d2d921f4c6a0da484fdfc496497f4a42"
+        },
+        "EXPOSURE.json": {
+          "bytes": 220268,
+          "sha256": "03130d26f5d2060195f9658a480ae95847ce2e105d73768f318d90a133ce07a4"
+        },
+        "ORIGIN_ANCESTRY.json": {
+          "bytes": 1856536,
+          "sha256": "ecbb507eaf938fd37402ae5894a22481250a188f3641358c3910ff806958ddf9"
+        },
+        "PANEL.json": {
+          "bytes": 936955,
+          "sha256": "5612dcf519d267ffa6a5c0506ea1621bbec7ed3ee68e38f3607a2d14d0aca4eb"
+        },
+        "TRAINING.json": {
+          "bytes": 608074,
+          "sha256": "95b8a2aac0e36e192c9d8ee73590f85c899444f74a56a6a577c52bbc9e6eea9d"
+        },
+        "WARMUPS.json": {
+          "bytes": 8245,
+          "sha256": "c3deb09babb546ce4fbf5f79eb0f3c4322a55d3d5404bc204c3a4d6c73526326"
+        }
+      },
+      "sealed_data_identity": {
+        "bytes": 14537,
+        "sha256": "f93122b751dfec2d05a7d16ee7c650e289b97add48b3bf137a7b328a67c741f0"
+      },
+      "historical_inventory": [
+        {
+          "study": "PR50_bounded_prefix_allocation_C",
+          "inventory": "sealed/PANEL.json",
+          "identity": {
+            "bytes": 354989,
+            "sha256": "4fe5d4d723b368ba45f691d94628f62884aed63685970a0aa73ebe8bfd385db9"
+          }
+        },
+        {
+          "study": "PR50_bounded_prefix_allocation_C",
+          "inventory": "sealed/WARMUPS.json",
+          "identity": {
+            "bytes": 7514,
+            "sha256": "16702d191a7023bf235c45b39a13795b5b8edb1fe5f4702c5939377d428b51f3"
+          }
+        },
+        {
+          "study": "PR50_bounded_prefix_allocation_C",
+          "inventory": "sealed/EXPECTED_ANCESTRY.json",
+          "identity": {
+            "bytes": 2464575,
+            "sha256": "01b7f2c3d88416c765b3631e97ca8cee6fb0d8af2fc122cf2359d6ce0ee39d71"
+          }
+        },
+        {
+          "study": "PR50_bounded_prefix_allocation_C",
+          "inventory": "sealed/EVENT8_INPUTS.json",
+          "identity": {
+            "bytes": 297307,
+            "sha256": "2002b333d8f50ad41afaa1610f7e78c3e03bf1db9cee9976819df0605cc9cec9"
+          }
+        }
+      ],
+      "common_feature_count": 128,
+      "common_file_identity_digest": "0570f5aeba43555cef205fb402ee50c18082d5323e4a690f93dc64150047729e",
+      "exposure_scope": "new to bounded-prefix-allocation C family; older unrelated-project use permitted and disclosed",
+      "selected_known_older_exposure": 255,
+      "selected_without_positive_older_evidence": 3,
+      "older_inventory_complete": false,
+      "globally_unused_claim": false,
+      "historical_feature_identity_verified": true,
+      "common_pool_provenance": "Original KPLUS6 native-capture receipts and retained PR50 full-file feature identities",
+      "pinned_raw_source_files": [
+        {
+          "role": "pinned_test_parquet",
+          "identity": {
+            "bytes": 419088,
+            "sha256": "ee7b8da9e381df27b9e3f7758a159ab2bdaa4dbaa910546cbbc47e0cb44e4f59"
+          }
+        }
+      ]
+    },
+    "mathqa": {
+      "source_revision": "4f958013c164a40745a5b771dfb005df308deb4a",
+      "source_split": "test",
+      "source_rows": 2985,
+      "hard_excluded": 1541,
+      "eligible": 1444,
+      "selected": 256,
+      "warmup": 2,
+      "prompt_lengths": {
+        "scored": {
+          "count": 256,
+          "minimum": 52,
+          "maximum": 164,
+          "total": 24390
+        },
+        "warmup": {
+          "count": 2,
+          "minimum": 79,
+          "maximum": 95,
+          "total": 174
+        },
+        "first_event": {
+          "count": 128,
+          "minimum": 60,
+          "maximum": 161,
+          "total": 12194
+        },
+        "next_event": {
+          "count": 128,
+          "minimum": 56,
+          "maximum": 149,
+          "total": 12237
+        }
+      },
+      "origin_event": 4,
+      "origin_step": 512,
+      "final_step": 768,
+      "origin_state_identity": {
+        "bytes": 6297245019,
+        "sha256": "5a21009af60e05a180140e6f582a0a5ab24ce21bbe68bcf7407078c55d23767e"
+      },
+      "origin_weights_identity": {
+        "bytes": 2097259104,
+        "sha256": "931e46620d8fc930ea0c22fcdf6af30dd16e16445f8141474ecfa4e48746dff7"
+      },
+      "events": [
+        5,
+        6
+      ],
+      "sealed_files": {
+        "EVALUATION_SCHEDULE.json": {
+          "bytes": 23237,
+          "sha256": "f7e5fb0fee715a4aa101cdfb1b0dded154e94eee4ba312a708ab9c53375f59be"
+        },
+        "EVENT5_INPUTS.json": {
+          "bytes": 345598,
+          "sha256": "00c115f9d037f5cef93bf281f1b959ff3ad84be27755a2c2d9c9872240aef25f"
+        },
+        "EVENT6_INPUTS.json": {
+          "bytes": 347476,
+          "sha256": "41b5041ba47eea00bdbd1ff77b7607c1c6a75d266356c0ffd3fd21a34833edb1"
+        },
+        "EXPOSURE.json": {
+          "bytes": 388896,
+          "sha256": "95fd8e95063b71e638f069933beba8833a96c7da0b6caa2b8ec438c0807502d4"
+        },
+        "ORIGIN_ANCESTRY.json": {
+          "bytes": 1380545,
+          "sha256": "14e7c1bccba97bcbb05ac12dd12b83a52ff52c9f797026ea0931531737c781c8"
+        },
+        "PANEL.json": {
+          "bytes": 850333,
+          "sha256": "1af101c8b608655512de619732ec5a5cf2aadc6a070ade3e52c2601e306f83f4"
+        },
+        "TRAINING.json": {
+          "bytes": 693772,
+          "sha256": "87473106888359417c245f447db6067be7655e8884a53c920a22fa38eeb9cedc"
+        },
+        "WARMUPS.json": {
+          "bytes": 6709,
+          "sha256": "3c2f15dde91114c0c0280ca7c216ec20b9f402bcc0c67ad7578f2b20f625c9d6"
+        }
+      },
+      "sealed_data_identity": {
+        "bytes": 12284,
+        "sha256": "198a0a34d023e940039ab7404e7438900a89c1068a549d62fb61e2e8f6bd087c"
+      },
+      "historical_inventory": [
+        {
+          "study": "PR51",
+          "inventory": "sealed/PANEL.json",
+          "identity": {
+            "bytes": 824536,
+            "sha256": "dccae7b14325c01cd0fd73162e3a134e75e7573bf7555d986be356ee5d96f0ec"
+          }
+        },
+        {
+          "study": "PR51",
+          "inventory": "sealed/WARMUPS.json",
+          "identity": {
+            "bytes": 7974,
+            "sha256": "e8b22b8c5b0938577e5d3860bce39c0e1be565d6cf1de79ef7dd78ccd9d90c04"
+          }
+        },
+        {
+          "study": "PR51",
+          "inventory": "sealed/TRAINING.json",
+          "identity": {
+            "bytes": 693772,
+            "sha256": "87473106888359417c245f447db6067be7655e8884a53c920a22fa38eeb9cedc"
+          }
+        },
+        {
+          "study": "PR51",
+          "inventory": "sealed/EVENT5_INPUTS.json",
+          "identity": {
+            "bytes": 346335,
+            "sha256": "d2ccb8ecadb51ffacce1ef530ab7c44261188bc117b643c7d5efecaa9f322077"
+          }
+        },
+        {
+          "study": "PR51",
+          "inventory": "sealed/EVENT6_INPUTS.json",
+          "identity": {
+            "bytes": 348213,
+            "sha256": "562ed7439cfb852373c971cada27219681ae887e8287fa24e84a0c1b5ced084d"
+          }
+        },
+        {
+          "study": "PR52",
+          "inventory": "sealed/PANEL.json",
+          "identity": {
+            "bytes": 810634,
+            "sha256": "a42a06c7cf4022d17b49bf5d4c244c88b492a8f05794ff3517079e2099a134fc"
+          }
+        },
+        {
+          "study": "PR52",
+          "inventory": "sealed/WARMUPS.json",
+          "identity": {
+            "bytes": 9322,
+            "sha256": "ade13e4c060079d83c9158957305a71cd18d3388503318df38d70d7395f90779"
+          }
+        },
+        {
+          "study": "PR52",
+          "inventory": "sealed/TRAINING.json",
+          "identity": {
+            "bytes": 693772,
+            "sha256": "87473106888359417c245f447db6067be7655e8884a53c920a22fa38eeb9cedc"
+          }
+        },
+        {
+          "study": "PR52",
+          "inventory": "sealed/EVENT5_INPUTS.json",
+          "identity": {
+            "bytes": 346335,
+            "sha256": "d2ccb8ecadb51ffacce1ef530ab7c44261188bc117b643c7d5efecaa9f322077"
+          }
+        },
+        {
+          "study": "PR52",
+          "inventory": "sealed/EVENT6_INPUTS.json",
+          "identity": {
+            "bytes": 348213,
+            "sha256": "562ed7439cfb852373c971cada27219681ae887e8287fa24e84a0c1b5ced084d"
+          }
+        }
+      ],
+      "common_feature_count": 128,
+      "common_file_identity_digest": "35421853780153b2214283aa5b3941836a3b48e29b36b03a7ba1230dbf167035",
+      "exposure_scope": "unexposed in the enumerated MathQA project inventory through PR52 and subsequent CPU-only origin analysis",
+      "exclusion_counts": {
+        "retained_pre_PR51": 1025,
+        "PR51_additional_panel_and_warmups": 258,
+        "PR52_additional_panel_and_warmups": 258
+      },
+      "historical_feature_identity_verified": false,
+      "current_pool_identity_verified_by_typed_PR52_receipt": true,
+      "functional_replay_receipt": {
+        "bytes": 6262,
+        "sha256": "f114dbae3347740bf0643e3f28b45bea6921d5749d21081e2cb01ced5406c9e8"
+      },
+      "current_feature_manifest": {
+        "bytes": 200482,
+        "sha256": "b94e7ce8b9e35a5561ee1ba4108aebbc75adab3a06939c3f3f6575f949eef934"
+      },
+      "functional_claim": "PR52 N5/S5 exact full-event replays passed with the currently pinned E5 pool. Historical feature byte identity remains unverified; no full replay is repeated here.",
+      "pinned_raw_source_files": [
+        {
+          "role": "dataset_source_archive",
+          "identity": {
+            "bytes": 7302821,
+            "sha256": "7344f30456a7aef3176d4866cc953b35b41bec44eda6b00cdbcfde2876b2f07a"
+          }
+        }
+      ]
+    }
+  },
+  "adaptation": {
+    "ordinary_KPLUS_primary": true,
+    "candidate": "unchanged bounded prefix allocation C",
+    "candidate_smoothing": 0.5,
+    "candidate_relative_cap": 0.25,
+    "learning_rate": 0.0003,
+    "inherited_horizon": 7424,
+    "inherited_initialization_seed": 17,
+    "continuation_torch_rng_fork": 29,
+    "fork_application": "once after exact startup restoration before first natural training draw; no second-event reseed",
+    "first_pool": "128 retained origin-produced responses per dataset shared by N/C",
+    "second_pool": "128 new own-arm responses per arm per dataset",
+    "event_presentations": 256,
+    "event_Adam_steps": 128,
+    "passes": 2,
+    "microbatch": 1,
+    "accumulation": 2
+  },
+  "planned_serving": {
+    "canonical_generation": 516,
+    "qualification_generation": 16,
+    "warmup_generation": 96,
+    "scored_generation": 3072,
+    "feedback_generation": 512,
+    "total_complete_response_generations": 4212
+  },
+  "current_run_status_not_inferred": true,
+  "private_content_included": false
+}

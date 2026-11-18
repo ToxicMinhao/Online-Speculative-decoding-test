@@ -1,0 +1,178 @@
+{
+  "status": "passed",
+  "qualification_execution_commit": "31b36fd27976fb46bb6754d8b8b7e769c3d6e5f6",
+  "production_execution_commit": "0dc9538e8f445faa8bc7471dc9f82d885e98d529",
+  "checks": 48915,
+  "fixture_tests": 13,
+  "counts": {
+    "events": 8,
+    "responses": 2048,
+    "windows": 1024,
+    "qualification_datasets": 2,
+    "startup_receipts": 10,
+    "own_pools": 4
+  },
+  "work": {
+    "adam": 1036,
+    "response_forward": 2092,
+    "response_backward": 2092,
+    "training_initialization": 10,
+    "feedback_generation": 512,
+    "teacher_preparation": 512,
+    "canonical_generation": 516,
+    "qualification_generation": 16,
+    "warmup_generation": 96,
+    "scored_generation": 3072
+  },
+  "clock": {
+    "original_first_model_load_epoch": 1794955061.7342236,
+    "original_qualification_phase_elapsed_s": 1393.9164900779724,
+    "stopped_interval_s": 17757.338944911957,
+    "resumed_supervisor_wall_s": 9162.809138774872,
+    "total_elapsed_s": 28314.064700603485,
+    "occupied_card_s": 12018.066353797913,
+    "final_epoch_inferred": 1794983375.7987974,
+    "consumed_qualification_card_s": 1433.8466596603394,
+    "resumed_production_card_s": 10584.219694137573
+  },
+  "training_costs": {
+    "gsm8k": {
+      "N": {
+        "loading_s": 134.70930881425738,
+        "startup_s": 82.53886873461306,
+        "event_wall_s": 733.2341919261962,
+        "task_wall_s": 1052.5028810501099,
+        "publication_wait_s": 0.00014698319137096405,
+        "available": 1828383.0,
+        "selected": 1088770.0,
+        "supervised": 1088770.0,
+        "changed_prefix_occurrences": 0,
+        "training_s": 651.6402086950839,
+        "checkpoint_save_s": 38.63580599986017,
+        "export_s": 32.46380359865725,
+        "collection_task_wall_s": 189.0477578639984,
+        "collection_components_s": {
+          "generation_s": 86.0232840385288,
+          "preparation_s": 10.747486181557178,
+          "feature_binding_s": 6.669249461963773,
+          "redundant_capture_retirement_s": 39.72628754377365,
+          "loading_s": 20.25839789584279
+        }
+      },
+      "C": {
+        "loading_s": 137.01316255144775,
+        "startup_s": 80.98191461339593,
+        "event_wall_s": 795.9019633457065,
+        "task_wall_s": 1108.9435205459595,
+        "publication_wait_s": 0.00011931546032428741,
+        "available": 1828383.0,
+        "selected": 1089463.0,
+        "supervised": 1089463.0,
+        "changed_prefix_occurrences": 985981.0,
+        "training_s": 713.4340963922441,
+        "checkpoint_save_s": 38.4716668240726,
+        "export_s": 32.55234662629664,
+        "collection_task_wall_s": 194.56417393684387,
+        "collection_components_s": {
+          "generation_s": 86.2645613886416,
+          "preparation_s": 11.007206121459603,
+          "feature_binding_s": 6.714092696085572,
+          "redundant_capture_retirement_s": 41.73359190300107,
+          "loading_s": 20.51000210829079
+        }
+      },
+      "C_minus_N_training_s": 61.793887697160244,
+      "C_training_increase_percent": 9.48282301684593,
+      "C_minus_N_event_wall_s": 62.667771419510245,
+      "C_event_wall_increase_percent": 8.546760654311946
+    },
+    "mathqa": {
+      "N": {
+        "loading_s": 143.86794888041914,
+        "startup_s": 82.42732804641128,
+        "event_wall_s": 1132.0779641345143,
+        "task_wall_s": 1479.5305876731873,
+        "publication_wait_s": 0.00011667981743812561,
+        "available": 2962363.0,
+        "selected": 1895470.0,
+        "supervised": 1895470.0,
+        "changed_prefix_occurrences": 0,
+        "training_s": 1034.3025801032782,
+        "checkpoint_save_s": 39.92407147400081,
+        "export_s": 32.52297374792397,
+        "collection_task_wall_s": 343.14029932022095,
+        "collection_components_s": {
+          "generation_s": 194.6126027777791,
+          "preparation_s": 23.622209910303354,
+          "feature_binding_s": 15.696156738325953,
+          "redundant_capture_retirement_s": 46.16843366250396,
+          "loading_s": 29.761023439466953
+        }
+      },
+      "C": {
+        "loading_s": 136.17071332223713,
+        "startup_s": 86.55186280421913,
+        "event_wall_s": 1256.059669137001,
+        "task_wall_s": 1590.4069020748138,
+        "publication_wait_s": 0.0001435689628124237,
+        "available": 2962363.0,
+        "selected": 1898559.0,
+        "supervised": 1898559.0,
+        "changed_prefix_occurrences": 1748183.0,
+        "training_s": 1140.264666981995,
+        "checkpoint_save_s": 43.60892291367054,
+        "export_s": 33.27575733140111,
+        "collection_task_wall_s": 337.90629482269287,
+        "collection_components_s": {
+          "generation_s": 193.82779316976666,
+          "preparation_s": 23.130642676725984,
+          "feature_binding_s": 15.548789547756314,
+          "redundant_capture_retirement_s": 46.51031126640737,
+          "loading_s": 23.25862779095769
+        }
+      },
+      "C_minus_N_training_s": 105.96208687871695,
+      "C_training_increase_percent": 10.244786092299641,
+      "C_minus_N_event_wall_s": 123.9817050024867,
+      "C_event_wall_increase_percent": 10.951693163400812
+    }
+  },
+  "peak_gpu_allocated_bytes": 22612724224,
+  "peak_gpu_reserved_bytes": 24939331584,
+  "postflight": {
+    "clock": {
+      "occupied_s": 12018.066353797913,
+      "elapsed_s": 28313.81973004341,
+      "active": {}
+    },
+    "allocated_bytes": 72510459904,
+    "charged_bytes": 76805427200,
+    "peak_new_bytes": 124745480513,
+    "free_bytes": 456699457536,
+    "remaining_peak_bytes": 52235020609,
+    "compiler": {
+      "root": "@a800/.cache",
+      "baseline_allocated_bytes": 5054238720,
+      "allocated_bytes": 5054238720,
+      "growth_bytes": 0,
+      "reserved_growth_bytes": 4294967296
+    }
+  },
+  "retained_payloads": {
+    "complete_recovery_count": 8,
+    "unique_feature_banks": 4,
+    "feature_packet_count": 512,
+    "evidence": "Post-completion read-only CPU stream hashes match every required payload to its original producer receipt.",
+    "inventory": "@fenrir/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_c_paired_confirmation_20261117/final_results_review/training/TRAINING_PAYLOAD_INVENTORY_001.json",
+    "verified_logical_bytes": 71131001880,
+    "inventory_wall_s": 148.16300239227712
+  },
+  "reader_failure_preserved": "audit_001: missing histogram native_numerator; actual sum_metrics field used in repaired reader; no scientific change",
+  "limits": [
+    "No model, optimizer or feature tensor payloads are independently loaded. Exact runtime restoration and tensor receipts remain evidence.",
+    "A declared seed and live-state identities are checked against source; CUDA RNG values are not independently generated on CPU.",
+    "Runtime coefficient violation counters plus independent summary checks do not reconstruct each omitted per-token coefficient.",
+    "This audit checks training validity/accounting, not endpoint efficacy or statistical intervals."
+  ],
+  "auditor_authorship_overlap": true
+}

@@ -1,0 +1,204 @@
+{
+  "status": "passed",
+  "execution_commit": "0dc9538e8f445faa8bc7471dc9f82d885e98d529",
+  "scope": "Fixed C summaries from original response forwards only",
+  "response_presentations": 2048,
+  "active_C_presentations": 1024,
+  "additional_model_work": 0,
+  "eligibility": "Correct canonical prefix length at least2; empty/singleton prefixes remain native",
+  "weight_moved": "Sum over presentations of0.5*sum(abs(candidate-native)); coefficient mass, not gradient or Adam norm",
+  "reduction": "Sum retained FP32 response summaries once in presentation order; no checkpoint-recomputation or accumulation rows",
+  "reconciliation_tolerance": {
+    "rtol": 2e-06,
+    "atol": 2e-07,
+    "scope": "FP32 diagnostic summary cross-reduction, unchanged scientific thresholds"
+  },
+  "events": [
+    {
+      "dataset": "gsm8k",
+      "arm": "N",
+      "event": 7,
+      "enabled": false,
+      "response_presentations": 256,
+      "changed_blocks": 0,
+      "changed_positions": 0,
+      "weight_moved": 0,
+      "histogram_status": "not_collected_native_arm_has_no_allocation"
+    },
+    {
+      "dataset": "gsm8k",
+      "arm": "C",
+      "event": 7,
+      "enabled": true,
+      "response_presentations": 256,
+      "blocks": 64564.0,
+      "valid_positions": 941590.0,
+      "prefix_positions": 507174.0,
+      "changed_blocks": 56115.0,
+      "changed_positions": 502260.0,
+      "prefix_weight_before": 281117.16091918945,
+      "prefix_weight_after": 281117.1605529785,
+      "weight_moved": 9320.559092521667,
+      "mass_error_abs_sum": 0.007693648338317871,
+      "mass_violations": 0.0,
+      "bounds_violations": 0.0,
+      "support_violations": 0.0,
+      "nonfinite_values": 0.0,
+      "delta_numerator": -1386.3209717273712,
+      "eligible_blocks": 56115.0,
+      "eligible_prefix_occurrences": 502260.0,
+      "changed_fraction_of_eligible_blocks": 1.0,
+      "moved_fraction_of_prefix_scalar_mass": 0.033155425524523476,
+      "histogram_status": "retained_original_response_forward_summaries"
+    },
+    {
+      "dataset": "gsm8k",
+      "arm": "N",
+      "event": 8,
+      "enabled": false,
+      "response_presentations": 256,
+      "changed_blocks": 0,
+      "changed_positions": 0,
+      "weight_moved": 0,
+      "histogram_status": "not_collected_native_arm_has_no_allocation"
+    },
+    {
+      "dataset": "gsm8k",
+      "arm": "C",
+      "event": 8,
+      "enabled": true,
+      "response_presentations": 256,
+      "blocks": 60910.0,
+      "valid_positions": 886793.0,
+      "prefix_positions": 488126.0,
+      "changed_blocks": 53425.0,
+      "changed_positions": 483721.0,
+      "prefix_weight_before": 269524.73040771484,
+      "prefix_weight_after": 269524.7303466797,
+      "weight_moved": 8810.90999698639,
+      "mass_error_abs_sum": 0.007372379302978516,
+      "mass_violations": 0.0,
+      "bounds_violations": 0.0,
+      "support_violations": 0.0,
+      "nonfinite_values": 0.0,
+      "delta_numerator": -1227.4195874929428,
+      "eligible_blocks": 53425.0,
+      "eligible_prefix_occurrences": 483721.0,
+      "changed_fraction_of_eligible_blocks": 1.0,
+      "moved_fraction_of_prefix_scalar_mass": 0.03269054377183856,
+      "histogram_status": "retained_original_response_forward_summaries"
+    },
+    {
+      "dataset": "mathqa",
+      "arm": "N",
+      "event": 5,
+      "enabled": false,
+      "response_presentations": 256,
+      "changed_blocks": 0,
+      "changed_positions": 0,
+      "weight_moved": 0,
+      "histogram_status": "not_collected_native_arm_has_no_allocation"
+    },
+    {
+      "dataset": "mathqa",
+      "arm": "C",
+      "event": 5,
+      "enabled": true,
+      "response_presentations": 256,
+      "blocks": 99374.0,
+      "valid_positions": 1467760.0,
+      "prefix_positions": 874925.0,
+      "changed_blocks": 88141.0,
+      "changed_positions": 868525.0,
+      "prefix_weight_before": 464092.14599609375,
+      "prefix_weight_after": 464092.14318847656,
+      "weight_moved": 14676.386308670044,
+      "mass_error_abs_sum": 0.01319575309753418,
+      "mass_violations": 0.0,
+      "bounds_violations": 0.0,
+      "support_violations": 0.0,
+      "nonfinite_values": 0.0,
+      "delta_numerator": -1957.0965165384114,
+      "eligible_blocks": 88141.0,
+      "eligible_prefix_occurrences": 868525.0,
+      "changed_fraction_of_eligible_blocks": 1.0,
+      "moved_fraction_of_prefix_scalar_mass": 0.03162386270763042,
+      "histogram_status": "retained_original_response_forward_summaries"
+    },
+    {
+      "dataset": "mathqa",
+      "arm": "N",
+      "event": 6,
+      "enabled": false,
+      "response_presentations": 256,
+      "changed_blocks": 0,
+      "changed_positions": 0,
+      "weight_moved": 0,
+      "histogram_status": "not_collected_native_arm_has_no_allocation"
+    },
+    {
+      "dataset": "mathqa",
+      "arm": "C",
+      "event": 6,
+      "enabled": true,
+      "response_presentations": 256,
+      "blocks": 101190.0,
+      "valid_positions": 1494603.0,
+      "prefix_positions": 886239.0,
+      "changed_blocks": 89592.0,
+      "changed_positions": 879658.0,
+      "prefix_weight_before": 470824.24475097656,
+      "prefix_weight_after": 470824.24645996094,
+      "weight_moved": 14867.6486825943,
+      "mass_error_abs_sum": 0.013289690017700195,
+      "mass_violations": 0.0,
+      "bounds_violations": 0.0,
+      "support_violations": 0.0,
+      "nonfinite_values": 0.0,
+      "delta_numerator": -1955.1587777137756,
+      "eligible_blocks": 89592.0,
+      "eligible_prefix_occurrences": 879658.0,
+      "changed_fraction_of_eligible_blocks": 1.0,
+      "moved_fraction_of_prefix_scalar_mass": 0.031577916490808454,
+      "histogram_status": "retained_original_response_forward_summaries"
+    }
+  ],
+  "consumed_files": {
+    "tasks/gsm8k_N_first/trainer/events/event_007/RESPONSE_OBSERVATIONS.jsonl": {
+      "bytes": 1190803,
+      "sha256": "d4360fd90b976515843d0bb3847c37361566f73f9e6d669c176b10b220a7c5cc"
+    },
+    "tasks/gsm8k_C_first/trainer/events/event_007/RESPONSE_OBSERVATIONS.jsonl": {
+      "bytes": 8500962,
+      "sha256": "7fed19557dcdbb32b1910d77bd952fc8a58001326d02e110044e3d26ba874e0a"
+    },
+    "tasks/gsm8k_N_second/trainer/events/event_008/RESPONSE_OBSERVATIONS.jsonl": {
+      "bytes": 1149244,
+      "sha256": "4c33102e1800aad199441154d3250f5a92c7259bcfd498ef0a7570d7696db2ce"
+    },
+    "tasks/gsm8k_C_second/trainer/events/event_008/RESPONSE_OBSERVATIONS.jsonl": {
+      "bytes": 8455530,
+      "sha256": "de81fe3a80aa9303670e3c57ae9a27672674a9ad3103fd2ad23f7ba0d3000195"
+    },
+    "tasks/mathqa_N_first/trainer/events/event_005/RESPONSE_OBSERVATIONS.jsonl": {
+      "bytes": 1587881,
+      "sha256": "ee54e83d137be7e2194d9139812e81eec1f098e67e4122eb8013b0ca0fb522e2"
+    },
+    "tasks/mathqa_C_first/trainer/events/event_005/RESPONSE_OBSERVATIONS.jsonl": {
+      "bytes": 8902365,
+      "sha256": "a85a4c77fc7f7889406c8eff7b0f42e801d4a8836a911a605af9ec603d27cb5e"
+    },
+    "tasks/mathqa_N_second/trainer/events/event_006/RESPONSE_OBSERVATIONS.jsonl": {
+      "bytes": 1606345,
+      "sha256": "30f93dc85cf583f7257c9c6b7be673c59c36e8e3c3858e806eac5f8c05dcb98c"
+    },
+    "tasks/mathqa_C_second/trainer/events/event_006/RESPONSE_OBSERVATIONS.jsonl": {
+      "bytes": 8918430,
+      "sha256": "318f87d96c4d8b9a37c1dad338b1cc6f312fd4fa3c0a1499dfb40b959d7c7b51"
+    }
+  },
+  "table_rows": {
+    "prefix_length": 68,
+    "length_slot": 480
+  }
+}

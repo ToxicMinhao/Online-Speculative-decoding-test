@@ -1,0 +1,56 @@
+{
+  "status": "passed",
+  "cpu_tests": 27,
+  "categories": {
+    "clock_and_storage": 8,
+    "task_and_reference_identity": 6,
+    "resume": 9,
+    "launch_and_retirement": 4
+  },
+  "source_review": {
+    "status": "no_remaining_blocking_source_finding_subject_to_cpu_tests_and_live_admission",
+    "timestamp_utc": "2026-11-18T03:55:23.245544+00:00",
+    "scope": "Read-only code review of resumed production entry; model work not performed.",
+    "files": {
+      "experiments/c_paired_confirmation/resume.py": {
+        "bytes": 11320,
+        "sha256": "26a33311b6e45f0535ddd9a0da91effb255977d3691149462fb6ae4d8a9ac800"
+      },
+      "experiments/c_paired_confirmation/runtime.py": {
+        "bytes": 5922,
+        "sha256": "13c2c74d6d54ff727e67a1c7d24149c9173e2ddeacf3d42791f8c5d26468dd68"
+      },
+      "experiments/c_paired_confirmation/launch.py": {
+        "bytes": 12696,
+        "sha256": "341c8005d35aadf44f6052d9407a4ccd648483df70440c97bbdfa193485ee345"
+      },
+      "experiments/c_paired_confirmation/task_runner.py": {
+        "bytes": 28224,
+        "sha256": "8a3015ba1d81e2a91b2c1a4a0dbef591d47384b85050cb3632e9e1ac279521af"
+      }
+    },
+    "checks_passed": [
+      "Original plan binding and all nonoperational fields match exactly; source fields/elapsed-only authority are explicitly separated.",
+      "Source compatibility admits only four reviewed orchestration modules under scientific source roots; allocation/objective/trainer remain unchanged.",
+      "Old sealed plan/stop/WORK/CLOCK/CPU preflight/qualification and detailed serving/training receipts are authenticated before adoption.",
+      "New adopted qualification is written to its own resume evidence directory with original qualifier revision identified.",
+      "No qualification initializer or repeated warmup-reference generation is called; existing warmup seal uses original commit.",
+      "Original first-model clock and work ledger are reused. Production marker and exclusive log creation reject duplicate execution.",
+      "Elapsed waiver is applied in parent polling and child boundary/remaining-time checks; five-card-hour, work, 125GB and400GB reserve checks remain.",
+      "Both origin states/exports/configurations and all256 common packets appear in original571 immutable dependencies and are rehashed.",
+      "Existing production loop and quiet final schedule are reused; no learner/objective/settings changes."
+    ],
+    "finding": null,
+    "pending": [
+      "Actual live server resource/dependency admission before launch."
+    ],
+    "supersedes": "SOURCE_REVIEW_001.json finding only; original receipt preserved",
+    "finding_resolution": {
+      "finding": "Missing durable runtime inventory",
+      "resolution": "authenticate_resume invokes existing no-CUDA runtime_inventory before gate adoption/admission and records its result; versions/native source hashes/physical cards/idle VRAM/host reservations checked.",
+      "new_model_work": 0
+    }
+  },
+  "model_work": 0,
+  "qualification_repeated": false
+}

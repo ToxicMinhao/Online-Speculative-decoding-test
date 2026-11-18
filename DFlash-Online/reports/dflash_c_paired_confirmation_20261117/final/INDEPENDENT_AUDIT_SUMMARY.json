@@ -1,0 +1,349 @@
+{
+  "status": "passed",
+  "checks": 2321962,
+  "wall_s": 8.194884299300611,
+  "scored_generations": 3072,
+  "warmup_generations": 96,
+  "canonical_generations": 516,
+  "paired_requests_per_dataset": 256,
+  "bootstrap_draws": 10000,
+  "bootstrap_seeds": {
+    "gsm8k": 1729,
+    "mathqa": 1730
+  },
+  "source_execution_commit": "0dc9538e8f445faa8bc7471dc9f82d885e98d529",
+  "original_qualification_commit": "31b36fd27976fb46bb6754d8b8b7e769c3d6e5f6",
+  "evidence_storage": {
+    "manifest_files": 15161,
+    "logical_bytes": 1032792335,
+    "compact_evidence_subbudget_bytes": 1000000000,
+    "over_subbudget_bytes": 32792335,
+    "local_inode_deduplicated_allocated_bytes": 1070616576,
+    "local_allocation_scope": "Authenticated Fenrir delivery files only; not A800 live allocation or compressed archive bytes.",
+    "compliance": "compact_evidence_subbudget_exceeded"
+  },
+  "errors": [],
+  "verification_status": "ANALYZED",
+  "scope": "Independent CPU reduction/authentication of retained native records; not another training or serving reproduction.",
+  "archive_identity": {
+    "bytes": 94891583,
+    "sha256": "d5213b4382bc1f0b3828a2ed8bab77ce205a9157691478ab33b5642f8d9d74e5"
+  },
+  "final_report_identity": {
+    "bytes": 11895,
+    "sha256": "5d383b74946779f6d1259e94f6c7f575021e709588a9087441798f8aafb381a5"
+  },
+  "storage_compliance": "Total allocation/reserve passed; compact-evidence sub-budget exceeded and preserved.",
+  "datasets": {
+    "gsm8k": {
+      "request_count": 256,
+      "method_totals": {
+        "N": {
+          "verification_calls": 11251,
+          "native_accepted_draft_tokens": 64941,
+          "accepted_draft_tokens": 65161,
+          "committed_progress": 76192,
+          "output_tokens": 76448,
+          "request_latency_s": 193.09837397187948,
+          "native_generate_s": 189.38722384907305,
+          "cache_maintenance_s": 0.10131341218948364,
+          "calls_per_1000_output_tokens": 147.17193386354123,
+          "equal_request_native_acceptance_mean": 6.074908248078296,
+          "equal_request_denominator": 256,
+          "zero_call_requests": 0,
+          "cap_hit_requests": 1,
+          "native_acceptance_histogram": {
+            "0": 1283,
+            "1": 1372,
+            "2": 1276,
+            "3": 1042,
+            "4": 872,
+            "5": 719,
+            "6": 598,
+            "7": 480,
+            "8": 458,
+            "9": 451,
+            "10": 327,
+            "11": 292,
+            "12": 270,
+            "13": 259,
+            "14": 232,
+            "15": 1320
+          },
+          "native_accepted_tokens_per_call": 5.772020264865345,
+          "matched_accepted_tokens_per_call": 5.791574082303796,
+          "committed_progress_per_call": 6.772020264865345
+        },
+        "C": {
+          "verification_calls": 11231,
+          "native_accepted_draft_tokens": 64961,
+          "accepted_draft_tokens": 65185,
+          "committed_progress": 76192,
+          "output_tokens": 76448,
+          "request_latency_s": 192.91003413001695,
+          "native_generate_s": 189.08017054138085,
+          "cache_maintenance_s": 0.10111995538075765,
+          "calls_per_1000_output_tokens": 146.91031812473838,
+          "equal_request_native_acceptance_mean": 6.089811489350937,
+          "equal_request_denominator": 256,
+          "zero_call_requests": 0,
+          "cap_hit_requests": 1,
+          "native_acceptance_histogram": {
+            "0": 1303,
+            "1": 1344,
+            "2": 1293,
+            "3": 1044,
+            "4": 865,
+            "5": 704,
+            "6": 587,
+            "7": 467,
+            "8": 460,
+            "9": 443,
+            "10": 311,
+            "11": 309,
+            "12": 283,
+            "13": 235,
+            "14": 244,
+            "15": 1339
+          },
+          "native_accepted_tokens_per_call": 5.78407977918262,
+          "matched_accepted_tokens_per_call": 5.804024574837503,
+          "committed_progress_per_call": 6.78407977918262
+        }
+      },
+      "comparison": {
+        "candidate": "C",
+        "reference": "N",
+        "time_reduction": {
+          "point": 0.000975356954015183,
+          "ci95": [
+            -0.0033048339505967195,
+            0.0052424537559093345
+          ],
+          "undefined_draws": 0
+        },
+        "call_reduction": {
+          "point": 0.001777619767131755,
+          "ci95": [
+            -0.0023951729466355817,
+            0.005974271669497746
+          ],
+          "undefined_draws": 0
+        },
+        "acceptance_improvement": {
+          "point": 0.0020893056094557494,
+          "ci95": [
+            -0.002801377567852753,
+            0.0070601092177024595
+          ],
+          "undefined_draws": 0
+        },
+        "acceptance_difference": {
+          "point": 0.012059514317274811,
+          "ci95": [
+            -0.016209464783235792,
+            0.04048302726632991
+          ],
+          "undefined_draws": 0
+        },
+        "speedup": 1.0009763092039865,
+        "repeat_time_reductions": [
+          0.0008203518720569791,
+          0.0010173293906704517,
+          0.0010883824719662982
+        ],
+        "requests_fewer_calls": 95,
+        "requests_more_calls": 85,
+        "request_call_ties": 76,
+        "gross_calls_saved": 153,
+        "gross_calls_added": 133,
+        "net_calls_saved": 20,
+        "evidence": {
+          "time_reduction": "DIRECTION_UNRESOLVED",
+          "acceptance_improvement": "DIRECTION_UNRESOLVED",
+          "acceptance_difference": "DIRECTION_UNRESOLVED",
+          "call_reduction": "DIRECTION_UNRESOLVED"
+        }
+      },
+      "draw_matrix_sha256": "045ca0ba7634a50c969f14b91c55660da3e2dacf1603c620de050614555674fd",
+      "bootstrap_seed": 1729,
+      "evidence": {
+        "time_reduction": "DIRECTION_UNRESOLVED",
+        "acceptance_improvement": "DIRECTION_UNRESOLVED",
+        "acceptance_difference": "DIRECTION_UNRESOLVED",
+        "call_reduction": "DIRECTION_UNRESOLVED"
+      }
+    },
+    "mathqa": {
+      "request_count": 256,
+      "method_totals": {
+        "N": {
+          "verification_calls": 17952,
+          "native_accepted_draft_tokens": 114275,
+          "accepted_draft_tokens": 114501,
+          "committed_progress": 132227,
+          "output_tokens": 132483,
+          "request_latency_s": 313.27208917215466,
+          "native_generate_s": 307.6264979808281,
+          "cache_maintenance_s": 0.10890948089460532,
+          "calls_per_1000_output_tokens": 135.50417789452231,
+          "equal_request_native_acceptance_mean": 6.754508735824739,
+          "equal_request_denominator": 256,
+          "zero_call_requests": 0,
+          "cap_hit_requests": 9,
+          "native_acceptance_histogram": {
+            "0": 1978,
+            "1": 2114,
+            "2": 1828,
+            "3": 1490,
+            "4": 1237,
+            "5": 998,
+            "6": 878,
+            "7": 769,
+            "8": 687,
+            "9": 583,
+            "10": 623,
+            "11": 554,
+            "12": 521,
+            "13": 432,
+            "14": 389,
+            "15": 2871
+          },
+          "native_accepted_tokens_per_call": 6.3655860071301245,
+          "matched_accepted_tokens_per_call": 6.378175133689839,
+          "committed_progress_per_call": 7.3655860071301245
+        },
+        "C": {
+          "verification_calls": 17935,
+          "native_accepted_draft_tokens": 114292,
+          "accepted_draft_tokens": 114514,
+          "committed_progress": 132227,
+          "output_tokens": 132483,
+          "request_latency_s": 313.0058386431386,
+          "native_generate_s": 307.33587937305373,
+          "cache_maintenance_s": 0.10761861565212409,
+          "calls_per_1000_output_tokens": 135.3758595442434,
+          "equal_request_native_acceptance_mean": 6.757777240062342,
+          "equal_request_denominator": 256,
+          "zero_call_requests": 0,
+          "cap_hit_requests": 9,
+          "native_acceptance_histogram": {
+            "0": 1963,
+            "1": 2101,
+            "2": 1822,
+            "3": 1511,
+            "4": 1219,
+            "5": 1016,
+            "6": 855,
+            "7": 789,
+            "8": 687,
+            "9": 614,
+            "10": 617,
+            "11": 538,
+            "12": 499,
+            "13": 420,
+            "14": 413,
+            "15": 2871
+          },
+          "native_accepted_tokens_per_call": 6.372567605241149,
+          "matched_accepted_tokens_per_call": 6.384945637022581,
+          "committed_progress_per_call": 7.372567605241149
+        }
+      },
+      "comparison": {
+        "candidate": "C",
+        "reference": "N",
+        "time_reduction": {
+          "point": 0.0008499018527938773,
+          "ci95": [
+            -0.002632300965293821,
+            0.004365179811370891
+          ],
+          "undefined_draws": 0
+        },
+        "call_reduction": {
+          "point": 0.0009469696969697239,
+          "ci95": [
+            -0.002589109722250932,
+            0.004517834673453929
+          ],
+          "undefined_draws": 0
+        },
+        "acceptance_improvement": {
+          "point": 0.0010967722536785462,
+          "ci95": [
+            -0.002993714244173412,
+            0.005264055608088351
+          ],
+          "undefined_draws": 0
+        },
+        "acceptance_difference": {
+          "point": 0.00698159811102439,
+          "ci95": [
+            -0.019160459814368137,
+            0.03300515320957952
+          ],
+          "undefined_draws": 0
+        },
+        "speedup": 1.0008506248003877,
+        "repeat_time_reductions": [
+          0.0006811356554699,
+          0.0005281544403575866,
+          0.0013408595173709514
+        ],
+        "requests_fewer_calls": 91,
+        "requests_more_calls": 90,
+        "request_call_ties": 75,
+        "gross_calls_saved": 179,
+        "gross_calls_added": 162,
+        "net_calls_saved": 17,
+        "evidence": {
+          "time_reduction": "DIRECTION_UNRESOLVED",
+          "acceptance_improvement": "DIRECTION_UNRESOLVED",
+          "acceptance_difference": "DIRECTION_UNRESOLVED",
+          "call_reduction": "DIRECTION_UNRESOLVED"
+        }
+      },
+      "draw_matrix_sha256": "5f1bc7e7374ed9ba54e2d125dd18e4895f8ff54755fd28b0558b602b0d4fa3db",
+      "bootstrap_seed": 1730,
+      "evidence": {
+        "time_reduction": "DIRECTION_UNRESOLVED",
+        "acceptance_improvement": "DIRECTION_UNRESOLVED",
+        "acceptance_difference": "DIRECTION_UNRESOLVED",
+        "call_reduction": "DIRECTION_UNRESOLVED"
+      }
+    }
+  },
+  "completion": {
+    "resumed_production_wall_s": 9162.809138774872,
+    "original_clock_elapsed_s": 28314.064700603485,
+    "occupied_card_s": 12018.066353797913,
+    "completed_work": {
+      "adam": 1036,
+      "response_forward": 2092,
+      "response_backward": 2092,
+      "training_initialization": 10,
+      "feedback_generation": 512,
+      "teacher_preparation": 512,
+      "canonical_generation": 516,
+      "qualification_generation": 16,
+      "warmup_generation": 96,
+      "scored_generation": 3072
+    },
+    "pending_work": {},
+    "qualified_work_repeated": false,
+    "new_model_work_during_analysis": 0
+  },
+  "interpretation": {
+    "result": "No demonstrated incremental C advantage in either dataset; all prespecified C/N intervals cross zero.",
+    "not_established": [
+      "equivalence",
+      "non-inferiority or performance preservation",
+      "training-seed/origin robustness",
+      "training-inclusive speedup",
+      "isolated causal mechanism"
+    ],
+    "existing_method_status": "Native K+ primary; C candidate retained for contribution assessment, performance preservation unresolved.",
+    "automatic_next_experiment": false
+  }
+}
