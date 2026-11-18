@@ -1,0 +1,40 @@
+{
+  "status": "passed_cpu_preparation",
+  "model_work": 0,
+  "remote_operations": 0,
+  "source_files": {
+    "experiments/full_c_gsm8k/evaluation.py": {
+      "bytes": 33239,
+      "sha256": "2cb1dfda8fc3f8a47c4857c674f5f4beb883ce1f93f98f3aa5770408e50b1798"
+    },
+    "experiments/full_c_gsm8k/analysis.py": {
+      "bytes": 14152,
+      "sha256": "2e066f9e0cb850cba65b68ab3d52fc184f2e8412c2b6d3eab4aa41a935d92c79"
+    },
+    "tests/full_c_gsm8k/test_evaluation.py": {
+      "bytes": 10322,
+      "sha256": "adfe9a362bf4cac9dbda616de5b7eafd6f017f6837474d77fb3c397586aca645"
+    },
+    "tests/full_c_gsm8k/test_analysis.py": {
+      "bytes": 5233,
+      "sha256": "bfc02fe83835042676c61ea81cb51017ea4175c3ac2a5a7a7bdee152c261eee8"
+    }
+  },
+  "tests": {
+    "evaluation": {
+      "passed": 10,
+      "duration_s": 60.404,
+      "log": "EVALUATION_CPU_RESUME_TESTS.log"
+    },
+    "analysis": {
+      "passed": 5,
+      "duration_s": 2.948,
+      "log": "ANALYSIS_CPU_TESTS_attempt002.log"
+    }
+  },
+  "actual_sealed_input_consumer_checks": "passed for both1024+2 datasets; both producer sets, binding digests, baseline counts and schedules",
+  "resume_scope": "Complete logical activations only, source/commit/endpoint identities/input equality and raw native validation; no repeated warmups, generations or publications. Invalid/unknown/mid-activation work rejects. Explicit caller resume only.",
+  "qualification": "24 fixed first-two-panel executions, 12 logical publications, no warmups; controls oldcounts, all repeatedcounts and canonical outputs gate.",
+  "historical_remote_authentication": "delegated to storage owner; not claimed here",
+  "retained_test_failure": "Initial arithmetic fixture checked error substring accounting instead of identities; only fixture expectation corrected, original log retained."
+}
