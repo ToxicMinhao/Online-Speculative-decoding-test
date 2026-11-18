@@ -1,0 +1,275 @@
+{
+  "status": "completed",
+  "binding": "e82595ea980cd5533d7ad7003c04ec15981a88ccc054835bf725749674c3e4ee",
+  "execution_commit": "0dc9538e8f445faa8bc7471dc9f82d885e98d529",
+  "original_execution_commit": "31b36fd27976fb46bb6754d8b8b7e769c3d6e5f6",
+  "started_epoch": 1794974212.9896586,
+  "completed": [
+    "gsm8k_N_first",
+    "gsm8k_references",
+    "gsm8k_C_first",
+    "gsm8k_N_collect",
+    "gsm8k_N_second",
+    "gsm8k_C_collect",
+    "gsm8k_C_second",
+    "mathqa_N_first",
+    "mathqa_references",
+    "mathqa_C_first",
+    "mathqa_N_collect",
+    "mathqa_N_second",
+    "mathqa_C_collect",
+    "mathqa_C_second",
+    "gsm8k_final",
+    "mathqa_final"
+  ],
+  "qualification_repeated": false,
+  "automatic_retry": false,
+  "authentication": "@run/resume_001/AUTHENTICATION.json",
+  "resources": {
+    "status": "passed",
+    "binding": "e82595ea980cd5533d7ad7003c04ec15981a88ccc054835bf725749674c3e4ee",
+    "execution_commit": "0dc9538e8f445faa8bc7471dc9f82d885e98d529",
+    "groups": [
+      [
+        [
+          "gsm8k",
+          "N_first",
+          "A"
+        ],
+        [
+          "gsm8k",
+          "references",
+          "B"
+        ]
+      ],
+      [
+        [
+          "gsm8k",
+          "C_first",
+          "A"
+        ],
+        [
+          "gsm8k",
+          "N_collect",
+          "B"
+        ]
+      ],
+      [
+        [
+          "gsm8k",
+          "N_second",
+          "A"
+        ],
+        [
+          "gsm8k",
+          "C_collect",
+          "B"
+        ]
+      ],
+      [
+        [
+          "gsm8k",
+          "C_second",
+          "A"
+        ]
+      ],
+      [
+        [
+          "mathqa",
+          "N_first",
+          "A"
+        ],
+        [
+          "mathqa",
+          "references",
+          "B"
+        ]
+      ],
+      [
+        [
+          "mathqa",
+          "C_first",
+          "A"
+        ],
+        [
+          "mathqa",
+          "N_collect",
+          "B"
+        ]
+      ],
+      [
+        [
+          "mathqa",
+          "N_second",
+          "A"
+        ],
+        [
+          "mathqa",
+          "C_collect",
+          "B"
+        ]
+      ],
+      [
+        [
+          "mathqa",
+          "C_second",
+          "A"
+        ]
+      ],
+      [
+        [
+          "gsm8k",
+          "final",
+          "A"
+        ]
+      ],
+      [
+        [
+          "mathqa",
+          "final",
+          "A"
+        ]
+      ]
+    ],
+    "training_reservation_bytes": 47491334144,
+    "serving_reservation_bytes": 13127319552,
+    "host_available_bytes": 102966276096,
+    "host_reserve_bytes": 17179869184,
+    "parallel_training_collection": true,
+    "estimates": {
+      "gsm8k": {
+        "N_first": 552.3448964525014,
+        "C_first": 552.3448964525014,
+        "N_second": 552.3448964525014,
+        "C_second": 552.3448964525014,
+        "N_collect": 188.32731699943542,
+        "C_collect": 188.32731699943542,
+        "references": 240.56171639362242,
+        "final": 1375.5998185306569
+      },
+      "mathqa": {
+        "N_first": 905.791333232075,
+        "C_first": 905.791333232075,
+        "N_second": 905.791333232075,
+        "C_second": 905.791333232075,
+        "N_collect": 299.9949288368225,
+        "C_collect": 299.9949288368225,
+        "references": 387.0072296904328,
+        "final": 2194.338698926071
+      }
+    },
+    "time": {
+      "clock": {
+        "occupied_s": 1433.8466596603394,
+        "elapsed_s": 19197.751566648483,
+        "active": {}
+      },
+      "raw_remaining_elapsed_s": 9702.483436195034,
+      "raw_remaining_card_s": 11006.696873951605,
+      "conservative_elapsed_s": 13213.228467053545,
+      "conservative_card_s": 14908.705936137087,
+      "elapsed_cap_s": null,
+      "original_elapsed_cap_s": 14400,
+      "elapsed_time_authorization": {
+        "policy": "through_declared_campaign_completion",
+        "scope": "elapsed_only",
+        "original_elapsed_cap_s": 14400,
+        "user_statement": "We will allow more time until experiment finished, how far are we from experiment done?"
+      },
+      "card_cap_s": 18000,
+      "forecast_policy": {
+        "factor": 1.3,
+        "fixed_margin_s": 600,
+        "kind": "planning_estimate_not_upper_bound"
+      },
+      "forecast_is_guaranteed_upper_bound": false
+    },
+    "storage": {
+      "clock": {
+        "occupied_s": 1433.8466596603394,
+        "elapsed_s": 19197.751631736755,
+        "active": {}
+      },
+      "allocated_bytes": 339165184,
+      "charged_bytes": 4634132480,
+      "peak_new_bytes": 124745480513,
+      "free_bytes": 528896643072,
+      "remaining_peak_bytes": 124406315329,
+      "compiler": {
+        "root": "@a800/.cache",
+        "baseline_allocated_bytes": 5054238720,
+        "allocated_bytes": 5054238720,
+        "growth_bytes": 0,
+        "reserved_growth_bytes": 4294967296
+      }
+    }
+  },
+  "active_tasks": [
+    "mathqa_final"
+  ],
+  "work": {
+    "limits": {
+      "adam": 1056,
+      "response_forward": 2144,
+      "response_backward": 2144,
+      "training_initialization": 16,
+      "feedback_generation": 512,
+      "teacher_preparation": 512,
+      "canonical_generation": 516,
+      "qualification_generation": 16,
+      "warmup_generation": 96,
+      "scored_generation": 3072
+    },
+    "attempted": {
+      "adam": 1036,
+      "response_forward": 2092,
+      "response_backward": 2092,
+      "training_initialization": 10,
+      "feedback_generation": 512,
+      "teacher_preparation": 512,
+      "canonical_generation": 516,
+      "qualification_generation": 16,
+      "warmup_generation": 96,
+      "scored_generation": 3072
+    },
+    "completed": {
+      "adam": 1036,
+      "response_forward": 2092,
+      "response_backward": 2092,
+      "training_initialization": 10,
+      "feedback_generation": 512,
+      "teacher_preparation": 512,
+      "canonical_generation": 516,
+      "qualification_generation": 16,
+      "warmup_generation": 96,
+      "scored_generation": 3072
+    },
+    "pending": {},
+    "next_operation": 9954
+  },
+  "postflight": {
+    "clock": {
+      "occupied_s": 12018.066353797913,
+      "elapsed_s": 28313.81973004341,
+      "active": {}
+    },
+    "allocated_bytes": 72510459904,
+    "charged_bytes": 76805427200,
+    "peak_new_bytes": 124745480513,
+    "free_bytes": 456699457536,
+    "remaining_peak_bytes": 52235020609,
+    "compiler": {
+      "root": "@a800/.cache",
+      "baseline_allocated_bytes": 5054238720,
+      "allocated_bytes": 5054238720,
+      "growth_bytes": 0,
+      "reserved_growth_bytes": 4294967296
+    }
+  },
+  "wall_s": 9162.809138774872,
+  "clock": {
+    "occupied_s": 12018.066353797913,
+    "elapsed_s": 28314.064700603485,
+    "active": {}
+  }
+}
