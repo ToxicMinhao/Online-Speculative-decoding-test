@@ -1,5 +1,6 @@
 """Initialization failures retain RNG evidence before the unchanged gate raises."""
 from copy import deepcopy
+import builtins
 import json
 from pathlib import Path
 import random
@@ -24,6 +25,39 @@ class InitialEvidenceTests(unittest.TestCase):
         self.temporary = tempfile.TemporaryDirectory()
         self.addCleanup(self.temporary.cleanup)
         self.root = Path(self.temporary.name)
+
+    def test_logging_import_draw_precedes_unchanged_native_seed(self):
+        trainer = object.__new__(T.FullCTrainer)
+        trainer.binding = 'a'*64
+        events = []
+        import_module = builtins.__import__
+
+        def synthetic_logging_import(name, *args, **kwargs):
+            if name == 'rich.style':
+                before = random.getstate()
+                random.getrandbits(24)
+                events.append(('logging_import', before != random.getstate()))
+                return SimpleNamespace(style=SimpleNamespace())
+            return import_module(name, *args, **kwargs)
+
+        def native_build(current):
+            # The real parent retains its existing accelerate.set_seed call.
+            # This CPU fixture models only that relevant ordering boundary.
+            events.append(('native_build', None))
+            random.seed(17)
+            current.contract = {T.kplus.CONTRACT_KEY: {}}
+            current._native_forward = lambda *args, **kwargs: None
+            current._native_step = lambda: None
+
+        with patch('builtins.__import__', side_effect=synthetic_logging_import), \
+                patch.object(T.kplus.KPlusTrainer, '_build_runtime', native_build), \
+                patch.object(trainer, '_install_allocation'), \
+                patch.object(trainer, '_check_native_path'):
+            trainer._build_runtime()
+        self.assertEqual(events, [('logging_import', True), ('native_build', None)])
+        self.assertEqual(random.getstate(), random.Random(17).getstate())
+        self.assertEqual(T.STARTUP_COMPATIBILITY['pre_seed_import'], 'rich.style')
+        self.assertFalse(T.STARTUP_COMPATIBILITY['post_construction_rng_overwrite'])
 
     def test_failure_retains_all_rng_components_and_complete_mismatch_paths(self):
         original, _ = own_state()

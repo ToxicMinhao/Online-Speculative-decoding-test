@@ -25,6 +25,12 @@ from online_feedback.training import SpecForgeEventTrainer
 CONTRACT_KEY = 'full_c_gsm8k_v1'
 ARM = 'KPLUS_C'
 RELATIVE_CAP = .25
+STARTUP_COMPATIBILITY = {
+    'pre_seed_import': 'rich.style',
+    'reason': 'Materialize terminal style identifiers before the existing native seed17 call',
+    'native_seed_and_initial_equality_gate_unchanged': True,
+    'post_construction_rng_overwrite': False,
+}
 
 
 def initial_comparison_evidence(original, current, path):
@@ -53,6 +59,7 @@ def initial_comparison_evidence(original, current, path):
                 for key,value in state['rng'].items()}
 
     report=dict(status='checking',comparison='original exact native initial-state gate',
+        startup_compatibility=dict(STARTUP_COMPATIBILITY),
         original_rng=rng_record(original),current_rng=rng_record(current),
         rng_component_equal={key:not differences(original['rng'][key],current['rng'].get(key))
                              for key in original['rng']},
@@ -152,6 +159,11 @@ class FullCTrainer(kplus.KPlusTrainer):
         self.arm = ARM
 
     def _build_runtime(self):
+        # Rich initializes terminal-link IDs with Python random at import time.
+        # Load that logging dependency before the unchanged native set_seed(17),
+        # so its first lazy import cannot advance the scientific boundary's RNG.
+        import rich.style  # noqa: F401
+
         super()._build_runtime()
         del self.contract[kplus.CONTRACT_KEY]
         self.contract[CONTRACT_KEY] = experiment_contract(self.binding)
