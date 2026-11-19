@@ -1,0 +1,288 @@
+{
+  "status": "passed",
+  "scope": "public scalar reproduction, no native-token or model replay",
+  "dependencies": {
+    "python": "3.12.15",
+    "numpy": "2.3.5"
+  },
+  "verifier": {
+    "bytes": 16196,
+    "sha256": "7fe7426162ba3df7930c995fbd290d27a3f93ccb20b4d4a8bac40bc6ba6f3e16"
+  },
+  "scalar_comparison_tolerance": 1e-12,
+  "integer_counts_and_bootstrap_identities_exact": true,
+  "count_reduction": "one repeat-consistent trajectory per request",
+  "time_reduction": "sum of per-request means over all three repeats",
+  "bootstrap": "whole paired requests, lexicographic request_id, shared draws across four primary metrics",
+  "datasets": {
+    "gsm8k": {
+      "inputs": {
+        "gsm8k/ALL_REPEATS.csv": {
+          "bytes": 1350116,
+          "sha256": "3fc25193425a478a365bb4c5974b2e7b7189d15ea4c950ef4d76d69498921895"
+        },
+        "gsm8k/PER_REQUEST.csv": {
+          "bytes": 370873,
+          "sha256": "24a8b1a95e9e500f6c29e389c421954343f62d54c8438833814d37626f451e90"
+        },
+        "gsm8k/SUMMARY.json": {
+          "bytes": 169581,
+          "sha256": "60656ef40a5fd234e9da882d1e67d91be7e6a12c833e4f5c39f79af32ca25420"
+        }
+      },
+      "scored_rows": 9216,
+      "requests": 1024,
+      "methods": {
+        "O58": {
+          "verification_calls": 44730,
+          "native_accepted_draft_tokens": 269093,
+          "accepted_draft_tokens": 270037,
+          "committed_progress": 313823,
+          "output_tokens": 314847,
+          "request_latency_s": 817.0179322113594,
+          "native_generate_s": 765.0943684348216,
+          "cache_maintenance_s": 37.333655199036
+        },
+        "KPLUS58": {
+          "verification_calls": 43267,
+          "native_accepted_draft_tokens": 270556,
+          "accepted_draft_tokens": 271522,
+          "committed_progress": 313823,
+          "output_tokens": 314847,
+          "request_latency_s": 793.9913814775646,
+          "native_generate_s": 742.5180664105961,
+          "cache_maintenance_s": 37.887930219372116
+        },
+        "KPLUS_C58": {
+          "verification_calls": 43130,
+          "native_accepted_draft_tokens": 270693,
+          "accepted_draft_tokens": 271653,
+          "committed_progress": 313823,
+          "output_tokens": 314847,
+          "request_latency_s": 791.7401526719332,
+          "native_generate_s": 740.3136136730512,
+          "cache_maintenance_s": 37.777103858068585
+        }
+      },
+      "contrasts": {
+        "KPLUS_C58_vs_KPLUS58": {
+          "requests_fewer_calls": 416,
+          "requests_more_calls": 366,
+          "request_call_ties": 242,
+          "gross_calls_saved": 780,
+          "gross_calls_added": 643,
+          "net_calls_saved": 137,
+          "repeat_time_reductions": [
+            0.0014746981435772577,
+            0.0048413289344599875,
+            0.0021783528069958535
+          ]
+        },
+        "KPLUS_C58_vs_O58": {
+          "requests_fewer_calls": 662,
+          "requests_more_calls": 214,
+          "request_call_ties": 148,
+          "gross_calls_saved": 2002,
+          "gross_calls_added": 402,
+          "net_calls_saved": 1600,
+          "repeat_time_reductions": [
+            0.028085991224019002,
+            0.032292607504491144,
+            0.03242421687895913
+          ]
+        },
+        "KPLUS58_vs_O58": {
+          "requests_fewer_calls": 633,
+          "requests_more_calls": 250,
+          "request_call_ties": 141,
+          "gross_calls_saved": 1917,
+          "gross_calls_added": 454,
+          "net_calls_saved": 1463,
+          "repeat_time_reductions": [
+            0.026650594662916305,
+            0.02758482578525734,
+            0.030311894071499368
+          ]
+        }
+      },
+      "primary_metrics": {
+        "time_reduction": {
+          "point": 0.002835331539042696,
+          "ci95": [
+            -0.002528707672444469,
+            0.00823999929270608
+          ],
+          "undefined_draws": 0
+        },
+        "call_reduction": {
+          "point": 0.003166385466984112,
+          "ci95": [
+            0.0005006927244659566,
+            0.005829226610756475
+          ],
+          "undefined_draws": 0
+        },
+        "acceptance_improvement": {
+          "point": 0.0036844164208629238,
+          "ci95": [
+            0.0005791161041420467,
+            0.006805827588883295
+          ],
+          "undefined_draws": 0
+        },
+        "acceptance_difference": {
+          "point": 0.023039290201840146,
+          "ci95": [
+            0.0036546741775064675,
+            0.04245116975254781
+          ],
+          "undefined_draws": 0
+        }
+      },
+      "source_order_sha256": "58e2246c2eed9e917a5ab27151c0dfe31ee850b6146db8d7d1205ae772559434",
+      "draw_matrix_sha256": "701cfbde34130cffc541673401086c6328e44dbcb7eb7443dcb8800451893263",
+      "execution_commit": "b4459820b3822c3d760bb3fd880e4d139fa2bbc2",
+      "bootstrap_seed": 20261118,
+      "bootstrap_draws": 10000
+    },
+    "mathqa": {
+      "inputs": {
+        "mathqa/ALL_REPEATS.csv": {
+          "bytes": 1425826,
+          "sha256": "b8a40ce5e662962772f23e8cad08556f05052d73d3c90e3eb93e5698b095c160"
+        },
+        "mathqa/PER_REQUEST.csv": {
+          "bytes": 393185,
+          "sha256": "3e4a5f8e37efc7ded0efbe8748fa0bcdb9bc51b1619aa65655930bd4380b4aa6"
+        },
+        "mathqa/SUMMARY.json": {
+          "bytes": 176375,
+          "sha256": "354c04b96e4eea60451a1f739c5394def63a72abf2002dc90ef55ef10401ee58"
+        }
+      },
+      "scored_rows": 9216,
+      "requests": 1024,
+      "methods": {
+        "O58": {
+          "verification_calls": 74786,
+          "native_accepted_draft_tokens": 443451,
+          "accepted_draft_tokens": 444325,
+          "committed_progress": 518237,
+          "output_tokens": 519261,
+          "request_latency_s": 1308.85762955,
+          "native_generate_s": 1282.6838436182588,
+          "cache_maintenance_s": 1.2295938804745674
+        },
+        "KPLUS58": {
+          "verification_calls": 73132,
+          "native_accepted_draft_tokens": 445105,
+          "accepted_draft_tokens": 445974,
+          "committed_progress": 518237,
+          "output_tokens": 519261,
+          "request_latency_s": 1281.3528580224763,
+          "native_generate_s": 1255.3749148932595,
+          "cache_maintenance_s": 1.3435197335978348
+        },
+        "KPLUS_C58": {
+          "verification_calls": 72916,
+          "native_accepted_draft_tokens": 445321,
+          "accepted_draft_tokens": 446148,
+          "committed_progress": 518237,
+          "output_tokens": 519261,
+          "request_latency_s": 1277.528037564208,
+          "native_generate_s": 1251.6492229520034,
+          "cache_maintenance_s": 1.2188132032752037
+        }
+      },
+      "contrasts": {
+        "KPLUS_C58_vs_KPLUS58": {
+          "requests_fewer_calls": 430,
+          "requests_more_calls": 370,
+          "request_call_ties": 224,
+          "gross_calls_saved": 974,
+          "gross_calls_added": 758,
+          "net_calls_saved": 216,
+          "repeat_time_reductions": [
+            0.002871700037346936,
+            0.00311279498520034,
+            0.002970958568881521
+          ]
+        },
+        "KPLUS_C58_vs_O58": {
+          "requests_fewer_calls": 659,
+          "requests_more_calls": 225,
+          "request_call_ties": 140,
+          "gross_calls_saved": 2326,
+          "gross_calls_added": 456,
+          "net_calls_saved": 1870,
+          "repeat_time_reductions": [
+            0.023870544068433253,
+            0.024124790843669253,
+            0.023814662797359998
+          ]
+        },
+        "KPLUS58_vs_O58": {
+          "requests_fewer_calls": 635,
+          "requests_more_calls": 249,
+          "request_call_ties": 140,
+          "gross_calls_saved": 2228,
+          "gross_calls_added": 574,
+          "net_calls_saved": 1654,
+          "repeat_time_reductions": [
+            0.021059320081350363,
+            0.021077606125115222,
+            0.020905814537317546
+          ]
+        }
+      },
+      "primary_metrics": {
+        "time_reduction": {
+          "point": 0.0029849860905378778,
+          "ci95": [
+            0.0009763564931347197,
+            0.0049907848495469335
+          ],
+          "undefined_draws": 0
+        },
+        "call_reduction": {
+          "point": 0.0029535634195700933,
+          "ci95": [
+            0.0009994707097505857,
+            0.004924320952888139
+          ],
+          "undefined_draws": 0
+        },
+        "acceptance_improvement": {
+          "point": 0.0034490291002047258,
+          "ci95": [
+            0.0011649716965219492,
+            0.005761527114345048
+          ],
+          "undefined_draws": 0
+        },
+        "acceptance_difference": {
+          "point": 0.020991906383616588,
+          "ci95": [
+            0.007096721460660893,
+            0.035057989946843435
+          ],
+          "undefined_draws": 0
+        }
+      },
+      "source_order_sha256": "ff093024ae0c57da38bae5ea8896f14bd13f478b104fc0b7d80af5e1adb83f57",
+      "draw_matrix_sha256": "8fa17a82dc7a152450744e6c2c56acf2282ffdbcd500c839f2e9ec5c124a4f3c",
+      "execution_commit": "b4459820b3822c3d760bb3fd880e4d139fa2bbc2",
+      "bootstrap_seed": 20261119,
+      "bootstrap_draws": 10000
+    }
+  },
+  "limitations": [
+    "Does not authenticate model, checkpoint, prompt or output-token bytes.",
+    "Does not rerun or independently validate private native traces or training state.",
+    "Only the primary C/K contrast receives bootstrap interval reproduction here; all three contrasts receive scalar call accounting.",
+    "One fitted seed17 trajectory and reused panels; repeats are timing repeats, not independent training samples."
+  ],
+  "checks": 215366,
+  "failures": [],
+  "maximum_scalar_absolute_difference": 0.0
+}

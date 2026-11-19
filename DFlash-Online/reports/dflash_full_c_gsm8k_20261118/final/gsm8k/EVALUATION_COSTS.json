@@ -1,0 +1,42 @@
+{
+  "status": "completed",
+  "planned_generations": 9504,
+  "attempted_generations": 9504,
+  "returned_generations": 9504,
+  "publications": 144,
+  "logical_activations": 144,
+  "activation_s": 159.48674682155252,
+  "weight_validation_s": 9.512582356110215,
+  "optimizer_steps": 0,
+  "feedback_collections": 0,
+  "teacher_preparations": 0,
+  "automatic_retry": false,
+  "completed_valid_generations": 9504,
+  "invalid_generations": 0,
+  "scored_generations": 9216,
+  "warmup_generations": 288,
+  "unknown_generation_attempts": 0,
+  "interrupted_attempt": null,
+  "unattempted_generations": 0,
+  "evaluation_wall_s": 8092.500186704099,
+  "cost_scope": "Evaluation wrapper includes checkpoint publication, validation, warmups, native generation and evidence IO.",
+  "loading_cost": "Backend construction is outside this function and must be recorded by the task runner.",
+  "nested_timers_not_additive": true,
+  "measured_time_by_phase": {
+    "warmup": {
+      "request_latency_s": 312.8885514009744,
+      "native_generate_s": 287.9722325783223,
+      "cache_maintenance_s": 11.750889396294951
+    },
+    "scored": {
+      "request_latency_s": 7208.248399082571,
+      "native_generate_s": 6743.778145555407,
+      "cache_maintenance_s": 338.9960678294301
+    }
+  },
+  "serving_summed_request_means": {
+    "O58": 817.0179322113594,
+    "KPLUS58": 793.9913814775646,
+    "KPLUS_C58": 791.7401526719332
+  }
+}
