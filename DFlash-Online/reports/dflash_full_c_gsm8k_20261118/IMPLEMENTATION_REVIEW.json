@@ -1,0 +1,173 @@
+{
+  "schema": "full_c_independent_integration_review_v1",
+  "status": "passed_with_prelaunch_requirements",
+  "created_utc": "2026-11-18T09:04:58.799480+00:00",
+  "reviewer": "mathqa_c_trainer",
+  "authorship_overlap": "Reviewer authored training.py, qualification.py and storage.py; root-authored orchestration independently reviewed.",
+  "scope": "Read-only CPU integration review; no GPU/model/remote/deletion work",
+  "base_commit": "7ca37bbeadc77319cd3fe0e55ca11f7149be0364",
+  "reviewed_source": {
+    "experiments/full_c_gsm8k/contract.py": {
+      "bytes": 3740,
+      "sha256": "7346e29e151dbbc0acf3b8a8cf599a90a1202ef26723de9c068da306a785fbe7"
+    },
+    "experiments/full_c_gsm8k/prepare.py": {
+      "bytes": 6604,
+      "sha256": "3c4bde62b5e2064c1932c2b7cd9322b87ae4b55a62bc8d7532e0e226c2be8a4d"
+    },
+    "experiments/full_c_gsm8k/preflight.py": {
+      "bytes": 5121,
+      "sha256": "4511c6f36cbfc5d493f80b4bbfd4e8d86d0b96e1fba30d27f78b6d2c7b9ea645"
+    },
+    "experiments/full_c_gsm8k/runtime.py": {
+      "bytes": 4188,
+      "sha256": "bc58cc368772ea1b1a943fa886cc930373a00d1e1a4f2411aaa82ce22faf0ac4"
+    },
+    "experiments/full_c_gsm8k/entry.py": {
+      "bytes": 7743,
+      "sha256": "689f4e7c8c0ab5074458572370f3accdfa5ef7709712b21d4222d181587fb608"
+    },
+    "experiments/full_c_gsm8k/launch.py": {
+      "bytes": 10948,
+      "sha256": "712d9861054d60eebb6d92a57437040e85cdc517ca96e748b0ddfd0f811e4d90"
+    },
+    "experiments/full_c_gsm8k/campaign.py": {
+      "bytes": 18429,
+      "sha256": "4aa274e88e62a7b0e810ec50be4706491ee366564bfe636e8a11c472de0ceb9b"
+    },
+    "experiments/full_c_gsm8k/training.py": {
+      "bytes": 14124,
+      "sha256": "9b0849371e5f3a7e4afc7ad06d36f1b05ea2a6443b6c4f9dc614cf3ba78ab84b"
+    },
+    "experiments/full_c_gsm8k/qualification.py": {
+      "bytes": 15813,
+      "sha256": "b13ea8fb4bae09a010083a77960e4f7d735970519642b735a5b4d1cddb923d5a"
+    },
+    "experiments/full_c_gsm8k/storage.py": {
+      "bytes": 16269,
+      "sha256": "7486fdd5104e14b488e63bdccc314608490639c967e649ec3432fbfce6387f90"
+    },
+    "experiments/full_c_gsm8k/evaluation.py": {
+      "bytes": 33239,
+      "sha256": "2cb1dfda8fc3f8a47c4857c674f5f4beb883ce1f93f98f3aa5770408e50b1798"
+    }
+  },
+  "method": {
+    "handoff": "/home/minhao2/EAGLE_SPEC/research/dflash_full_c_gsm8k_20261118/HANDOFF.md",
+    "workflow": "ARS 3.24.2 experiment-agent reproducibility/execution fidelity",
+    "files": [
+      "contract.py",
+      "prepare.py",
+      "preflight.py",
+      "runtime.py",
+      "entry.py",
+      "launch.py",
+      "campaign.py",
+      "training.py",
+      "qualification.py",
+      "storage.py",
+      "evaluation.py"
+    ]
+  },
+  "checks": [
+    "exact inherited K+ scientific objective and allocator byte-identical",
+    "released initialization authenticates original seed17 empty-Adam witness without loading witness weights",
+    "natural sampling; no fork29 or forced historical schedule; own corrected C state survives restore",
+    "58 causal own-feedback events plus49 untrained tail responses; no intermediate efficacy evaluation",
+    "qualification:6 disposable Adam14 forward/backward each1 initialization;24 native generations; no new teacher feedback",
+    "production:7424 Adam14848 forward/backward each1 initialization7473 feedback7424 preparations4 inherited guards",
+    "fresh endpoint budget18432 scored576 warmups, two unchanged1024 panels, three methods/repeats and fixed six-order schedule",
+    "global/work ledgers reserve before operations and retain unknown work; no automatic retries",
+    "production retains native startup without extra discarded forwards; qualification startup2F/B restored exactly",
+    "worker environment/compiler and installed runtime source/version checks precede model load",
+    "physical A serves and B trains; both allocations charged during synchronous controller lifetime",
+    "evaluation phase counts resolve sealed labels; quiet check both GPUs and transfer/training process guard outside timing",
+    "qualification disposable payload retirement follows serving checks and exact CPU export reconstruction",
+    "rolling retirement fingerprints all model/Adam/RNG tensors; predecessor export proof and generic KPLUS_C ownership",
+    "100GB charged source/cache/tensor/evidence allocation and400GB shared reserve;20GB evidence only sizing allowance",
+    "original clock and attempted work retained; boundary resume refuses ambiguous partial optimizer windows"
+  ],
+  "findings": [
+    {
+      "id": "gpu_resource_admission",
+      "severity": "P2",
+      "status": "resolved_before_staging",
+      "description": "Initial preflight logged UUID/VRAM without enforcing admission.",
+      "resolution": "Current preflight checks pinned UUID set and reuses inherited two-A800 hardware_admission including72GiB available capacity."
+    },
+    {
+      "id": "test_signature_drift",
+      "severity": "test_interface",
+      "status": "fixed_by_evaluation_owner_pending_root_combined_result",
+      "description": "Independent36-test run saw33pass/3errors because fixtures omitted newly required checkpoint_identities. Root confirms owner10evaluation+5analysis tests pass after repair."
+    },
+    {
+      "id": "dry_package_source",
+      "severity": "prelaunch_requirement",
+      "status": "pending_final_publication",
+      "description": "package_dry_002 predates explicit serving qualification schedule and contains base commit. Regenerate final plan/source manifest after implementation commit, then authenticate staged closure. In-memory prospective schedule+binding passes current validate_plan without modifying historical dry package."
+    }
+  ],
+  "cpu_results": {
+    "independent_run": {
+      "tests": 36,
+      "passed": 33,
+      "errors": 3,
+      "seconds": 29.221,
+      "failed_tests": [
+        "test_complete_real_reader_roundtrip_and_public_counts",
+        "test_invalid_and_unknown_preserve_raw_stop_without_retries",
+        "test_references_producers_and_digest_fail_before_publication"
+      ],
+      "cause": "All three are missing checkpoint_identities fixture argument after concurrent API extension",
+      "gpu_model_work": 0
+    },
+    "own_focused_tests": {
+      "tests": 19,
+      "passed": 19
+    },
+    "package_audit": "/home/minhao2/EAGLE_SPEC/research/dflash_full_c_gsm8k_20261118/training_preparation/INTEGRATION_PACKAGE_AUDIT.json",
+    "package_checks": 45,
+    "latest_contract_in_memory_prospective_check": {
+      "status": "passed",
+      "original_manifest": {
+        "counts": {
+          "train_requests": 7473,
+          "feedback_requests": 7424,
+          "serve_only_requests": 49,
+          "events": 58,
+          "responses_per_event": 128,
+          "eval_requests": 1024
+        },
+        "cap_policy": "fixed2048",
+        "train_context_limit": 2272,
+        "serving_context_limit": 4096,
+        "train_output_cap_min": 2048,
+        "train_output_cap_max": 2048,
+        "train_prompt_tokens_max": 224,
+        "eval_prompt_tokens_max": 215
+      },
+      "endpoint": 58
+    }
+  },
+  "expected_work": {
+    "adam": 7430,
+    "response_forward": 14862,
+    "response_backward": 14862,
+    "training_initialization": 2,
+    "feedback_generation": 7473,
+    "teacher_preparation": 7424,
+    "correctness_generation": 4,
+    "qualification_generation": 24,
+    "warmup_generation": 576,
+    "scored_generation": 18432,
+    "total_generations": 26509
+  },
+  "remaining_requirements": [
+    "Publish exact reviewed source and rebuild final package/source closure; base7ca37bb is not new execution code",
+    "Root combined updated CPU suite must finish passing",
+    "Remote CPU identity/hardware/storage preflight and native qualification remain required; no GPU readiness claim from this review"
+  ],
+  "scientific_changes": false,
+  "model_work": 0
+}

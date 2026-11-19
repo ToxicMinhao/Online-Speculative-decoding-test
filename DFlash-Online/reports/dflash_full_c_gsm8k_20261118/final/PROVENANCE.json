@@ -1,0 +1,66 @@
+{
+  "execution_commit": "b4459820b3822c3d760bb3fd880e4d139fa2bbc2",
+  "qualification_commit": "a32f259d87697f09653c2e2eab786bb17603de1b",
+  "report_version": "C58 final endpoint report, 2026-11-19; exact publication commit is the Git commit containing this file",
+  "checkpoint_weight_identities": {
+    "O58": {
+      "bytes": 2097259104,
+      "sha256": "796ec9d486046d43a2b91bd0ddf32b33eb3183b7d924e9dd9ab6bc4c6b0d0856"
+    },
+    "KPLUS58": {
+      "bytes": 2097259104,
+      "sha256": "4bd8e872e4b3976b0da257f0b181f0f27c8b369e2faf386d7d833de9a1c87d67"
+    },
+    "KPLUS_C58": {
+      "bytes": 2097259104,
+      "sha256": "705c6b8b81895837ffbe1fb926aa266078d6af2c9904a77642b797a81dc1f937"
+    }
+  },
+  "target_revision": "b968826d9c46dd6066d109eabc6255188de91218",
+  "released_drafter_revision": "9b41424b7109f9c5413454f481b09a82b85333f4",
+  "training": {
+    "seed": 17,
+    "events": 58,
+    "feedback_responses": 7473,
+    "updated_responses": 7424,
+    "final_untrained_responses": 49,
+    "presentations": 14848,
+    "optimizer_steps": 7424,
+    "lr": 0.0003,
+    "weight_decay": 0.01,
+    "passes_per_event": 2,
+    "microbatch": 1,
+    "accumulation": 2,
+    "anchors_max": 512,
+    "gamma": 7,
+    "training_context_limit": 2272,
+    "native_precision": "BF16",
+    "attention": "Flex attention",
+    "C_smoothing": 0.5,
+    "C_relative_cap": 0.25
+  },
+  "serving": {
+    "greedy": true,
+    "precision": "BF16",
+    "block_size": 16,
+    "output_cap": 2048,
+    "context_limit": 4096,
+    "concurrency": 1,
+    "capture": false,
+    "attention": "FA3",
+    "cache_policy": "qualified full flush and fused-KV helper refresh",
+    "physical_card": "one fixed card for all arms and both panels; other card idle"
+  },
+  "public_metadata_redactions": [
+    "Absolute host/checkpoint paths and physical GPU UUIDs removed.",
+    "No prompt/answer text, token IDs, model or optimizer tensors, or raw runtime logs published.",
+    "Source IDs and request IDs are retained as public benchmark labels for paired ordering.",
+    "Original private artifact hashes and sanitized public file hashes identify different byte streams."
+  ],
+  "audit_scope": {
+    "executed_raw_audit": "passed for both datasets",
+    "independent_local_audit": "primary scalar reduction and paired bootstrap only",
+    "no_second_model_or_raw_token_replay": true
+  },
+  "scientific_scope": "Fixed seed-17 trajectory; reused panels; conditional marginal intervals; no tuning or further model execution."
+}

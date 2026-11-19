@@ -1,0 +1,73 @@
+{
+  "execution_commit": "b4459820b3822c3d760bb3fd880e4d139fa2bbc2",
+  "production_wrapper_s": 57184.421030044556,
+  "original_clock_at_final_audit": {
+    "occupied_s": 93394.92581319809,
+    "elapsed_s": 76320.00397229195,
+    "active": {}
+  },
+  "automated_final_audit_s": 63.40976939536631,
+  "qualification_and_failure_card_s": 379.7951273918152,
+  "phase_card_seconds": [
+    {
+      "task": "qualification_training_B",
+      "occupied_card_s": 25.50616478919983,
+      "started_epoch": 1794993370.7686408
+    },
+    {
+      "task": "constructor_trace_constructor_002",
+      "occupied_card_s": 52.893877029418945,
+      "started_epoch": 1795011181.6004543
+    },
+    {
+      "task": "qualification_training_B",
+      "occupied_card_s": 218.67159748077393,
+      "started_epoch": 1795011738.4989944
+    },
+    {
+      "task": "qualification_serving_A",
+      "occupied_card_s": 82.72348809242249,
+      "started_epoch": 1795011960.2551858
+    },
+    {
+      "task": "train_A",
+      "occupied_card_s": 35938.59303164482,
+      "started_epoch": 1795012542.0610049
+    },
+    {
+      "task": "train_B",
+      "occupied_card_s": 35938.59748458862,
+      "started_epoch": 1795012542.057222
+    },
+    {
+      "task": "final_gsm8k_A",
+      "occupied_card_s": 8129.217474222183,
+      "started_epoch": 1795048485.3653867
+    },
+    {
+      "task": "final_mathqa_A",
+      "occupied_card_s": 13008.722695350647,
+      "started_epoch": 1795056616.4284534
+    }
+  ],
+  "training_worker_wall_s": 35935.14921948314,
+  "training_initialization": {
+    "backend_loading_s": 21.009311953559518,
+    "trainer_loading_s": 20.18053881637752,
+    "initial_validation_s": 8.456455487757921
+  },
+  "event_timer_sums": {
+    "update_call_s": 24539.599225822836,
+    "training_s": 21092.390993898734,
+    "checkpoint_save_s": 1362.266687657684,
+    "export_s": 964.9787315875292,
+    "teacher_preparation_s": 287.62396392039955,
+    "feature_persistence_s": 346.0350562054664,
+    "publication_validation_s": 1586.7701618093997,
+    "retention_s": 2032.1357952430844,
+    "activation_s": 56.054961862042546,
+    "native_activation_s": 20.223920671269298
+  },
+  "nested_timers_not_additive": true,
+  "interpretation": "update_call_s includes teacher preparation, feature persistence, training/export and activation. Other timers overlap; do not sum all fields. Historical native K+ training is not a fresh matched overhead measurement."
+}

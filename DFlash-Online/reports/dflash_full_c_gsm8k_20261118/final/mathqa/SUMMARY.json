@@ -1,0 +1,6159 @@
+{
+  "status": "completed",
+  "dataset": "mathqa",
+  "event": 58,
+  "scope": "FULL_C_REUSED_PR26_MATHQA_GSM_TRAINED_SERVING_TRANSFER",
+  "session": "full_c_gsm8k_mathqa_event58",
+  "request_count": 1024,
+  "count_trajectory_repeat": 0,
+  "method_totals": {
+    "O58": {
+      "verification_calls": 74786,
+      "native_accepted_draft_tokens": 443451,
+      "accepted_draft_tokens": 444325,
+      "committed_progress": 518237,
+      "output_tokens": 519261,
+      "request_latency_s": 1308.85762955,
+      "native_generate_s": 1282.6838436182588,
+      "cache_maintenance_s": 1.2295938804745674,
+      "native_accepted_tokens_per_call": 5.929599122830476,
+      "matched_accepted_tokens_per_call": 5.941285802155484,
+      "committed_progress_per_call": 6.929599122830476,
+      "calls_per_1000_output_tokens": 144.0239109041503,
+      "equal_request_native_acceptance_mean": 6.134960498499406,
+      "equal_request_denominator": 1024,
+      "zero_call_requests": 0,
+      "cap_hit_requests": 45,
+      "native_acceptance_histogram": {
+        "0": 8666,
+        "1": 9663,
+        "2": 8189,
+        "3": 6565,
+        "4": 5308,
+        "5": 4479,
+        "6": 3720,
+        "7": 3213,
+        "8": 2898,
+        "9": 2520,
+        "10": 2263,
+        "11": 2131,
+        "12": 1757,
+        "13": 1683,
+        "14": 1586,
+        "15": 10145
+      }
+    },
+    "KPLUS58": {
+      "verification_calls": 73132,
+      "native_accepted_draft_tokens": 445105,
+      "accepted_draft_tokens": 445974,
+      "committed_progress": 518237,
+      "output_tokens": 519261,
+      "request_latency_s": 1281.3528580224763,
+      "native_generate_s": 1255.3749148932595,
+      "cache_maintenance_s": 1.3435197335978348,
+      "native_accepted_tokens_per_call": 6.086323360498824,
+      "matched_accepted_tokens_per_call": 6.098205983700706,
+      "committed_progress_per_call": 7.086323360498824,
+      "calls_per_1000_output_tokens": 140.83861487768195,
+      "equal_request_native_acceptance_mean": 6.293138409120138,
+      "equal_request_denominator": 1024,
+      "zero_call_requests": 0,
+      "cap_hit_requests": 45,
+      "native_acceptance_histogram": {
+        "0": 8630,
+        "1": 9150,
+        "2": 7805,
+        "3": 6239,
+        "4": 5084,
+        "5": 4266,
+        "6": 3552,
+        "7": 3029,
+        "8": 2739,
+        "9": 2417,
+        "10": 2155,
+        "11": 2034,
+        "12": 1867,
+        "13": 1722,
+        "14": 1577,
+        "15": 10866
+      }
+    },
+    "KPLUS_C58": {
+      "verification_calls": 72916,
+      "native_accepted_draft_tokens": 445321,
+      "accepted_draft_tokens": 446148,
+      "committed_progress": 518237,
+      "output_tokens": 519261,
+      "request_latency_s": 1277.528037564208,
+      "native_generate_s": 1251.6492229520034,
+      "cache_maintenance_s": 1.2188132032752037,
+      "native_accepted_tokens_per_call": 6.10731526688244,
+      "matched_accepted_tokens_per_call": 6.118657084864776,
+      "committed_progress_per_call": 7.10731526688244,
+      "calls_per_1000_output_tokens": 140.4226390967163,
+      "equal_request_native_acceptance_mean": 6.323609004047601,
+      "equal_request_denominator": 1024,
+      "zero_call_requests": 0,
+      "cap_hit_requests": 45,
+      "native_acceptance_histogram": {
+        "0": 8559,
+        "1": 9175,
+        "2": 7662,
+        "3": 6116,
+        "4": 5101,
+        "5": 4217,
+        "6": 3519,
+        "7": 3073,
+        "8": 2740,
+        "9": 2490,
+        "10": 2224,
+        "11": 2072,
+        "12": 1832,
+        "13": 1715,
+        "14": 1596,
+        "15": 10825
+      }
+    }
+  },
+  "absolute_differences": {
+    "KPLUS_C58_minus_KPLUS58": {
+      "verification_calls": -216,
+      "native_accepted_draft_tokens": 216,
+      "accepted_draft_tokens": 174,
+      "committed_progress": 0,
+      "output_tokens": 0,
+      "request_latency_s": -3.8248204582682774,
+      "native_generate_s": -3.725691941256173,
+      "cache_maintenance_s": -0.12470653032263113
+    },
+    "KPLUS_C58_minus_O58": {
+      "verification_calls": -1870,
+      "native_accepted_draft_tokens": 1870,
+      "accepted_draft_tokens": 1823,
+      "committed_progress": 0,
+      "output_tokens": 0,
+      "request_latency_s": -31.32959198579192,
+      "native_generate_s": -31.034620666255478,
+      "cache_maintenance_s": -0.010780677199363708
+    },
+    "KPLUS58_minus_O58": {
+      "verification_calls": -1654,
+      "native_accepted_draft_tokens": 1654,
+      "accepted_draft_tokens": 1649,
+      "committed_progress": 0,
+      "output_tokens": 0,
+      "request_latency_s": -27.504771527523644,
+      "native_generate_s": -27.308928724999305,
+      "cache_maintenance_s": 0.11392585312326742
+    }
+  },
+  "comparisons": {
+    "KPLUS_C58_vs_KPLUS58": {
+      "candidate": "KPLUS_C58",
+      "reference": "KPLUS58",
+      "time_reduction": {
+        "point": 0.0029849860905378778,
+        "ci95": [
+          0.0009763564931347197,
+          0.0049907848495469335
+        ],
+        "undefined_draws": 0
+      },
+      "speedup": 1.0029939229087768,
+      "acceptance_improvement": {
+        "point": 0.0034490291002047258,
+        "ci95": [
+          0.0011649716965219492,
+          0.005761527114345048
+        ],
+        "undefined_draws": 0
+      },
+      "acceptance_difference": {
+        "point": 0.020991906383616588,
+        "ci95": [
+          0.007096721460660893,
+          0.035057989946843435
+        ],
+        "undefined_draws": 0
+      },
+      "call_reduction": {
+        "point": 0.0029535634195700933,
+        "ci95": [
+          0.0009994707097505857,
+          0.004924320952888139
+        ],
+        "undefined_draws": 0
+      },
+      "repeat_time_reductions": [
+        0.002871700037346936,
+        0.00311279498520034,
+        0.002970958568881521
+      ],
+      "requests_fewer_calls": 430,
+      "requests_more_calls": 370,
+      "request_call_ties": 224,
+      "gross_calls_saved": 974,
+      "gross_calls_added": 758,
+      "net_calls_saved": 216,
+      "evidence": {
+        "time_reduction": "SUPPORTED_GAIN",
+        "acceptance_improvement": "SUPPORTED_GAIN",
+        "acceptance_difference": "SUPPORTED_GAIN",
+        "call_reduction": "SUPPORTED_GAIN"
+      },
+      "clipped_acceptance": {
+        "candidate_tokens_per_call": 6.118657084864776,
+        "reference_tokens_per_call": 6.098205983700706,
+        "absolute_difference": {
+          "point": 0.02045110116407045,
+          "ci95": [
+            0.006562063511381488,
+            0.03450660144979264
+          ],
+          "undefined_draws": 0
+        },
+        "relative_change": {
+          "point": 0.0033536258399162744,
+          "ci95": [
+            0.001073840667670467,
+            0.005665681864769678
+          ],
+          "undefined_draws": 0
+        },
+        "definition": "Summed actual stop-clipped accepted_draft_tokens / summed calls"
+      }
+    },
+    "KPLUS_C58_vs_O58": {
+      "candidate": "KPLUS_C58",
+      "reference": "O58",
+      "time_reduction": {
+        "point": 0.023936592703794224,
+        "ci95": [
+          0.021484836868285083,
+          0.026448270147755585
+        ],
+        "undefined_draws": 0
+      },
+      "speedup": 1.0245236042298738,
+      "acceptance_improvement": {
+        "point": 0.029971021711689083,
+        "ci95": [
+          0.026960500767675775,
+          0.0330923144167775
+        ],
+        "undefined_draws": 0
+      },
+      "acceptance_difference": {
+        "point": 0.17771614405196434,
+        "ci95": [
+          0.1603171895929953,
+          0.19578505460386994
+        ],
+        "undefined_draws": 0
+      },
+      "call_reduction": {
+        "point": 0.025004680020324632,
+        "ci95": [
+          0.022556384967340234,
+          0.027513865859309174
+        ],
+        "undefined_draws": 0
+      },
+      "repeat_time_reductions": [
+        0.023870544068433253,
+        0.024124790843669253,
+        0.023814662797359998
+      ],
+      "requests_fewer_calls": 659,
+      "requests_more_calls": 225,
+      "request_call_ties": 140,
+      "gross_calls_saved": 2326,
+      "gross_calls_added": 456,
+      "net_calls_saved": 1870,
+      "evidence": {
+        "time_reduction": "SUPPORTED_GAIN",
+        "acceptance_improvement": "SUPPORTED_GAIN",
+        "acceptance_difference": "SUPPORTED_GAIN",
+        "call_reduction": "SUPPORTED_GAIN"
+      },
+      "clipped_acceptance": {
+        "candidate_tokens_per_call": 6.118657084864776,
+        "reference_tokens_per_call": 5.941285802155484,
+        "absolute_difference": {
+          "point": 0.17737128270929237,
+          "ci95": [
+            0.15997549013459716,
+            0.19539868193757146
+          ],
+          "undefined_draws": 0
+        },
+        "relative_change": {
+          "point": 0.029854022953237136,
+          "ci95": [
+            0.026850208361918954,
+            0.032963747863921145
+          ],
+          "undefined_draws": 0
+        },
+        "definition": "Summed actual stop-clipped accepted_draft_tokens / summed calls"
+      }
+    },
+    "KPLUS58_vs_O58": {
+      "candidate": "KPLUS58",
+      "reference": "O58",
+      "time_reduction": {
+        "point": 0.02101433410827147,
+        "ci95": [
+          0.0184641903826047,
+          0.0235913006400449
+        ],
+        "undefined_draws": 0
+      },
+      "speedup": 1.02146541552182,
+      "acceptance_improvement": {
+        "point": 0.026430831903107688,
+        "ci95": [
+          0.02322723325617998,
+          0.029623336542032964
+        ],
+        "undefined_draws": 0
+      },
+      "acceptance_difference": {
+        "point": 0.15672423766834775,
+        "ci95": [
+          0.13789153442924473,
+          0.17523179426922275
+        ],
+        "undefined_draws": 0
+      },
+      "call_reduction": {
+        "point": 0.022116438905677493,
+        "ci95": [
+          0.019497026987958032,
+          0.02469214837696744
+        ],
+        "undefined_draws": 0
+      },
+      "repeat_time_reductions": [
+        0.021059320081350363,
+        0.021077606125115222,
+        0.020905814537317546
+      ],
+      "requests_fewer_calls": 635,
+      "requests_more_calls": 249,
+      "request_call_ties": 140,
+      "gross_calls_saved": 2228,
+      "gross_calls_added": 574,
+      "net_calls_saved": 1654,
+      "evidence": {
+        "time_reduction": "SUPPORTED_GAIN",
+        "acceptance_improvement": "SUPPORTED_GAIN",
+        "acceptance_difference": "SUPPORTED_GAIN",
+        "call_reduction": "SUPPORTED_GAIN"
+      },
+      "clipped_acceptance": {
+        "candidate_tokens_per_call": 6.098205983700706,
+        "reference_tokens_per_call": 5.941285802155484,
+        "absolute_difference": {
+          "point": 0.15692018154522192,
+          "ci95": [
+            0.13808046266584345,
+            0.17542822493455268
+          ],
+          "undefined_draws": 0
+        },
+        "relative_change": {
+          "point": 0.026411821745436326,
+          "ci95": [
+            0.023216325203448674,
+            0.029600564223621832
+          ],
+          "undefined_draws": 0
+        },
+        "definition": "Summed actual stop-clipped accepted_draft_tokens / summed calls"
+      }
+    }
+  },
+  "primary_comparison": "KPLUS_C58_vs_KPLUS58",
+  "evidence": {
+    "KPLUS_C58_vs_KPLUS58": {
+      "time_reduction": "SUPPORTED_GAIN",
+      "acceptance_improvement": "SUPPORTED_GAIN",
+      "acceptance_difference": "SUPPORTED_GAIN",
+      "call_reduction": "SUPPORTED_GAIN"
+    },
+    "KPLUS_C58_vs_O58": {
+      "time_reduction": "SUPPORTED_GAIN",
+      "acceptance_improvement": "SUPPORTED_GAIN",
+      "acceptance_difference": "SUPPORTED_GAIN",
+      "call_reduction": "SUPPORTED_GAIN"
+    },
+    "KPLUS58_vs_O58": {
+      "time_reduction": "SUPPORTED_GAIN",
+      "acceptance_improvement": "SUPPORTED_GAIN",
+      "acceptance_difference": "SUPPORTED_GAIN",
+      "call_reduction": "SUPPORTED_GAIN"
+    }
+  },
+  "automatic_followup_authorized": false,
+  "repeat_totals": {
+    "0": {
+      "O58": {
+        "verification_calls": 74786,
+        "native_accepted_draft_tokens": 443451,
+        "accepted_draft_tokens": 444325,
+        "committed_progress": 518237,
+        "output_tokens": 519261,
+        "request_latency_s": 1312.9505159389228,
+        "native_generate_s": 1285.2608684692532,
+        "cache_maintenance_s": 2.5390608217567205
+      },
+      "KPLUS58": {
+        "verification_calls": 73132,
+        "native_accepted_draft_tokens": 445105,
+        "accepted_draft_tokens": 445974,
+        "committed_progress": 518237,
+        "output_tokens": 519261,
+        "request_latency_s": 1285.300670772791,
+        "native_generate_s": 1257.6884656436741,
+        "cache_maintenance_s": 2.873803209513426
+      },
+      "KPLUS_C58": {
+        "verification_calls": 72916,
+        "native_accepted_draft_tokens": 445321,
+        "accepted_draft_tokens": 446148,
+        "committed_progress": 518237,
+        "output_tokens": 519261,
+        "request_latency_s": 1281.6096727885306,
+        "native_generate_s": 1254.3468391932547,
+        "cache_maintenance_s": 2.508580667898059
+      }
+    },
+    "1": {
+      "O58": {
+        "verification_calls": 74786,
+        "native_accepted_draft_tokens": 443451,
+        "accepted_draft_tokens": 444325,
+        "committed_progress": 518237,
+        "output_tokens": 519261,
+        "request_latency_s": 1307.1933546736836,
+        "native_generate_s": 1281.721860356629,
+        "cache_maintenance_s": 0.5650774668902159
+      },
+      "KPLUS58": {
+        "verification_calls": 73132,
+        "native_accepted_draft_tokens": 445105,
+        "accepted_draft_tokens": 445974,
+        "committed_progress": 518237,
+        "output_tokens": 519261,
+        "request_latency_s": 1279.6408480145037,
+        "native_generate_s": 1254.3360083755106,
+        "cache_maintenance_s": 0.5660593453794718
+      },
+      "KPLUS_C58": {
+        "verification_calls": 72916,
+        "native_accepted_draft_tokens": 445321,
+        "accepted_draft_tokens": 446148,
+        "committed_progress": 518237,
+        "output_tokens": 519261,
+        "request_latency_s": 1275.6575883999467,
+        "native_generate_s": 1250.4926657825708,
+        "cache_maintenance_s": 0.5624015219509602
+      }
+    },
+    "2": {
+      "O58": {
+        "verification_calls": 74786,
+        "native_accepted_draft_tokens": 443451,
+        "accepted_draft_tokens": 444325,
+        "committed_progress": 518237,
+        "output_tokens": 519261,
+        "request_latency_s": 1306.4290180373937,
+        "native_generate_s": 1281.0688020288944,
+        "cache_maintenance_s": 0.5846433527767658
+      },
+      "KPLUS58": {
+        "verification_calls": 73132,
+        "native_accepted_draft_tokens": 445105,
+        "accepted_draft_tokens": 445974,
+        "committed_progress": 518237,
+        "output_tokens": 519261,
+        "request_latency_s": 1279.117055280134,
+        "native_generate_s": 1254.100270660594,
+        "cache_maintenance_s": 0.5906966459006071
+      },
+      "KPLUS_C58": {
+        "verification_calls": 72916,
+        "native_accepted_draft_tokens": 445321,
+        "accepted_draft_tokens": 446148,
+        "committed_progress": 518237,
+        "output_tokens": 519261,
+        "request_latency_s": 1275.316851504147,
+        "native_generate_s": 1250.1081638801843,
+        "cache_maintenance_s": 0.5854574199765921
+      }
+    }
+  },
+  "block_views": {
+    "repeat_0_block_0": {
+      "O58": {
+        "verification_calls": 4765,
+        "native_accepted_draft_tokens": 27667,
+        "accepted_draft_tokens": 27721,
+        "committed_progress": 32432,
+        "output_tokens": 32496,
+        "request_latency_s": 85.71960980258882,
+        "native_generate_s": 81.98064269311726,
+        "cache_maintenance_s": 2.0386031549423933
+      },
+      "KPLUS58": {
+        "verification_calls": 4675,
+        "native_accepted_draft_tokens": 27757,
+        "accepted_draft_tokens": 27813,
+        "committed_progress": 32432,
+        "output_tokens": 32496,
+        "request_latency_s": 84.67981294356287,
+        "native_generate_s": 80.69562296755612,
+        "cache_maintenance_s": 2.371000664308667
+      },
+      "KPLUS_C58": {
+        "verification_calls": 4677,
+        "native_accepted_draft_tokens": 27755,
+        "accepted_draft_tokens": 27805,
+        "committed_progress": 32432,
+        "output_tokens": 32496,
+        "request_latency_s": 84.37818946130574,
+        "native_generate_s": 80.71337769366801,
+        "cache_maintenance_s": 2.0057192482054234
+      }
+    },
+    "repeat_0_block_1": {
+      "O58": {
+        "verification_calls": 4702,
+        "native_accepted_draft_tokens": 27736,
+        "accepted_draft_tokens": 27790,
+        "committed_progress": 32438,
+        "output_tokens": 32502,
+        "request_latency_s": 82.35740508697927,
+        "native_generate_s": 80.70143211446702,
+        "cache_maintenance_s": 0.03354143723845482
+      },
+      "KPLUS58": {
+        "verification_calls": 4587,
+        "native_accepted_draft_tokens": 27851,
+        "accepted_draft_tokens": 27905,
+        "committed_progress": 32438,
+        "output_tokens": 32502,
+        "request_latency_s": 80.34483405016363,
+        "native_generate_s": 78.739018201828,
+        "cache_maintenance_s": 0.03304167464375496
+      },
+      "KPLUS_C58": {
+        "verification_calls": 4589,
+        "native_accepted_draft_tokens": 27849,
+        "accepted_draft_tokens": 27904,
+        "committed_progress": 32438,
+        "output_tokens": 32502,
+        "request_latency_s": 80.42325318790972,
+        "native_generate_s": 78.81700382940471,
+        "cache_maintenance_s": 0.03290812857449055
+      }
+    },
+    "repeat_0_block_2": {
+      "O58": {
+        "verification_calls": 5199,
+        "native_accepted_draft_tokens": 29433,
+        "accepted_draft_tokens": 29487,
+        "committed_progress": 34632,
+        "output_tokens": 34696,
+        "request_latency_s": 91.11056965775788,
+        "native_generate_s": 89.1947059519589,
+        "cache_maintenance_s": 0.033047640696167946
+      },
+      "KPLUS58": {
+        "verification_calls": 5076,
+        "native_accepted_draft_tokens": 29556,
+        "accepted_draft_tokens": 29609,
+        "committed_progress": 34632,
+        "output_tokens": 34696,
+        "request_latency_s": 88.88443448208272,
+        "native_generate_s": 87.00914289616048,
+        "cache_maintenance_s": 0.03372255340218544
+      },
+      "KPLUS_C58": {
+        "verification_calls": 5075,
+        "native_accepted_draft_tokens": 29557,
+        "accepted_draft_tokens": 29607,
+        "committed_progress": 34632,
+        "output_tokens": 34696,
+        "request_latency_s": 88.80828016810119,
+        "native_generate_s": 86.89726700633764,
+        "cache_maintenance_s": 0.03375224955379963
+      }
+    },
+    "repeat_0_block_3": {
+      "O58": {
+        "verification_calls": 5556,
+        "native_accepted_draft_tokens": 33714,
+        "accepted_draft_tokens": 33765,
+        "committed_progress": 39270,
+        "output_tokens": 39334,
+        "request_latency_s": 97.84417245164514,
+        "native_generate_s": 96.26572355628014,
+        "cache_maintenance_s": 0.03372729942202568
+      },
+      "KPLUS58": {
+        "verification_calls": 5406,
+        "native_accepted_draft_tokens": 33864,
+        "accepted_draft_tokens": 33918,
+        "committed_progress": 39270,
+        "output_tokens": 39334,
+        "request_latency_s": 95.30971998348832,
+        "native_generate_s": 93.69633317552507,
+        "cache_maintenance_s": 0.032842300832271576
+      },
+      "KPLUS_C58": {
+        "verification_calls": 5366,
+        "native_accepted_draft_tokens": 33904,
+        "accepted_draft_tokens": 33952,
+        "committed_progress": 39270,
+        "output_tokens": 39334,
+        "request_latency_s": 94.61982993781567,
+        "native_generate_s": 93.01145113632083,
+        "cache_maintenance_s": 0.03249107301235199
+      }
+    },
+    "repeat_0_block_4": {
+      "O58": {
+        "verification_calls": 4733,
+        "native_accepted_draft_tokens": 27390,
+        "accepted_draft_tokens": 27449,
+        "committed_progress": 32123,
+        "output_tokens": 32187,
+        "request_latency_s": 82.83603471890092,
+        "native_generate_s": 81.14114466309547,
+        "cache_maintenance_s": 0.033353447914123535
+      },
+      "KPLUS58": {
+        "verification_calls": 4616,
+        "native_accepted_draft_tokens": 27507,
+        "accepted_draft_tokens": 27564,
+        "committed_progress": 32123,
+        "output_tokens": 32187,
+        "request_latency_s": 80.94315825589001,
+        "native_generate_s": 79.21040418930352,
+        "cache_maintenance_s": 0.034280845895409584
+      },
+      "KPLUS_C58": {
+        "verification_calls": 4593,
+        "native_accepted_draft_tokens": 27530,
+        "accepted_draft_tokens": 27584,
+        "committed_progress": 32123,
+        "output_tokens": 32187,
+        "request_latency_s": 80.52317773550749,
+        "native_generate_s": 78.82411157526076,
+        "cache_maintenance_s": 0.032387448474764824
+      }
+    },
+    "repeat_0_block_5": {
+      "O58": {
+        "verification_calls": 4646,
+        "native_accepted_draft_tokens": 27705,
+        "accepted_draft_tokens": 27763,
+        "committed_progress": 32351,
+        "output_tokens": 32415,
+        "request_latency_s": 81.26010669581592,
+        "native_generate_s": 79.56762614287436,
+        "cache_maintenance_s": 0.031015893444418907
+      },
+      "KPLUS58": {
+        "verification_calls": 4554,
+        "native_accepted_draft_tokens": 27797,
+        "accepted_draft_tokens": 27849,
+        "committed_progress": 32351,
+        "output_tokens": 32415,
+        "request_latency_s": 79.70928191393614,
+        "native_generate_s": 78.01898535527289,
+        "cache_maintenance_s": 0.03187831677496433
+      },
+      "KPLUS_C58": {
+        "verification_calls": 4542,
+        "native_accepted_draft_tokens": 27809,
+        "accepted_draft_tokens": 27861,
+        "committed_progress": 32351,
+        "output_tokens": 32415,
+        "request_latency_s": 79.53093286789954,
+        "native_generate_s": 77.79951797798276,
+        "cache_maintenance_s": 0.03192976303398609
+      }
+    },
+    "repeat_0_block_6": {
+      "O58": {
+        "verification_calls": 4187,
+        "native_accepted_draft_tokens": 24499,
+        "accepted_draft_tokens": 24559,
+        "committed_progress": 28686,
+        "output_tokens": 28750,
+        "request_latency_s": 72.93239974603057,
+        "native_generate_s": 71.46387593820691,
+        "cache_maintenance_s": 0.03292262554168701
+      },
+      "KPLUS58": {
+        "verification_calls": 4116,
+        "native_accepted_draft_tokens": 24570,
+        "accepted_draft_tokens": 24630,
+        "committed_progress": 28686,
+        "output_tokens": 28750,
+        "request_latency_s": 71.74331024102867,
+        "native_generate_s": 70.28107769042253,
+        "cache_maintenance_s": 0.033201826736330986
+      },
+      "KPLUS_C58": {
+        "verification_calls": 4101,
+        "native_accepted_draft_tokens": 24585,
+        "accepted_draft_tokens": 24638,
+        "committed_progress": 28686,
+        "output_tokens": 28750,
+        "request_latency_s": 71.48158523626626,
+        "native_generate_s": 70.01678349263966,
+        "cache_maintenance_s": 0.033763401210308075
+      }
+    },
+    "repeat_0_block_7": {
+      "O58": {
+        "verification_calls": 4359,
+        "native_accepted_draft_tokens": 27211,
+        "accepted_draft_tokens": 27266,
+        "committed_progress": 31570,
+        "output_tokens": 31634,
+        "request_latency_s": 76.3468549028039,
+        "native_generate_s": 74.86567037180066,
+        "cache_maintenance_s": 0.03319712355732918
+      },
+      "KPLUS58": {
+        "verification_calls": 4256,
+        "native_accepted_draft_tokens": 27314,
+        "accepted_draft_tokens": 27369,
+        "committed_progress": 31570,
+        "output_tokens": 31634,
+        "request_latency_s": 74.6649504583329,
+        "native_generate_s": 73.14682052098215,
+        "cache_maintenance_s": 0.03365809842944145
+      },
+      "KPLUS_C58": {
+        "verification_calls": 4262,
+        "native_accepted_draft_tokens": 27308,
+        "accepted_draft_tokens": 27362,
+        "committed_progress": 31570,
+        "output_tokens": 31634,
+        "request_latency_s": 74.66279275342822,
+        "native_generate_s": 73.22835998609662,
+        "cache_maintenance_s": 0.033721234649419785
+      }
+    },
+    "repeat_0_block_8": {
+      "O58": {
+        "verification_calls": 4136,
+        "native_accepted_draft_tokens": 23353,
+        "accepted_draft_tokens": 23406,
+        "committed_progress": 27489,
+        "output_tokens": 27553,
+        "request_latency_s": 72.05086223781109,
+        "native_generate_s": 70.74471878632903,
+        "cache_maintenance_s": 0.033037666231393814
+      },
+      "KPLUS58": {
+        "verification_calls": 4015,
+        "native_accepted_draft_tokens": 23474,
+        "accepted_draft_tokens": 23529,
+        "committed_progress": 27489,
+        "output_tokens": 27553,
+        "request_latency_s": 70.01361481100321,
+        "native_generate_s": 68.75441807880998,
+        "cache_maintenance_s": 0.033375080674886703
+      },
+      "KPLUS_C58": {
+        "verification_calls": 3999,
+        "native_accepted_draft_tokens": 23490,
+        "accepted_draft_tokens": 23543,
+        "committed_progress": 27489,
+        "output_tokens": 27553,
+        "request_latency_s": 69.70911347866058,
+        "native_generate_s": 68.45222510024905,
+        "cache_maintenance_s": 0.032518019899725914
+      }
+    },
+    "repeat_0_block_9": {
+      "O58": {
+        "verification_calls": 4568,
+        "native_accepted_draft_tokens": 28092,
+        "accepted_draft_tokens": 28144,
+        "committed_progress": 32660,
+        "output_tokens": 32724,
+        "request_latency_s": 79.9196614138782,
+        "native_generate_s": 78.58936701156199,
+        "cache_maintenance_s": 0.03448592685163021
+      },
+      "KPLUS58": {
+        "verification_calls": 4470,
+        "native_accepted_draft_tokens": 28190,
+        "accepted_draft_tokens": 28243,
+        "committed_progress": 32660,
+        "output_tokens": 32724,
+        "request_latency_s": 78.30761756934226,
+        "native_generate_s": 76.9398557599634,
+        "cache_maintenance_s": 0.03494240343570709
+      },
+      "KPLUS_C58": {
+        "verification_calls": 4470,
+        "native_accepted_draft_tokens": 28190,
+        "accepted_draft_tokens": 28237,
+        "committed_progress": 32660,
+        "output_tokens": 32724,
+        "request_latency_s": 78.35164823941886,
+        "native_generate_s": 76.9767241962254,
+        "cache_maintenance_s": 0.03482671454548836
+      }
+    },
+    "repeat_0_block_10": {
+      "O58": {
+        "verification_calls": 4205,
+        "native_accepted_draft_tokens": 24452,
+        "accepted_draft_tokens": 24506,
+        "committed_progress": 28657,
+        "output_tokens": 28721,
+        "request_latency_s": 73.7810088749975,
+        "native_generate_s": 72.3507659882307,
+        "cache_maintenance_s": 0.03295341320335865
+      },
+      "KPLUS58": {
+        "verification_calls": 4145,
+        "native_accepted_draft_tokens": 24512,
+        "accepted_draft_tokens": 24566,
+        "committed_progress": 28657,
+        "output_tokens": 28721,
+        "request_latency_s": 72.73680111393332,
+        "native_generate_s": 71.39096361584961,
+        "cache_maintenance_s": 0.033330926671624184
+      },
+      "KPLUS_C58": {
+        "verification_calls": 4123,
+        "native_accepted_draft_tokens": 24534,
+        "accepted_draft_tokens": 24583,
+        "committed_progress": 28657,
+        "output_tokens": 28721,
+        "request_latency_s": 72.81772270798683,
+        "native_generate_s": 71.42760335840285,
+        "cache_maintenance_s": 0.03455103375017643
+      }
+    },
+    "repeat_0_block_11": {
+      "O58": {
+        "verification_calls": 4597,
+        "native_accepted_draft_tokens": 28803,
+        "accepted_draft_tokens": 28857,
+        "committed_progress": 33400,
+        "output_tokens": 33464,
+        "request_latency_s": 80.80609953217208,
+        "native_generate_s": 79.19078678637743,
+        "cache_maintenance_s": 0.03421981818974018
+      },
+      "KPLUS58": {
+        "verification_calls": 4488,
+        "native_accepted_draft_tokens": 28912,
+        "accepted_draft_tokens": 28964,
+        "committed_progress": 33400,
+        "output_tokens": 33464,
+        "request_latency_s": 78.98640931025147,
+        "native_generate_s": 77.37449860572815,
+        "cache_maintenance_s": 0.03419019281864166
+      },
+      "KPLUS_C58": {
+        "verification_calls": 4462,
+        "native_accepted_draft_tokens": 28938,
+        "accepted_draft_tokens": 28991,
+        "committed_progress": 33400,
+        "output_tokens": 33464,
+        "request_latency_s": 78.5289614778012,
+        "native_generate_s": 76.92030065692961,
+        "cache_maintenance_s": 0.03395971655845642
+      }
+    },
+    "repeat_0_block_12": {
+      "O58": {
+        "verification_calls": 4418,
+        "native_accepted_draft_tokens": 26746,
+        "accepted_draft_tokens": 26799,
+        "committed_progress": 31164,
+        "output_tokens": 31228,
+        "request_latency_s": 77.69465988874435,
+        "native_generate_s": 76.12666866742074,
+        "cache_maintenance_s": 0.03285504877567291
+      },
+      "KPLUS58": {
+        "verification_calls": 4316,
+        "native_accepted_draft_tokens": 26848,
+        "accepted_draft_tokens": 26901,
+        "committed_progress": 31164,
+        "output_tokens": 31228,
+        "request_latency_s": 76.02214141376317,
+        "native_generate_s": 74.42724929749966,
+        "cache_maintenance_s": 0.032923148944973946
+      },
+      "KPLUS_C58": {
+        "verification_calls": 4322,
+        "native_accepted_draft_tokens": 26842,
+        "accepted_draft_tokens": 26894,
+        "committed_progress": 31164,
+        "output_tokens": 31228,
+        "request_latency_s": 76.04143093526363,
+        "native_generate_s": 74.48303752206266,
+        "cache_maintenance_s": 0.03318911790847778
+      }
+    },
+    "repeat_0_block_13": {
+      "O58": {
+        "verification_calls": 5080,
+        "native_accepted_draft_tokens": 31064,
+        "accepted_draft_tokens": 31116,
+        "committed_progress": 36144,
+        "output_tokens": 36208,
+        "request_latency_s": 89.46819910779595,
+        "native_generate_s": 87.78310934267938,
+        "cache_maintenance_s": 0.03431689366698265
+      },
+      "KPLUS58": {
+        "verification_calls": 4991,
+        "native_accepted_draft_tokens": 31153,
+        "accepted_draft_tokens": 31205,
+        "committed_progress": 36144,
+        "output_tokens": 36208,
+        "request_latency_s": 88.00920713506639,
+        "native_generate_s": 86.33380791544914,
+        "cache_maintenance_s": 0.03392941877245903
+      },
+      "KPLUS_C58": {
+        "verification_calls": 4966,
+        "native_accepted_draft_tokens": 31178,
+        "accepted_draft_tokens": 31230,
+        "committed_progress": 36144,
+        "output_tokens": 36208,
+        "request_latency_s": 87.49341468326747,
+        "native_generate_s": 85.85668875090778,
+        "cache_maintenance_s": 0.03444698639214039
+      }
+    },
+    "repeat_0_block_14": {
+      "O58": {
+        "verification_calls": 4179,
+        "native_accepted_draft_tokens": 24712,
+        "accepted_draft_tokens": 24766,
+        "committed_progress": 28891,
+        "output_tokens": 28955,
+        "request_latency_s": 73.20138179697096,
+        "native_generate_s": 71.24926194734871,
+        "cache_maintenance_s": 0.03368553705513477
+      },
+      "KPLUS58": {
+        "verification_calls": 4086,
+        "native_accepted_draft_tokens": 24805,
+        "accepted_draft_tokens": 24857,
+        "committed_progress": 28891,
+        "output_tokens": 28955,
+        "request_latency_s": 71.48022437281907,
+        "native_generate_s": 69.69351905398071,
+        "cache_maintenance_s": 0.03385482355952263
+      },
+      "KPLUS_C58": {
+        "verification_calls": 4065,
+        "native_accepted_draft_tokens": 24826,
+        "accepted_draft_tokens": 24877,
+        "committed_progress": 28891,
+        "output_tokens": 28955,
+        "request_latency_s": 71.2899009808898,
+        "native_generate_s": 69.4600087273866,
+        "cache_maintenance_s": 0.03442978486418724
+      }
+    },
+    "repeat_0_block_15": {
+      "O58": {
+        "verification_calls": 5456,
+        "native_accepted_draft_tokens": 30874,
+        "accepted_draft_tokens": 30931,
+        "committed_progress": 36330,
+        "output_tokens": 36394,
+        "request_latency_s": 95.62149002403021,
+        "native_generate_s": 94.04536850750446,
+        "cache_maintenance_s": 0.03409789502620697
+      },
+      "KPLUS58": {
+        "verification_calls": 5335,
+        "native_accepted_draft_tokens": 30995,
+        "accepted_draft_tokens": 31052,
+        "committed_progress": 36330,
+        "output_tokens": 36394,
+        "request_latency_s": 93.46515271812677,
+        "native_generate_s": 91.97674831934273,
+        "cache_maintenance_s": 0.03363093361258507
+      },
+      "KPLUS_C58": {
+        "verification_calls": 5304,
+        "native_accepted_draft_tokens": 31026,
+        "accepted_draft_tokens": 31080,
+        "committed_progress": 36330,
+        "output_tokens": 36394,
+        "request_latency_s": 92.94943893700838,
+        "native_generate_s": 91.46237818337977,
+        "cache_maintenance_s": 0.03398674726486206
+      }
+    },
+    "repeat_1_block_0": {
+      "O58": {
+        "verification_calls": 4765,
+        "native_accepted_draft_tokens": 27667,
+        "accepted_draft_tokens": 27721,
+        "committed_progress": 32432,
+        "output_tokens": 32496,
+        "request_latency_s": 83.4851159490645,
+        "native_generate_s": 81.74602358788252,
+        "cache_maintenance_s": 0.032953234389424324
+      },
+      "KPLUS58": {
+        "verification_calls": 4675,
+        "native_accepted_draft_tokens": 27757,
+        "accepted_draft_tokens": 27813,
+        "committed_progress": 32432,
+        "output_tokens": 32496,
+        "request_latency_s": 81.88683305308223,
+        "native_generate_s": 80.23109880462289,
+        "cache_maintenance_s": 0.034060126170516014
+      },
+      "KPLUS_C58": {
+        "verification_calls": 4677,
+        "native_accepted_draft_tokens": 27755,
+        "accepted_draft_tokens": 27805,
+        "committed_progress": 32432,
+        "output_tokens": 32496,
+        "request_latency_s": 81.89600660465658,
+        "native_generate_s": 80.24080034717917,
+        "cache_maintenance_s": 0.032995253801345825
+      }
+    },
+    "repeat_1_block_1": {
+      "O58": {
+        "verification_calls": 4702,
+        "native_accepted_draft_tokens": 27736,
+        "accepted_draft_tokens": 27790,
+        "committed_progress": 32438,
+        "output_tokens": 32502,
+        "request_latency_s": 82.28010315261781,
+        "native_generate_s": 80.66237500309944,
+        "cache_maintenance_s": 0.03629235737025738
+      },
+      "KPLUS58": {
+        "verification_calls": 4587,
+        "native_accepted_draft_tokens": 27851,
+        "accepted_draft_tokens": 27905,
+        "committed_progress": 32438,
+        "output_tokens": 32502,
+        "request_latency_s": 80.38037091307342,
+        "native_generate_s": 78.76440776884556,
+        "cache_maintenance_s": 0.036313336342573166
+      },
+      "KPLUS_C58": {
+        "verification_calls": 4589,
+        "native_accepted_draft_tokens": 27849,
+        "accepted_draft_tokens": 27904,
+        "committed_progress": 32438,
+        "output_tokens": 32502,
+        "request_latency_s": 80.37621695362031,
+        "native_generate_s": 78.76505121588707,
+        "cache_maintenance_s": 0.0345013327896595
+      }
+    },
+    "repeat_1_block_2": {
+      "O58": {
+        "verification_calls": 5199,
+        "native_accepted_draft_tokens": 29433,
+        "accepted_draft_tokens": 29487,
+        "committed_progress": 34632,
+        "output_tokens": 34696,
+        "request_latency_s": 90.84034392796457,
+        "native_generate_s": 88.91545210592449,
+        "cache_maintenance_s": 0.03552636504173279
+      },
+      "KPLUS58": {
+        "verification_calls": 5076,
+        "native_accepted_draft_tokens": 29556,
+        "accepted_draft_tokens": 29609,
+        "committed_progress": 34632,
+        "output_tokens": 34696,
+        "request_latency_s": 88.721176315099,
+        "native_generate_s": 86.84250138141215,
+        "cache_maintenance_s": 0.035028813406825066
+      },
+      "KPLUS_C58": {
+        "verification_calls": 5075,
+        "native_accepted_draft_tokens": 29557,
+        "accepted_draft_tokens": 29607,
+        "committed_progress": 34632,
+        "output_tokens": 34696,
+        "request_latency_s": 88.74767864309251,
+        "native_generate_s": 86.82551914267242,
+        "cache_maintenance_s": 0.03571064583957195
+      }
+    },
+    "repeat_1_block_3": {
+      "O58": {
+        "verification_calls": 5556,
+        "native_accepted_draft_tokens": 33714,
+        "accepted_draft_tokens": 33765,
+        "committed_progress": 39270,
+        "output_tokens": 39334,
+        "request_latency_s": 97.5487539358437,
+        "native_generate_s": 96.0053228288889,
+        "cache_maintenance_s": 0.035077134147286415
+      },
+      "KPLUS58": {
+        "verification_calls": 5406,
+        "native_accepted_draft_tokens": 33864,
+        "accepted_draft_tokens": 33918,
+        "committed_progress": 39270,
+        "output_tokens": 39334,
+        "request_latency_s": 95.01062619127333,
+        "native_generate_s": 93.43899556435645,
+        "cache_maintenance_s": 0.0343178603798151
+      },
+      "KPLUS_C58": {
+        "verification_calls": 5366,
+        "native_accepted_draft_tokens": 33904,
+        "accepted_draft_tokens": 33952,
+        "committed_progress": 39270,
+        "output_tokens": 39334,
+        "request_latency_s": 94.33918831497431,
+        "native_generate_s": 92.73014233633876,
+        "cache_maintenance_s": 0.03412758186459541
+      }
+    },
+    "repeat_1_block_4": {
+      "O58": {
+        "verification_calls": 4733,
+        "native_accepted_draft_tokens": 27390,
+        "accepted_draft_tokens": 27449,
+        "committed_progress": 32123,
+        "output_tokens": 32187,
+        "request_latency_s": 82.64801031537354,
+        "native_generate_s": 80.94589083455503,
+        "cache_maintenance_s": 0.035158922895789146
+      },
+      "KPLUS58": {
+        "verification_calls": 4616,
+        "native_accepted_draft_tokens": 27507,
+        "accepted_draft_tokens": 27564,
+        "committed_progress": 32123,
+        "output_tokens": 32187,
+        "request_latency_s": 80.70071415416896,
+        "native_generate_s": 78.96541711315513,
+        "cache_maintenance_s": 0.03537973575294018
+      },
+      "KPLUS_C58": {
+        "verification_calls": 4593,
+        "native_accepted_draft_tokens": 27530,
+        "accepted_draft_tokens": 27584,
+        "committed_progress": 32123,
+        "output_tokens": 32187,
+        "request_latency_s": 80.29384315013885,
+        "native_generate_s": 78.60062382742763,
+        "cache_maintenance_s": 0.035362718626856804
+      }
+    },
+    "repeat_1_block_5": {
+      "O58": {
+        "verification_calls": 4646,
+        "native_accepted_draft_tokens": 27705,
+        "accepted_draft_tokens": 27763,
+        "committed_progress": 32351,
+        "output_tokens": 32415,
+        "request_latency_s": 81.03150609694421,
+        "native_generate_s": 79.33831423707306,
+        "cache_maintenance_s": 0.03295092470943928
+      },
+      "KPLUS58": {
+        "verification_calls": 4554,
+        "native_accepted_draft_tokens": 27797,
+        "accepted_draft_tokens": 27849,
+        "committed_progress": 32351,
+        "output_tokens": 32415,
+        "request_latency_s": 79.4884644150734,
+        "native_generate_s": 77.79684100486338,
+        "cache_maintenance_s": 0.03370261564850807
+      },
+      "KPLUS_C58": {
+        "verification_calls": 4542,
+        "native_accepted_draft_tokens": 27809,
+        "accepted_draft_tokens": 27861,
+        "committed_progress": 32351,
+        "output_tokens": 32415,
+        "request_latency_s": 79.36659744381905,
+        "native_generate_s": 77.63484534993768,
+        "cache_maintenance_s": 0.03355279937386513
+      }
+    },
+    "repeat_1_block_6": {
+      "O58": {
+        "verification_calls": 4187,
+        "native_accepted_draft_tokens": 24499,
+        "accepted_draft_tokens": 24559,
+        "committed_progress": 28686,
+        "output_tokens": 28750,
+        "request_latency_s": 72.70346917584538,
+        "native_generate_s": 71.2757924515754,
+        "cache_maintenance_s": 0.0354238860309124
+      },
+      "KPLUS58": {
+        "verification_calls": 4116,
+        "native_accepted_draft_tokens": 24570,
+        "accepted_draft_tokens": 24630,
+        "committed_progress": 28686,
+        "output_tokens": 28750,
+        "request_latency_s": 71.55496412143111,
+        "native_generate_s": 70.08644095249474,
+        "cache_maintenance_s": 0.036365509033203125
+      },
+      "KPLUS_C58": {
+        "verification_calls": 4101,
+        "native_accepted_draft_tokens": 24585,
+        "accepted_draft_tokens": 24638,
+        "committed_progress": 28686,
+        "output_tokens": 28750,
+        "request_latency_s": 71.35144229233265,
+        "native_generate_s": 69.88424109108746,
+        "cache_maintenance_s": 0.03546776995062828
+      }
+    },
+    "repeat_1_block_7": {
+      "O58": {
+        "verification_calls": 4359,
+        "native_accepted_draft_tokens": 27211,
+        "accepted_draft_tokens": 27266,
+        "committed_progress": 31570,
+        "output_tokens": 31634,
+        "request_latency_s": 76.11825611814857,
+        "native_generate_s": 74.63793110661209,
+        "cache_maintenance_s": 0.0356418713927269
+      },
+      "KPLUS58": {
+        "verification_calls": 4256,
+        "native_accepted_draft_tokens": 27314,
+        "accepted_draft_tokens": 27369,
+        "committed_progress": 31570,
+        "output_tokens": 31634,
+        "request_latency_s": 74.45828028209507,
+        "native_generate_s": 72.94069673679769,
+        "cache_maintenance_s": 0.035516900941729546
+      },
+      "KPLUS_C58": {
+        "verification_calls": 4262,
+        "native_accepted_draft_tokens": 27308,
+        "accepted_draft_tokens": 27362,
+        "committed_progress": 31570,
+        "output_tokens": 31634,
+        "request_latency_s": 74.48106436617672,
+        "native_generate_s": 73.04319946654141,
+        "cache_maintenance_s": 0.034733956679701805
+      }
+    },
+    "repeat_1_block_8": {
+      "O58": {
+        "verification_calls": 4136,
+        "native_accepted_draft_tokens": 23353,
+        "accepted_draft_tokens": 23406,
+        "committed_progress": 27489,
+        "output_tokens": 27553,
+        "request_latency_s": 71.83709341287613,
+        "native_generate_s": 70.53465261124074,
+        "cache_maintenance_s": 0.034336937591433525
+      },
+      "KPLUS58": {
+        "verification_calls": 4015,
+        "native_accepted_draft_tokens": 23474,
+        "accepted_draft_tokens": 23529,
+        "committed_progress": 27489,
+        "output_tokens": 27553,
+        "request_latency_s": 69.85103302076459,
+        "native_generate_s": 68.59146490506828,
+        "cache_maintenance_s": 0.03441637009382248
+      },
+      "KPLUS_C58": {
+        "verification_calls": 3999,
+        "native_accepted_draft_tokens": 23490,
+        "accepted_draft_tokens": 23543,
+        "committed_progress": 27489,
+        "output_tokens": 27553,
+        "request_latency_s": 69.53117770329118,
+        "native_generate_s": 68.27092286013067,
+        "cache_maintenance_s": 0.03475761599838734
+      }
+    },
+    "repeat_1_block_9": {
+      "O58": {
+        "verification_calls": 4568,
+        "native_accepted_draft_tokens": 28092,
+        "accepted_draft_tokens": 28144,
+        "committed_progress": 32660,
+        "output_tokens": 32724,
+        "request_latency_s": 79.71145144850016,
+        "native_generate_s": 78.37985931150615,
+        "cache_maintenance_s": 0.03634563460946083
+      },
+      "KPLUS58": {
+        "verification_calls": 4470,
+        "native_accepted_draft_tokens": 28190,
+        "accepted_draft_tokens": 28243,
+        "committed_progress": 32660,
+        "output_tokens": 32724,
+        "request_latency_s": 78.15842589735985,
+        "native_generate_s": 76.79220129735768,
+        "cache_maintenance_s": 0.03668053820729256
+      },
+      "KPLUS_C58": {
+        "verification_calls": 4470,
+        "native_accepted_draft_tokens": 28190,
+        "accepted_draft_tokens": 28237,
+        "committed_progress": 32660,
+        "output_tokens": 32724,
+        "request_latency_s": 78.17583766393363,
+        "native_generate_s": 76.8109780959785,
+        "cache_maintenance_s": 0.036817967891693115
+      }
+    },
+    "repeat_1_block_10": {
+      "O58": {
+        "verification_calls": 4205,
+        "native_accepted_draft_tokens": 24452,
+        "accepted_draft_tokens": 24506,
+        "committed_progress": 28657,
+        "output_tokens": 28721,
+        "request_latency_s": 73.55631963349879,
+        "native_generate_s": 72.1669549793005,
+        "cache_maintenance_s": 0.03514307923614979
+      },
+      "KPLUS58": {
+        "verification_calls": 4145,
+        "native_accepted_draft_tokens": 24512,
+        "accepted_draft_tokens": 24566,
+        "committed_progress": 28657,
+        "output_tokens": 28721,
+        "request_latency_s": 72.52485659345984,
+        "native_generate_s": 71.22167192958295,
+        "cache_maintenance_s": 0.03490814007818699
+      },
+      "KPLUS_C58": {
+        "verification_calls": 4123,
+        "native_accepted_draft_tokens": 24534,
+        "accepted_draft_tokens": 24583,
+        "committed_progress": 28657,
+        "output_tokens": 28721,
+        "request_latency_s": 72.19866653904319,
+        "native_generate_s": 70.8544794600457,
+        "cache_maintenance_s": 0.03439004346728325
+      }
+    },
+    "repeat_1_block_11": {
+      "O58": {
+        "verification_calls": 4597,
+        "native_accepted_draft_tokens": 28803,
+        "accepted_draft_tokens": 28857,
+        "committed_progress": 33400,
+        "output_tokens": 33464,
+        "request_latency_s": 80.49619020707905,
+        "native_generate_s": 78.92259450629354,
+        "cache_maintenance_s": 0.03581649623811245
+      },
+      "KPLUS58": {
+        "verification_calls": 4488,
+        "native_accepted_draft_tokens": 28912,
+        "accepted_draft_tokens": 28964,
+        "committed_progress": 33400,
+        "output_tokens": 33464,
+        "request_latency_s": 78.80057949014008,
+        "native_generate_s": 77.18562020733953,
+        "cache_maintenance_s": 0.03638015687465668
+      },
+      "KPLUS_C58": {
+        "verification_calls": 4462,
+        "native_accepted_draft_tokens": 28938,
+        "accepted_draft_tokens": 28991,
+        "committed_progress": 33400,
+        "output_tokens": 33464,
+        "request_latency_s": 78.39191195555031,
+        "native_generate_s": 76.77748173289001,
+        "cache_maintenance_s": 0.03703945875167847
+      }
+    },
+    "repeat_1_block_12": {
+      "O58": {
+        "verification_calls": 4418,
+        "native_accepted_draft_tokens": 26746,
+        "accepted_draft_tokens": 26799,
+        "committed_progress": 31164,
+        "output_tokens": 31228,
+        "request_latency_s": 77.49307592585683,
+        "native_generate_s": 75.93013356253505,
+        "cache_maintenance_s": 0.03514537215232849
+      },
+      "KPLUS58": {
+        "verification_calls": 4316,
+        "native_accepted_draft_tokens": 26848,
+        "accepted_draft_tokens": 26901,
+        "committed_progress": 31164,
+        "output_tokens": 31228,
+        "request_latency_s": 75.81320059113204,
+        "native_generate_s": 74.25048538669944,
+        "cache_maintenance_s": 0.03554634191095829
+      },
+      "KPLUS_C58": {
+        "verification_calls": 4322,
+        "native_accepted_draft_tokens": 26842,
+        "accepted_draft_tokens": 26894,
+        "committed_progress": 31164,
+        "output_tokens": 31228,
+        "request_latency_s": 75.6796212401241,
+        "native_generate_s": 74.16560780629516,
+        "cache_maintenance_s": 0.03459134325385094
+      }
+    },
+    "repeat_1_block_13": {
+      "O58": {
+        "verification_calls": 5080,
+        "native_accepted_draft_tokens": 31064,
+        "accepted_draft_tokens": 31116,
+        "committed_progress": 36144,
+        "output_tokens": 36208,
+        "request_latency_s": 89.08740751445293,
+        "native_generate_s": 87.40307944081724,
+        "cache_maintenance_s": 0.03634823113679886
+      },
+      "KPLUS58": {
+        "verification_calls": 4991,
+        "native_accepted_draft_tokens": 31153,
+        "accepted_draft_tokens": 31205,
+        "committed_progress": 36144,
+        "output_tokens": 36208,
+        "request_latency_s": 87.64985297620296,
+        "native_generate_s": 85.95873732678592,
+        "cache_maintenance_s": 0.035724861547350883
+      },
+      "KPLUS_C58": {
+        "verification_calls": 4966,
+        "native_accepted_draft_tokens": 31178,
+        "accepted_draft_tokens": 31230,
+        "committed_progress": 36144,
+        "output_tokens": 36208,
+        "request_latency_s": 87.1558014638722,
+        "native_generate_s": 85.51926445402205,
+        "cache_maintenance_s": 0.0360572412610054
+      }
+    },
+    "repeat_1_block_14": {
+      "O58": {
+        "verification_calls": 4179,
+        "native_accepted_draft_tokens": 24712,
+        "accepted_draft_tokens": 24766,
+        "committed_progress": 28891,
+        "output_tokens": 28955,
+        "request_latency_s": 73.02039230428636,
+        "native_generate_s": 71.05991097539663,
+        "cache_maintenance_s": 0.03640594705939293
+      },
+      "KPLUS58": {
+        "verification_calls": 4086,
+        "native_accepted_draft_tokens": 24805,
+        "accepted_draft_tokens": 24857,
+        "committed_progress": 28891,
+        "output_tokens": 28955,
+        "request_latency_s": 71.3138393741101,
+        "native_generate_s": 69.51274337433279,
+        "cache_maintenance_s": 0.03566968999803066
+      },
+      "KPLUS_C58": {
+        "verification_calls": 4065,
+        "native_accepted_draft_tokens": 24826,
+        "accepted_draft_tokens": 24877,
+        "committed_progress": 28891,
+        "output_tokens": 28955,
+        "request_latency_s": 70.97679451480508,
+        "native_generate_s": 69.13408800028265,
+        "cache_maintenance_s": 0.03603549860417843
+      }
+    },
+    "repeat_1_block_15": {
+      "O58": {
+        "verification_calls": 5456,
+        "native_accepted_draft_tokens": 30874,
+        "accepted_draft_tokens": 30931,
+        "committed_progress": 36330,
+        "output_tokens": 36394,
+        "request_latency_s": 95.33586555533111,
+        "native_generate_s": 93.79757281392813,
+        "cache_maintenance_s": 0.036511072888970375
+      },
+      "KPLUS58": {
+        "verification_calls": 5335,
+        "native_accepted_draft_tokens": 30995,
+        "accepted_draft_tokens": 31052,
+        "committed_progress": 36330,
+        "output_tokens": 36394,
+        "request_latency_s": 93.32763062603772,
+        "native_generate_s": 91.75668462179601,
+        "cache_maintenance_s": 0.03604834899306297
+      },
+      "KPLUS_C58": {
+        "verification_calls": 5304,
+        "native_accepted_draft_tokens": 31026,
+        "accepted_draft_tokens": 31080,
+        "committed_progress": 36330,
+        "output_tokens": 36394,
+        "request_latency_s": 92.69573955051601,
+        "native_generate_s": 91.23542059585452,
+        "cache_maintenance_s": 0.036260293796658516
+      }
+    },
+    "repeat_2_block_0": {
+      "O58": {
+        "verification_calls": 4765,
+        "native_accepted_draft_tokens": 27667,
+        "accepted_draft_tokens": 27721,
+        "committed_progress": 32432,
+        "output_tokens": 32496,
+        "request_latency_s": 83.31360590271652,
+        "native_generate_s": 81.57397013902664,
+        "cache_maintenance_s": 0.035339225083589554
+      },
+      "KPLUS58": {
+        "verification_calls": 4675,
+        "native_accepted_draft_tokens": 27757,
+        "accepted_draft_tokens": 27813,
+        "committed_progress": 32432,
+        "output_tokens": 32496,
+        "request_latency_s": 81.70113269612193,
+        "native_generate_s": 80.08236535079777,
+        "cache_maintenance_s": 0.035764558240771294
+      },
+      "KPLUS_C58": {
+        "verification_calls": 4677,
+        "native_accepted_draft_tokens": 27755,
+        "accepted_draft_tokens": 27805,
+        "committed_progress": 32432,
+        "output_tokens": 32496,
+        "request_latency_s": 81.75170757062733,
+        "native_generate_s": 80.09383331052959,
+        "cache_maintenance_s": 0.03545045852661133
+      }
+    },
+    "repeat_2_block_1": {
+      "O58": {
+        "verification_calls": 4702,
+        "native_accepted_draft_tokens": 27736,
+        "accepted_draft_tokens": 27790,
+        "committed_progress": 32438,
+        "output_tokens": 32502,
+        "request_latency_s": 82.1140017863363,
+        "native_generate_s": 80.49422717094421,
+        "cache_maintenance_s": 0.03741121292114258
+      },
+      "KPLUS58": {
+        "verification_calls": 4587,
+        "native_accepted_draft_tokens": 27851,
+        "accepted_draft_tokens": 27905,
+        "committed_progress": 32438,
+        "output_tokens": 32502,
+        "request_latency_s": 80.21143870800734,
+        "native_generate_s": 78.63605354167521,
+        "cache_maintenance_s": 0.037647711113095284
+      },
+      "KPLUS_C58": {
+        "verification_calls": 4589,
+        "native_accepted_draft_tokens": 27849,
+        "accepted_draft_tokens": 27904,
+        "committed_progress": 32438,
+        "output_tokens": 32502,
+        "request_latency_s": 80.24204866215587,
+        "native_generate_s": 78.62675145454705,
+        "cache_maintenance_s": 0.0371824037283659
+      }
+    },
+    "repeat_2_block_2": {
+      "O58": {
+        "verification_calls": 5199,
+        "native_accepted_draft_tokens": 29433,
+        "accepted_draft_tokens": 29487,
+        "committed_progress": 34632,
+        "output_tokens": 34696,
+        "request_latency_s": 90.66531618498266,
+        "native_generate_s": 88.74024823121727,
+        "cache_maintenance_s": 0.03721986711025238
+      },
+      "KPLUS58": {
+        "verification_calls": 5076,
+        "native_accepted_draft_tokens": 29556,
+        "accepted_draft_tokens": 29609,
+        "committed_progress": 34632,
+        "output_tokens": 34696,
+        "request_latency_s": 88.8271232098341,
+        "native_generate_s": 86.94401282817125,
+        "cache_maintenance_s": 0.03846343420445919
+      },
+      "KPLUS_C58": {
+        "verification_calls": 5075,
+        "native_accepted_draft_tokens": 29557,
+        "accepted_draft_tokens": 29607,
+        "committed_progress": 34632,
+        "output_tokens": 34696,
+        "request_latency_s": 88.83476553484797,
+        "native_generate_s": 86.9117226768285,
+        "cache_maintenance_s": 0.0380290187895298
+      }
+    },
+    "repeat_2_block_3": {
+      "O58": {
+        "verification_calls": 5556,
+        "native_accepted_draft_tokens": 33714,
+        "accepted_draft_tokens": 33765,
+        "committed_progress": 39270,
+        "output_tokens": 39334,
+        "request_latency_s": 97.56587825901806,
+        "native_generate_s": 96.06143150292337,
+        "cache_maintenance_s": 0.036411456763744354
+      },
+      "KPLUS58": {
+        "verification_calls": 5406,
+        "native_accepted_draft_tokens": 33864,
+        "accepted_draft_tokens": 33918,
+        "committed_progress": 39270,
+        "output_tokens": 39334,
+        "request_latency_s": 94.94675575755537,
+        "native_generate_s": 93.36951771005988,
+        "cache_maintenance_s": 0.03654516860842705
+      },
+      "KPLUS_C58": {
+        "verification_calls": 5366,
+        "native_accepted_draft_tokens": 33904,
+        "accepted_draft_tokens": 33952,
+        "committed_progress": 39270,
+        "output_tokens": 39334,
+        "request_latency_s": 94.36120347864926,
+        "native_generate_s": 92.78326035104692,
+        "cache_maintenance_s": 0.036766162142157555
+      }
+    },
+    "repeat_2_block_4": {
+      "O58": {
+        "verification_calls": 4733,
+        "native_accepted_draft_tokens": 27390,
+        "accepted_draft_tokens": 27449,
+        "committed_progress": 32123,
+        "output_tokens": 32187,
+        "request_latency_s": 82.58395777828991,
+        "native_generate_s": 80.8810651358217,
+        "cache_maintenance_s": 0.03732487000524998
+      },
+      "KPLUS58": {
+        "verification_calls": 4616,
+        "native_accepted_draft_tokens": 27507,
+        "accepted_draft_tokens": 27564,
+        "committed_progress": 32123,
+        "output_tokens": 32187,
+        "request_latency_s": 80.64888638071716,
+        "native_generate_s": 78.91158048994839,
+        "cache_maintenance_s": 0.037141103297472
+      },
+      "KPLUS_C58": {
+        "verification_calls": 4593,
+        "native_accepted_draft_tokens": 27530,
+        "accepted_draft_tokens": 27584,
+        "committed_progress": 32123,
+        "output_tokens": 32187,
+        "request_latency_s": 80.25565109029412,
+        "native_generate_s": 78.56188546866179,
+        "cache_maintenance_s": 0.03712131083011627
+      }
+    },
+    "repeat_2_block_5": {
+      "O58": {
+        "verification_calls": 4646,
+        "native_accepted_draft_tokens": 27705,
+        "accepted_draft_tokens": 27763,
+        "committed_progress": 32351,
+        "output_tokens": 32415,
+        "request_latency_s": 80.99039500206709,
+        "native_generate_s": 79.29652831889689,
+        "cache_maintenance_s": 0.034631434828042984
+      },
+      "KPLUS58": {
+        "verification_calls": 4554,
+        "native_accepted_draft_tokens": 27797,
+        "accepted_draft_tokens": 27849,
+        "committed_progress": 32351,
+        "output_tokens": 32415,
+        "request_latency_s": 79.43761055730283,
+        "native_generate_s": 77.74092768505216,
+        "cache_maintenance_s": 0.03545746952295303
+      },
+      "KPLUS_C58": {
+        "verification_calls": 4542,
+        "native_accepted_draft_tokens": 27809,
+        "accepted_draft_tokens": 27861,
+        "committed_progress": 32351,
+        "output_tokens": 32415,
+        "request_latency_s": 79.28021738864481,
+        "native_generate_s": 77.55149358324707,
+        "cache_maintenance_s": 0.0355564970523119
+      }
+    },
+    "repeat_2_block_6": {
+      "O58": {
+        "verification_calls": 4187,
+        "native_accepted_draft_tokens": 24499,
+        "accepted_draft_tokens": 24559,
+        "committed_progress": 28686,
+        "output_tokens": 28750,
+        "request_latency_s": 72.60420244559646,
+        "native_generate_s": 71.13569932803512,
+        "cache_maintenance_s": 0.036046430468559265
+      },
+      "KPLUS58": {
+        "verification_calls": 4116,
+        "native_accepted_draft_tokens": 24570,
+        "accepted_draft_tokens": 24630,
+        "committed_progress": 28686,
+        "output_tokens": 28750,
+        "request_latency_s": 71.68555186130106,
+        "native_generate_s": 70.21584174409509,
+        "cache_maintenance_s": 0.037513384595513344
+      },
+      "KPLUS_C58": {
+        "verification_calls": 4101,
+        "native_accepted_draft_tokens": 24585,
+        "accepted_draft_tokens": 24638,
+        "committed_progress": 28686,
+        "output_tokens": 28750,
+        "request_latency_s": 71.26497878879309,
+        "native_generate_s": 69.80020117945969,
+        "cache_maintenance_s": 0.036141229793429375
+      }
+    },
+    "repeat_2_block_7": {
+      "O58": {
+        "verification_calls": 4359,
+        "native_accepted_draft_tokens": 27211,
+        "accepted_draft_tokens": 27266,
+        "committed_progress": 31570,
+        "output_tokens": 31634,
+        "request_latency_s": 76.18386197090149,
+        "native_generate_s": 74.70201716944575,
+        "cache_maintenance_s": 0.036816561594605446
+      },
+      "KPLUS58": {
+        "verification_calls": 4256,
+        "native_accepted_draft_tokens": 27314,
+        "accepted_draft_tokens": 27369,
+        "committed_progress": 31570,
+        "output_tokens": 31634,
+        "request_latency_s": 74.50261275842786,
+        "native_generate_s": 72.9822710249573,
+        "cache_maintenance_s": 0.03737853281199932
+      },
+      "KPLUS_C58": {
+        "verification_calls": 4262,
+        "native_accepted_draft_tokens": 27308,
+        "accepted_draft_tokens": 27362,
+        "committed_progress": 31570,
+        "output_tokens": 31634,
+        "request_latency_s": 74.44188768602908,
+        "native_generate_s": 73.04124023392797,
+        "cache_maintenance_s": 0.0378207303583622
+      }
+    },
+    "repeat_2_block_8": {
+      "O58": {
+        "verification_calls": 4136,
+        "native_accepted_draft_tokens": 23353,
+        "accepted_draft_tokens": 23406,
+        "committed_progress": 27489,
+        "output_tokens": 27553,
+        "request_latency_s": 71.89863875880837,
+        "native_generate_s": 70.59245315007865,
+        "cache_maintenance_s": 0.036471256986260414
+      },
+      "KPLUS58": {
+        "verification_calls": 4015,
+        "native_accepted_draft_tokens": 23474,
+        "accepted_draft_tokens": 23529,
+        "committed_progress": 27489,
+        "output_tokens": 27553,
+        "request_latency_s": 69.81991439126432,
+        "native_generate_s": 68.56313542462885,
+        "cache_maintenance_s": 0.03703737072646618
+      },
+      "KPLUS_C58": {
+        "verification_calls": 3999,
+        "native_accepted_draft_tokens": 23490,
+        "accepted_draft_tokens": 23543,
+        "committed_progress": 27489,
+        "output_tokens": 27553,
+        "request_latency_s": 69.4296340867877,
+        "native_generate_s": 68.17370600812137,
+        "cache_maintenance_s": 0.03544469550251961
+      }
+    },
+    "repeat_2_block_9": {
+      "O58": {
+        "verification_calls": 4568,
+        "native_accepted_draft_tokens": 28092,
+        "accepted_draft_tokens": 28144,
+        "committed_progress": 32660,
+        "output_tokens": 32724,
+        "request_latency_s": 79.6293454952538,
+        "native_generate_s": 78.29854962043464,
+        "cache_maintenance_s": 0.037509819492697716
+      },
+      "KPLUS58": {
+        "verification_calls": 4470,
+        "native_accepted_draft_tokens": 28190,
+        "accepted_draft_tokens": 28243,
+        "committed_progress": 32660,
+        "output_tokens": 32724,
+        "request_latency_s": 78.03647344000638,
+        "native_generate_s": 76.67385492473841,
+        "cache_maintenance_s": 0.037321170791983604
+      },
+      "KPLUS_C58": {
+        "verification_calls": 4470,
+        "native_accepted_draft_tokens": 28190,
+        "accepted_draft_tokens": 28237,
+        "committed_progress": 32660,
+        "output_tokens": 32724,
+        "request_latency_s": 78.00592671334743,
+        "native_generate_s": 76.64010577276349,
+        "cache_maintenance_s": 0.03614300489425659
+      }
+    },
+    "repeat_2_block_10": {
+      "O58": {
+        "verification_calls": 4205,
+        "native_accepted_draft_tokens": 24452,
+        "accepted_draft_tokens": 24506,
+        "committed_progress": 28657,
+        "output_tokens": 28721,
+        "request_latency_s": 73.42379235289991,
+        "native_generate_s": 72.04346641153097,
+        "cache_maintenance_s": 0.03542833961546421
+      },
+      "KPLUS58": {
+        "verification_calls": 4145,
+        "native_accepted_draft_tokens": 24512,
+        "accepted_draft_tokens": 24566,
+        "committed_progress": 28657,
+        "output_tokens": 28721,
+        "request_latency_s": 72.39820808544755,
+        "native_generate_s": 71.09346113353968,
+        "cache_maintenance_s": 0.03575757518410683
+      },
+      "KPLUS_C58": {
+        "verification_calls": 4123,
+        "native_accepted_draft_tokens": 24534,
+        "accepted_draft_tokens": 24583,
+        "committed_progress": 28657,
+        "output_tokens": 28721,
+        "request_latency_s": 72.04927588254213,
+        "native_generate_s": 70.70596646890044,
+        "cache_maintenance_s": 0.0366008672863245
+      }
+    },
+    "repeat_2_block_11": {
+      "O58": {
+        "verification_calls": 4597,
+        "native_accepted_draft_tokens": 28803,
+        "accepted_draft_tokens": 28857,
+        "committed_progress": 33400,
+        "output_tokens": 33464,
+        "request_latency_s": 80.41345243155956,
+        "native_generate_s": 78.8257276955992,
+        "cache_maintenance_s": 0.03642459027469158
+      },
+      "KPLUS58": {
+        "verification_calls": 4488,
+        "native_accepted_draft_tokens": 28912,
+        "accepted_draft_tokens": 28964,
+        "committed_progress": 33400,
+        "output_tokens": 33464,
+        "request_latency_s": 78.67156643420458,
+        "native_generate_s": 77.05211026035249,
+        "cache_maintenance_s": 0.036180078983306885
+      },
+      "KPLUS_C58": {
+        "verification_calls": 4462,
+        "native_accepted_draft_tokens": 28938,
+        "accepted_draft_tokens": 28991,
+        "committed_progress": 33400,
+        "output_tokens": 33464,
+        "request_latency_s": 78.18446776084602,
+        "native_generate_s": 76.5676543507725,
+        "cache_maintenance_s": 0.036040712147951126
+      }
+    },
+    "repeat_2_block_12": {
+      "O58": {
+        "verification_calls": 4418,
+        "native_accepted_draft_tokens": 26746,
+        "accepted_draft_tokens": 26799,
+        "committed_progress": 31164,
+        "output_tokens": 31228,
+        "request_latency_s": 77.36648484691978,
+        "native_generate_s": 75.84293812140822,
+        "cache_maintenance_s": 0.03593365289270878
+      },
+      "KPLUS58": {
+        "verification_calls": 4316,
+        "native_accepted_draft_tokens": 26848,
+        "accepted_draft_tokens": 26901,
+        "committed_progress": 31164,
+        "output_tokens": 31228,
+        "request_latency_s": 75.6535410117358,
+        "native_generate_s": 74.13493200577796,
+        "cache_maintenance_s": 0.03683342598378658
+      },
+      "KPLUS_C58": {
+        "verification_calls": 4322,
+        "native_accepted_draft_tokens": 26842,
+        "accepted_draft_tokens": 26894,
+        "committed_progress": 31164,
+        "output_tokens": 31228,
+        "request_latency_s": 75.67840742878616,
+        "native_generate_s": 74.19753241352737,
+        "cache_maintenance_s": 0.0349198654294014
+      }
+    },
+    "repeat_2_block_13": {
+      "O58": {
+        "verification_calls": 5080,
+        "native_accepted_draft_tokens": 31064,
+        "accepted_draft_tokens": 31116,
+        "committed_progress": 36144,
+        "output_tokens": 36208,
+        "request_latency_s": 89.12746988981962,
+        "native_generate_s": 87.48345783725381,
+        "cache_maintenance_s": 0.03733939118683338
+      },
+      "KPLUS58": {
+        "verification_calls": 4991,
+        "native_accepted_draft_tokens": 31153,
+        "accepted_draft_tokens": 31205,
+        "committed_progress": 36144,
+        "output_tokens": 36208,
+        "request_latency_s": 87.66243517957628,
+        "native_generate_s": 85.98745973221958,
+        "cache_maintenance_s": 0.0358599703758955
+      },
+      "KPLUS_C58": {
+        "verification_calls": 4966,
+        "native_accepted_draft_tokens": 31178,
+        "accepted_draft_tokens": 31230,
+        "committed_progress": 36144,
+        "output_tokens": 36208,
+        "request_latency_s": 87.39179410226643,
+        "native_generate_s": 85.55220844596624,
+        "cache_maintenance_s": 0.03640535660088062
+      }
+    },
+    "repeat_2_block_14": {
+      "O58": {
+        "verification_calls": 4179,
+        "native_accepted_draft_tokens": 24712,
+        "accepted_draft_tokens": 24766,
+        "committed_progress": 28891,
+        "output_tokens": 28955,
+        "request_latency_s": 73.08705107867718,
+        "native_generate_s": 71.17035362683237,
+        "cache_maintenance_s": 0.0373929999768734
+      },
+      "KPLUS58": {
+        "verification_calls": 4086,
+        "native_accepted_draft_tokens": 24805,
+        "accepted_draft_tokens": 24857,
+        "committed_progress": 28891,
+        "output_tokens": 28955,
+        "request_latency_s": 71.28123183175921,
+        "native_generate_s": 69.53376450389624,
+        "cache_maintenance_s": 0.03714559227228165
+      },
+      "KPLUS_C58": {
+        "verification_calls": 4065,
+        "native_accepted_draft_tokens": 24826,
+        "accepted_draft_tokens": 24877,
+        "committed_progress": 28891,
+        "output_tokens": 28955,
+        "request_latency_s": 70.99966958723962,
+        "native_generate_s": 69.21018777042627,
+        "cache_maintenance_s": 0.03784730285406113
+      }
+    },
+    "repeat_2_block_15": {
+      "O58": {
+        "verification_calls": 5456,
+        "native_accepted_draft_tokens": 30874,
+        "accepted_draft_tokens": 30931,
+        "committed_progress": 36330,
+        "output_tokens": 36394,
+        "request_latency_s": 95.46156385354698,
+        "native_generate_s": 93.92666856944561,
+        "cache_maintenance_s": 0.036942243576049805
+      },
+      "KPLUS58": {
+        "verification_calls": 5335,
+        "native_accepted_draft_tokens": 30995,
+        "accepted_draft_tokens": 31052,
+        "committed_progress": 36330,
+        "output_tokens": 36394,
+        "request_latency_s": 93.63257297687232,
+        "native_generate_s": 92.17898230068386,
+        "cache_maintenance_s": 0.03865009918808937
+      },
+      "KPLUS_C58": {
+        "verification_calls": 5304,
+        "native_accepted_draft_tokens": 31026,
+        "accepted_draft_tokens": 31080,
+        "committed_progress": 36330,
+        "output_tokens": 36394,
+        "request_latency_s": 93.14521574229002,
+        "native_generate_s": 91.69041439145803,
+        "cache_maintenance_s": 0.03798780404031277
+      }
+    }
+  },
+  "bootstrap": {
+    "draws": 10000,
+    "seed": 20261119,
+    "generator": "PCG64",
+    "method": "linear",
+    "order": "lexicographic request_id",
+    "unit": "whole paired request, all three arms and all repeat times together; datasets separate",
+    "common_draws_all_metrics": true,
+    "source_order": [
+      {
+        "source_id": "mathqa:test:431",
+        "request_id": "mathqa-transfer-0000"
+      },
+      {
+        "source_id": "mathqa:test:2803",
+        "request_id": "mathqa-transfer-0001"
+      },
+      {
+        "source_id": "mathqa:test:77",
+        "request_id": "mathqa-transfer-0002"
+      },
+      {
+        "source_id": "mathqa:test:2215",
+        "request_id": "mathqa-transfer-0003"
+      },
+      {
+        "source_id": "mathqa:test:2226",
+        "request_id": "mathqa-transfer-0004"
+      },
+      {
+        "source_id": "mathqa:test:765",
+        "request_id": "mathqa-transfer-0005"
+      },
+      {
+        "source_id": "mathqa:test:808",
+        "request_id": "mathqa-transfer-0006"
+      },
+      {
+        "source_id": "mathqa:test:386",
+        "request_id": "mathqa-transfer-0007"
+      },
+      {
+        "source_id": "mathqa:test:640",
+        "request_id": "mathqa-transfer-0008"
+      },
+      {
+        "source_id": "mathqa:test:657",
+        "request_id": "mathqa-transfer-0009"
+      },
+      {
+        "source_id": "mathqa:test:2789",
+        "request_id": "mathqa-transfer-0010"
+      },
+      {
+        "source_id": "mathqa:test:2146",
+        "request_id": "mathqa-transfer-0011"
+      },
+      {
+        "source_id": "mathqa:test:1687",
+        "request_id": "mathqa-transfer-0012"
+      },
+      {
+        "source_id": "mathqa:test:167",
+        "request_id": "mathqa-transfer-0013"
+      },
+      {
+        "source_id": "mathqa:test:1241",
+        "request_id": "mathqa-transfer-0014"
+      },
+      {
+        "source_id": "mathqa:test:1917",
+        "request_id": "mathqa-transfer-0015"
+      },
+      {
+        "source_id": "mathqa:test:2627",
+        "request_id": "mathqa-transfer-0016"
+      },
+      {
+        "source_id": "mathqa:test:655",
+        "request_id": "mathqa-transfer-0017"
+      },
+      {
+        "source_id": "mathqa:test:1925",
+        "request_id": "mathqa-transfer-0018"
+      },
+      {
+        "source_id": "mathqa:test:866",
+        "request_id": "mathqa-transfer-0019"
+      },
+      {
+        "source_id": "mathqa:test:2762",
+        "request_id": "mathqa-transfer-0020"
+      },
+      {
+        "source_id": "mathqa:test:1765",
+        "request_id": "mathqa-transfer-0021"
+      },
+      {
+        "source_id": "mathqa:test:78",
+        "request_id": "mathqa-transfer-0022"
+      },
+      {
+        "source_id": "mathqa:test:1436",
+        "request_id": "mathqa-transfer-0023"
+      },
+      {
+        "source_id": "mathqa:test:898",
+        "request_id": "mathqa-transfer-0024"
+      },
+      {
+        "source_id": "mathqa:test:2735",
+        "request_id": "mathqa-transfer-0025"
+      },
+      {
+        "source_id": "mathqa:test:1843",
+        "request_id": "mathqa-transfer-0026"
+      },
+      {
+        "source_id": "mathqa:test:131",
+        "request_id": "mathqa-transfer-0027"
+      },
+      {
+        "source_id": "mathqa:test:2258",
+        "request_id": "mathqa-transfer-0028"
+      },
+      {
+        "source_id": "mathqa:test:1556",
+        "request_id": "mathqa-transfer-0029"
+      },
+      {
+        "source_id": "mathqa:test:587",
+        "request_id": "mathqa-transfer-0030"
+      },
+      {
+        "source_id": "mathqa:test:1614",
+        "request_id": "mathqa-transfer-0031"
+      },
+      {
+        "source_id": "mathqa:test:359",
+        "request_id": "mathqa-transfer-0032"
+      },
+      {
+        "source_id": "mathqa:test:701",
+        "request_id": "mathqa-transfer-0033"
+      },
+      {
+        "source_id": "mathqa:test:1414",
+        "request_id": "mathqa-transfer-0034"
+      },
+      {
+        "source_id": "mathqa:test:1793",
+        "request_id": "mathqa-transfer-0035"
+      },
+      {
+        "source_id": "mathqa:test:401",
+        "request_id": "mathqa-transfer-0036"
+      },
+      {
+        "source_id": "mathqa:test:737",
+        "request_id": "mathqa-transfer-0037"
+      },
+      {
+        "source_id": "mathqa:test:2861",
+        "request_id": "mathqa-transfer-0038"
+      },
+      {
+        "source_id": "mathqa:test:2022",
+        "request_id": "mathqa-transfer-0039"
+      },
+      {
+        "source_id": "mathqa:test:2947",
+        "request_id": "mathqa-transfer-0040"
+      },
+      {
+        "source_id": "mathqa:test:65",
+        "request_id": "mathqa-transfer-0041"
+      },
+      {
+        "source_id": "mathqa:test:300",
+        "request_id": "mathqa-transfer-0042"
+      },
+      {
+        "source_id": "mathqa:test:1604",
+        "request_id": "mathqa-transfer-0043"
+      },
+      {
+        "source_id": "mathqa:test:2736",
+        "request_id": "mathqa-transfer-0044"
+      },
+      {
+        "source_id": "mathqa:test:659",
+        "request_id": "mathqa-transfer-0045"
+      },
+      {
+        "source_id": "mathqa:test:1789",
+        "request_id": "mathqa-transfer-0046"
+      },
+      {
+        "source_id": "mathqa:test:1552",
+        "request_id": "mathqa-transfer-0047"
+      },
+      {
+        "source_id": "mathqa:test:1637",
+        "request_id": "mathqa-transfer-0048"
+      },
+      {
+        "source_id": "mathqa:test:383",
+        "request_id": "mathqa-transfer-0049"
+      },
+      {
+        "source_id": "mathqa:test:2385",
+        "request_id": "mathqa-transfer-0050"
+      },
+      {
+        "source_id": "mathqa:test:1704",
+        "request_id": "mathqa-transfer-0051"
+      },
+      {
+        "source_id": "mathqa:test:652",
+        "request_id": "mathqa-transfer-0052"
+      },
+      {
+        "source_id": "mathqa:test:1831",
+        "request_id": "mathqa-transfer-0053"
+      },
+      {
+        "source_id": "mathqa:test:535",
+        "request_id": "mathqa-transfer-0054"
+      },
+      {
+        "source_id": "mathqa:test:28",
+        "request_id": "mathqa-transfer-0055"
+      },
+      {
+        "source_id": "mathqa:test:505",
+        "request_id": "mathqa-transfer-0056"
+      },
+      {
+        "source_id": "mathqa:test:906",
+        "request_id": "mathqa-transfer-0057"
+      },
+      {
+        "source_id": "mathqa:test:2078",
+        "request_id": "mathqa-transfer-0058"
+      },
+      {
+        "source_id": "mathqa:test:2178",
+        "request_id": "mathqa-transfer-0059"
+      },
+      {
+        "source_id": "mathqa:test:1001",
+        "request_id": "mathqa-transfer-0060"
+      },
+      {
+        "source_id": "mathqa:test:2386",
+        "request_id": "mathqa-transfer-0061"
+      },
+      {
+        "source_id": "mathqa:test:17",
+        "request_id": "mathqa-transfer-0062"
+      },
+      {
+        "source_id": "mathqa:test:692",
+        "request_id": "mathqa-transfer-0063"
+      },
+      {
+        "source_id": "mathqa:test:1844",
+        "request_id": "mathqa-transfer-0064"
+      },
+      {
+        "source_id": "mathqa:test:122",
+        "request_id": "mathqa-transfer-0065"
+      },
+      {
+        "source_id": "mathqa:test:148",
+        "request_id": "mathqa-transfer-0066"
+      },
+      {
+        "source_id": "mathqa:test:462",
+        "request_id": "mathqa-transfer-0067"
+      },
+      {
+        "source_id": "mathqa:test:1482",
+        "request_id": "mathqa-transfer-0068"
+      },
+      {
+        "source_id": "mathqa:test:2188",
+        "request_id": "mathqa-transfer-0069"
+      },
+      {
+        "source_id": "mathqa:test:2379",
+        "request_id": "mathqa-transfer-0070"
+      },
+      {
+        "source_id": "mathqa:test:1623",
+        "request_id": "mathqa-transfer-0071"
+      },
+      {
+        "source_id": "mathqa:test:1375",
+        "request_id": "mathqa-transfer-0072"
+      },
+      {
+        "source_id": "mathqa:test:1327",
+        "request_id": "mathqa-transfer-0073"
+      },
+      {
+        "source_id": "mathqa:test:11",
+        "request_id": "mathqa-transfer-0074"
+      },
+      {
+        "source_id": "mathqa:test:2229",
+        "request_id": "mathqa-transfer-0075"
+      },
+      {
+        "source_id": "mathqa:test:2461",
+        "request_id": "mathqa-transfer-0076"
+      },
+      {
+        "source_id": "mathqa:test:83",
+        "request_id": "mathqa-transfer-0077"
+      },
+      {
+        "source_id": "mathqa:test:643",
+        "request_id": "mathqa-transfer-0078"
+      },
+      {
+        "source_id": "mathqa:test:2591",
+        "request_id": "mathqa-transfer-0079"
+      },
+      {
+        "source_id": "mathqa:test:12",
+        "request_id": "mathqa-transfer-0080"
+      },
+      {
+        "source_id": "mathqa:test:2794",
+        "request_id": "mathqa-transfer-0081"
+      },
+      {
+        "source_id": "mathqa:test:939",
+        "request_id": "mathqa-transfer-0082"
+      },
+      {
+        "source_id": "mathqa:test:387",
+        "request_id": "mathqa-transfer-0083"
+      },
+      {
+        "source_id": "mathqa:test:109",
+        "request_id": "mathqa-transfer-0084"
+      },
+      {
+        "source_id": "mathqa:test:641",
+        "request_id": "mathqa-transfer-0085"
+      },
+      {
+        "source_id": "mathqa:test:1974",
+        "request_id": "mathqa-transfer-0086"
+      },
+      {
+        "source_id": "mathqa:test:1863",
+        "request_id": "mathqa-transfer-0087"
+      },
+      {
+        "source_id": "mathqa:test:877",
+        "request_id": "mathqa-transfer-0088"
+      },
+      {
+        "source_id": "mathqa:test:1503",
+        "request_id": "mathqa-transfer-0089"
+      },
+      {
+        "source_id": "mathqa:test:916",
+        "request_id": "mathqa-transfer-0090"
+      },
+      {
+        "source_id": "mathqa:test:459",
+        "request_id": "mathqa-transfer-0091"
+      },
+      {
+        "source_id": "mathqa:test:715",
+        "request_id": "mathqa-transfer-0092"
+      },
+      {
+        "source_id": "mathqa:test:2293",
+        "request_id": "mathqa-transfer-0093"
+      },
+      {
+        "source_id": "mathqa:test:2456",
+        "request_id": "mathqa-transfer-0094"
+      },
+      {
+        "source_id": "mathqa:test:604",
+        "request_id": "mathqa-transfer-0095"
+      },
+      {
+        "source_id": "mathqa:test:2354",
+        "request_id": "mathqa-transfer-0096"
+      },
+      {
+        "source_id": "mathqa:test:1314",
+        "request_id": "mathqa-transfer-0097"
+      },
+      {
+        "source_id": "mathqa:test:1605",
+        "request_id": "mathqa-transfer-0098"
+      },
+      {
+        "source_id": "mathqa:test:1364",
+        "request_id": "mathqa-transfer-0099"
+      },
+      {
+        "source_id": "mathqa:test:1339",
+        "request_id": "mathqa-transfer-0100"
+      },
+      {
+        "source_id": "mathqa:test:616",
+        "request_id": "mathqa-transfer-0101"
+      },
+      {
+        "source_id": "mathqa:test:1900",
+        "request_id": "mathqa-transfer-0102"
+      },
+      {
+        "source_id": "mathqa:test:2557",
+        "request_id": "mathqa-transfer-0103"
+      },
+      {
+        "source_id": "mathqa:test:2717",
+        "request_id": "mathqa-transfer-0104"
+      },
+      {
+        "source_id": "mathqa:test:1460",
+        "request_id": "mathqa-transfer-0105"
+      },
+      {
+        "source_id": "mathqa:test:1701",
+        "request_id": "mathqa-transfer-0106"
+      },
+      {
+        "source_id": "mathqa:test:590",
+        "request_id": "mathqa-transfer-0107"
+      },
+      {
+        "source_id": "mathqa:test:139",
+        "request_id": "mathqa-transfer-0108"
+      },
+      {
+        "source_id": "mathqa:test:2828",
+        "request_id": "mathqa-transfer-0109"
+      },
+      {
+        "source_id": "mathqa:test:170",
+        "request_id": "mathqa-transfer-0110"
+      },
+      {
+        "source_id": "mathqa:test:2573",
+        "request_id": "mathqa-transfer-0111"
+      },
+      {
+        "source_id": "mathqa:test:1243",
+        "request_id": "mathqa-transfer-0112"
+      },
+      {
+        "source_id": "mathqa:test:2754",
+        "request_id": "mathqa-transfer-0113"
+      },
+      {
+        "source_id": "mathqa:test:2515",
+        "request_id": "mathqa-transfer-0114"
+      },
+      {
+        "source_id": "mathqa:test:956",
+        "request_id": "mathqa-transfer-0115"
+      },
+      {
+        "source_id": "mathqa:test:249",
+        "request_id": "mathqa-transfer-0116"
+      },
+      {
+        "source_id": "mathqa:test:282",
+        "request_id": "mathqa-transfer-0117"
+      },
+      {
+        "source_id": "mathqa:test:2250",
+        "request_id": "mathqa-transfer-0118"
+      },
+      {
+        "source_id": "mathqa:test:2856",
+        "request_id": "mathqa-transfer-0119"
+      },
+      {
+        "source_id": "mathqa:test:2812",
+        "request_id": "mathqa-transfer-0120"
+      },
+      {
+        "source_id": "mathqa:test:1561",
+        "request_id": "mathqa-transfer-0121"
+      },
+      {
+        "source_id": "mathqa:test:860",
+        "request_id": "mathqa-transfer-0122"
+      },
+      {
+        "source_id": "mathqa:test:2977",
+        "request_id": "mathqa-transfer-0123"
+      },
+      {
+        "source_id": "mathqa:test:261",
+        "request_id": "mathqa-transfer-0124"
+      },
+      {
+        "source_id": "mathqa:test:1278",
+        "request_id": "mathqa-transfer-0125"
+      },
+      {
+        "source_id": "mathqa:test:2472",
+        "request_id": "mathqa-transfer-0126"
+      },
+      {
+        "source_id": "mathqa:test:100",
+        "request_id": "mathqa-transfer-0127"
+      },
+      {
+        "source_id": "mathqa:test:1778",
+        "request_id": "mathqa-transfer-0128"
+      },
+      {
+        "source_id": "mathqa:test:1579",
+        "request_id": "mathqa-transfer-0129"
+      },
+      {
+        "source_id": "mathqa:test:1827",
+        "request_id": "mathqa-transfer-0130"
+      },
+      {
+        "source_id": "mathqa:test:663",
+        "request_id": "mathqa-transfer-0131"
+      },
+      {
+        "source_id": "mathqa:test:1740",
+        "request_id": "mathqa-transfer-0132"
+      },
+      {
+        "source_id": "mathqa:test:1361",
+        "request_id": "mathqa-transfer-0133"
+      },
+      {
+        "source_id": "mathqa:test:55",
+        "request_id": "mathqa-transfer-0134"
+      },
+      {
+        "source_id": "mathqa:test:1005",
+        "request_id": "mathqa-transfer-0135"
+      },
+      {
+        "source_id": "mathqa:test:645",
+        "request_id": "mathqa-transfer-0136"
+      },
+      {
+        "source_id": "mathqa:test:2341",
+        "request_id": "mathqa-transfer-0137"
+      },
+      {
+        "source_id": "mathqa:test:1021",
+        "request_id": "mathqa-transfer-0138"
+      },
+      {
+        "source_id": "mathqa:test:2486",
+        "request_id": "mathqa-transfer-0139"
+      },
+      {
+        "source_id": "mathqa:test:2874",
+        "request_id": "mathqa-transfer-0140"
+      },
+      {
+        "source_id": "mathqa:test:2241",
+        "request_id": "mathqa-transfer-0141"
+      },
+      {
+        "source_id": "mathqa:test:260",
+        "request_id": "mathqa-transfer-0142"
+      },
+      {
+        "source_id": "mathqa:test:2222",
+        "request_id": "mathqa-transfer-0143"
+      },
+      {
+        "source_id": "mathqa:test:2398",
+        "request_id": "mathqa-transfer-0144"
+      },
+      {
+        "source_id": "mathqa:test:1655",
+        "request_id": "mathqa-transfer-0145"
+      },
+      {
+        "source_id": "mathqa:test:178",
+        "request_id": "mathqa-transfer-0146"
+      },
+      {
+        "source_id": "mathqa:test:622",
+        "request_id": "mathqa-transfer-0147"
+      },
+      {
+        "source_id": "mathqa:test:30",
+        "request_id": "mathqa-transfer-0148"
+      },
+      {
+        "source_id": "mathqa:test:1461",
+        "request_id": "mathqa-transfer-0149"
+      },
+      {
+        "source_id": "mathqa:test:797",
+        "request_id": "mathqa-transfer-0150"
+      },
+      {
+        "source_id": "mathqa:test:2124",
+        "request_id": "mathqa-transfer-0151"
+      },
+      {
+        "source_id": "mathqa:test:2860",
+        "request_id": "mathqa-transfer-0152"
+      },
+      {
+        "source_id": "mathqa:test:1300",
+        "request_id": "mathqa-transfer-0153"
+      },
+      {
+        "source_id": "mathqa:test:2190",
+        "request_id": "mathqa-transfer-0154"
+      },
+      {
+        "source_id": "mathqa:test:1678",
+        "request_id": "mathqa-transfer-0155"
+      },
+      {
+        "source_id": "mathqa:test:2083",
+        "request_id": "mathqa-transfer-0156"
+      },
+      {
+        "source_id": "mathqa:test:2630",
+        "request_id": "mathqa-transfer-0157"
+      },
+      {
+        "source_id": "mathqa:test:2958",
+        "request_id": "mathqa-transfer-0158"
+      },
+      {
+        "source_id": "mathqa:test:2480",
+        "request_id": "mathqa-transfer-0159"
+      },
+      {
+        "source_id": "mathqa:test:1183",
+        "request_id": "mathqa-transfer-0160"
+      },
+      {
+        "source_id": "mathqa:test:2956",
+        "request_id": "mathqa-transfer-0161"
+      },
+      {
+        "source_id": "mathqa:test:2043",
+        "request_id": "mathqa-transfer-0162"
+      },
+      {
+        "source_id": "mathqa:test:2192",
+        "request_id": "mathqa-transfer-0163"
+      },
+      {
+        "source_id": "mathqa:test:1668",
+        "request_id": "mathqa-transfer-0164"
+      },
+      {
+        "source_id": "mathqa:test:2815",
+        "request_id": "mathqa-transfer-0165"
+      },
+      {
+        "source_id": "mathqa:test:2488",
+        "request_id": "mathqa-transfer-0166"
+      },
+      {
+        "source_id": "mathqa:test:2122",
+        "request_id": "mathqa-transfer-0167"
+      },
+      {
+        "source_id": "mathqa:test:252",
+        "request_id": "mathqa-transfer-0168"
+      },
+      {
+        "source_id": "mathqa:test:2979",
+        "request_id": "mathqa-transfer-0169"
+      },
+      {
+        "source_id": "mathqa:test:426",
+        "request_id": "mathqa-transfer-0170"
+      },
+      {
+        "source_id": "mathqa:test:1234",
+        "request_id": "mathqa-transfer-0171"
+      },
+      {
+        "source_id": "mathqa:test:2177",
+        "request_id": "mathqa-transfer-0172"
+      },
+      {
+        "source_id": "mathqa:test:2635",
+        "request_id": "mathqa-transfer-0173"
+      },
+      {
+        "source_id": "mathqa:test:2937",
+        "request_id": "mathqa-transfer-0174"
+      },
+      {
+        "source_id": "mathqa:test:365",
+        "request_id": "mathqa-transfer-0175"
+      },
+      {
+        "source_id": "mathqa:test:2352",
+        "request_id": "mathqa-transfer-0176"
+      },
+      {
+        "source_id": "mathqa:test:2807",
+        "request_id": "mathqa-transfer-0177"
+      },
+      {
+        "source_id": "mathqa:test:2696",
+        "request_id": "mathqa-transfer-0178"
+      },
+      {
+        "source_id": "mathqa:test:540",
+        "request_id": "mathqa-transfer-0179"
+      },
+      {
+        "source_id": "mathqa:test:166",
+        "request_id": "mathqa-transfer-0180"
+      },
+      {
+        "source_id": "mathqa:test:1178",
+        "request_id": "mathqa-transfer-0181"
+      },
+      {
+        "source_id": "mathqa:test:2911",
+        "request_id": "mathqa-transfer-0182"
+      },
+      {
+        "source_id": "mathqa:test:1497",
+        "request_id": "mathqa-transfer-0183"
+      },
+      {
+        "source_id": "mathqa:test:1606",
+        "request_id": "mathqa-transfer-0184"
+      },
+      {
+        "source_id": "mathqa:test:2316",
+        "request_id": "mathqa-transfer-0185"
+      },
+      {
+        "source_id": "mathqa:test:2885",
+        "request_id": "mathqa-transfer-0186"
+      },
+      {
+        "source_id": "mathqa:test:2144",
+        "request_id": "mathqa-transfer-0187"
+      },
+      {
+        "source_id": "mathqa:test:1025",
+        "request_id": "mathqa-transfer-0188"
+      },
+      {
+        "source_id": "mathqa:test:1886",
+        "request_id": "mathqa-transfer-0189"
+      },
+      {
+        "source_id": "mathqa:test:870",
+        "request_id": "mathqa-transfer-0190"
+      },
+      {
+        "source_id": "mathqa:test:967",
+        "request_id": "mathqa-transfer-0191"
+      },
+      {
+        "source_id": "mathqa:test:1045",
+        "request_id": "mathqa-transfer-0192"
+      },
+      {
+        "source_id": "mathqa:test:1871",
+        "request_id": "mathqa-transfer-0193"
+      },
+      {
+        "source_id": "mathqa:test:2580",
+        "request_id": "mathqa-transfer-0194"
+      },
+      {
+        "source_id": "mathqa:test:2432",
+        "request_id": "mathqa-transfer-0195"
+      },
+      {
+        "source_id": "mathqa:test:1321",
+        "request_id": "mathqa-transfer-0196"
+      },
+      {
+        "source_id": "mathqa:test:1071",
+        "request_id": "mathqa-transfer-0197"
+      },
+      {
+        "source_id": "mathqa:test:886",
+        "request_id": "mathqa-transfer-0198"
+      },
+      {
+        "source_id": "mathqa:test:2415",
+        "request_id": "mathqa-transfer-0199"
+      },
+      {
+        "source_id": "mathqa:test:2870",
+        "request_id": "mathqa-transfer-0200"
+      },
+      {
+        "source_id": "mathqa:test:2664",
+        "request_id": "mathqa-transfer-0201"
+      },
+      {
+        "source_id": "mathqa:test:2500",
+        "request_id": "mathqa-transfer-0202"
+      },
+      {
+        "source_id": "mathqa:test:2470",
+        "request_id": "mathqa-transfer-0203"
+      },
+      {
+        "source_id": "mathqa:test:830",
+        "request_id": "mathqa-transfer-0204"
+      },
+      {
+        "source_id": "mathqa:test:1082",
+        "request_id": "mathqa-transfer-0205"
+      },
+      {
+        "source_id": "mathqa:test:2948",
+        "request_id": "mathqa-transfer-0206"
+      },
+      {
+        "source_id": "mathqa:test:919",
+        "request_id": "mathqa-transfer-0207"
+      },
+      {
+        "source_id": "mathqa:test:1829",
+        "request_id": "mathqa-transfer-0208"
+      },
+      {
+        "source_id": "mathqa:test:1196",
+        "request_id": "mathqa-transfer-0209"
+      },
+      {
+        "source_id": "mathqa:test:2155",
+        "request_id": "mathqa-transfer-0210"
+      },
+      {
+        "source_id": "mathqa:test:777",
+        "request_id": "mathqa-transfer-0211"
+      },
+      {
+        "source_id": "mathqa:test:1814",
+        "request_id": "mathqa-transfer-0212"
+      },
+      {
+        "source_id": "mathqa:test:2688",
+        "request_id": "mathqa-transfer-0213"
+      },
+      {
+        "source_id": "mathqa:test:2259",
+        "request_id": "mathqa-transfer-0214"
+      },
+      {
+        "source_id": "mathqa:test:2151",
+        "request_id": "mathqa-transfer-0215"
+      },
+      {
+        "source_id": "mathqa:test:669",
+        "request_id": "mathqa-transfer-0216"
+      },
+      {
+        "source_id": "mathqa:test:2854",
+        "request_id": "mathqa-transfer-0217"
+      },
+      {
+        "source_id": "mathqa:test:2901",
+        "request_id": "mathqa-transfer-0218"
+      },
+      {
+        "source_id": "mathqa:test:2640",
+        "request_id": "mathqa-transfer-0219"
+      },
+      {
+        "source_id": "mathqa:test:1784",
+        "request_id": "mathqa-transfer-0220"
+      },
+      {
+        "source_id": "mathqa:test:509",
+        "request_id": "mathqa-transfer-0221"
+      },
+      {
+        "source_id": "mathqa:test:2544",
+        "request_id": "mathqa-transfer-0222"
+      },
+      {
+        "source_id": "mathqa:test:1102",
+        "request_id": "mathqa-transfer-0223"
+      },
+      {
+        "source_id": "mathqa:test:852",
+        "request_id": "mathqa-transfer-0224"
+      },
+      {
+        "source_id": "mathqa:test:785",
+        "request_id": "mathqa-transfer-0225"
+      },
+      {
+        "source_id": "mathqa:test:700",
+        "request_id": "mathqa-transfer-0226"
+      },
+      {
+        "source_id": "mathqa:test:888",
+        "request_id": "mathqa-transfer-0227"
+      },
+      {
+        "source_id": "mathqa:test:960",
+        "request_id": "mathqa-transfer-0228"
+      },
+      {
+        "source_id": "mathqa:test:126",
+        "request_id": "mathqa-transfer-0229"
+      },
+      {
+        "source_id": "mathqa:test:1452",
+        "request_id": "mathqa-transfer-0230"
+      },
+      {
+        "source_id": "mathqa:test:183",
+        "request_id": "mathqa-transfer-0231"
+      },
+      {
+        "source_id": "mathqa:test:1783",
+        "request_id": "mathqa-transfer-0232"
+      },
+      {
+        "source_id": "mathqa:test:697",
+        "request_id": "mathqa-transfer-0233"
+      },
+      {
+        "source_id": "mathqa:test:1360",
+        "request_id": "mathqa-transfer-0234"
+      },
+      {
+        "source_id": "mathqa:test:502",
+        "request_id": "mathqa-transfer-0235"
+      },
+      {
+        "source_id": "mathqa:test:546",
+        "request_id": "mathqa-transfer-0236"
+      },
+      {
+        "source_id": "mathqa:test:807",
+        "request_id": "mathqa-transfer-0237"
+      },
+      {
+        "source_id": "mathqa:test:668",
+        "request_id": "mathqa-transfer-0238"
+      },
+      {
+        "source_id": "mathqa:test:1481",
+        "request_id": "mathqa-transfer-0239"
+      },
+      {
+        "source_id": "mathqa:test:1424",
+        "request_id": "mathqa-transfer-0240"
+      },
+      {
+        "source_id": "mathqa:test:1940",
+        "request_id": "mathqa-transfer-0241"
+      },
+      {
+        "source_id": "mathqa:test:2950",
+        "request_id": "mathqa-transfer-0242"
+      },
+      {
+        "source_id": "mathqa:test:1448",
+        "request_id": "mathqa-transfer-0243"
+      },
+      {
+        "source_id": "mathqa:test:851",
+        "request_id": "mathqa-transfer-0244"
+      },
+      {
+        "source_id": "mathqa:test:289",
+        "request_id": "mathqa-transfer-0245"
+      },
+      {
+        "source_id": "mathqa:test:710",
+        "request_id": "mathqa-transfer-0246"
+      },
+      {
+        "source_id": "mathqa:test:810",
+        "request_id": "mathqa-transfer-0247"
+      },
+      {
+        "source_id": "mathqa:test:942",
+        "request_id": "mathqa-transfer-0248"
+      },
+      {
+        "source_id": "mathqa:test:2085",
+        "request_id": "mathqa-transfer-0249"
+      },
+      {
+        "source_id": "mathqa:test:882",
+        "request_id": "mathqa-transfer-0250"
+      },
+      {
+        "source_id": "mathqa:test:380",
+        "request_id": "mathqa-transfer-0251"
+      },
+      {
+        "source_id": "mathqa:test:2133",
+        "request_id": "mathqa-transfer-0252"
+      },
+      {
+        "source_id": "mathqa:test:326",
+        "request_id": "mathqa-transfer-0253"
+      },
+      {
+        "source_id": "mathqa:test:2318",
+        "request_id": "mathqa-transfer-0254"
+      },
+      {
+        "source_id": "mathqa:test:1729",
+        "request_id": "mathqa-transfer-0255"
+      },
+      {
+        "source_id": "mathqa:test:385",
+        "request_id": "mathqa-transfer-0256"
+      },
+      {
+        "source_id": "mathqa:test:1988",
+        "request_id": "mathqa-transfer-0257"
+      },
+      {
+        "source_id": "mathqa:test:971",
+        "request_id": "mathqa-transfer-0258"
+      },
+      {
+        "source_id": "mathqa:test:114",
+        "request_id": "mathqa-transfer-0259"
+      },
+      {
+        "source_id": "mathqa:test:1271",
+        "request_id": "mathqa-transfer-0260"
+      },
+      {
+        "source_id": "mathqa:test:1105",
+        "request_id": "mathqa-transfer-0261"
+      },
+      {
+        "source_id": "mathqa:test:2339",
+        "request_id": "mathqa-transfer-0262"
+      },
+      {
+        "source_id": "mathqa:test:1576",
+        "request_id": "mathqa-transfer-0263"
+      },
+      {
+        "source_id": "mathqa:test:512",
+        "request_id": "mathqa-transfer-0264"
+      },
+      {
+        "source_id": "mathqa:test:2117",
+        "request_id": "mathqa-transfer-0265"
+      },
+      {
+        "source_id": "mathqa:test:1090",
+        "request_id": "mathqa-transfer-0266"
+      },
+      {
+        "source_id": "mathqa:test:2897",
+        "request_id": "mathqa-transfer-0267"
+      },
+      {
+        "source_id": "mathqa:test:1325",
+        "request_id": "mathqa-transfer-0268"
+      },
+      {
+        "source_id": "mathqa:test:2555",
+        "request_id": "mathqa-transfer-0269"
+      },
+      {
+        "source_id": "mathqa:test:2393",
+        "request_id": "mathqa-transfer-0270"
+      },
+      {
+        "source_id": "mathqa:test:755",
+        "request_id": "mathqa-transfer-0271"
+      },
+      {
+        "source_id": "mathqa:test:1244",
+        "request_id": "mathqa-transfer-0272"
+      },
+      {
+        "source_id": "mathqa:test:1731",
+        "request_id": "mathqa-transfer-0273"
+      },
+      {
+        "source_id": "mathqa:test:1596",
+        "request_id": "mathqa-transfer-0274"
+      },
+      {
+        "source_id": "mathqa:test:1615",
+        "request_id": "mathqa-transfer-0275"
+      },
+      {
+        "source_id": "mathqa:test:388",
+        "request_id": "mathqa-transfer-0276"
+      },
+      {
+        "source_id": "mathqa:test:1853",
+        "request_id": "mathqa-transfer-0277"
+      },
+      {
+        "source_id": "mathqa:test:833",
+        "request_id": "mathqa-transfer-0278"
+      },
+      {
+        "source_id": "mathqa:test:504",
+        "request_id": "mathqa-transfer-0279"
+      },
+      {
+        "source_id": "mathqa:test:1806",
+        "request_id": "mathqa-transfer-0280"
+      },
+      {
+        "source_id": "mathqa:test:1185",
+        "request_id": "mathqa-transfer-0281"
+      },
+      {
+        "source_id": "mathqa:test:358",
+        "request_id": "mathqa-transfer-0282"
+      },
+      {
+        "source_id": "mathqa:test:1126",
+        "request_id": "mathqa-transfer-0283"
+      },
+      {
+        "source_id": "mathqa:test:2862",
+        "request_id": "mathqa-transfer-0284"
+      },
+      {
+        "source_id": "mathqa:test:2957",
+        "request_id": "mathqa-transfer-0285"
+      },
+      {
+        "source_id": "mathqa:test:2406",
+        "request_id": "mathqa-transfer-0286"
+      },
+      {
+        "source_id": "mathqa:test:1686",
+        "request_id": "mathqa-transfer-0287"
+      },
+      {
+        "source_id": "mathqa:test:2788",
+        "request_id": "mathqa-transfer-0288"
+      },
+      {
+        "source_id": "mathqa:test:429",
+        "request_id": "mathqa-transfer-0289"
+      },
+      {
+        "source_id": "mathqa:test:18",
+        "request_id": "mathqa-transfer-0290"
+      },
+      {
+        "source_id": "mathqa:test:1342",
+        "request_id": "mathqa-transfer-0291"
+      },
+      {
+        "source_id": "mathqa:test:15",
+        "request_id": "mathqa-transfer-0292"
+      },
+      {
+        "source_id": "mathqa:test:2344",
+        "request_id": "mathqa-transfer-0293"
+      },
+      {
+        "source_id": "mathqa:test:1970",
+        "request_id": "mathqa-transfer-0294"
+      },
+      {
+        "source_id": "mathqa:test:2881",
+        "request_id": "mathqa-transfer-0295"
+      },
+      {
+        "source_id": "mathqa:test:1968",
+        "request_id": "mathqa-transfer-0296"
+      },
+      {
+        "source_id": "mathqa:test:1284",
+        "request_id": "mathqa-transfer-0297"
+      },
+      {
+        "source_id": "mathqa:test:1867",
+        "request_id": "mathqa-transfer-0298"
+      },
+      {
+        "source_id": "mathqa:test:1848",
+        "request_id": "mathqa-transfer-0299"
+      },
+      {
+        "source_id": "mathqa:test:2212",
+        "request_id": "mathqa-transfer-0300"
+      },
+      {
+        "source_id": "mathqa:test:1041",
+        "request_id": "mathqa-transfer-0301"
+      },
+      {
+        "source_id": "mathqa:test:2662",
+        "request_id": "mathqa-transfer-0302"
+      },
+      {
+        "source_id": "mathqa:test:1573",
+        "request_id": "mathqa-transfer-0303"
+      },
+      {
+        "source_id": "mathqa:test:157",
+        "request_id": "mathqa-transfer-0304"
+      },
+      {
+        "source_id": "mathqa:test:847",
+        "request_id": "mathqa-transfer-0305"
+      },
+      {
+        "source_id": "mathqa:test:1231",
+        "request_id": "mathqa-transfer-0306"
+      },
+      {
+        "source_id": "mathqa:test:2504",
+        "request_id": "mathqa-transfer-0307"
+      },
+      {
+        "source_id": "mathqa:test:1432",
+        "request_id": "mathqa-transfer-0308"
+      },
+      {
+        "source_id": "mathqa:test:288",
+        "request_id": "mathqa-transfer-0309"
+      },
+      {
+        "source_id": "mathqa:test:1280",
+        "request_id": "mathqa-transfer-0310"
+      },
+      {
+        "source_id": "mathqa:test:594",
+        "request_id": "mathqa-transfer-0311"
+      },
+      {
+        "source_id": "mathqa:test:2621",
+        "request_id": "mathqa-transfer-0312"
+      },
+      {
+        "source_id": "mathqa:test:2761",
+        "request_id": "mathqa-transfer-0313"
+      },
+      {
+        "source_id": "mathqa:test:2204",
+        "request_id": "mathqa-transfer-0314"
+      },
+      {
+        "source_id": "mathqa:test:1912",
+        "request_id": "mathqa-transfer-0315"
+      },
+      {
+        "source_id": "mathqa:test:1409",
+        "request_id": "mathqa-transfer-0316"
+      },
+      {
+        "source_id": "mathqa:test:1095",
+        "request_id": "mathqa-transfer-0317"
+      },
+      {
+        "source_id": "mathqa:test:42",
+        "request_id": "mathqa-transfer-0318"
+      },
+      {
+        "source_id": "mathqa:test:2512",
+        "request_id": "mathqa-transfer-0319"
+      },
+      {
+        "source_id": "mathqa:test:899",
+        "request_id": "mathqa-transfer-0320"
+      },
+      {
+        "source_id": "mathqa:test:729",
+        "request_id": "mathqa-transfer-0321"
+      },
+      {
+        "source_id": "mathqa:test:2791",
+        "request_id": "mathqa-transfer-0322"
+      },
+      {
+        "source_id": "mathqa:test:2943",
+        "request_id": "mathqa-transfer-0323"
+      },
+      {
+        "source_id": "mathqa:test:1208",
+        "request_id": "mathqa-transfer-0324"
+      },
+      {
+        "source_id": "mathqa:test:2534",
+        "request_id": "mathqa-transfer-0325"
+      },
+      {
+        "source_id": "mathqa:test:1496",
+        "request_id": "mathqa-transfer-0326"
+      },
+      {
+        "source_id": "mathqa:test:665",
+        "request_id": "mathqa-transfer-0327"
+      },
+      {
+        "source_id": "mathqa:test:2109",
+        "request_id": "mathqa-transfer-0328"
+      },
+      {
+        "source_id": "mathqa:test:1603",
+        "request_id": "mathqa-transfer-0329"
+      },
+      {
+        "source_id": "mathqa:test:1821",
+        "request_id": "mathqa-transfer-0330"
+      },
+      {
+        "source_id": "mathqa:test:1710",
+        "request_id": "mathqa-transfer-0331"
+      },
+      {
+        "source_id": "mathqa:test:330",
+        "request_id": "mathqa-transfer-0332"
+      },
+      {
+        "source_id": "mathqa:test:1052",
+        "request_id": "mathqa-transfer-0333"
+      },
+      {
+        "source_id": "mathqa:test:1535",
+        "request_id": "mathqa-transfer-0334"
+      },
+      {
+        "source_id": "mathqa:test:2548",
+        "request_id": "mathqa-transfer-0335"
+      },
+      {
+        "source_id": "mathqa:test:2281",
+        "request_id": "mathqa-transfer-0336"
+      },
+      {
+        "source_id": "mathqa:test:2821",
+        "request_id": "mathqa-transfer-0337"
+      },
+      {
+        "source_id": "mathqa:test:111",
+        "request_id": "mathqa-transfer-0338"
+      },
+      {
+        "source_id": "mathqa:test:1560",
+        "request_id": "mathqa-transfer-0339"
+      },
+      {
+        "source_id": "mathqa:test:1016",
+        "request_id": "mathqa-transfer-0340"
+      },
+      {
+        "source_id": "mathqa:test:1804",
+        "request_id": "mathqa-transfer-0341"
+      },
+      {
+        "source_id": "mathqa:test:2562",
+        "request_id": "mathqa-transfer-0342"
+      },
+      {
+        "source_id": "mathqa:test:2320",
+        "request_id": "mathqa-transfer-0343"
+      },
+      {
+        "source_id": "mathqa:test:2346",
+        "request_id": "mathqa-transfer-0344"
+      },
+      {
+        "source_id": "mathqa:test:2738",
+        "request_id": "mathqa-transfer-0345"
+      },
+      {
+        "source_id": "mathqa:test:559",
+        "request_id": "mathqa-transfer-0346"
+      },
+      {
+        "source_id": "mathqa:test:1541",
+        "request_id": "mathqa-transfer-0347"
+      },
+      {
+        "source_id": "mathqa:test:1467",
+        "request_id": "mathqa-transfer-0348"
+      },
+      {
+        "source_id": "mathqa:test:56",
+        "request_id": "mathqa-transfer-0349"
+      },
+      {
+        "source_id": "mathqa:test:1666",
+        "request_id": "mathqa-transfer-0350"
+      },
+      {
+        "source_id": "mathqa:test:1295",
+        "request_id": "mathqa-transfer-0351"
+      },
+      {
+        "source_id": "mathqa:test:2564",
+        "request_id": "mathqa-transfer-0352"
+      },
+      {
+        "source_id": "mathqa:test:940",
+        "request_id": "mathqa-transfer-0353"
+      },
+      {
+        "source_id": "mathqa:test:798",
+        "request_id": "mathqa-transfer-0354"
+      },
+      {
+        "source_id": "mathqa:test:2206",
+        "request_id": "mathqa-transfer-0355"
+      },
+      {
+        "source_id": "mathqa:test:2135",
+        "request_id": "mathqa-transfer-0356"
+      },
+      {
+        "source_id": "mathqa:test:2520",
+        "request_id": "mathqa-transfer-0357"
+      },
+      {
+        "source_id": "mathqa:test:565",
+        "request_id": "mathqa-transfer-0358"
+      },
+      {
+        "source_id": "mathqa:test:1597",
+        "request_id": "mathqa-transfer-0359"
+      },
+      {
+        "source_id": "mathqa:test:2071",
+        "request_id": "mathqa-transfer-0360"
+      },
+      {
+        "source_id": "mathqa:test:2685",
+        "request_id": "mathqa-transfer-0361"
+      },
+      {
+        "source_id": "mathqa:test:1693",
+        "request_id": "mathqa-transfer-0362"
+      },
+      {
+        "source_id": "mathqa:test:238",
+        "request_id": "mathqa-transfer-0363"
+      },
+      {
+        "source_id": "mathqa:test:376",
+        "request_id": "mathqa-transfer-0364"
+      },
+      {
+        "source_id": "mathqa:test:2217",
+        "request_id": "mathqa-transfer-0365"
+      },
+      {
+        "source_id": "mathqa:test:1104",
+        "request_id": "mathqa-transfer-0366"
+      },
+      {
+        "source_id": "mathqa:test:2180",
+        "request_id": "mathqa-transfer-0367"
+      },
+      {
+        "source_id": "mathqa:test:1792",
+        "request_id": "mathqa-transfer-0368"
+      },
+      {
+        "source_id": "mathqa:test:1009",
+        "request_id": "mathqa-transfer-0369"
+      },
+      {
+        "source_id": "mathqa:test:1965",
+        "request_id": "mathqa-transfer-0370"
+      },
+      {
+        "source_id": "mathqa:test:2075",
+        "request_id": "mathqa-transfer-0371"
+      },
+      {
+        "source_id": "mathqa:test:2027",
+        "request_id": "mathqa-transfer-0372"
+      },
+      {
+        "source_id": "mathqa:test:1758",
+        "request_id": "mathqa-transfer-0373"
+      },
+      {
+        "source_id": "mathqa:test:25",
+        "request_id": "mathqa-transfer-0374"
+      },
+      {
+        "source_id": "mathqa:test:553",
+        "request_id": "mathqa-transfer-0375"
+      },
+      {
+        "source_id": "mathqa:test:2804",
+        "request_id": "mathqa-transfer-0376"
+      },
+      {
+        "source_id": "mathqa:test:1835",
+        "request_id": "mathqa-transfer-0377"
+      },
+      {
+        "source_id": "mathqa:test:1895",
+        "request_id": "mathqa-transfer-0378"
+      },
+      {
+        "source_id": "mathqa:test:878",
+        "request_id": "mathqa-transfer-0379"
+      },
+      {
+        "source_id": "mathqa:test:395",
+        "request_id": "mathqa-transfer-0380"
+      },
+      {
+        "source_id": "mathqa:test:2376",
+        "request_id": "mathqa-transfer-0381"
+      },
+      {
+        "source_id": "mathqa:test:730",
+        "request_id": "mathqa-transfer-0382"
+      },
+      {
+        "source_id": "mathqa:test:2186",
+        "request_id": "mathqa-transfer-0383"
+      },
+      {
+        "source_id": "mathqa:test:160",
+        "request_id": "mathqa-transfer-0384"
+      },
+      {
+        "source_id": "mathqa:test:2104",
+        "request_id": "mathqa-transfer-0385"
+      },
+      {
+        "source_id": "mathqa:test:2009",
+        "request_id": "mathqa-transfer-0386"
+      },
+      {
+        "source_id": "mathqa:test:2364",
+        "request_id": "mathqa-transfer-0387"
+      },
+      {
+        "source_id": "mathqa:test:2413",
+        "request_id": "mathqa-transfer-0388"
+      },
+      {
+        "source_id": "mathqa:test:1530",
+        "request_id": "mathqa-transfer-0389"
+      },
+      {
+        "source_id": "mathqa:test:1129",
+        "request_id": "mathqa-transfer-0390"
+      },
+      {
+        "source_id": "mathqa:test:1907",
+        "request_id": "mathqa-transfer-0391"
+      },
+      {
+        "source_id": "mathqa:test:2187",
+        "request_id": "mathqa-transfer-0392"
+      },
+      {
+        "source_id": "mathqa:test:2883",
+        "request_id": "mathqa-transfer-0393"
+      },
+      {
+        "source_id": "mathqa:test:2312",
+        "request_id": "mathqa-transfer-0394"
+      },
+      {
+        "source_id": "mathqa:test:716",
+        "request_id": "mathqa-transfer-0395"
+      },
+      {
+        "source_id": "mathqa:test:1618",
+        "request_id": "mathqa-transfer-0396"
+      },
+      {
+        "source_id": "mathqa:test:425",
+        "request_id": "mathqa-transfer-0397"
+      },
+      {
+        "source_id": "mathqa:test:1253",
+        "request_id": "mathqa-transfer-0398"
+      },
+      {
+        "source_id": "mathqa:test:1032",
+        "request_id": "mathqa-transfer-0399"
+      },
+      {
+        "source_id": "mathqa:test:2867",
+        "request_id": "mathqa-transfer-0400"
+      },
+      {
+        "source_id": "mathqa:test:1330",
+        "request_id": "mathqa-transfer-0401"
+      },
+      {
+        "source_id": "mathqa:test:2506",
+        "request_id": "mathqa-transfer-0402"
+      },
+      {
+        "source_id": "mathqa:test:1019",
+        "request_id": "mathqa-transfer-0403"
+      },
+      {
+        "source_id": "mathqa:test:1568",
+        "request_id": "mathqa-transfer-0404"
+      },
+      {
+        "source_id": "mathqa:test:1114",
+        "request_id": "mathqa-transfer-0405"
+      },
+      {
+        "source_id": "mathqa:test:2008",
+        "request_id": "mathqa-transfer-0406"
+      },
+      {
+        "source_id": "mathqa:test:529",
+        "request_id": "mathqa-transfer-0407"
+      },
+      {
+        "source_id": "mathqa:test:1485",
+        "request_id": "mathqa-transfer-0408"
+      },
+      {
+        "source_id": "mathqa:test:1516",
+        "request_id": "mathqa-transfer-0409"
+      },
+      {
+        "source_id": "mathqa:test:2090",
+        "request_id": "mathqa-transfer-0410"
+      },
+      {
+        "source_id": "mathqa:test:2465",
+        "request_id": "mathqa-transfer-0411"
+      },
+      {
+        "source_id": "mathqa:test:1764",
+        "request_id": "mathqa-transfer-0412"
+      },
+      {
+        "source_id": "mathqa:test:346",
+        "request_id": "mathqa-transfer-0413"
+      },
+      {
+        "source_id": "mathqa:test:2531",
+        "request_id": "mathqa-transfer-0414"
+      },
+      {
+        "source_id": "mathqa:test:2185",
+        "request_id": "mathqa-transfer-0415"
+      },
+      {
+        "source_id": "mathqa:test:543",
+        "request_id": "mathqa-transfer-0416"
+      },
+      {
+        "source_id": "mathqa:test:2270",
+        "request_id": "mathqa-transfer-0417"
+      },
+      {
+        "source_id": "mathqa:test:732",
+        "request_id": "mathqa-transfer-0418"
+      },
+      {
+        "source_id": "mathqa:test:384",
+        "request_id": "mathqa-transfer-0419"
+      },
+      {
+        "source_id": "mathqa:test:329",
+        "request_id": "mathqa-transfer-0420"
+      },
+      {
+        "source_id": "mathqa:test:506",
+        "request_id": "mathqa-transfer-0421"
+      },
+      {
+        "source_id": "mathqa:test:811",
+        "request_id": "mathqa-transfer-0422"
+      },
+      {
+        "source_id": "mathqa:test:552",
+        "request_id": "mathqa-transfer-0423"
+      },
+      {
+        "source_id": "mathqa:test:2774",
+        "request_id": "mathqa-transfer-0424"
+      },
+      {
+        "source_id": "mathqa:test:1749",
+        "request_id": "mathqa-transfer-0425"
+      },
+      {
+        "source_id": "mathqa:test:2262",
+        "request_id": "mathqa-transfer-0426"
+      },
+      {
+        "source_id": "mathqa:test:1824",
+        "request_id": "mathqa-transfer-0427"
+      },
+      {
+        "source_id": "mathqa:test:837",
+        "request_id": "mathqa-transfer-0428"
+      },
+      {
+        "source_id": "mathqa:test:2542",
+        "request_id": "mathqa-transfer-0429"
+      },
+      {
+        "source_id": "mathqa:test:606",
+        "request_id": "mathqa-transfer-0430"
+      },
+      {
+        "source_id": "mathqa:test:1499",
+        "request_id": "mathqa-transfer-0431"
+      },
+      {
+        "source_id": "mathqa:test:1538",
+        "request_id": "mathqa-transfer-0432"
+      },
+      {
+        "source_id": "mathqa:test:962",
+        "request_id": "mathqa-transfer-0433"
+      },
+      {
+        "source_id": "mathqa:test:437",
+        "request_id": "mathqa-transfer-0434"
+      },
+      {
+        "source_id": "mathqa:test:353",
+        "request_id": "mathqa-transfer-0435"
+      },
+      {
+        "source_id": "mathqa:test:2734",
+        "request_id": "mathqa-transfer-0436"
+      },
+      {
+        "source_id": "mathqa:test:1405",
+        "request_id": "mathqa-transfer-0437"
+      },
+      {
+        "source_id": "mathqa:test:979",
+        "request_id": "mathqa-transfer-0438"
+      },
+      {
+        "source_id": "mathqa:test:1500",
+        "request_id": "mathqa-transfer-0439"
+      },
+      {
+        "source_id": "mathqa:test:709",
+        "request_id": "mathqa-transfer-0440"
+      },
+      {
+        "source_id": "mathqa:test:2489",
+        "request_id": "mathqa-transfer-0441"
+      },
+      {
+        "source_id": "mathqa:test:583",
+        "request_id": "mathqa-transfer-0442"
+      },
+      {
+        "source_id": "mathqa:test:1805",
+        "request_id": "mathqa-transfer-0443"
+      },
+      {
+        "source_id": "mathqa:test:2845",
+        "request_id": "mathqa-transfer-0444"
+      },
+      {
+        "source_id": "mathqa:test:22",
+        "request_id": "mathqa-transfer-0445"
+      },
+      {
+        "source_id": "mathqa:test:391",
+        "request_id": "mathqa-transfer-0446"
+      },
+      {
+        "source_id": "mathqa:test:673",
+        "request_id": "mathqa-transfer-0447"
+      },
+      {
+        "source_id": "mathqa:test:2758",
+        "request_id": "mathqa-transfer-0448"
+      },
+      {
+        "source_id": "mathqa:test:1347",
+        "request_id": "mathqa-transfer-0449"
+      },
+      {
+        "source_id": "mathqa:test:372",
+        "request_id": "mathqa-transfer-0450"
+      },
+      {
+        "source_id": "mathqa:test:724",
+        "request_id": "mathqa-transfer-0451"
+      },
+      {
+        "source_id": "mathqa:test:297",
+        "request_id": "mathqa-transfer-0452"
+      },
+      {
+        "source_id": "mathqa:test:307",
+        "request_id": "mathqa-transfer-0453"
+      },
+      {
+        "source_id": "mathqa:test:2445",
+        "request_id": "mathqa-transfer-0454"
+      },
+      {
+        "source_id": "mathqa:test:2093",
+        "request_id": "mathqa-transfer-0455"
+      },
+      {
+        "source_id": "mathqa:test:2111",
+        "request_id": "mathqa-transfer-0456"
+      },
+      {
+        "source_id": "mathqa:test:1514",
+        "request_id": "mathqa-transfer-0457"
+      },
+      {
+        "source_id": "mathqa:test:243",
+        "request_id": "mathqa-transfer-0458"
+      },
+      {
+        "source_id": "mathqa:test:890",
+        "request_id": "mathqa-transfer-0459"
+      },
+      {
+        "source_id": "mathqa:test:2170",
+        "request_id": "mathqa-transfer-0460"
+      },
+      {
+        "source_id": "mathqa:test:1211",
+        "request_id": "mathqa-transfer-0461"
+      },
+      {
+        "source_id": "mathqa:test:2291",
+        "request_id": "mathqa-transfer-0462"
+      },
+      {
+        "source_id": "mathqa:test:1937",
+        "request_id": "mathqa-transfer-0463"
+      },
+      {
+        "source_id": "mathqa:test:1537",
+        "request_id": "mathqa-transfer-0464"
+      },
+      {
+        "source_id": "mathqa:test:1106",
+        "request_id": "mathqa-transfer-0465"
+      },
+      {
+        "source_id": "mathqa:test:2971",
+        "request_id": "mathqa-transfer-0466"
+      },
+      {
+        "source_id": "mathqa:test:1975",
+        "request_id": "mathqa-transfer-0467"
+      },
+      {
+        "source_id": "mathqa:test:1042",
+        "request_id": "mathqa-transfer-0468"
+      },
+      {
+        "source_id": "mathqa:test:910",
+        "request_id": "mathqa-transfer-0469"
+      },
+      {
+        "source_id": "mathqa:test:1506",
+        "request_id": "mathqa-transfer-0470"
+      },
+      {
+        "source_id": "mathqa:test:2771",
+        "request_id": "mathqa-transfer-0471"
+      },
+      {
+        "source_id": "mathqa:test:1640",
+        "request_id": "mathqa-transfer-0472"
+      },
+      {
+        "source_id": "mathqa:test:1269",
+        "request_id": "mathqa-transfer-0473"
+      },
+      {
+        "source_id": "mathqa:test:1426",
+        "request_id": "mathqa-transfer-0474"
+      },
+      {
+        "source_id": "mathqa:test:1810",
+        "request_id": "mathqa-transfer-0475"
+      },
+      {
+        "source_id": "mathqa:test:1204",
+        "request_id": "mathqa-transfer-0476"
+      },
+      {
+        "source_id": "mathqa:test:334",
+        "request_id": "mathqa-transfer-0477"
+      },
+      {
+        "source_id": "mathqa:test:9",
+        "request_id": "mathqa-transfer-0478"
+      },
+      {
+        "source_id": "mathqa:test:1580",
+        "request_id": "mathqa-transfer-0479"
+      },
+      {
+        "source_id": "mathqa:test:1235",
+        "request_id": "mathqa-transfer-0480"
+      },
+      {
+        "source_id": "mathqa:test:245",
+        "request_id": "mathqa-transfer-0481"
+      },
+      {
+        "source_id": "mathqa:test:275",
+        "request_id": "mathqa-transfer-0482"
+      },
+      {
+        "source_id": "mathqa:test:2523",
+        "request_id": "mathqa-transfer-0483"
+      },
+      {
+        "source_id": "mathqa:test:555",
+        "request_id": "mathqa-transfer-0484"
+      },
+      {
+        "source_id": "mathqa:test:2620",
+        "request_id": "mathqa-transfer-0485"
+      },
+      {
+        "source_id": "mathqa:test:456",
+        "request_id": "mathqa-transfer-0486"
+      },
+      {
+        "source_id": "mathqa:test:1262",
+        "request_id": "mathqa-transfer-0487"
+      },
+      {
+        "source_id": "mathqa:test:492",
+        "request_id": "mathqa-transfer-0488"
+      },
+      {
+        "source_id": "mathqa:test:1292",
+        "request_id": "mathqa-transfer-0489"
+      },
+      {
+        "source_id": "mathqa:test:2833",
+        "request_id": "mathqa-transfer-0490"
+      },
+      {
+        "source_id": "mathqa:test:736",
+        "request_id": "mathqa-transfer-0491"
+      },
+      {
+        "source_id": "mathqa:test:896",
+        "request_id": "mathqa-transfer-0492"
+      },
+      {
+        "source_id": "mathqa:test:1673",
+        "request_id": "mathqa-transfer-0493"
+      },
+      {
+        "source_id": "mathqa:test:2718",
+        "request_id": "mathqa-transfer-0494"
+      },
+      {
+        "source_id": "mathqa:test:2214",
+        "request_id": "mathqa-transfer-0495"
+      },
+      {
+        "source_id": "mathqa:test:2802",
+        "request_id": "mathqa-transfer-0496"
+      },
+      {
+        "source_id": "mathqa:test:885",
+        "request_id": "mathqa-transfer-0497"
+      },
+      {
+        "source_id": "mathqa:test:564",
+        "request_id": "mathqa-transfer-0498"
+      },
+      {
+        "source_id": "mathqa:test:2029",
+        "request_id": "mathqa-transfer-0499"
+      },
+      {
+        "source_id": "mathqa:test:1133",
+        "request_id": "mathqa-transfer-0500"
+      },
+      {
+        "source_id": "mathqa:test:2659",
+        "request_id": "mathqa-transfer-0501"
+      },
+      {
+        "source_id": "mathqa:test:776",
+        "request_id": "mathqa-transfer-0502"
+      },
+      {
+        "source_id": "mathqa:test:2666",
+        "request_id": "mathqa-transfer-0503"
+      },
+      {
+        "source_id": "mathqa:test:1624",
+        "request_id": "mathqa-transfer-0504"
+      },
+      {
+        "source_id": "mathqa:test:1887",
+        "request_id": "mathqa-transfer-0505"
+      },
+      {
+        "source_id": "mathqa:test:2966",
+        "request_id": "mathqa-transfer-0506"
+      },
+      {
+        "source_id": "mathqa:test:1885",
+        "request_id": "mathqa-transfer-0507"
+      },
+      {
+        "source_id": "mathqa:test:1157",
+        "request_id": "mathqa-transfer-0508"
+      },
+      {
+        "source_id": "mathqa:test:490",
+        "request_id": "mathqa-transfer-0509"
+      },
+      {
+        "source_id": "mathqa:test:2116",
+        "request_id": "mathqa-transfer-0510"
+      },
+      {
+        "source_id": "mathqa:test:945",
+        "request_id": "mathqa-transfer-0511"
+      },
+      {
+        "source_id": "mathqa:test:981",
+        "request_id": "mathqa-transfer-0512"
+      },
+      {
+        "source_id": "mathqa:test:2946",
+        "request_id": "mathqa-transfer-0513"
+      },
+      {
+        "source_id": "mathqa:test:1376",
+        "request_id": "mathqa-transfer-0514"
+      },
+      {
+        "source_id": "mathqa:test:1802",
+        "request_id": "mathqa-transfer-0515"
+      },
+      {
+        "source_id": "mathqa:test:283",
+        "request_id": "mathqa-transfer-0516"
+      },
+      {
+        "source_id": "mathqa:test:2976",
+        "request_id": "mathqa-transfer-0517"
+      },
+      {
+        "source_id": "mathqa:test:2152",
+        "request_id": "mathqa-transfer-0518"
+      },
+      {
+        "source_id": "mathqa:test:1522",
+        "request_id": "mathqa-transfer-0519"
+      },
+      {
+        "source_id": "mathqa:test:2223",
+        "request_id": "mathqa-transfer-0520"
+      },
+      {
+        "source_id": "mathqa:test:2203",
+        "request_id": "mathqa-transfer-0521"
+      },
+      {
+        "source_id": "mathqa:test:1919",
+        "request_id": "mathqa-transfer-0522"
+      },
+      {
+        "source_id": "mathqa:test:1291",
+        "request_id": "mathqa-transfer-0523"
+      },
+      {
+        "source_id": "mathqa:test:1856",
+        "request_id": "mathqa-transfer-0524"
+      },
+      {
+        "source_id": "mathqa:test:1177",
+        "request_id": "mathqa-transfer-0525"
+      },
+      {
+        "source_id": "mathqa:test:63",
+        "request_id": "mathqa-transfer-0526"
+      },
+      {
+        "source_id": "mathqa:test:1256",
+        "request_id": "mathqa-transfer-0527"
+      },
+      {
+        "source_id": "mathqa:test:696",
+        "request_id": "mathqa-transfer-0528"
+      },
+      {
+        "source_id": "mathqa:test:1309",
+        "request_id": "mathqa-transfer-0529"
+      },
+      {
+        "source_id": "mathqa:test:2060",
+        "request_id": "mathqa-transfer-0530"
+      },
+      {
+        "source_id": "mathqa:test:672",
+        "request_id": "mathqa-transfer-0531"
+      },
+      {
+        "source_id": "mathqa:test:1155",
+        "request_id": "mathqa-transfer-0532"
+      },
+      {
+        "source_id": "mathqa:test:2160",
+        "request_id": "mathqa-transfer-0533"
+      },
+      {
+        "source_id": "mathqa:test:2475",
+        "request_id": "mathqa-transfer-0534"
+      },
+      {
+        "source_id": "mathqa:test:325",
+        "request_id": "mathqa-transfer-0535"
+      },
+      {
+        "source_id": "mathqa:test:2865",
+        "request_id": "mathqa-transfer-0536"
+      },
+      {
+        "source_id": "mathqa:test:232",
+        "request_id": "mathqa-transfer-0537"
+      },
+      {
+        "source_id": "mathqa:test:1061",
+        "request_id": "mathqa-transfer-0538"
+      },
+      {
+        "source_id": "mathqa:test:1963",
+        "request_id": "mathqa-transfer-0539"
+      },
+      {
+        "source_id": "mathqa:test:561",
+        "request_id": "mathqa-transfer-0540"
+      },
+      {
+        "source_id": "mathqa:test:204",
+        "request_id": "mathqa-transfer-0541"
+      },
+      {
+        "source_id": "mathqa:test:2438",
+        "request_id": "mathqa-transfer-0542"
+      },
+      {
+        "source_id": "mathqa:test:2194",
+        "request_id": "mathqa-transfer-0543"
+      },
+      {
+        "source_id": "mathqa:test:1191",
+        "request_id": "mathqa-transfer-0544"
+      },
+      {
+        "source_id": "mathqa:test:892",
+        "request_id": "mathqa-transfer-0545"
+      },
+      {
+        "source_id": "mathqa:test:2197",
+        "request_id": "mathqa-transfer-0546"
+      },
+      {
+        "source_id": "mathqa:test:920",
+        "request_id": "mathqa-transfer-0547"
+      },
+      {
+        "source_id": "mathqa:test:2834",
+        "request_id": "mathqa-transfer-0548"
+      },
+      {
+        "source_id": "mathqa:test:2264",
+        "request_id": "mathqa-transfer-0549"
+      },
+      {
+        "source_id": "mathqa:test:518",
+        "request_id": "mathqa-transfer-0550"
+      },
+      {
+        "source_id": "mathqa:test:31",
+        "request_id": "mathqa-transfer-0551"
+      },
+      {
+        "source_id": "mathqa:test:2822",
+        "request_id": "mathqa-transfer-0552"
+      },
+      {
+        "source_id": "mathqa:test:803",
+        "request_id": "mathqa-transfer-0553"
+      },
+      {
+        "source_id": "mathqa:test:1053",
+        "request_id": "mathqa-transfer-0554"
+      },
+      {
+        "source_id": "mathqa:test:202",
+        "request_id": "mathqa-transfer-0555"
+      },
+      {
+        "source_id": "mathqa:test:1313",
+        "request_id": "mathqa-transfer-0556"
+      },
+      {
+        "source_id": "mathqa:test:570",
+        "request_id": "mathqa-transfer-0557"
+      },
+      {
+        "source_id": "mathqa:test:1545",
+        "request_id": "mathqa-transfer-0558"
+      },
+      {
+        "source_id": "mathqa:test:2787",
+        "request_id": "mathqa-transfer-0559"
+      },
+      {
+        "source_id": "mathqa:test:838",
+        "request_id": "mathqa-transfer-0560"
+      },
+      {
+        "source_id": "mathqa:test:1876",
+        "request_id": "mathqa-transfer-0561"
+      },
+      {
+        "source_id": "mathqa:test:1918",
+        "request_id": "mathqa-transfer-0562"
+      },
+      {
+        "source_id": "mathqa:test:389",
+        "request_id": "mathqa-transfer-0563"
+      },
+      {
+        "source_id": "mathqa:test:694",
+        "request_id": "mathqa-transfer-0564"
+      },
+      {
+        "source_id": "mathqa:test:1851",
+        "request_id": "mathqa-transfer-0565"
+      },
+      {
+        "source_id": "mathqa:test:1281",
+        "request_id": "mathqa-transfer-0566"
+      },
+      {
+        "source_id": "mathqa:test:2059",
+        "request_id": "mathqa-transfer-0567"
+      },
+      {
+        "source_id": "mathqa:test:786",
+        "request_id": "mathqa-transfer-0568"
+      },
+      {
+        "source_id": "mathqa:test:2631",
+        "request_id": "mathqa-transfer-0569"
+      },
+      {
+        "source_id": "mathqa:test:2541",
+        "request_id": "mathqa-transfer-0570"
+      },
+      {
+        "source_id": "mathqa:test:900",
+        "request_id": "mathqa-transfer-0571"
+      },
+      {
+        "source_id": "mathqa:test:617",
+        "request_id": "mathqa-transfer-0572"
+      },
+      {
+        "source_id": "mathqa:test:363",
+        "request_id": "mathqa-transfer-0573"
+      },
+      {
+        "source_id": "mathqa:test:2603",
+        "request_id": "mathqa-transfer-0574"
+      },
+      {
+        "source_id": "mathqa:test:1240",
+        "request_id": "mathqa-transfer-0575"
+      },
+      {
+        "source_id": "mathqa:test:1115",
+        "request_id": "mathqa-transfer-0576"
+      },
+      {
+        "source_id": "mathqa:test:861",
+        "request_id": "mathqa-transfer-0577"
+      },
+      {
+        "source_id": "mathqa:test:2894",
+        "request_id": "mathqa-transfer-0578"
+      },
+      {
+        "source_id": "mathqa:test:2954",
+        "request_id": "mathqa-transfer-0579"
+      },
+      {
+        "source_id": "mathqa:test:650",
+        "request_id": "mathqa-transfer-0580"
+      },
+      {
+        "source_id": "mathqa:test:149",
+        "request_id": "mathqa-transfer-0581"
+      },
+      {
+        "source_id": "mathqa:test:1498",
+        "request_id": "mathqa-transfer-0582"
+      },
+      {
+        "source_id": "mathqa:test:2129",
+        "request_id": "mathqa-transfer-0583"
+      },
+      {
+        "source_id": "mathqa:test:1170",
+        "request_id": "mathqa-transfer-0584"
+      },
+      {
+        "source_id": "mathqa:test:2524",
+        "request_id": "mathqa-transfer-0585"
+      },
+      {
+        "source_id": "mathqa:test:208",
+        "request_id": "mathqa-transfer-0586"
+      },
+      {
+        "source_id": "mathqa:test:901",
+        "request_id": "mathqa-transfer-0587"
+      },
+      {
+        "source_id": "mathqa:test:2707",
+        "request_id": "mathqa-transfer-0588"
+      },
+      {
+        "source_id": "mathqa:test:278",
+        "request_id": "mathqa-transfer-0589"
+      },
+      {
+        "source_id": "mathqa:test:45",
+        "request_id": "mathqa-transfer-0590"
+      },
+      {
+        "source_id": "mathqa:test:246",
+        "request_id": "mathqa-transfer-0591"
+      },
+      {
+        "source_id": "mathqa:test:1526",
+        "request_id": "mathqa-transfer-0592"
+      },
+      {
+        "source_id": "mathqa:test:927",
+        "request_id": "mathqa-transfer-0593"
+      },
+      {
+        "source_id": "mathqa:test:1286",
+        "request_id": "mathqa-transfer-0594"
+      },
+      {
+        "source_id": "mathqa:test:2917",
+        "request_id": "mathqa-transfer-0595"
+      },
+      {
+        "source_id": "mathqa:test:839",
+        "request_id": "mathqa-transfer-0596"
+      },
+      {
+        "source_id": "mathqa:test:2034",
+        "request_id": "mathqa-transfer-0597"
+      },
+      {
+        "source_id": "mathqa:test:738",
+        "request_id": "mathqa-transfer-0598"
+      },
+      {
+        "source_id": "mathqa:test:281",
+        "request_id": "mathqa-transfer-0599"
+      },
+      {
+        "source_id": "mathqa:test:2839",
+        "request_id": "mathqa-transfer-0600"
+      },
+      {
+        "source_id": "mathqa:test:1492",
+        "request_id": "mathqa-transfer-0601"
+      },
+      {
+        "source_id": "mathqa:test:2609",
+        "request_id": "mathqa-transfer-0602"
+      },
+      {
+        "source_id": "mathqa:test:2454",
+        "request_id": "mathqa-transfer-0603"
+      },
+      {
+        "source_id": "mathqa:test:1091",
+        "request_id": "mathqa-transfer-0604"
+      },
+      {
+        "source_id": "mathqa:test:1572",
+        "request_id": "mathqa-transfer-0605"
+      },
+      {
+        "source_id": "mathqa:test:481",
+        "request_id": "mathqa-transfer-0606"
+      },
+      {
+        "source_id": "mathqa:test:1465",
+        "request_id": "mathqa-transfer-0607"
+      },
+      {
+        "source_id": "mathqa:test:2081",
+        "request_id": "mathqa-transfer-0608"
+      },
+      {
+        "source_id": "mathqa:test:1914",
+        "request_id": "mathqa-transfer-0609"
+      },
+      {
+        "source_id": "mathqa:test:2368",
+        "request_id": "mathqa-transfer-0610"
+      },
+      {
+        "source_id": "mathqa:test:2363",
+        "request_id": "mathqa-transfer-0611"
+      },
+      {
+        "source_id": "mathqa:test:2006",
+        "request_id": "mathqa-transfer-0612"
+      },
+      {
+        "source_id": "mathqa:test:2174",
+        "request_id": "mathqa-transfer-0613"
+      },
+      {
+        "source_id": "mathqa:test:1901",
+        "request_id": "mathqa-transfer-0614"
+      },
+      {
+        "source_id": "mathqa:test:1046",
+        "request_id": "mathqa-transfer-0615"
+      },
+      {
+        "source_id": "mathqa:test:2271",
+        "request_id": "mathqa-transfer-0616"
+      },
+      {
+        "source_id": "mathqa:test:2658",
+        "request_id": "mathqa-transfer-0617"
+      },
+      {
+        "source_id": "mathqa:test:1543",
+        "request_id": "mathqa-transfer-0618"
+      },
+      {
+        "source_id": "mathqa:test:928",
+        "request_id": "mathqa-transfer-0619"
+      },
+      {
+        "source_id": "mathqa:test:2681",
+        "request_id": "mathqa-transfer-0620"
+      },
+      {
+        "source_id": "mathqa:test:558",
+        "request_id": "mathqa-transfer-0621"
+      },
+      {
+        "source_id": "mathqa:test:2476",
+        "request_id": "mathqa-transfer-0622"
+      },
+      {
+        "source_id": "mathqa:test:2604",
+        "request_id": "mathqa-transfer-0623"
+      },
+      {
+        "source_id": "mathqa:test:639",
+        "request_id": "mathqa-transfer-0624"
+      },
+      {
+        "source_id": "mathqa:test:2884",
+        "request_id": "mathqa-transfer-0625"
+      },
+      {
+        "source_id": "mathqa:test:634",
+        "request_id": "mathqa-transfer-0626"
+      },
+      {
+        "source_id": "mathqa:test:2247",
+        "request_id": "mathqa-transfer-0627"
+      },
+      {
+        "source_id": "mathqa:test:1202",
+        "request_id": "mathqa-transfer-0628"
+      },
+      {
+        "source_id": "mathqa:test:2359",
+        "request_id": "mathqa-transfer-0629"
+      },
+      {
+        "source_id": "mathqa:test:1466",
+        "request_id": "mathqa-transfer-0630"
+      },
+      {
+        "source_id": "mathqa:test:104",
+        "request_id": "mathqa-transfer-0631"
+      },
+      {
+        "source_id": "mathqa:test:524",
+        "request_id": "mathqa-transfer-0632"
+      },
+      {
+        "source_id": "mathqa:test:2437",
+        "request_id": "mathqa-transfer-0633"
+      },
+      {
+        "source_id": "mathqa:test:2973",
+        "request_id": "mathqa-transfer-0634"
+      },
+      {
+        "source_id": "mathqa:test:348",
+        "request_id": "mathqa-transfer-0635"
+      },
+      {
+        "source_id": "mathqa:test:14",
+        "request_id": "mathqa-transfer-0636"
+      },
+      {
+        "source_id": "mathqa:test:367",
+        "request_id": "mathqa-transfer-0637"
+      },
+      {
+        "source_id": "mathqa:test:1875",
+        "request_id": "mathqa-transfer-0638"
+      },
+      {
+        "source_id": "mathqa:test:947",
+        "request_id": "mathqa-transfer-0639"
+      },
+      {
+        "source_id": "mathqa:test:1566",
+        "request_id": "mathqa-transfer-0640"
+      },
+      {
+        "source_id": "mathqa:test:2939",
+        "request_id": "mathqa-transfer-0641"
+      },
+      {
+        "source_id": "mathqa:test:1317",
+        "request_id": "mathqa-transfer-0642"
+      },
+      {
+        "source_id": "mathqa:test:933",
+        "request_id": "mathqa-transfer-0643"
+      },
+      {
+        "source_id": "mathqa:test:159",
+        "request_id": "mathqa-transfer-0644"
+      },
+      {
+        "source_id": "mathqa:test:1040",
+        "request_id": "mathqa-transfer-0645"
+      },
+      {
+        "source_id": "mathqa:test:2463",
+        "request_id": "mathqa-transfer-0646"
+      },
+      {
+        "source_id": "mathqa:test:1830",
+        "request_id": "mathqa-transfer-0647"
+      },
+      {
+        "source_id": "mathqa:test:94",
+        "request_id": "mathqa-transfer-0648"
+      },
+      {
+        "source_id": "mathqa:test:1929",
+        "request_id": "mathqa-transfer-0649"
+      },
+      {
+        "source_id": "mathqa:test:1388",
+        "request_id": "mathqa-transfer-0650"
+      },
+      {
+        "source_id": "mathqa:test:2912",
+        "request_id": "mathqa-transfer-0651"
+      },
+      {
+        "source_id": "mathqa:test:1834",
+        "request_id": "mathqa-transfer-0652"
+      },
+      {
+        "source_id": "mathqa:test:607",
+        "request_id": "mathqa-transfer-0653"
+      },
+      {
+        "source_id": "mathqa:test:2623",
+        "request_id": "mathqa-transfer-0654"
+      },
+      {
+        "source_id": "mathqa:test:784",
+        "request_id": "mathqa-transfer-0655"
+      },
+      {
+        "source_id": "mathqa:test:937",
+        "request_id": "mathqa-transfer-0656"
+      },
+      {
+        "source_id": "mathqa:test:2057",
+        "request_id": "mathqa-transfer-0657"
+      },
+      {
+        "source_id": "mathqa:test:637",
+        "request_id": "mathqa-transfer-0658"
+      },
+      {
+        "source_id": "mathqa:test:2502",
+        "request_id": "mathqa-transfer-0659"
+      },
+      {
+        "source_id": "mathqa:test:394",
+        "request_id": "mathqa-transfer-0660"
+      },
+      {
+        "source_id": "mathqa:test:88",
+        "request_id": "mathqa-transfer-0661"
+      },
+      {
+        "source_id": "mathqa:test:466",
+        "request_id": "mathqa-transfer-0662"
+      },
+      {
+        "source_id": "mathqa:test:2559",
+        "request_id": "mathqa-transfer-0663"
+      },
+      {
+        "source_id": "mathqa:test:2844",
+        "request_id": "mathqa-transfer-0664"
+      },
+      {
+        "source_id": "mathqa:test:2045",
+        "request_id": "mathqa-transfer-0665"
+      },
+      {
+        "source_id": "mathqa:test:2677",
+        "request_id": "mathqa-transfer-0666"
+      },
+      {
+        "source_id": "mathqa:test:915",
+        "request_id": "mathqa-transfer-0667"
+      },
+      {
+        "source_id": "mathqa:test:2516",
+        "request_id": "mathqa-transfer-0668"
+      },
+      {
+        "source_id": "mathqa:test:1132",
+        "request_id": "mathqa-transfer-0669"
+      },
+      {
+        "source_id": "mathqa:test:2157",
+        "request_id": "mathqa-transfer-0670"
+      },
+      {
+        "source_id": "mathqa:test:2618",
+        "request_id": "mathqa-transfer-0671"
+      },
+      {
+        "source_id": "mathqa:test:884",
+        "request_id": "mathqa-transfer-0672"
+      },
+      {
+        "source_id": "mathqa:test:218",
+        "request_id": "mathqa-transfer-0673"
+      },
+      {
+        "source_id": "mathqa:test:2343",
+        "request_id": "mathqa-transfer-0674"
+      },
+      {
+        "source_id": "mathqa:test:2654",
+        "request_id": "mathqa-transfer-0675"
+      },
+      {
+        "source_id": "mathqa:test:1308",
+        "request_id": "mathqa-transfer-0676"
+      },
+      {
+        "source_id": "mathqa:test:1089",
+        "request_id": "mathqa-transfer-0677"
+      },
+      {
+        "source_id": "mathqa:test:2300",
+        "request_id": "mathqa-transfer-0678"
+      },
+      {
+        "source_id": "mathqa:test:1469",
+        "request_id": "mathqa-transfer-0679"
+      },
+      {
+        "source_id": "mathqa:test:500",
+        "request_id": "mathqa-transfer-0680"
+      },
+      {
+        "source_id": "mathqa:test:87",
+        "request_id": "mathqa-transfer-0681"
+      },
+      {
+        "source_id": "mathqa:test:1215",
+        "request_id": "mathqa-transfer-0682"
+      },
+      {
+        "source_id": "mathqa:test:686",
+        "request_id": "mathqa-transfer-0683"
+      },
+      {
+        "source_id": "mathqa:test:1036",
+        "request_id": "mathqa-transfer-0684"
+      },
+      {
+        "source_id": "mathqa:test:1524",
+        "request_id": "mathqa-transfer-0685"
+      },
+      {
+        "source_id": "mathqa:test:2649",
+        "request_id": "mathqa-transfer-0686"
+      },
+      {
+        "source_id": "mathqa:test:2329",
+        "request_id": "mathqa-transfer-0687"
+      },
+      {
+        "source_id": "mathqa:test:2691",
+        "request_id": "mathqa-transfer-0688"
+      },
+      {
+        "source_id": "mathqa:test:271",
+        "request_id": "mathqa-transfer-0689"
+      },
+      {
+        "source_id": "mathqa:test:2125",
+        "request_id": "mathqa-transfer-0690"
+      },
+      {
+        "source_id": "mathqa:test:2756",
+        "request_id": "mathqa-transfer-0691"
+      },
+      {
+        "source_id": "mathqa:test:719",
+        "request_id": "mathqa-transfer-0692"
+      },
+      {
+        "source_id": "mathqa:test:2073",
+        "request_id": "mathqa-transfer-0693"
+      },
+      {
+        "source_id": "mathqa:test:2610",
+        "request_id": "mathqa-transfer-0694"
+      },
+      {
+        "source_id": "mathqa:test:1726",
+        "request_id": "mathqa-transfer-0695"
+      },
+      {
+        "source_id": "mathqa:test:1696",
+        "request_id": "mathqa-transfer-0696"
+      },
+      {
+        "source_id": "mathqa:test:2014",
+        "request_id": "mathqa-transfer-0697"
+      },
+      {
+        "source_id": "mathqa:test:2636",
+        "request_id": "mathqa-transfer-0698"
+      },
+      {
+        "source_id": "mathqa:test:1407",
+        "request_id": "mathqa-transfer-0699"
+      },
+      {
+        "source_id": "mathqa:test:2044",
+        "request_id": "mathqa-transfer-0700"
+      },
+      {
+        "source_id": "mathqa:test:180",
+        "request_id": "mathqa-transfer-0701"
+      },
+      {
+        "source_id": "mathqa:test:2832",
+        "request_id": "mathqa-transfer-0702"
+      },
+      {
+        "source_id": "mathqa:test:2481",
+        "request_id": "mathqa-transfer-0703"
+      },
+      {
+        "source_id": "mathqa:test:2582",
+        "request_id": "mathqa-transfer-0704"
+      },
+      {
+        "source_id": "mathqa:test:19",
+        "request_id": "mathqa-transfer-0705"
+      },
+      {
+        "source_id": "mathqa:test:1062",
+        "request_id": "mathqa-transfer-0706"
+      },
+      {
+        "source_id": "mathqa:test:2875",
+        "request_id": "mathqa-transfer-0707"
+      },
+      {
+        "source_id": "mathqa:test:2490",
+        "request_id": "mathqa-transfer-0708"
+      },
+      {
+        "source_id": "mathqa:test:2076",
+        "request_id": "mathqa-transfer-0709"
+      },
+      {
+        "source_id": "mathqa:test:708",
+        "request_id": "mathqa-transfer-0710"
+      },
+      {
+        "source_id": "mathqa:test:2572",
+        "request_id": "mathqa-transfer-0711"
+      },
+      {
+        "source_id": "mathqa:test:523",
+        "request_id": "mathqa-transfer-0712"
+      },
+      {
+        "source_id": "mathqa:test:1702",
+        "request_id": "mathqa-transfer-0713"
+      },
+      {
+        "source_id": "mathqa:test:2733",
+        "request_id": "mathqa-transfer-0714"
+      },
+      {
+        "source_id": "mathqa:test:2381",
+        "request_id": "mathqa-transfer-0715"
+      },
+      {
+        "source_id": "mathqa:test:1472",
+        "request_id": "mathqa-transfer-0716"
+      },
+      {
+        "source_id": "mathqa:test:750",
+        "request_id": "mathqa-transfer-0717"
+      },
+      {
+        "source_id": "mathqa:test:763",
+        "request_id": "mathqa-transfer-0718"
+      },
+      {
+        "source_id": "mathqa:test:2793",
+        "request_id": "mathqa-transfer-0719"
+      },
+      {
+        "source_id": "mathqa:test:210",
+        "request_id": "mathqa-transfer-0720"
+      },
+      {
+        "source_id": "mathqa:test:410",
+        "request_id": "mathqa-transfer-0721"
+      },
+      {
+        "source_id": "mathqa:test:1194",
+        "request_id": "mathqa-transfer-0722"
+      },
+      {
+        "source_id": "mathqa:test:115",
+        "request_id": "mathqa-transfer-0723"
+      },
+      {
+        "source_id": "mathqa:test:849",
+        "request_id": "mathqa-transfer-0724"
+      },
+      {
+        "source_id": "mathqa:test:1039",
+        "request_id": "mathqa-transfer-0725"
+      },
+      {
+        "source_id": "mathqa:test:817",
+        "request_id": "mathqa-transfer-0726"
+      },
+      {
+        "source_id": "mathqa:test:2863",
+        "request_id": "mathqa-transfer-0727"
+      },
+      {
+        "source_id": "mathqa:test:1260",
+        "request_id": "mathqa-transfer-0728"
+      },
+      {
+        "source_id": "mathqa:test:1966",
+        "request_id": "mathqa-transfer-0729"
+      },
+      {
+        "source_id": "mathqa:test:1035",
+        "request_id": "mathqa-transfer-0730"
+      },
+      {
+        "source_id": "mathqa:test:2968",
+        "request_id": "mathqa-transfer-0731"
+      },
+      {
+        "source_id": "mathqa:test:2333",
+        "request_id": "mathqa-transfer-0732"
+      },
+      {
+        "source_id": "mathqa:test:1298",
+        "request_id": "mathqa-transfer-0733"
+      },
+      {
+        "source_id": "mathqa:test:2147",
+        "request_id": "mathqa-transfer-0734"
+      },
+      {
+        "source_id": "mathqa:test:2191",
+        "request_id": "mathqa-transfer-0735"
+      },
+      {
+        "source_id": "mathqa:test:448",
+        "request_id": "mathqa-transfer-0736"
+      },
+      {
+        "source_id": "mathqa:test:1800",
+        "request_id": "mathqa-transfer-0737"
+      },
+      {
+        "source_id": "mathqa:test:2558",
+        "request_id": "mathqa-transfer-0738"
+      },
+      {
+        "source_id": "mathqa:test:2530",
+        "request_id": "mathqa-transfer-0739"
+      },
+      {
+        "source_id": "mathqa:test:576",
+        "request_id": "mathqa-transfer-0740"
+      },
+      {
+        "source_id": "mathqa:test:2037",
+        "request_id": "mathqa-transfer-0741"
+      },
+      {
+        "source_id": "mathqa:test:1840",
+        "request_id": "mathqa-transfer-0742"
+      },
+      {
+        "source_id": "mathqa:test:689",
+        "request_id": "mathqa-transfer-0743"
+      },
+      {
+        "source_id": "mathqa:test:320",
+        "request_id": "mathqa-transfer-0744"
+      },
+      {
+        "source_id": "mathqa:test:2120",
+        "request_id": "mathqa-transfer-0745"
+      },
+      {
+        "source_id": "mathqa:test:1008",
+        "request_id": "mathqa-transfer-0746"
+      },
+      {
+        "source_id": "mathqa:test:2273",
+        "request_id": "mathqa-transfer-0747"
+      },
+      {
+        "source_id": "mathqa:test:2424",
+        "request_id": "mathqa-transfer-0748"
+      },
+      {
+        "source_id": "mathqa:test:678",
+        "request_id": "mathqa-transfer-0749"
+      },
+      {
+        "source_id": "mathqa:test:953",
+        "request_id": "mathqa-transfer-0750"
+      },
+      {
+        "source_id": "mathqa:test:2012",
+        "request_id": "mathqa-transfer-0751"
+      },
+      {
+        "source_id": "mathqa:test:438",
+        "request_id": "mathqa-transfer-0752"
+      },
+      {
+        "source_id": "mathqa:test:682",
+        "request_id": "mathqa-transfer-0753"
+      },
+      {
+        "source_id": "mathqa:test:1857",
+        "request_id": "mathqa-transfer-0754"
+      },
+      {
+        "source_id": "mathqa:test:1581",
+        "request_id": "mathqa-transfer-0755"
+      },
+      {
+        "source_id": "mathqa:test:869",
+        "request_id": "mathqa-transfer-0756"
+      },
+      {
+        "source_id": "mathqa:test:1457",
+        "request_id": "mathqa-transfer-0757"
+      },
+      {
+        "source_id": "mathqa:test:2801",
+        "request_id": "mathqa-transfer-0758"
+      },
+      {
+        "source_id": "mathqa:test:1724",
+        "request_id": "mathqa-transfer-0759"
+      },
+      {
+        "source_id": "mathqa:test:1418",
+        "request_id": "mathqa-transfer-0760"
+      },
+      {
+        "source_id": "mathqa:test:961",
+        "request_id": "mathqa-transfer-0761"
+      },
+      {
+        "source_id": "mathqa:test:2692",
+        "request_id": "mathqa-transfer-0762"
+      },
+      {
+        "source_id": "mathqa:test:2102",
+        "request_id": "mathqa-transfer-0763"
+      },
+      {
+        "source_id": "mathqa:test:702",
+        "request_id": "mathqa-transfer-0764"
+      },
+      {
+        "source_id": "mathqa:test:1935",
+        "request_id": "mathqa-transfer-0765"
+      },
+      {
+        "source_id": "mathqa:test:263",
+        "request_id": "mathqa-transfer-0766"
+      },
+      {
+        "source_id": "mathqa:test:1670",
+        "request_id": "mathqa-transfer-0767"
+      },
+      {
+        "source_id": "mathqa:test:1028",
+        "request_id": "mathqa-transfer-0768"
+      },
+      {
+        "source_id": "mathqa:test:352",
+        "request_id": "mathqa-transfer-0769"
+      },
+      {
+        "source_id": "mathqa:test:2143",
+        "request_id": "mathqa-transfer-0770"
+      },
+      {
+        "source_id": "mathqa:test:2583",
+        "request_id": "mathqa-transfer-0771"
+      },
+      {
+        "source_id": "mathqa:test:2306",
+        "request_id": "mathqa-transfer-0772"
+      },
+      {
+        "source_id": "mathqa:test:2953",
+        "request_id": "mathqa-transfer-0773"
+      },
+      {
+        "source_id": "mathqa:test:2751",
+        "request_id": "mathqa-transfer-0774"
+      },
+      {
+        "source_id": "mathqa:test:2166",
+        "request_id": "mathqa-transfer-0775"
+      },
+      {
+        "source_id": "mathqa:test:1803",
+        "request_id": "mathqa-transfer-0776"
+      },
+      {
+        "source_id": "mathqa:test:2646",
+        "request_id": "mathqa-transfer-0777"
+      },
+      {
+        "source_id": "mathqa:test:1043",
+        "request_id": "mathqa-transfer-0778"
+      },
+      {
+        "source_id": "mathqa:test:1282",
+        "request_id": "mathqa-transfer-0779"
+      },
+      {
+        "source_id": "mathqa:test:1279",
+        "request_id": "mathqa-transfer-0780"
+      },
+      {
+        "source_id": "mathqa:test:99",
+        "request_id": "mathqa-transfer-0781"
+      },
+      {
+        "source_id": "mathqa:test:680",
+        "request_id": "mathqa-transfer-0782"
+      },
+      {
+        "source_id": "mathqa:test:793",
+        "request_id": "mathqa-transfer-0783"
+      },
+      {
+        "source_id": "mathqa:test:2418",
+        "request_id": "mathqa-transfer-0784"
+      },
+      {
+        "source_id": "mathqa:test:917",
+        "request_id": "mathqa-transfer-0785"
+      },
+      {
+        "source_id": "mathqa:test:406",
+        "request_id": "mathqa-transfer-0786"
+      },
+      {
+        "source_id": "mathqa:test:935",
+        "request_id": "mathqa-transfer-0787"
+      },
+      {
+        "source_id": "mathqa:test:1224",
+        "request_id": "mathqa-transfer-0788"
+      },
+      {
+        "source_id": "mathqa:test:734",
+        "request_id": "mathqa-transfer-0789"
+      },
+      {
+        "source_id": "mathqa:test:347",
+        "request_id": "mathqa-transfer-0790"
+      },
+      {
+        "source_id": "mathqa:test:4",
+        "request_id": "mathqa-transfer-0791"
+      },
+      {
+        "source_id": "mathqa:test:2963",
+        "request_id": "mathqa-transfer-0792"
+      },
+      {
+        "source_id": "mathqa:test:224",
+        "request_id": "mathqa-transfer-0793"
+      },
+      {
+        "source_id": "mathqa:test:1488",
+        "request_id": "mathqa-transfer-0794"
+      },
+      {
+        "source_id": "mathqa:test:2156",
+        "request_id": "mathqa-transfer-0795"
+      },
+      {
+        "source_id": "mathqa:test:1220",
+        "request_id": "mathqa-transfer-0796"
+      },
+      {
+        "source_id": "mathqa:test:1569",
+        "request_id": "mathqa-transfer-0797"
+      },
+      {
+        "source_id": "mathqa:test:1550",
+        "request_id": "mathqa-transfer-0798"
+      },
+      {
+        "source_id": "mathqa:test:37",
+        "request_id": "mathqa-transfer-0799"
+      },
+      {
+        "source_id": "mathqa:test:2268",
+        "request_id": "mathqa-transfer-0800"
+      },
+      {
+        "source_id": "mathqa:test:566",
+        "request_id": "mathqa-transfer-0801"
+      },
+      {
+        "source_id": "mathqa:test:1708",
+        "request_id": "mathqa-transfer-0802"
+      },
+      {
+        "source_id": "mathqa:test:2597",
+        "request_id": "mathqa-transfer-0803"
+      },
+      {
+        "source_id": "mathqa:test:1293",
+        "request_id": "mathqa-transfer-0804"
+      },
+      {
+        "source_id": "mathqa:test:91",
+        "request_id": "mathqa-transfer-0805"
+      },
+      {
+        "source_id": "mathqa:test:1949",
+        "request_id": "mathqa-transfer-0806"
+      },
+      {
+        "source_id": "mathqa:test:2280",
+        "request_id": "mathqa-transfer-0807"
+      },
+      {
+        "source_id": "mathqa:test:2715",
+        "request_id": "mathqa-transfer-0808"
+      },
+      {
+        "source_id": "mathqa:test:2927",
+        "request_id": "mathqa-transfer-0809"
+      },
+      {
+        "source_id": "mathqa:test:989",
+        "request_id": "mathqa-transfer-0810"
+      },
+      {
+        "source_id": "mathqa:test:2261",
+        "request_id": "mathqa-transfer-0811"
+      },
+      {
+        "source_id": "mathqa:test:2150",
+        "request_id": "mathqa-transfer-0812"
+      },
+      {
+        "source_id": "mathqa:test:1257",
+        "request_id": "mathqa-transfer-0813"
+      },
+      {
+        "source_id": "mathqa:test:2625",
+        "request_id": "mathqa-transfer-0814"
+      },
+      {
+        "source_id": "mathqa:test:1508",
+        "request_id": "mathqa-transfer-0815"
+      },
+      {
+        "source_id": "mathqa:test:32",
+        "request_id": "mathqa-transfer-0816"
+      },
+      {
+        "source_id": "mathqa:test:2767",
+        "request_id": "mathqa-transfer-0817"
+      },
+      {
+        "source_id": "mathqa:test:345",
+        "request_id": "mathqa-transfer-0818"
+      },
+      {
+        "source_id": "mathqa:test:2608",
+        "request_id": "mathqa-transfer-0819"
+      },
+      {
+        "source_id": "mathqa:test:601",
+        "request_id": "mathqa-transfer-0820"
+      },
+      {
+        "source_id": "mathqa:test:107",
+        "request_id": "mathqa-transfer-0821"
+      },
+      {
+        "source_id": "mathqa:test:2732",
+        "request_id": "mathqa-transfer-0822"
+      },
+      {
+        "source_id": "mathqa:test:1074",
+        "request_id": "mathqa-transfer-0823"
+      },
+      {
+        "source_id": "mathqa:test:2062",
+        "request_id": "mathqa-transfer-0824"
+      },
+      {
+        "source_id": "mathqa:test:2227",
+        "request_id": "mathqa-transfer-0825"
+      },
+      {
+        "source_id": "mathqa:test:1732",
+        "request_id": "mathqa-transfer-0826"
+      },
+      {
+        "source_id": "mathqa:test:483",
+        "request_id": "mathqa-transfer-0827"
+      },
+      {
+        "source_id": "mathqa:test:2614",
+        "request_id": "mathqa-transfer-0828"
+      },
+      {
+        "source_id": "mathqa:test:922",
+        "request_id": "mathqa-transfer-0829"
+      },
+      {
+        "source_id": "mathqa:test:93",
+        "request_id": "mathqa-transfer-0830"
+      },
+      {
+        "source_id": "mathqa:test:1910",
+        "request_id": "mathqa-transfer-0831"
+      },
+      {
+        "source_id": "mathqa:test:2651",
+        "request_id": "mathqa-transfer-0832"
+      },
+      {
+        "source_id": "mathqa:test:2690",
+        "request_id": "mathqa-transfer-0833"
+      },
+      {
+        "source_id": "mathqa:test:1846",
+        "request_id": "mathqa-transfer-0834"
+      },
+      {
+        "source_id": "mathqa:test:336",
+        "request_id": "mathqa-transfer-0835"
+      },
+      {
+        "source_id": "mathqa:test:98",
+        "request_id": "mathqa-transfer-0836"
+      },
+      {
+        "source_id": "mathqa:test:1346",
+        "request_id": "mathqa-transfer-0837"
+      },
+      {
+        "source_id": "mathqa:test:943",
+        "request_id": "mathqa-transfer-0838"
+      },
+      {
+        "source_id": "mathqa:test:335",
+        "request_id": "mathqa-transfer-0839"
+      },
+      {
+        "source_id": "mathqa:test:2797",
+        "request_id": "mathqa-transfer-0840"
+      },
+      {
+        "source_id": "mathqa:test:228",
+        "request_id": "mathqa-transfer-0841"
+      },
+      {
+        "source_id": "mathqa:test:355",
+        "request_id": "mathqa-transfer-0842"
+      },
+      {
+        "source_id": "mathqa:test:1425",
+        "request_id": "mathqa-transfer-0843"
+      },
+      {
+        "source_id": "mathqa:test:2519",
+        "request_id": "mathqa-transfer-0844"
+      },
+      {
+        "source_id": "mathqa:test:97",
+        "request_id": "mathqa-transfer-0845"
+      },
+      {
+        "source_id": "mathqa:test:757",
+        "request_id": "mathqa-transfer-0846"
+      },
+      {
+        "source_id": "mathqa:test:1218",
+        "request_id": "mathqa-transfer-0847"
+      },
+      {
+        "source_id": "mathqa:test:526",
+        "request_id": "mathqa-transfer-0848"
+      },
+      {
+        "source_id": "mathqa:test:499",
+        "request_id": "mathqa-transfer-0849"
+      },
+      {
+        "source_id": "mathqa:test:2739",
+        "request_id": "mathqa-transfer-0850"
+      },
+      {
+        "source_id": "mathqa:test:404",
+        "request_id": "mathqa-transfer-0851"
+      },
+      {
+        "source_id": "mathqa:test:1491",
+        "request_id": "mathqa-transfer-0852"
+      },
+      {
+        "source_id": "mathqa:test:2305",
+        "request_id": "mathqa-transfer-0853"
+      },
+      {
+        "source_id": "mathqa:test:988",
+        "request_id": "mathqa-transfer-0854"
+      },
+      {
+        "source_id": "mathqa:test:2785",
+        "request_id": "mathqa-transfer-0855"
+      },
+      {
+        "source_id": "mathqa:test:2808",
+        "request_id": "mathqa-transfer-0856"
+      },
+      {
+        "source_id": "mathqa:test:2730",
+        "request_id": "mathqa-transfer-0857"
+      },
+      {
+        "source_id": "mathqa:test:2108",
+        "request_id": "mathqa-transfer-0858"
+      },
+      {
+        "source_id": "mathqa:test:43",
+        "request_id": "mathqa-transfer-0859"
+      },
+      {
+        "source_id": "mathqa:test:2589",
+        "request_id": "mathqa-transfer-0860"
+      },
+      {
+        "source_id": "mathqa:test:2297",
+        "request_id": "mathqa-transfer-0861"
+      },
+      {
+        "source_id": "mathqa:test:276",
+        "request_id": "mathqa-transfer-0862"
+      },
+      {
+        "source_id": "mathqa:test:1647",
+        "request_id": "mathqa-transfer-0863"
+      },
+      {
+        "source_id": "mathqa:test:2667",
+        "request_id": "mathqa-transfer-0864"
+      },
+      {
+        "source_id": "mathqa:test:1630",
+        "request_id": "mathqa-transfer-0865"
+      },
+      {
+        "source_id": "mathqa:test:636",
+        "request_id": "mathqa-transfer-0866"
+      },
+      {
+        "source_id": "mathqa:test:258",
+        "request_id": "mathqa-transfer-0867"
+      },
+      {
+        "source_id": "mathqa:test:2910",
+        "request_id": "mathqa-transfer-0868"
+      },
+      {
+        "source_id": "mathqa:test:1905",
+        "request_id": "mathqa-transfer-0869"
+      },
+      {
+        "source_id": "mathqa:test:2543",
+        "request_id": "mathqa-transfer-0870"
+      },
+      {
+        "source_id": "mathqa:test:294",
+        "request_id": "mathqa-transfer-0871"
+      },
+      {
+        "source_id": "mathqa:test:1801",
+        "request_id": "mathqa-transfer-0872"
+      },
+      {
+        "source_id": "mathqa:test:407",
+        "request_id": "mathqa-transfer-0873"
+      },
+      {
+        "source_id": "mathqa:test:2893",
+        "request_id": "mathqa-transfer-0874"
+      },
+      {
+        "source_id": "mathqa:test:1733",
+        "request_id": "mathqa-transfer-0875"
+      },
+      {
+        "source_id": "mathqa:test:2142",
+        "request_id": "mathqa-transfer-0876"
+      },
+      {
+        "source_id": "mathqa:test:259",
+        "request_id": "mathqa-transfer-0877"
+      },
+      {
+        "source_id": "mathqa:test:528",
+        "request_id": "mathqa-transfer-0878"
+      },
+      {
+        "source_id": "mathqa:test:1429",
+        "request_id": "mathqa-transfer-0879"
+      },
+      {
+        "source_id": "mathqa:test:753",
+        "request_id": "mathqa-transfer-0880"
+      },
+      {
+        "source_id": "mathqa:test:440",
+        "request_id": "mathqa-transfer-0881"
+      },
+      {
+        "source_id": "mathqa:test:2396",
+        "request_id": "mathqa-transfer-0882"
+      },
+      {
+        "source_id": "mathqa:test:905",
+        "request_id": "mathqa-transfer-0883"
+      },
+      {
+        "source_id": "mathqa:test:257",
+        "request_id": "mathqa-transfer-0884"
+      },
+      {
+        "source_id": "mathqa:test:854",
+        "request_id": "mathqa-transfer-0885"
+      },
+      {
+        "source_id": "mathqa:test:101",
+        "request_id": "mathqa-transfer-0886"
+      },
+      {
+        "source_id": "mathqa:test:1189",
+        "request_id": "mathqa-transfer-0887"
+      },
+      {
+        "source_id": "mathqa:test:1713",
+        "request_id": "mathqa-transfer-0888"
+      },
+      {
+        "source_id": "mathqa:test:158",
+        "request_id": "mathqa-transfer-0889"
+      },
+      {
+        "source_id": "mathqa:test:855",
+        "request_id": "mathqa-transfer-0890"
+      },
+      {
+        "source_id": "mathqa:test:2246",
+        "request_id": "mathqa-transfer-0891"
+      },
+      {
+        "source_id": "mathqa:test:1168",
+        "request_id": "mathqa-transfer-0892"
+      },
+      {
+        "source_id": "mathqa:test:145",
+        "request_id": "mathqa-transfer-0893"
+      },
+      {
+        "source_id": "mathqa:test:2051",
+        "request_id": "mathqa-transfer-0894"
+      },
+      {
+        "source_id": "mathqa:test:439",
+        "request_id": "mathqa-transfer-0895"
+      },
+      {
+        "source_id": "mathqa:test:247",
+        "request_id": "mathqa-transfer-0896"
+      },
+      {
+        "source_id": "mathqa:test:90",
+        "request_id": "mathqa-transfer-0897"
+      },
+      {
+        "source_id": "mathqa:test:909",
+        "request_id": "mathqa-transfer-0898"
+      },
+      {
+        "source_id": "mathqa:test:2441",
+        "request_id": "mathqa-transfer-0899"
+      },
+      {
+        "source_id": "mathqa:test:2773",
+        "request_id": "mathqa-transfer-0900"
+      },
+      {
+        "source_id": "mathqa:test:1337",
+        "request_id": "mathqa-transfer-0901"
+      },
+      {
+        "source_id": "mathqa:test:2056",
+        "request_id": "mathqa-transfer-0902"
+      },
+      {
+        "source_id": "mathqa:test:188",
+        "request_id": "mathqa-transfer-0903"
+      },
+      {
+        "source_id": "mathqa:test:1874",
+        "request_id": "mathqa-transfer-0904"
+      },
+      {
+        "source_id": "mathqa:test:2891",
+        "request_id": "mathqa-transfer-0905"
+      },
+      {
+        "source_id": "mathqa:test:2202",
+        "request_id": "mathqa-transfer-0906"
+      },
+      {
+        "source_id": "mathqa:test:6",
+        "request_id": "mathqa-transfer-0907"
+      },
+      {
+        "source_id": "mathqa:test:930",
+        "request_id": "mathqa-transfer-0908"
+      },
+      {
+        "source_id": "mathqa:test:219",
+        "request_id": "mathqa-transfer-0909"
+      },
+      {
+        "source_id": "mathqa:test:2665",
+        "request_id": "mathqa-transfer-0910"
+      },
+      {
+        "source_id": "mathqa:test:658",
+        "request_id": "mathqa-transfer-0911"
+      },
+      {
+        "source_id": "mathqa:test:1589",
+        "request_id": "mathqa-transfer-0912"
+      },
+      {
+        "source_id": "mathqa:test:1367",
+        "request_id": "mathqa-transfer-0913"
+      },
+      {
+        "source_id": "mathqa:test:1167",
+        "request_id": "mathqa-transfer-0914"
+      },
+      {
+        "source_id": "mathqa:test:2251",
+        "request_id": "mathqa-transfer-0915"
+      },
+      {
+        "source_id": "mathqa:test:581",
+        "request_id": "mathqa-transfer-0916"
+      },
+      {
+        "source_id": "mathqa:test:460",
+        "request_id": "mathqa-transfer-0917"
+      },
+      {
+        "source_id": "mathqa:test:2731",
+        "request_id": "mathqa-transfer-0918"
+      },
+      {
+        "source_id": "mathqa:test:2450",
+        "request_id": "mathqa-transfer-0919"
+      },
+      {
+        "source_id": "mathqa:test:1969",
+        "request_id": "mathqa-transfer-0920"
+      },
+      {
+        "source_id": "mathqa:test:2926",
+        "request_id": "mathqa-transfer-0921"
+      },
+      {
+        "source_id": "mathqa:test:2725",
+        "request_id": "mathqa-transfer-0922"
+      },
+      {
+        "source_id": "mathqa:test:2940",
+        "request_id": "mathqa-transfer-0923"
+      },
+      {
+        "source_id": "mathqa:test:1512",
+        "request_id": "mathqa-transfer-0924"
+      },
+      {
+        "source_id": "mathqa:test:123",
+        "request_id": "mathqa-transfer-0925"
+      },
+      {
+        "source_id": "mathqa:test:845",
+        "request_id": "mathqa-transfer-0926"
+      },
+      {
+        "source_id": "mathqa:test:72",
+        "request_id": "mathqa-transfer-0927"
+      },
+      {
+        "source_id": "mathqa:test:86",
+        "request_id": "mathqa-transfer-0928"
+      },
+      {
+        "source_id": "mathqa:test:1228",
+        "request_id": "mathqa-transfer-0929"
+      },
+      {
+        "source_id": "mathqa:test:902",
+        "request_id": "mathqa-transfer-0930"
+      },
+      {
+        "source_id": "mathqa:test:893",
+        "request_id": "mathqa-transfer-0931"
+      },
+      {
+        "source_id": "mathqa:test:2777",
+        "request_id": "mathqa-transfer-0932"
+      },
+      {
+        "source_id": "mathqa:test:1746",
+        "request_id": "mathqa-transfer-0933"
+      },
+      {
+        "source_id": "mathqa:test:1995",
+        "request_id": "mathqa-transfer-0934"
+      },
+      {
+        "source_id": "mathqa:test:577",
+        "request_id": "mathqa-transfer-0935"
+      },
+      {
+        "source_id": "mathqa:test:2772",
+        "request_id": "mathqa-transfer-0936"
+      },
+      {
+        "source_id": "mathqa:test:1562",
+        "request_id": "mathqa-transfer-0937"
+      },
+      {
+        "source_id": "mathqa:test:918",
+        "request_id": "mathqa-transfer-0938"
+      },
+      {
+        "source_id": "mathqa:test:1999",
+        "request_id": "mathqa-transfer-0939"
+      },
+      {
+        "source_id": "mathqa:test:1049",
+        "request_id": "mathqa-transfer-0940"
+      },
+      {
+        "source_id": "mathqa:test:1054",
+        "request_id": "mathqa-transfer-0941"
+      },
+      {
+        "source_id": "mathqa:test:133",
+        "request_id": "mathqa-transfer-0942"
+      },
+      {
+        "source_id": "mathqa:test:214",
+        "request_id": "mathqa-transfer-0943"
+      },
+      {
+        "source_id": "mathqa:test:50",
+        "request_id": "mathqa-transfer-0944"
+      },
+      {
+        "source_id": "mathqa:test:2082",
+        "request_id": "mathqa-transfer-0945"
+      },
+      {
+        "source_id": "mathqa:test:1720",
+        "request_id": "mathqa-transfer-0946"
+      },
+      {
+        "source_id": "mathqa:test:1575",
+        "request_id": "mathqa-transfer-0947"
+      },
+      {
+        "source_id": "mathqa:test:1632",
+        "request_id": "mathqa-transfer-0948"
+      },
+      {
+        "source_id": "mathqa:test:1315",
+        "request_id": "mathqa-transfer-0949"
+      },
+      {
+        "source_id": "mathqa:test:2132",
+        "request_id": "mathqa-transfer-0950"
+      },
+      {
+        "source_id": "mathqa:test:2846",
+        "request_id": "mathqa-transfer-0951"
+      },
+      {
+        "source_id": "mathqa:test:2319",
+        "request_id": "mathqa-transfer-0952"
+      },
+      {
+        "source_id": "mathqa:test:486",
+        "request_id": "mathqa-transfer-0953"
+      },
+      {
+        "source_id": "mathqa:test:969",
+        "request_id": "mathqa-transfer-0954"
+      },
+      {
+        "source_id": "mathqa:test:891",
+        "request_id": "mathqa-transfer-0955"
+      },
+      {
+        "source_id": "mathqa:test:273",
+        "request_id": "mathqa-transfer-0956"
+      },
+      {
+        "source_id": "mathqa:test:1369",
+        "request_id": "mathqa-transfer-0957"
+      },
+      {
+        "source_id": "mathqa:test:435",
+        "request_id": "mathqa-transfer-0958"
+      },
+      {
+        "source_id": "mathqa:test:2395",
+        "request_id": "mathqa-transfer-0959"
+      },
+      {
+        "source_id": "mathqa:test:2967",
+        "request_id": "mathqa-transfer-0960"
+      },
+      {
+        "source_id": "mathqa:test:1956",
+        "request_id": "mathqa-transfer-0961"
+      },
+      {
+        "source_id": "mathqa:test:711",
+        "request_id": "mathqa-transfer-0962"
+      },
+      {
+        "source_id": "mathqa:test:1774",
+        "request_id": "mathqa-transfer-0963"
+      },
+      {
+        "source_id": "mathqa:test:2234",
+        "request_id": "mathqa-transfer-0964"
+      },
+      {
+        "source_id": "mathqa:test:603",
+        "request_id": "mathqa-transfer-0965"
+      },
+      {
+        "source_id": "mathqa:test:1812",
+        "request_id": "mathqa-transfer-0966"
+      },
+      {
+        "source_id": "mathqa:test:1299",
+        "request_id": "mathqa-transfer-0967"
+      },
+      {
+        "source_id": "mathqa:test:46",
+        "request_id": "mathqa-transfer-0968"
+      },
+      {
+        "source_id": "mathqa:test:222",
+        "request_id": "mathqa-transfer-0969"
+      },
+      {
+        "source_id": "mathqa:test:2880",
+        "request_id": "mathqa-transfer-0970"
+      },
+      {
+        "source_id": "mathqa:test:1960",
+        "request_id": "mathqa-transfer-0971"
+      },
+      {
+        "source_id": "mathqa:test:371",
+        "request_id": "mathqa-transfer-0972"
+      },
+      {
+        "source_id": "mathqa:test:2005",
+        "request_id": "mathqa-transfer-0973"
+      },
+      {
+        "source_id": "mathqa:test:308",
+        "request_id": "mathqa-transfer-0974"
+      },
+      {
+        "source_id": "mathqa:test:818",
+        "request_id": "mathqa-transfer-0975"
+      },
+      {
+        "source_id": "mathqa:test:1303",
+        "request_id": "mathqa-transfer-0976"
+      },
+      {
+        "source_id": "mathqa:test:2741",
+        "request_id": "mathqa-transfer-0977"
+      },
+      {
+        "source_id": "mathqa:test:2895",
+        "request_id": "mathqa-transfer-0978"
+      },
+      {
+        "source_id": "mathqa:test:718",
+        "request_id": "mathqa-transfer-0979"
+      },
+      {
+        "source_id": "mathqa:test:2423",
+        "request_id": "mathqa-transfer-0980"
+      },
+      {
+        "source_id": "mathqa:test:2763",
+        "request_id": "mathqa-transfer-0981"
+      },
+      {
+        "source_id": "mathqa:test:2487",
+        "request_id": "mathqa-transfer-0982"
+      },
+      {
+        "source_id": "mathqa:test:556",
+        "request_id": "mathqa-transfer-0983"
+      },
+      {
+        "source_id": "mathqa:test:2467",
+        "request_id": "mathqa-transfer-0984"
+      },
+      {
+        "source_id": "mathqa:test:332",
+        "request_id": "mathqa-transfer-0985"
+      },
+      {
+        "source_id": "mathqa:test:377",
+        "request_id": "mathqa-transfer-0986"
+      },
+      {
+        "source_id": "mathqa:test:1983",
+        "request_id": "mathqa-transfer-0987"
+      },
+      {
+        "source_id": "mathqa:test:2566",
+        "request_id": "mathqa-transfer-0988"
+      },
+      {
+        "source_id": "mathqa:test:823",
+        "request_id": "mathqa-transfer-0989"
+      },
+      {
+        "source_id": "mathqa:test:2601",
+        "request_id": "mathqa-transfer-0990"
+      },
+      {
+        "source_id": "mathqa:test:2522",
+        "request_id": "mathqa-transfer-0991"
+      },
+      {
+        "source_id": "mathqa:test:1760",
+        "request_id": "mathqa-transfer-0992"
+      },
+      {
+        "source_id": "mathqa:test:2408",
+        "request_id": "mathqa-transfer-0993"
+      },
+      {
+        "source_id": "mathqa:test:349",
+        "request_id": "mathqa-transfer-0994"
+      },
+      {
+        "source_id": "mathqa:test:799",
+        "request_id": "mathqa-transfer-0995"
+      },
+      {
+        "source_id": "mathqa:test:731",
+        "request_id": "mathqa-transfer-0996"
+      },
+      {
+        "source_id": "mathqa:test:521",
+        "request_id": "mathqa-transfer-0997"
+      },
+      {
+        "source_id": "mathqa:test:1931",
+        "request_id": "mathqa-transfer-0998"
+      },
+      {
+        "source_id": "mathqa:test:323",
+        "request_id": "mathqa-transfer-0999"
+      },
+      {
+        "source_id": "mathqa:test:366",
+        "request_id": "mathqa-transfer-1000"
+      },
+      {
+        "source_id": "mathqa:test:816",
+        "request_id": "mathqa-transfer-1001"
+      },
+      {
+        "source_id": "mathqa:test:2231",
+        "request_id": "mathqa-transfer-1002"
+      },
+      {
+        "source_id": "mathqa:test:1908",
+        "request_id": "mathqa-transfer-1003"
+      },
+      {
+        "source_id": "mathqa:test:2387",
+        "request_id": "mathqa-transfer-1004"
+      },
+      {
+        "source_id": "mathqa:test:337",
+        "request_id": "mathqa-transfer-1005"
+      },
+      {
+        "source_id": "mathqa:test:1094",
+        "request_id": "mathqa-transfer-1006"
+      },
+      {
+        "source_id": "mathqa:test:2225",
+        "request_id": "mathqa-transfer-1007"
+      },
+      {
+        "source_id": "mathqa:test:2497",
+        "request_id": "mathqa-transfer-1008"
+      },
+      {
+        "source_id": "mathqa:test:2353",
+        "request_id": "mathqa-transfer-1009"
+      },
+      {
+        "source_id": "mathqa:test:511",
+        "request_id": "mathqa-transfer-1010"
+      },
+      {
+        "source_id": "mathqa:test:766",
+        "request_id": "mathqa-transfer-1011"
+      },
+      {
+        "source_id": "mathqa:test:457",
+        "request_id": "mathqa-transfer-1012"
+      },
+      {
+        "source_id": "mathqa:test:2568",
+        "request_id": "mathqa-transfer-1013"
+      },
+      {
+        "source_id": "mathqa:test:1276",
+        "request_id": "mathqa-transfer-1014"
+      },
+      {
+        "source_id": "mathqa:test:1453",
+        "request_id": "mathqa-transfer-1015"
+      },
+      {
+        "source_id": "mathqa:test:1359",
+        "request_id": "mathqa-transfer-1016"
+      },
+      {
+        "source_id": "mathqa:test:1354",
+        "request_id": "mathqa-transfer-1017"
+      },
+      {
+        "source_id": "mathqa:test:2903",
+        "request_id": "mathqa-transfer-1018"
+      },
+      {
+        "source_id": "mathqa:test:1227",
+        "request_id": "mathqa-transfer-1019"
+      },
+      {
+        "source_id": "mathqa:test:2702",
+        "request_id": "mathqa-transfer-1020"
+      },
+      {
+        "source_id": "mathqa:test:970",
+        "request_id": "mathqa-transfer-1021"
+      },
+      {
+        "source_id": "mathqa:test:1142",
+        "request_id": "mathqa-transfer-1022"
+      },
+      {
+        "source_id": "mathqa:test:788",
+        "request_id": "mathqa-transfer-1023"
+      }
+    ],
+    "source_order_sha256": "ff093024ae0c57da38bae5ea8896f14bd13f478b104fc0b7d80af5e1adb83f57",
+    "draw_matrix_sha256": "8fa17a82dc7a152450744e6c2c56acf2282ffdbcd500c839f2e9ec5c124a4f3c"
+  },
+  "exposure_scope": "Reused original PR26 MathQA serving-transfer panel of GSM-trained models.",
+  "limitations": [
+    "One fixed seed17 released-initialization trajectory; no new origin/seed replication.",
+    "Bootstrap intervals are marginal 95% intervals conditional on fixed fitted endpoints and reused inputs.",
+    "All arms and repeats share paired request draws; no family-wise success claim is implied.",
+    "The datasets and historical screens remain separate; no best endpoint/panel selection.",
+    "C/OSD measures the complete recipe; only C/native K+ isolates the added allocation recipe.",
+    "Native and stop-clipped acceptance are separate definitions; old clipped ratios are not silently relabeled.",
+    "Identical-output call and native-acceptance changes are coupled accounting views.",
+    "An interval spanning zero does not establish preservation, equivalence or a positive contribution.",
+    "No universal minimum gain, S gate, automatic tuning or followup is authorized.",
+    "Realized training overhead includes diagnostics/exposure; this is not a pure formula or asynchronous deployment benchmark."
+  ],
+  "execution_commit": "b4459820b3822c3d760bb3fd880e4d139fa2bbc2"
+}

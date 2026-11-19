@@ -1,0 +1,150 @@
+{
+  "status": "passed",
+  "verification_scope": "Independent scalar reduction and paired bootstrap; no native replay or second raw-token audit",
+  "utc": "2026-11-19T07:29:31.228576+00:00",
+  "numpy": "2.3.2",
+  "datasets": {
+    "gsm8k": {
+      "status": "passed",
+      "source": "private-retained/gsm8k/MEASUREMENTS.jsonl",
+      "source_sha256": "609f488901afe45e66c840317741eab36db27dbbe61b27f2f93b60c09185d131",
+      "rows": 9504,
+      "scored_rows": 9216,
+      "warmup_rows": 288,
+      "requests": 1024,
+      "seed": 20261118,
+      "draws": 10000,
+      "draw_sha256": "701cfbde34130cffc541673401086c6328e44dbcb7eb7443dcb8800451893263",
+      "source_order_sha256": "58e2246c2eed9e917a5ab27151c0dfe31ee850b6146db8d7d1205ae772559434",
+      "primary_metrics": {
+        "call_reduction": {
+          "point": 0.003166385466984112,
+          "ci95": [
+            0.0005006927244659566,
+            0.005829226610756475
+          ],
+          "undefined_draws": 0
+        },
+        "time_reduction": {
+          "point": 0.002835331539042696,
+          "ci95": [
+            -0.002528707672444469,
+            0.00823999929270608
+          ],
+          "undefined_draws": 0
+        },
+        "acceptance_improvement": {
+          "point": 0.0036844164208629238,
+          "ci95": [
+            0.0005791161041420467,
+            0.006805827588883295
+          ],
+          "undefined_draws": 0
+        },
+        "acceptance_difference": {
+          "point": 0.023039290201840146,
+          "ci95": [
+            0.0036546741775064675,
+            0.04245116975254781
+          ],
+          "undefined_draws": 0
+        }
+      },
+      "exact_match_to_saved_primary_metrics": true,
+      "calls": {
+        "O58": 44730,
+        "KPLUS58": 43267,
+        "KPLUS_C58": 43130
+      },
+      "request_mean_seconds": {
+        "O58": 817.0179322113593,
+        "KPLUS58": 793.9913814775646,
+        "KPLUS_C58": 791.7401526719332
+      },
+      "native_accepted_per_call": {
+        "O58": 6.0159400849541695,
+        "KPLUS58": 6.253172163542653,
+        "KPLUS_C58": 6.2762114537444935
+      },
+      "request_outcomes": {
+        "wins": 416,
+        "losses": 366,
+        "ties": 242,
+        "gross_saved": 780,
+        "gross_added": 643
+      }
+    },
+    "mathqa": {
+      "status": "passed",
+      "source": "private-retained/mathqa/MEASUREMENTS.jsonl",
+      "source_sha256": "83e9107a62db07478711a8b54f8384b574010c315065b22cd3368f99b1967415",
+      "rows": 9504,
+      "scored_rows": 9216,
+      "warmup_rows": 288,
+      "requests": 1024,
+      "seed": 20261119,
+      "draws": 10000,
+      "draw_sha256": "8fa17a82dc7a152450744e6c2c56acf2282ffdbcd500c839f2e9ec5c124a4f3c",
+      "source_order_sha256": "ff093024ae0c57da38bae5ea8896f14bd13f478b104fc0b7d80af5e1adb83f57",
+      "primary_metrics": {
+        "call_reduction": {
+          "point": 0.0029535634195700933,
+          "ci95": [
+            0.0009994707097505857,
+            0.004924320952888139
+          ],
+          "undefined_draws": 0
+        },
+        "time_reduction": {
+          "point": 0.0029849860905378778,
+          "ci95": [
+            0.0009763564931347197,
+            0.0049907848495469335
+          ],
+          "undefined_draws": 0
+        },
+        "acceptance_improvement": {
+          "point": 0.0034490291002047258,
+          "ci95": [
+            0.0011649716965219492,
+            0.005761527114345048
+          ],
+          "undefined_draws": 0
+        },
+        "acceptance_difference": {
+          "point": 0.020991906383616588,
+          "ci95": [
+            0.007096721460660893,
+            0.035057989946843435
+          ],
+          "undefined_draws": 0
+        }
+      },
+      "exact_match_to_saved_primary_metrics": true,
+      "calls": {
+        "O58": 74786,
+        "KPLUS58": 73132,
+        "KPLUS_C58": 72916
+      },
+      "request_mean_seconds": {
+        "O58": 1308.85762955,
+        "KPLUS58": 1281.352858022476,
+        "KPLUS_C58": 1277.528037564208
+      },
+      "native_accepted_per_call": {
+        "O58": 5.929599122830476,
+        "KPLUS58": 6.086323360498824,
+        "KPLUS_C58": 6.10731526688244
+      },
+      "request_outcomes": {
+        "wins": 430,
+        "losses": 370,
+        "ties": 224,
+        "gross_saved": 974,
+        "gross_added": 758
+      }
+    }
+  },
+  "public_source_note": "Source labels redact private absolute paths; source_sha256 identifies the original private measurement bytes, not the sanitized public CSV.",
+  "execution_commit": "b4459820b3822c3d760bb3fd880e4d139fa2bbc2"
+}

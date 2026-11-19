@@ -1,0 +1,475 @@
+{
+  "status": "passed",
+  "execution_commit": "b4459820b3822c3d760bb3fd880e4d139fa2bbc2",
+  "datasets": {
+    "gsm8k": {
+      "status": "passed",
+      "report_root": "gsm8k",
+      "contrasts": {
+        "KPLUS_C58_vs_KPLUS58": {
+          "candidate": "KPLUS_C58",
+          "reference": "KPLUS58",
+          "time_reduction": {
+            "point": 0.002835331539042696,
+            "ci95": [
+              -0.002528707672444469,
+              0.00823999929270608
+            ],
+            "undefined_draws": 0
+          },
+          "speedup": 1.0028433935023178,
+          "acceptance_improvement": {
+            "point": 0.0036844164208629238,
+            "ci95": [
+              0.0005791161041420467,
+              0.006805827588883295
+            ],
+            "undefined_draws": 0
+          },
+          "acceptance_difference": {
+            "point": 0.023039290201840146,
+            "ci95": [
+              0.0036546741775064675,
+              0.04245116975254781
+            ],
+            "undefined_draws": 0
+          },
+          "call_reduction": {
+            "point": 0.003166385466984112,
+            "ci95": [
+              0.0005006927244659566,
+              0.005829226610756475
+            ],
+            "undefined_draws": 0
+          },
+          "repeat_time_reductions": [
+            0.0014746981435772577,
+            0.0048413289344599875,
+            0.0021783528069958535
+          ],
+          "requests_fewer_calls": 416,
+          "requests_more_calls": 366,
+          "request_call_ties": 242,
+          "gross_calls_saved": 780,
+          "gross_calls_added": 643,
+          "net_calls_saved": 137,
+          "evidence": {
+            "time_reduction": "DIRECTION_UNRESOLVED",
+            "acceptance_improvement": "SUPPORTED_GAIN",
+            "acceptance_difference": "SUPPORTED_GAIN",
+            "call_reduction": "SUPPORTED_GAIN"
+          },
+          "clipped_acceptance": {
+            "candidate_tokens_per_call": 6.2984697426385345,
+            "reference_tokens_per_call": 6.275498647930293,
+            "absolute_difference": {
+              "point": 0.022971094708241324,
+              "ci95": [
+                0.003542613321586541,
+                0.04241835313768274
+              ],
+              "undefined_draws": 0
+            },
+            "relative_change": {
+              "point": 0.003660441344500498,
+              "ci95": [
+                0.0005615401298200651,
+                0.006775674797059549
+              ],
+              "undefined_draws": 0
+            },
+            "definition": "Summed actual stop-clipped accepted_draft_tokens / summed calls"
+          }
+        },
+        "KPLUS_C58_vs_O58": {
+          "candidate": "KPLUS_C58",
+          "reference": "O58",
+          "time_reduction": {
+            "point": 0.03093907556105735,
+            "ci95": [
+              0.02416241199522559,
+              0.03769768262581377
+            ],
+            "undefined_draws": 0
+          },
+          "speedup": 1.0319268631938392,
+          "acceptance_improvement": {
+            "point": 0.04326362382518756,
+            "ci95": [
+              0.038893245244467356,
+              0.047645116049675404
+            ],
+            "undefined_draws": 0
+          },
+          "acceptance_difference": {
+            "point": 0.260271368790324,
+            "ci95": [
+              0.23425625885594142,
+              0.2860090648777617
+            ],
+            "undefined_draws": 0
+          },
+          "call_reduction": {
+            "point": 0.03577017661524706,
+            "ci95": [
+              0.03227540066243649,
+              0.03924009534853402
+            ],
+            "undefined_draws": 0
+          },
+          "repeat_time_reductions": [
+            0.028085991224019002,
+            0.032292607504491144,
+            0.03242421687895913
+          ],
+          "requests_fewer_calls": 662,
+          "requests_more_calls": 214,
+          "request_call_ties": 148,
+          "gross_calls_saved": 2002,
+          "gross_calls_added": 402,
+          "net_calls_saved": 1600,
+          "evidence": {
+            "time_reduction": "SUPPORTED_GAIN",
+            "acceptance_improvement": "SUPPORTED_GAIN",
+            "acceptance_difference": "SUPPORTED_GAIN",
+            "call_reduction": "SUPPORTED_GAIN"
+          },
+          "clipped_acceptance": {
+            "candidate_tokens_per_call": 6.2984697426385345,
+            "reference_tokens_per_call": 6.037044489157165,
+            "absolute_difference": {
+              "point": 0.26142525348136925,
+              "ci95": [
+                0.23541794394318233,
+                0.28723995831813737
+              ],
+              "undefined_draws": 0
+            },
+            "relative_change": {
+              "point": 0.04330351614120165,
+              "ci95": [
+                0.03892126250096395,
+                0.04768613863362746
+              ],
+              "undefined_draws": 0
+            },
+            "definition": "Summed actual stop-clipped accepted_draft_tokens / summed calls"
+          }
+        },
+        "KPLUS58_vs_O58": {
+          "candidate": "KPLUS58",
+          "reference": "O58",
+          "time_reduction": {
+            "point": 0.028183654025157656,
+            "ci95": [
+              0.021370767456111984,
+              0.0350841369704702
+            ],
+            "undefined_draws": 0
+          },
+          "speedup": 1.0290010084126402,
+          "acceptance_improvement": {
+            "point": 0.0394339164350721,
+            "ci95": [
+              0.03503158464220969,
+              0.04381346888088522
+            ],
+            "undefined_draws": 0
+          },
+          "acceptance_difference": {
+            "point": 0.23723207858848383,
+            "ci95": [
+              0.21115792501757608,
+              0.26320009299599
+            ],
+            "undefined_draws": 0
+          },
+          "call_reduction": {
+            "point": 0.032707355242566516,
+            "ci95": [
+              0.029179131592616793,
+              0.03618688924437193
+            ],
+            "undefined_draws": 0
+          },
+          "repeat_time_reductions": [
+            0.026650594662916305,
+            0.02758482578525734,
+            0.030311894071499368
+          ],
+          "requests_fewer_calls": 633,
+          "requests_more_calls": 250,
+          "request_call_ties": 141,
+          "gross_calls_saved": 1917,
+          "gross_calls_added": 454,
+          "net_calls_saved": 1463,
+          "evidence": {
+            "time_reduction": "SUPPORTED_GAIN",
+            "acceptance_improvement": "SUPPORTED_GAIN",
+            "acceptance_difference": "SUPPORTED_GAIN",
+            "call_reduction": "SUPPORTED_GAIN"
+          },
+          "clipped_acceptance": {
+            "candidate_tokens_per_call": 6.275498647930293,
+            "reference_tokens_per_call": 6.037044489157165,
+            "absolute_difference": {
+              "point": 0.23845415877312792,
+              "ci95": [
+                0.2123113314053936,
+                0.264509658895708
+              ],
+              "undefined_draws": 0
+            },
+            "relative_change": {
+              "point": 0.03949849288031637,
+              "ci95": [
+                0.0350974501834291,
+                0.04388160448860514
+              ],
+              "undefined_draws": 0
+            },
+            "definition": "Summed actual stop-clipped accepted_draft_tokens / summed calls"
+          }
+        }
+      }
+    },
+    "mathqa": {
+      "status": "passed",
+      "report_root": "mathqa",
+      "contrasts": {
+        "KPLUS_C58_vs_KPLUS58": {
+          "candidate": "KPLUS_C58",
+          "reference": "KPLUS58",
+          "time_reduction": {
+            "point": 0.0029849860905378778,
+            "ci95": [
+              0.0009763564931347197,
+              0.0049907848495469335
+            ],
+            "undefined_draws": 0
+          },
+          "speedup": 1.0029939229087768,
+          "acceptance_improvement": {
+            "point": 0.0034490291002047258,
+            "ci95": [
+              0.0011649716965219492,
+              0.005761527114345048
+            ],
+            "undefined_draws": 0
+          },
+          "acceptance_difference": {
+            "point": 0.020991906383616588,
+            "ci95": [
+              0.007096721460660893,
+              0.035057989946843435
+            ],
+            "undefined_draws": 0
+          },
+          "call_reduction": {
+            "point": 0.0029535634195700933,
+            "ci95": [
+              0.0009994707097505857,
+              0.004924320952888139
+            ],
+            "undefined_draws": 0
+          },
+          "repeat_time_reductions": [
+            0.002871700037346936,
+            0.00311279498520034,
+            0.002970958568881521
+          ],
+          "requests_fewer_calls": 430,
+          "requests_more_calls": 370,
+          "request_call_ties": 224,
+          "gross_calls_saved": 974,
+          "gross_calls_added": 758,
+          "net_calls_saved": 216,
+          "evidence": {
+            "time_reduction": "SUPPORTED_GAIN",
+            "acceptance_improvement": "SUPPORTED_GAIN",
+            "acceptance_difference": "SUPPORTED_GAIN",
+            "call_reduction": "SUPPORTED_GAIN"
+          },
+          "clipped_acceptance": {
+            "candidate_tokens_per_call": 6.118657084864776,
+            "reference_tokens_per_call": 6.098205983700706,
+            "absolute_difference": {
+              "point": 0.02045110116407045,
+              "ci95": [
+                0.006562063511381488,
+                0.03450660144979264
+              ],
+              "undefined_draws": 0
+            },
+            "relative_change": {
+              "point": 0.0033536258399162744,
+              "ci95": [
+                0.001073840667670467,
+                0.005665681864769678
+              ],
+              "undefined_draws": 0
+            },
+            "definition": "Summed actual stop-clipped accepted_draft_tokens / summed calls"
+          }
+        },
+        "KPLUS_C58_vs_O58": {
+          "candidate": "KPLUS_C58",
+          "reference": "O58",
+          "time_reduction": {
+            "point": 0.023936592703794224,
+            "ci95": [
+              0.021484836868285083,
+              0.026448270147755585
+            ],
+            "undefined_draws": 0
+          },
+          "speedup": 1.0245236042298738,
+          "acceptance_improvement": {
+            "point": 0.029971021711689083,
+            "ci95": [
+              0.026960500767675775,
+              0.0330923144167775
+            ],
+            "undefined_draws": 0
+          },
+          "acceptance_difference": {
+            "point": 0.17771614405196434,
+            "ci95": [
+              0.1603171895929953,
+              0.19578505460386994
+            ],
+            "undefined_draws": 0
+          },
+          "call_reduction": {
+            "point": 0.025004680020324632,
+            "ci95": [
+              0.022556384967340234,
+              0.027513865859309174
+            ],
+            "undefined_draws": 0
+          },
+          "repeat_time_reductions": [
+            0.023870544068433253,
+            0.024124790843669253,
+            0.023814662797359998
+          ],
+          "requests_fewer_calls": 659,
+          "requests_more_calls": 225,
+          "request_call_ties": 140,
+          "gross_calls_saved": 2326,
+          "gross_calls_added": 456,
+          "net_calls_saved": 1870,
+          "evidence": {
+            "time_reduction": "SUPPORTED_GAIN",
+            "acceptance_improvement": "SUPPORTED_GAIN",
+            "acceptance_difference": "SUPPORTED_GAIN",
+            "call_reduction": "SUPPORTED_GAIN"
+          },
+          "clipped_acceptance": {
+            "candidate_tokens_per_call": 6.118657084864776,
+            "reference_tokens_per_call": 5.941285802155484,
+            "absolute_difference": {
+              "point": 0.17737128270929237,
+              "ci95": [
+                0.15997549013459716,
+                0.19539868193757146
+              ],
+              "undefined_draws": 0
+            },
+            "relative_change": {
+              "point": 0.029854022953237136,
+              "ci95": [
+                0.026850208361918954,
+                0.032963747863921145
+              ],
+              "undefined_draws": 0
+            },
+            "definition": "Summed actual stop-clipped accepted_draft_tokens / summed calls"
+          }
+        },
+        "KPLUS58_vs_O58": {
+          "candidate": "KPLUS58",
+          "reference": "O58",
+          "time_reduction": {
+            "point": 0.02101433410827147,
+            "ci95": [
+              0.0184641903826047,
+              0.0235913006400449
+            ],
+            "undefined_draws": 0
+          },
+          "speedup": 1.02146541552182,
+          "acceptance_improvement": {
+            "point": 0.026430831903107688,
+            "ci95": [
+              0.02322723325617998,
+              0.029623336542032964
+            ],
+            "undefined_draws": 0
+          },
+          "acceptance_difference": {
+            "point": 0.15672423766834775,
+            "ci95": [
+              0.13789153442924473,
+              0.17523179426922275
+            ],
+            "undefined_draws": 0
+          },
+          "call_reduction": {
+            "point": 0.022116438905677493,
+            "ci95": [
+              0.019497026987958032,
+              0.02469214837696744
+            ],
+            "undefined_draws": 0
+          },
+          "repeat_time_reductions": [
+            0.021059320081350363,
+            0.021077606125115222,
+            0.020905814537317546
+          ],
+          "requests_fewer_calls": 635,
+          "requests_more_calls": 249,
+          "request_call_ties": 140,
+          "gross_calls_saved": 2228,
+          "gross_calls_added": 574,
+          "net_calls_saved": 1654,
+          "evidence": {
+            "time_reduction": "SUPPORTED_GAIN",
+            "acceptance_improvement": "SUPPORTED_GAIN",
+            "acceptance_difference": "SUPPORTED_GAIN",
+            "call_reduction": "SUPPORTED_GAIN"
+          },
+          "clipped_acceptance": {
+            "candidate_tokens_per_call": 6.098205983700706,
+            "reference_tokens_per_call": 5.941285802155484,
+            "absolute_difference": {
+              "point": 0.15692018154522192,
+              "ci95": [
+                0.13808046266584345,
+                0.17542822493455268
+              ],
+              "undefined_draws": 0
+            },
+            "relative_change": {
+              "point": 0.026411821745436326,
+              "ci95": [
+                0.023216325203448674,
+                0.029600564223621832
+              ],
+              "undefined_draws": 0
+            },
+            "definition": "Summed actual stop-clipped accepted_draft_tokens / summed calls"
+          }
+        }
+      }
+    }
+  },
+  "wall_s": 63.40976939536631,
+  "extra_model_work": 0,
+  "clock": {
+    "occupied_s": 93394.92581319809,
+    "elapsed_s": 76320.00397229195,
+    "active": {}
+  }
+}
