@@ -2,15 +2,27 @@
   "implementation_commit": "c0a0794e8a7a42a3e2e70833a73992a6201ea6d6",
   "source_base": "18d60135e6a482bf2f0f92454c572ccadc2adf1e",
   "execution_commit": null,
-  "execution_status": "not_started_resource_blocked",
+  "execution_status": "authorized_cap_amended_preflight_pending",
   "report_commit": "Git commit containing this report; distinct from implementation commit",
   "scientific_gpu_work": 0,
   "scope": "CODE-only three own-feedback58-event arms plus five-arm endpoint evaluation",
   "fixed_limits": {
     "elapsed_h": 48,
     "occupied_card_h": 90,
-    "new_allocated_GB": 80,
+    "new_allocated_GB": 90,
     "free_reserve_GB": 400
   },
-  "pending_user_decision": "Proposed90GBstoragecaponly; notauthorized"
+  "pending_user_decision": null,
+  "storage_amendment": {
+    "status": "authorized",
+    "recorded_epoch": 1795217286.3735862,
+    "user_instruction": "Raise A800 additional storage cap to90GB; retain400GBreserve; proceed with qualification and unchanged O/AREPO/C campaign if checks pass; remove verified disposable wastes.",
+    "previous_additional_storage_bytes": 80000000000,
+    "new_additional_storage_bytes": 90000000000,
+    "free_reserve_bytes": 400000000000,
+    "elapsed_hours": 48,
+    "occupied_card_hours": 90,
+    "scientific_changes": [],
+    "automatic_scientific_retry": false
+  }
 }

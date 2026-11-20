@@ -79,7 +79,7 @@ class WorkLedger:
 def storage(plan, *, complete_forecast=True):
     peak = plan['storage']['projected_peak_bytes']
     if type(peak) is not int or not 0 < peak <= RESOURCE_LIMITS['new_allocated_bytes']:
-        raise ValueError('The complete peak must fit the fixed 80GB limit')
+        raise ValueError('The complete peak must fit the authorized 90GB limit')
     current = allocated_bytes(plan['allocation_roots'])
     compiler = compiler_snapshot()
     baseline = plan['compiler_baseline']

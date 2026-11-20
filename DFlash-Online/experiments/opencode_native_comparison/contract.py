@@ -20,7 +20,7 @@ PRODUCTION_WORK = dict(feedback_generation=22272, correctness_generation=12,
 QUALIFICATION_CEILINGS = dict(generation=64, adam=48, response_forward=128,
     response_backward=128, teacher_preparation=32, training_initialization=8)
 RESOURCE_LIMITS = dict(elapsed_s=48*3600, occupied_card_s=90*3600,
-    new_allocated_bytes=80_000_000_000, free_reserve_bytes=400_000_000_000,
+    new_allocated_bytes=90_000_000_000, free_reserve_bytes=400_000_000_000,
     forecast_multiplier=1.25, forecast_fixed_s=3600)
 
 

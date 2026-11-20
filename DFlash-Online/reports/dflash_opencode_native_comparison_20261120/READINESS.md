@@ -1,5 +1,7 @@
 # Native online CODE comparison: readiness
 
+**November20 authorization update:** user approved90GBadditional storage;400GBreserve and all other limits/settings unchanged. Prior80GBblocked assessment below remains historical. Actual admission and GPU qualification are pending; no model work yet.
+
 Implementation source: `c0a0794e8a7a42a3e2e70833a73992a6201ea6d6`. Native execution: **not started**.
 
 ## Material Passport

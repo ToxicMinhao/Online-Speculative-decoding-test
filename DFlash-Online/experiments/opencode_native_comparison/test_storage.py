@@ -48,8 +48,17 @@ class StorageTests(unittest.TestCase):
         self.assertEqual(train['compact_bytes'],9_000_000_000)
         self.assertEqual(result['projected_peak_bytes'],max(
             train['projected_peak_bytes'],final['projected_peak_bytes']))
-        self.assertEqual(result['bound_bytes'],80_000_000_000)
-        self.assertEqual(result['status'],'blocked')
+        self.assertEqual(result['bound_bytes'],90_000_000_000)
+        self.assertLessEqual(result['projected_peak_bytes'],90_000_000_000)
+        self.assertEqual(result['status'],'admitted')
+        with patch('experiments.opencode_native_comparison.storage.RESOURCE_LIMITS',
+                   dict(new_allocated_bytes=80_000_000_000)):
+            blocked=capacity_plan(requests,2_097_259_104,6_291_777_312,
+                compact_bytes=9_000_000_000,final_compact_bytes=25_000_000_000,
+                compiler_bytes=2_000_000_000,source_bytes=500_000_000,
+                workspace_bytes=1_000_000_000,state_metadata_growth_bytes=500_000_000,
+                qualification_peak_bytes=20_000_000_000)
+        self.assertEqual(blocked['status'],'blocked')
 
     def test_uses_actual_window_prompt_sum_and_atomic_states(self):
         requests=[dict(prompt_ids=[1]*10) for _ in range(7424)]
