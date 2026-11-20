@@ -3,7 +3,7 @@
 ## Material Passport
 
 ARS experiment-agent, bounded run. Research Stage 1 / project None is unchanged.
-Current status: **readiness and all 24 native qualification generations passed** at execution commit `96f0a13d189b8f5a1d3cfcf103a0ff1097f18cd8`. The planned canonical phase is running; see [qualification evidence](QUALIFICATION_REPORT.md). No training is part of this study.
+Current status: **readiness and all 24 native qualification generations passed** at execution commit `96f0a13d189b8f5a1d3cfcf103a0ff1097f18cd8`. All canonical preparation, scored serving and final independent audit have now completed; see [final results](REPORT.md) and [qualification evidence](QUALIFICATION_REPORT.md). No training is part of this study.
 
 The primary contrast is C58 versus AREPO58 complete-request time; C/O and AREPO/O are secondary. This reuses the finished fixed checkpoints and changes neither loss nor weights. It is a fresh-input mathematical transfer test, not another training replication or AdaFlash's full high-concurrency system.
 
@@ -48,7 +48,7 @@ Historical PR54 MathQA evaluation took12,971.762s. The working forecast is about
 
 The new evaluator's12 CPU tests,10 runtime tests and2 package-assembly tests pass, including a full9,504-row synthetic native-record roundtrip, exact schedule, missing/duplicate rows, invalid canonical/weights/termination, repeat inconsistency and paired bootstrap. Independent same-team review confirms the new labels and primary contrast. The inactive direct-allocation reference separately passes16tests/100scalar-oracle cases; see[CPU_REFERENCE.md](CPU_REFERENCE.md). The archive reader separately passes23 corruption/coverage and keeper tests; the final precommit run passes63 distinct focused tests in total. These checks do not qualify nativeGPU execution.
 
-These gates are now complete: PR54 archive delivery and keeper reconciliation, all 4,887 staged source identities, assembled CPU preflight, resource admission and 24 native qualification generations. Fresh canonicals are being prepared. Scoring requires their complete seal and the fixed-card quiet gate. No completed endpoint result follows from qualification.
+These gates are now complete: PR54 archive delivery and keeper reconciliation, all 4,887 staged source identities, assembled CPU preflight, resource admission and 24 native qualification generations. All 1,024 canonicals were sealed before scored work; all 9,216 scores and 288 warmups completed. The final report distinguishes completed endpoint evidence from the earlier qualification-only evidence.
 
 ## Analysis and scope
 

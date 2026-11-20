@@ -1,0 +1,17 @@
+{
+  "native_accepted_draft_tokens": "Sum of native commit_rows-1 per verification round, not raw pre-stop candidate matches.",
+  "accepted_draft_tokens": "Sum min(accepted_end-1,commit_rows), where accepted_end is the first candidate/target mismatch or block width. May exceed the native counter by one on a stop-clipped round.",
+  "committed_progress": "Sum commit_rows; equals output_tokens-1 because the initial target-prefill token precedes verification.",
+  "native_average_acceptance_length": "sum native_accepted_draft_tokens / sum verification_calls; one repeat-consistent trajectory per request.",
+  "stop_clipped_matching_acceptance": "sum accepted_draft_tokens / sum verification_calls; separate observed trace counter.",
+  "request_latency_s": "Qualified complete-request timer, including native generation, cache maintenance and wrapper overhead. Loading, activation and warmups are separately measured.",
+  "native_generate_s": "Native engine generation interval, not a kernel-time breakdown.",
+  "cache_maintenance_s": "Measured cache operations; retain all repeats.",
+  "timing_reduction": "1 - sum candidate per-request three-repeat means / sum reference per-request three-repeat means.",
+  "count_reduction": "1 - sum candidate calls / sum reference calls.",
+  "canonical": "Fresh O58 speculative native greedy target-verifier output, not standalone target-only generation.",
+  "source_locations": [
+    "online_feedback/sglang_hooks.py:139-157",
+    "experiments/fresh_mathqa_endpoints/analysis.py"
+  ]
+}

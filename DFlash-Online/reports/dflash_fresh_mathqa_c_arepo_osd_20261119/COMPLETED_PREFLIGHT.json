@@ -1,0 +1,1223 @@
+{
+  "status": "passed",
+  "source": "Retained completed LAUNCH.json preflight object",
+  "source_launch_sha256": "2b88503f8c3526ce868a63ba77e198914f0fa1394d79e5ef1d083b64e0b4d772",
+  "preflight": {
+    "status": "passed",
+    "model_work": 0,
+    "execution_commit": "96f0a13d189b8f5a1d3cfcf103a0ff1097f18cd8",
+    "source": {
+      "status": "passed",
+      "execution_commit": "96f0a13d189b8f5a1d3cfcf103a0ff1097f18cd8",
+      "manifest_identity": {
+        "bytes": 904519,
+        "sha256": "daa93461e1b687129dcc989e22023df89bfca421af289995263bb20fd5bafe73"
+      },
+      "checked_files": 4887
+    },
+    "endpoint_tensor_shapes": {
+      "O58": {
+        "fc.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096,
+            20480
+          ]
+        },
+        "hidden_norm.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096
+          ]
+        },
+        "layers.0.input_layernorm.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096
+          ]
+        },
+        "layers.0.mlp.down_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096,
+            12288
+          ]
+        },
+        "layers.0.mlp.gate_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            12288,
+            4096
+          ]
+        },
+        "layers.0.mlp.up_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            12288,
+            4096
+          ]
+        },
+        "layers.0.post_attention_layernorm.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096
+          ]
+        },
+        "layers.0.self_attn.k_norm.weight": {
+          "dtype": "BF16",
+          "shape": [
+            128
+          ]
+        },
+        "layers.0.self_attn.k_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            1024,
+            4096
+          ]
+        },
+        "layers.0.self_attn.o_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096,
+            4096
+          ]
+        },
+        "layers.0.self_attn.q_norm.weight": {
+          "dtype": "BF16",
+          "shape": [
+            128
+          ]
+        },
+        "layers.0.self_attn.q_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096,
+            4096
+          ]
+        },
+        "layers.0.self_attn.v_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            1024,
+            4096
+          ]
+        },
+        "layers.1.input_layernorm.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096
+          ]
+        },
+        "layers.1.mlp.down_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096,
+            12288
+          ]
+        },
+        "layers.1.mlp.gate_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            12288,
+            4096
+          ]
+        },
+        "layers.1.mlp.up_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            12288,
+            4096
+          ]
+        },
+        "layers.1.post_attention_layernorm.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096
+          ]
+        },
+        "layers.1.self_attn.k_norm.weight": {
+          "dtype": "BF16",
+          "shape": [
+            128
+          ]
+        },
+        "layers.1.self_attn.k_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            1024,
+            4096
+          ]
+        },
+        "layers.1.self_attn.o_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096,
+            4096
+          ]
+        },
+        "layers.1.self_attn.q_norm.weight": {
+          "dtype": "BF16",
+          "shape": [
+            128
+          ]
+        },
+        "layers.1.self_attn.q_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096,
+            4096
+          ]
+        },
+        "layers.1.self_attn.v_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            1024,
+            4096
+          ]
+        },
+        "layers.2.input_layernorm.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096
+          ]
+        },
+        "layers.2.mlp.down_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096,
+            12288
+          ]
+        },
+        "layers.2.mlp.gate_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            12288,
+            4096
+          ]
+        },
+        "layers.2.mlp.up_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            12288,
+            4096
+          ]
+        },
+        "layers.2.post_attention_layernorm.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096
+          ]
+        },
+        "layers.2.self_attn.k_norm.weight": {
+          "dtype": "BF16",
+          "shape": [
+            128
+          ]
+        },
+        "layers.2.self_attn.k_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            1024,
+            4096
+          ]
+        },
+        "layers.2.self_attn.o_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096,
+            4096
+          ]
+        },
+        "layers.2.self_attn.q_norm.weight": {
+          "dtype": "BF16",
+          "shape": [
+            128
+          ]
+        },
+        "layers.2.self_attn.q_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096,
+            4096
+          ]
+        },
+        "layers.2.self_attn.v_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            1024,
+            4096
+          ]
+        },
+        "layers.3.input_layernorm.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096
+          ]
+        },
+        "layers.3.mlp.down_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096,
+            12288
+          ]
+        },
+        "layers.3.mlp.gate_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            12288,
+            4096
+          ]
+        },
+        "layers.3.mlp.up_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            12288,
+            4096
+          ]
+        },
+        "layers.3.post_attention_layernorm.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096
+          ]
+        },
+        "layers.3.self_attn.k_norm.weight": {
+          "dtype": "BF16",
+          "shape": [
+            128
+          ]
+        },
+        "layers.3.self_attn.k_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            1024,
+            4096
+          ]
+        },
+        "layers.3.self_attn.o_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096,
+            4096
+          ]
+        },
+        "layers.3.self_attn.q_norm.weight": {
+          "dtype": "BF16",
+          "shape": [
+            128
+          ]
+        },
+        "layers.3.self_attn.q_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096,
+            4096
+          ]
+        },
+        "layers.3.self_attn.v_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            1024,
+            4096
+          ]
+        },
+        "layers.4.input_layernorm.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096
+          ]
+        },
+        "layers.4.mlp.down_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096,
+            12288
+          ]
+        },
+        "layers.4.mlp.gate_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            12288,
+            4096
+          ]
+        },
+        "layers.4.mlp.up_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            12288,
+            4096
+          ]
+        },
+        "layers.4.post_attention_layernorm.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096
+          ]
+        },
+        "layers.4.self_attn.k_norm.weight": {
+          "dtype": "BF16",
+          "shape": [
+            128
+          ]
+        },
+        "layers.4.self_attn.k_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            1024,
+            4096
+          ]
+        },
+        "layers.4.self_attn.o_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096,
+            4096
+          ]
+        },
+        "layers.4.self_attn.q_norm.weight": {
+          "dtype": "BF16",
+          "shape": [
+            128
+          ]
+        },
+        "layers.4.self_attn.q_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096,
+            4096
+          ]
+        },
+        "layers.4.self_attn.v_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            1024,
+            4096
+          ]
+        },
+        "norm.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096
+          ]
+        }
+      },
+      "AREPO58": {
+        "fc.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096,
+            20480
+          ]
+        },
+        "hidden_norm.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096
+          ]
+        },
+        "layers.0.input_layernorm.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096
+          ]
+        },
+        "layers.0.mlp.down_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096,
+            12288
+          ]
+        },
+        "layers.0.mlp.gate_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            12288,
+            4096
+          ]
+        },
+        "layers.0.mlp.up_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            12288,
+            4096
+          ]
+        },
+        "layers.0.post_attention_layernorm.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096
+          ]
+        },
+        "layers.0.self_attn.k_norm.weight": {
+          "dtype": "BF16",
+          "shape": [
+            128
+          ]
+        },
+        "layers.0.self_attn.k_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            1024,
+            4096
+          ]
+        },
+        "layers.0.self_attn.o_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096,
+            4096
+          ]
+        },
+        "layers.0.self_attn.q_norm.weight": {
+          "dtype": "BF16",
+          "shape": [
+            128
+          ]
+        },
+        "layers.0.self_attn.q_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096,
+            4096
+          ]
+        },
+        "layers.0.self_attn.v_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            1024,
+            4096
+          ]
+        },
+        "layers.1.input_layernorm.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096
+          ]
+        },
+        "layers.1.mlp.down_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096,
+            12288
+          ]
+        },
+        "layers.1.mlp.gate_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            12288,
+            4096
+          ]
+        },
+        "layers.1.mlp.up_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            12288,
+            4096
+          ]
+        },
+        "layers.1.post_attention_layernorm.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096
+          ]
+        },
+        "layers.1.self_attn.k_norm.weight": {
+          "dtype": "BF16",
+          "shape": [
+            128
+          ]
+        },
+        "layers.1.self_attn.k_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            1024,
+            4096
+          ]
+        },
+        "layers.1.self_attn.o_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096,
+            4096
+          ]
+        },
+        "layers.1.self_attn.q_norm.weight": {
+          "dtype": "BF16",
+          "shape": [
+            128
+          ]
+        },
+        "layers.1.self_attn.q_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096,
+            4096
+          ]
+        },
+        "layers.1.self_attn.v_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            1024,
+            4096
+          ]
+        },
+        "layers.2.input_layernorm.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096
+          ]
+        },
+        "layers.2.mlp.down_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096,
+            12288
+          ]
+        },
+        "layers.2.mlp.gate_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            12288,
+            4096
+          ]
+        },
+        "layers.2.mlp.up_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            12288,
+            4096
+          ]
+        },
+        "layers.2.post_attention_layernorm.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096
+          ]
+        },
+        "layers.2.self_attn.k_norm.weight": {
+          "dtype": "BF16",
+          "shape": [
+            128
+          ]
+        },
+        "layers.2.self_attn.k_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            1024,
+            4096
+          ]
+        },
+        "layers.2.self_attn.o_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096,
+            4096
+          ]
+        },
+        "layers.2.self_attn.q_norm.weight": {
+          "dtype": "BF16",
+          "shape": [
+            128
+          ]
+        },
+        "layers.2.self_attn.q_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096,
+            4096
+          ]
+        },
+        "layers.2.self_attn.v_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            1024,
+            4096
+          ]
+        },
+        "layers.3.input_layernorm.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096
+          ]
+        },
+        "layers.3.mlp.down_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096,
+            12288
+          ]
+        },
+        "layers.3.mlp.gate_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            12288,
+            4096
+          ]
+        },
+        "layers.3.mlp.up_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            12288,
+            4096
+          ]
+        },
+        "layers.3.post_attention_layernorm.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096
+          ]
+        },
+        "layers.3.self_attn.k_norm.weight": {
+          "dtype": "BF16",
+          "shape": [
+            128
+          ]
+        },
+        "layers.3.self_attn.k_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            1024,
+            4096
+          ]
+        },
+        "layers.3.self_attn.o_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096,
+            4096
+          ]
+        },
+        "layers.3.self_attn.q_norm.weight": {
+          "dtype": "BF16",
+          "shape": [
+            128
+          ]
+        },
+        "layers.3.self_attn.q_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096,
+            4096
+          ]
+        },
+        "layers.3.self_attn.v_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            1024,
+            4096
+          ]
+        },
+        "layers.4.input_layernorm.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096
+          ]
+        },
+        "layers.4.mlp.down_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096,
+            12288
+          ]
+        },
+        "layers.4.mlp.gate_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            12288,
+            4096
+          ]
+        },
+        "layers.4.mlp.up_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            12288,
+            4096
+          ]
+        },
+        "layers.4.post_attention_layernorm.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096
+          ]
+        },
+        "layers.4.self_attn.k_norm.weight": {
+          "dtype": "BF16",
+          "shape": [
+            128
+          ]
+        },
+        "layers.4.self_attn.k_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            1024,
+            4096
+          ]
+        },
+        "layers.4.self_attn.o_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096,
+            4096
+          ]
+        },
+        "layers.4.self_attn.q_norm.weight": {
+          "dtype": "BF16",
+          "shape": [
+            128
+          ]
+        },
+        "layers.4.self_attn.q_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096,
+            4096
+          ]
+        },
+        "layers.4.self_attn.v_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            1024,
+            4096
+          ]
+        },
+        "norm.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096
+          ]
+        }
+      },
+      "KPLUS_C58": {
+        "fc.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096,
+            20480
+          ]
+        },
+        "hidden_norm.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096
+          ]
+        },
+        "layers.0.input_layernorm.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096
+          ]
+        },
+        "layers.0.mlp.down_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096,
+            12288
+          ]
+        },
+        "layers.0.mlp.gate_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            12288,
+            4096
+          ]
+        },
+        "layers.0.mlp.up_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            12288,
+            4096
+          ]
+        },
+        "layers.0.post_attention_layernorm.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096
+          ]
+        },
+        "layers.0.self_attn.k_norm.weight": {
+          "dtype": "BF16",
+          "shape": [
+            128
+          ]
+        },
+        "layers.0.self_attn.k_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            1024,
+            4096
+          ]
+        },
+        "layers.0.self_attn.o_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096,
+            4096
+          ]
+        },
+        "layers.0.self_attn.q_norm.weight": {
+          "dtype": "BF16",
+          "shape": [
+            128
+          ]
+        },
+        "layers.0.self_attn.q_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096,
+            4096
+          ]
+        },
+        "layers.0.self_attn.v_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            1024,
+            4096
+          ]
+        },
+        "layers.1.input_layernorm.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096
+          ]
+        },
+        "layers.1.mlp.down_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096,
+            12288
+          ]
+        },
+        "layers.1.mlp.gate_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            12288,
+            4096
+          ]
+        },
+        "layers.1.mlp.up_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            12288,
+            4096
+          ]
+        },
+        "layers.1.post_attention_layernorm.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096
+          ]
+        },
+        "layers.1.self_attn.k_norm.weight": {
+          "dtype": "BF16",
+          "shape": [
+            128
+          ]
+        },
+        "layers.1.self_attn.k_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            1024,
+            4096
+          ]
+        },
+        "layers.1.self_attn.o_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096,
+            4096
+          ]
+        },
+        "layers.1.self_attn.q_norm.weight": {
+          "dtype": "BF16",
+          "shape": [
+            128
+          ]
+        },
+        "layers.1.self_attn.q_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096,
+            4096
+          ]
+        },
+        "layers.1.self_attn.v_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            1024,
+            4096
+          ]
+        },
+        "layers.2.input_layernorm.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096
+          ]
+        },
+        "layers.2.mlp.down_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096,
+            12288
+          ]
+        },
+        "layers.2.mlp.gate_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            12288,
+            4096
+          ]
+        },
+        "layers.2.mlp.up_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            12288,
+            4096
+          ]
+        },
+        "layers.2.post_attention_layernorm.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096
+          ]
+        },
+        "layers.2.self_attn.k_norm.weight": {
+          "dtype": "BF16",
+          "shape": [
+            128
+          ]
+        },
+        "layers.2.self_attn.k_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            1024,
+            4096
+          ]
+        },
+        "layers.2.self_attn.o_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096,
+            4096
+          ]
+        },
+        "layers.2.self_attn.q_norm.weight": {
+          "dtype": "BF16",
+          "shape": [
+            128
+          ]
+        },
+        "layers.2.self_attn.q_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096,
+            4096
+          ]
+        },
+        "layers.2.self_attn.v_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            1024,
+            4096
+          ]
+        },
+        "layers.3.input_layernorm.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096
+          ]
+        },
+        "layers.3.mlp.down_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096,
+            12288
+          ]
+        },
+        "layers.3.mlp.gate_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            12288,
+            4096
+          ]
+        },
+        "layers.3.mlp.up_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            12288,
+            4096
+          ]
+        },
+        "layers.3.post_attention_layernorm.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096
+          ]
+        },
+        "layers.3.self_attn.k_norm.weight": {
+          "dtype": "BF16",
+          "shape": [
+            128
+          ]
+        },
+        "layers.3.self_attn.k_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            1024,
+            4096
+          ]
+        },
+        "layers.3.self_attn.o_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096,
+            4096
+          ]
+        },
+        "layers.3.self_attn.q_norm.weight": {
+          "dtype": "BF16",
+          "shape": [
+            128
+          ]
+        },
+        "layers.3.self_attn.q_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096,
+            4096
+          ]
+        },
+        "layers.3.self_attn.v_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            1024,
+            4096
+          ]
+        },
+        "layers.4.input_layernorm.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096
+          ]
+        },
+        "layers.4.mlp.down_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096,
+            12288
+          ]
+        },
+        "layers.4.mlp.gate_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            12288,
+            4096
+          ]
+        },
+        "layers.4.mlp.up_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            12288,
+            4096
+          ]
+        },
+        "layers.4.post_attention_layernorm.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096
+          ]
+        },
+        "layers.4.self_attn.k_norm.weight": {
+          "dtype": "BF16",
+          "shape": [
+            128
+          ]
+        },
+        "layers.4.self_attn.k_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            1024,
+            4096
+          ]
+        },
+        "layers.4.self_attn.o_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096,
+            4096
+          ]
+        },
+        "layers.4.self_attn.q_norm.weight": {
+          "dtype": "BF16",
+          "shape": [
+            128
+          ]
+        },
+        "layers.4.self_attn.q_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096,
+            4096
+          ]
+        },
+        "layers.4.self_attn.v_proj.weight": {
+          "dtype": "BF16",
+          "shape": [
+            1024,
+            4096
+          ]
+        },
+        "norm.weight": {
+          "dtype": "BF16",
+          "shape": [
+            4096
+          ]
+        }
+      }
+    },
+    "panel": {
+      "status": "passed",
+      "counts": {
+        "source_rows": 2985,
+        "inherited_exclusions": 1025,
+        "known_used_or_reserved_rows": 1799,
+        "total_excluded": 1799,
+        "eligible_rows": 1186,
+        "required_scored": 1024,
+        "excess_after_required": 162,
+        "duplicates": {},
+        "input_ineligible": {}
+      },
+      "selection_reproduced": true,
+      "warmups_byte_identical_to_seal": true,
+      "no_output_dependent_selection": true
+    },
+    "runtime": {
+      "python_version": "3.12.14",
+      "torch": "2.9.1+cu130",
+      "transformers": "4.57.1",
+      "cuda": "13.0",
+      "native_runtime_sha256": {
+        "speculative/dflash_worker.py": "9397402f5cfbf60b00b7d27d551e5e9e1b605be9b084d028d4ddda76c475dc8c",
+        "speculative/dflash_info.py": "9c7ac23a1bf0840eec8218f02f2adbfc3e419099cd19822137ce5c6e0e902218",
+        "layers/logits_processor.py": "5c6c54bec37b941652e29908c773a756fe6c86f99932ab80043672a1eaa0f086",
+        "models/qwen3.py": "e23ee8af21eac46685852854a5fe585cf58477d4a1f8047887d6afeefaf8e32d",
+        "models/dflash.py": "d4fcfe005a1acc51a4938d038e1dbc1a2c8ff245842f4253338527335b2327b2",
+        "entrypoints/engine.py": "2bcd4b04c325d4ed65f867490c5bac9e915e02f05471c83dacb5a4a097cf1f2a",
+        "server_args.py": "bd60199803698e4ffe6dc44499a8d42be73f42db28056cb6750411523cf56c04"
+      }
+    },
+    "compilers": {
+      "CC": "/data/conda_envs/minhao/dflash_tree_qualification_v2/bin/x86_64-conda-linux-gnu-gcc",
+      "CXX": "/data/conda_envs/minhao/dflash_tree_qualification_v2/bin/x86_64-conda-linux-gnu-g++"
+    },
+    "storage": {
+      "allocated_bytes": 891342848,
+      "compiler_growth_bytes": 0,
+      "charged_bytes": 891342848,
+      "free_bytes": 495184261120,
+      "required_free_bytes": 426108657152
+    },
+    "wall_s": 31.328729858621955
+  }
+}

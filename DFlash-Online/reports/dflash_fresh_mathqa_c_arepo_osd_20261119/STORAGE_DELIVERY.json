@@ -1,0 +1,270 @@
+{
+  "status": "passed_verified_delivery_and_storage_closeout",
+  "execution_commit": "96f0a13d189b8f5a1d3cfcf103a0ff1097f18cd8",
+  "private_archive_delivery": {
+    "status": "passed_verified_delivery",
+    "archive": "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_fresh_mathqa_c_arepo_osd_20261119/final_delivery_001/FRESH_MATHQA_COMPACT.tar.zst",
+    "archive_identity": {
+      "bytes": 156289971,
+      "sha256": "faba5fa2deb464f83cbc74ebed190199fa255b53f148acdca5b97c605d50e2db"
+    },
+    "manifest": "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_fresh_mathqa_c_arepo_osd_20261119/final_delivery_001/MEMBER_IDENTITIES.json",
+    "manifest_identity": {
+      "bytes": 6140144,
+      "sha256": "f08a078a3ac121e298b21d56ea815c1167f2a735c161843de3729d7085d17f75"
+    },
+    "source_root": "/data/sources/minhao/runs/dflash_fresh_mathqa_c_arepo_osd_20261119/execution_001",
+    "execution_commit": "96f0a13d189b8f5a1d3cfcf103a0ff1097f18cd8",
+    "archive_members": {
+      "status": "passed",
+      "regular_files": 31792,
+      "logical_bytes": 2706229288,
+      "missing": 0,
+      "extra": 0,
+      "duplicates": 0,
+      "nonregular": 0,
+      "extracted_files": 0,
+      "decompressed_tar_bytes": 2765486080,
+      "final_tar_zero_blocks": true,
+      "wall_s": 5.003633658867329
+    },
+    "small_retrieved_files_verified": [
+      "LAUNCH.json",
+      "CLOCK.json",
+      "evaluation/RAW_AUDIT.json",
+      "evaluation/ALL_REPEATS.csv",
+      "evaluation/REPEAT_TOTALS.csv",
+      "POSTFLIGHT_EXPORT_IDENTITIES.json",
+      "evaluation/EVALUATION_COSTS.json",
+      "evaluation/PER_REQUEST.csv",
+      "PLAN.json",
+      "final_audit/FINAL_EVIDENCE_AUDIT.json",
+      "evaluation/SUMMARY.json",
+      "final_audit/AUDIT_EXECUTION.json",
+      "WORK.json",
+      "evaluation/STATUS.json"
+    ],
+    "archive_construction_wall_s": 31.2322518825531,
+    "transcode_wall_s": 6.12060022354126,
+    "transfer": {
+      "started_epoch": 1795157867.0468302,
+      "finished_epoch": 1795158555.5319598,
+      "wall_s": 688.4851298332214,
+      "exit_code": 0,
+      "source": "/data/sources/minhao/runs/dflash_fresh_mathqa_c_arepo_osd_20261119/final_delivery_001",
+      "destination": "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_fresh_mathqa_c_arepo_osd_20261119/final_delivery_001"
+    },
+    "verification_wall_s": 5.2384796142578125,
+    "finished_epoch": 1795158567.664043,
+    "fenrir_free_bytes": 6581698560,
+    "source_verifier_identity": {
+      "bytes": 32309,
+      "sha256": "3fe985fcdcf0438a338216a13dab987c059e9c79e4586f39a3b012bab990b745"
+    },
+    "extracted_files": 0,
+    "scientific_model_work": 0,
+    "retirement_pending": true
+  },
+  "final_a800_storage": {
+    "status": "passed_final_storage",
+    "measured_epoch": 1795158623.4207766,
+    "allocation_roots": [
+      "/data/sources/minhao/runs/dflash_fresh_mathqa_c_arepo_osd_20261119",
+      "/data/sources/minhao/fresh_mathqa_source_20261119_001"
+    ],
+    "allocated_bytes": 3834671104,
+    "compiler_baseline_bytes": 3525726208,
+    "compiler_current_bytes": 3525726208,
+    "compiler_growth_bytes": 0,
+    "free_bytes": 493812654080,
+    "cap_bytes": 30000000000,
+    "reserve_bytes": 400000000000,
+    "gpu": "0, GPU-9986735a-3e68-d1bd-5998-9634ef24341e, 0, 81153, 0\n1, GPU-c6943f33-bcd0-a724-0b35-f77af6b0a3f1, 0, 81153, 0\n",
+    "compute_apps": "",
+    "retirement": {
+      "status": "completed",
+      "host": "A800",
+      "path": "/data/sources/minhao/runs/dflash_fresh_mathqa_c_arepo_osd_20261119/final_delivery_001/FRESH_MATHQA_COMPACT.tar.gz",
+      "reason": "Redundant gzip encoding after full zstd delivery/member verification on Fenrir",
+      "logical_bytes": 320148059,
+      "allocated_bytes": 320151552,
+      "device": 2066,
+      "inode": 1087323192,
+      "retained": "/data/sources/minhao/runs/dflash_fresh_mathqa_c_arepo_osd_20261119/final_delivery_001/FRESH_MATHQA_COMPACT.tar.zst",
+      "retained_identity": {
+        "bytes": 156289971,
+        "sha256": "faba5fa2deb464f83cbc74ebed190199fa255b53f148acdca5b97c605d50e2db"
+      },
+      "free_before_bytes": 493492502528,
+      "lost_scientific_capabilities": [],
+      "historical_artifacts_deleted": false,
+      "deleted_epoch": 1795158623.1784785,
+      "free_after_bytes": 493492482048
+    },
+    "accounting": "st_blocks*512, each device/inode once; two study roots and nonnegative compiler cache growth; sample precedes this receipt",
+    "continuous_peak_monitor": false,
+    "keepers": "All model exports, historical recovery states, source and original execution evidence unchanged",
+    "charged_bytes": 3834671104
+  },
+  "fenrir": {
+    "free_bytes": 6664556544,
+    "measured_epoch": 1795158691.7534018,
+    "archive_extracted": false
+  },
+  "temporary_retirements": {
+    "a800": [
+      {
+        "host": "A800",
+        "path": "/data/sources/minhao/runs/dflash_fresh_mathqa_c_arepo_osd_20261119/readiness/pr54_closeout/PR54_COMPACT.tar.gz",
+        "expected_bytes": 1272379572,
+        "expected_sha256": "dd6798af1aa652b343d41ec01c0f07e93356ed9c2555025dc3fd4dfb189ce20e",
+        "reason": "Redundant packaging encoding after complete zstd-member delivery",
+        "retained": "Original PR54 execution evidence plus remote/local zstd archive and all member/transport identities",
+        "lost_capability": "None for compact evidence; old gzip transport encoding removed",
+        "logical_bytes": 1272379572,
+        "allocated_bytes": 1272381440,
+        "device": 2066,
+        "inode": 1631899638,
+        "deleted_epoch": 1795141795.447146
+      },
+      {
+        "host": "A800",
+        "path": "/data/sources/minhao/runs/dflash_fresh_mathqa_c_arepo_osd_20261119/execution_001/SOURCE.tar.gz",
+        "expected_bytes": 46342954,
+        "expected_sha256": "0466cda33733d5d307aed930b209a663e367f57f0d58c7dc6b7a1f74c4434b6c",
+        "reason": "Verified extracted published source and local source archive retained",
+        "retained": "Published Git commit, exact staged source, SOURCE.json and local SOURCE.tar.gz",
+        "lost_capability": "No source recovery capability lost",
+        "logical_bytes": 46342954,
+        "allocated_bytes": 46346240,
+        "device": 2066,
+        "inode": 1938931999,
+        "deleted_epoch": 1795141795.4939198
+      },
+      {
+        "status": "completed",
+        "host": "A800",
+        "path": "/data/sources/minhao/runs/dflash_fresh_mathqa_c_arepo_osd_20261119/final_delivery_001/FRESH_MATHQA_COMPACT.tar.gz",
+        "reason": "Redundant gzip encoding after full zstd delivery/member verification on Fenrir",
+        "logical_bytes": 320148059,
+        "allocated_bytes": 320151552,
+        "device": 2066,
+        "inode": 1087323192,
+        "retained": "/data/sources/minhao/runs/dflash_fresh_mathqa_c_arepo_osd_20261119/final_delivery_001/FRESH_MATHQA_COMPACT.tar.zst",
+        "retained_identity": {
+          "bytes": 156289971,
+          "sha256": "faba5fa2deb464f83cbc74ebed190199fa255b53f148acdca5b97c605d50e2db"
+        },
+        "free_before_bytes": 493492502528,
+        "lost_scientific_capabilities": [],
+        "historical_artifacts_deleted": false,
+        "deleted_epoch": 1795158623.1784785,
+        "free_after_bytes": 493492482048
+      }
+    ],
+    "fenrir": [
+      {
+        "status": "completed",
+        "host": "Fenrir",
+        "path": "/home/minhao2/EAGLE_SPEC/research/dflash_fresh_mathqa_c_arepo_osd_20261119/pr54_archive/PR54_COMPACT.tar.gz",
+        "logical_bytes": 18022400,
+        "allocated_bytes": 18026496,
+        "reason": "Cancelled partial gzip download; complete zstd member archive independently verified",
+        "retained_archive": "/home/minhao2/EAGLE_SPEC/research/dflash_fresh_mathqa_c_arepo_osd_20261119/pr54_archive/PR54_COMPACT.tar.zst",
+        "lost_capability": "None; partial transfer was not usable archive evidence",
+        "free_before_bytes": 6852657152,
+        "free_after_bytes": 6870683648,
+        "observed_epoch": 1795141756.9416993
+      },
+      {
+        "status": "completed",
+        "host": "Fenrir",
+        "path": "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_fresh_mathqa_c_arepo_osd_20261119/final_delivery_001/FRESH_MATHQA_COMPACT.tar.gz",
+        "reason": "Incomplete duplicate gzip transfer; complete same-payload zstd archive was delivered and all 31792 members verified",
+        "logical_bytes": 83066880,
+        "allocated_bytes": 83070976,
+        "device": 66306,
+        "inode": 3426058,
+        "retained": "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_fresh_mathqa_c_arepo_osd_20261119/final_delivery_001/FRESH_MATHQA_COMPACT.tar.zst",
+        "retained_identity": {
+          "bytes": 156289971,
+          "sha256": "faba5fa2deb464f83cbc74ebed190199fa255b53f148acdca5b97c605d50e2db"
+        },
+        "free_before_bytes": 6581641216,
+        "lost_scientific_capabilities": [],
+        "historical_artifacts_deleted": false,
+        "deleted_epoch": 1795158597.949519,
+        "free_after_bytes": 6664708096
+      }
+    ],
+    "a800_removed_allocated_bytes": 1638879232,
+    "fenrir_removed_allocated_bytes": 101097472,
+    "a800_early_free_before_bytes": 493865197568,
+    "a800_early_free_after_bytes": 495137579008,
+    "lost_scientific_capabilities": [],
+    "historical_artifacts_deleted": false
+  },
+  "peak_accounting": {
+    "projected_peak_bytes": 27000000000,
+    "hard_cap_bytes": 30000000000,
+    "observed_final_charged_bytes": 3834671104,
+    "conservative_reconstructed_live_plus_all_retired_file_bytes": 5473550336,
+    "continuous_peak_monitor": false,
+    "interpretation": "The reconstruction adds every study-created retired file to final live allocation, deliberately overcounting sequential packaging; not a directly observed continuous peak. Compiler growth was zero."
+  },
+  "keepers": {
+    "input_exports": "POSTFLIGHT_EXPORT_IDENTITIES.json",
+    "source": "/data/sources/minhao/fresh_mathqa_source_20261119_001/DFlash-Online",
+    "original_raw_root": "/data/sources/minhao/runs/dflash_fresh_mathqa_c_arepo_osd_20261119/execution_001",
+    "remote_private_archive": "/data/sources/minhao/runs/dflash_fresh_mathqa_c_arepo_osd_20261119/final_delivery_001/FRESH_MATHQA_COMPACT.tar.zst",
+    "fenrir_private_archive": "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_fresh_mathqa_c_arepo_osd_20261119/final_delivery_001/FRESH_MATHQA_COMPACT.tar.zst",
+    "pr54": "PR54_CLOSEOUT_SUMMARY.json",
+    "no_model_or_recovery_state_retired": true
+  },
+  "administrative_transfers": {
+    "original_gzip": {
+      "started_epoch": 1795157475.6740417,
+      "finished_epoch": 1795157866.9365385,
+      "wall_s": 391.2624969482422,
+      "exit_code": 1,
+      "source": "/data/sources/minhao/runs/dflash_fresh_mathqa_c_arepo_osd_20261119/final_delivery_001",
+      "destination": "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_fresh_mathqa_c_arepo_osd_20261119/final_delivery_001"
+    },
+    "encoding_change": {
+      "recorded_epoch": 1795157866.935336,
+      "reason": "Use the complete smaller zstd archive of the identical tar members to reduce transfer cost.",
+      "stopped_only_pid": 2122212,
+      "stopped_operation": "administrative gzip copy, not an experiment",
+      "partial_gzip_bytes_observed": 83066880,
+      "replacement_complete_archive_bytes": 156289971,
+      "scientific_work_repeated": 0,
+      "source_evidence_unchanged": true,
+      "partial_retirement": "Only after replacement member verification"
+    },
+    "zstd": {
+      "started_epoch": 1795157867.0468302,
+      "finished_epoch": 1795158555.5319598,
+      "wall_s": 688.4851298332214,
+      "exit_code": 0,
+      "source": "/data/sources/minhao/runs/dflash_fresh_mathqa_c_arepo_osd_20261119/final_delivery_001",
+      "destination": "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_fresh_mathqa_c_arepo_osd_20261119/final_delivery_001"
+    },
+    "original_packaging_s": 31.2322518825531,
+    "transcode_s": 6.12060022354126,
+    "stream_verification_s": 5.2384796142578125,
+    "encoding_lookup": "PATH-only zstd discovery failed before creating payload; explicit existing environment encoder used without installation",
+    "aborted_gzip_is_scientific_retry": false
+  },
+  "session_accounting": {
+    "launch_started_epoch": 1795141795.6557379,
+    "archive_verified_epoch": 1795158567.664043,
+    "launch_to_verified_delivery_wall_s": 16772.008305072784,
+    "final_storage_epoch": 1795158623.4207766,
+    "launch_to_storage_closeout_wall_s": 16827.765038728714,
+    "production_execution_costs": "COST_SUMMARY.json",
+    "timers_overlap_and_must_not_be_summed": true,
+    "prelaunch_interactive_development_and_publication_not_fully_timed": true
+  },
+  "payloads_published": false,
+  "supersedes_delivery_phase_retirement_pending": true
+}

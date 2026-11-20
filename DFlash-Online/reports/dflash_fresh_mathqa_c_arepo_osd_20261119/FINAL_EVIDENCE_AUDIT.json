@@ -1,0 +1,72 @@
+{
+  "status": "passed_independent_completed_evidence_audit",
+  "execution_commit": "96f0a13d189b8f5a1d3cfcf103a0ff1097f18cd8",
+  "requests": 1024,
+  "scored_rows": 9216,
+  "warmup_rows": 288,
+  "canonical_rows": 1024,
+  "qualification_rows": 24,
+  "raw_generations": 10552,
+  "raw_verification_blocks": 864732,
+  "trace_csv_blocks": 778509,
+  "primary_interpretation": "Supported lower complete-request C latency and drafting benefit on this fixed-endpoint fresh MathQA panel.",
+  "primary_time_reduction_percent": {
+    "point": 1.6102682484258057,
+    "ci95": [
+      1.3374537292409017,
+      1.8839481241484293
+    ]
+  },
+  "cost": {
+    "phase_costs": {
+      "qualification_A": {
+        "loading_s": 21.50897629931569,
+        "wall_s": 87.22809171676636
+      },
+      "qualification_B": {
+        "loading_s": 21.257596030831337,
+        "wall_s": 87.61764669418335
+      },
+      "canonical_A": {
+        "loading_s": 20.508037330582738,
+        "wall_s": 1059.798670053482
+      },
+      "canonical_B": {
+        "loading_s": 20.757499024271965,
+        "wall_s": 1001.5619044303894
+      },
+      "scored_A": {
+        "loading_s": 20.007267758250237,
+        "wall_s": 14146.687457323074
+      }
+    },
+    "scored_activation_s": 144.80378835462034,
+    "scored_weight_validation_s": 9.355613548308611,
+    "occupied_card_s": 16382.887563943863,
+    "charged_execution_elapsed_s": 15348.861421585083,
+    "launch_wall_s": 15380.781203746796,
+    "analysis_s": 43.95640695281327,
+    "evaluation_wall_s": 14120.66154432483,
+    "postflight_export_hash_s": 6.0472664553672075,
+    "nested_timers_not_additive": true
+  },
+  "limits": [
+    "Conditional marginal 95% intervals for these fitted endpoints and this panel.",
+    "Primary C/AREPO complete-request latency; other intervals descriptive and unadjusted.",
+    "Three repeats are measurements within requests, not independent requests or seeds.",
+    "Native and stop-clipped acceptance are separately reconstructed; calls and native acceptance are coupled.",
+    "No independent training seed replication, causal cap/allocation isolation, equivalence/nondegradation or training-inclusive speedup claim.",
+    "Historical warmup source-record bytes and live model files are not reread; authenticated sealed witnesses and postflight identities are checked.",
+    "This audit cannot independently certify unknown project history or pretraining exposure."
+  ],
+  "authorship": "Reviewer previously authored panel audit and repaired runtime; statistical reducer and raw-trace reduction implemented separately without production summarize/compare/audit imports. No independent GPU replication.",
+  "model_work": 0,
+  "network_operations": 0,
+  "evidence_files_read": 30678,
+  "audit_wall_s": 128.42359670996666,
+  "auditor_identity": {
+    "bytes": 38876,
+    "sha256": "64013561bb5a35279ca1429a4b929726af0ab1bdd4c32cf4fd48fed05a3a2426"
+  },
+  "statistics_location": "SUMMARY.json (same independently reconstructed statistics; unabridged audit is in the private archive)"
+}

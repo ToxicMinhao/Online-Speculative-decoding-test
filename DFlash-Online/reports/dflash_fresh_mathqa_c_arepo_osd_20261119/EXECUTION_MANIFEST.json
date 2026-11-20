@@ -1,0 +1,588 @@
+{
+  "schema": "fresh_mathqa_endpoints_v1",
+  "root": "/data/sources/minhao/runs/dflash_fresh_mathqa_c_arepo_osd_20261119/execution_001",
+  "source_root": "/data/sources/minhao/fresh_mathqa_source_20261119_001/DFlash-Online",
+  "source_manifest": "/data/sources/minhao/runs/dflash_fresh_mathqa_c_arepo_osd_20261119/execution_001/SOURCE.json",
+  "execution_commit": "96f0a13d189b8f5a1d3cfcf103a0ff1097f18cd8",
+  "session": "fresh_mathqa_c_arepo_osd_event58",
+  "target": "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/target",
+  "training_python": "/data/conda_envs/minhao/dflash_specforge_20261022/bin/python",
+  "worker_python": "/data/conda_envs/minhao/adaflash_author/bin/python",
+  "devices": {
+    "A": "GPU-9986735a-3e68-d1bd-5998-9634ef24341e",
+    "B": "GPU-c6943f33-bcd0-a724-0b35-f77af6b0a3f1"
+  },
+  "checkpoints": {
+    "O58": "/data/sources/minhao/runs/dflash_online_osd_rerun_20261023/campaign_001/trainer/events/event_058/export",
+    "AREPO58": "/data/sources/minhao/runs/dflash_adaflash_arepo_20261107/production_001/campaign_001/arms/AREPO/trainer/events/event_058/export",
+    "KPLUS_C58": "/data/sources/minhao/runs/dflash_full_c_gsm8k_20261118/execution_001/campaign_001/arms/KPLUS_C/trainer/events/event_058/export"
+  },
+  "checkpoint_identities": {
+    "O58": {
+      "bytes": 2097259104,
+      "sha256": "796ec9d486046d43a2b91bd0ddf32b33eb3183b7d924e9dd9ab6bc4c6b0d0856"
+    },
+    "AREPO58": {
+      "bytes": 2097259104,
+      "sha256": "fab2e033b9c2cc8c30d36e4fe676fc65eeb8087b2acc9eabad9279f0d92b19e7"
+    },
+    "KPLUS_C58": {
+      "bytes": 2097259104,
+      "sha256": "705c6b8b81895837ffbe1fb926aa266078d6af2c9904a77642b797a81dc1f937"
+    }
+  },
+  "canonical_provenance": {
+    "target_identity": {
+      "revision": "b968826d9c46dd6066d109eabc6255188de91218",
+      "files": {
+        ".gitattributes": {
+          "bytes": 1570,
+          "sha256": "34448b82c17d60fec9b65b1f093c115ddbaadc04beb1b0140b6bfed2e012a930"
+        },
+        "LICENSE": {
+          "bytes": 11343,
+          "sha256": "832dd9e00a68dd83b3c3fb9f5588dad7dcf337a0db50f7d9483f310cd292e92e"
+        },
+        "README.md": {
+          "bytes": 16660,
+          "sha256": "0f36caaff9c2516411a7738db384606263ba653c1e63e61d72f511606164d5a6"
+        },
+        "config.json": {
+          "bytes": 728,
+          "sha256": "f7c4eadfbbf522470667b797a3c89be2524832d2d599797248dc304fff447c30"
+        },
+        "generation_config.json": {
+          "bytes": 239,
+          "sha256": "2325da0f15bb848e018c5ae071b7943332e9f871d6b60e2ed22ca97d4cb993d2"
+        },
+        "merges.txt": {
+          "bytes": 1671853,
+          "sha256": "8831e4f1a044471340f7c0a83d7bd71306a5b867e95fd870f74d0c5308a904d5"
+        },
+        "model-00001-of-00005.safetensors": {
+          "bytes": 3996250744,
+          "sha256": "31d6a825ae35f11fb85b195b4c42c146c051e446433125a215336abdf95cbf5f"
+        },
+        "model-00002-of-00005.safetensors": {
+          "bytes": 3993160032,
+          "sha256": "5991236cea6fe21f3d43cab0f0e84448734fbbe0789816202989f2ddc9d18282"
+        },
+        "model-00003-of-00005.safetensors": {
+          "bytes": 3959604768,
+          "sha256": "c5185c4794be2d8a9784d5753c9922db38df478ce11f9ed0b415b7304d896836"
+        },
+        "model-00004-of-00005.safetensors": {
+          "bytes": 3187841392,
+          "sha256": "b5ee7de71fbf17db3d5704e0c8f2bc7d005ca9e1d7ca2aeb19827b0cfcaa917a"
+        },
+        "model-00005-of-00005.safetensors": {
+          "bytes": 1244659840,
+          "sha256": "20c2d6366ab85c90786ccdd829cd2b9e7d30ef3b2ebbb998280e7e4014b542ff"
+        },
+        "model.safetensors.index.json": {
+          "bytes": 32878,
+          "sha256": "f9fdbcb91c23971c13ec5d5f2573d2349e8f61f2f049371ec699281748fdb1bc"
+        },
+        "tokenizer.json": {
+          "bytes": 11422654,
+          "sha256": "aeb13307a71acd8fe81861d94ad54ab689df773318809eed3cbe794b4492dae4"
+        },
+        "tokenizer_config.json": {
+          "bytes": 9732,
+          "sha256": "d5d09f07b48c3086c508b30d1c9114bd1189145b74e982a265350c923acd8101"
+        },
+        "vocab.json": {
+          "bytes": 2776833,
+          "sha256": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910"
+        }
+      }
+    },
+    "tokenizer_identity": {
+      "revision": "b968826d9c46dd6066d109eabc6255188de91218",
+      "files": {
+        "merges.txt": {
+          "bytes": 1671853,
+          "sha256": "8831e4f1a044471340f7c0a83d7bd71306a5b867e95fd870f74d0c5308a904d5"
+        },
+        "tokenizer.json": {
+          "bytes": 11422654,
+          "sha256": "aeb13307a71acd8fe81861d94ad54ab689df773318809eed3cbe794b4492dae4"
+        },
+        "tokenizer_config.json": {
+          "bytes": 9732,
+          "sha256": "d5d09f07b48c3086c508b30d1c9114bd1189145b74e982a265350c923acd8101"
+        },
+        "vocab.json": {
+          "bytes": 2776833,
+          "sha256": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910"
+        }
+      }
+    },
+    "runtime_identity": {
+      "bytes": 2792,
+      "sha256": "53c15d9d0770a000ce7f510c84c7fa83c564d6fa36903163c485041bc03b97ec"
+    }
+  },
+  "reference_checkpoints": {
+    "scored": "/data/sources/minhao/runs/dflash_online_osd_rerun_20261023/campaign_001/trainer/events/event_058/export",
+    "warmup": "/data/sources/minhao/runs/dflash_role_loss_pilot_20261107/production_001/campaign_001/trajectories/mathqa/KPLUS/trainer/events/event_004/export"
+  },
+  "panel": "/data/sources/minhao/runs/dflash_fresh_mathqa_c_arepo_osd_20261119/execution_001/sealed/PANEL.json",
+  "panel_seal": "/data/sources/minhao/runs/dflash_fresh_mathqa_c_arepo_osd_20261119/execution_001/sealed/SEAL.json",
+  "pool_audit": "/data/sources/minhao/runs/dflash_fresh_mathqa_c_arepo_osd_20261119/execution_001/sealed/POOL_AUDIT.json",
+  "warmups": "/data/sources/minhao/runs/dflash_fresh_mathqa_c_arepo_osd_20261119/execution_001/sealed/WARMUPS.json",
+  "warmup_canonicals": "/data/sources/minhao/runs/dflash_fresh_mathqa_c_arepo_osd_20261119/execution_001/sealed/WARMUP_CANONICALS.json",
+  "schedule": "/data/sources/minhao/runs/dflash_fresh_mathqa_c_arepo_osd_20261119/execution_001/sealed/SCHEDULE.json",
+  "pr54_closeout": "/data/sources/minhao/runs/dflash_fresh_mathqa_c_arepo_osd_20261119/execution_001/sealed/PR54_CLOSEOUT.json",
+  "runtime_pin": "/data/sources/minhao/runs/dflash_fresh_mathqa_c_arepo_osd_20261119/execution_001/sealed/RUNTIME_PIN.json",
+  "authenticated_files": [
+    {
+      "host": "A800",
+      "path": "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/target/.gitattributes",
+      "role": "released_target",
+      "kind": "file",
+      "disposition": "KEEP_REQUIRED",
+      "expected_identity": {
+        "bytes": 1570,
+        "sha256": "34448b82c17d60fec9b65b1f093c115ddbaadc04beb1b0140b6bfed2e012a930"
+      },
+      "historical_evidence": "/home/minhao2/EAGLE_SPEC/research/dflash_kplus_20261103/production_001/sealed/MODEL_PIN.json",
+      "current_presence_and_identity": "pending_remote_reauthentication",
+      "new_run_consumer": true
+    },
+    {
+      "host": "A800",
+      "path": "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/target/LICENSE",
+      "role": "released_target",
+      "kind": "file",
+      "disposition": "KEEP_REQUIRED",
+      "expected_identity": {
+        "bytes": 11343,
+        "sha256": "832dd9e00a68dd83b3c3fb9f5588dad7dcf337a0db50f7d9483f310cd292e92e"
+      },
+      "historical_evidence": "/home/minhao2/EAGLE_SPEC/research/dflash_kplus_20261103/production_001/sealed/MODEL_PIN.json",
+      "current_presence_and_identity": "pending_remote_reauthentication",
+      "new_run_consumer": true
+    },
+    {
+      "host": "A800",
+      "path": "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/target/README.md",
+      "role": "released_target",
+      "kind": "file",
+      "disposition": "KEEP_REQUIRED",
+      "expected_identity": {
+        "bytes": 16660,
+        "sha256": "0f36caaff9c2516411a7738db384606263ba653c1e63e61d72f511606164d5a6"
+      },
+      "historical_evidence": "/home/minhao2/EAGLE_SPEC/research/dflash_kplus_20261103/production_001/sealed/MODEL_PIN.json",
+      "current_presence_and_identity": "pending_remote_reauthentication",
+      "new_run_consumer": true
+    },
+    {
+      "host": "A800",
+      "path": "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/target/config.json",
+      "role": "released_target",
+      "kind": "file",
+      "disposition": "KEEP_REQUIRED",
+      "expected_identity": {
+        "bytes": 728,
+        "sha256": "f7c4eadfbbf522470667b797a3c89be2524832d2d599797248dc304fff447c30"
+      },
+      "historical_evidence": "/home/minhao2/EAGLE_SPEC/research/dflash_kplus_20261103/production_001/sealed/MODEL_PIN.json",
+      "current_presence_and_identity": "pending_remote_reauthentication",
+      "new_run_consumer": true
+    },
+    {
+      "host": "A800",
+      "path": "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/target/generation_config.json",
+      "role": "released_target",
+      "kind": "file",
+      "disposition": "KEEP_REQUIRED",
+      "expected_identity": {
+        "bytes": 239,
+        "sha256": "2325da0f15bb848e018c5ae071b7943332e9f871d6b60e2ed22ca97d4cb993d2"
+      },
+      "historical_evidence": "/home/minhao2/EAGLE_SPEC/research/dflash_kplus_20261103/production_001/sealed/MODEL_PIN.json",
+      "current_presence_and_identity": "pending_remote_reauthentication",
+      "new_run_consumer": true
+    },
+    {
+      "host": "A800",
+      "path": "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/target/merges.txt",
+      "role": "released_target",
+      "kind": "file",
+      "disposition": "KEEP_REQUIRED",
+      "expected_identity": {
+        "bytes": 1671853,
+        "sha256": "8831e4f1a044471340f7c0a83d7bd71306a5b867e95fd870f74d0c5308a904d5"
+      },
+      "historical_evidence": "/home/minhao2/EAGLE_SPEC/research/dflash_kplus_20261103/production_001/sealed/MODEL_PIN.json",
+      "current_presence_and_identity": "pending_remote_reauthentication",
+      "new_run_consumer": true
+    },
+    {
+      "host": "A800",
+      "path": "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/target/model-00001-of-00005.safetensors",
+      "role": "released_target",
+      "kind": "file",
+      "disposition": "KEEP_REQUIRED",
+      "expected_identity": {
+        "bytes": 3996250744,
+        "sha256": "31d6a825ae35f11fb85b195b4c42c146c051e446433125a215336abdf95cbf5f"
+      },
+      "historical_evidence": "/home/minhao2/EAGLE_SPEC/research/dflash_kplus_20261103/production_001/sealed/MODEL_PIN.json",
+      "current_presence_and_identity": "pending_remote_reauthentication",
+      "new_run_consumer": true
+    },
+    {
+      "host": "A800",
+      "path": "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/target/model-00002-of-00005.safetensors",
+      "role": "released_target",
+      "kind": "file",
+      "disposition": "KEEP_REQUIRED",
+      "expected_identity": {
+        "bytes": 3993160032,
+        "sha256": "5991236cea6fe21f3d43cab0f0e84448734fbbe0789816202989f2ddc9d18282"
+      },
+      "historical_evidence": "/home/minhao2/EAGLE_SPEC/research/dflash_kplus_20261103/production_001/sealed/MODEL_PIN.json",
+      "current_presence_and_identity": "pending_remote_reauthentication",
+      "new_run_consumer": true
+    },
+    {
+      "host": "A800",
+      "path": "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/target/model-00003-of-00005.safetensors",
+      "role": "released_target",
+      "kind": "file",
+      "disposition": "KEEP_REQUIRED",
+      "expected_identity": {
+        "bytes": 3959604768,
+        "sha256": "c5185c4794be2d8a9784d5753c9922db38df478ce11f9ed0b415b7304d896836"
+      },
+      "historical_evidence": "/home/minhao2/EAGLE_SPEC/research/dflash_kplus_20261103/production_001/sealed/MODEL_PIN.json",
+      "current_presence_and_identity": "pending_remote_reauthentication",
+      "new_run_consumer": true
+    },
+    {
+      "host": "A800",
+      "path": "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/target/model-00004-of-00005.safetensors",
+      "role": "released_target",
+      "kind": "file",
+      "disposition": "KEEP_REQUIRED",
+      "expected_identity": {
+        "bytes": 3187841392,
+        "sha256": "b5ee7de71fbf17db3d5704e0c8f2bc7d005ca9e1d7ca2aeb19827b0cfcaa917a"
+      },
+      "historical_evidence": "/home/minhao2/EAGLE_SPEC/research/dflash_kplus_20261103/production_001/sealed/MODEL_PIN.json",
+      "current_presence_and_identity": "pending_remote_reauthentication",
+      "new_run_consumer": true
+    },
+    {
+      "host": "A800",
+      "path": "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/target/model-00005-of-00005.safetensors",
+      "role": "released_target",
+      "kind": "file",
+      "disposition": "KEEP_REQUIRED",
+      "expected_identity": {
+        "bytes": 1244659840,
+        "sha256": "20c2d6366ab85c90786ccdd829cd2b9e7d30ef3b2ebbb998280e7e4014b542ff"
+      },
+      "historical_evidence": "/home/minhao2/EAGLE_SPEC/research/dflash_kplus_20261103/production_001/sealed/MODEL_PIN.json",
+      "current_presence_and_identity": "pending_remote_reauthentication",
+      "new_run_consumer": true
+    },
+    {
+      "host": "A800",
+      "path": "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/target/model.safetensors.index.json",
+      "role": "released_target",
+      "kind": "file",
+      "disposition": "KEEP_REQUIRED",
+      "expected_identity": {
+        "bytes": 32878,
+        "sha256": "f9fdbcb91c23971c13ec5d5f2573d2349e8f61f2f049371ec699281748fdb1bc"
+      },
+      "historical_evidence": "/home/minhao2/EAGLE_SPEC/research/dflash_kplus_20261103/production_001/sealed/MODEL_PIN.json",
+      "current_presence_and_identity": "pending_remote_reauthentication",
+      "new_run_consumer": true
+    },
+    {
+      "host": "A800",
+      "path": "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/target/tokenizer.json",
+      "role": "released_target",
+      "kind": "file",
+      "disposition": "KEEP_REQUIRED",
+      "expected_identity": {
+        "bytes": 11422654,
+        "sha256": "aeb13307a71acd8fe81861d94ad54ab689df773318809eed3cbe794b4492dae4"
+      },
+      "historical_evidence": "/home/minhao2/EAGLE_SPEC/research/dflash_kplus_20261103/production_001/sealed/MODEL_PIN.json",
+      "current_presence_and_identity": "pending_remote_reauthentication",
+      "new_run_consumer": true
+    },
+    {
+      "host": "A800",
+      "path": "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/target/tokenizer_config.json",
+      "role": "released_target",
+      "kind": "file",
+      "disposition": "KEEP_REQUIRED",
+      "expected_identity": {
+        "bytes": 9732,
+        "sha256": "d5d09f07b48c3086c508b30d1c9114bd1189145b74e982a265350c923acd8101"
+      },
+      "historical_evidence": "/home/minhao2/EAGLE_SPEC/research/dflash_kplus_20261103/production_001/sealed/MODEL_PIN.json",
+      "current_presence_and_identity": "pending_remote_reauthentication",
+      "new_run_consumer": true
+    },
+    {
+      "host": "A800",
+      "path": "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/target/vocab.json",
+      "role": "released_target",
+      "kind": "file",
+      "disposition": "KEEP_REQUIRED",
+      "expected_identity": {
+        "bytes": 2776833,
+        "sha256": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910"
+      },
+      "historical_evidence": "/home/minhao2/EAGLE_SPEC/research/dflash_kplus_20261103/production_001/sealed/MODEL_PIN.json",
+      "current_presence_and_identity": "pending_remote_reauthentication",
+      "new_run_consumer": true
+    },
+    {
+      "host": "A800",
+      "path": "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/draft/config.json",
+      "role": "released_draft",
+      "kind": "file",
+      "disposition": "KEEP_REQUIRED",
+      "expected_identity": {
+        "bytes": 1099,
+        "sha256": "9834d608c9ca53d5548b415471ae9e8ebc9aab6cedfc2a7af95b6bd097373102"
+      },
+      "historical_evidence": "/home/minhao2/EAGLE_SPEC/research/dflash_kplus_20261103/production_001/sealed/MODEL_PIN.json",
+      "current_presence_and_identity": "pending_remote_reauthentication",
+      "new_run_consumer": true
+    },
+    {
+      "host": "A800",
+      "path": "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/draft/dflash.py",
+      "role": "released_draft",
+      "kind": "file",
+      "disposition": "KEEP_REQUIRED",
+      "expected_identity": {
+        "bytes": 12340,
+        "sha256": "17ab761ba665a41965b27bdc3a1c6795d1b07b285ec1f0789ad146f2ee9c1cc5"
+      },
+      "historical_evidence": "/home/minhao2/EAGLE_SPEC/research/dflash_kplus_20261103/production_001/sealed/MODEL_PIN.json",
+      "current_presence_and_identity": "pending_remote_reauthentication",
+      "new_run_consumer": true
+    },
+    {
+      "host": "A800",
+      "path": "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/draft/model.safetensors",
+      "role": "released_draft",
+      "kind": "file",
+      "disposition": "KEEP_REQUIRED",
+      "expected_identity": {
+        "bytes": 2097259104,
+        "sha256": "c702878094f38ad5843e6ac40b327720b3147ffbf669a5d9ca1974865ca6c080"
+      },
+      "historical_evidence": "/home/minhao2/EAGLE_SPEC/research/dflash_kplus_20261103/production_001/sealed/MODEL_PIN.json",
+      "current_presence_and_identity": "pending_remote_reauthentication",
+      "new_run_consumer": true
+    },
+    {
+      "host": "A800",
+      "path": "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/draft/modeling_dflash.py",
+      "role": "released_draft",
+      "kind": "file",
+      "disposition": "KEEP_REQUIRED",
+      "expected_identity": {
+        "bytes": 13271,
+        "sha256": "d2b61a1fa5d469830c2285b552d75773274943fae5ac66dc2713beddea338528"
+      },
+      "historical_evidence": "/home/minhao2/EAGLE_SPEC/research/dflash_kplus_20261103/production_001/sealed/MODEL_PIN.json",
+      "current_presence_and_identity": "pending_remote_reauthentication",
+      "new_run_consumer": true
+    },
+    {
+      "host": "A800",
+      "path": "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/draft/utils.py",
+      "role": "released_draft",
+      "kind": "file",
+      "disposition": "KEEP_REQUIRED",
+      "expected_identity": {
+        "bytes": 5731,
+        "sha256": "00b91431932c94b87443d9e2c0cf4d743846bd6c9666c9c736008df7bbd0faf1"
+      },
+      "historical_evidence": "/home/minhao2/EAGLE_SPEC/research/dflash_kplus_20261103/production_001/sealed/MODEL_PIN.json",
+      "current_presence_and_identity": "pending_remote_reauthentication",
+      "new_run_consumer": true
+    },
+    {
+      "host": "A800",
+      "path": "/data/sources/minhao/runs/dflash_online_osd_rerun_20261023/campaign_001/trainer/events/event_058/export/config.json",
+      "role": "O58_selected_endpoint",
+      "kind": "file",
+      "disposition": "KEEP_REQUIRED",
+      "expected_identity": {
+        "bytes": 1211,
+        "sha256": "5749d96966f9ce7e6a9662c9f482b8aa0d461845fb6b9ce09ac2c08311fab2aa"
+      },
+      "historical_evidence": "/home/minhao2/EAGLE_SPEC/research/dflash_mathqa_transfer_20261104/retrieved_002/production_002/sealed/EXPORT_AUDIT.json",
+      "current_presence_and_identity": "pending_remote_reauthentication",
+      "new_run_consumer": true
+    },
+    {
+      "host": "A800",
+      "path": "/data/sources/minhao/runs/dflash_online_osd_rerun_20261023/campaign_001/trainer/events/event_058/export/model.safetensors",
+      "role": "O58_selected_endpoint",
+      "kind": "file",
+      "disposition": "KEEP_REQUIRED",
+      "expected_identity": {
+        "bytes": 2097259104,
+        "sha256": "796ec9d486046d43a2b91bd0ddf32b33eb3183b7d924e9dd9ab6bc4c6b0d0856"
+      },
+      "historical_evidence": "/home/minhao2/EAGLE_SPEC/research/dflash_mathqa_transfer_20261104/retrieved_002/production_002/sealed/EXPORT_AUDIT.json",
+      "current_presence_and_identity": "pending_remote_reauthentication",
+      "new_run_consumer": true
+    },
+    {
+      "path": "/data/sources/minhao/runs/dflash_adaflash_arepo_20261107/production_001/campaign_001/arms/AREPO/trainer/events/event_058/export/config.json",
+      "role": "AREPO58",
+      "expected_identity": {
+        "bytes": 1211,
+        "sha256": "5749d96966f9ce7e6a9662c9f482b8aa0d461845fb6b9ce09ac2c08311fab2aa"
+      }
+    },
+    {
+      "path": "/data/sources/minhao/runs/dflash_adaflash_arepo_20261107/production_001/campaign_001/arms/AREPO/trainer/events/event_058/export/model.safetensors",
+      "role": "AREPO58",
+      "expected_identity": {
+        "bytes": 2097259104,
+        "sha256": "fab2e033b9c2cc8c30d36e4fe676fc65eeb8087b2acc9eabad9279f0d92b19e7"
+      }
+    },
+    {
+      "path": "/data/sources/minhao/runs/dflash_full_c_gsm8k_20261118/execution_001/campaign_001/arms/KPLUS_C/trainer/events/event_058/export/model.safetensors",
+      "role": "C58",
+      "expected_identity": {
+        "bytes": 2097259104,
+        "sha256": "705c6b8b81895837ffbe1fb926aa266078d6af2c9904a77642b797a81dc1f937"
+      }
+    },
+    {
+      "path": "/data/sources/minhao/runs/dflash_full_c_gsm8k_20261118/execution_001/campaign_001/arms/KPLUS_C/trainer/events/event_058/export/config.json",
+      "role": "C58",
+      "expected_identity": {
+        "bytes": 1211,
+        "sha256": "5749d96966f9ce7e6a9662c9f482b8aa0d461845fb6b9ce09ac2c08311fab2aa"
+      }
+    }
+  ],
+  "allocation_roots": [
+    "/data/sources/minhao/runs/dflash_fresh_mathqa_c_arepo_osd_20261119",
+    "/data/sources/minhao/fresh_mathqa_source_20261119_001"
+  ],
+  "compiler_baseline": {
+    "directories": {
+      "TORCH_HOME": "/data/sources/minhao/.cache/torch",
+      "TORCH_EXTENSIONS_DIR": "/data/sources/minhao/.cache/torch_extensions",
+      "TORCHINDUCTOR_CACHE_DIR": "/data/sources/minhao/.cache/torchinductor",
+      "TVM_FFI_CACHE_DIR": "/data/sources/minhao/.cache/tvm-ffi",
+      "TRITON_CACHE_DIR": "/data/sources/minhao/.cache/triton",
+      "CUDA_CACHE_PATH": "/data/sources/minhao/.cache/cuda",
+      "SGLANG_CACHE_DIR": "/data/sources/minhao/.cache/sglang",
+      "FLASHINFER_CACHE": "/data/sources/minhao/.cache/flashinfer"
+    },
+    "allocated_bytes": 3525726208
+  },
+  "projected_peak_bytes": 27000000000,
+  "storage_components_bytes": {
+    "pr54_archive_and_variants": 3000000000,
+    "source_and_inputs": 1000000000,
+    "canonical_and_scored_evidence": 12000000000,
+    "compiler_growth": 4000000000,
+    "analysis_delivery_and_temporaries": 7000000000
+  },
+  "estimate_elapsed_s": 14900,
+  "estimate_card_s": 16300,
+  "estimate_canonical_elapsed_s": 1100,
+  "estimate_scored_s": 13500,
+  "serving": {
+    "block_size": 16,
+    "max_new_tokens": 2048,
+    "context_limit": 4096,
+    "concurrency": 1,
+    "greedy": true,
+    "precision": "BF16",
+    "attention_backend": "fa3",
+    "capture": false,
+    "cache_policy": "idle_full_flush_before_every_request_and_publication"
+  },
+  "limits": {
+    "elapsed_s": 28800,
+    "occupied_card_s": 43200,
+    "peak_bytes": 30000000000,
+    "shared_reserve_bytes": 400000000000
+  },
+  "automatic_retry": false,
+  "optimizer_steps": 0,
+  "new_trained_checkpoints": 0,
+  "input_identities": {
+    "/data/sources/minhao/runs/dflash_fresh_mathqa_c_arepo_osd_20261119/execution_001/sealed/EXCLUSIONS.json": {
+      "bytes": 2606634,
+      "sha256": "d19362d7c414401acf502508b3c50dc5ab205ea9a497576a362588c4364e85b6"
+    },
+    "/data/sources/minhao/runs/dflash_fresh_mathqa_c_arepo_osd_20261119/execution_001/sealed/EXPECTED_INPUT_IDENTITIES.json": {
+      "bytes": 14257,
+      "sha256": "b7cc91b9da73a3c29358354a75f3cf83e0195d7d64f7d9adf062a524e8de2739"
+    },
+    "/data/sources/minhao/runs/dflash_fresh_mathqa_c_arepo_osd_20261119/execution_001/sealed/ORDER.json": {
+      "bytes": 94199,
+      "sha256": "8f23288ca7f87389f33552dea5da4b5e94c9818248a7b30bb23c50f5c367bd86"
+    },
+    "/data/sources/minhao/runs/dflash_fresh_mathqa_c_arepo_osd_20261119/execution_001/sealed/PANEL.json": {
+      "bytes": 4159281,
+      "sha256": "6f3ce77297301107842e36365d1bf10fa9e9695b1b66a544d6863779a4c3087b"
+    },
+    "/data/sources/minhao/runs/dflash_fresh_mathqa_c_arepo_osd_20261119/execution_001/sealed/POOL_AUDIT.json": {
+      "bytes": 29169,
+      "sha256": "0020541bc17be3a0a5145ce65ed705c184ab6b7d59f406fb14cd6961e2d26f5c"
+    },
+    "/data/sources/minhao/runs/dflash_fresh_mathqa_c_arepo_osd_20261119/execution_001/sealed/PR54_CLOSEOUT.json": {
+      "bytes": 3518,
+      "sha256": "c8161a3b7e36d0eead36c190cd15d3c4e72312175e26184c410d963a876a6ca5"
+    },
+    "/data/sources/minhao/runs/dflash_fresh_mathqa_c_arepo_osd_20261119/execution_001/sealed/RUNTIME_PIN.json": {
+      "bytes": 2792,
+      "sha256": "53c15d9d0770a000ce7f510c84c7fa83c564d6fa36903163c485041bc03b97ec"
+    },
+    "/data/sources/minhao/runs/dflash_fresh_mathqa_c_arepo_osd_20261119/execution_001/sealed/SCHEDULE.json": {
+      "bytes": 143191,
+      "sha256": "904be15f1123e53aab0be5f24f227e800b5705904b95b46ffdd7094859605dea"
+    },
+    "/data/sources/minhao/runs/dflash_fresh_mathqa_c_arepo_osd_20261119/execution_001/sealed/SEAL.json": {
+      "bytes": 2602,
+      "sha256": "512b3a55928e2193979142ebc723691bb88aa9e0314e87908143c1862d0703bf"
+    },
+    "/data/sources/minhao/runs/dflash_fresh_mathqa_c_arepo_osd_20261119/execution_001/sealed/SELECTION.json": {
+      "bytes": 327706,
+      "sha256": "784840b7a012d14687ca08d2841e39fc4f93696e80087acbe22c916bce4636e9"
+    },
+    "/data/sources/minhao/runs/dflash_fresh_mathqa_c_arepo_osd_20261119/execution_001/sealed/SOURCE_AND_COVERAGE.json": {
+      "bytes": 18750,
+      "sha256": "d4593a6b3e3769a35cb6a58e3fe8f6b73c6b91a960475ca5e8b23e6f3cf8c239"
+    },
+    "/data/sources/minhao/runs/dflash_fresh_mathqa_c_arepo_osd_20261119/execution_001/sealed/WARMUPS.json": {
+      "bytes": 6362,
+      "sha256": "f3a669d7cc434e4e150eb91df9309f28a0ac3b0dc3f47b508f8de6f646fea054"
+    },
+    "/data/sources/minhao/runs/dflash_fresh_mathqa_c_arepo_osd_20261119/execution_001/sealed/WARMUP_AUTHENTICATION.json": {
+      "bytes": 2451,
+      "sha256": "50c9f87252b97ad6f7bd07682342db1f94d27e0720870ec2567f1391e58ac02b"
+    },
+    "/data/sources/minhao/runs/dflash_fresh_mathqa_c_arepo_osd_20261119/execution_001/sealed/WARMUP_CANONICALS.json": {
+      "bytes": 28260,
+      "sha256": "49b566099356620d77243148c755a75d44dfd9bb5ae2c60f8dd646c8eb49ac7c"
+    }
+  },
+  "binding": "a4091cdc283fa92ea81f5b52b80a850c1be56a72303d51bf03703886906cd2d1"
+}

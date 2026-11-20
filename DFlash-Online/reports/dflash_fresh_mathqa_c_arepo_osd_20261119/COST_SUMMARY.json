@@ -1,0 +1,110 @@
+{
+  "phase_costs": {
+    "qualification_A": {
+      "loading_s": 21.50897629931569,
+      "wall_s": 87.22809171676636
+    },
+    "qualification_B": {
+      "loading_s": 21.257596030831337,
+      "wall_s": 87.61764669418335
+    },
+    "canonical_A": {
+      "loading_s": 20.508037330582738,
+      "wall_s": 1059.798670053482
+    },
+    "canonical_B": {
+      "loading_s": 20.757499024271965,
+      "wall_s": 1001.5619044303894
+    },
+    "scored_A": {
+      "loading_s": 20.007267758250237,
+      "wall_s": 14146.687457323074
+    }
+  },
+  "scored_activation_s": 144.80378835462034,
+  "scored_weight_validation_s": 9.355613548308611,
+  "occupied_card_s": 16382.887563943863,
+  "charged_execution_elapsed_s": 15348.861421585083,
+  "launch_wall_s": 15380.781203746796,
+  "analysis_s": 43.95640695281327,
+  "evaluation_wall_s": 14120.66154432483,
+  "postflight_export_hash_s": 6.0472664553672075,
+  "nested_timers_not_additive": true,
+  "physical_work": {
+    "phases/canonical_A/PHYSICAL_WORK.json": {
+      "captures": 17,
+      "startup_forward_calls": 51,
+      "startup_failures": 0,
+      "graph_capture_wall_s": 1.0559408329427242,
+      "peak_gpu_allocated_bytes": 57311737856,
+      "peak_gpu_reserved_bytes": 57633931264
+    },
+    "phases/canonical_B/PHYSICAL_WORK.json": {
+      "captures": 17,
+      "startup_forward_calls": 51,
+      "startup_failures": 0,
+      "graph_capture_wall_s": 1.0120070427656174,
+      "peak_gpu_allocated_bytes": 57311737856,
+      "peak_gpu_reserved_bytes": 57633931264
+    },
+    "phases/qualification_A/PHYSICAL_WORK.json": {
+      "captures": 17,
+      "startup_forward_calls": 51,
+      "startup_failures": 0,
+      "graph_capture_wall_s": 1.1327833216637373,
+      "peak_gpu_allocated_bytes": 57320937472,
+      "peak_gpu_reserved_bytes": 57633931264
+    },
+    "phases/qualification_B/PHYSICAL_WORK.json": {
+      "captures": 17,
+      "startup_forward_calls": 51,
+      "startup_failures": 0,
+      "graph_capture_wall_s": 1.0152374468743801,
+      "peak_gpu_allocated_bytes": 57320937472,
+      "peak_gpu_reserved_bytes": 57633931264
+    },
+    "phases/scored_A/PHYSICAL_WORK.json": {
+      "captures": 17,
+      "startup_forward_calls": 51,
+      "startup_failures": 0,
+      "graph_capture_wall_s": 1.016496343538165,
+      "peak_gpu_allocated_bytes": 57323484160,
+      "peak_gpu_reserved_bytes": 57633931264
+    }
+  },
+  "measured_time_by_phase": {
+    "warmup": {
+      "request_latency_s": 743.5781535860151,
+      "native_generate_s": 728.8658948093653,
+      "cache_maintenance_s": 0.3446450959891081
+    },
+    "scored": {
+      "request_latency_s": 12957.494548015296,
+      "native_generate_s": 12695.34730094485,
+      "cache_maintenance_s": 30.838074067607522
+    }
+  },
+  "cpu_preflight_s": 31.328729858621955,
+  "independent_audit_s": 128.42359670996666,
+  "limits": {
+    "elapsed_s": 28800,
+    "occupied_card_s": 43200,
+    "peak_bytes": 30000000000,
+    "shared_reserve_bytes": 400000000000
+  },
+  "production_postflight": {
+    "clock": {
+      "occupied_s": 16382.887563943863,
+      "elapsed_s": 15348.861421585083,
+      "active": {}
+    },
+    "storage": {
+      "allocated_bytes": 3672559616,
+      "compiler_growth_bytes": 0,
+      "charged_bytes": 3672559616,
+      "free_bytes": 493975953408,
+      "required_free_bytes": 423327440384
+    }
+  },
+  "deployment_training_cost_measured": false
+}

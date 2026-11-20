@@ -1,0 +1,246 @@
+{
+  "status": "ANALYZED_no_interpretation_blocker",
+  "created_utc": "2026-11-20T06:53:16.555357+00:00",
+  "execution_commit": "96f0a13d189b8f5a1d3cfcf103a0ff1097f18cd8",
+  "reviewer": "fresh_mathqa_report_review",
+  "authorship": "Separate interpretation reviewer; previously reviewed final-report requirements. No authorship of endpoint implementation or statistical reducer. Same project team, not independent GPU replication.",
+  "scope": "Local compact numeric tables, completed summary, receipts and counter-source definitions. No raw token/trace replay, model work, network or remote operations. The separately executed raw/statistical auditor is cited rather than claimed as this reviewer's work.",
+  "local_numeric_checks": 64573,
+  "local_numeric_checks_passed": true,
+  "bootstrap_scope": "This reviewer did not regenerate bootstrap draws; all reported primary/secondary intervals exactly match the separately executed independent auditor receipt.",
+  "sources": {
+    "SUMMARY.json": {
+      "bytes": 3441637,
+      "sha256": "4baa18a774a1ddd61336978bb0fe81dc0a587f1664a07693321f64c0884975cb"
+    },
+    "PER_REQUEST.csv": {
+      "bytes": 411842,
+      "sha256": "68400d1db7a67e6fb686517350a8960fd59679d217d1a883b50b29cb8da69fb4"
+    },
+    "ALL_REPEATS.csv": {
+      "bytes": 2963159,
+      "sha256": "b52000c7825c733b663613ed47978c0cae2888ec8a3fcd2885275e385097818a"
+    },
+    "REPEAT_TOTALS.csv": {
+      "bytes": 1071,
+      "sha256": "23fc8f2000fcd952c2b34bc4102c25bb9079241bb8a1c07f255b4a7f5fe1c382"
+    },
+    "RAW_AUDIT.json": {
+      "bytes": 155,
+      "sha256": "38acf64377f4d2e3f2c52ff98ca058f7c8157b94521213e782274588e4cf753e"
+    },
+    "WORK.json": {
+      "bytes": 552,
+      "sha256": "4a45f76fa7e4a95d4757b859eff32f660640f06a106c9c46c7d5978d585ade83"
+    },
+    "STATUS.json": {
+      "bytes": 636,
+      "sha256": "fe3198c65b414fb481b30e279e2ce3660b2e4aa038a2bd45b7f2d7315d268e24"
+    },
+    "EVALUATION_COSTS.json": {
+      "bytes": 1413,
+      "sha256": "507dff74db8b66eae00a1a75e111f06a06a7b682d2a8d7d73975706b9f81c880"
+    },
+    "POSTFLIGHT_EXPORT_IDENTITIES.json": {
+      "bytes": 1696,
+      "sha256": "91144bd5f96c357c9b6e518228abe61811fae4158fe2f5cc2d9bdafe6c70879d"
+    },
+    "FINAL_EVIDENCE_AUDIT.json": {
+      "bytes": 132922,
+      "sha256": "1db6d666766727cc26e7f7b5383fa97b263b4b848ebeea84e17a78ec7ac518bf"
+    },
+    "AUDIT_EXECUTION.json": {
+      "bytes": 1085,
+      "sha256": "76c0050d8927adfeaf64ad03e5f0e2b6e8b7dd986b8445c52d73e4269f98da45"
+    }
+  },
+  "contrasts": [
+    {
+      "name": "KPLUS_C58_vs_AREPO58",
+      "primary": true,
+      "time_reduction_percent": 1.6102682484257835,
+      "time_ci95_percent": [
+        1.3374537292409017,
+        1.8839481241484293
+      ],
+      "call_reduction_percent": 1.6803039158386879,
+      "call_ci95_percent": [
+        1.4089473813504099,
+        1.9515826336469102
+      ],
+      "wins": 599,
+      "regressions": 295,
+      "ties": 130,
+      "gross_saved": 2178,
+      "gross_added": 798,
+      "net_saved": 1380,
+      "repeat_time_reduction_percent": [
+        1.6342411385064426,
+        1.6332807703420715,
+        1.5634959987359975
+      ],
+      "scheduling_group_time_directions": {
+        "positive": 48,
+        "negative": 0
+      },
+      "mean_ms_saved": 22.705053731745693
+    },
+    {
+      "name": "KPLUS_C58_vs_O58",
+      "primary": false,
+      "time_reduction_percent": 2.3436454418199526,
+      "time_ci95_percent": [
+        2.0959622804807405,
+        2.599221599772798
+      ],
+      "call_reduction_percent": 2.425231103860792,
+      "call_ci95_percent": [
+        2.180428408750792,
+        2.6738955846556567
+      ],
+      "wins": 672,
+      "regressions": 233,
+      "ties": 119,
+      "gross_saved": 2476,
+      "gross_added": 469,
+      "net_saved": 2007,
+      "repeat_time_reduction_percent": [
+        2.3611082468513844,
+        2.3766646218856047,
+        2.293376883241993
+      ],
+      "scheduling_group_time_directions": {
+        "positive": 48,
+        "negative": 0
+      },
+      "mean_ms_saved": 33.29396224944503
+    },
+    {
+      "name": "AREPO58_vs_O58",
+      "primary": false,
+      "time_reduction_percent": 0.7453798077688423,
+      "time_ci95_percent": [
+        0.49999912830960924,
+        0.9948296534201839
+      ],
+      "call_reduction_percent": 0.7576581475439603,
+      "call_ci95_percent": [
+        0.5207131660394143,
+        0.9999163667734805
+      ],
+      "wins": 516,
+      "regressions": 335,
+      "ties": 173,
+      "gross_saved": 1512,
+      "gross_added": 885,
+      "net_saved": 627,
+      "repeat_time_reduction_percent": [
+        0.7389432224768622,
+        0.7557269952329526,
+        0.7414737976641494
+      ],
+      "scheduling_group_time_directions": {
+        "positive": 44,
+        "negative": 4
+      },
+      "mean_ms_saved": 10.588908517699336
+    }
+  ],
+  "fallacy_scan": {
+    "checked": 11,
+    "total": 11,
+    "items": [
+      {
+        "category": "Simpson's paradox",
+        "status": "checked_no_aggregate_reversal",
+        "finding": "All three complete-repeat contrasts favor the reported direction. C/AREPO and C/O favor C in 48/48 scheduling groups; AREPO/O in 44/48. Four contrary AREPO/O groups are retained heterogeneity, not evidence of universal improvement. Scheduling groups/repeats are not independent replications."
+      },
+      {
+        "category": "Ecological fallacy",
+        "status": "checked_scope_limited",
+        "finding": "Report the pooled estimand together with request wins/regressions/ties. A pooled benefit does not mean every request improves; primary comparison has 295 request regressions."
+      },
+      {
+        "category": "Berkson's paradox",
+        "status": "checked_selection_limits",
+        "finding": "The input-only sealed eligibility/exclusion protocol does not select by generated answer, length or performance. Nevertheless, findings concern the eligible prospectively unused MathQA pool, not all possible requests. Historical exposure coverage and semantic-near-duplicate/pretraining limits remain."
+      },
+      {
+        "category": "Collider bias",
+        "status": "checked_no_outcome_conditioning",
+        "finding": "Primary analysis uses the complete sealed panel, including 73 cap hits per arm, without filtering on output length, success or speed. No post-treatment covariate adjustment is used."
+      },
+      {
+        "category": "Base rate neglect",
+        "status": "checked_not_diagnostic_accuracy",
+        "finding": "No diagnostic sensitivity/specificity claim. Denominators are explicit: 1,024 requests, 3,072 request-arm records, 9,216 scored repeats; 951 EOS and 73 length terminations per arm."
+      },
+      {
+        "category": "Regression to the mean",
+        "status": "checked_contemporaneous_control",
+        "finding": "Requests were sealed by input-only rank, not extreme prior performance. Frozen endpoints are measured contemporaneously. Prior development-based mechanism selection remains historical context; fresh requests do not create independent training replications."
+      },
+      {
+        "category": "Survivorship bias",
+        "status": "checked_complete_receipts",
+        "finding": "Completed work/status receipts report all 10,552 planned complete generations, zero invalid/unknown/unattempted scored/warmup work, and no extra model work. This interpretation audit checks compact table coverage; separate raw audit supplies raw-token verification."
+      },
+      {
+        "category": "Look-elsewhere effect",
+        "status": "checked_multiplicity_disclosed",
+        "finding": "C/AREPO complete-request latency is the single prespecified primary contrast. C/O, AREPO/O and drafting intervals are descriptive and marginal/unadjusted. Report all; do not treat coupled call/acceptance metrics or repeats as independent confirmations."
+      },
+      {
+        "category": "Garden of forking paths",
+        "status": "checked_prespecified_analysis",
+        "finding": "Selection seed 20261119, exact panel, schedule, three repeats, whole-request bootstrap and endpoints were fixed before generation. No 0.5% success threshold, outlier removal, favorable-repeat selection or extra panel is applied. Report all completed measurements."
+      },
+      {
+        "category": "Correlation versus causation",
+        "status": "checked_endpoint_claim_only",
+        "finding": "These measurements establish comparative serving behavior for fixed trained endpoints under this protocol. Distinct own-feedback histories and complete recipes do not isolate C allocation, a cap, or an AdaFlash loss term as the causal source. No seed-robustness or training-inclusive-speedup inference."
+      },
+      {
+        "category": "Reverse causality",
+        "status": "checked_temporal_scope",
+        "finding": "Checkpoints and input panel precede scoring, so serving outcomes did not choose these weights or requests. Temporal ordering does not identify why a training component helped; no learning-mechanism causal claim follows."
+      }
+    ]
+  },
+  "counter_definitions": {
+    "native_accepted_draft_tokens": "For each native verification:commit_rows−1; aggregate=sum across calls. Native average accepted length=sum(native_accepted)/sum(calls).",
+    "accepted_draft_tokens": "Stop-clipped matching trace counter:min(accepted_end−1,commit_rows), where accepted_end is the first mismatching proposal slot or block width16. It may exceed the native counter by one at a stop-clipped verification. It is not raw_accepted_draft_tokens_before_stop.",
+    "committed_progress": "Sum(commit_rows)=output_tokens−1 per request; the initial prefill-produced output token is excluded. Pooled progress/call=native accepted/call+1.",
+    "raw_accepted_draft_tokens_before_stop": "accepted_end−1; distinct from both retained summary counters. No substitution or reconstruction of stop-clipped counts from length alone."
+  },
+  "limitations": [
+    "One fixed seed17 training trajectory per recipe; no independent training or seed replication.",
+    "Freshness depends on the sealed historical-exclusion coverage, not on this numeric reducer.",
+    "Bootstrap intervals are marginal 95% intervals conditional on these fixed fitted endpoints.",
+    "Primary complete-request time contrast is C/released AdaFlash loss; secondary intervals are descriptive and unadjusted.",
+    "The comparison is fixed-model transfer within mathematics, not a new task-family result.",
+    "Complete recipes have distinct own-feedback histories; no isolated allocation or cap causal effect follows.",
+    "Native and stop-clipped acceptance are separate definitions.",
+    "Identical-output call and native-acceptance changes are coupled accounting views.",
+    "An interval spanning zero establishes neither equivalence nor nondegradation.",
+    "No minimum gain, automatic followup, tuning, enlarged panel or extra repeat is authorized.",
+    "Serving results exclude adaptation cost and do not establish training-inclusive speedup."
+  ],
+  "additional_limits": [
+    "The paired request bootstrap is conditional on these fitted checkpoints and recorded timing measurements; it does not quantify training-seed variability or all shared-server timing uncertainty.",
+    "Freshness excludes known project uses/reservations under authenticated exposure coverage; unknown histories, semantic near duplicates and model pretraining are outside the claim.",
+    "No fourth KPLUS58 arm was measured here; do not combine historical KPLUS timing with this fresh panel.",
+    "A serving result for literal AREPO loss under the qualified fixed-length framework is not a reproduction or comparison of AdaFlash's entire high-concurrency system."
+  ],
+  "wording_review": {
+    "supported": "On this prespecified fresh MathQA panel, fixed C58 has lower complete-request time and fewer verification calls than fixed AREPO58, with positive paired95%lower bounds.",
+    "not_supported": [
+      "C universally improves every request.",
+      "C is training-seed robust or works across unrelated task families.",
+      "C allocation/cap caused the improvement.",
+      "This is a training-inclusive speedup or full-system AdaFlash superiority.",
+      "Nonsignificance would prove equivalence or nondegradation."
+    ]
+  },
+  "repeat_cache_observation": "Repeat 3 total cache-maintenance time increases for all three arms; all repeats and complete-request latencies remain included. Native-generation and cache timers are separate measured components; no detailed kernel explanation is inferred."
+}
