@@ -1,0 +1,46 @@
+[
+  {
+    "path": "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_mathqa_transfer_20261104/resources/REMOTE_MATHQA_INVENTORY.json",
+    "identity": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "parse_error": "Expecting value: line 1 column 1 (char 0)",
+    "assessment": "Empty failed metadata attempt; successful REMOTE_MATHQA_INVENTORY_002 retained and consumed.",
+    "replacement_paths": [
+      "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_mathqa_transfer_20261104/deployment_001/inputs/REMOTE_MATHQA_INVENTORY_002.json",
+      "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_mathqa_transfer_20261104/resources/REMOTE_MATHQA_INVENTORY_002.json",
+      "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_mathqa_transfer_20261104/retrieved_002/deployment_001/inputs/REMOTE_MATHQA_INVENTORY_002.json",
+      "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_mathqa_transfer_20261104/retrieved_002/production_001/sealed/REMOTE_MATHQA_INVENTORY_002.json",
+      "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_mathqa_transfer_20261104/retrieved_002/production_002/sealed/REMOTE_MATHQA_INVENTORY_002.json"
+    ]
+  },
+  {
+    "path": "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_signal_mechanism_study_20260920/recovery_001/interrupted_L-G_seed2026092022/training.jsonl",
+    "identity": {
+      "bytes": 1437696,
+      "sha256": "2d5a1e0d98c8bf74f5148921def901793a01320f79189924c30a7fb07a2d6ffa"
+    },
+    "parse_error": "Expecting ':' delimiter: line 1 column 71 (char 70)",
+    "valid_lines": 3146,
+    "malformed_lines": [
+      3147
+    ],
+    "valid_line_fields": [
+      "conditional_ce",
+      "conditional_eligible_fraction",
+      "conditional_eligible_tokens",
+      "elapsed_seconds",
+      "lr_factor",
+      "native_ce",
+      "peak_allocated_bytes",
+      "seconds",
+      "step",
+      "teacher_previous_outside_candidate_list",
+      "total_loss",
+      "unclipped_gradient_norm",
+      "valid_tokens"
+    ],
+    "assessment": "Interrupted scalar training-metric log; no prompt/input/token/source-identity fields in valid lines. Retained experiment manifests are inventoried separately. Original truncated line preserved."
+  }
+]

@@ -1,0 +1,86 @@
+{
+  "status": "blocked_at_original_80GB_cap",
+  "native_model_work": 0,
+  "scientific_settings_unchanged": true,
+  "original_cap_bytes": 80000000000,
+  "projected_peak_bytes": 86566865500,
+  "cap_deficit_bytes": 6566865500,
+  "state_bound_bytes": 6791777312,
+  "export_weight_bytes": 2097259104,
+  "feature_bound": {
+    "sealed_max_window_full_cap_rows": 293039,
+    "replacement_rows": 4097,
+    "bytes_per_row": 49164,
+    "bytes": 14608394304,
+    "output_cap2048_for_every_response": true,
+    "formal_plan_exact_replacement_rows": 3398,
+    "conservative_review_reserves_extra_rows": 699,
+    "exact_sealed_feature_bytes": 14574028668,
+    "formal_training_peak_bytes": 86530781582
+  },
+  "training_phase": {
+    "tensor_with_five_percent_margin_bytes": 74066865500,
+    "compact_forecast_bytes": 9000000000,
+    "compiler_growth_bytes": 2000000000,
+    "source_bytes": 500000000,
+    "workspace_bytes": 1000000000,
+    "projected_peak_bytes": 86566865500
+  },
+  "final_phase": {
+    "tensor_with_five_percent_margin_bytes": 49394563244,
+    "retained_training_compact_bytes": 9000000000,
+    "final_raw_forecast_bytes": 8000000000,
+    "final_packaging_overlap_bytes": 8000000000,
+    "compiler_growth_bytes": 2000000000,
+    "source_bytes": 500000000,
+    "workspace_bytes": 1000000000,
+    "projected_peak_bytes": 77894563244
+  },
+  "compact_forecast_rationale": {
+    "full_cap_trace_sensitivity_bytes": 6146982912,
+    "all_174_historical_largest_packages_bytes": 1713379566,
+    "remaining_training_compact_allowance_bytes": 1139637522,
+    "trace_case": "2048tokens,7committedtokens/call,seededvocabularyvalues; three required serialized copies",
+    "package_case": "largest historical per-event JSON/JSONL package x174; overlaps some trace evidence, intentionally conservative",
+    "reserve_scope": "indexes,retirement receipts,unarchived boundary evidence,current loose event and archive overlap",
+    "limitations": [
+      "Compression and actual acceptance counts remain workload-dependent.",
+      "The7-token-progress sensitivity is not a guaranteed lower bound on progress; a1-token-progress stress requires37.08GB for traces alone.",
+      "The9GB compact allowance is an explicit working forecast, not an absolute worst-case bound.",
+      "No shorter-than-cap output-length assumption is used in feature pricing or synthetic trace sensitivity.",
+      "Dynamic measured component gates must stop before reserve/cap violation; they do not guarantee full completion."
+    ]
+  },
+  "free_space_context": {
+    "last_measured_free_bytes": 493813587968,
+    "reserve_bytes": 400000000000,
+    "required_free_for_forecast_bytes": 486566865500,
+    "headroom_after_forecast_and_reserve": 7246722468,
+    "live_recheck_required": true,
+    "other_users_can_change_free_space": true
+  },
+  "proposed_cap_change": {
+    "bytes": 90000000000,
+    "authorized": false,
+    "headroom_above_forecast": 3433134500,
+    "changes": "Additional-study allocated-space ceiling only; no change to reserve, algorithms,panels,counts,or historical retention."
+  },
+  "final_raw_evidence_rationale": "8GB raw plus8GB simultaneous packaging envelope versus historicalPR55 2.793GB allocated for10552generations; not an absolutefullcapbound. Finalphasehas fewerstates/exports and nofeatures.",
+  "sources": [
+    {
+      "path": "reviews/COMPACT_STORAGE_REVIEW.json",
+      "bytes": 6512,
+      "sha256": "329d8142155edbb1ac2375435333b31134a837733edeb31f7057df24d1e90e7e"
+    },
+    {
+      "path": "reviews/COMPACT_FULL_CAP_SENSITIVITY.json",
+      "bytes": 1719,
+      "sha256": "3bb0f48e75865be4bf2257ef77962f728b1c219e2937034c64e3a9f492ab7cd1"
+    },
+    {
+      "path": "/home/minhao2/EAGLE_SPEC/research/dflash_opencode_native_comparison_20261120/readiness/DATA_SUMMARY.json",
+      "bytes": 16013,
+      "sha256": "d8cc4c76a8275a92a072d8a5eed068ff38ba7635f9438216b70cb210a28f4097"
+    }
+  ]
+}

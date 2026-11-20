@@ -1,0 +1,627 @@
+{
+  "inspected_rows": 50000,
+  "reservoir_counts": {
+    "train": 30000,
+    "evaluation": 20000
+  },
+  "excluded_rows": 204,
+  "exclusion_reason_counts": {
+    "duplicate_across_source_pools": 162,
+    "duplicate_within_source_pool": 42
+  },
+  "eligible_counts": {
+    "train": 29892,
+    "evaluation": 19904
+  },
+  "selected_counts": {
+    "train": 7424,
+    "evaluation": 1024,
+    "warmup": 2,
+    "qualification": 16
+  },
+  "selected_lengths": {
+    "train": {
+      "count": 7424,
+      "minimum": 79,
+      "maximum": 1349,
+      "mean": 221.45325969827587,
+      "quantiles": {
+        "0.25": 168,
+        "0.5": 202,
+        "0.75": 253,
+        "0.95": 376,
+        "0.99": 511
+      }
+    },
+    "evaluation": {
+      "count": 1024,
+      "minimum": 92,
+      "maximum": 665,
+      "mean": 220.068359375,
+      "quantiles": {
+        "0.25": 167,
+        "0.5": 200,
+        "0.75": 255,
+        "0.95": 376,
+        "0.99": 489
+      }
+    },
+    "warmup": {
+      "count": 2,
+      "minimum": 255,
+      "maximum": 264,
+      "mean": 259.5,
+      "quantiles": {
+        "0.25": 255,
+        "0.5": 255,
+        "0.75": 264,
+        "0.95": 264,
+        "0.99": 264
+      }
+    },
+    "qualification": {
+      "count": 16,
+      "minimum": 65,
+      "maximum": 1102,
+      "mean": 308.9375,
+      "quantiles": {
+        "0.25": 147,
+        "0.5": 220,
+        "0.75": 274,
+        "0.95": 1099,
+        "0.99": 1102
+      }
+    }
+  },
+  "lengths": {
+    "train": {
+      "before": {
+        "count": 30000,
+        "minimum": 65,
+        "maximum": 1349,
+        "mean": 221.19973333333334,
+        "quantiles": {
+          "0.25": 168,
+          "0.5": 202,
+          "0.75": 254,
+          "0.95": 374,
+          "0.99": 515
+        }
+      },
+      "after": {
+        "count": 29892,
+        "minimum": 65,
+        "maximum": 1349,
+        "mean": 221.3987019938445,
+        "quantiles": {
+          "0.25": 168,
+          "0.5": 202,
+          "0.75": 254,
+          "0.95": 374,
+          "0.99": 515
+        }
+      }
+    },
+    "evaluation": {
+      "before": {
+        "count": 20000,
+        "minimum": 68,
+        "maximum": 1560,
+        "mean": 219.468,
+        "quantiles": {
+          "0.25": 167,
+          "0.5": 201,
+          "0.75": 252,
+          "0.95": 368,
+          "0.99": 505
+        }
+      },
+      "after": {
+        "count": 19904,
+        "minimum": 68,
+        "maximum": 1560,
+        "mean": 219.74281551446944,
+        "quantiles": {
+          "0.25": 167,
+          "0.5": 201,
+          "0.75": 252,
+          "0.95": 369,
+          "0.99": 505
+        }
+      }
+    }
+  },
+  "training_length_bounds": {
+    "windows": [
+      {
+        "event": 1,
+        "requests": 128,
+        "prompt_tokens": 27932,
+        "maximum_prompt_tokens": 1349,
+        "maximum_sequence_length": 3397,
+        "maximum_sequence_tokens": 290076
+      },
+      {
+        "event": 2,
+        "requests": 128,
+        "prompt_tokens": 25995,
+        "maximum_prompt_tokens": 461,
+        "maximum_sequence_length": 2509,
+        "maximum_sequence_tokens": 288139
+      },
+      {
+        "event": 3,
+        "requests": 128,
+        "prompt_tokens": 27566,
+        "maximum_prompt_tokens": 526,
+        "maximum_sequence_length": 2574,
+        "maximum_sequence_tokens": 289710
+      },
+      {
+        "event": 4,
+        "requests": 128,
+        "prompt_tokens": 26551,
+        "maximum_prompt_tokens": 469,
+        "maximum_sequence_length": 2517,
+        "maximum_sequence_tokens": 288695
+      },
+      {
+        "event": 5,
+        "requests": 128,
+        "prompt_tokens": 29104,
+        "maximum_prompt_tokens": 590,
+        "maximum_sequence_length": 2638,
+        "maximum_sequence_tokens": 291248
+      },
+      {
+        "event": 6,
+        "requests": 128,
+        "prompt_tokens": 28729,
+        "maximum_prompt_tokens": 506,
+        "maximum_sequence_length": 2554,
+        "maximum_sequence_tokens": 290873
+      },
+      {
+        "event": 7,
+        "requests": 128,
+        "prompt_tokens": 27910,
+        "maximum_prompt_tokens": 691,
+        "maximum_sequence_length": 2739,
+        "maximum_sequence_tokens": 290054
+      },
+      {
+        "event": 8,
+        "requests": 128,
+        "prompt_tokens": 29922,
+        "maximum_prompt_tokens": 690,
+        "maximum_sequence_length": 2738,
+        "maximum_sequence_tokens": 292066
+      },
+      {
+        "event": 9,
+        "requests": 128,
+        "prompt_tokens": 29377,
+        "maximum_prompt_tokens": 828,
+        "maximum_sequence_length": 2876,
+        "maximum_sequence_tokens": 291521
+      },
+      {
+        "event": 10,
+        "requests": 128,
+        "prompt_tokens": 27698,
+        "maximum_prompt_tokens": 527,
+        "maximum_sequence_length": 2575,
+        "maximum_sequence_tokens": 289842
+      },
+      {
+        "event": 11,
+        "requests": 128,
+        "prompt_tokens": 27780,
+        "maximum_prompt_tokens": 452,
+        "maximum_sequence_length": 2500,
+        "maximum_sequence_tokens": 289924
+      },
+      {
+        "event": 12,
+        "requests": 128,
+        "prompt_tokens": 28224,
+        "maximum_prompt_tokens": 515,
+        "maximum_sequence_length": 2563,
+        "maximum_sequence_tokens": 290368
+      },
+      {
+        "event": 13,
+        "requests": 128,
+        "prompt_tokens": 29830,
+        "maximum_prompt_tokens": 526,
+        "maximum_sequence_length": 2574,
+        "maximum_sequence_tokens": 291974
+      },
+      {
+        "event": 14,
+        "requests": 128,
+        "prompt_tokens": 27582,
+        "maximum_prompt_tokens": 519,
+        "maximum_sequence_length": 2567,
+        "maximum_sequence_tokens": 289726
+      },
+      {
+        "event": 15,
+        "requests": 128,
+        "prompt_tokens": 28834,
+        "maximum_prompt_tokens": 585,
+        "maximum_sequence_length": 2633,
+        "maximum_sequence_tokens": 290978
+      },
+      {
+        "event": 16,
+        "requests": 128,
+        "prompt_tokens": 27554,
+        "maximum_prompt_tokens": 692,
+        "maximum_sequence_length": 2740,
+        "maximum_sequence_tokens": 289698
+      },
+      {
+        "event": 17,
+        "requests": 128,
+        "prompt_tokens": 29074,
+        "maximum_prompt_tokens": 1055,
+        "maximum_sequence_length": 3103,
+        "maximum_sequence_tokens": 291218
+      },
+      {
+        "event": 18,
+        "requests": 128,
+        "prompt_tokens": 27457,
+        "maximum_prompt_tokens": 606,
+        "maximum_sequence_length": 2654,
+        "maximum_sequence_tokens": 289601
+      },
+      {
+        "event": 19,
+        "requests": 128,
+        "prompt_tokens": 28340,
+        "maximum_prompt_tokens": 518,
+        "maximum_sequence_length": 2566,
+        "maximum_sequence_tokens": 290484
+      },
+      {
+        "event": 20,
+        "requests": 128,
+        "prompt_tokens": 29847,
+        "maximum_prompt_tokens": 1024,
+        "maximum_sequence_length": 3072,
+        "maximum_sequence_tokens": 291991
+      },
+      {
+        "event": 21,
+        "requests": 128,
+        "prompt_tokens": 29200,
+        "maximum_prompt_tokens": 590,
+        "maximum_sequence_length": 2638,
+        "maximum_sequence_tokens": 291344
+      },
+      {
+        "event": 22,
+        "requests": 128,
+        "prompt_tokens": 30895,
+        "maximum_prompt_tokens": 550,
+        "maximum_sequence_length": 2598,
+        "maximum_sequence_tokens": 293039
+      },
+      {
+        "event": 23,
+        "requests": 128,
+        "prompt_tokens": 27431,
+        "maximum_prompt_tokens": 487,
+        "maximum_sequence_length": 2535,
+        "maximum_sequence_tokens": 289575
+      },
+      {
+        "event": 24,
+        "requests": 128,
+        "prompt_tokens": 29231,
+        "maximum_prompt_tokens": 424,
+        "maximum_sequence_length": 2472,
+        "maximum_sequence_tokens": 291375
+      },
+      {
+        "event": 25,
+        "requests": 128,
+        "prompt_tokens": 28529,
+        "maximum_prompt_tokens": 579,
+        "maximum_sequence_length": 2627,
+        "maximum_sequence_tokens": 290673
+      },
+      {
+        "event": 26,
+        "requests": 128,
+        "prompt_tokens": 26891,
+        "maximum_prompt_tokens": 582,
+        "maximum_sequence_length": 2630,
+        "maximum_sequence_tokens": 289035
+      },
+      {
+        "event": 27,
+        "requests": 128,
+        "prompt_tokens": 28555,
+        "maximum_prompt_tokens": 636,
+        "maximum_sequence_length": 2684,
+        "maximum_sequence_tokens": 290699
+      },
+      {
+        "event": 28,
+        "requests": 128,
+        "prompt_tokens": 28635,
+        "maximum_prompt_tokens": 553,
+        "maximum_sequence_length": 2601,
+        "maximum_sequence_tokens": 290779
+      },
+      {
+        "event": 29,
+        "requests": 128,
+        "prompt_tokens": 28890,
+        "maximum_prompt_tokens": 579,
+        "maximum_sequence_length": 2627,
+        "maximum_sequence_tokens": 291034
+      },
+      {
+        "event": 30,
+        "requests": 128,
+        "prompt_tokens": 28032,
+        "maximum_prompt_tokens": 610,
+        "maximum_sequence_length": 2658,
+        "maximum_sequence_tokens": 290176
+      },
+      {
+        "event": 31,
+        "requests": 128,
+        "prompt_tokens": 29445,
+        "maximum_prompt_tokens": 622,
+        "maximum_sequence_length": 2670,
+        "maximum_sequence_tokens": 291589
+      },
+      {
+        "event": 32,
+        "requests": 128,
+        "prompt_tokens": 29111,
+        "maximum_prompt_tokens": 774,
+        "maximum_sequence_length": 2822,
+        "maximum_sequence_tokens": 291255
+      },
+      {
+        "event": 33,
+        "requests": 128,
+        "prompt_tokens": 28577,
+        "maximum_prompt_tokens": 481,
+        "maximum_sequence_length": 2529,
+        "maximum_sequence_tokens": 290721
+      },
+      {
+        "event": 34,
+        "requests": 128,
+        "prompt_tokens": 29564,
+        "maximum_prompt_tokens": 496,
+        "maximum_sequence_length": 2544,
+        "maximum_sequence_tokens": 291708
+      },
+      {
+        "event": 35,
+        "requests": 128,
+        "prompt_tokens": 28349,
+        "maximum_prompt_tokens": 611,
+        "maximum_sequence_length": 2659,
+        "maximum_sequence_tokens": 290493
+      },
+      {
+        "event": 36,
+        "requests": 128,
+        "prompt_tokens": 27456,
+        "maximum_prompt_tokens": 530,
+        "maximum_sequence_length": 2578,
+        "maximum_sequence_tokens": 289600
+      },
+      {
+        "event": 37,
+        "requests": 128,
+        "prompt_tokens": 29089,
+        "maximum_prompt_tokens": 571,
+        "maximum_sequence_length": 2619,
+        "maximum_sequence_tokens": 291233
+      },
+      {
+        "event": 38,
+        "requests": 128,
+        "prompt_tokens": 27643,
+        "maximum_prompt_tokens": 609,
+        "maximum_sequence_length": 2657,
+        "maximum_sequence_tokens": 289787
+      },
+      {
+        "event": 39,
+        "requests": 128,
+        "prompt_tokens": 28963,
+        "maximum_prompt_tokens": 670,
+        "maximum_sequence_length": 2718,
+        "maximum_sequence_tokens": 291107
+      },
+      {
+        "event": 40,
+        "requests": 128,
+        "prompt_tokens": 27908,
+        "maximum_prompt_tokens": 665,
+        "maximum_sequence_length": 2713,
+        "maximum_sequence_tokens": 290052
+      },
+      {
+        "event": 41,
+        "requests": 128,
+        "prompt_tokens": 29399,
+        "maximum_prompt_tokens": 532,
+        "maximum_sequence_length": 2580,
+        "maximum_sequence_tokens": 291543
+      },
+      {
+        "event": 42,
+        "requests": 128,
+        "prompt_tokens": 29667,
+        "maximum_prompt_tokens": 513,
+        "maximum_sequence_length": 2561,
+        "maximum_sequence_tokens": 291811
+      },
+      {
+        "event": 43,
+        "requests": 128,
+        "prompt_tokens": 27514,
+        "maximum_prompt_tokens": 481,
+        "maximum_sequence_length": 2529,
+        "maximum_sequence_tokens": 289658
+      },
+      {
+        "event": 44,
+        "requests": 128,
+        "prompt_tokens": 26366,
+        "maximum_prompt_tokens": 500,
+        "maximum_sequence_length": 2548,
+        "maximum_sequence_tokens": 288510
+      },
+      {
+        "event": 45,
+        "requests": 128,
+        "prompt_tokens": 27455,
+        "maximum_prompt_tokens": 735,
+        "maximum_sequence_length": 2783,
+        "maximum_sequence_tokens": 289599
+      },
+      {
+        "event": 46,
+        "requests": 128,
+        "prompt_tokens": 27032,
+        "maximum_prompt_tokens": 493,
+        "maximum_sequence_length": 2541,
+        "maximum_sequence_tokens": 289176
+      },
+      {
+        "event": 47,
+        "requests": 128,
+        "prompt_tokens": 27705,
+        "maximum_prompt_tokens": 523,
+        "maximum_sequence_length": 2571,
+        "maximum_sequence_tokens": 289849
+      },
+      {
+        "event": 48,
+        "requests": 128,
+        "prompt_tokens": 27687,
+        "maximum_prompt_tokens": 551,
+        "maximum_sequence_length": 2599,
+        "maximum_sequence_tokens": 289831
+      },
+      {
+        "event": 49,
+        "requests": 128,
+        "prompt_tokens": 29922,
+        "maximum_prompt_tokens": 650,
+        "maximum_sequence_length": 2698,
+        "maximum_sequence_tokens": 292066
+      },
+      {
+        "event": 50,
+        "requests": 128,
+        "prompt_tokens": 27012,
+        "maximum_prompt_tokens": 599,
+        "maximum_sequence_length": 2647,
+        "maximum_sequence_tokens": 289156
+      },
+      {
+        "event": 51,
+        "requests": 128,
+        "prompt_tokens": 28467,
+        "maximum_prompt_tokens": 695,
+        "maximum_sequence_length": 2743,
+        "maximum_sequence_tokens": 290611
+      },
+      {
+        "event": 52,
+        "requests": 128,
+        "prompt_tokens": 28273,
+        "maximum_prompt_tokens": 563,
+        "maximum_sequence_length": 2611,
+        "maximum_sequence_tokens": 290417
+      },
+      {
+        "event": 53,
+        "requests": 128,
+        "prompt_tokens": 28714,
+        "maximum_prompt_tokens": 764,
+        "maximum_sequence_length": 2812,
+        "maximum_sequence_tokens": 290858
+      },
+      {
+        "event": 54,
+        "requests": 128,
+        "prompt_tokens": 28774,
+        "maximum_prompt_tokens": 609,
+        "maximum_sequence_length": 2657,
+        "maximum_sequence_tokens": 290918
+      },
+      {
+        "event": 55,
+        "requests": 128,
+        "prompt_tokens": 27995,
+        "maximum_prompt_tokens": 546,
+        "maximum_sequence_length": 2594,
+        "maximum_sequence_tokens": 290139
+      },
+      {
+        "event": 56,
+        "requests": 128,
+        "prompt_tokens": 28461,
+        "maximum_prompt_tokens": 507,
+        "maximum_sequence_length": 2555,
+        "maximum_sequence_tokens": 290605
+      },
+      {
+        "event": 57,
+        "requests": 128,
+        "prompt_tokens": 28267,
+        "maximum_prompt_tokens": 522,
+        "maximum_sequence_length": 2570,
+        "maximum_sequence_tokens": 290411
+      },
+      {
+        "event": 58,
+        "requests": 128,
+        "prompt_tokens": 27659,
+        "maximum_prompt_tokens": 665,
+        "maximum_sequence_length": 2713,
+        "maximum_sequence_tokens": 289803
+      }
+    ],
+    "maximum_window_sequence_tokens": 293039,
+    "maximum_window_prompt_tokens": 30895,
+    "maximum_sequence_length": 3397
+  },
+  "seal": {
+    "schema": "opencode_input_seal_v1",
+    "validation": {
+      "status": "passed",
+      "requests": 8466,
+      "training_tail": 0,
+      "training_context": 4096
+    },
+    "files": {
+      "INPUTS.json": {
+        "bytes": 32309622,
+        "sha256": "df7194e667126f34f8e2ab2f6e22e2e5480cd7921728ceb4f946bd3a0cce6581"
+      },
+      "DATA_AUDIT.json": {
+        "bytes": 62822594,
+        "sha256": "df10c3b8b059eca91b3527d55e039a96d32a6ceb57ab11001d91f34c89b75d23"
+      }
+    },
+    "manifest_content_sha256": "f6140a285f4c1ee28ba31f4a071884c54be8b617825b6258976413de803a04bf",
+    "all_outputs_unobserved": true
+  },
+  "preparation_seconds": 34.132736487314105
+}
