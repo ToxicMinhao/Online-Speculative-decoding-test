@@ -35,6 +35,11 @@ def test_real_ar_config_has_no_draft_or_block_size_emulation():
     assert settings['dtype'] == 'bfloat16'
     assert settings['attention_backend'] == 'fa3'
     assert settings['disable_cuda_graph'] is False
+    # Keep ordinary decode graphs; match native DFlash's automatically disabled
+    # experimental prefill graph path when speculation is enabled.
+    assert settings['disable_piecewise_cuda_graph'] is True
+    assert settings['chunked_prefill_size'] == 8192
+    assert settings['cuda_graph_max_bs'] == 8
     assert settings['skip_server_warmup'] is True
     assert settings['max_running_requests'] == 1
     with pytest.raises(ValueError, match='4096'):

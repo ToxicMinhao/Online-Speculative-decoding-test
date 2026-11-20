@@ -135,7 +135,8 @@ class ARWorker:
         info = self.engine.get_server_info()
         keys = ('model_path', 'speculative_algorithm', 'speculative_draft_model_path',
                 'context_length', 'dtype', 'attention_backend', 'max_running_requests',
-                'disable_cuda_graph', 'disable_overlap_schedule', 'random_seed', 'version')
+                'disable_cuda_graph', 'disable_piecewise_cuda_graph',
+                'disable_overlap_schedule', 'random_seed', 'version')
         return dict(engine={key: info[key] for key in keys},
                     cache=self._cache_state(self.root / 'startup_cache.json'))
 

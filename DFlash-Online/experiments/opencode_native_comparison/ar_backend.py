@@ -24,6 +24,9 @@ def engine_settings(target_path, context_limit=4096):
                 max_running_requests=1, mem_fraction_static=0.65,
                 context_length=context_limit + 16, chunked_prefill_size=8192,
                 cuda_graph_max_bs=8, disable_cuda_graph=False,
+                # DFlash's native ServerArgs path disables this experimental
+                # prefill compiler automatically; target-only AR must pin it.
+                disable_piecewise_cuda_graph=True,
                 random_seed=17, trust_remote_code=True, skip_server_warmup=True,
                 log_level='info')
 
@@ -65,7 +68,8 @@ class SGLangARBackend:
         write_json(self.root / 'measurement_contract.json', dict(
             logical_context_limit=context_limit, physical_context_length=settings['context_length'],
             feedback_capture=False, speculative_trace_instrumentation=False,
-            cuda_graphs_enabled=True, speculation_disabled=True,
+            cuda_graphs_enabled=True, piecewise_cuda_graphs_enabled=False,
+            speculation_disabled=True,
             native_overlap_schedule='retained runtime default; actual value in ready.json',
             request_timer='complete worker IPC including cache preparation and completion records',
             engine_timer='Engine.generate only; excludes cache preparation and completion records',

@@ -1,5 +1,7 @@
 # CODE comparison: partial execution report
 
+**Native status update:** CPU preflight passed; AR startup failed on both GPUs before scientific work. The narrow piecewise-graph configuration repair passes44CPUtests but has not been retried. See [failure and repair report](STARTUP_FAILURE.md). The campaign remains stopped.
+
 **November20 authorization update:** user approved90GBadditional storage;400GBreserve and all other limits/settings unchanged. Prior80GBblocked assessment below remains historical. Actual admission and GPU qualification are pending; no model work yet.
 
 Implementation source: `c0a0794e8a7a42a3e2e70833a73992a6201ea6d6`. Native execution: **not started**.
