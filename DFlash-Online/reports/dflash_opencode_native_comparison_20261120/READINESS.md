@@ -1,5 +1,7 @@
 # Native online CODE comparison: readiness
 
+**Current native status: blocked.** The AR startup repair passed, but same-card AR/F outputs differ after279matching tokens. Production remains unstarted. See [qualification report](QUALIFICATION_REPORT.md); earlier readiness statuses below are historical.
+
 **Retry authorized:** the user approved the repaired bounded qualification and unchanged campaign if all gates pass. The new explicit recovery path preserves the original clock, work, inputs, compiler baseline and failure archive. 81 focused CPU tests pass; native retry is pending.
 
 **Native status update:** CPU preflight passed; AR startup failed on both GPUs before scientific work. The narrow piecewise-graph configuration repair passes44CPUtests but has not been retried. See [failure and repair report](STARTUP_FAILURE.md). The campaign remains stopped.

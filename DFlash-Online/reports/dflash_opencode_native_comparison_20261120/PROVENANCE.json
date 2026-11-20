@@ -1,10 +1,36 @@
 {
   "implementation_commit": "c0a0794e8a7a42a3e2e70833a73992a6201ea6d6",
   "source_base": "18d60135e6a482bf2f0f92454c572ccadc2adf1e",
-  "execution_commit": "9a7eabe7e3539410ce995a17d7407ea4f8fd495c",
-  "execution_status": "authorized_startup_retry_preparation",
+  "execution_commit": "93a53f11abbfbf00e36c1bcc309a33943f972099",
+  "execution_status": "blocked_exact_AR_F_output_mismatch",
   "report_commit": "Git commit containing this report; distinct from implementation commit",
-  "scientific_gpu_work": 0,
+  "scientific_gpu_work": {
+    "attempted_generations": 12,
+    "returned_generations": 11,
+    "passed_checks_reached": 10,
+    "invalid_completed": 1,
+    "interrupted_unknown": 1,
+    "unattempted_generations": 52,
+    "initial_slot_status_counts": {
+      "valid": 10,
+      "started": 1,
+      "unattempted": 48,
+      "invalid": 1
+    },
+    "publication_generations_unattempted": 4,
+    "teacher_preparations": 0,
+    "optimizer_steps": 0,
+    "training_initializations": 0,
+    "pending_preserved": {
+      "11": {
+        "task": "qualification_serving_A",
+        "label": "A_AR_reserved_8_2048_0",
+        "counts": {
+          "qualification.generation": 1
+        }
+      }
+    }
+  },
   "scope": "CODE-only three own-feedback58-event arms plus five-arm endpoint evaluation",
   "fixed_limits": {
     "elapsed_h": 48,
@@ -46,5 +72,15 @@
       "wall_s": 0.87,
       "independent_review": "48 overlapping CPU tests rerun independently; no blocking finding. Shared-context code review, not native replication."
     }
-  }
+  },
+  "current_costs": {
+    "prior_launcher_wall_s": 58.54412794113159,
+    "retry_launcher_wall_s": 108.87897682189941,
+    "cumulative_occupied_card_s": 193.23928093910217,
+    "original_first_model_epoch": 1795217755.6244764,
+    "active_leases": {},
+    "interrupted_lease_closed_from_saved_exit_upper_bound": true,
+    "original_piecewise_forward_count": "unknown additional initialization; original6 ordinarygraphforwards retained"
+  },
+  "automatic_retry": false
 }
