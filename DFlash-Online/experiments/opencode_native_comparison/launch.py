@@ -111,11 +111,15 @@ def complete_qualification(plan):
     return result
 
 
-def run(plan_path):
+def run(plan_path, startup_retry_receipt=None):
     plan_path=Path(plan_path)
     plan=read(plan_path)
     root=Path(plan['root'])
-    if (root/'LAUNCH.json').exists() or (root/'CLOCK.json').exists():
+    retry = None
+    if startup_retry_receipt is not None:
+        from .startup_retry import validate_ready
+        retry = validate_ready(plan, startup_retry_receipt)
+    if (root/'LAUNCH.json').exists() or ((root/'CLOCK.json').exists() and retry is None):
         raise FileExistsError('Do not restart an existing scientific attempt automatically')
     for name in ('logs','processes'):
         (root/name).mkdir(exist_ok=True)
@@ -126,7 +130,11 @@ def run(plan_path):
         from .preflight import verify
         check_compilers()
         report['preflight']=verify(plan)
-        initialize(root)
+        if retry is None:
+            initialize(root)
+        else:
+            report['authorized_startup_retry'] = retry
+            enforce_clock(plan)
         report['status']='qualification'; write_json(root/'LAUNCH.json',report)
         report['initial_serving']=children(plan_path,plan,'qualification_serving',('A','B'))
         from .serving_gate import merge_qualification, merge_panel
@@ -184,4 +192,6 @@ def run(plan_path):
 if __name__=='__main__':
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--plan',required=True)
-    run(parser.parse_args().plan)
+    parser.add_argument('--startup-retry-receipt')
+    args=parser.parse_args()
+    run(args.plan,args.startup_retry_receipt)

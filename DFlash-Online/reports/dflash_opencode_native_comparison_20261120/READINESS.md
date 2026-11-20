@@ -1,5 +1,7 @@
 # Native online CODE comparison: readiness
 
+**Retry authorized:** the user approved the repaired bounded qualification and unchanged campaign if all gates pass. The new explicit recovery path preserves the original clock, work, inputs, compiler baseline and failure archive. 81 focused CPU tests pass; native retry is pending.
+
 **Native status update:** CPU preflight passed; AR startup failed on both GPUs before scientific work. The narrow piecewise-graph configuration repair passes44CPUtests but has not been retried. See [failure and repair report](STARTUP_FAILURE.md). The campaign remains stopped.
 
 **November20 authorization update:** user approved90GBadditional storage;400GBreserve and all other limits/settings unchanged. Prior80GBblocked assessment below remains historical. Actual admission and GPU qualification are pending; no model work yet.

@@ -103,11 +103,17 @@ def build_report(plan, output):
         elapsed_scope='Original model-load clock through this CPU audit; final report writing/publication follows.',
         nested_timer_scope=training.get('timer_scope'),
         activation_timer_scope=audit.get('overhead',{}).get('overlap'),
+        startup_retry=plan.get('startup_retry'),
         final_publication_s=None))
     if 'endpoint_identities' in audit:
         raw_audit.write(public/'ENDPOINT_IDENTITIES.json',audit['endpoint_identities'])
     lines = [f"Execution commit: `{plan['execution_commit']}`. Report revision is recorded separately by its Git commit.",
              '',f"Status: **{audit['status']}**. This report adds no model executions.",'']
+    if plan.get('startup_retry'):
+        prior=plan['startup_retry']
+        lines += [f"An explicitly authorized startup retry retains {prior['failed_startup_card_s']:.4f} prior occupied-card seconds in the original clock. "
+                  "The failed AR piecewise-graph initialization performed additional uninstrumented forwards; their exact count remains unknown. "
+                  "No scientific generation or optimizer step executed before that retry. The original failure evidence is preserved.",'']
     if audit['status'] == 'passed':
         raw_audit.write(public/'RESULTS.json',summary)
         paired = []

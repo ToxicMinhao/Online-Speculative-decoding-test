@@ -2,7 +2,7 @@
   "implementation_commit": "c0a0794e8a7a42a3e2e70833a73992a6201ea6d6",
   "source_base": "18d60135e6a482bf2f0f92454c572ccadc2adf1e",
   "execution_commit": "9a7eabe7e3539410ce995a17d7407ea4f8fd495c",
-  "execution_status": "qualification_startup_failed_before_scientific_work",
+  "execution_status": "authorized_startup_retry_preparation",
   "report_commit": "Git commit containing this report; distinct from implementation commit",
   "scientific_gpu_work": 0,
   "scope": "CODE-only three own-feedback58-event arms plus five-arm endpoint evaluation",
@@ -12,7 +12,7 @@
     "new_allocated_GB": 90,
     "free_reserve_GB": 400
   },
-  "pending_user_decision": "Retry repaired bounded qualification; no automatic retry",
+  "pending_user_decision": null,
   "storage_amendment": {
     "status": "authorized",
     "recorded_epoch": 1795217286.3735862,
@@ -29,5 +29,22 @@
     "occupied_card_s": 56.031763792037964,
     "ordinary_graph_forwards": 6,
     "piecewise_forwards": "unknown additional initialization"
+  },
+  "retry_authorization": {
+    "status": "authorized",
+    "scope": "retry_startup_qualification_once_then_unchanged_campaign_if_gates_pass",
+    "user_reply": "Retry qualification and proceed if it passes",
+    "recorded_epoch": 1795218318.3893313,
+    "preserve_original_clock": true,
+    "preserve_failed_card_seconds": 56.031763792037964,
+    "preserve_unknown_piecewise_initialization": true,
+    "limits_unchanged": true,
+    "scientific_settings_unchanged": true,
+    "validation": {
+      "cpu_tests_passed": 81,
+      "failed": 0,
+      "wall_s": 0.87,
+      "independent_review": "48 overlapping CPU tests rerun independently; no blocking finding. Shared-context code review, not native replication."
+    }
   }
 }
