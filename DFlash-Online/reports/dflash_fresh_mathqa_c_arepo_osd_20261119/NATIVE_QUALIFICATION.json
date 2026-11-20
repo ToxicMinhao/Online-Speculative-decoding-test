@@ -1,0 +1,39 @@
+{
+  "status": "passed",
+  "execution_commit": "96f0a13d189b8f5a1d3cfcf103a0ff1097f18cd8",
+  "generations": 24,
+  "valid": 24,
+  "invalid": 0,
+  "optimizer_steps": 0,
+  "new_trained_checkpoints": 0,
+  "cards": {
+    "A": {
+      "generations": 12,
+      "phase_wall_s": 87.22809171676636,
+      "loading_s": 21.50897629931569,
+      "peak_gpu_allocated_bytes": 57320937472,
+      "peak_gpu_reserved_bytes": 57633931264,
+      "graph_initializations": 17,
+      "startup_forward_calls": 51,
+      "startup_forward_failures": 0,
+      "output_and_termination_checks": "All three arms match the same two retained native-verifier witnesses",
+      "repeat_consistency": "passed"
+    },
+    "B": {
+      "generations": 12,
+      "phase_wall_s": 87.61764669418335,
+      "loading_s": 21.257596030831337,
+      "peak_gpu_allocated_bytes": 57320937472,
+      "peak_gpu_reserved_bytes": 57633931264,
+      "graph_initializations": 17,
+      "startup_forward_calls": 51,
+      "startup_forward_failures": 0,
+      "output_and_termination_checks": "All three arms match the same two retained native-verifier witnesses",
+      "repeat_consistency": "passed"
+    }
+  },
+  "raw_receipt_identity": {
+    "bytes": 55961,
+    "sha256": "168ea6a83c067fcc8c537c85c6db658d292206ba87a1613e8d14b235c233cf97"
+  }
+}

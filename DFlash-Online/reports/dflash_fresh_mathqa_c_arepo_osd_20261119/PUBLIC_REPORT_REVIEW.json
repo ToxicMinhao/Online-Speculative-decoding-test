@@ -1,0 +1,663 @@
+{
+  "status": "scientific_report_passes_with_two_documentation_closeout_items",
+  "reviewed_utc": "2026-11-20T06:59:58.321412+00:00",
+  "execution_commit": "96f0a13d189b8f5a1d3cfcf103a0ff1097f18cd8",
+  "reviewer": "fresh_mathqa_report_review",
+  "scope": "Focused local report/table/receipt review; no GPU, remote, network, source or report edits. Same reviewer as interpretation audit; not independent GPU replication.",
+  "checks_passed": 101,
+  "checks": [
+    {
+      "check": "Public summary exactly matches retained summary",
+      "passed": true
+    },
+    {
+      "check": "Retained bytes ALL_REPEATS.csv",
+      "passed": true
+    },
+    {
+      "check": "Retained bytes PER_REQUEST.csv",
+      "passed": true
+    },
+    {
+      "check": "Retained bytes REPEAT_TOTALS.csv",
+      "passed": true
+    },
+    {
+      "check": "Retained bytes WORK.json",
+      "passed": true
+    },
+    {
+      "check": "Retained bytes RAW_AUDIT.json",
+      "passed": true
+    },
+    {
+      "check": "Retained bytes EVALUATION_COSTS.json",
+      "passed": true
+    },
+    {
+      "check": "Retained bytes POSTFLIGHT_EXPORT_IDENTITIES.json",
+      "passed": true
+    },
+    {
+      "check": "Retained bytes AUDIT_EXECUTION.json",
+      "passed": true
+    },
+    {
+      "check": "Retained bytes CLOCK.json",
+      "passed": true
+    },
+    {
+      "check": "Public audit unchanged except declared duplicate-statistics omission",
+      "passed": true
+    },
+    {
+      "check": "Audit statistics-location disclosure",
+      "passed": true
+    },
+    {
+      "check": "KPLUS_C58_vs_AREPO58 time_reduction 0",
+      "passed": true
+    },
+    {
+      "check": "KPLUS_C58_vs_AREPO58 time_reduction 1",
+      "passed": true
+    },
+    {
+      "check": "KPLUS_C58_vs_AREPO58 time_reduction 2",
+      "passed": true
+    },
+    {
+      "check": "KPLUS_C58_vs_AREPO58 call_reduction 0",
+      "passed": true
+    },
+    {
+      "check": "KPLUS_C58_vs_AREPO58 call_reduction 1",
+      "passed": true
+    },
+    {
+      "check": "KPLUS_C58_vs_AREPO58 call_reduction 2",
+      "passed": true
+    },
+    {
+      "check": "KPLUS_C58_vs_AREPO58 call categories",
+      "passed": true
+    },
+    {
+      "check": "KPLUS_C58_vs_AREPO58 gross/net",
+      "passed": true
+    },
+    {
+      "check": "KPLUS_C58_vs_O58 time_reduction 0",
+      "passed": true
+    },
+    {
+      "check": "KPLUS_C58_vs_O58 time_reduction 1",
+      "passed": true
+    },
+    {
+      "check": "KPLUS_C58_vs_O58 time_reduction 2",
+      "passed": true
+    },
+    {
+      "check": "KPLUS_C58_vs_O58 call_reduction 0",
+      "passed": true
+    },
+    {
+      "check": "KPLUS_C58_vs_O58 call_reduction 1",
+      "passed": true
+    },
+    {
+      "check": "KPLUS_C58_vs_O58 call_reduction 2",
+      "passed": true
+    },
+    {
+      "check": "KPLUS_C58_vs_O58 call categories",
+      "passed": true
+    },
+    {
+      "check": "KPLUS_C58_vs_O58 gross/net",
+      "passed": true
+    },
+    {
+      "check": "AREPO58_vs_O58 time_reduction 0",
+      "passed": true
+    },
+    {
+      "check": "AREPO58_vs_O58 time_reduction 1",
+      "passed": true
+    },
+    {
+      "check": "AREPO58_vs_O58 time_reduction 2",
+      "passed": true
+    },
+    {
+      "check": "AREPO58_vs_O58 call_reduction 0",
+      "passed": true
+    },
+    {
+      "check": "AREPO58_vs_O58 call_reduction 1",
+      "passed": true
+    },
+    {
+      "check": "AREPO58_vs_O58 call_reduction 2",
+      "passed": true
+    },
+    {
+      "check": "AREPO58_vs_O58 call categories",
+      "passed": true
+    },
+    {
+      "check": "AREPO58_vs_O58 gross/net",
+      "passed": true
+    },
+    {
+      "check": "KPLUS_C58_vs_AREPO58 requests_faster",
+      "passed": true
+    },
+    {
+      "check": "KPLUS_C58_vs_AREPO58 requests_slower",
+      "passed": true
+    },
+    {
+      "check": "KPLUS_C58_vs_AREPO58 request_time_ties",
+      "passed": true
+    },
+    {
+      "check": "KPLUS_C58_vs_AREPO58 printed time outcomes",
+      "passed": true
+    },
+    {
+      "check": "KPLUS_C58_vs_O58 requests_faster",
+      "passed": true
+    },
+    {
+      "check": "KPLUS_C58_vs_O58 requests_slower",
+      "passed": true
+    },
+    {
+      "check": "KPLUS_C58_vs_O58 request_time_ties",
+      "passed": true
+    },
+    {
+      "check": "KPLUS_C58_vs_O58 printed time outcomes",
+      "passed": true
+    },
+    {
+      "check": "AREPO58_vs_O58 requests_faster",
+      "passed": true
+    },
+    {
+      "check": "AREPO58_vs_O58 requests_slower",
+      "passed": true
+    },
+    {
+      "check": "AREPO58_vs_O58 request_time_ties",
+      "passed": true
+    },
+    {
+      "check": "AREPO58_vs_O58 printed time outcomes",
+      "passed": true
+    },
+    {
+      "check": "O58 native_accepted_tokens_per_call",
+      "passed": true
+    },
+    {
+      "check": "O58 matched_accepted_tokens_per_call",
+      "passed": true
+    },
+    {
+      "check": "O58 committed_progress_per_call",
+      "passed": true
+    },
+    {
+      "check": "O58 request_latency_s",
+      "passed": true
+    },
+    {
+      "check": "O58 calls",
+      "passed": true
+    },
+    {
+      "check": "AREPO58 native_accepted_tokens_per_call",
+      "passed": true
+    },
+    {
+      "check": "AREPO58 matched_accepted_tokens_per_call",
+      "passed": true
+    },
+    {
+      "check": "AREPO58 committed_progress_per_call",
+      "passed": true
+    },
+    {
+      "check": "AREPO58 request_latency_s",
+      "passed": true
+    },
+    {
+      "check": "AREPO58 calls",
+      "passed": true
+    },
+    {
+      "check": "KPLUS_C58 native_accepted_tokens_per_call",
+      "passed": true
+    },
+    {
+      "check": "KPLUS_C58 matched_accepted_tokens_per_call",
+      "passed": true
+    },
+    {
+      "check": "KPLUS_C58 committed_progress_per_call",
+      "passed": true
+    },
+    {
+      "check": "KPLUS_C58 request_latency_s",
+      "passed": true
+    },
+    {
+      "check": "KPLUS_C58 calls",
+      "passed": true
+    },
+    {
+      "check": "repeat 0 O58 request_latency_s",
+      "passed": true
+    },
+    {
+      "check": "repeat 0 O58 native_generate_s",
+      "passed": true
+    },
+    {
+      "check": "repeat 0 O58 cache_maintenance_s",
+      "passed": true
+    },
+    {
+      "check": "repeat 0 AREPO58 request_latency_s",
+      "passed": true
+    },
+    {
+      "check": "repeat 0 AREPO58 native_generate_s",
+      "passed": true
+    },
+    {
+      "check": "repeat 0 AREPO58 cache_maintenance_s",
+      "passed": true
+    },
+    {
+      "check": "repeat 0 KPLUS_C58 request_latency_s",
+      "passed": true
+    },
+    {
+      "check": "repeat 0 KPLUS_C58 native_generate_s",
+      "passed": true
+    },
+    {
+      "check": "repeat 0 KPLUS_C58 cache_maintenance_s",
+      "passed": true
+    },
+    {
+      "check": "repeat 1 O58 request_latency_s",
+      "passed": true
+    },
+    {
+      "check": "repeat 1 O58 native_generate_s",
+      "passed": true
+    },
+    {
+      "check": "repeat 1 O58 cache_maintenance_s",
+      "passed": true
+    },
+    {
+      "check": "repeat 1 AREPO58 request_latency_s",
+      "passed": true
+    },
+    {
+      "check": "repeat 1 AREPO58 native_generate_s",
+      "passed": true
+    },
+    {
+      "check": "repeat 1 AREPO58 cache_maintenance_s",
+      "passed": true
+    },
+    {
+      "check": "repeat 1 KPLUS_C58 request_latency_s",
+      "passed": true
+    },
+    {
+      "check": "repeat 1 KPLUS_C58 native_generate_s",
+      "passed": true
+    },
+    {
+      "check": "repeat 1 KPLUS_C58 cache_maintenance_s",
+      "passed": true
+    },
+    {
+      "check": "repeat 2 O58 request_latency_s",
+      "passed": true
+    },
+    {
+      "check": "repeat 2 O58 native_generate_s",
+      "passed": true
+    },
+    {
+      "check": "repeat 2 O58 cache_maintenance_s",
+      "passed": true
+    },
+    {
+      "check": "repeat 2 AREPO58 request_latency_s",
+      "passed": true
+    },
+    {
+      "check": "repeat 2 AREPO58 native_generate_s",
+      "passed": true
+    },
+    {
+      "check": "repeat 2 AREPO58 cache_maintenance_s",
+      "passed": true
+    },
+    {
+      "check": "repeat 2 KPLUS_C58 request_latency_s",
+      "passed": true
+    },
+    {
+      "check": "repeat 2 KPLUS_C58 native_generate_s",
+      "passed": true
+    },
+    {
+      "check": "repeat 2 KPLUS_C58 cache_maintenance_s",
+      "passed": true
+    },
+    {
+      "check": "Lengths and median",
+      "passed": true
+    },
+    {
+      "check": "launch_wall_s hours",
+      "passed": true
+    },
+    {
+      "check": "charged_execution_elapsed_s hours",
+      "passed": true
+    },
+    {
+      "check": "occupied_card_s hours",
+      "passed": true
+    },
+    {
+      "check": "Nested timers clearly disclosed",
+      "passed": true
+    },
+    {
+      "check": "Overlapping phase costs clearly disclosed",
+      "passed": true
+    },
+    {
+      "check": "Internal/outer audit timing scopes",
+      "passed": true
+    },
+    {
+      "check": "255 startup forwards/85captures",
+      "passed": true
+    },
+    {
+      "check": "All11 categories retained",
+      "passed": true
+    },
+    {
+      "check": "No native private-payload keys in public JSON",
+      "passed": true
+    },
+    {
+      "check": "No binary research payloads",
+      "passed": true
+    }
+  ],
+  "links": {
+    "checked": 42,
+    "missing": [
+      {
+        "file": "REPORT.md",
+        "target": "STORAGE_DELIVERY.json",
+        "exists": false
+      },
+      {
+        "file": "REPORT.md",
+        "target": "STORAGE_DELIVERY.json",
+        "exists": false
+      }
+    ]
+  },
+  "privacy": {
+    "private_payload_key_hits": [],
+    "binary_payload_files": [],
+    "limits": "Public JSON schema/content scan and manual report inspection. Provenance paths, IDs and hashes are metadata. Python tests can contain synthetic fixtures; no native private outputs were found."
+  },
+  "findings": [
+    {
+      "id": "delivery_pending",
+      "priority": 2,
+      "location": "REPORT.md:93,105,107",
+      "status": "pending_closeout_dependency",
+      "finding": "The report asserts private archive verification on Fenrir, but STORAGE_DELIVERY.json is not yet present. Both missing local links refer to this planned receipt.",
+      "action": "Finish and inspect the verified delivery/storage receipt before publishing the assertion, or mark delivery pending. No GPU work is needed."
+    },
+    {
+      "id": "plan_status_clarity",
+      "priority": 3,
+      "location": "EXECUTION_MANIFEST.json authenticated_files",
+      "status": "documentation_clarification",
+      "finding": "The sealed immutable plan retains 22 pending_remote_reauthentication fields. Actual current preflight passed, but the final manifest is not clearly labeled as historical preflight input.",
+      "action": "Label this as the immutable input plan and link/include completed preflight authentication evidence. Preserve original sealed plan bytes and binding."
+    }
+  ],
+  "numeric_verdict": "All primary/secondary values, intervals, outcomes, repeat and counter tables, lengths and rounded cost numbers agree with completed evidence.",
+  "cost_verdict": "Backend loading is included in phase wall; overlapping two-card phases and nested component timers are explicitly nonadditive. Internal audit128.4235967s and outer execution128.5923904s are different compatible scopes.",
+  "interpretation_verdict": "All11 categories, fixed-endpoint, distinct own-feedback, within-math, marginal/descriptive CI, no equivalence/isolated-component causality/full-AdaFlash/training-inclusive claims are preserved.",
+  "review_development_note": "Initial local review helper used a nonexistent root wall_s key for the auditor receipt. Corrected to its actual audit_wall_s field; no study code/data or model work changed.",
+  "report_sha256": "381be596c7ab20976338e316df1a0331de2b38107c02bc7ce02013f76ce302ef",
+  "public_files": {
+    "CPU_REFERENCE.md": {
+      "bytes": 8509,
+      "sha256": "b5076fb1505c06ec085458f5bc653594fdf79de7538268e44aebe5ff4268a241"
+    },
+    "test_verify_final.py": {
+      "bytes": 8165,
+      "sha256": "f8f62972ee338c8be400e83548869d4a4cf987a7a996907cc70190c3bf2eb906"
+    },
+    "CLOCK.json": {
+      "bytes": 1240,
+      "sha256": "3205a952003351b0132467174d87595f670d8eba1726b52be377055473724119"
+    },
+    "COMPLETED_PREFLIGHT.json": {
+      "bytes": 27627,
+      "sha256": "50b6e958834db4b90ee88a8a8bc72a32aeb722d6eb8240d9234e23bedd4e633d"
+    },
+    "READINESS.md": {
+      "bytes": 6485,
+      "sha256": "d67f6b6d65a153efe423cb89634764c98bf8774265385498a377777a15aeec84"
+    },
+    "RAW_AUDIT.json": {
+      "bytes": 155,
+      "sha256": "38acf64377f4d2e3f2c52ff98ca058f7c8157b94521213e782274588e4cf753e"
+    },
+    "PRECOMMIT_runtime.log": {
+      "bytes": 1767,
+      "sha256": "0b7e0f3da28748532532df6431b25de5d859963e0dc78c4b3c84404fae397208"
+    },
+    "RUNTIME_REVIEW.json": {
+      "bytes": 1939,
+      "sha256": "5fd2e22c31cec1e6f576b6fe19b8e4ae35e2df10fec4412f223b38dedaa19d85"
+    },
+    "REQUEST_OUTCOMES.json": {
+      "bytes": 949,
+      "sha256": "b054f3ddc966510e60b4012ca0b0e305fae2f2b38e8bc8b102e1cf8f377f9288"
+    },
+    "ALL_REPEATS.csv": {
+      "bytes": 2963159,
+      "sha256": "b52000c7825c733b663613ed47978c0cae2888ec8a3fcd2885275e385097818a"
+    },
+    "REPEAT_TOTALS.csv": {
+      "bytes": 1071,
+      "sha256": "23fc8f2000fcd952c2b34bc4102c25bb9079241bb8a1c07f255b4a7f5fe1c382"
+    },
+    "POSTFLIGHT_EXPORT_IDENTITIES.json": {
+      "bytes": 1696,
+      "sha256": "91144bd5f96c357c9b6e518228abe61811fae4158fe2f5cc2d9bdafe6c70879d"
+    },
+    "STAGING_REVIEW.json": {
+      "bytes": 3643,
+      "sha256": "6a3997c356256c87b4e92491aa0bbf9f7f26502694b08d476986b97fa7af8087"
+    },
+    "EVALUATOR_CPU_TESTS.log": {
+      "bytes": 1994,
+      "sha256": "396ca262890f1cf2e111f5bc6e112c78ee3627e39dc6a047678c18d68304ffb9"
+    },
+    "OPERATION_CONTRACT.json": {
+      "bytes": 967,
+      "sha256": "18b10ae981280257cc82cca8b9d08901e6ead89751e2bf818d0e629d56c3a9b6"
+    },
+    "CPU_RESULTS.json": {
+      "bytes": 2187,
+      "sha256": "c0e40cffa5d5badd9e4b2fbbcbeec4f58f14f84bd04379aaac00314f96a969f9"
+    },
+    "STAGING_REVIEW.md": {
+      "bytes": 3499,
+      "sha256": "eddb25da7e0331be400dd20076fdddddf0fb7da54af91a8b9307fd2804957ca9"
+    },
+    "PHYSICAL_WORK_ALL.json": {
+      "bytes": 27978,
+      "sha256": "ce3f780e452c2613f821ddabd7149569c670bf02840c22cdcd268dafcf8c6497"
+    },
+    "FINAL_CPU_VALIDATION.json": {
+      "bytes": 4829,
+      "sha256": "cdf8af5ebedf858797c13867f8b8f4fa3e8e9f576d7c2b489818d7c6e1c7be81"
+    },
+    "RESOURCE_ADMISSION.json": {
+      "bytes": 1089,
+      "sha256": "010ee1dddab2595ce8496912f126cbc95d57c4558b48b6ef0bbdfcad24dd9a29"
+    },
+    "package_evidence.py": {
+      "bytes": 2747,
+      "sha256": "1dd19c40f2e37620483e8db49f95e8edd7788e23d4fd7157b01a2ae02d9dfb77"
+    },
+    "EVALUATION_COSTS.json": {
+      "bytes": 1413,
+      "sha256": "507dff74db8b66eae00a1a75e111f06a06a7b682d2a8d7d73975706b9f81c880"
+    },
+    "ARCHIVE_VERIFIER_CPU_REVIEW.json": {
+      "bytes": 2688,
+      "sha256": "2f5b6d5e8e1a9188e3e948d5bbfecc363d33b33e21ed6924a3966fa63e1475b3"
+    },
+    "PER_REQUEST.csv": {
+      "bytes": 411842,
+      "sha256": "68400d1db7a67e6fb686517350a8960fd59679d217d1a883b50b29cb8da69fb4"
+    },
+    "PRECOMMIT_inactive_cpu_reference.log": {
+      "bytes": 3601,
+      "sha256": "02dd5468dc2f80285f082549a36ad290333d2b7d40f6cb85659fb58f5c21cd7a"
+    },
+    "BOOTSTRAP_WITNESS.json": {
+      "bytes": 103509,
+      "sha256": "66728bb2dbfe6d69e3ce3154afb187f7e8b07c9432b439df93fd20305853dd4b"
+    },
+    "CPU_DEVELOPMENT_NOTES.json": {
+      "bytes": 1261,
+      "sha256": "e25f4cb903bc1297faa919fb1b555f157e815b5a9ad5ef93709023e4ffc0de2c"
+    },
+    "FINAL_EVIDENCE_AUDIT.json": {
+      "bytes": 3036,
+      "sha256": "eddd119821a67270b7617e2a7abf9d1f0d98e49555066635f539043a7d34eeda"
+    },
+    "NATIVE_QUALIFICATION.json": {
+      "bytes": 1291,
+      "sha256": "0bf19207fad752ee340bda0762e2a8ca28aaab86a1c2af3eaeed1b208a9d408b"
+    },
+    "REPORT.md": {
+      "bytes": 12037,
+      "sha256": "381be596c7ab20976338e316df1a0331de2b38107c02bc7ce02013f76ce302ef"
+    },
+    "PR54_CLOSEOUT_SUMMARY.json": {
+      "bytes": 1144,
+      "sha256": "5d347f8a38a604d482f479518b5ec7ec6efdc2471b9eb38aeee1525e9c268257"
+    },
+    "ARCHIVE_VERIFIER_CPU_REVIEW.md": {
+      "bytes": 2127,
+      "sha256": "370b91ebf2f15cc313bb751b96febf38ab354461fd6124196d4bdc99cb7cb70a"
+    },
+    "SUMMARY.json": {
+      "bytes": 3441637,
+      "sha256": "4baa18a774a1ddd61336978bb0fe81dc0a587f1664a07693321f64c0884975cb"
+    },
+    "AUDIT_EXECUTION.json": {
+      "bytes": 1085,
+      "sha256": "76c0050d8927adfeaf64ad03e5f0e2b6e8b7dd986b8445c52d73e4269f98da45"
+    },
+    "INTERPRETATION_AUDIT.md": {
+      "bytes": 10335,
+      "sha256": "c9d19697947cf9b33e1f843336bd7a47839240e164afff5acee535e915d310c6"
+    },
+    "WORK.json": {
+      "bytes": 552,
+      "sha256": "4a45f76fa7e4a95d4757b859eff32f660640f06a106c9c46c7d5978d585ade83"
+    },
+    "RUNTIME_REVIEW.md": {
+      "bytes": 3933,
+      "sha256": "011f972b8a7686c9beb3397d5e117307248e3d57e6ca03d737111ade45187bbc"
+    },
+    "QUALIFICATION_REPORT.md": {
+      "bytes": 2072,
+      "sha256": "760da41c432615bb48dc9ef6873f0c104d3aca2cf65adbe0cba2c7ff51cb2c63"
+    },
+    "COUNTER_DEFINITIONS.json": {
+      "bytes": 1524,
+      "sha256": "025e99daeddff1e913986784124ff6c4054931bfa2757a1d561232d8d955e2f4"
+    },
+    "CPU_TEST_LOG.txt": {
+      "bytes": 2817,
+      "sha256": "e2621cdf592db2cf30d37041cec37bb2b27762f0ac0b4734fde80f269a5099a7"
+    },
+    "RUNTIME_CPU_TESTS.log": {
+      "bytes": 1767,
+      "sha256": "3b9e2d71ded5468414ca8cb09dfbb67e42c7863c78c79f73cc7f6bd995581e2a"
+    },
+    "INTERPRETATION_AUDIT.json": {
+      "bytes": 12578,
+      "sha256": "353a392d2d66f9eb981629f58d53dc3adff86a8028ecdd44691d1c7818aa4519"
+    },
+    "PRECOMMIT_archive_reader.log": {
+      "bytes": 4640,
+      "sha256": "72cb4596e792a658b8dba692b3a0f0c06583ce12ad4b57847fb4a1852f8f6a14"
+    },
+    "PUBLIC_AUDITOR_TESTS.log": {
+      "bytes": 1651,
+      "sha256": "d65e454776b6acaa64f6acc1678bb5099764695a0b6f17486ef526f9f1c8313d"
+    },
+    "EVALUATOR_CPU_RECEIPT.json": {
+      "bytes": 2445,
+      "sha256": "8a006333aaeda3bfedb470c9e721deb9b70b9a12bde0321ff582884327f68150"
+    },
+    "PANEL_COUNTS.json": {
+      "bytes": 440,
+      "sha256": "b3b482f8169e4820953939cb6bbc4a7637d2c272f9591688799f8178b2520b5d"
+    },
+    "COST_SUMMARY.json": {
+      "bytes": 3367,
+      "sha256": "b5efa033d67d9bac2b34e992a7f6881eee4d8115b1af11650ed4446138334fa9"
+    },
+    "SCHEDULE.json": {
+      "bytes": 143191,
+      "sha256": "904be15f1123e53aab0be5f24f227e800b5705904b95b46ffdd7094859605dea"
+    },
+    "verify_final.py": {
+      "bytes": 38876,
+      "sha256": "64013561bb5a35279ca1429a4b929726af0ab1bdd4c32cf4fd48fed05a3a2426"
+    },
+    "EXECUTION_MANIFEST.json": {
+      "bytes": 26394,
+      "sha256": "82b91143b1f50bfb25e4fe69cf7da6192f08d2345c3c41d8bd9a4bc9f192a531"
+    },
+    "PRECOMMIT_evaluator_and_prepare.log": {
+      "bytes": 2240,
+      "sha256": "e87c2ba955c6526485a419cb86e4c5187682c5dcf413b44c9709961c0d9dd6ea"
+    }
+  }
+}

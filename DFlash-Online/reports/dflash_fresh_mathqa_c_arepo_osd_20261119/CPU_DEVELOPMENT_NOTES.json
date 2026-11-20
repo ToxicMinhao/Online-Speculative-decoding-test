@@ -1,0 +1,36 @@
+{
+  "scope": "Local CPU reference development; all work remains synthetic",
+  "events": [
+    {
+      "kind": "environment_probe",
+      "outcome": "Default python could not import torch; ModuleNotFoundError",
+      "resolution": "Used the existing qualified Torch virtual environment; no installation",
+      "tests_run": 0
+    },
+    {
+      "kind": "initial_suite",
+      "outcome": "PASS",
+      "tests_run": 15,
+      "suite_seconds": 0.447
+    },
+    {
+      "kind": "expanded_suite",
+      "outcome": "PASS",
+      "tests_run": 16,
+      "suite_seconds": 0.449,
+      "change": "Added shared-context gradient distinction; production score compatibility now executes pinned source"
+    },
+    {
+      "kind": "source_pin_precheck_failure",
+      "outcome": "git show exited 128 before test execution",
+      "failed_object": "b4459820b3822c3d760bb3fd880e4d139fa2bbc2:online_feedback/first_error.py",
+      "reason": "The DFlash-Online directory is a subdirectory of the Git repository, not its root",
+      "resolution": "Resolve the actual Git prefix and bind each source file to execution-commit bytes",
+      "tests_run": 0
+    }
+  ],
+  "final_status_source": "CPU_RESULTS.json",
+  "gpu_training": 0,
+  "model_generations": 0,
+  "optimizer_steps": 0
+}

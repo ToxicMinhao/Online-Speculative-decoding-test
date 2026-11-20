@@ -1,0 +1,42 @@
+{
+  "status": "PASS",
+  "scope": "CPU synthetic adapted-reference qualification; no official reproduction or efficacy claim",
+  "started_utc": "2026-11-20T01:38:31.359713+00:00",
+  "finished_utc": "2026-11-20T01:38:31.815760+00:00",
+  "elapsed_seconds": 0.45577987004071474,
+  "tests_run": 16,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "randomized_oracle_cases": 100,
+  "python": "3.12.15",
+  "python_executable_name": "python",
+  "torch": "2.13.0+cu130",
+  "torch_threads": 1,
+  "cuda_initialized": false,
+  "cuda_visible_devices": "",
+  "optimizer_steps": 0,
+  "model_generations": 0,
+  "gpu_training": 0,
+  "source_checkout_commit": "01982251350e015ae69014e04effe47b436aa69e",
+  "source_git_prefix": "DFlash-Online/",
+  "scientific_execution_commit": "b4459820b3822c3d760bb3fd880e4d139fa2bbc2",
+  "source_matches_execution_commit": true,
+  "source_sha256": {
+    "online_feedback/first_error.py": "d627a96c4525104f5a1aa5e2cff5f11007f4a32130d8b116bcb0da20abec299b",
+    "online_feedback/objective.py": "e86e7b7449bd3b91956f0ae711509d8f24df9aafaa52367ed22dc7f8c31a3521",
+    "online_feedback/kplus.py": "218faa074d42676905da26dc4c49e835e4d6e19cd324409f7e9ea07357730872",
+    "online_feedback/prefix_allocation.py": "581234d69a25480285cc375c84a451b498cd28c9f36136e0ae8779ea80641bb9",
+    "training/specforge/algorithms/common/dflash_family_model.py": "0c5d06529d077087277e405b9b30b3066000fed5eb3082b9b0e8397925e6bd49"
+  },
+  "source_files_unchanged": true,
+  "reference_sha256": {
+    "__init__.py": "c9ea94f74d5adfbdec4d13c4c11c49a34f501de8a3a45cbaee62d788760f3bab",
+    "direct_support_score.py": "c1b20477b09903049a96721a4cd72e12827ad616e6ae52395d4d285e42eafd7b",
+    "scalar_oracle.py": "da89de03c65fb15bec2320697110c177cefe7d8bd492224fae943a1cfc052588",
+    "test_direct_support_score.py": "7f957643f12124f621c36973bbc08ff7b566ddb99c139f2f107c6ccc3348cba8",
+    "verify_cpu_reference.py": "29c83814d6120d020aba73f6e5d134b30a0689544fc039e8839c5b603ac2395d"
+  },
+  "test_log_sha256": "e2621cdf592db2cf30d37041cec37bb2b27762f0ac0b4734fde80f269a5099a7",
+  "verification_independence": "Separate scalar implementation by the same implementation agent; no blind review claimed"
+}

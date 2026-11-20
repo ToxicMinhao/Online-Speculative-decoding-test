@@ -1,0 +1,54 @@
+{
+  "status": "passed",
+  "counts": {
+    "source_rows": 2985,
+    "inherited_exclusions": 1025,
+    "known_used_or_reserved_rows": 1799,
+    "total_excluded": 1799,
+    "eligible_rows": 1186,
+    "required_scored": 1024,
+    "excess_after_required": 162,
+    "duplicates": {},
+    "input_ineligible": {}
+  },
+  "selection_reproduced": true,
+  "warmups_byte_identical_to_seal": true,
+  "no_output_dependent_selection": true,
+  "scope": "CPU-only independent review of parent runtime/orchestration code with local fixes; actual input seal checked",
+  "files": {
+    "experiments/fresh_mathqa_endpoints/runtime.py": {
+      "bytes": 5007,
+      "sha256": "c2cb79ed223a7860c27fa7ccf42492bde4fce83afee2799722c135b4145cffa4"
+    },
+    "experiments/fresh_mathqa_endpoints/preflight.py": {
+      "bytes": 11086,
+      "sha256": "9d2a2c91570bf4eb71815fe79532c7b7f6da2352582bced5c1a6da608275cb6c"
+    },
+    "experiments/fresh_mathqa_endpoints/entry.py": {
+      "bytes": 11033,
+      "sha256": "be5a0ab6482d853e68755c94bc7f61b0854b85b8ae1265480e933ea218375dbe"
+    },
+    "experiments/fresh_mathqa_endpoints/launch.py": {
+      "bytes": 7181,
+      "sha256": "c5a9376f9d1ddd4926c4c751a3beaf037065834f2a47f335bb56b23cdf14ee36"
+    },
+    "tests/test_fresh_mathqa_runtime.py": {
+      "bytes": 9700,
+      "sha256": "ef0d5244d1210235c02b868dcbfb4da69e3e292d127df7a383eec81e3abec511"
+    }
+  },
+  "focused_tests": 10,
+  "focused_test_status": "passed",
+  "model_work": 0,
+  "remote_operations": 0,
+  "network_operations": 0,
+  "remaining_gates": [
+    "native GPU qualification",
+    "fresh canonical completion",
+    "actual resource admission",
+    "PR54 archive/keeper reconciliation"
+  ],
+  "postflight_exports": "All three frozen input exports rehashed after scored worker exit and before report; receipt retained even if mismatch.",
+  "execution_commit": null,
+  "execution_commit_status": "forthcoming; CPU review makes no execution claim"
+}

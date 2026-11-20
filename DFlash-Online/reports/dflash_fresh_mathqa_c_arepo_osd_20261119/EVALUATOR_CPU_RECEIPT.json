@@ -1,0 +1,46 @@
+{
+  "status": "passed",
+  "utc": "2026-11-20T01:40:11.161619+00:00",
+  "tests": 12,
+  "wall_s": 61.19,
+  "command": "PYTHONPATH=.:tests python -m unittest discover -s tests/fresh_mathqa_endpoints -p 'test_*.py' -v",
+  "log": {
+    "bytes": 1994,
+    "sha256": "396ca262890f1cf2e111f5bc6e112c78ee3627e39dc6a047678c18d68304ffb9"
+  },
+  "sources": {
+    "experiments/fresh_mathqa_endpoints/evaluation.py": {
+      "bytes": 21394,
+      "sha256": "f65d0af568f58624776aa69af63092782140cacbe105ebae3fe43dc2fd8c6e83"
+    },
+    "experiments/fresh_mathqa_endpoints/analysis.py": {
+      "bytes": 14235,
+      "sha256": "5be23a8925e9c62eb0844190a5874daee7afca5295d00ac839f0f843553adfa2"
+    },
+    "tests/fresh_mathqa_endpoints/test_evaluation.py": {
+      "bytes": 10383,
+      "sha256": "058ae02ce2302ac31c9db01d048976fe5d3ccae941314cf9a304305e40cf24ee"
+    },
+    "tests/fresh_mathqa_endpoints/test_analysis.py": {
+      "bytes": 5741,
+      "sha256": "42b8e8595b20f859e80811e30137a3513a046470ad8ba26229a8e5df58f985c2"
+    }
+  },
+  "qualified_old_wrappers_unchanged": {
+    "experiments/full_c_gsm8k/evaluation.py": true,
+    "experiments/full_c_gsm8k/analysis.py": true
+  },
+  "coverage": [
+    "full 9504-row synthetic native-record execution and raw reaudit",
+    "exact 144 activations / 9216 scores / 288 warmups / six permutations eight times each",
+    "missing/duplicate raw rows and scalar repeats; canonical digest/request/producer provenance tampering",
+    "wrong native checkpoint and malformed EOS/cap termination",
+    "invalid and unknown attempt persistence, no retry, destination immutability",
+    "within-arm counts/native histograms and fixed GPU invariants",
+    "independent arithmetic of all three contrasts, exact 10000 PCG64 draws seed20261119",
+    "zero-call undefined ratios, valid cap cases, gross/net calls and pooled request means"
+  ],
+  "scope": "CPU fixture qualification only; no GPU model work or efficacy result; readiness requires fresh panel exclusion and separate native qualification",
+  "authorship_overlap": "Same worker adapted wrappers and wrote these tests; reused native fixtures from existing tests. Not an independent GPU replication.",
+  "initial_fixture_failure": "First 12-test run had 11 passes and a fixture schema error: malformed weight-check reply omitted tensor fields. Replaced it with a complete native reply whose all_equal flag is false; final run passes the actual wrong-weight gate."
+}
