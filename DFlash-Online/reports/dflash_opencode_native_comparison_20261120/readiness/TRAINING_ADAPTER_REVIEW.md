@@ -1,5 +1,7 @@
 # CODE training adapter and resource review
 
+Implementation source: `c0a0794e8a7a42a3e2e70833a73992a6201ea6d6`. Native execution: **not started**.
+
 Review scope: inspection of the adopted November 20 handoff and retained DFlash-Online training, publication, storage and cost evidence, followed by the parent-authorized dedicated CODE adapter, bounded qualification and retention implementation. ARS experiment-agent execution review. Only CPU tests, including a tiny native training runtime, have executed. No GPU model work, remote operation, production training or commit was performed by this reviewer. Research remains Stage 1 / project None.
 
 ## Conclusion

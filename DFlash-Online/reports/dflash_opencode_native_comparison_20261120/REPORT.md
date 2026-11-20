@@ -1,5 +1,7 @@
 # CODE comparison: partial execution report
 
+Implementation source: `c0a0794e8a7a42a3e2e70833a73992a6201ea6d6`. Native execution: **not started**.
+
 ## Material Passport
 
 Mode: ARS experiment execution/validation. Status: **blocked during readiness; no GPU experiment executed**. Implementation is published for review; execution commit and experimental results are unavailable because qualification has not launched.

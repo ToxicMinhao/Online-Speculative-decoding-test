@@ -1,5 +1,7 @@
 # CODE source review
 
+Implementation source: `c0a0794e8a7a42a3e2e70833a73992a6201ea6d6`. Native execution: **not started**.
+
 The pinned AdaFlash loader at `478bf0ff7a3a5232b13d0f14e752d5fe1da0b718` loads `nvidia/OpenCodeInstruct` through `refs/convert/parquet`, uses official train/test when both exist, otherwise uses contiguous index ranges. Its user content is the original `input`. The answer-dependent fallback ID is deliberately not reused: this handoff requires immutable revision/shard/raw-index identities and forbids reference answers.
 
 The required mirror resolved the source to `9819cc0464bf7312883763f93751749007b5bbcf`. The installed pinned loader resolves one `train` split and a deterministic shard list. Its list contains the seven paths twice; this has no effect on the authorized first50,000 rows, all of which occur in the first200,000-row shard. No later duplicate portion is scanned. The dataset's conversion is a partial parquet export; this report makes no full-dataset coverage claim.

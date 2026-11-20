@@ -1,5 +1,7 @@
 # Native online CODE comparison: readiness
 
+Implementation source: `c0a0794e8a7a42a3e2e70833a73992a6201ea6d6`. Native execution: **not started**.
+
 ## Material Passport
 
 Mode: ARS experiment run with CPU implementation validation. Status: **resource-blocked before GPU qualification**. Scientific execution commit: none yet. Source base: PR55 `18d60135e6a482bf2f0f92454c572ccadc2adf1e`. This document reports preparation, not an experiment result or a native qualification pass.

@@ -1,5 +1,7 @@
 # CODE launcher and qualification-disposal review
 
+Implementation source: `c0a0794e8a7a42a3e2e70833a73992a6201ea6d6`. Native execution: **not started**.
+
 Scope: independent CPU/source review of the newly added `launch.py`, `forecast.py` and `qualification_cleanup.py` against the actual training, qualification, serving-gate and native timing APIs. No GPU execution, environment installation, scientific setting or resource-cap change.
 
 Three concrete issues were repaired:

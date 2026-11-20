@@ -1,5 +1,7 @@
 # CODE storage admission review
 
+Implementation source: `c0a0794e8a7a42a3e2e70833a73992a6201ea6d6`. Native execution: **not started**.
+
 **The fixed 80 GB additional-study cap does not admit the current complete-run forecast.** The training peak is **86.5669 GB**, a **6.5669 GB deficit**. No GPU qualification, training, or generation has run. The original cap and all scientific settings remain unchanged.
 
 | Phase component | Training peak, GB | Final-evaluation peak, GB |

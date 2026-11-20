@@ -1,5 +1,7 @@
 # CODE serving and accounting review
 
+Implementation source: `c0a0794e8a7a42a3e2e70833a73992a6201ea6d6`. Native execution: **not started**.
+
 Scope: same-team independent review of `evaluation.py`, `analysis.py`,
 `runtime.py`, and `storage.py`, during implementation on November 20, 2026.
 The reviewer authored the separate AR adapter and native serving gate; that
