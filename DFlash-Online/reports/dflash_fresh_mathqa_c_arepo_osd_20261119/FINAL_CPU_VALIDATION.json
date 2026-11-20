@@ -1,0 +1,131 @@
+{
+  "status": "passed",
+  "utc": "2026-11-20T01:54:22.789247+00:00",
+  "rows": [
+    {
+      "suite": "evaluator_and_prepare",
+      "returncode": 0,
+      "wall_s": 64.17167344735935,
+      "log": "PRECOMMIT_evaluator_and_prepare.log",
+      "tests": 14,
+      "log_identity": {
+        "bytes": 2240,
+        "sha256": "e87c2ba955c6526485a419cb86e4c5187682c5dcf413b44c9709961c0d9dd6ea"
+      }
+    },
+    {
+      "suite": "runtime",
+      "returncode": 0,
+      "wall_s": 0.31440652115270495,
+      "log": "PRECOMMIT_runtime.log",
+      "tests": 10,
+      "log_identity": {
+        "bytes": 1767,
+        "sha256": "0b7e0f3da28748532532df6431b25de5d859963e0dc78c4b3c84404fae397208"
+      }
+    },
+    {
+      "suite": "inactive_cpu_reference",
+      "returncode": 0,
+      "wall_s": 1.7311319611035287,
+      "log": "PRECOMMIT_inactive_cpu_reference.log",
+      "tests": 16,
+      "log_identity": {
+        "bytes": 3601,
+        "sha256": "02dd5468dc2f80285f082549a36ad290333d2b7d40f6cb85659fb58f5c21cd7a"
+      }
+    },
+    {
+      "suite": "archive_reader",
+      "returncode": 0,
+      "wall_s": 0.15761252213269472,
+      "log": "PRECOMMIT_archive_reader.log",
+      "tests": 23,
+      "log_identity": {
+        "bytes": 4640,
+        "sha256": "72cb4596e792a658b8dba692b3a0f0c06583ce12ad4b57847fb4a1852f8f6a14"
+      }
+    }
+  ],
+  "total_distinct_tests": 63,
+  "gpu_work": 0,
+  "optimizer_steps": 0,
+  "source_identities": {
+    "experiments/fresh_mathqa_endpoints/__init__.py": {
+      "bytes": 87,
+      "sha256": "c1dcf15092db8f55c191268c65c9190efa42fcec431b854ff1cd732c112e8869"
+    },
+    "experiments/fresh_mathqa_endpoints/analysis.py": {
+      "bytes": 14235,
+      "sha256": "5be23a8925e9c62eb0844190a5874daee7afca5295d00ac839f0f843553adfa2"
+    },
+    "experiments/fresh_mathqa_endpoints/archive_audit/__init__.py": {
+      "bytes": 80,
+      "sha256": "b452e71acd7bc23a1a5ca5439508e68394fa459a49be8e788be255e53940e182"
+    },
+    "experiments/fresh_mathqa_endpoints/archive_audit/test_verify_archive.py": {
+      "bytes": 16850,
+      "sha256": "5a84702e249abc1fded261f55ee854ad7ab152ebf69fc8fc53cb3b06bc7c38dd"
+    },
+    "experiments/fresh_mathqa_endpoints/archive_audit/verify_archive.py": {
+      "bytes": 32309,
+      "sha256": "3fe985fcdcf0438a338216a13dab987c059e9c79e4586f39a3b012bab990b745"
+    },
+    "experiments/fresh_mathqa_endpoints/cpu_reference/__init__.py": {
+      "bytes": 77,
+      "sha256": "c9ea94f74d5adfbdec4d13c4c11c49a34f501de8a3a45cbaee62d788760f3bab"
+    },
+    "experiments/fresh_mathqa_endpoints/cpu_reference/direct_support_score.py": {
+      "bytes": 5386,
+      "sha256": "c1b20477b09903049a96721a4cd72e12827ad616e6ae52395d4d285e42eafd7b"
+    },
+    "experiments/fresh_mathqa_endpoints/cpu_reference/scalar_oracle.py": {
+      "bytes": 2088,
+      "sha256": "da89de03c65fb15bec2320697110c177cefe7d8bd492224fae943a1cfc052588"
+    },
+    "experiments/fresh_mathqa_endpoints/cpu_reference/test_direct_support_score.py": {
+      "bytes": 16423,
+      "sha256": "7f957643f12124f621c36973bbc08ff7b566ddb99c139f2f107c6ccc3348cba8"
+    },
+    "experiments/fresh_mathqa_endpoints/cpu_reference/verify_cpu_reference.py": {
+      "bytes": 4368,
+      "sha256": "29c83814d6120d020aba73f6e5d134b30a0689544fc039e8839c5b603ac2395d"
+    },
+    "experiments/fresh_mathqa_endpoints/entry.py": {
+      "bytes": 11033,
+      "sha256": "be5a0ab6482d853e68755c94bc7f61b0854b85b8ae1265480e933ea218375dbe"
+    },
+    "experiments/fresh_mathqa_endpoints/evaluation.py": {
+      "bytes": 21394,
+      "sha256": "f65d0af568f58624776aa69af63092782140cacbe105ebae3fe43dc2fd8c6e83"
+    },
+    "experiments/fresh_mathqa_endpoints/launch.py": {
+      "bytes": 7181,
+      "sha256": "c5a9376f9d1ddd4926c4c751a3beaf037065834f2a47f335bb56b23cdf14ee36"
+    },
+    "experiments/fresh_mathqa_endpoints/preflight.py": {
+      "bytes": 11914,
+      "sha256": "660d20ef6f543a8d036cddfaf0590f85e7a583bafda835d4f28c88047db7ec3b"
+    },
+    "experiments/fresh_mathqa_endpoints/preparation/audit_pool.py": {
+      "bytes": 17296,
+      "sha256": "24917f74d479a01089881b21195dafa0c59e3b85c896537da20a248c77197847"
+    },
+    "experiments/fresh_mathqa_endpoints/preparation/seal_panel.py": {
+      "bytes": 10066,
+      "sha256": "1c4772ae6d58f4368b98126d79efb7b07b7838c76c84fe0cd571ca8820ccf0c0"
+    },
+    "experiments/fresh_mathqa_endpoints/preparation/verify_seal.py": {
+      "bytes": 4867,
+      "sha256": "800dea04e377d90f47d5be311b367de2fccf37335decdaff30bdfd54b6cfcf62"
+    },
+    "experiments/fresh_mathqa_endpoints/prepare.py": {
+      "bytes": 5982,
+      "sha256": "5770cade5fedc5dba0050dfea5fb7a3e6c98cb71ff5c7ed7d3c40f32d0aa13de"
+    },
+    "experiments/fresh_mathqa_endpoints/runtime.py": {
+      "bytes": 5007,
+      "sha256": "c2cb79ed223a7860c27fa7ccf42492bde4fce83afee2799722c135b4145cffa4"
+    }
+  }
+}

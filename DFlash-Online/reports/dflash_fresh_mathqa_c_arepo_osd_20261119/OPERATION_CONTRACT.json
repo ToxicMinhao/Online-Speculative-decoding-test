@@ -1,0 +1,17 @@
+{
+  "name": "inactive_cpu_direct_support_score_v1",
+  "status": "matched_adapted_reference_not_official_reproduction",
+  "input": "native forward-KL rows and native BF16 log_softmax; one response",
+  "support": "current matching prefix plus first error; native validity/EOS",
+  "smoothing": 0.5,
+  "probability": "exp(FP32 detached canonical gather from native log_softmax)",
+  "score": "reverse_sum(valid * cumulative_product(where(valid, 0.5+0.5*q, 1)))",
+  "pool": "all support positions in all blocks/chunks of one response",
+  "B": "sum native beta over support",
+  "R": "sum detached score r over support",
+  "coefficient": "B*r/R on support; zero elsewhere; no extra beta factor",
+  "loss": "sum(coefficient*native_forward_KL_row)/(B+1e-6)",
+  "empty_support": "graph-connected zero supervision; no division by zero R",
+  "chunk_boundary": "between complete blocks only; never between block slots",
+  "runtime": "CPU only; inactive; no production installer"
+}

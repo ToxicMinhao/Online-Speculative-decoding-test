@@ -1,0 +1,50 @@
+{
+  "scope": "CPU qualification of portable private-evidence archive verifier",
+  "cpu_qualification_status": "passed",
+  "tests": 23,
+  "wall_s": 0.071,
+  "command": "PYTHONPATH=. python -B -m unittest experiments.fresh_mathqa_endpoints.archive_audit.test_verify_archive -v",
+  "sources": {
+    "experiments/fresh_mathqa_endpoints/archive_audit/verify_archive.py": {
+      "bytes": 32309,
+      "sha256": "3fe985fcdcf0438a338216a13dab987c059e9c79e4586f39a3b012bab990b745"
+    },
+    "experiments/fresh_mathqa_endpoints/archive_audit/test_verify_archive.py": {
+      "bytes": 16850,
+      "sha256": "5a84702e249abc1fded261f55ee854ad7ab152ebf69fc8fc53cb3b06bc7c38dd"
+    }
+  },
+  "independent_review": {
+    "status": "passed",
+    "tests_reviewed": 21,
+    "reviewed_private_verifier_sha256": "60b461b37f2de293b1ab259236ec93098d1555020593a17f2fb389b585071376",
+    "overlap": "A separate local agent reviewed the verifier and wrote 21 tests; the implementation author subsequently added 2 supplemental external-keeper cases. No independent model replication."
+  },
+  "portability_changes": [
+    "Host-specific source-root constant replaced by authenticated manifest source_root with the same campaign suffix.",
+    "External serving paths resolve under that authenticated run directory; exact checkpoint/config hashes remain fixed.",
+    "Tests use synthetic fixture roots; CLI has no host-specific default paths."
+  ],
+  "coverage": [
+    "regular-member size/SHA256 and exact set coverage",
+    "duplicate, missing, extra, appended, unsafe, link and tensor members",
+    "complete tar footer and strict gzip/zstd EOF/checksum behavior",
+    "complete 58-event scalar boundary and retirement chain",
+    "prepared-feature to successor-state and exact predecessor-path linkage",
+    "three physical C tensor keepers behind four recorded paths",
+    "current O58/AREPO58/C58 export identities",
+    "supplemental KPLUS58, original K0 and seven runtime-overlay observations bound to archived source plan"
+  ],
+  "model_work": 0,
+  "gpu_initialized": false,
+  "deleted_paths": [],
+  "archive_delivery_status": "pending actual complete-transfer stream verification",
+  "scientific_limits": [
+    "Synthetic CPU fixtures do not establish real archive delivery.",
+    "A passed real CLOSEOUT.json additionally requires exact received compressed-file identity and every actual archive member.",
+    "Tensor payloads remain remote; no tensor reload, GPU replication or efficacy reanalysis occurs.",
+    "Archive retention and filesystem observations are distinct from a fresh scientific result."
+  ],
+  "private_payloads_published": false,
+  "recorded_utc": "2026-11-20T01:54:45.664242+00:00"
+}
