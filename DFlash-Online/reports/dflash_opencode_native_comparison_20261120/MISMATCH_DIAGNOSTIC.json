@@ -1,0 +1,173 @@
+{
+  "status": "passed",
+  "scope": "Replay fidelity and native-score diagnosis, not AR/F equality",
+  "execution_commit": "7ba747702d5b86628cfed95ac064db4d54469586",
+  "original_execution_commit": "93a53f11abbfbf00e36c1bcc309a33943f972099",
+  "first_difference": 279,
+  "common_prefix_tokens": 344,
+  "rival_token_ids": [
+    11,
+    323
+  ],
+  "arms": {
+    "AR": {
+      "call": 280,
+      "position": 343,
+      "native_rows": 1,
+      "logit_dtype": "torch.float32",
+      "native_choice": 11,
+      "rival_logits": [
+        32.0,
+        32.0
+      ],
+      "maximum": 32.0,
+      "maximum_tied_token_ids": [
+        11,
+        323
+      ],
+      "output_tokens": 290,
+      "eos_token": 151645,
+      "verification_calls": null,
+      "forward_calls": {
+        "target": 291,
+        "draft": 0
+      },
+      "initialization_forwards": 3,
+      "peak_gpu_allocated_bytes": 54984688128,
+      "peak_gpu_reserved_bytes": 55155097600,
+      "costs": {
+        "loading_s": 17.909192096441984,
+        "total_before_shutdown_s": 23.254100997000933,
+        "timing_is_instrumented_diagnostic_not_benchmark": true
+      }
+    },
+    "F": {
+      "call": 29,
+      "position": 343,
+      "native_rows": 16,
+      "logit_dtype": "torch.float32",
+      "native_choice": 323,
+      "rival_logits": [
+        31.875,
+        32.0
+      ],
+      "maximum": 32.0,
+      "maximum_tied_token_ids": [
+        323
+      ],
+      "output_tokens": 292,
+      "eos_token": 151645,
+      "verification_calls": 30,
+      "forward_calls": {
+        "target": 31,
+        "draft": 30
+      },
+      "initialization_forwards": 51,
+      "peak_gpu_allocated_bytes": 57215915520,
+      "peak_gpu_reserved_bytes": 57451479040,
+      "costs": {
+        "loading_s": 20.527121307328343,
+        "total_before_shutdown_s": 21.357409114018083,
+        "timing_is_instrumented_diagnostic_not_benchmark": true
+      }
+    }
+  },
+  "complete": {
+    "status": "completed",
+    "generations": 2,
+    "training_steps": 0,
+    "wall_s": 50.9965980052948,
+    "production_still_stopped": true
+  },
+  "diagnostic_card_s": 44.66397213935852,
+  "cumulative_card_s": 237.9032530784607,
+  "original_clock_epoch": 1795217755.6244764,
+  "global_work": {
+    "limits": {
+      "production.feedback_generation": 22272,
+      "production.correctness_generation": 12,
+      "production.canonical_generation": 1024,
+      "production.frozen_precheck_generation": 1024,
+      "production.warmup_generation": 240,
+      "production.scored_generation": 15360,
+      "production.adam": 22272,
+      "production.response_forward": 44544,
+      "production.response_backward": 44544,
+      "production.teacher_preparation": 22272,
+      "production.training_initialization": 3,
+      "qualification.generation": 64,
+      "qualification.adam": 48,
+      "qualification.response_forward": 128,
+      "qualification.response_backward": 128,
+      "qualification.teacher_preparation": 32,
+      "qualification.training_initialization": 8
+    },
+    "next_operation": 14,
+    "attempted": {
+      "production.feedback_generation": 0,
+      "production.correctness_generation": 0,
+      "production.canonical_generation": 0,
+      "production.frozen_precheck_generation": 0,
+      "production.warmup_generation": 0,
+      "production.scored_generation": 0,
+      "production.adam": 0,
+      "production.response_forward": 0,
+      "production.response_backward": 0,
+      "production.teacher_preparation": 0,
+      "production.training_initialization": 0,
+      "qualification.generation": 14,
+      "qualification.adam": 0,
+      "qualification.response_forward": 0,
+      "qualification.response_backward": 0,
+      "qualification.teacher_preparation": 0,
+      "qualification.training_initialization": 0
+    },
+    "completed": {
+      "production.feedback_generation": 0,
+      "production.correctness_generation": 0,
+      "production.canonical_generation": 0,
+      "production.frozen_precheck_generation": 0,
+      "production.warmup_generation": 0,
+      "production.scored_generation": 0,
+      "production.adam": 0,
+      "production.response_forward": 0,
+      "production.response_backward": 0,
+      "production.teacher_preparation": 0,
+      "production.training_initialization": 0,
+      "qualification.generation": 13,
+      "qualification.adam": 0,
+      "qualification.response_forward": 0,
+      "qualification.response_backward": 0,
+      "qualification.teacher_preparation": 0,
+      "qualification.training_initialization": 0
+    },
+    "pending": {
+      "11": {
+        "task": "qualification_serving_A",
+        "label": "A_AR_reserved_8_2048_0",
+        "counts": {
+          "qualification.generation": 1
+        }
+      }
+    },
+    "failures": []
+  },
+  "all_prior_failures_preserved": true,
+  "independent_audit": {
+    "status": "passed",
+    "full_vector_entries": 151936,
+    "all_target_matrices_finite": 322,
+    "full_vector_max_abs_difference": 0.25,
+    "full_vector_differing_entries": 122375,
+    "full_vector_l2_difference": 11.36032486,
+    "raw_trajectory_equality": true,
+    "actual_settings_reproduced": true,
+    "observer_arithmetic_not_changed": true
+  },
+  "private_archive": {
+    "bytes": 1321900,
+    "sha256": "0bfa4ef6c39adb666dd4a141ccae55c9ff3783bbcbc5569bf9b4bd0b08d96b52",
+    "members": 51,
+    "verified": true
+  }
+}

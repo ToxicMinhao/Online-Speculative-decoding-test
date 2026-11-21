@@ -1,5 +1,7 @@
 # CODE comparison — stopped at native qualification
 
+**Diagnostic update (execution `7ba747702d5b86628cfed95ac064db4d54469586`):** Two read-only native replays reproduce the mismatch and identify an exact AR logit tie versus a0.125 DFlash margin at the first divergent token. No token-commit bug was found; the underlying operation causing the numerical perturbation remains unisolated. The strict equality gate and main campaign remain blocked. See [the diagnostic report](MISMATCH_DIAGNOSTIC.md).
+
 Execution `93a53f11abbfbf00e36c1bcc309a33943f972099` successfully repaired AR startup, then failed exact AR/frozen-DFlash output agreement. The three training arms have not started; there are no O/AREPO/C performance results.
 
 The identical65-token prompt yields290ARtokens versus292DFlashtokens, bothEOS, withfirstdivergenceatzero-basedposition279.12qualificationgenerationsattempted,11returned,oneinterruptedunknown;zerotraining/teacher/Adamwork.52qualificationgenerationsremainunattempted.

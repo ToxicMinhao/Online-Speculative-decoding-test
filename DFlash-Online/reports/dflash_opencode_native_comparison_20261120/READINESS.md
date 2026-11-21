@@ -1,5 +1,7 @@
 # Native online CODE comparison: readiness
 
+**Diagnostic update (execution `7ba747702d5b86628cfed95ac064db4d54469586`):** Two read-only native replays reproduce the mismatch and identify an exact AR logit tie versus a0.125 DFlash margin at the first divergent token. No token-commit bug was found; the underlying operation causing the numerical perturbation remains unisolated. The strict equality gate and main campaign remain blocked. See [the diagnostic report](MISMATCH_DIAGNOSTIC.md).
+
 **Current native status: blocked.** The AR startup repair passed, but same-card AR/F outputs differ after279matching tokens. Production remains unstarted. See [qualification report](QUALIFICATION_REPORT.md); earlier readiness statuses below are historical.
 
 **Retry authorized:** the user approved the repaired bounded qualification and unchanged campaign if all gates pass. The new explicit recovery path preserves the original clock, work, inputs, compiler baseline and failure archive. 81 focused CPU tests pass; native retry is pending.
