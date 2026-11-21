@@ -1,9 +1,9 @@
-# CODE comparison — authorized qualification recovery
+# CODE comparison — qualification passed, training not started
 
-The user has authorized AR/speculative output differences while retaining exact F/O/AREPO/C output agreement, repeat checks and all other correctness gates. The retained mismatch remains a documented numerical-path difference, not a retrospectively passed strict equality check.
+Execution: `658d734c422a1a200fe400dceb256492f529204e`.
 
-The recovery reuses eleven completed ordinary records and preserves two diagnostic replays plus one interrupted unknown. It requires 53 further ordinary qualification generations: 67 physical attempts in total, with 66 expected returns and one historical unknown. Training, inputs, models, runtime and settings remain unchanged.
+All GPU qualification and the2,048-generation full-panel reference precheck passed under the authorized AR/speculative output policy. The O, AREPO and C production trajectories remain at0/58events each.
 
-Implementation, independent integration review and 210 CPU tests pass; native qualification resumed on both A800s after CPU preflight passed in 24.677 seconds. No O/AREPO/C performance result exists yet. Execution source is `658d734c422a1a200fe400dceb256492f529204e` (launcher PID3993464). This report update is published separately from that execution revision. The campaign will proceed only after remaining correctness, storage and measured duration checks pass.
+The measured forecast blocked admission:59.15hours of raw remaining work;79.24hours including elapsed time and prescribed contingency at the stop, versus the48-hour cap. Projected occupied GPU time was110.85card-hours versus the90-card-hour cap. Both GPUs are idle. Storage fits; no settings or caps were changed.
 
-See [the amendment and complete accounting](OUTPUT_POLICY_RECOVERY.md), [the retained diagnostic](MISMATCH_DIAGNOSTIC.md), and [the original failed qualification](QUALIFICATION_REPORT.md). Execution commit and validation receipt are recorded alongside the launch report.
+There are no O/AREPO/C endpoint performance results yet. See [the qualification and budget report](QUALIFIED_BUDGET_STOP.md) and [machine-readable receipts](QUALIFIED_BUDGET_STOP.json). Original failed qualification, diagnostic replays, costs and unknown work remain preserved.

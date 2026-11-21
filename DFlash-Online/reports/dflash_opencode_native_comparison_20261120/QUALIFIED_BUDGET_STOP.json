@@ -1,0 +1,394 @@
+{
+  "execution_commit": "658d734c422a1a200fe400dceb256492f529204e",
+  "observed_epoch": 1795241805.3702352,
+  "qualification": {
+    "status": "passed",
+    "execution_commit": "658d734c422a1a200fe400dceb256492f529204e",
+    "work": {
+      "adam": 17,
+      "response_forward": 40,
+      "response_backward": 40,
+      "teacher_preparation": 16,
+      "generation": 64,
+      "training_initialization": 3
+    },
+    "physical_work": {
+      "attempted": {
+        "adam": 17,
+        "response_forward": 40,
+        "response_backward": 40,
+        "teacher_preparation": 16,
+        "generation": 67,
+        "training_initialization": 3
+      },
+      "completed": {
+        "adam": 17,
+        "response_forward": 40,
+        "response_backward": 40,
+        "teacher_preparation": 16,
+        "generation": 66,
+        "training_initialization": 3
+      }
+    },
+    "historical_unknown_work": {
+      "11": {
+        "task": "qualification_serving_A",
+        "label": "A_AR_reserved_8_2048_0",
+        "counts": {
+          "qualification.generation": 1
+        }
+      }
+    },
+    "output_policy": "AR_speculative_differences_reported_speculative_exact_F_v1",
+    "native_output_checks": 64,
+    "qualification_states_are_disposable": true,
+    "performance_improvement_required": false
+  },
+  "training_qualification": {
+    "O_CODE58": {
+      "status": "passed",
+      "core_adam": 5,
+      "core_response_forward_backward_each": 10,
+      "startup_response_forward_backward_each": 2,
+      "origin_restored": true,
+      "exact_own_resume": true,
+      "exact_native_compatibility": true,
+      "cases": [
+        {
+          "case": "original",
+          "status": "completed",
+          "checks": "passed",
+          "observer_adjusted_training_s": 4.768978126347065
+        },
+        {
+          "case": "adapted",
+          "status": "completed",
+          "checks": "passed",
+          "observer_adjusted_training_s": 4.687329813838005
+        },
+        {
+          "case": "continued",
+          "status": "completed",
+          "checks": "passed",
+          "observer_adjusted_training_s": 4.260503452271223
+        },
+        {
+          "case": "reloaded",
+          "status": "completed",
+          "checks": "passed",
+          "observer_adjusted_training_s": 4.2649166490882635
+        },
+        {
+          "case": "synthetic4096",
+          "status": "completed",
+          "checks": "passed",
+          "observer_adjusted_training_s": 4.934969484806061
+        }
+      ]
+    },
+    "AREPO_CODE58": {
+      "status": "passed",
+      "core_adam": 5,
+      "core_response_forward_backward_each": 10,
+      "startup_response_forward_backward_each": 2,
+      "origin_restored": true,
+      "exact_own_resume": true,
+      "exact_native_compatibility": true,
+      "cases": [
+        {
+          "case": "original",
+          "status": "completed",
+          "checks": "passed",
+          "observer_adjusted_training_s": 5.131061349064112
+        },
+        {
+          "case": "adapted",
+          "status": "completed",
+          "checks": "passed",
+          "observer_adjusted_training_s": 5.0609908532351255
+        },
+        {
+          "case": "continued",
+          "status": "completed",
+          "checks": "passed",
+          "observer_adjusted_training_s": 4.609479606151581
+        },
+        {
+          "case": "reloaded",
+          "status": "completed",
+          "checks": "passed",
+          "observer_adjusted_training_s": 4.606885336339474
+        },
+        {
+          "case": "synthetic4096",
+          "status": "completed",
+          "checks": "passed",
+          "observer_adjusted_training_s": 5.479750635102391
+        }
+      ]
+    },
+    "C_CODE58": {
+      "status": "passed",
+      "core_adam": 7,
+      "core_response_forward_backward_each": 14,
+      "startup_response_forward_backward_each": 2,
+      "origin_restored": true,
+      "exact_own_resume": true,
+      "exact_native_compatibility": true,
+      "cases": [
+        {
+          "case": "bare_native",
+          "status": "completed",
+          "checks": "passed",
+          "observer_adjusted_training_s": 5.166207257658243
+        },
+        {
+          "case": "native",
+          "status": "completed",
+          "checks": "passed",
+          "observer_adjusted_training_s": 5.098855156451464
+        },
+        {
+          "case": "cap_zero",
+          "status": "completed",
+          "checks": "passed",
+          "observer_adjusted_training_s": 5.4471136424690485
+        },
+        {
+          "case": "active",
+          "status": "completed",
+          "checks": "passed",
+          "observer_adjusted_training_s": 5.562373107299209
+        },
+        {
+          "case": "continued",
+          "status": "completed",
+          "checks": "passed",
+          "observer_adjusted_training_s": 5.269254675135016
+        },
+        {
+          "case": "reloaded",
+          "status": "completed",
+          "checks": "passed",
+          "observer_adjusted_training_s": 5.094348507001996
+        },
+        {
+          "case": "synthetic4096",
+          "status": "completed",
+          "checks": "passed",
+          "observer_adjusted_training_s": 5.84672618471086
+        }
+      ]
+    }
+  },
+  "precheck": {
+    "status": "passed",
+    "canonicals": 1024,
+    "parity_generations": 1024,
+    "output_policy": "AR_speculative_differences_reported_speculative_exact_F_v1",
+    "AR_F_mismatches": 738,
+    "canonical_digest": "1b219493ccc6497bdf8172f82e848cc76ece22218750bda7fd8da9585cd93662"
+  },
+  "production_arms": {
+    "O_CODE58": {
+      "status_path_exists": false
+    },
+    "AREPO_CODE58": {
+      "status_path_exists": false
+    },
+    "C_CODE58": {
+      "status_path_exists": false
+    }
+  },
+  "work": {
+    "limits": {
+      "production.feedback_generation": 22272,
+      "production.correctness_generation": 12,
+      "production.canonical_generation": 1024,
+      "production.frozen_precheck_generation": 1024,
+      "production.warmup_generation": 240,
+      "production.scored_generation": 15360,
+      "production.adam": 22272,
+      "production.response_forward": 44544,
+      "production.response_backward": 44544,
+      "production.teacher_preparation": 22272,
+      "production.training_initialization": 3,
+      "qualification.generation": 67,
+      "qualification.adam": 48,
+      "qualification.response_forward": 128,
+      "qualification.response_backward": 128,
+      "qualification.teacher_preparation": 32,
+      "qualification.training_initialization": 8
+    },
+    "next_operation": 2231,
+    "attempted": {
+      "production.feedback_generation": 0,
+      "production.correctness_generation": 0,
+      "production.canonical_generation": 1024,
+      "production.frozen_precheck_generation": 1024,
+      "production.warmup_generation": 0,
+      "production.scored_generation": 0,
+      "production.adam": 0,
+      "production.response_forward": 0,
+      "production.response_backward": 0,
+      "production.teacher_preparation": 0,
+      "production.training_initialization": 0,
+      "qualification.generation": 67,
+      "qualification.adam": 17,
+      "qualification.response_forward": 40,
+      "qualification.response_backward": 40,
+      "qualification.teacher_preparation": 16,
+      "qualification.training_initialization": 3
+    },
+    "completed": {
+      "production.feedback_generation": 0,
+      "production.correctness_generation": 0,
+      "production.canonical_generation": 1024,
+      "production.frozen_precheck_generation": 1024,
+      "production.warmup_generation": 0,
+      "production.scored_generation": 0,
+      "production.adam": 0,
+      "production.response_forward": 0,
+      "production.response_backward": 0,
+      "production.teacher_preparation": 0,
+      "production.training_initialization": 0,
+      "qualification.generation": 66,
+      "qualification.adam": 17,
+      "qualification.response_forward": 40,
+      "qualification.response_backward": 40,
+      "qualification.teacher_preparation": 16,
+      "qualification.training_initialization": 3
+    },
+    "pending": {
+      "11": {
+        "task": "qualification_serving_A",
+        "label": "A_AR_reserved_8_2048_0",
+        "counts": {
+          "qualification.generation": 1
+        }
+      }
+    },
+    "failures": []
+  },
+  "forecast": {
+    "created_epoch": 1795233247.5564451,
+    "completed_arms": [],
+    "per_arm": {
+      "O_CODE58": {
+        "components": {
+          "feedback_s": 8282.01688499283,
+          "teacher_preparation_s": 4033.4209856987,
+          "native_training_s": 36637.213455200195,
+          "persistence_validation_retirement_s": 6960,
+          "initialization_s": 43.33146521449089
+        },
+        "raw_s": 55955.98279110622
+      },
+      "AREPO_CODE58": {
+        "components": {
+          "feedback_s": 8282.01688499283,
+          "teacher_preparation_s": 4033.4209856987,
+          "native_training_s": 40681.66871500015,
+          "persistence_validation_retirement_s": 6960,
+          "initialization_s": 43.33146521449089
+        },
+        "raw_s": 60000.438050906174
+      },
+      "C_CODE58": {
+        "components": {
+          "feedback_s": 8282.01688499283,
+          "teacher_preparation_s": 4033.4209856987,
+          "native_training_s": 43406.09519529343,
+          "persistence_validation_retirement_s": 6960,
+          "initialization_s": 43.33146521449089
+        },
+        "raw_s": 62724.86453119945
+      }
+    },
+    "final_evaluation_s": 32446.14659111586,
+    "audit_packaging_s": 1800.0,
+    "assumptions": [
+      "same sealed input distribution; future outputs and costs remain uncertain",
+      "no adapted serving speedup assumed",
+      "full-capacity synthetic training included",
+      "two occupied cards per online trajectory; one during scored evaluation",
+      "two minutes/event for checkpoint persistence, authentication and retirement",
+      "historical ten-hour floor per arm; completed arm times form an additional floor"
+    ],
+    "lengths": {
+      "F": {
+        "mean": 402.228515625,
+        "maximum": 2048,
+        "capped": 2
+      },
+      "AR": {
+        "mean": 406.0771484375,
+        "maximum": 2048,
+        "capped": 4
+      }
+    },
+    "remaining_elapsed_s": 212927.4319643277,
+    "remaining_card_s": 389808.71733753954,
+    "status": "blocked",
+    "error": "RuntimeError(\"The complete unchanged CODE study no longer fits: {'clock': {'occupied_s': 9269.054630279541, 'elapsed_s': 15491.944058418274, 'active': {}}, 'storage': {'allocated_bytes': 1018015744, 'compiler_growth_bytes': 15425536, 'charged_bytes': 1033441280, 'free_bytes': 491467960320, 'projected_peak_bytes': 86530781582, 'storage_phase': 'training', 'remaining_peak_bytes': 85497340302, 'remaining_components': {'tensors': 74027615374, 'compact': 9485150464, 'compiler': 1984574464}, 'required_free_bytes': 485497340302}, 'raw_remaining_elapsed_s': 212927.4319643277, 'estimated_remaining_occupied_card_s': 389808.71733753954, 'contingency_elapsed_total_s': 285251.23401382787, 'projected_card_total_s': 399077.7719678191, 'elapsed_contingency': {'factor': 1.25, 'reserve_s': 3600}, 'forecast_is_guaranteed_upper_bound': False}\")"
+  },
+  "phase_times": {
+    "phases/precheck_A/STATUS.json": {
+      "status": "completed",
+      "wall_s": 4138.059861660004
+    },
+    "phases/precheck_B/STATUS.json": {
+      "status": "completed",
+      "wall_s": 4038.6125767230988
+    },
+    "phases/qualification_publication_A/STATUS.json": {
+      "status": "completed",
+      "wall_s": 52.56213307380676
+    },
+    "phases/qualification_serving_A/STATUS.json": {
+      "status": "completed",
+      "wall_s": 189.03179144859314
+    },
+    "phases/qualification_serving_B/STATUS.json": {
+      "status": "completed",
+      "wall_s": 32.9003472328186
+    },
+    "phases/qualification_training_AREPO_CODE58/STATUS.json": {
+      "status": "completed",
+      "wall_s": 177.90830945968628
+    },
+    "phases/qualification_training_C_CODE58/STATUS.json": {
+      "status": "completed",
+      "wall_s": 238.03531074523926
+    },
+    "phases/qualification_training_O_CODE58/STATUS.json": {
+      "status": "completed",
+      "wall_s": 185.37949061393738
+    }
+  },
+  "source_receipt_identities": {
+    "qualification_policy_001/QUALIFICATION.json": {
+      "bytes": 1089,
+      "sha256": "a65be7c3d5a559b645c9ba05ea2e1116b53feacd1756a256312bb725acc07f08"
+    },
+    "forecasts/AFTER_0_ARMS.json": {
+      "bytes": 2745,
+      "sha256": "5f877a12ec13d379550ee6a804db13c6dac1c59e325a685cab1d5ff884226dbe"
+    },
+    "WORK.json": {
+      "bytes": 2396,
+      "sha256": "70fbaf0210d943a57647ef088bfd1adfaadef8cb94d220726e2fa29aa5c3f9b8"
+    },
+    "CLOCK.json": {
+      "bytes": 4523,
+      "sha256": "958283ff5a3d504b11b1f028ff08cd3c37bbe0f85ecab3971e9b0f0edced90f7"
+    },
+    "precheck/AR_F_PRECHECK.json": {
+      "bytes": 274,
+      "sha256": "20ef6a0f3da07ed033d1fd31f30eae7f79c95f197571eef3f5fa6cca7e644303"
+    }
+  },
+  "gpu_processes": "",
+  "free_bytes": 491467718656,
+  "status": "qualification_passed_production_blocked_by_time_budget"
+}
