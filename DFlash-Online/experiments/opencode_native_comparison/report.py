@@ -114,6 +114,7 @@ def build_report(plan, output):
         startup_retry=startup_retry,
         output_policy=plan.get('output_policy'),
         authorized_policy_continuation=bool(plan.get('policy_resume')),
+        budget_continuation=audit.get('budget_continuation'),
         final_publication_s=None))
     if 'endpoint_identities' in audit:
         raw_audit.write(public/'ENDPOINT_IDENTITIES.json',audit['endpoint_identities'])
@@ -130,6 +131,13 @@ def build_report(plan, output):
             'Only the remaining qualification work was resumed under that explicit output-policy amendment; '
             'the prior unknown execution and consumed time remain in the accounting. '
             'The original cross-path equality criterion is not retrospectively reported as passed.','']
+    if audit.get('budget_continuation'):
+        continuation = audit['budget_continuation']
+        lines += [f"The user authorized 96 elapsed hours and 120 occupied GPU-card-hours, both on the original clock. "
+            f"Passed qualification and all 2,048 precheck generations from `{continuation['qualified_execution_commit']}` "
+            "were reused without repeating model work. Production uses the execution commit above; "
+            "the source review verifies unchanged scientific code and settings. "
+            "The earlier budget stop, failure evidence and consumed costs remain retained.", '']
     if audit['status'] == 'passed':
         raw_audit.write(public/'RESULTS.json',summary)
         table(public/'AR_SPEC_OUTPUT_COMPARISONS.csv',

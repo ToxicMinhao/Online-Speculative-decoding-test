@@ -1,0 +1,38 @@
+{
+  "status": "implementation_review_passed_ready_for_admission",
+  "qualified_execution_commit": "658d734c422a1a200fe400dceb256492f529204e",
+  "production_execution_commit": "recorded_in_sealed_source_manifest_and_launch_receipt",
+  "authorized_limits": {
+    "elapsed_s": 345600,
+    "occupied_card_s": 432000,
+    "storage_bytes": 90000000000,
+    "free_reserve_bytes": 400000000000
+  },
+  "original_first_model_load_epoch": 1795217755.6244764,
+  "preserved_card_s": 9269.054630279541,
+  "tests": {
+    "cpu_passed": 222,
+    "cpu_wall_s": 5.48,
+    "independent_focused_cpu_passed": 112,
+    "independent_wall_s": 2.53
+  },
+  "qualification_reuse": {
+    "prescribed_slots": 64,
+    "physical_attempts": 67,
+    "physical_returns": 66,
+    "historical_unknown": 1,
+    "temporary_adam_steps": 17,
+    "additional_model_work": 0
+  },
+  "precheck_reuse": {
+    "generations": 2048,
+    "additional_generations": 0
+  },
+  "scientific_settings_changed": false,
+  "storage_limits_changed": false,
+  "forecast": {
+    "raw_remaining_h": 59.14650887897991,
+    "occupied_card_h_total": 110.85493665772754
+  },
+  "review": "No blocking findings; source-bound admission and actual launch pending."
+}

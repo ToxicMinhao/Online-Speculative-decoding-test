@@ -35,6 +35,7 @@ def verify(plan):
     import torch
     import transformers
     from .configuration import validate_config_text
+    from .budget_resume import effective_limits
     from experiments.full_k_gsm8k.training import validate_snapshot
     from experiments.ok_coding.training import _export_equal
     began=time.perf_counter()
@@ -44,7 +45,7 @@ def verify(plan):
             raise ValueError('The execution plan changed after sealing')
         if plan.get('output_policy') != OUTPUT_POLICY:
             raise ValueError('Explicitly seal the authorized AR/speculative output policy')
-        if plan['serving']!=SERVING or plan['limits']!=RESOURCE_LIMITS or plan['arms']!=list(ARMS):
+        if plan['serving']!=SERVING or plan['limits']!=effective_limits(plan) or plan['arms']!=list(ARMS):
             raise ValueError('The scientific/serving/resource contract changed')
         result['source']=verify_source(plan)
         for path,pin in plan['input_identities'].items():

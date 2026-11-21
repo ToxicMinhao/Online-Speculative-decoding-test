@@ -16,9 +16,11 @@ from .runtime import read, initialize, clock_status, boundary
 
 
 def enforce_clock(plan):
+    from .budget_resume import effective_limits
+    limits = effective_limits(plan)
     clock=clock_status(plan['root'])
-    if (clock['elapsed_s']>=RESOURCE_LIMITS['elapsed_s']
-            or clock['occupied_s']>=RESOURCE_LIMITS['occupied_card_s']):
+    if (clock['elapsed_s']>=limits['elapsed_s']
+            or clock['occupied_s']>=limits['occupied_card_s']):
         raise TimeoutError('Original CODE elapsed/occupied-card cap reached')
     return clock
 
@@ -114,12 +116,12 @@ def complete_qualification(plan):
     return result
 
 
-def run(plan_path, startup_retry_receipt=None, policy_resume_receipt=None):
+def run(plan_path, startup_retry_receipt=None, policy_resume_receipt=None, budget_resume_receipt=None):
     plan_path=Path(plan_path)
     plan=read(plan_path)
     root=Path(plan['root'])
     retry = None
-    if startup_retry_receipt is not None and policy_resume_receipt is not None:
+    if sum(value is not None for value in (startup_retry_receipt, policy_resume_receipt, budget_resume_receipt)) > 1:
         raise ValueError('Choose one explicit recovery contract')
     if startup_retry_receipt is not None:
         from .startup_retry import validate_ready
@@ -127,6 +129,9 @@ def run(plan_path, startup_retry_receipt=None, policy_resume_receipt=None):
     if policy_resume_receipt is not None:
         from .policy_resume import validate_ready
         retry = validate_ready(plan, policy_resume_receipt)
+    if budget_resume_receipt is not None:
+        from .budget_resume import validate_ready
+        retry = validate_ready(plan, budget_resume_receipt)
     if (root/'LAUNCH.json').exists() or ((root/'CLOCK.json').exists() and retry is None):
         raise FileExistsError('Do not restart an existing scientific attempt automatically')
     for name in ('logs','processes'):
@@ -141,28 +146,36 @@ def run(plan_path, startup_retry_receipt=None, policy_resume_receipt=None):
         if retry is None:
             initialize(root)
         else:
-            report['authorized_policy_resume' if policy_resume_receipt else 'authorized_startup_retry'] = retry
+            key = ('authorized_budget_resume' if budget_resume_receipt else
+                   'authorized_policy_resume' if policy_resume_receipt else 'authorized_startup_retry')
+            report[key] = retry
             enforce_clock(plan)
-        report['status']='qualification'; write_json(root/'LAUNCH.json',report)
-        report['initial_serving']=children(plan_path,plan,'qualification_serving',('A','B'))
-        from .serving_gate import merge_qualification, merge_panel
-        inputs=read(plan['manifest'])
-        merged=merge_qualification(plan,inputs,{slot:qualification_root(plan)/slot for slot in ('A','B')},
-            qualification_root(plan)/'INITIAL_SERVING.json')
-        write_json(qualification_root(plan)/'WARMUP_CANONICALS.json',merged['warmup_canonicals'])
-        for arm in ARMS:
-            children(plan_path,plan,'qualification_training',('B',),arm=arm)
-        children(plan_path,plan,'qualification_publication',('A',))
-        report['qualification']=complete_qualification(plan)
-        from .qualification_cleanup import retire
-        report['disposable_retirement']=retire(plan)
-        report['completed'].append('qualification')
-        report['status']='full_panel_precheck'; write_json(root/'LAUNCH.json',report)
-        children(plan_path,plan,'precheck',('A','B'))
-        precheck=merge_panel(inputs,[root/'precheck'/slot for slot in ('A','B')],
-                            root/'precheck/CANONICALS.json')
-        write_json(root/'precheck/AR_F_PRECHECK.json',precheck)
-        report['completed'].append('full_panel_precheck')
+        if budget_resume_receipt is not None:
+            report['qualification'] = read(qualification_root(plan)/'QUALIFICATION.json')
+            report['reused_full_panel_precheck'] = read(root/'precheck/AR_F_PRECHECK.json')
+            report['completed'] = ['qualification', 'full_panel_precheck']
+            report['repeated_qualification_or_precheck_generations'] = 0
+        else:
+            report['status']='qualification'; write_json(root/'LAUNCH.json',report)
+            report['initial_serving']=children(plan_path,plan,'qualification_serving',('A','B'))
+            from .serving_gate import merge_qualification, merge_panel
+            inputs=read(plan['manifest'])
+            merged=merge_qualification(plan,inputs,{slot:qualification_root(plan)/slot for slot in ('A','B')},
+                qualification_root(plan)/'INITIAL_SERVING.json')
+            write_json(qualification_root(plan)/'WARMUP_CANONICALS.json',merged['warmup_canonicals'])
+            for arm in ARMS:
+                children(plan_path,plan,'qualification_training',('B',),arm=arm)
+            children(plan_path,plan,'qualification_publication',('A',))
+            report['qualification']=complete_qualification(plan)
+            from .qualification_cleanup import retire
+            report['disposable_retirement']=retire(plan)
+            report['completed'].append('qualification')
+            report['status']='full_panel_precheck'; write_json(root/'LAUNCH.json',report)
+            children(plan_path,plan,'precheck',('A','B'))
+            precheck=merge_panel(inputs,[root/'precheck'/slot for slot in ('A','B')],
+                                root/'precheck/CANONICALS.json')
+            write_json(root/'precheck/AR_F_PRECHECK.json',precheck)
+            report['completed'].append('full_panel_precheck')
         from .forecast import remaining
         report['full_campaign_admission']=remaining(plan)
         for index,arm in enumerate(ARMS):
@@ -202,5 +215,6 @@ if __name__=='__main__':
     parser.add_argument('--plan',required=True)
     parser.add_argument('--startup-retry-receipt')
     parser.add_argument('--policy-resume-receipt')
+    parser.add_argument('--budget-resume-receipt')
     args=parser.parse_args()
-    run(args.plan,args.startup_retry_receipt,args.policy_resume_receipt)
+    run(args.plan,args.startup_retry_receipt,args.policy_resume_receipt,args.budget_resume_receipt)

@@ -782,6 +782,18 @@ def audit_run(plan, output):
         if 'policy_resume' in plan:
             from .policy_resume import _receipt as authenticated_policy_receipt
             result['historical_startup_retry'] = authenticated_policy_receipt(root,plan).get('historical_startup_retry')
+        if 'budget_resume' in plan:
+            from .budget_resume import parent_plan, effective_limits
+            qualified = parent_plan(plan)
+            continuation = read(plan['budget_resume']['receipt'])
+            result['budget_continuation'] = dict(
+                status='authenticated', qualified_execution_commit=qualified['execution_commit'],
+                production_execution_commit=plan['execution_commit'],
+                previous_limits=qualified['limits'], limits=effective_limits(plan),
+                original_first_model_load_epoch=continuation['original_clock']['first_model_load_epoch'],
+                reused_qualification_generations=continuation['reused_qualification_generations'],
+                reused_precheck_generations=continuation['reused_precheck_generations'],
+                additional_qualification_work=continuation['additional_qualification_work'])
         result['source'] = authenticate_sources(plan)
         result['precheck'] = audit_precheck(plan)
         result['evaluation'] = audit_evaluation(plan)

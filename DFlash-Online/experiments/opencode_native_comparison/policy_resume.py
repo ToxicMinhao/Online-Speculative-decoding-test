@@ -172,6 +172,9 @@ def prepare(plan_path, source_root, source_manifest, authorization):
 
 def _receipt(root, plan=None):
     """Authenticate the narrow amendment without rehashing traces on every call."""
+    if plan is not None and 'budget_resume' in plan:
+        from .budget_resume import parent_plan
+        plan = parent_plan(plan)
     root = Path(root).resolve()
     value = read(root/RECEIPT)
     if (value['status'] != 'prepared_once'

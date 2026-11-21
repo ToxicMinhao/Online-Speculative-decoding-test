@@ -135,14 +135,18 @@ def storage(plan, *, complete_forecast=True):
 
 
 def boundary(plan):
+    from .budget_resume import effective_limits
+    limits = effective_limits(plan)
     clock = clock_status(plan['root'])
-    if (clock['elapsed_s'] >= RESOURCE_LIMITS['elapsed_s']
-            or clock['occupied_s'] >= RESOURCE_LIMITS['occupied_card_s']):
+    if (clock['elapsed_s'] >= limits['elapsed_s']
+            or clock['occupied_s'] >= limits['occupied_card_s']):
         raise TimeoutError('CODE elapsed or occupied-card budget reached')
     return dict(clock=clock, storage=storage(plan))
 
 
 def forecast(plan, elapsed_remaining_s, card_remaining_s):
+    from .budget_resume import effective_limits
+    limits = effective_limits(plan)
     values = (elapsed_remaining_s, card_remaining_s)
     if any(type(v) not in (int,float) or not math.isfinite(v) or v < 0 for v in values):
         raise ValueError('Remaining forecasts must be finite and nonnegative')
@@ -154,7 +158,7 @@ def forecast(plan, elapsed_remaining_s, card_remaining_s):
         contingency_elapsed_total_s=elapsed, projected_card_total_s=cards,
         elapsed_contingency=dict(factor=1.25, reserve_s=3600),
         forecast_is_guaranteed_upper_bound=False)
-    if elapsed > RESOURCE_LIMITS['elapsed_s'] or cards > RESOURCE_LIMITS['occupied_card_s']:
+    if elapsed > limits['elapsed_s'] or cards > limits['occupied_card_s']:
         raise RuntimeError('The complete unchanged CODE study no longer fits: '+repr(result))
     return result
 
