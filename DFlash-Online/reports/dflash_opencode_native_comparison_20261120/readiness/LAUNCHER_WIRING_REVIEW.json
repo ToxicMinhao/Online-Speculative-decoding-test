@@ -1,0 +1,29 @@
+{
+  "status": "CPU_wiring_review_passed_native_unexecuted",
+  "new_tests": 9,
+  "combined_tests": 17,
+  "gpu_work": 0,
+  "algorithm_changes": 0,
+  "cap_changes": 0,
+  "files": [
+    "launch.py",
+    "forecast.py",
+    "qualification_cleanup.py"
+  ],
+  "qualification_counts": {
+    "generation": 64,
+    "adam": 17,
+    "response_forward": 40,
+    "response_backward": 40,
+    "teacher_preparation": 16,
+    "training_initialization": 3
+  },
+  "disposable_tensor_count": 57,
+  "fixes": [
+    "register subprocess before durable receipt",
+    "clean every owned child on exception",
+    "independent exact qualification accounting and case checks",
+    "role-bound complete disposable candidate list before unlink",
+    "finite measurements and failed forecast evidence"
+  ]
+}

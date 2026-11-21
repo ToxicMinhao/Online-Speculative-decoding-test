@@ -1,0 +1,66 @@
+{
+  "status": "CPU_adapter_qualification_and_retention_checks_complete_native_admission_pending",
+  "gpu_work": 0,
+  "source_edits": "dedicated CODE adapter only",
+  "reviewed_root": "implementation_checkout/DFlash-Online",
+  "findings": [
+    {
+      "id": "retention_predecessor",
+      "severity": "required_adapter",
+      "source": "experiments/kplus_full_gsm8k/storage.py:253",
+      "detail": "Inherited retirement deletes n-1; CODE must retain n and n-1 and final57/58."
+    },
+    {
+      "id": "historical_context_manifest",
+      "severity": "required_adapter",
+      "detail": "Historical validators encode2272/gsm8k/7473+49tail; newCODE contract requires4096/7424exact."
+    },
+    {
+      "id": "storage",
+      "severity": "pending_admission",
+      "detail": "Universal4096window plus7historicalstates+4exports exceeds80GB before witnesses/compact; use sealedprompt sums+2048 and complete budgets."
+    }
+  ],
+  "feature_bytes_per_row": 49164,
+  "feature_hidden_widths": [
+    20480,
+    4096
+  ],
+  "weight_file_bytes": 2097259104,
+  "historical_complete_state_bytes": 6532631103,
+  "historical_state_metadata_above_three_weights": 240853791,
+  "required_final_state_count": 6,
+  "required_final_export_count": 3,
+  "conservative_training_peak_recovery_count": 7,
+  "conservative_training_peak_export_count": 4,
+  "full4096_feature_payload_peak_bytes": 25977520140,
+  "historical7state4export_bytes": 54117454137,
+  "shared_free_observation_bytes": 493813600000,
+  "required_reserve_bytes": 400000000000,
+  "experiment_peak_cap_bytes": 80000000000,
+  "duration_source_seconds": {
+    "arepo_trajectory": 31668.327,
+    "c_trajectory": 35935.14921948314
+  },
+  "fixed_generations": 39932,
+  "qualification_generation_ceiling": 64,
+  "generation_ceiling": 39996,
+  "adam_steps": 22272,
+  "presentations": 44544,
+  "remaining_required": [
+    "integrated compact/compiler/source/archive allowance admission",
+    "native GPU qualification and measured duration/resource admission",
+    "complete launcher/source audit before GPU execution"
+  ],
+  "cpu_focused_tests": 20,
+  "qualification_planned": {
+    "constructors": 3,
+    "adam": 17,
+    "forwards": 40,
+    "backwards": 40
+  },
+  "complete_state_bound_bytes": 6791777312,
+  "metadata_bound_bytes": 500000000,
+  "sealed_feature_peak_bytes": 14574028668,
+  "seven_state_four_export_feature_bytes": 70505506268
+}

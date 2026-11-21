@@ -1,0 +1,13 @@
+# Authorized CODE production continuation
+
+The user extended the limits to **96 elapsed hours and 120 occupied GPU-card-hours**, both measured from the original first-model-load clock. The 90 GB study cap and 400 GB free-space reserve remain unchanged. Algorithms, inputs, model/runtime pins, training settings, output-validity policy and scientific work counts are unchanged.
+
+Qualification passed under `658d734c422a1a200fe400dceb256492f529204e`. Its 64 prescribed slots, 17 disposable optimizer steps and full-panel 2,048-generation reference precheck will be reused. The earlier 67 physical qualification attempts/66 returns/one unknown include two separately accounted diagnostic replays. No completed qualification or reference work will be repeated. The original clock, 9,269.0546 consumed card-seconds, failures and unknown work remain preserved.
+
+The continuation authenticates the old qualification, reference records, input bindings and source. Only administrative source and reporting may differ. It rejects prior production work, new unknown work or changes to scientific code/settings. The earlier budget-stop launch and forecast are archived; the active clock and work ledger are not reset. Production will execute O, AREPO and C sequentially, then final evaluation under the established scheduling and correctness checks.
+
+**CPU validation:** 222 tests passed. An independent integration review ran 112 focused tests and found no blocker; these overlap the main suite and are not additional independent experiments. Tests cover the exact parent-plan chain, immutable evidence, original-clock preservation, authorized limits, source-change rejection, and skipping qualification/precheck in the production launcher. Training and model code is byte-identical to the qualified version.
+
+**Timing:** the conservative measured forecast is about 59.15 hours of remaining work (O15.54, AREPO16.67, C17.42, evaluation9.01, audit0.50). Forecast card use, including completed work, is110.85hours. Admission recalculates elapsed contingency on the current original clock; these estimates are not measured production runtimes. Current free space is491.467GB and both GPUs are idle; the86.53GB planned study peak fits the unchanged storage contract.
+
+This report records readiness, not a production launch or completed result. The exact production commit and actual launch are recorded in the sealed source manifest, continuation receipt and subsequent launch report. [Compact receipt](BUDGET_CONTINUATION.json), [retained budget-stop evidence](QUALIFIED_BUDGET_STOP.md), [PR56](https://github.com/ToxicMinhao/Online-Speculative-decoding-test/pull/56).

@@ -1,0 +1,49 @@
+{
+  "status": "qualification_startup_failed_no_production",
+  "execution_commit": "9a7eabe7e3539410ce995a17d7407ea4f8fd495c",
+  "cpu_preflight": {
+    "status": "passed",
+    "wall_s": 24.353690307587385
+  },
+  "scientific_generation_attempted": 0,
+  "adam_attempted": 0,
+  "teacher_attempted": 0,
+  "ordinary_graph_initialization_forwards_completed": 6,
+  "additional_piecewise_initialization_forwards": "executed but uninstrumented; exact total unavailable",
+  "occupied_card_s": 56.031763792037964,
+  "gpus_after_failure": {
+    "A_memory_mib": 0,
+    "B_memory_mib": 0,
+    "active_leases": []
+  },
+  "confirmed_cause_scope": "Both AR workers fail in experimental piecewise CUDA-graph startup; not an update/objective or token-validity failure",
+  "configuration_finding": {
+    "default": "server_args.py:629 disable_piecewise_cuda_graph=False",
+    "speculative_auto_disable": "server_args.py:1044-1046: speculative_algorithm is not None forces disable_piecewise_cuda_graph=True",
+    "qualified_dflash": "online_feedback/sglang_backend.py:50 sets DFLASH",
+    "new_ar": "experiments/opencode_native_comparison/ar_backend.py:22-28 sets None and leaves piecewise flag unspecified",
+    "ordinary_cuda_graphs": "remain enabled and bs1 capture completed successfully on both cards",
+    "piecewise_guard": "model_executor/model_runner.py:2236-2240",
+    "piecewise_max_tokens": "server_args.py:1190-1195 inherits chunked_prefill_size=8192"
+  },
+  "unproven_hypothesis": "8192-row piecewise prefill compilation exceeds4112 physical context; plausible illegal-access trigger, not established kernel diagnosis",
+  "narrow_repair_candidate": "Explicit AR disable_piecewise_cuda_graph=True, preserving disable_cuda_graph=False and all scientific settings; qualify effective policy without weakening token gates",
+  "evidence": [
+    "qualification/A/A_AR/native/worker.log",
+    "qualification/B/B_AR/native/worker.log",
+    "qualification/A/A_AR/native/PHYSICAL_WORK.json",
+    "qualification/B/B_AR/native/PHYSICAL_WORK.json",
+    "CLOCK.json",
+    "WORK.json",
+    "CPU_PREFLIGHT.json"
+  ],
+  "actions_by_reviewer": "Read-only inspection only; no edits, native retries or GPU calls",
+  "cpu_repair_tests": {
+    "passed": 44,
+    "failed": 0,
+    "wall_s": 0.43,
+    "command": "python -m pytest -q experiments/opencode_native_comparison/test_ar.py experiments/opencode_native_comparison/test_entry.py experiments/opencode_native_comparison/test_launch.py"
+  },
+  "retry_status": "not_run_pending_explicit_retry_authorization",
+  "repair_review": "Independent shared-context agent review found no blocking issue; not independent GPU replication."
+}

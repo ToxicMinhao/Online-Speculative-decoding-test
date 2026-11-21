@@ -1,0 +1,59 @@
+{
+  "kind": "synthetic_serialization_sensitivity_not_model_work",
+  "prompt_tokens": 242,
+  "response_tokens": 2048,
+  "token_values": "seeded full-vocabulary integers; distribution stress, not observed CODE output",
+  "includes": "serving record, buffer record, native record; excludes trainer/retirement/index/compiler",
+  "codec": "zstd level3; separate copies compressed independently; whole-event compression may share more redundancy",
+  "model_forwards": 0,
+  "generations": 0,
+  "results": [
+    {
+      "committed_progress_per_call": 7,
+      "calls": 293,
+      "per_request_copies": [
+        {
+          "label": "serving_record",
+          "logical_bytes": 977479,
+          "compressed_bytes": 107243
+        },
+        {
+          "label": "buffer_record",
+          "logical_bytes": 977479,
+          "compressed_bytes": 107243
+        },
+        {
+          "label": "native_record",
+          "logical_bytes": 514935,
+          "compressed_bytes": 61510
+        }
+      ],
+      "per128_event_compressed": 35327488,
+      "full174_events_compressed": 6146982912
+    },
+    {
+      "committed_progress_per_call": 1,
+      "calls": 2047,
+      "per_request_copies": [
+        {
+          "label": "serving_record",
+          "logical_bytes": 5619087,
+          "compressed_bytes": 663417
+        },
+        {
+          "label": "buffer_record",
+          "logical_bytes": 5619087,
+          "compressed_bytes": 663417
+        },
+        {
+          "label": "native_record",
+          "logical_bytes": 2719975,
+          "compressed_bytes": 337852
+        }
+      ],
+      "per128_event_compressed": 213079808,
+      "full174_events_compressed": 37075886592
+    }
+  ],
+  "wall_s": 0.14994270773604512
+}
