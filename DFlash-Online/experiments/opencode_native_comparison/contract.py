@@ -23,6 +23,17 @@ RESOURCE_LIMITS = dict(elapsed_s=48*3600, occupied_card_s=90*3600,
     new_allocated_bytes=90_000_000_000, free_reserve_bytes=400_000_000_000,
     forecast_multiplier=1.25, forecast_fixed_s=3600)
 
+OUTPUT_POLICY = 'AR_speculative_differences_reported_speculative_exact_F_v1'
+
+
+def qualification_root(plan):
+    """Keep the failed qualification immutable during its authorized continuation."""
+    from pathlib import Path
+    name = plan.get('qualification_directory', 'qualification')
+    if name not in ('qualification', 'qualification_policy_001'):
+        raise ValueError('Unknown qualification evidence directory')
+    return Path(plan['root']) / name
+
 
 def digest(value):
     encoded = json.dumps(value, sort_keys=True, separators=(',', ':'),

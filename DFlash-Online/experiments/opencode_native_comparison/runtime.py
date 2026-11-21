@@ -35,15 +35,17 @@ class WorkLedger:
         self.root, self.task, self.phase = Path(root), task, phase
 
     def call(self, counts, label, function, *args, **kwargs):
+        from .policy_resume import effective_work_limits
+        limits = effective_work_limits(self.root)
         charged = {self.phase+'.'+key:value for key,value in counts.items()}
         with exclusive(self.root/'WORK.lock'):
             state = read(self.root/'WORK.json')
-            if state['limits'] != LIMITS:
+            if state['limits'] != limits:
                 raise ValueError('The sealed work ceilings changed')
             for key, value in charged.items():
-                if key not in LIMITS or type(value) is not int or value < 0:
+                if key not in limits or type(value) is not int or value < 0:
                     raise ValueError('Unknown or negative work reservation')
-                if state['attempted'][key]+value > LIMITS[key]:
+                if state['attempted'][key]+value > limits[key]:
                     raise RuntimeError('Work ceiling reached: '+key)
             number = str(state['next_operation'])
             state['next_operation'] += 1

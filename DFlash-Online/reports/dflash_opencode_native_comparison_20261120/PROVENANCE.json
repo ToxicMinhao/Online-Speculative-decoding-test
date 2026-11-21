@@ -2,7 +2,7 @@
   "implementation_commit": "c0a0794e8a7a42a3e2e70833a73992a6201ea6d6",
   "source_base": "18d60135e6a482bf2f0f92454c572ccadc2adf1e",
   "execution_commit": "93a53f11abbfbf00e36c1bcc309a33943f972099",
-  "execution_status": "blocked_exact_AR_F_output_mismatch",
+  "execution_status": "authorized_output_policy_recovery_preparing",
   "report_commit": "Git commit containing this report; distinct from implementation commit",
   "scientific_gpu_work": {
     "attempted_generations": 12,
@@ -82,5 +82,14 @@
     "interrupted_lease_closed_from_saved_exit_upper_bound": true,
     "original_piecewise_forward_count": "unknown additional initialization; original6 ordinarygraphforwards retained"
   },
-  "automatic_retry": false
+  "automatic_retry": false,
+  "historical_failed_execution_commit": "93a53f11abbfbf00e36c1bcc309a33943f972099",
+  "output_policy_recovery": {
+    "authorization": "AR/speculative output differences allowed; preserve evidence; proceed if remaining checks pass",
+    "qualification_attempt_cap": 67,
+    "reuse_returned_ordinary_records": 11,
+    "new_generations_remaining": 53,
+    "original_clock_and_other_caps_unchanged": true,
+    "diagnostics_not_reused_as_slots": true
+  }
 }

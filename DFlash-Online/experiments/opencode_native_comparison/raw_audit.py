@@ -14,7 +14,7 @@ import time
 
 import numpy as np
 
-from .contract import ARMS, METHODS, PRODUCTION_WORK, QUALIFICATION_CEILINGS, digest
+from .contract import ARMS, METHODS, PRODUCTION_WORK, QUALIFICATION_CEILINGS, digest, qualification_root
 
 TIMES = ('request_latency_s', 'native_generate_s', 'cache_maintenance_s')
 COUNTS = ('output_tokens', 'verification_calls', 'accepted_draft_tokens',
@@ -86,14 +86,39 @@ def label(slot):
     return f"a{slot['activation']:03d}_{slot['phase']}_{slot['request_ordinal']:04d}_{slot['method']}"
 
 
-def check_canonical(reference, request, provenance):
-    require(reference['reference_kind'] == 'target_only_AR' and reference['verified'] is True,
-            'Canonical is not a verified target-only reference')
+def check_canonical(reference, request, provenance, *, method='AR'):
+    kind = 'target_only_AR' if method == 'AR' else 'frozen_DFlash'
+    require(reference['reference_kind'] == kind and reference['verified'] is True,
+            'Canonical is not a verified '+method+' reference')
     require(reference['provenance'] == provenance, 'Canonical producer identity changed')
     require(reference['binding_digest'] == digest({k:v for k,v in reference.items() if k != 'binding_digest'}),
             'Canonical content binding changed')
     for key in ('request_id', 'prompt_ids', 'max_new_tokens', 'stop_token_ids'):
         require(reference[key] == request[key], 'Canonical input mismatch: ' + key)
+
+
+def cross_path_comparison(ar, frozen):
+    """Independent cross-path observation; never substitute it for canonical checks."""
+    for key in ('prompt_ids', 'max_new_tokens', 'stop_token_ids'):
+        require(ar[key] == frozen[key], 'Cross-path input mismatch: '+key)
+    left, right = ar['response_ids'], frozen['response_ids']
+    first = None
+    for index in range(max(len(left), len(right))):
+        if index >= len(left) or index >= len(right) or left[index] != right[index]:
+            first = index
+            break
+    tokens_equal, termination_equal = left == right, ar['finish_reason'] == frozen['finish_reason']
+    return dict(token_ids_equal=tokens_equal, termination_equal=termination_equal,
+        output_equal=tokens_equal and termination_equal, first_difference=first,
+        record_output_tokens=len(left), reference_output_tokens=len(right),
+        record_finish_reason=ar['finish_reason'], reference_finish_reason=frozen['finish_reason'])
+
+
+def check_bundle(bundle, request, provenance):
+    require(set(bundle) == {'AR', 'F'}, 'Missing separate AR/F canonical references')
+    for method in ('AR', 'F'):
+        check_canonical(bundle[method], request, provenance, method=method)
+    return cross_path_comparison(bundle['AR'], bundle['F'])
 
 
 def token_sequence(value):
@@ -219,7 +244,10 @@ def reduce_endpoint(rows, *, expected_requests=1024):
                 'Endpoint changed during evaluation')
     pairs = []
     for request_id in ids:
-        item = dict(request_id=request_id)
+        comparison = grouped[request_id, 'AR'][0]['ar_spec_comparison']
+        require(all(row['ar_spec_comparison'] == comparison for method in METHODS
+                    for row in grouped[request_id, method].values()), 'Cross-path observation changed')
+        item = dict(request_id=request_id, ar_spec_comparison=comparison)
         sources = set()
         for method in METHODS:
             repeats = grouped[request_id, method]
@@ -238,10 +266,21 @@ def reduce_endpoint(rows, *, expected_requests=1024):
                 require(first['committed_progress'] == first['output_tokens'] - 1
                         and first['native_accepted_draft_tokens'] == first['committed_progress'] - first['verification_calls']
                         and first['accepted_draft_tokens'] <= first['committed_progress'], 'Count identity differs')
-        require(len(sources) == 1 and len({(item[m]['output_tokens'], item[m]['finish_reason']) for m in METHODS}) == 1,
-                'Paired source, lengths or termination differ')
+        require(len(sources) == 1 and len({(item[m]['output_tokens'], item[m]['finish_reason'])
+                    for m in METHODS if m != 'AR'}) == 1, 'Paired source or speculative output differs')
+        require(comparison['record_output_tokens'] == item['AR']['output_tokens']
+                and comparison['reference_output_tokens'] == item['F']['output_tokens']
+                and comparison['record_finish_reason'] == item['AR']['finish_reason']
+                and comparison['reference_finish_reason'] == item['F']['finish_reason']
+                and comparison['termination_equal'] == (item['AR']['finish_reason'] == item['F']['finish_reason'])
+                and comparison['output_equal'] == (comparison['token_ids_equal'] and comparison['termination_equal']),
+                'Cross-path observation contradicts measured endpoints')
         pairs.append(item)
     draws = np.random.Generator(np.random.PCG64(20261120)).integers(0, len(ids), size=(10000, len(ids)))
+    identical = np.array([row['ar_spec_comparison']['output_equal'] for row in pairs], dtype=bool)
+    matched_ids = [row['request_id'] for row in pairs if row['ar_spec_comparison']['output_equal']]
+    matched_draws = (np.random.Generator(np.random.PCG64(20261120)).integers(
+        0,len(matched_ids),size=(10000,len(matched_ids))) if matched_ids else None)
     arrays = {m:{key:np.array([r[m][key] for r in pairs], dtype=np.float64)
                  for key in (*TIMES, *COUNTS) if not (m == 'AR' and key in COUNTS and key != 'output_tokens')}
               for m in METHODS}
@@ -269,8 +308,17 @@ def reduce_endpoint(rows, *, expected_requests=1024):
         for key in TIMES:
             comparison[key + '_reduction_pct'] = bootstrap_ratio(arrays[candidate][key], arrays[baseline][key], draws)
         if baseline == 'AR':
-            comparison['absolute_speedup'] = bootstrap_ratio(arrays[candidate]['request_latency_s'],
-                arrays[baseline]['request_latency_s'], draws, speedup=True)
+            a, b = arrays[candidate]['request_latency_s'], arrays[baseline]['request_latency_s']
+            comparison['all_request_time_ratio'] = bootstrap_ratio(a, b, draws, speedup=True)
+            comparison.update(identical_output_requests=len(matched_ids),
+                different_output_requests=len(ids)-len(matched_ids),
+                absolute_speedup_scope='AR/F identical-token-and-termination subset')
+            comparison['absolute_speedup'] = (bootstrap_ratio(a[identical],b[identical],matched_draws,speedup=True)
+                if matched_ids else dict(value=None,ci95=None,status='undefined'))
+            if not identical.all():
+                for metric in (*[key+'_reduction_pct' for key in TIMES], 'all_request_time_ratio'):
+                    if comparison[metric]['status'] != 'undefined':
+                        comparison[metric]['status'] = 'descriptive_different_outputs_no_identical_output_gain_claim'
             comparison['verification_call_reduction_pct'] = None
         else:
             a, b = arrays[candidate]['verification_calls'], arrays[baseline]['verification_calls']
@@ -281,10 +329,17 @@ def reduce_endpoint(rows, *, expected_requests=1024):
                 gross_calls_added=int(-differences[differences < 0].sum()), net_calls_saved=int(differences.sum()))
         contrasts[candidate + '_vs_' + baseline] = comparison
     contrasts['C_CODE58_vs_AREPO_CODE58']['request_latency_s_reduction_pct']['status'] = 'prespecified_primary'
-    return dict(requests=len(ids), totals=totals, contrasts=contrasts, paired=pairs,
+    output_agreement = dict(requests=len(ids), identical_outputs=int(identical.sum()),
+        differing_outputs=int((~identical).sum()),
+        differing_tokens=sum(not row['ar_spec_comparison']['token_ids_equal'] for row in pairs),
+        differing_termination=sum(not row['ar_spec_comparison']['termination_equal'] for row in pairs),
+        differing_lengths=sum(row['AR']['output_tokens']!=row['F']['output_tokens'] for row in pairs))
+    return dict(requests=len(ids), totals=totals, contrasts=contrasts, paired=pairs, ar_spec_output_agreement=output_agreement,
         bootstrap=dict(draws=10000, generator='PCG64', seed=20261120, input_order=ids,
             input_order_digest=digest(ids), draw_sha256=hashlib.sha256(draws.astype('<i8').tobytes()).hexdigest(),
-            percentiles='linear 2.5/97.5; shared whole-request draws across every contrast'))
+            percentiles='linear 2.5/97.5; shared whole-request draws across full-panel contrasts',
+            identical_output_subset=dict(input_order=matched_ids,seed=20261120,
+                draw_sha256=None if matched_draws is None else hashlib.sha256(matched_draws.astype('<i8').tobytes()).hexdigest())))
 
 
 def bootstrap_ratio(a, b, draws, *, speedup=False):
@@ -314,9 +369,12 @@ def compare_reductions(actual, expected, path='root'):
         require(actual == expected, 'Independent reduction differs: ' + path)
 
 
-def work_accounting(state):
+def work_accounting(state, *, plan=None):
     expected = {**{'production.'+k:v for k,v in PRODUCTION_WORK.items()},
                 **{'qualification.'+k:v for k,v in QUALIFICATION_CEILINGS.items()}}
+    if plan is not None and 'policy_resume' in plan:
+        from .policy_resume import effective_work_limits
+        expected = effective_work_limits(plan['root'])
     require(state['limits'] == expected, 'Work ceiling changed')
     pending = Counter()
     for operation in state['pending'].values():
@@ -383,9 +441,9 @@ def audit_evaluation(plan):
     slots = planned_slots(inputs['panel'], inputs['warmup'])
     request_map = {r['request_id']:r for r in inputs['panel'] + inputs['warmup']}
     for role in ('panel', 'warmup'):
-        require(set(references[role]) == {r['request_id'] for r in inputs[role]}, 'Incomplete AR canonical coverage')
+        require(set(references[role]) == {r['request_id'] for r in inputs[role]}, 'Incomplete AR/F canonical coverage')
         for request in inputs[role]:
-            check_canonical(references[role][request['request_id']], request, plan['canonical_provenance'])
+            check_bundle(references[role][request['request_id']], request, plan['canonical_provenance'])
     rows = json_lines(root/'MEASUREMENTS.jsonl') if (root/'MEASUREMENTS.jsonl').exists() else []
     require(len(rows) <= len(slots), 'More executions than planned')
     errors, valid = [], []
@@ -400,8 +458,10 @@ def audit_evaluation(plan):
             path = root/'raw'/(label(slot)+'.json')
             require(Path(row['raw_path']).resolve() == path.resolve(), 'Raw path does not match its slot')
             raw = read(path)
-            metrics = raw_metrics(raw, request, references['panel' if slot['phase']=='scored' else 'warmup'][request['request_id']],
+            bundle = references['panel' if slot['phase']=='scored' else 'warmup'][request['request_id']]
+            metrics = raw_metrics(raw, request, bundle['AR' if method=='AR' else 'F'],
                                   method=method, checkpoint=protocol['checkpoints'][method], slot=slot)
+            metrics['ar_spec_comparison'] = cross_path_comparison(bundle['AR'], bundle['F'])
             for key,value in metrics.items():
                 require(row[key] == value, 'Saved measurement differs from raw evidence: '+key)
             require(row['checkpoint_id'] == protocol['checkpoints'][method], 'Measurement endpoint differs')
@@ -451,24 +511,30 @@ def audit_precheck(plan):
     canonical=read(root/'precheck/CANONICALS.json')
     require(set(canonical)=={r['request_id'] for r in manifest['evaluation_requests']}, 'Precheck panel coverage differs')
     count=0
+    observations=[]
     for request in manifest['evaluation_requests']:
         card='A' if request['request_index']%2==0 else 'B'
-        check_canonical(canonical[request['request_id']],request,plan['canonical_provenance'])
+        bundle=canonical[request['request_id']]
+        observations.append(dict(request_id=request['request_id'],
+            **check_bundle(bundle,request,plan['canonical_provenance'])))
         for method in ('AR','F'):
             name=f"{card}_{method}_precheck_{request['request_index']}"
             record=read(root/'precheck'/card/'records'/(name+'.json'))
             require(record['record_id']==name and record['session_id']==plan['session']
                     and record['request_index']==request['request_index'] and record['purpose']=='evaluation',
                     'Precheck execution identity differs')
-            raw_metrics(record,request,canonical[request['request_id']],method=method,
+            raw_metrics(record,request,bundle[method],method=method,
                         checkpoint=plan['target'] if method=='AR' else plan['draft'])
             require(record['metadata']['feedback_capture_in_timed_request'] is False, 'Precheck captured training feedback')
             count+=1
-        require(canonical[request['request_id']]['source_record_id']==f"{card}_AR_precheck_{request['request_index']}"
-                and canonical[request['request_id']]['source_checkpoint']==plan['target'],
-                'Canonical is not bound to its genuine AR producer')
+            require(bundle[method]['source_record_id']==name
+                    and bundle[method]['source_checkpoint']==(plan['target'] if method=='AR' else plan['draft']),
+                    'Canonical is not bound to its genuine producer')
     return dict(status='passed',validated_generations=count,canonical_requests=1024,
-                exact_target_only_AR_and_frozen_DFlash=True)
+                separately_validated_AR_and_frozen_DFlash=True,
+                identical_outputs=sum(row['output_equal'] for row in observations),
+                differing_outputs=sum(not row['output_equal'] for row in observations),
+                output_comparisons=observations)
 
 
 def scalar_costs(value, prefix=''):
@@ -649,26 +715,33 @@ def audit_training(plan):
 
 def overhead_accounting(root):
     """Retain actual engine and activation timers without treating them as serving."""
+    root = Path(root)
     rows, physical = [], []
-    paths = sorted(Path(root).glob('evaluation/engines/**/LIFECYCLE.json'))
-    paths += sorted(Path(root).glob('evaluation/engines/**/CLOSE.json'))
+    # A continuation moves phase administration into attempts/. Qualification
+    # engines may also remain outside evaluation/engines; retain both histories.
+    paths = sorted(set(root.glob('**/LIFECYCLE.json')) | set(root.glob('**/CLOSE.json')))
     for path in paths:
         for item in scalar_costs(read(path)):
-            rows.append(dict(source=str(path.relative_to(root)),**item))
+            relative = path.relative_to(root)
+            rows.append(dict(source=str(relative),archived=relative.parts[0]=='attempts',**item))
     activations=Path(root)/'evaluation/final/ACTIVATIONS.jsonl'
     if activations.exists():
         for row in json_lines(activations):
             for item in scalar_costs(row):
-                rows.append(dict(source=f"activation_{row['activation']:03d}:{row['method']}",**item))
+                rows.append(dict(source=f"activation_{row['activation']:03d}:{row['method']}",archived=False,**item))
     for path in sorted(Path(root).glob('**/PHYSICAL_WORK.json')):
         physical.append(dict(source=str(path.relative_to(root)),receipt=read(path)))
     phases=[]
-    for path in sorted(Path(root).glob('phases/*/STATUS.json')):
+    for path in sorted(root.glob('**/phases/*/STATUS.json')):
         value=read(path)
-        phases.append(dict(phase=path.parent.name,status=value['status'],wall_s=value.get('wall_s'),
+        relative=path.relative_to(root)
+        phases.append(dict(source=str(relative),archived=relative.parts[0]=='attempts',
+            phase=path.parent.name,status=value['status'],wall_s=value.get('wall_s'),
             started_epoch=value['started_epoch'],host_memory=value.get('host_memory')))
     return dict(costs=rows,physical_work=physical,phases=phases,
-        overlap='Activation includes engine switching/loading and publication. Engine timers are nested views, not extra additive costs.')
+        overlap='Activation and phase wall times include nested engine loading/teardown. '
+            'Current and archived source receipts are separate views, not additive totals; copied receipts must not be charged again. '
+            'The cumulative CLOCK.json alone supplies occupied-card time, including historical failed attempts.')
 
 
 def authenticate_sources(plan):
@@ -706,6 +779,9 @@ def audit_run(plan, output):
             clock = read(root/'CLOCK.json')
             require(not clock['active'], 'Do not audit/compress while a model worker is active')
             result['clock'] = clock
+        if 'policy_resume' in plan:
+            from .policy_resume import _receipt as authenticated_policy_receipt
+            result['historical_startup_retry'] = authenticated_policy_receipt(root,plan).get('historical_startup_retry')
         result['source'] = authenticate_sources(plan)
         result['precheck'] = audit_precheck(plan)
         result['evaluation'] = audit_evaluation(plan)
@@ -713,12 +789,19 @@ def audit_run(plan, output):
         result['overhead'] = overhead_accounting(root)
         if (root/'WORK.json').exists():
             work = read(root/'WORK.json')
-            result['work'] = work_accounting(work)
+            result['work'] = work_accounting(work, plan=plan)
             production_complete = all(r['completed'] == r['limit'] for r in result['work'] if r['kind'].startswith('production.'))
             if result['evaluation']['status'] == 'passed' and all(r['status']=='completed' for r in result['training']['arms'].values()):
-                require(production_complete and not work['pending'] and not work['failures'], 'Full endpoint has incomplete/failed work')
+                from .policy_resume import assert_historical_work_only, expected_qualification_totals
+                require(production_complete, 'Full endpoint has incomplete production work')
+                assert_historical_work_only(plan,work)
+                totals=expected_qualification_totals(plan,dict(generation=64,adam=17,
+                    response_forward=40,response_backward=40,teacher_preparation=16,training_initialization=3))
+                for phase,values in totals.items():
+                    require(all(work[phase]['qualification.'+kind]==number for kind,number in values.items()),
+                            'Qualification totals do not match the authorized completed/unknown accounting')
                 require(result['precheck']['status']=='passed'
-                        and read(root/'qualification/QUALIFICATION.json')['status']=='passed',
+                        and read(qualification_root(plan)/'QUALIFICATION.json')['status']=='passed',
                         'Full endpoint lacks passed qualification/precheck')
                 exports = read(root/'phases/final_A/EXPORTS_AFTER.json')
                 before=read(root/'phases/final_A/EXPORTS_BEFORE.json')

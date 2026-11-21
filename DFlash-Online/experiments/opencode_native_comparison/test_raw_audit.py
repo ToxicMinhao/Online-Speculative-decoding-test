@@ -223,3 +223,71 @@ def test_relative_C_win_does_not_hide_all_arms_losing_to_frozen(supported):
     assert 'All three adapted endpoints use more verification calls and take longer than frozen F' in text
     assert ('Adaptation is harmful' in text)==supported
     assert ('numerical regressions' in text)==(not supported)
+
+
+def test_archived_phase_and_engine_costs_remain_separate_nonadditive_receipts(tmp_path):
+    old=tmp_path/'attempts/output_policy_resume_001'
+    phases=[tmp_path/'phases/qualification_serving_A/STATUS.json',
+            old/'phases/qualification_serving_A/STATUS.json']
+    for index,path in enumerate(phases):
+        raw_audit.write(path,dict(status='completed' if index==0 else 'failed',
+            wall_s=70. if index==0 else None,started_epoch=100-index*80))
+    engine_paths=[tmp_path/'evaluation/engines/AR/LIFECYCLE.json',
+                  tmp_path/'qualification/A/A_AR/LIFECYCLE.json',
+                  old/'qualification/A/A_AR/LIFECYCLE.json']
+    for index,path in enumerate(engine_paths):
+        raw_audit.write(path,dict(loading_s=10.+index))
+    raw_audit.write(old/'qualification/A/A_AR/CLOSE.json',dict(teardown_s=2.))
+    unknown=dict(startup_forwards=None,uninstrumented_piecewise_initialization=True)
+    raw_audit.write(old/'qualification/A/A_AR/PHYSICAL_WORK.json',unknown)
+    raw_audit.write(tmp_path/'CLOCK.json',dict(completed_card_s=237.903,active={}))
+    raw_audit.write(old/'CLOCK.json',dict(completed_card_s=237.903,active={}))
+    before=(tmp_path/'CLOCK.json').read_bytes()
+    result=raw_audit.overhead_accounting(tmp_path)
+    assert len(result['phases'])==2
+    assert len({row['source'] for row in result['phases']})==2
+    assert sum(row['archived'] for row in result['phases'])==1
+    archived=next(row for row in result['phases'] if row['archived'])
+    assert archived['status']=='failed' and archived['wall_s'] is None
+    assert len(result['costs'])==4
+    assert len({(row['source'],row['metric']) for row in result['costs']})==4
+    assert sum(row['archived'] for row in result['costs'])==2
+    assert result['physical_work'][0]['receipt']==unknown
+    assert all('CLOCK' not in row['source'] for row in result['costs'])
+    assert 'not additive totals' in result['overlap']
+    assert (tmp_path/'CLOCK.json').read_bytes()==before
+
+
+def test_policy_resume_report_preserves_original_unknown_startup_cost(tmp_path,monkeypatch):
+    audit=dict(status='incomplete',scope='test',errors=[],
+        historical_startup_retry=dict(failed_startup_card_s=56.0318),
+        clock=dict(completed_card_s=237.903,first_model_load_epoch=1),audit_observed_epoch=100,
+        evaluation=dict(status='incomplete',rows=[],errors=[]),
+        overhead=dict(phases=[dict(source='attempts/old/phases/start/STATUS.json',
+            archived=True,phase='start',status='failed',wall_s=None,started_epoch=1)]))
+    monkeypatch.setattr(raw_audit,'audit_run',lambda *args:audit)
+    report.build_report(dict(execution_commit='fixture',policy_resume={'receipt':'retained'}),tmp_path)
+    costs=json.loads((tmp_path/'public/CAMPAIGN_COSTS.json').read_text())
+    assert costs['occupied_card_s']==237.903
+    assert costs['startup_retry']['failed_startup_card_s']==56.0318
+    text=(tmp_path/'public/REPORT.md').read_text()
+    assert 'exact count remains unknown' in text
+    assert '56.0318 prior occupied-card seconds' in text
+    assert 'attempts/old/phases/start/STATUS.json' in (tmp_path/'public/PHASE_COSTS.csv').read_text()
+
+
+def test_unauthenticated_historical_startup_cost_is_not_exposed(tmp_path,monkeypatch):
+    from . import policy_resume
+    receipt=tmp_path/'OUTPUT_POLICY_RESUME.json'
+    raw_audit.write(receipt,dict(historical_startup_retry=dict(failed_startup_card_s=999.)))
+    plan=dict(root=str(tmp_path),execution_commit='fixture',input_identities={},
+              policy_resume={'receipt':str(receipt)})
+    plan['binding']=digest(plan)
+    def reject_receipt(root,actual):
+        assert actual==plan
+        raise ValueError('Corrupted policy receipt')
+    monkeypatch.setattr(policy_resume,'_receipt',reject_receipt)
+    result=raw_audit.audit_run(plan,tmp_path/'audit')
+    assert result['status']=='failed'
+    assert 'Corrupted policy receipt' in result['errors']
+    assert 'historical_startup_retry' not in result

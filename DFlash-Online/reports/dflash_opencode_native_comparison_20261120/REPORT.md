@@ -1,9 +1,9 @@
-# CODE comparison — stopped at native qualification
+# CODE comparison — authorized qualification recovery
 
-**Diagnostic update (execution `7ba747702d5b86628cfed95ac064db4d54469586`):** Two read-only native replays reproduce the mismatch and identify an exact AR logit tie versus a0.125 DFlash margin at the first divergent token. No token-commit bug was found; the underlying operation causing the numerical perturbation remains unisolated. The strict equality gate and main campaign remain blocked. See [the diagnostic report](MISMATCH_DIAGNOSTIC.md).
+The user has authorized AR/speculative output differences while retaining exact F/O/AREPO/C output agreement, repeat checks and all other correctness gates. The retained mismatch remains a documented numerical-path difference, not a retrospectively passed strict equality check.
 
-Execution `93a53f11abbfbf00e36c1bcc309a33943f972099` successfully repaired AR startup, then failed exact AR/frozen-DFlash output agreement. The three training arms have not started; there are no O/AREPO/C performance results.
+The recovery reuses eleven completed ordinary records and preserves two diagnostic replays plus one interrupted unknown. It requires 53 further ordinary qualification generations: 67 physical attempts in total, with 66 expected returns and one historical unknown. Training, inputs, models, runtime and settings remain unchanged.
 
-The identical65-token prompt yields290ARtokens versus292DFlashtokens, bothEOS, withfirstdivergenceatzero-basedposition279.12qualificationgenerationsattempted,11returned,oneinterruptedunknown;zerotraining/teacher/Adamwork.52qualificationgenerationsremainunattempted.
+Implementation, independent integration review and 210 CPU tests pass; native qualification has not resumed at this report revision. No O/AREPO/C performance result exists yet. The campaign will proceed only after remaining correctness, storage and measured duration checks pass.
 
-See the complete [qualification report](QUALIFICATION_REPORT.md) and [machine-readable evidence](QUALIFICATION_RETRY.json). Original startup failure records, costs and clock are retained. BothGPUsareidle;A800has493.410GBfree. The90GBstudycap/400GBreserve and scientificsettingsremainunchanged. No automatic retry or training is authorized by this failed gate.
+See [the amendment and complete accounting](OUTPUT_POLICY_RECOVERY.md), [the retained diagnostic](MISMATCH_DIAGNOSTIC.md), and [the original failed qualification](QUALIFICATION_REPORT.md). Execution commit and validation receipt are recorded alongside the launch report.

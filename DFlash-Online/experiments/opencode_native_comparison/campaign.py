@@ -9,7 +9,7 @@ from experiments.full_k_gsm8k.campaign import online_record_check, save_boundary
 from experiments.full_k_gsm8k.costs import begin_event_profile, finish_event_profile
 from experiments.osd_persistent.run import check_event, check_first_updated_request
 from experiments.o_half_matched_lr.archive import full_trace_errors
-from .contract import ARMS, EVENTS, event_requests
+from .contract import ARMS, EVENTS, event_requests, qualification_root
 from .runtime import WorkLedger, read, boundary, require_eligible_response
 from .storage import retire_redundant_features, retire_window, retire_penultimate_export
 from .compact import archive_completed_event
@@ -34,8 +34,8 @@ def run_arm(plan, arm):
         raise ValueError('Only the three prescribed CODE arms can train')
     root = Path(plan['root'])
     # AR/F compatibility must be settled before spending a long trajectory.
-    for path in ('qualification/QUALIFICATION.json','precheck/AR_F_PRECHECK.json'):
-        if read(root/path)['status']!='passed':
+    for path in (qualification_root(plan)/'QUALIFICATION.json',root/'precheck/AR_F_PRECHECK.json'):
+        if read(path)['status']!='passed':
             raise ValueError('Native qualification and full-panel parity are prerequisites')
     for preceding in ARMS[:ARMS.index(arm)]:
         if read(root/'campaign_001/arms'/preceding/'STATUS.json')['status']!='completed':

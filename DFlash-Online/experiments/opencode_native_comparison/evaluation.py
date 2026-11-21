@@ -1,4 +1,4 @@
-"""Five frozen endpoints, one AR reference, and no learning during timing."""
+"""Five frozen endpoints, separate AR/F references, and no learning during timing."""
 from collections import defaultdict
 from pathlib import Path
 import json
@@ -11,28 +11,30 @@ from experiments.osd_persistent.run import score_record
 from experiments.fresh_confirmation.protocol import publication_errors, weight_check_errors
 from .contract import METHODS, digest
 from .schedule import evaluation_schedule, schedule_summary
-from .validity import validate_ar_output, validate_measurement
+from .validity import (validate_ar_output, validate_measurement,
+    canonical_for_method, output_comparison)
 
 SESSION = 'opencode_final58'
 COUNT_FIELDS = ('output_tokens', 'verification_calls', 'accepted_draft_tokens',
                 'native_accepted_draft_tokens', 'committed_progress')
 
 
-def check_reference(request, reference, provenance):
-    if (reference['reference_kind'] != 'target_only_AR' or not reference['verified']
+def check_reference(request, reference, provenance, *, method='AR'):
+    kind = 'target_only_AR' if method == 'AR' else 'frozen_DFlash'
+    if (reference['reference_kind'] != kind or reference['verified'] is not True
             or reference['provenance'] != provenance
             or reference['binding_digest'] != digest({k:v for k,v in reference.items() if k!='binding_digest'})):
-        raise ValueError('AR reference identity changed')
+        raise ValueError(method+' reference identity changed')
     for key in ('request_id', 'prompt_ids', 'stop_token_ids', 'max_new_tokens'):
         if reference[key] != request[key]:
-            raise ValueError('AR reference input differs: '+key)
+            raise ValueError(method+' reference input differs: '+key)
 
 
 def label_for(slot):
     return f"a{slot['activation']:03d}_{slot['phase']}_{slot['request_ordinal']:04d}_{slot['method']}"
 
 
-def measure(record, request, checkpoint, canonical, slot):
+def measure(record, request, checkpoint, canonical, slot, *, comparison=None):
     """Validate both protocols; never invent speculative metrics for target-only AR."""
     errors = []
     method, meta = slot['method'], record['metadata']
@@ -73,6 +75,8 @@ def measure(record, request, checkpoint, canonical, slot):
         cache_maintenance_s=(meta['cache_maintenance_s'] if method=='AR' else meta['capture']['cache_maintenance_s']),
         native_accepted_draft_tokens=None if method=='AR' else sum(
             block['native_accepted_draft_tokens'] for block in meta['trace']))
+    if comparison is not None:
+        row['ar_spec_comparison'] = comparison
     if method!='AR' and row['native_accepted_draft_tokens'] != row['committed_progress']-row['verification_calls']:
         errors.append('native_acceptance_accounting')
     return row, errors
@@ -93,12 +97,18 @@ def execute(plan, root, requests, warmups, canonicals, warmup_canonicals,
         if set(references)!={r['request_id'] for r in group}:
             raise ValueError('Incomplete canonical coverage')
         for request in group:
-            check_reference(request, references[request['request_id']], plan['canonical_provenance'])
+            bundle = references[request['request_id']]
+            for method in ('AR', 'F'):
+                check_reference(request, canonical_for_method(bundle, method),
+                    plan['canonical_provenance'], method=method)
+            output_comparison(bundle['AR'], bundle['F'])
     write_json(root/'PROTOCOL.json', dict(schedule=schedule, balance=balance,
         checkpoints=checkpoints, execution_commit=plan['execution_commit'],
         gpu=plan['devices']['A'], canonical_provenance=plan['canonical_provenance'],
         initial_prefill_token_excluded_from_committed_progress=True,
-        native_and_stop_clipped_acceptance_separate=True))
+        native_and_stop_clipped_acceptance_separate=True,
+        canonical_policy='AR repeats match AR; every speculative endpoint matches frozen F',
+        ar_spec_output_differences='retained; mismatches excluded from identical-output AR speedup'))
     write_json(root/'REFERENCES.json', dict(panel=canonicals,warmup=warmup_canonicals))
     write_json(root/'INPUTS.json', dict(panel=requests,warmup=warmups))
     by_id = {row['request_id']:row for row in requests}
@@ -143,11 +153,13 @@ def execute(plan, root, requests, warmups, canonicals, warmup_canonicals,
                     session_id=SESSION,request_index=request['request_index'],purpose='evaluation',save_to=path)
                 write_json(path,record)
                 progress['returned'] += 1
-                reference = (warmup_canonicals if phase=='warmup' else canonicals)[request['request_id']]
+                bundle = (warmup_canonicals if phase=='warmup' else canonicals)[request['request_id']]
+                reference = canonical_for_method(bundle, method)
                 progress['pending'] = None
                 persist()
                 try:
-                    row, errors = measure(record,request,checkpoint,reference,slot)
+                    row, errors = measure(record,request,checkpoint,reference,slot,
+                        comparison=output_comparison(bundle['AR'], bundle['F']))
                 except (KeyError, TypeError, ValueError, IndexError, RuntimeError) as error:
                     row = dict(slot,request_id=request['request_id'],checkpoint_id=checkpoint)
                     errors = ['malformed_returned_record:'+repr(error)]

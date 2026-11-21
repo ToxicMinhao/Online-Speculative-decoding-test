@@ -55,10 +55,13 @@ def test_malformed_return_is_invalid_not_unknown(tmp_path, monkeypatch):
         prompt_ids=[2000 + i], stop_token_ids=[99], max_new_tokens=2048) for i in range(2)]
 
     def reference(request):
-        value = dict(request, response_ids=[99], finish_reason='eos',
-                     reference_kind='target_only_AR', verified=True, provenance={})
-        value['binding_digest'] = digest(value)
-        return value
+        bundle={}
+        for method,kind in [('AR','target_only_AR'),('F','frozen_DFlash')]:
+            value = dict(request, response_ids=[99], finish_reason='eos',
+                         reference_kind=kind, verified=True, provenance={})
+            value['binding_digest'] = digest(value)
+            bundle[method]=value
+        return bundle
 
     canonicals = {row['request_id']: reference(row) for row in requests}
     warmup_canonicals = {row['request_id']: reference(row) for row in warmups}

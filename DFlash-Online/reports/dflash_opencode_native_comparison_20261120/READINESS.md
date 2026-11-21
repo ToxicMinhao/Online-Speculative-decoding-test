@@ -1,3 +1,5 @@
+**Current authorization supersedes historical holds below:** the 90 GB cap was approved, and the user now permits AR/speculative output differences. Exact within-path and F/O/AREPO/C agreement remain required. The original failed qualification and earlier readiness record below are preserved as historical evidence. See [the current recovery contract](OUTPUT_POLICY_RECOVERY.md).
+
 # Native online CODE comparison: readiness
 
 **Diagnostic update (execution `7ba747702d5b86628cfed95ac064db4d54469586`):** Two read-only native replays reproduce the mismatch and identify an exact AR logit tie versus a0.125 DFlash margin at the first divergent token. No token-commit bug was found; the underlying operation causing the numerical perturbation remains unisolated. The strict equality gate and main campaign remain blocked. See [the diagnostic report](MISMATCH_DIAGNOSTIC.md).

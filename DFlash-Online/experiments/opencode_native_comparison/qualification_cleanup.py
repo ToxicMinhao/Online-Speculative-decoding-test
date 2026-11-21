@@ -2,6 +2,7 @@
 from pathlib import Path
 import os
 
+from .contract import qualification_root
 from online_feedback.storage import write_json
 from experiments.ok_coding.storage import identity
 from .contract import ARMS
@@ -11,20 +12,20 @@ from .storage import _retire
 
 def retire(plan):
     root=Path(plan['root']).resolve()
-    complete=root/'qualification/QUALIFICATION.json'
+    complete=qualification_root(plan)/'QUALIFICATION.json'
     if read(complete)['status']!='passed':
         raise ValueError('Never retire an incomplete qualification')
     candidates={}
     evidence=[complete]
     def add(value,kind,*,expected=None):
         path=Path(value)
-        if (not path.is_absolute() or path.resolve()!=path or not path.is_relative_to(root/'qualification')
+        if (not path.is_absolute() or path.resolve()!=path or not path.is_relative_to(qualification_root(plan))
                 or path in candidates or (expected is not None and path!=expected)
                 or path.stat().st_uid!=os.getuid()):
             raise ValueError('Disposable path is not its exclusive expected study payload: '+str(path))
         candidates[path]=kind
     for arm in ARMS:
-        base=root/'qualification'/arm
+        base=qualification_root(plan)/arm
         details=read(base/'DETAILS.json')
         if details['status']!='passed':
             raise ValueError('A disposable training gate is incomplete')
@@ -39,7 +40,7 @@ def retire(plan):
                 expected=base/'active_export/model.safetensors')
         elif 'active_C_export' in details:
             raise ValueError('Only active C publishes a disposable serving export')
-    synthetic=root/'qualification/synthetic4096/IDENTITIES.json'
+    synthetic=qualification_root(plan)/'synthetic4096/IDENTITIES.json'
     evidence.append(synthetic)
     pins=read(synthetic)['files']
     if set(pins)!={'synthetic4096_0.pt','synthetic4096_1.pt'}:
@@ -49,7 +50,7 @@ def retire(plan):
         add(path,'synthetic_resource_fixture')
         if identity(path)!=pin:
             raise ValueError('Synthetic resource fixture changed')
-    feature_index=root/'qualification/A/FEATURES.json'
+    feature_index=qualification_root(plan)/'A/FEATURES.json'
     evidence.append(feature_index)
     features=read(feature_index)
     if len(features)!=16:
@@ -74,8 +75,8 @@ def retire(plan):
     # Complete content identities supplement the retained numerical checks.
     # These are deletion witnesses, not backups or a claim of replayability.
     identities={str(path):identity(path) for path in candidates}
-    pins=root/'qualification/DISPOSABLE_IDENTITIES.json'
+    pins=qualification_root(plan)/'DISPOSABLE_IDENTITIES.json'
     write_json(pins,dict(files=identities,lost_capability='Exact disposable tensor replay; records and tests remain'))
-    return _retire(root,root/'qualification/DISPOSABLE_RETIREMENT.json',list(candidates.items()),
+    return _retire(root,qualification_root(plan)/'DISPOSABLE_RETIREMENT.json',list(candidates.items()),
         [*evidence,pins],reason='All native qualification checks and publication passed; discard temporary models.',
         retained=dict(qualification=str(complete),identities=str(pins),production_initialization='released fresh'))

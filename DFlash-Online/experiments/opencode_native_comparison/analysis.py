@@ -36,7 +36,11 @@ def reduce_requests(rows, *, expected_requests=EVALUATION_REQUESTS):
             raise ValueError('Source identity differs across arms')
     result = []
     for request_id in ids:
-        item = dict(request_id=request_id)
+        evidence = [row for method in METHODS for row in groups[request_id,method]]
+        comparison = evidence[0]['ar_spec_comparison']
+        if any(row['ar_spec_comparison'] != comparison for row in evidence):
+            raise ValueError('AR/speculative output comparison changed across executions')
+        item = dict(request_id=request_id, ar_spec_comparison=comparison)
         for method in METHODS:
             records = sorted(groups[request_id,method], key=lambda row:row['repeat'])
             if [row['repeat'] for row in records]!=[0,1,2]:
@@ -63,8 +67,15 @@ def reduce_requests(rows, *, expected_requests=EVALUATION_REQUESTS):
             item[method] = {key:first[key] for key in (*COUNT_FIELDS,'finish_reason')}
             item[method].update({key:float(np.mean([row[key] for row in records])) for key in TIMES})
             item[method]['repeat_times'] = {key:[row[key] for row in records] for key in TIMES}
-        if len({(item[m]['output_tokens'],item[m]['finish_reason']) for m in METHODS})!=1:
-            raise ValueError('Paired output length or termination differs')
+        if len({(item[m]['output_tokens'],item[m]['finish_reason']) for m in METHODS if m!='AR'})!=1:
+            raise ValueError('Speculative output length or termination differs')
+        if (comparison['record_output_tokens'] != item['AR']['output_tokens']
+                or comparison['reference_output_tokens'] != item['F']['output_tokens']
+                or comparison['record_finish_reason'] != item['AR']['finish_reason']
+                or comparison['reference_finish_reason'] != item['F']['finish_reason']
+                or comparison['termination_equal'] != (item['AR']['finish_reason']==item['F']['finish_reason'])
+                or comparison['output_equal'] != (comparison['token_ids_equal'] and comparison['termination_equal'])):
+            raise ValueError('AR/speculative output comparison contradicts endpoint records')
         result.append(item)
     if len({row['physical_gpu_uuid'] for row in rows})!=1:
         raise ValueError('Final timing must use one fixed physical card')
@@ -81,6 +92,10 @@ def _interval(point, samples):
 def summarize(rows, *, expected_requests=EVALUATION_REQUESTS):
     paired = reduce_requests(rows, expected_requests=expected_requests)
     draws = np.random.Generator(np.random.PCG64(20261120)).integers(0,len(paired),size=(10000,len(paired)))
+    identical = np.asarray([row['ar_spec_comparison']['output_equal'] for row in paired], dtype=bool)
+    matched_ids = [row['request_id'] for row in paired if row['ar_spec_comparison']['output_equal']]
+    matched_draws = (np.random.Generator(np.random.PCG64(20261120)).integers(
+        0,len(matched_ids),size=(10000,len(matched_ids))) if matched_ids else None)
     values = {method:{key:np.asarray([row[method][key] for row in paired],dtype=np.float64)
                      for key in (*TIMES,*COUNT_FIELDS) if not(method=='AR' and key in COUNT_FIELDS and key!='output_tokens')}
               for method in METHODS}
@@ -114,7 +129,20 @@ def summarize(rows, *, expected_requests=EVALUATION_REQUESTS):
             comparison[key+'_reduction_pct'] = _interval(point,samples)
         if baseline=='AR':
             a,b = current['request_latency_s'],reference['request_latency_s']
-            comparison['absolute_speedup'] = _interval(b.sum()/a.sum(),b[draws].sum(1)/a[draws].sum(1))
+            comparison['all_request_time_ratio'] = _interval(b.sum()/a.sum(),b[draws].sum(1)/a[draws].sum(1))
+            comparison.update(identical_output_requests=len(matched_ids),
+                different_output_requests=len(paired)-len(matched_ids),
+                absolute_speedup_scope='AR/F identical-token-and-termination subset')
+            if matched_ids:
+                a, b = a[identical], b[identical]
+                comparison['absolute_speedup'] = _interval(b.sum()/a.sum(),
+                    b[matched_draws].sum(1)/a[matched_draws].sum(1))
+            else:
+                comparison['absolute_speedup'] = dict(value=None,ci95=None,status='undefined')
+            if not identical.all():
+                for key in (*[key+'_reduction_pct' for key in TIMES], 'all_request_time_ratio'):
+                    if comparison[key]['status'] != 'undefined':
+                        comparison[key]['status'] = 'descriptive_different_outputs_no_identical_output_gain_claim'
             comparison['verification_call_reduction_pct'] = None
         else:
             a,b = current['verification_calls'],reference['verification_calls']
@@ -128,8 +156,15 @@ def summarize(rows, *, expected_requests=EVALUATION_REQUESTS):
                 gross_calls_added=int(np.maximum(-difference,0).sum()),net_calls_saved=int(difference.sum()))
         contrasts[candidate+'_vs_'+baseline] = comparison
     contrasts['C_CODE58_vs_AREPO_CODE58']['request_latency_s_reduction_pct']['status']='prespecified_primary'
-    return dict(requests=len(paired),totals=totals,contrasts=contrasts,
+    output_agreement = dict(requests=len(paired), identical_outputs=int(identical.sum()),
+        differing_outputs=int((~identical).sum()),
+        differing_tokens=sum(not row['ar_spec_comparison']['token_ids_equal'] for row in paired),
+        differing_termination=sum(not row['ar_spec_comparison']['termination_equal'] for row in paired),
+        differing_lengths=sum(row['AR']['output_tokens']!=row['F']['output_tokens'] for row in paired))
+    return dict(requests=len(paired),totals=totals,contrasts=contrasts,ar_spec_output_agreement=output_agreement,
         paired=paired,bootstrap=dict(draws=10000,generator='PCG64',seed=20261120,
             input_order=[row['request_id'] for row in paired],input_order_digest=digest([row['request_id'] for row in paired]),
             draw_sha256=hashlib.sha256(draws.astype('<i8',copy=False).tobytes()).hexdigest(),
-            percentiles='linear 2.5/97.5; shared whole-request draws across every contrast'))
+            percentiles='linear 2.5/97.5; shared whole-request draws across full-panel contrasts',
+            identical_output_subset=dict(input_order=matched_ids,seed=20261120,
+                draw_sha256=None if matched_draws is None else hashlib.sha256(matched_draws.astype('<i8',copy=False).tobytes()).hexdigest())))

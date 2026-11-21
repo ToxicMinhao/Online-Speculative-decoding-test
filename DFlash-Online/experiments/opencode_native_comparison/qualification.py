@@ -6,6 +6,7 @@ import resource
 import time
 import traceback
 
+from .contract import qualification_root
 from online_feedback.storage import save_torch, write_json
 
 CASES = {
@@ -136,7 +137,7 @@ def run_training_qualification(plan, arm, *, feature_paths, ledger):
 
     if arm not in CASES or len(feature_paths) != 4 or len(set(map(str, feature_paths))) != 4:
         raise ValueError('Require a declared arm and four sealed distinct qualification packets')
-    root = Path(plan['root']) / 'qualification' / arm
+    root = qualification_root(plan) / arm
     root.mkdir(parents=True, exist_ok=False)
     destination = root / 'DETAILS.json'
     report = dict(status='running', arm=arm, execution_commit=plan['execution_commit'],
@@ -309,7 +310,7 @@ def run_training_qualification(plan, arm, *, feature_paths, ledger):
         reset('synthetic4096')
         if getattr(trainer.bundle.model.lm_head, 'bias', None) is not None:
             raise ValueError('Uniform synthetic teacher requires the pinned bias-free vocabulary head')
-        synthetic_paths = create_synthetic_packets(Path(plan['root']) / 'qualification' / 'synthetic4096',
+        synthetic_paths = create_synthetic_packets(qualification_root(plan) / 'synthetic4096',
             hidden_width=trainer.hidden_width, target_width=trainer.bundle.target_hidden_size)
         synthetic = pair('synthetic4096', synthetic_metadata(trainer, synthetic_paths))
         synthetic.update(checks='passed', resource_fixture_only=True,

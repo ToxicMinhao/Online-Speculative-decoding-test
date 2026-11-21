@@ -371,24 +371,33 @@ def test_full_cpu_gate_checks_native_shapes_and_accounting(tmp_path):
     assert result['executions'] == 60
     assert result['publication_generations_remaining'] == 4
     assert len(result['warmup_canonicals']) == 2
-    assert all(row['reference_kind'] == 'target_only_AR' for row in result['warmup_canonicals'].values())
+    assert all(set(bundle) == {'AR','F'}
+        and bundle['AR']['reference_kind'] == 'target_only_AR'
+        and bundle['F']['reference_kind'] == 'frozen_DFlash'
+        for bundle in result['warmup_canonicals'].values())
     assert sum(call[0].get('generation', 0) for call in ledger.calls) == 60
     assert sum(call[0].get('teacher_preparation', 0) for call in ledger.calls) == 16
     assert len(lifetimes) == 4
 
 
-def test_gate_preserves_first_invalid_and_all_unattempted_slots(tmp_path):
+@pytest.mark.parametrize('wrong_method,valid,unattempted',[('AR',18,37),('F',46,9)])
+def test_gate_preserves_first_invalid_and_all_unattempted_slots(tmp_path,wrong_method,valid,unattempted):
     from .serving_gate import qualify_card
     plan = dict(target='/target', checkpoints={'F': '/draft'}, devices={'A': 'GPUa', 'B': 'GPUb'},
                 execution_commit='fixture', canonical_provenance={}, session='qual')
+    class WrongRepeat(GateBackend):
+        def generate(self, prompt_ids, **kwargs):
+            self.wrong = self.method == wrong_method and '_normal_repeat_' in kwargs['request_id']
+            return super().generate(prompt_ids, **kwargs)
+
     with pytest.raises(ValueError, match='Serving gate failed'):
         qualify_card(plan, gate_inputs(), 'A', tmp_path / 'failed', ledger=FakeLedger(),
-            backend_factory=lambda method, gpu, root: GateBackend(method, wrong=method == 'F'),
+            backend_factory=lambda method, gpu, root: WrongRepeat(method),
             close_backend=lambda *args: None, boundary=lambda: None)
     work = json.loads((tmp_path / 'failed' / 'WORK.json').read_text())
-    assert sum(row['status'] == 'valid' for row in work.values()) == 28
+    assert sum(row['status'] == 'valid' for row in work.values()) == valid
     assert sum(row['status'] == 'invalid' for row in work.values()) == 1
-    assert sum(row['status'] == 'unattempted' for row in work.values()) == 27
+    assert sum(row['status'] == 'unattempted' for row in work.values()) == unattempted
     failed = next(row for row in work.values() if row['status'] == 'invalid')
     assert json.loads(Path(failed['record_path']).read_text())['response_ids'] == [4, 99]
 
@@ -400,3 +409,52 @@ def test_precheck_refuses_partial_panel_without_modelwork(tmp_path):
         panel_precheck({}, {'evaluation_requests': []}, 'A', tmp_path / 'partial',
             ledger=ledger, backend_factory=None, close_backend=None, boundary=lambda: None)
     assert ledger.calls == []
+
+
+def test_gate_retains_cross_path_difference_with_exact_within_path_repeats(tmp_path):
+    from .serving_gate import qualify_card, merge_qualification
+    plan = dict(target='/target', checkpoints={'F':'/draft'}, devices={'A':'GPUa','B':'GPUb'},
+                execution_commit='fixture', canonical_provenance={}, session='qual')
+    inputs, ledger = gate_inputs(), FakeLedger()
+    roots = {card:tmp_path/card for card in ('A','B')}
+    for card in roots:
+        qualify_card(plan, inputs, card, roots[card], ledger=ledger,
+            backend_factory=lambda method,gpu,root:GateBackend(method,wrong=method=='F'),
+            close_backend=lambda *args:None,boundary=lambda:None)
+    result=merge_qualification(plan, inputs, roots, tmp_path/'QUALIFIED.json')
+    assert result['status']=='passed_initial_serving'
+    assert len(ledger.calls)==60+16
+    for bundle in result['warmup_canonicals'].values():
+        assert bundle['AR']['response_ids']==[3,99]
+        assert bundle['F']['response_ids']==[4,99]
+    work=json.loads((roots['A']/'WORK.json').read_text())
+    comparisons=[comparison for row in work.values() for comparison in row['AR_speculative_comparisons']]
+    assert comparisons and all(row['output_equal'] is False for row in comparisons)
+    assert all(row['status']=='valid' for row in work.values())
+
+
+@pytest.mark.parametrize('card',['A','B'])
+def test_first_reused_ar_slot_preserves_bytes_without_model_or_ledger_call(tmp_path,card):
+    from .serving_gate import _run_slots, qualification_slots
+    from experiments.ok_coding.storage import identity
+    inputs=gate_inputs()
+    slot=next(row for row in qualification_slots(inputs) if row['card']==card and row['method']=='AR')
+    request=next(row for row in inputs['qualification_requests'] if row['request_id']==slot['request_id'])
+    record=GateBackend('AR').generate(request['prompt_ids'],max_new_tokens=slot['max_new_tokens'],
+        request_id=slot['slot_id'],request_index=request['request_index'],purpose='evaluation')
+    retained=tmp_path/'retained.json'
+    retained.write_text(json.dumps(record,indent=3)+'\n')
+    ledger=FakeLedger()
+    def unexpected(*args,**kwargs):
+        raise AssertionError('Reused raw records must not start a model or invoke close')
+    plan=dict(target='/target',checkpoints={'F':'/draft'},devices={'A':'GPUa','B':'GPUb'},
+              execution_commit='fixture',canonical_provenance={},session='qual')
+    records,_=_run_slots(plan,{request['request_id']:request},[slot],tmp_path/'resumed',
+        ledger=ledger,backend_factory=unexpected,close_backend=unexpected,boundary=lambda:None,
+        category={'generation':1},reused={slot['slot_id']:dict(record_path=str(retained),identity=identity(retained))})
+    destination=tmp_path/'resumed'/'records'/(slot['slot_id']+'.json')
+    assert destination.read_bytes()==retained.read_bytes()
+    assert records[slot['slot_id']]==record and not ledger.calls
+    work=json.loads((tmp_path/'resumed'/'WORK.json').read_text())
+    assert work[slot['slot_id']]['status']=='valid'
+    assert work[slot['slot_id']]['reused_origin']['record_path']==str(retained)

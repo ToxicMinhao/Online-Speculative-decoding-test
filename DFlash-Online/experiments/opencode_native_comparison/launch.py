@@ -11,7 +11,7 @@ import traceback
 from online_feedback.storage import write_json
 from experiments.persistent_prefix_withholding.launch import child_environment, check_compilers
 from experiments.bounded_prefix_allocation.launch import stop_owned
-from .contract import ARMS, PRODUCTION_WORK, RESOURCE_LIMITS
+from .contract import qualification_root, ARMS, PRODUCTION_WORK, RESOURCE_LIMITS, OUTPUT_POLICY
 from .runtime import read, initialize, clock_status, boundary
 
 
@@ -73,19 +73,20 @@ def children(plan_path,plan,phase,slots,*,arm=None):
 
 def complete_qualification(plan):
     from .qualification import CASES, qualification_slots
+    from .policy_resume import assert_historical_work_only, expected_qualification_totals
     root=Path(plan['root'])
     work=read(root/'WORK.json')
     exact=dict(qualification_slots()['totals'],generation=64,teacher_preparation=16)
     if plan['exact_qualification_work']!=exact:
         raise ValueError('The fixed64-generation/17-Adam/40-backward qualification changed')
-    if work['pending'] or work['failures']:
-        raise ValueError('Qualification contains failed or unresolved work')
-    for kind,value in exact.items():
-        key='qualification.'+kind
-        if work['attempted'][key]!=value or work['completed'][key]!=value:
-            raise ValueError('Qualification work differs: '+key)
+    assert_historical_work_only(plan, work)
+    totals = expected_qualification_totals(plan, exact)
+    for field, counts in totals.items():
+        for kind, value in counts.items():
+            if work[field]['qualification.' + kind] != value:
+                raise ValueError('Qualification physical work differs: ' + field + '.' + kind)
     for arm in ARMS:
-        detail=read(root/'qualification'/arm/'DETAILS.json')
+        detail=read(qualification_root(plan)/arm/'DETAILS.json')
         if (detail['status']!='passed' or [row['case'] for row in detail['cases']]!=list(CASES[arm])
                 or any(row['checks']!='passed' or row['status']!='completed' for row in detail['cases'])
                 or detail['core_adam']!=len(CASES[arm])
@@ -94,7 +95,7 @@ def complete_qualification(plan):
                 or detail['origin_restored'] is not True or detail['exact_own_resume'] is not True
                 or detail['exact_native_compatibility'] is not True):
             raise ValueError('Training qualification has not passed: '+arm)
-    serving=read(root/'qualification/INITIAL_SERVING.json')
+    serving=read(qualification_root(plan)/'INITIAL_SERVING.json')
     if (serving['status']!='passed_initial_serving' or serving['executions']!=60
             or serving['cross_card_parity'] is not True or serving['capture_on_off_parity'] is not True):
         raise ValueError('Initial serving qualification is incomplete')
@@ -105,20 +106,27 @@ def complete_qualification(plan):
             or result['no_additional_optimizer_steps'] is not True):
         raise ValueError('Disposable export publication/reload is unqualified')
     result=dict(status='passed',execution_commit=plan['execution_commit'],work=exact,
+                physical_work=totals, historical_unknown_work=work['pending'],
+                output_policy=OUTPUT_POLICY,
                 native_output_checks=64,qualification_states_are_disposable=True,
                 performance_improvement_required=False)
-    write_json(root/'qualification/QUALIFICATION.json',result)
+    write_json(qualification_root(plan)/'QUALIFICATION.json',result)
     return result
 
 
-def run(plan_path, startup_retry_receipt=None):
+def run(plan_path, startup_retry_receipt=None, policy_resume_receipt=None):
     plan_path=Path(plan_path)
     plan=read(plan_path)
     root=Path(plan['root'])
     retry = None
+    if startup_retry_receipt is not None and policy_resume_receipt is not None:
+        raise ValueError('Choose one explicit recovery contract')
     if startup_retry_receipt is not None:
         from .startup_retry import validate_ready
         retry = validate_ready(plan, startup_retry_receipt)
+    if policy_resume_receipt is not None:
+        from .policy_resume import validate_ready
+        retry = validate_ready(plan, policy_resume_receipt)
     if (root/'LAUNCH.json').exists() or ((root/'CLOCK.json').exists() and retry is None):
         raise FileExistsError('Do not restart an existing scientific attempt automatically')
     for name in ('logs','processes'):
@@ -133,15 +141,15 @@ def run(plan_path, startup_retry_receipt=None):
         if retry is None:
             initialize(root)
         else:
-            report['authorized_startup_retry'] = retry
+            report['authorized_policy_resume' if policy_resume_receipt else 'authorized_startup_retry'] = retry
             enforce_clock(plan)
         report['status']='qualification'; write_json(root/'LAUNCH.json',report)
         report['initial_serving']=children(plan_path,plan,'qualification_serving',('A','B'))
         from .serving_gate import merge_qualification, merge_panel
         inputs=read(plan['manifest'])
-        merged=merge_qualification(plan,inputs,{slot:root/'qualification'/slot for slot in ('A','B')},
-            root/'qualification/INITIAL_SERVING.json')
-        write_json(root/'qualification/WARMUP_CANONICALS.json',merged['warmup_canonicals'])
+        merged=merge_qualification(plan,inputs,{slot:qualification_root(plan)/slot for slot in ('A','B')},
+            qualification_root(plan)/'INITIAL_SERVING.json')
+        write_json(qualification_root(plan)/'WARMUP_CANONICALS.json',merged['warmup_canonicals'])
         for arm in ARMS:
             children(plan_path,plan,'qualification_training',('B',),arm=arm)
         children(plan_path,plan,'qualification_publication',('A',))
@@ -167,8 +175,8 @@ def run(plan_path, startup_retry_receipt=None):
         children(plan_path,plan,'final',('A',))
         report['completed'].append('final_evaluation')
         work=read(root/'WORK.json')
-        if work['pending'] or work['failures']:
-            raise ValueError('Completed campaign contains unresolved work')
+        from .policy_resume import assert_historical_work_only
+        assert_historical_work_only(plan, work)
         for kind,value in PRODUCTION_WORK.items():
             if any(work[field]['production.'+kind]!=value for field in ('attempted','completed')):
                 raise ValueError('Final production work differs: '+kind)
@@ -193,5 +201,6 @@ if __name__=='__main__':
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--plan',required=True)
     parser.add_argument('--startup-retry-receipt')
+    parser.add_argument('--policy-resume-receipt')
     args=parser.parse_args()
-    run(args.plan,args.startup_retry_receipt)
+    run(args.plan,args.startup_retry_receipt,args.policy_resume_receipt)

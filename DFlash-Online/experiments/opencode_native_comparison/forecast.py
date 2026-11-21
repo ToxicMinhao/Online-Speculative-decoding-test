@@ -5,7 +5,7 @@ import statistics
 import time
 
 from online_feedback.storage import write_json
-from .contract import ARMS
+from .contract import qualification_root, ARMS
 from .runtime import read, forecast
 
 
@@ -39,7 +39,7 @@ def measurements(plan):
     if len(load)!=4:
         raise ValueError('Forecast requires both AR/F initialization receipts on both cards')
     teacher=[]
-    features=read(root/'qualification/A/FEATURES.json')
+    features=read(qualification_root(plan)/'A/FEATURES.json')
     if len(features)!=16:
         raise ValueError('Forecast requires all16 retained teacher-preparation receipts')
     for value in features.values():
@@ -50,7 +50,7 @@ def measurements(plan):
             for key in ('teacher_preparation_s','feature_persistence_s')))
     training={}
     for arm in ARMS:
-        detail=read(root/'qualification'/arm/'DETAILS.json')
+        detail=read(qualification_root(plan)/arm/'DETAILS.json')
         # The synthetic full-capacity pair is deliberately included. Its
         # uniform teacher is a numerical/resource fixture, not scientific data.
         cases=detail['cases']

@@ -13,8 +13,8 @@ import time
 from online_feedback.native import validate_generation
 from online_feedback.storage import write_json
 
-from .contract import digest
-from .validity import validate_ar_output, validate_canonical, validate_measurement
+from .contract import digest, OUTPUT_POLICY
+from .validity import validate_ar_output, validate_canonical, validate_measurement, output_comparison
 
 
 def qualification_slots(inputs):
@@ -86,62 +86,85 @@ def _record_errors(record, request, slot, checkpoint):
     return errors
 
 
-def _compare(record, reference, *, compare_counts):
-    validate_canonical(record, reference)
+def _compare(record, reference, *, compare_counts, cross_path=False):
+    comparison = output_comparison(record, reference)
+    if not cross_path:
+        validate_canonical(record, reference)
     if compare_counts:
         for key in ('verification_calls', 'accepted_draft_tokens', 'committed_progress'):
             if record['metadata'][key] != reference['metadata'][key]:
                 raise ValueError('Repeated native count changed: ' + key)
+    return comparison
 
 
 def _run_slots(plan, requests, slots, base, *, ledger, backend_factory,
-               close_backend, boundary, category, references=None, prepare_features=False):
+               close_backend, boundary, category, references=None, prepare_features=False, reused=None):
     """Record each attempted/completed/invalid/unattempted slot before stopping."""
     base = Path(base)
     base.mkdir(parents=True, exist_ok=False)
     records, features = {}, {}
+    reused = reused or {}
+    methods = {slot['slot_id']: slot['method'] for slot in slots}
     work = {slot['slot_id']: dict(slot, status='unattempted') for slot in slots}
     write_json(base / 'SLOTS.json', slots)
     write_json(base / 'WORK.json', work)
     write_json(base / 'PROVENANCE.json', dict(execution_commit=plan['execution_commit'],
         canonical_provenance=plan['canonical_provenance'],
-        checkpoints=plan['checkpoints'], devices=plan['devices']))
+        checkpoints=plan['checkpoints'], devices=plan['devices'], output_policy=OUTPUT_POLICY,
+        reused_records=reused))
     backend, identity = None, None
     try:
         for slot in slots:
             boundary()
-            current = (slot['card'], slot['method'])
-            if current != identity:
-                if backend is not None:
-                    closing, backend = backend, None
-                    close_backend(closing, base / f'{identity[0]}_{identity[1]}')
-                engine_root = base / f'{slot["card"]}_{slot["method"]}'
-                backend = backend_factory(slot['method'], plan['devices'][slot['card']], engine_root)
-                identity = current
             request = requests[slot['request_id']]
             path = base / 'records' / (slot['slot_id'] + '.json')
             work[slot['slot_id']].update(status='started', started_epoch=time.time())
             write_json(base / 'WORK.json', work)
             try:
-                kind = category(slot) if callable(category) else category
-                record = ledger.call(kind, slot['slot_id'], backend.generate,
-                    request['prompt_ids'], max_new_tokens=slot['max_new_tokens'],
-                    request_id=slot['slot_id'], session_id=plan['session'],
-                    request_index=request['request_index'],
-                    purpose='serving' if slot.get('collect_features') else 'evaluation', save_to=path)
-                write_json(path, record)
+                if slot['slot_id'] in reused:
+                    from experiments.ok_coding.storage import identity as file_identity
+                    import shutil
+                    origin = reused[slot['slot_id']]
+                    source = Path(origin['record_path'])
+                    if file_identity(source) != origin['identity'] or slot.get('collect_features'):
+                        raise ValueError('Reused source changed or needs unavailable capture work')
+                    path.parent.mkdir(parents=True, exist_ok=True)
+                    shutil.copy2(source, path)
+                    record = json.loads(path.read_text())
+                    work[slot['slot_id']]['reused_origin'] = origin
+                else:
+                    current = (slot['card'], slot['method'])
+                    if current != identity:
+                        if backend is not None:
+                            closing, backend = backend, None
+                            close_backend(closing, base / f'{identity[0]}_{identity[1]}')
+                        backend = backend_factory(slot['method'], plan['devices'][slot['card']],
+                            base / f'{slot["card"]}_{slot["method"]}')
+                        identity = current
+                    kind = category(slot) if callable(category) else category
+                    record = ledger.call(kind, slot['slot_id'], backend.generate,
+                        request['prompt_ids'], max_new_tokens=slot['max_new_tokens'],
+                        request_id=slot['slot_id'], session_id=plan['session'],
+                        request_index=request['request_index'],
+                        purpose='serving' if slot.get('collect_features') else 'evaluation', save_to=path)
+                    write_json(path, record)
                 records[slot['slot_id']] = record
                 work[slot['slot_id']].update(status='completed', record_path=str(path))
                 write_json(base / 'WORK.json', work)
                 checkpoint = plan['target'] if slot['method'] == 'AR' else plan['checkpoints']['F']
                 errors = _record_errors(record, request, slot, checkpoint)
-                prior = [other for label, other in records.items() if label != slot['slot_id']
+                prior = [(label, other) for label, other in records.items() if label != slot['slot_id']
                          and other['prompt_ids'] == request['prompt_ids']
                          and other['max_new_tokens'] == slot['max_new_tokens']]
                 try:
-                    for previous in prior:
-                        same_method = previous['checkpoint_id'] == record['checkpoint_id']
-                        _compare(record, previous, compare_counts=same_method)
+                    comparisons = []
+                    for label, previous in prior:
+                        same_method = methods[label] == slot['method']
+                        observed = _compare(record, previous, compare_counts=same_method,
+                                            cross_path=not same_method)
+                        if not same_method:
+                            comparisons.append(dict(reference_slot=label, **observed))
+                    work[slot['slot_id']]['AR_speculative_comparisons'] = comparisons
                     if references is not None:
                         _compare(record, references[slot['request_id']], compare_counts=False)
                 except (ValueError, KeyError, TypeError) as error:
@@ -177,9 +200,10 @@ def qualify_card(plan, inputs, card, base, *, ledger, backend_factory, close_bac
     slots = [slot for slot in qualification_slots(inputs) if slot['card'] == card]
     requests = {row['request_id']: row for role in ('qualification', 'warmup')
                 for row in inputs[role + '_requests']}
+    from .policy_resume import reused_records
     records, features = _run_slots(plan, requests, slots, base, ledger=ledger,
         backend_factory=backend_factory, close_backend=close_backend, boundary=boundary,
-        category={'generation': 1}, prepare_features=True)
+        category={'generation': 1}, prepare_features=True, reused=reused_records(plan, card))
     result = dict(status='passed_local_card', card=card, executions=len(records),
                   teacher_receipts=len(features), cross_card_gate_pending=True)
     write_json(Path(base) / 'RESULT.json', result)
@@ -187,27 +211,38 @@ def qualify_card(plan, inputs, card, base, *, ledger, backend_factory, close_bac
 
 
 def merge_qualification(plan, inputs, card_roots, destination):
-    """Require all 60 slots including cross-card and capture-on/off parity."""
+    """Require exact within-path repeats/cross-card parity; disclose AR/F differences."""
     expected = qualification_slots(inputs)
-    records, by_input, warmups = {}, {}, {}
+    requests = {row['request_id']: row for role in ('qualification', 'warmup')
+                for row in inputs[role + '_requests']}
+    records, by_input, warmups, comparisons = {}, {}, {}, []
     for slot in expected:
         root = Path(card_roots[slot['card']])
         work = json.loads((root / 'WORK.json').read_text())
         if work[slot['slot_id']]['status'] != 'valid':
             raise ValueError('Qualification slot is not valid: ' + slot['slot_id'])
         record = json.loads((root / 'records' / (slot['slot_id'] + '.json')).read_text())
+        checkpoint = plan['target'] if slot['method'] == 'AR' else plan['checkpoints']['F']
+        errors = _record_errors(record, requests[slot['request_id']], slot, checkpoint)
+        if errors:
+            raise ValueError('Qualification record identity/trace failed: ' + repr(errors))
         key = (slot['request_id'], slot['max_new_tokens'])
-        for previous in by_input.get(key, []):
-            _compare(record, previous,
-                     compare_counts=record['checkpoint_id'] == previous['checkpoint_id'])
-        by_input.setdefault(key, []).append(record)
+        for prior_slot, previous in by_input.get(key, []):
+            same_method = prior_slot['method'] == slot['method']
+            observed = _compare(record, previous, compare_counts=same_method,
+                                cross_path=not same_method)
+            if not same_method:
+                comparisons.append(dict(slot=slot['slot_id'], reference_slot=prior_slot['slot_id'], **observed))
+        by_input.setdefault(key, []).append((slot, record))
         records[slot['slot_id']] = record
-        if slot['phase'] == 'warmup' and slot['method'] == 'AR':
-            request = next(row for row in inputs['warmup_requests']
-                           if row['request_id'] == slot['request_id'])
-            warmups[slot['request_id']] = make_reference(plan, request, record)
+        if slot['phase'] == 'warmup':
+            warmups.setdefault(slot['request_id'], {})[slot['method']] = make_reference(
+                plan, requests[slot['request_id']], record, method=slot['method'])
+    if any(set(bundle) != {'AR', 'F'} for bundle in warmups.values()):
+        raise ValueError('Warmups require both native reference paths')
     result = dict(status='passed_initial_serving', executions=60,
-        publication_generations_remaining=4,
+        publication_generations_remaining=4, output_policy=OUTPUT_POLICY,
+        AR_speculative_comparisons=comparisons,
         physical_cards=plan['devices'], work_slots_digest=digest(expected),
         record_digest=digest(records), cross_card_parity=True,
         capture_on_off_parity=True, short_caps=[1, 17], normal_cap=2048,
@@ -236,12 +271,16 @@ def panel_precheck(plan, inputs, card, base, *, ledger, backend_factory, close_b
         boundary=boundary, category=lambda slot: {('canonical_generation' if slot['method'] == 'AR'
                                                  else 'frozen_precheck_generation'): 1})
     requests = {row['request_id']: row for row in selected}
-    canonicals = {slot['request_id']: make_reference(plan, requests[slot['request_id']],
-                                                    records[slot['slot_id']])
-        for slot in slots if slot['method'] == 'AR'}
+    canonicals = {}
+    for slot in slots:
+        canonicals.setdefault(slot['request_id'], {})[slot['method']] = make_reference(
+            plan, requests[slot['request_id']], records[slot['slot_id']], method=slot['method'])
+    comparisons = {key: output_comparison(bundle['AR'], bundle['F']) for key, bundle in canonicals.items()}
+    write_json(Path(base) / 'AR_F_COMPARISONS.json', comparisons)
     write_json(Path(base) / 'CANONICALS.json', canonicals)
     result = dict(status='passed', card=card, shard_count=shard_count,
-                  requests=len(selected), executions=len(slots), canonical_digest=digest(canonicals))
+                  requests=len(selected), executions=len(slots), canonical_digest=digest(canonicals),
+                  output_policy=OUTPUT_POLICY, AR_F_mismatches=sum(not row['output_equal'] for row in comparisons.values()))
     write_json(Path(base) / 'RESULT.json', result)
     return result
 
@@ -260,16 +299,19 @@ def merge_panel(inputs, shard_roots, destination):
     expected = {row['request_id'] for row in inputs['evaluation_requests']}
     if set(canonicals) != expected or len(canonicals) != 1024:
         raise ValueError('Canonical coverage differs from the sealed evaluation panel')
+    comparisons = {key: output_comparison(bundle['AR'], bundle['F']) for key, bundle in canonicals.items()}
     write_json(destination, canonicals)
+    write_json(Path(destination).with_name('AR_F_COMPARISONS.json'), comparisons)
     return dict(status='passed', canonicals=1024, parity_generations=1024,
+                output_policy=OUTPUT_POLICY, AR_F_mismatches=sum(not row['output_equal'] for row in comparisons.values()),
                 canonical_digest=digest(canonicals))
 
 
-def make_reference(plan, request, record):
+def make_reference(plan, request, record, *, method='AR'):
     reference = dict(request_id=request['request_id'], prompt_ids=record['prompt_ids'],
         response_ids=record['response_ids'], finish_reason=record['finish_reason'],
         stop_token_ids=record['stop_token_ids'], max_new_tokens=record['max_new_tokens'],
-        reference_kind='target_only_AR', verified=True,
+        reference_kind='target_only_AR' if method == 'AR' else 'frozen_DFlash', verified=True,
         provenance=plan['canonical_provenance'], execution_commit=plan['execution_commit'],
         source_record_id=record['record_id'], source_checkpoint=record['checkpoint_id'])
     reference['binding_digest'] = digest(reference)
@@ -288,7 +330,7 @@ def publication_gate(plan, inputs, initial_card_root, export, base, *, ledger,
     requests = {row['request_id']: row for row in inputs['qualification_requests']}
     references = {}
     for slot in qualification_slots(inputs):
-        if slot['card'] == 'A' and slot['method'] == 'AR' and slot['phase'] == 'reserved':
+        if slot['card'] == 'A' and slot['method'] == 'F' and slot['phase'] == 'reserved':
             path = Path(initial_card_root) / 'records' / (slot['slot_id'] + '.json')
             references[slot['request_id']] = json.loads(path.read_text())
     work = {f'publication_{repeat}_{index}': dict(status='unattempted')

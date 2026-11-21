@@ -7,11 +7,16 @@ from pathlib import Path
 from . import analysis, raw_audit
 from .contract import METHODS, ARMS
 
+OUTPUT_COMPARISON_FIELDS = ('token_ids_equal', 'termination_equal', 'output_equal',
+    'first_difference', 'record_output_tokens', 'reference_output_tokens',
+    'record_finish_reason', 'reference_finish_reason')
+
 PUBLIC_REPEAT_FIELDS = ('request_id', 'source_id', 'request_ordinal', 'method', 'checkpoint_id',
     'repeat', 'activation', 'group', 'phase', 'physical_gpu_uuid', 'output_tokens',
     'verification_calls', 'accepted_draft_tokens', 'native_accepted_draft_tokens',
     'committed_progress', 'finish_reason', 'request_latency_s', 'native_generate_s',
-    'cache_maintenance_s', 'valid_measurement')
+    'cache_maintenance_s', 'valid_measurement',
+    *('ar_spec_'+key for key in OUTPUT_COMPARISON_FIELDS))
 
 
 def table(path, rows, fields=None):
@@ -73,12 +78,14 @@ def build_report(plan, output):
             audit['status']='failed'
             audit['errors'].append(str(error))
             raw_audit.write(output/'private/REDUCTION_FAILURE.json',dict(status='failed',error=str(error)))
-    table(public/'ALL_REPEATS.csv', ({key:row.get(key) for key in PUBLIC_REPEAT_FIELDS} for row in rows), PUBLIC_REPEAT_FIELDS)
+    public_repeats = [dict(row, **{'ar_spec_'+key:row.get('ar_spec_comparison',{}).get(key)
+        for key in OUTPUT_COMPARISON_FIELDS}) for row in rows]
+    table(public/'ALL_REPEATS.csv', public_repeats, PUBLIC_REPEAT_FIELDS)
     training = audit.get('training', {})
     table(public/'TRAINING_COSTS.csv', training.get('costs', []), ('arm','event','metric','value'))
     table(public/'TRAINING_EXPOSURE.csv', training.get('exposure', []), ('arm','event','pass_index','metric','value'))
-    table(public/'ENGINE_ACTIVATION_COSTS.csv', audit.get('overhead',{}).get('costs', []), ('source','metric','value'))
-    table(public/'PHASE_COSTS.csv',audit.get('overhead',{}).get('phases',[]),('phase','status','wall_s','started_epoch'))
+    table(public/'ENGINE_ACTIVATION_COSTS.csv', audit.get('overhead',{}).get('costs', []), ('source','archived','metric','value'))
+    table(public/'PHASE_COSTS.csv',audit.get('overhead',{}).get('phases',[]),('source','archived','phase','status','wall_s','started_epoch'))
     table(public/'OWN_FEEDBACK_CURVES.csv', training.get('event_curves', []),
           ('arm','event','requests','pre_update_checkpoint',*raw_audit.COUNTS,*raw_audit.TIMES))
     table(public/'WORK.csv', audit.get('work', []),
@@ -96,6 +103,7 @@ def build_report(plan, output):
     raw_audit.write(public/'VALIDITY.json',{key:execution.get(key) for key in
         ('status','planned','attempted','returned','completed_valid','invalid','unknown','unattempted','automatic_retry')})
     clock=audit.get('clock',{})
+    startup_retry=plan.get('startup_retry') or audit.get('historical_startup_retry')
     observed=audit.get('audit_observed_epoch')
     raw_audit.write(public/'CAMPAIGN_COSTS.json',dict(
         audit_wall_s=audit.get('audit_wall_s'),occupied_card_s=clock.get('completed_card_s'),
@@ -103,19 +111,29 @@ def build_report(plan, output):
         elapsed_scope='Original model-load clock through this CPU audit; final report writing/publication follows.',
         nested_timer_scope=training.get('timer_scope'),
         activation_timer_scope=audit.get('overhead',{}).get('overlap'),
-        startup_retry=plan.get('startup_retry'),
+        startup_retry=startup_retry,
+        output_policy=plan.get('output_policy'),
+        authorized_policy_continuation=bool(plan.get('policy_resume')),
         final_publication_s=None))
     if 'endpoint_identities' in audit:
         raw_audit.write(public/'ENDPOINT_IDENTITIES.json',audit['endpoint_identities'])
     lines = [f"Execution commit: `{plan['execution_commit']}`. Report revision is recorded separately by its Git commit.",
              '',f"Status: **{audit['status']}**. This report adds no model executions.",'']
-    if plan.get('startup_retry'):
-        prior=plan['startup_retry']
+    if startup_retry:
+        prior=startup_retry
         lines += [f"An explicitly authorized startup retry retains {prior['failed_startup_card_s']:.4f} prior occupied-card seconds in the original clock. "
                   "The failed AR piecewise-graph initialization performed additional uninstrumented forwards; their exact count remains unknown. "
                   "No scientific generation or optimizer step executed before that retry. The original failure evidence is preserved.",'']
+    if plan.get('policy_resume'):
+        lines += ['The original AR/speculative equality check failed and remains retained as a historical failure. '
+            'The user subsequently authorized separate AR and frozen-F canonical references. '
+            'Only the remaining qualification work was resumed under that explicit output-policy amendment; '
+            'the prior unknown execution and consumed time remain in the accounting. '
+            'The original cross-path equality criterion is not retrospectively reported as passed.','']
     if audit['status'] == 'passed':
         raw_audit.write(public/'RESULTS.json',summary)
+        table(public/'AR_SPEC_OUTPUT_COMPARISONS.csv',
+            [dict(request_id=item['request_id'], **item['ar_spec_comparison']) for item in summary['paired']])
         paired = []
         for item in summary['paired']:
             for method in METHODS:
@@ -126,7 +144,11 @@ def build_report(plan, output):
         for name, item in summary['contrasts'].items():
             for metric, value in item.items():
                 if isinstance(value,dict) and 'ci95' in value:
-                    comparisons.append(dict(contrast=name,metric=metric,value=value['value'],
+                    comparisons.append(dict(contrast=name,metric=metric,
+                        identical_output_requests=item.get('identical_output_requests'),
+                        different_output_requests=item.get('different_output_requests'),
+                        scope=item.get('absolute_speedup_scope') if metric=='absolute_speedup' else 'full_panel',
+                        value=value['value'],
                         lower95=None if value['ci95'] is None else value['ci95'][0],
                         upper95=None if value['ci95'] is None else value['ci95'][1],status=value['status']))
         table(public/'CONTRASTS.csv',comparisons)
@@ -147,8 +169,26 @@ def build_report(plan, output):
         for name,item in summary['contrasts'].items():
             count='N/A' if item['baseline']=='AR' else format_interval(item['verification_call_reduction_pct'])
             outcomes='N/A' if item['baseline']=='AR' else f"{item['wins']} / {item['regressions']} / {item['ties']}"
-            lines.append(f"| {name} | {format_interval(item['request_latency_s_reduction_pct'])} | {count} | {outcomes} |")
-        lines += ['', 'All five endpoints preserve the target-only AR canonical tokens and termination. '
+            displayed_name = name+' (descriptive AR comparison)' if item['baseline']=='AR' else name
+            lines.append(f"| {displayed_name} | {format_interval(item['request_latency_s_reduction_pct'])} | {count} | {outcomes} |")
+        agreement = summary['ar_spec_output_agreement']
+        lines += ['', f"AR and frozen F agree on tokens and termination for {agreement['identical_outputs']}/{agreement['requests']} requests. "
+            f"Differences remain for {agreement['differing_outputs']} requests: token sequences {agreement['differing_tokens']}, "
+            f"termination {agreement['differing_termination']}, and output length {agreement['differing_lengths']}. "
+            'Every AR repeat matches its own AR canonical; every F/O/AREPO/C execution matches the frozen-F canonical. '
+            'The user-authorized numerical contract permits cross-path output differences only. '
+            'The full-panel AR timing rows are descriptive comparisons of the actual native outputs; they are not identical-output speedup claims. '
+            'AR_SPEC_OUTPUT_COMPARISONS.csv preserves every request, including zero-based first-difference offsets.','',
+            '| Endpoint versus AR | Identical-output requests | Identical-output subset speedup |',
+            '|---|---:|---:|']
+        for method in METHODS:
+            if method == 'AR':
+                continue
+            item=summary['contrasts'][method+'_vs_AR']
+            lines.append(f"| {method} | {item['identical_output_requests']} / {summary['requests']} | "
+                f"{format_interval(item['absolute_speedup'],percent=False)} |")
+        lines += ['', 'These subset ratios exclude all differing-output requests; full-panel O/AREPO/C/F contrasts retain every request. '
+            'Subset membership is determined only by AR/F token and termination agreement, so it is a descriptive subset rather than the original full-panel estimand. '
             'All repeats have consistent native counts. The independent reducer reproduces the request means, '
             'summed ratios, 10,000 paired bootstrap draws and intervals. Secondary intervals are descriptive and unadjusted.']
     else:

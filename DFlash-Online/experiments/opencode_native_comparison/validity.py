@@ -54,6 +54,35 @@ def validate_canonical(record, canonical, *, expected_record_id=None):
             raise ValueError('Canonical mismatch: ' + key)
 
 
+def canonical_for_method(bundle, method):
+    """AR has its own reference; every speculative endpoint uses frozen DFlash."""
+    if set(bundle) != {'AR', 'F'}:
+        raise ValueError('Require separate AR and frozen DFlash canonical records')
+    return bundle['AR' if method == 'AR' else 'F']
+
+
+def output_comparison(record, reference):
+    """Describe cross-path outputs without relaxing the shared input contract.
+
+    Token and termination differences are observations, not within-path validity
+    failures. Call ``validate_canonical`` for repetitions and speculative arms.
+    """
+    for key in ('prompt_ids', 'max_new_tokens', 'stop_token_ids'):
+        if record[key] != reference[key]:
+            raise ValueError('Output comparison input mismatch: ' + key)
+    left, right = record['response_ids'], reference['response_ids']
+    first = next((i for i, (a, b) in enumerate(zip(left, right)) if a != b), None)
+    if first is None and len(left) != len(right):
+        first = min(len(left), len(right))
+    same_tokens = left == right
+    same_finish = record['finish_reason'] == reference['finish_reason']
+    return dict(token_ids_equal=same_tokens, termination_equal=same_finish,
+        output_equal=same_tokens and same_finish, first_difference=first,
+        record_output_tokens=len(left), reference_output_tokens=len(right),
+        record_finish_reason=record['finish_reason'],
+        reference_finish_reason=reference['finish_reason'])
+
+
 def validate_measurement(record, *, arm):
     """Keep legitimate zero-call speculative rows and N/A AR rows distinct."""
     meta = record['metadata']

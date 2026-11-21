@@ -8,6 +8,7 @@ import traceback
 
 from online_feedback.storage import write_json
 from experiments.kw_v1.evaluate import append_json
+from .contract import qualification_root
 from .runtime import WorkLedger, boundary, occupied_card, read
 
 
@@ -113,22 +114,22 @@ def run(plan,phase,slot='A',arm=None):
             report['admission']=boundary(plan)
             if phase=='qualification_serving':
                 from .serving_gate import qualify_card
-                report['result']=qualify_card(plan,inputs,slot,root/'qualification'/slot,
+                report['result']=qualify_card(plan,inputs,slot,qualification_root(plan)/slot,
                     ledger=ledger,backend_factory=engines.create,close_backend=engines.close,
                     boundary=lambda:boundary(plan))
             elif phase=='qualification_training':
                 from .qualification import run_training_qualification
-                by_id=read(root/'qualification/A/FEATURES.json')
+                by_id=read(qualification_root(plan)/'A/FEATURES.json')
                 paths=[by_id[key]['receipt']['feature_path'] for key in plan['qualification_pair_ids']]
                 with occupied_card(root,name,plan['devices']['B']):
                     report['result']=run_training_qualification(plan,arm,feature_paths=paths,ledger=ledger)
             elif phase=='qualification_publication':
                 from .serving_gate import publication_gate
-                trained=read(root/'qualification/C_CODE58/DETAILS.json')
+                trained=read(qualification_root(plan)/'C_CODE58/DETAILS.json')
                 if trained['status']!='passed':
                     raise ValueError('Disposable C qualification has not passed')
-                report['result']=publication_gate(plan,inputs,root/'qualification/A',
-                    trained['active_C_export'],root/'qualification/publication',ledger=ledger,
+                report['result']=publication_gate(plan,inputs,qualification_root(plan)/'A',
+                    trained['active_C_export'],qualification_root(plan)/'publication',ledger=ledger,
                     backend_factory=engines.create,close_backend=engines.close,boundary=lambda:boundary(plan))
             elif phase=='precheck':
                 from .serving_gate import panel_precheck
@@ -161,7 +162,7 @@ def run(plan,phase,slot='A',arm=None):
                         physical_gpu_uuid=plan['devices']['A'],both_cards_checked=True)
                 report['result']=execute(plan,root/'evaluation/final',inputs['evaluation_requests'],
                     inputs['warmup_requests'],read(root/'precheck/CANONICALS.json'),
-                    read(root/'qualification/WARMUP_CANONICALS.json'),checkpoints,
+                    read(qualification_root(plan)/'WARMUP_CANONICALS.json'),checkpoints,
                     activate=engines.activate,boundary=quiet,ledger=ledger)
                 engines.close_all()
                 after={method:identity(Path(path)/'model.safetensors') for method,path in checkpoints.items() if method!='AR'}

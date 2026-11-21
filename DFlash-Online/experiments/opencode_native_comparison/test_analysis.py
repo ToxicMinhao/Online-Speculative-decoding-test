@@ -21,7 +21,10 @@ def fixture():
                     finish_reason='eos',checkpoint_id=method,physical_gpu_uuid='cardA',
                     request_latency_s=(2 if method=='AR' else 1)*(repeat+1),
                     native_generate_s=(1 if method=='AR' else .5)*(repeat+1),
-                    cache_maintenance_s=0.)
+                    cache_maintenance_s=0.,
+                    ar_spec_comparison=dict(token_ids_equal=True,termination_equal=True,output_equal=True,
+                        first_difference=None,record_output_tokens=output,reference_output_tokens=output,
+                        record_finish_reason='eos',reference_finish_reason='eos'))
                 rows.append(row)
     return rows
 

@@ -11,7 +11,7 @@ from experiments.bounded_prefix_allocation.preflight import verify_source
 from experiments.osd_components.prepare import verify_native_runtime
 from experiments.ok_coding.storage import identity
 from experiments.persistent_prefix_withholding.launch import check_compilers
-from .contract import digest, validate_manifest, SERVING, RESOURCE_LIMITS, ARMS
+from .contract import digest, validate_manifest, SERVING, RESOURCE_LIMITS, ARMS, OUTPUT_POLICY
 from .runtime import read, storage
 
 
@@ -42,6 +42,8 @@ def verify(plan):
     try:
         if plan['binding']!=digest({k:v for k,v in plan.items() if k!='binding'}):
             raise ValueError('The execution plan changed after sealing')
+        if plan.get('output_policy') != OUTPUT_POLICY:
+            raise ValueError('Explicitly seal the authorized AR/speculative output policy')
         if plan['serving']!=SERVING or plan['limits']!=RESOURCE_LIMITS or plan['arms']!=list(ARMS):
             raise ValueError('The scientific/serving/resource contract changed')
         result['source']=verify_source(plan)
