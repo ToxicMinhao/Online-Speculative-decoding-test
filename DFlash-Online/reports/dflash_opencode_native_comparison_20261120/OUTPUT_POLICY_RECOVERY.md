@@ -2,7 +2,7 @@
 
 ## Material Passport
 
-ARS experiment-run supervision; implementation and CPU validation. This is a user-authorized recovery of PR56, not a new scientific experiment. GPU qualification is pending under the revised output-validity contract.
+ARS experiment-run supervision; implementation and CPU validation. This is a user-authorized recovery of PR56, not a new scientific experiment. Native qualification resumed under execution `658d734c422a1a200fe400dceb256492f529204e` after CPU preflight passed in 24.677 seconds. The launcher is PID3993464; main training has not started at this report revision.
 
 ## What changes
 
