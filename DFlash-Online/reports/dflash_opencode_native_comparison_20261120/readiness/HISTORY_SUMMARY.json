@@ -1,0 +1,117 @@
+{
+  "files": 150766,
+  "unique_content_files": 147033,
+  "fingerprint_counts": {
+    "source_identity_sha256": 1024,
+    "normalized_raw_sha256": 53349,
+    "rendered_prompt_sha256": 49906,
+    "prompt_ids_sha256": 29051
+  },
+  "coverage": {
+    "scope": "enumerated retained input histories and reservations",
+    "normalization": "Unicode NFKC, then whitespace collapse; case and punctuation preserved",
+    "gaps": [
+      {
+        "path": "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_mathqa_transfer_20261104/resources/REMOTE_MATHQA_INVENTORY.json",
+        "error": "Expecting value: line 1 column 1 (char 0)"
+      },
+      {
+        "path": "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_signal_mechanism_study_20260920/recovery_001/interrupted_L-G_seed2026092022/training.jsonl",
+        "error": "Expecting ':' delimiter: line 1 column 71 (char 70)"
+      }
+    ],
+    "excludes_unknown_history": true,
+    "semantic_near_duplicates_checked": false,
+    "discovery_exclusions": [
+      ".git",
+      "__pycache__",
+      "data_preparation",
+      "github_checkout",
+      "implementation_checkout",
+      "inference",
+      "node_modules",
+      "source_cache",
+      "source_live",
+      "source_snapshots",
+      "torchinductor",
+      "training",
+      "triton",
+      "vendor"
+    ],
+    "nonexposure_source_catalogs_omitted": [
+      "/home/minhao2/EAGLE_SPEC/research/dflash_data_scaling_20260917/source_cache_002/chat-00002-of-00012.prompts.jsonl",
+      "/home/minhao2/EAGLE_SPEC/research/dflash_data_scaling_20260917/source_cache_002/chat-00010-of-00012.prompts.jsonl",
+      "/home/minhao2/EAGLE_SPEC/research/dflash_data_scaling_20260917/source_cache_002/chat-00006-of-00012.prompts.jsonl",
+      "/home/minhao2/EAGLE_SPEC/research/dflash_data_scaling_20260917/source_cache_002/chat-00008-of-00012.prompts.jsonl",
+      "/home/minhao2/EAGLE_SPEC/research/dflash_data_scaling_20260917/source_cache_002/chat-00001-of-00012.prompts.jsonl",
+      "/home/minhao2/EAGLE_SPEC/research/dflash_data_scaling_20260917/source_cache_002/chat-00011-of-00012.prompts.jsonl",
+      "/home/minhao2/EAGLE_SPEC/research/dflash_data_scaling_20260917/source_cache_002/manifest.json",
+      "/home/minhao2/EAGLE_SPEC/research/dflash_data_scaling_20260917/source_cache_002/math-00000-of-00002.prompts.jsonl",
+      "/home/minhao2/EAGLE_SPEC/research/dflash_data_scaling_20260917/source_cache_002/chat-00009-of-00012.prompts.jsonl",
+      "/home/minhao2/EAGLE_SPEC/research/dflash_data_scaling_20260917/source_cache_002/code-00000-of-00002.prompts.jsonl",
+      "/home/minhao2/EAGLE_SPEC/research/dflash_data_scaling_20260917/source_cache_002/code-00001-of-00002.prompts.jsonl",
+      "/home/minhao2/EAGLE_SPEC/research/dflash_data_scaling_20260917/source_cache_002/chat-00004-of-00012.prompts.jsonl",
+      "/home/minhao2/EAGLE_SPEC/research/dflash_data_scaling_20260917/source_cache_002/chat-00007-of-00012.prompts.jsonl",
+      "/home/minhao2/EAGLE_SPEC/research/dflash_data_scaling_20260917/source_cache_002/chat-00005-of-00012.prompts.jsonl",
+      "/home/minhao2/EAGLE_SPEC/research/dflash_data_scaling_20260917/source_cache_002/chat-00003-of-00012.prompts.jsonl",
+      "/home/minhao2/EAGLE_SPEC/research/dflash_data_scaling_20260917/source_cache_002/chat-00000-of-00012.prompts.jsonl",
+      "/home/minhao2/EAGLE_SPEC/research/dflash_data_scaling_20260917/source_cache_002/SAMPLING_PLAN.json",
+      "/home/minhao2/EAGLE_SPEC/research/dflash_data_scaling_20260917/source_cache_002/math-00001-of-00002.prompts.jsonl",
+      "/home/minhao2/EAGLE_SPEC/research/dflash_fresh_mathqa_c_arepo_osd_20261119/panel_audit/ELIGIBLE_INPUTS_PRIVATE.json"
+    ],
+    "unparsed_archives": "Archives were not extracted; exposed inputs are covered where retained loose inventories, manifests or copies exist. Unknown/deleted-only inputs and semantic near-duplicates remain outside freshness claim.",
+    "tokenizer_history": "Native token arrays and retained hashes are matched; missing historical tokenization is not reconstructed.",
+    "authentication": "Every consumed file is read and hashed; source receipts identify the retained local bytes. No claim that every historical original tensor or deleted manifest survives.",
+    "search_seconds": 231.83228256786242
+  },
+  "gap_assessment": [
+    {
+      "path": "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_mathqa_transfer_20261104/resources/REMOTE_MATHQA_INVENTORY.json",
+      "identity": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "parse_error": "Expecting value: line 1 column 1 (char 0)",
+      "assessment": "Empty failed metadata attempt; successful REMOTE_MATHQA_INVENTORY_002 retained and consumed.",
+      "replacement_paths": [
+        "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_mathqa_transfer_20261104/deployment_001/inputs/REMOTE_MATHQA_INVENTORY_002.json",
+        "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_mathqa_transfer_20261104/resources/REMOTE_MATHQA_INVENTORY_002.json",
+        "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_mathqa_transfer_20261104/retrieved_002/deployment_001/inputs/REMOTE_MATHQA_INVENTORY_002.json",
+        "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_mathqa_transfer_20261104/retrieved_002/production_001/sealed/REMOTE_MATHQA_INVENTORY_002.json",
+        "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_mathqa_transfer_20261104/retrieved_002/production_002/sealed/REMOTE_MATHQA_INVENTORY_002.json"
+      ]
+    },
+    {
+      "path": "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_signal_mechanism_study_20260920/recovery_001/interrupted_L-G_seed2026092022/training.jsonl",
+      "identity": {
+        "bytes": 1437696,
+        "sha256": "2d5a1e0d98c8bf74f5148921def901793a01320f79189924c30a7fb07a2d6ffa"
+      },
+      "parse_error": "Expecting ':' delimiter: line 1 column 71 (char 70)",
+      "valid_lines": 3146,
+      "malformed_lines": [
+        3147
+      ],
+      "valid_line_fields": [
+        "conditional_ce",
+        "conditional_eligible_fraction",
+        "conditional_eligible_tokens",
+        "elapsed_seconds",
+        "lr_factor",
+        "native_ce",
+        "peak_allocated_bytes",
+        "seconds",
+        "step",
+        "teacher_previous_outside_candidate_list",
+        "total_loss",
+        "unclipped_gradient_norm",
+        "valid_tokens"
+      ],
+      "assessment": "Interrupted scalar training-metric log; no prompt/input/token/source-identity fields in valid lines. Retained experiment manifests are inventoried separately. Original truncated line preserved."
+    }
+  ],
+  "private_inventory_identity": {
+    "bytes": 71653665,
+    "sha256": "6d034e7623716783aafd62b11c6f12671437ae44742ba70814996c0a31c8986d"
+  }
+}

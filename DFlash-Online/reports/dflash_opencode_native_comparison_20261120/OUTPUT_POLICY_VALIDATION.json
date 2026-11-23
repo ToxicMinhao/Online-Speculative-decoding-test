@@ -1,0 +1,23 @@
+{
+  "status": "passed",
+  "pure_cpu_tests": 192,
+  "pure_cpu_wall_s": 4.06,
+  "pure_cpu_command": "PYTHONPATH=. moziflux/bin/python -m pytest -q experiments/opencode_native_comparison --ignore=experiments/opencode_native_comparison/test_training.py --ignore=experiments/opencode_native_comparison/test_qualification.py tests/test_opencode_data.py",
+  "independent_integration_tests": 42,
+  "review_scope": "shared-context independent source and CPU checks; not GPU replication",
+  "review_findings": [
+    {
+      "issue": "reused-record destination directory absent",
+      "resolution": "create parent before byte-preserving copy; regression test passes"
+    },
+    {
+      "issue": "archived overhead omitted from cost tables",
+      "resolution": "source-labelled archived phase/lifecycle entries retained; cumulative CLOCK is not double counted"
+    }
+  ],
+  "gpu_work_added": 0,
+  "scientific_algorithm_changes": [],
+  "torch_cpu_tests": 18,
+  "torch_cpu_wall_s": 247.359,
+  "total_distinct_cpu_tests": 210
+}

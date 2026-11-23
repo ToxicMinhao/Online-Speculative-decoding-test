@@ -1,0 +1,37 @@
+{
+  "status": "conservative_source_bound_metadata_envelope",
+  "source_member": "campaign_001/arms/KPLUS_C/trainer/events/event_001/RESULT.json",
+  "source_sha256": "2baa81fc0b10748ea57b4d050726c62a8b05e937f5ecada1b96ef241b50b06c5",
+  "pickle_protocol": 2,
+  "primed_memo_entries": 1031,
+  "strings_unshared_except_fixed_prefix_table_keyword_names": true,
+  "shared_fixed_keyword_names": [
+    "prefix_length",
+    "slot",
+    "occurrences",
+    "native_weight_sum",
+    "candidate_weight_sum",
+    "signed_weight_change",
+    "absolute_weight_change"
+  ],
+  "shared_keyword_source": "online_feedback/prefix_allocation.py:149-153 uses fixed dict keyword names; Python deepcopy preserves these immutable string objects",
+  "positions_per_presentation": 512,
+  "anchor_copies_per_record": 2,
+  "prefix_summary_rows_per_record": 120,
+  "record_id_byte_allowance": 1024,
+  "feature_path_byte_allowance": 4095,
+  "response_row_bytes": 21461,
+  "feature_metadata_bytes": 5296,
+  "event_header_bytes": 5051,
+  "other_metadata_allowance_bytes": 5000000,
+  "total_metadata_bound_bytes": 363263390,
+  "complete_state_bound_bytes": 6655040702,
+  "rounded_metadata_envelope_bytes": 500000000,
+  "rounded_complete_state_bound_bytes": 6791777312,
+  "limitations": [
+    "Recompute if emitted keys or richer payloads change.",
+    "Enforce record IDs<=1024bytes and feature paths<=4095bytes.",
+    "Specific fixed prefix-table keyword sharing is guaranteed by inspected implementation, not assumed for dynamic metric keys.",
+    "5MB reserve covers other config/RNG/optimizer/zip metadata; actual serialized size checked before publication."
+  ]
+}

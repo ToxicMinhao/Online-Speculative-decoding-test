@@ -1,0 +1,89 @@
+{
+  "status": "completed_results_published_for_review",
+  "execution_commit": "1551e5e5d0dd7736d8441977aa3dea250535da7b",
+  "qualification_execution_commit": "658d734c422a1a200fe400dceb256492f529204e",
+  "previous_publication_head": "a6acec475cdce311fce2426a9b74ce5da70ed412",
+  "report_commit": "Git commit containing this final directory; distinct from the execution commit",
+  "source": "Unmodified final/public outputs copied from A800 and verified against remote checksums",
+  "public_artifacts": {
+    "ALL_REPEATS.csv": {
+      "bytes": 6871349,
+      "sha256": "f86023fc876d52a8c0a59a63dc1bead529e4cbd74edb34dde0995b4bef05d372"
+    },
+    "AR_SPEC_OUTPUT_COMPARISONS.csv": {
+      "bytes": 113087,
+      "sha256": "b4648e9ced946a3f02e300ca00c86d98f0eb6417bb942db4241f67d5246af82b"
+    },
+    "AUDIT_SUMMARY.json": {
+      "bytes": 3849,
+      "sha256": "b361dcd0ee3347b6623993bba2ce94a0ab4bc54257b52cc4fe3a795a0be96a7b"
+    },
+    "BOOTSTRAP.json": {
+      "bytes": 107210,
+      "sha256": "5764dba32f181a912818789991302641a3677f61e259d23fd955758e5b9c1541"
+    },
+    "CAMPAIGN_COSTS.json": {
+      "bytes": 2654,
+      "sha256": "cb1cbb382ed8754e791dc36cf75890abf3fc794f9e2fb1c4b0403ed750326fa3"
+    },
+    "CONTRASTS.csv": {
+      "bytes": 7096,
+      "sha256": "7cfd05282a33e069d2c53ef10dec9a1381945cf2f0afa85f665b5c8a7b7259b4"
+    },
+    "ENDPOINT_IDENTITIES.json": {
+      "bytes": 508,
+      "sha256": "72c0a788cfb726be5f9bb780b2b48d5c27de6c6d0f99357640de71c254bc97db"
+    },
+    "ENGINE_ACTIVATION_COSTS.csv": {
+      "bytes": 60729,
+      "sha256": "fade90b3b83ab5bb7306163f9715dd2fa7b81c70ae1a9720c8f49c2fe5579143"
+    },
+    "OWN_FEEDBACK_CURVES.csv": {
+      "bytes": 40675,
+      "sha256": "b89c14ff3afa258666d24aa6c31711f69eff63c357a79546b0534b68182007b7"
+    },
+    "PER_REQUEST.csv": {
+      "bytes": 832420,
+      "sha256": "d843386a999f73fe773c6ad1eb56116f7446f1851be97db27bd69dd6b1e18c06"
+    },
+    "PHASE_COSTS.csv": {
+      "bytes": 2014,
+      "sha256": "9f516cc4a8a41d4e3584c58713a775a5a78c6140b8a646ba3e000ecc814e9fcc"
+    },
+    "REPORT.md": {
+      "bytes": 6477,
+      "sha256": "7ec79e65a3c8b64f734db4d49088a084bb45145e295af44bc7965dc6ff04a692"
+    },
+    "RESULTS.json": {
+      "bytes": 4986095,
+      "sha256": "823f21b5614a02743bdb16695cd5f302683c4c7e8f49ddc4db52f585ef7f5fcc"
+    },
+    "TRAINING_COSTS.csv": {
+      "bytes": 184116,
+      "sha256": "afebb76ca49de7523d63ec790e70302865dddf462932ecd9514a32e096229bef"
+    },
+    "TRAINING_EXPOSURE.csv": {
+      "bytes": 633001,
+      "sha256": "f4cd99b94b19a7e53a5cf85da650093c9b0e3a9c7281271a91d639e5e9cd2776"
+    },
+    "VALIDITY.json": {
+      "bytes": 199,
+      "sha256": "d3b13e22f33dac25e855e1c84517d15c30a93e253b81eda6830f02753d56c01c"
+    },
+    "WORK.csv": {
+      "bytes": 904,
+      "sha256": "aed1fa7787782c5631d6245e47ea06c5ea3c70ff4390a341b4176c9ef86982de"
+    }
+  },
+  "additional_evidence": "INDEPENDENT_PUBLIC_RECHECK.json: independent public-table arithmetic, not new model execution",
+  "private_artifacts_excluded": [
+    "prompts",
+    "response token sequences",
+    "raw native verification traces",
+    "model checkpoints",
+    "optimizer/recovery tensors",
+    "RAW_AUDIT.json"
+  ],
+  "historical_reports": "Earlier qualification, failure, budget-stop and launch reports remain unchanged; their status is historical.",
+  "new_model_work": 0
+}

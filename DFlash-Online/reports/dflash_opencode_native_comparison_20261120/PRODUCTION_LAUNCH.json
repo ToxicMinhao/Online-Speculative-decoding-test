@@ -1,0 +1,135 @@
+{
+  "status": "running",
+  "execution_commit": "1551e5e5d0dd7736d8441977aa3dea250535da7b",
+  "qualified_execution_commit": "658d734c422a1a200fe400dceb256492f529204e",
+  "observed_epoch": 1795242810.986919,
+  "supervisor_pid": 4145120,
+  "phase": "collecting",
+  "arm": "O_CODE58",
+  "event": 1,
+  "events_completed": 0,
+  "initial_state_checks": {
+    "status": "passed",
+    "exact_weights_empty_Adam_RNG": true,
+    "comparator": "independently validated historical native K0",
+    "allowed_changes": [
+      "declared CODE arm/objective contract",
+      "data.max_length:2272-to-4096",
+      "run_id",
+      "output_dir"
+    ],
+    "rng_overwritten": false
+  },
+  "production_work": {
+    "attempted": {
+      "production.feedback_generation": 12,
+      "production.correctness_generation": 0,
+      "production.canonical_generation": 1024,
+      "production.frozen_precheck_generation": 1024,
+      "production.warmup_generation": 0,
+      "production.scored_generation": 0,
+      "production.adam": 0,
+      "production.response_forward": 0,
+      "production.response_backward": 0,
+      "production.teacher_preparation": 0,
+      "production.training_initialization": 1,
+      "qualification.generation": 67,
+      "qualification.adam": 17,
+      "qualification.response_forward": 40,
+      "qualification.response_backward": 40,
+      "qualification.teacher_preparation": 16,
+      "qualification.training_initialization": 3
+    },
+    "completed": {
+      "production.feedback_generation": 11,
+      "production.correctness_generation": 0,
+      "production.canonical_generation": 1024,
+      "production.frozen_precheck_generation": 1024,
+      "production.warmup_generation": 0,
+      "production.scored_generation": 0,
+      "production.adam": 0,
+      "production.response_forward": 0,
+      "production.response_backward": 0,
+      "production.teacher_preparation": 0,
+      "production.training_initialization": 1,
+      "qualification.generation": 66,
+      "qualification.adam": 17,
+      "qualification.response_forward": 40,
+      "qualification.response_backward": 40,
+      "qualification.teacher_preparation": 16,
+      "qualification.training_initialization": 3
+    }
+  },
+  "new_execution_failures": [],
+  "historical_unknown_retained": true,
+  "qualification_generations_repeated": 0,
+  "precheck_generations_repeated": 0,
+  "cpu_preflight": {
+    "status": "passed",
+    "execution_commit": "1551e5e5d0dd7736d8441977aa3dea250535da7b",
+    "wall_s": 24.620239179581404
+  },
+  "source_files": 5018,
+  "source_review": {
+    "changed_files": [
+      "experiments/opencode_native_comparison/budget_resume.py",
+      "experiments/opencode_native_comparison/launch.py",
+      "experiments/opencode_native_comparison/policy_resume.py",
+      "experiments/opencode_native_comparison/preflight.py",
+      "experiments/opencode_native_comparison/raw_audit.py",
+      "experiments/opencode_native_comparison/report.py",
+      "experiments/opencode_native_comparison/runtime.py",
+      "experiments/opencode_native_comparison/test_budget_resume.py",
+      "experiments/opencode_native_comparison/test_launch.py",
+      "reports/dflash_opencode_native_comparison_20261120/BUDGET_CONTINUATION.json",
+      "reports/dflash_opencode_native_comparison_20261120/BUDGET_CONTINUATION.md",
+      "reports/dflash_opencode_native_comparison_20261120/OUTPUT_POLICY_RECOVERY.md",
+      "reports/dflash_opencode_native_comparison_20261120/PROVENANCE.json",
+      "reports/dflash_opencode_native_comparison_20261120/QUALIFIED_BUDGET_STOP.json",
+      "reports/dflash_opencode_native_comparison_20261120/QUALIFIED_BUDGET_STOP.md",
+      "reports/dflash_opencode_native_comparison_20261120/REPORT.md"
+    ],
+    "unchanged_files": 5002,
+    "scientific_files_unchanged": true,
+    "review": {
+      "status": "passed",
+      "changed_files": [
+        "experiments/opencode_native_comparison/budget_resume.py",
+        "experiments/opencode_native_comparison/launch.py",
+        "experiments/opencode_native_comparison/policy_resume.py",
+        "experiments/opencode_native_comparison/preflight.py",
+        "experiments/opencode_native_comparison/raw_audit.py",
+        "experiments/opencode_native_comparison/report.py",
+        "experiments/opencode_native_comparison/runtime.py",
+        "experiments/opencode_native_comparison/test_budget_resume.py",
+        "experiments/opencode_native_comparison/test_launch.py",
+        "reports/dflash_opencode_native_comparison_20261120/BUDGET_CONTINUATION.json",
+        "reports/dflash_opencode_native_comparison_20261120/BUDGET_CONTINUATION.md",
+        "reports/dflash_opencode_native_comparison_20261120/OUTPUT_POLICY_RECOVERY.md",
+        "reports/dflash_opencode_native_comparison_20261120/PROVENANCE.json",
+        "reports/dflash_opencode_native_comparison_20261120/QUALIFIED_BUDGET_STOP.json",
+        "reports/dflash_opencode_native_comparison_20261120/QUALIFIED_BUDGET_STOP.md",
+        "reports/dflash_opencode_native_comparison_20261120/REPORT.md"
+      ],
+      "independent_cpu_tests": 112,
+      "main_cpu_tests": 222,
+      "review": "Independent code_continuation_review: no blocking findings; no scientific source changes outside approved administrative files and reports."
+    }
+  },
+  "limits": {
+    "elapsed_s": 345600,
+    "occupied_card_s": 432000,
+    "new_allocated_bytes": 90000000000,
+    "free_reserve_bytes": 400000000000,
+    "forecast_multiplier": 1.25,
+    "forecast_fixed_s": 3600
+  },
+  "original_first_model_load_epoch": 1795217755.6244764,
+  "free_bytes": 491121004544,
+  "forecast": {
+    "raw_remaining_h": 59.146508878979915,
+    "original_clock_total_with_contingency_h": 81.87136657219028,
+    "projected_occupied_card_h": 110.85493665772752
+  },
+  "retained_evidence_files": 6601
+}

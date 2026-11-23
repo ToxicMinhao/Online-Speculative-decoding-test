@@ -1,0 +1,112 @@
+{
+  "implementation_commit": "c0a0794e8a7a42a3e2e70833a73992a6201ea6d6",
+  "source_base": "18d60135e6a482bf2f0f92454c572ccadc2adf1e",
+  "execution_commit": "658d734c422a1a200fe400dceb256492f529204e",
+  "execution_status": "qualification_passed_production_blocked_by_time_budget",
+  "report_commit": "Git commit containing this report; distinct from implementation commit",
+  "scientific_gpu_work": {
+    "attempted_generations": 12,
+    "returned_generations": 11,
+    "passed_checks_reached": 10,
+    "invalid_completed": 1,
+    "interrupted_unknown": 1,
+    "unattempted_generations": 52,
+    "initial_slot_status_counts": {
+      "valid": 10,
+      "started": 1,
+      "unattempted": 48,
+      "invalid": 1
+    },
+    "publication_generations_unattempted": 4,
+    "teacher_preparations": 0,
+    "optimizer_steps": 0,
+    "training_initializations": 0,
+    "pending_preserved": {
+      "11": {
+        "task": "qualification_serving_A",
+        "label": "A_AR_reserved_8_2048_0",
+        "counts": {
+          "qualification.generation": 1
+        }
+      }
+    }
+  },
+  "scope": "CODE-only three own-feedback58-event arms plus five-arm endpoint evaluation",
+  "fixed_limits": {
+    "elapsed_h": 48,
+    "occupied_card_h": 90,
+    "new_allocated_GB": 90,
+    "free_reserve_GB": 400
+  },
+  "pending_user_decision": null,
+  "storage_amendment": {
+    "status": "authorized",
+    "recorded_epoch": 1795217286.3735862,
+    "user_instruction": "Raise A800 additional storage cap to90GB; retain400GBreserve; proceed with qualification and unchanged O/AREPO/C campaign if checks pass; remove verified disposable wastes.",
+    "previous_additional_storage_bytes": 80000000000,
+    "new_additional_storage_bytes": 90000000000,
+    "free_reserve_bytes": 400000000000,
+    "elapsed_hours": 48,
+    "occupied_card_hours": 90,
+    "scientific_changes": [],
+    "automatic_scientific_retry": false
+  },
+  "engine_gpu_work": {
+    "occupied_card_s": 56.031763792037964,
+    "ordinary_graph_forwards": 6,
+    "piecewise_forwards": "unknown additional initialization"
+  },
+  "retry_authorization": {
+    "status": "authorized",
+    "scope": "retry_startup_qualification_once_then_unchanged_campaign_if_gates_pass",
+    "user_reply": "Retry qualification and proceed if it passes",
+    "recorded_epoch": 1795218318.3893313,
+    "preserve_original_clock": true,
+    "preserve_failed_card_seconds": 56.031763792037964,
+    "preserve_unknown_piecewise_initialization": true,
+    "limits_unchanged": true,
+    "scientific_settings_unchanged": true,
+    "validation": {
+      "cpu_tests_passed": 81,
+      "failed": 0,
+      "wall_s": 0.87,
+      "independent_review": "48 overlapping CPU tests rerun independently; no blocking finding. Shared-context code review, not native replication."
+    }
+  },
+  "current_costs": {
+    "prior_launcher_wall_s": 58.54412794113159,
+    "retry_launcher_wall_s": 108.87897682189941,
+    "cumulative_occupied_card_s": 193.23928093910217,
+    "original_first_model_epoch": 1795217755.6244764,
+    "active_leases": {},
+    "interrupted_lease_closed_from_saved_exit_upper_bound": true,
+    "original_piecewise_forward_count": "unknown additional initialization; original6 ordinarygraphforwards retained"
+  },
+  "automatic_retry": false,
+  "historical_failed_execution_commit": "93a53f11abbfbf00e36c1bcc309a33943f972099",
+  "output_policy_recovery": {
+    "authorization": "AR/speculative output differences allowed; preserve evidence; proceed if remaining checks pass",
+    "qualification_attempt_cap": 67,
+    "reuse_returned_ordinary_records": 11,
+    "new_generations_remaining": 53,
+    "original_clock_and_other_caps_unchanged": true,
+    "diagnostics_not_reused_as_slots": true
+  },
+  "policy_resume_execution": {
+    "pid": 3993464,
+    "started_epoch": 1795228151.474389,
+    "cpu_preflight_status": "passed",
+    "cpu_preflight_s": 24.67718656733632,
+    "original_clock_preserved": true,
+    "original_completed_card_s": 237.9032530784607,
+    "source_files_verified": 5012,
+    "free_bytes_prelaunch": 491903729664,
+    "peak_study_bytes": 86530781582
+  },
+  "latest_status_receipt": "QUALIFIED_BUDGET_STOP.json",
+  "production_events_per_arm": {
+    "O_CODE58": 0,
+    "AREPO_CODE58": 0,
+    "C_CODE58": 0
+  }
+}

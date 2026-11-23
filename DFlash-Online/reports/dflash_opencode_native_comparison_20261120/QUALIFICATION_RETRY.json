@@ -1,0 +1,74 @@
+{
+  "status": "blocked_exact_AR_F_output_mismatch",
+  "execution_commit": "93a53f11abbfbf00e36c1bcc309a33943f972099",
+  "prior_failed_execution": "9a7eabe7e3539410ce995a17d7407ea4f8fd495c",
+  "startup_repair_passed_both_cards": true,
+  "training_started": false,
+  "mismatch": {
+    "request_index": 0,
+    "physical_card": "B",
+    "prompt_tokens": 65,
+    "exact_prompt_equality": true,
+    "first_mismatch_zero_based": 279,
+    "matching_initial_tokens": 279,
+    "AR_tokens": 290,
+    "F_tokens": 292,
+    "AR_first_differing_token": 11,
+    "F_first_differing_token": 323,
+    "termination": [
+      "eos",
+      "eos"
+    ],
+    "same_stop_ids": true,
+    "F_verification_calls": 30,
+    "cross_card_AR_output_equal": true
+  },
+  "work": {
+    "attempted_generations": 12,
+    "returned_generations": 11,
+    "passed_checks_reached": 10,
+    "invalid_completed": 1,
+    "interrupted_unknown": 1,
+    "unattempted_generations": 52,
+    "initial_slot_status_counts": {
+      "valid": 10,
+      "started": 1,
+      "unattempted": 48,
+      "invalid": 1
+    },
+    "publication_generations_unattempted": 4,
+    "teacher_preparations": 0,
+    "optimizer_steps": 0,
+    "training_initializations": 0,
+    "pending_preserved": {
+      "11": {
+        "task": "qualification_serving_A",
+        "label": "A_AR_reserved_8_2048_0",
+        "counts": {
+          "qualification.generation": 1
+        }
+      }
+    }
+  },
+  "costs": {
+    "prior_launcher_wall_s": 58.54412794113159,
+    "retry_launcher_wall_s": 108.87897682189941,
+    "cumulative_occupied_card_s": 193.23928093910217,
+    "original_first_model_epoch": 1795217755.6244764,
+    "active_leases": {},
+    "interrupted_lease_closed_from_saved_exit_upper_bound": true,
+    "original_piecewise_forward_count": "unknown additional initialization; original6 ordinarygraphforwards retained"
+  },
+  "free_bytes": 493409820672,
+  "underlying_token_mismatch_cause": "unresolved; no new GPU diagnostic",
+  "no_automatic_retry": true,
+  "delivery": {
+    "status": "passed",
+    "archive_bytes": 95437,
+    "archive_sha256": "274eb13259673af590c6aee674b3a8e70c0d3316ac83251be5d0a015878ba8a6",
+    "files": 87,
+    "complete_record_files": 11,
+    "raw_data_remains_private": true
+  },
+  "analysis_scope": "Retained evidence only; no diagnostic model forwards or additional retries."
+}
