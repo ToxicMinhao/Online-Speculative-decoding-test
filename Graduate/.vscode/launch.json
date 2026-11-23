@@ -1,0 +1,26 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Graduate: collect live feedback (two requests)",
+      "type": "debugpy",
+      "request": "launch",
+      "python": "/home/minhao2/.venvs/dflash-specforge/bin/python",
+      "module": "graduate",
+      "args": [
+        "collect",
+        "--config",
+        "${workspaceFolder}/configs/fenrir.toml",
+        "--debug-responses",
+        "2"
+      ],
+      "cwd": "${workspaceFolder}",
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}/src"
+      },
+      "console": "integratedTerminal",
+      "justMyCode": true,
+      "subProcess": false
+    }
+  ]
+}

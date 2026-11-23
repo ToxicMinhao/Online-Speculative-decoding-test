@@ -1,0 +1,59 @@
+# Local model files, unchanged learning recipe, and explicit F5 serving runtime.
+# Collection saves full-response packets; training loads them without retokenizing.
+# Full training events use128 responses; F5 collects two real debug requests.
+
+[models]
+target = "/home/minhao2/.cache/huggingface/hub/models--Qwen--Qwen3-8B/snapshots/b968826d9c46dd6066d109eabc6255188de91218"
+draft = "/home/minhao2/.cache/huggingface/hub/models--z-lab--Qwen3-8B-DFlash-b16/snapshots/9b41424b7109f9c5413454f481b09a82b85333f4"
+
+# collect writes this manifest; train reads the identical full-response packets.
+[feedback]
+manifest = "/home/minhao2/Graduate-data/collection/manifest.json"
+buffer_dir = "/home/minhao2/Graduate-data/feedback"
+
+[collection]
+requests = "requests.json"
+output_dir = "/home/minhao2/Graduate-data/collection"
+
+[training]
+output_dir = "/home/minhao2/Graduate-data/training"
+seed = 17
+responses_per_event = 128
+passes_per_event = 2
+microbatch_size = 1
+accumulation_steps = 2
+context_limit = 4096
+max_anchors_per_response = 512
+projection_chunk_blocks = 8
+learning_rate = 3e-4
+weight_decay = 0.01
+max_grad_norm = 1.0
+loss_decay_gamma = 7.0
+shuffle_responses = true
+parameter_dtype = "bfloat16"
+probability_dtype = "bfloat16"
+optimizer = "bf16_adamw"
+learning_rate_schedule = "constant"
+attention_backend = "flex_attention"
+
+[objective]
+first_error_redistribution_fraction = 0.5
+prefix_probability_smoothing = 0.5
+prefix_relative_cap = 0.25
+denominator_epsilon = 1e-6
+
+# Local SGLang/FA3. The memory fraction admits both models on the 24GB GPU.
+# This local runtime/version is qualified separately from the A800 campaign.
+[serving]
+runtime = "sglang"
+context_limit = 4096
+block_size = 16
+max_new_tokens = 2048
+concurrency = 1
+greedy = true
+parameter_dtype = "bfloat16"
+attention_backend = "fa3"
+memory_fraction = 0.88
+chunked_prefill_tokens = 4096
+cuda_graphs = true
+cuda_graph_max_batch_size = 1
