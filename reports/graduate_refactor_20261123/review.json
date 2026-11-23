@@ -1,0 +1,184 @@
+{
+  "scope": "Publication for review only: Graduate Steps 1-4 and Step 5A. No implementation advance or new GPU work.",
+  "publication_base": "283ad54230b80867d58e4a3d68c7bb9a4c5100fb",
+  "local_source_head": "4edc7a765fbc9337e0ef8c776b91ebe0ea2e2176",
+  "working_tree_note": "Includes the user-added explanatory comment in training.py. Local working tree is left untouched.",
+  "source_git_blob_identities": {
+    ".gitignore": "fb7bbf5cc288d35000c19898ff0095bdf3739853",
+    ".vscode/launch.json": "81083610b430ce0fcf2fae7d872a4942ce9e621b",
+    "AGENTS.md": "099dab2762c4a81f3d6e736cc227a8826ad992d9",
+    "README.md": "0c7f35e299d84eda1d713c90f03bee867797b2cd",
+    "configs/fenrir.toml": "f5576a4ae1d69e6a850f17c0af74c659675c3c49",
+    "configs/requests.json": "445d23ec903b174eede4ef9f305597f8d32bfba1",
+    "pyproject.toml": "7329f0dbd9c216b0fade7e7629bf8c154992c9f9",
+    "src/graduate/__init__.py": "ebc21c729b1ed68c5927b8616d87f5a5ae94a463",
+    "src/graduate/__main__.py": "3fecbe9a08def60d67a2a2c1bd3178ed3c65bd2d",
+    "src/graduate/batches.py": "4e4bfc011ad2d21c47200f7399adcdc3fa3b6de5",
+    "src/graduate/buffer.py": "2b3c8a83afe86711b507aa2b10073bc1a879f06b",
+    "src/graduate/collection.py": "5695fdcadb431500a0cdc3237b003cc1abbcaa43",
+    "src/graduate/config.py": "c1607d80f12829577bfaefcc648e1b5d3daff1f2",
+    "src/graduate/feedback.py": "015b42eec1c1436f6965db912b2e2108825f115a",
+    "src/graduate/generation.py": "a132cdf068d60e9b1066cf239fd9163431be3d85",
+    "src/graduate/live.py": "07fe07bf3b77f3ca33e46bd63025e01fb39579ed",
+    "src/graduate/model.py": "a18023a60445382b288b6123afb741f63dfd4447",
+    "src/graduate/objective.py": "81c245d174d13500d9aa2413ab7fcaf0e5577511",
+    "src/graduate/sglang_capture.py": "990c79ced533e1f4296bcd1ea8ac16b27af8cf9e",
+    "src/graduate/storage.py": "4d1d10b1961b1db4b145c1da88defe6b8363336b",
+    "src/graduate/training.py": "16b1f0490770a20cd662dcc373e4af7924f388d6",
+    "tests/test_buffer.py": "e4940342870282398b39f9fc5ba0e643d5aa0abf",
+    "tests/test_cli.py": "613faba9e8e78a00a2fd7435dfb5691013e8f749",
+    "tests/test_collection.py": "f916976581141c7f9814736a44cb928408e74ebc",
+    "tests/test_feedback_batches.py": "2362314cbe93b81f4e19dd6370a3b331fbecd675",
+    "tests/test_generation.py": "4f85c92e91726e2b91514ddb664cfc784bab1c12",
+    "tests/test_live.py": "46d9e026a8b7e9707f76f40ef87e7bcf22f91dea",
+    "tests/test_model.py": "7fad79effbd63689e62b944ac820e61cbf7cff27",
+    "tests/test_objective.py": "301464c5b6743ea99ed3367c24fc6bbb5f685e0c",
+    "tests/test_sglang_capture.py": "c36c6dce44d731fb00bef1576d12e306de1ed205",
+    "tests/test_training.py": "76e1a4df9cd142d5b600a59a572549ede3db341b"
+  },
+  "fresh_cpu_test_timestamp_utc": "2026-11-23T07:41:40.267910+00:00",
+  "fresh_cpu_test_command": "PYTHONPATH=src /home/minhao2/.venvs/dflash-specforge/bin/python -m unittest discover -s tests -v",
+  "fresh_cpu_test_log": "/home/minhao2/DFlash-Research/training/specforge/modeling/draft/llama3_eagle.py:33: UserWarning: flash_attn is not found, falling back to flex_attention. Please install flash_attn if you want to use the flash attention backend.\n  warnings.warn(\ntest_capacity_counts_pending_and_sealed_records (test_buffer.FeedbackBufferTests.test_capacity_counts_pending_and_sealed_records) ... ok\ntest_commit_releases_capacity_preserves_history_and_is_exactly_idempotent (test_buffer.FeedbackBufferTests.test_commit_releases_capacity_preserves_history_and_is_exactly_idempotent) ... ok\ntest_duplicate_and_nonchronological_records_are_rejected (test_buffer.FeedbackBufferTests.test_duplicate_and_nonchronological_records_are_rejected) ... ok\ntest_evaluation_is_rejected_at_the_record_boundary (test_buffer.FeedbackBufferTests.test_evaluation_is_rejected_at_the_record_boundary) ... ok\ntest_exact_records_keep_arrival_order_and_seal_the_earliest (test_buffer.FeedbackBufferTests.test_exact_records_keep_arrival_order_and_seal_the_earliest) ... ok\ntest_failed_atomic_write_preserves_disk_and_memory (test_buffer.FeedbackBufferTests.test_failed_atomic_write_preserves_disk_and_memory) ... ok\ntest_failed_event_remains_reserved_after_restart (test_buffer.FeedbackBufferTests.test_failed_event_remains_reserved_after_restart) ... ok\ntest_identical_import_is_a_no_op_in_every_event_state_after_restart (test_buffer.FeedbackBufferTests.test_identical_import_is_a_no_op_in_every_event_state_after_restart) ... ok\ntest_invalid_counts_duplicate_events_and_changed_capacity_are_rejected (test_buffer.FeedbackBufferTests.test_invalid_counts_duplicate_events_and_changed_capacity_are_rejected) ... ok\ntest_public_results_and_receipts_cannot_mutate_saved_state (test_buffer.FeedbackBufferTests.test_public_results_and_receipts_cannot_mutate_saved_state) ... ok\ntest_same_id_with_changed_metadata_is_rejected (test_buffer.FeedbackBufferTests.test_same_id_with_changed_metadata_is_rejected) ... ok\ntest_accumulation_can_cross_passes_but_must_complete_the_event (test_cli.ConfigurationTests.test_accumulation_can_cross_passes_but_must_complete_the_event) ... ok\ntest_inconsistent_context_boundaries_are_rejected (test_cli.ConfigurationTests.test_inconsistent_context_boundaries_are_rejected) ... ok\ntest_misspelled_and_missing_options_do_not_get_defaults (test_cli.ConfigurationTests.test_misspelled_and_missing_options_do_not_get_defaults) ... ok\ntest_nonfinite_values_and_wrong_types_are_rejected (test_cli.ConfigurationTests.test_nonfinite_values_and_wrong_types_are_rejected) ... ok\ntest_qualified_recipe_and_derived_counts_are_preserved (test_cli.ConfigurationTests.test_qualified_recipe_and_derived_counts_are_preserved) ... ok\ntest_incompatible_model_pair_is_rejected (test_cli.EntryTests.test_incompatible_model_pair_is_rejected) ... ok\ntest_missing_feedback_settings_fail_before_any_output_or_buffer_write (test_cli.EntryTests.test_missing_feedback_settings_fail_before_any_output_or_buffer_write) ... ok\ntest_missing_model_metadata_preserves_the_original_error (test_cli.EntryTests.test_missing_model_metadata_preserves_the_original_error) ... ok\ntest_previous_demonstration_commands_are_not_exposed (test_cli.EntryTests.test_previous_demonstration_commands_are_not_exposed) ... ok\ntest_relative_configuration_paths_do_not_depend_on_working_directory (test_cli.EntryTests.test_relative_configuration_paths_do_not_depend_on_working_directory) ... ok\ntest_single_f5_workflow_uses_the_live_collection_cli_and_interpreter (test_cli.EntryTests.test_single_f5_workflow_uses_the_live_collection_cli_and_interpreter) ... ok\ntest_target_directory_cannot_be_used_as_the_draft (test_cli.EntryTests.test_target_directory_cannot_be_used_as_the_draft) ... ok\ntest_capture_owns_detached_feature_storage_before_next_runtime_call (test_collection.CaptureTests.test_capture_owns_detached_feature_storage_before_next_runtime_call) ... ok\ntest_eos_and_output_cap_clip_before_feature_selection (test_collection.CaptureTests.test_eos_and_output_cap_clip_before_feature_selection) ... ok\ntest_existing_sglang_packet_contract_roundtrips_through_step4_loader (test_collection.CaptureTests.test_existing_sglang_packet_contract_roundtrips_through_step4_loader) ... ok\ntest_feature_dtype_width_and_nonfinite_committed_rows_are_not_converted (test_collection.CaptureTests.test_feature_dtype_width_and_nonfinite_committed_rows_are_not_converted) ... ok\ntest_first_prefill_eos_is_retained_without_inventing_training_anchors (test_collection.CaptureTests.test_first_prefill_eos_is_retained_without_inventing_training_anchors) ... ok\ntest_invalid_token_geometry_rejected_suffix_and_incomplete_tail_fail (test_collection.CaptureTests.test_invalid_token_geometry_rejected_suffix_and_incomplete_tail_fail) ... ok\ntest_saved_packet_preserves_backend_identity_and_is_immutable (test_collection.CaptureTests.test_saved_packet_preserves_backend_identity_and_is_immutable) ... ok\ntest_zero_acceptance_then_all_accepted_preserves_exact_unshifted_rows (test_collection.CaptureTests.test_zero_acceptance_then_all_accepted_preserves_exact_unshifted_rows) ... ok\ntest_input_rejects_duplicate_ids_cross_role_overlap_and_empty_text (test_collection.RequestTests.test_input_rejects_duplicate_ids_cross_role_overlap_and_empty_text) ... ok\ntest_request_preserves_text_and_explicit_evaluation_role (test_collection.RequestTests.test_request_preserves_text_and_explicit_evaluation_role) ... ok\ntest_batch_keeps_full_context_without_padding_or_premature_shift (test_feedback_batches.FeedbackBatchTests.test_batch_keeps_full_context_without_padding_or_premature_shift) ... ok\ntest_context_cap_rejects_the_entire_sample_without_truncation (test_feedback_batches.FeedbackBatchTests.test_context_cap_rejects_the_entire_sample_without_truncation) ... ok\ntest_ids_and_mask_require_the_native_batch_shape_and_dtype (test_feedback_batches.FeedbackBatchTests.test_ids_and_mask_require_the_native_batch_shape_and_dtype) ... ok\ntest_incomplete_prepared_packets_keep_the_original_key_error (test_feedback_batches.FeedbackBatchTests.test_incomplete_prepared_packets_keep_the_original_key_error) ... ok\ntest_masks_cannot_supervise_prompt_omit_eos_or_skip_response_tokens (test_feedback_batches.FeedbackBatchTests.test_masks_cannot_supervise_prompt_omit_eos_or_skip_response_tokens) ... ok\ntest_native_binding_ids_do_not_accept_numerically_equal_float_or_bool (test_feedback_batches.FeedbackBatchTests.test_native_binding_ids_do_not_accept_numerically_equal_float_or_bool) ... ok\ntest_prepared_binding_preserves_identity_full_prompt_and_layer_order (test_feedback_batches.FeedbackBatchTests.test_prepared_binding_preserves_identity_full_prompt_and_layer_order) ... ok\ntest_prepared_features_require_finite_detached_cpu_bf16_shapes (test_feedback_batches.FeedbackBatchTests.test_prepared_features_require_finite_detached_cpu_bf16_shapes) ... ok\ntest_prepared_identity_and_exact_input_ids_are_bound_to_response (test_feedback_batches.FeedbackBatchTests.test_prepared_identity_and_exact_input_ids_are_bound_to_response) ... ok\ntest_reading_and_failure_do_not_consume_rng (test_feedback_batches.FeedbackBatchTests.test_reading_and_failure_do_not_consume_rng) ... ok\ntest_serialized_packet_roundtrip_retains_exact_cpu_tensors (test_feedback_batches.FeedbackBatchTests.test_serialized_packet_roundtrip_retains_exact_cpu_tensors) ... ok\ntest_tokens_outside_vocabulary_are_rejected (test_feedback_batches.FeedbackBatchTests.test_tokens_outside_vocabulary_are_rejected) ... ok\ntest_unshifted_teacher_rows_support_the_model_predecessor_alignment (test_feedback_batches.FeedbackBatchTests.test_unshifted_teacher_rows_support_the_model_predecessor_alignment) ... ok\ntest_invalid_termination_is_not_repaired (test_feedback_batches.ResponseRecordTests.test_invalid_termination_is_not_repaired) ... ok\ntest_length_termination_requires_the_original_cap (test_feedback_batches.ResponseRecordTests.test_length_termination_requires_the_original_cap) ... ok\ntest_one_token_response_is_evidence_but_not_a_training_sample (test_feedback_batches.ResponseRecordTests.test_one_token_response_is_evidence_but_not_a_training_sample) ... ok\ntest_saved_response_keeps_exact_ids_and_rejects_evaluation (test_feedback_batches.ResponseRecordTests.test_saved_response_keeps_exact_ids_and_rejects_evaluation) ... ok\ntest_token_ids_require_nonnegative_integers (test_feedback_batches.ResponseRecordTests.test_token_ids_require_nonnegative_integers) ... ok\ntest_duplicate_manifest_records_fail_before_any_state_write (test_feedback_batches.TrainingEntryTests.test_duplicate_manifest_records_fail_before_any_state_write) ... ok\ntest_full_event_and_invalid_debug_counts_fail_before_any_state_write (test_feedback_batches.TrainingEntryTests.test_full_event_and_invalid_debug_counts_fail_before_any_state_write) ... ok\ntest_invalid_second_packet_never_creates_or_mutates_the_buffer (test_feedback_batches.TrainingEntryTests.test_invalid_second_packet_never_creates_or_mutates_the_buffer) ... ok\ntest_manifest_and_packet_paths_resolve_from_their_own_parent_directories (test_feedback_batches.TrainingEntryTests.test_manifest_and_packet_paths_resolve_from_their_own_parent_directories) ... ok\ntest_mismatched_model_pair_is_rejected_before_any_state_write (test_feedback_batches.TrainingEntryTests.test_mismatched_model_pair_is_rejected_before_any_state_write) ... ok\ntest_repeated_import_is_unchanged_but_changed_record_identity_is_rejected (test_feedback_batches.TrainingEntryTests.test_repeated_import_is_unchanged_but_changed_record_identity_is_rejected) ... ok\ntest_training_entry_passes_exact_feedback_and_persists_inputs (test_feedback_batches.TrainingEntryTests.test_training_entry_passes_exact_feedback_and_persists_inputs) ... ok\ntest_capture_mismatch_fails_instead_of_rewriting_engine_output (test_generation.GenerationBoundaryTests.test_capture_mismatch_fails_instead_of_rewriting_engine_output) ... ok\ntest_evaluation_has_no_save_rpc_and_allows_next_request (test_generation.GenerationBoundaryTests.test_evaluation_has_no_save_rpc_and_allows_next_request) ... ok\ntest_exact_tokens_greedy_parameters_and_capture_rpc_order (test_generation.GenerationBoundaryTests.test_exact_tokens_greedy_parameters_and_capture_rpc_order) ... ok\ntest_invalid_inputs_fail_before_native_work (test_generation.GenerationBoundaryTests.test_invalid_inputs_fail_before_native_work) ... ok\ntest_native_failure_propagates_and_context_closes_owned_engine (test_generation.GenerationBoundaryTests.test_native_failure_propagates_and_context_closes_owned_engine) ... ok\ntest_only_native_eos_or_complete_cap_are_accepted (test_generation.GenerationBoundaryTests.test_only_native_eos_or_complete_cap_are_accepted) ... ok\ntest_pending_capture_cannot_be_overwritten_or_saved_twice (test_generation.GenerationBoundaryTests.test_pending_capture_cannot_be_overwritten_or_saved_twice) ... ok\ntest_save_failure_remains_visible_and_capture_is_not_reused (test_generation.GenerationBoundaryTests.test_save_failure_remains_visible_and_capture_is_not_reused) ... ok\ntest_shutdown_failure_preserves_raw_control_files (test_generation.GenerationBoundaryTests.test_shutdown_failure_preserves_raw_control_files) ... ok\ntest_loader_pins_native_worker_memory_and_compiler_settings (test_generation.NativeLoaderTests.test_loader_pins_native_worker_memory_and_compiler_settings) ... ok\ntest_unqualified_runtime_version_fails_before_startup (test_generation.NativeLoaderTests.test_unqualified_runtime_version_fails_before_startup) ... ok\ntest_context_failure_precedes_model_loading_and_artifact_creation (test_live.LiveCollectionTests.test_context_failure_precedes_model_loading_and_artifact_creation) ... ok\ntest_evaluation_only_collection_does_not_modify_training_manifest (test_live.LiveCollectionTests.test_evaluation_only_collection_does_not_modify_training_manifest) ... ok\ntest_feedback_is_serialized_and_evaluation_never_enters_feedback (test_live.LiveCollectionTests.test_feedback_is_serialized_and_evaluation_never_enters_feedback) ... ok\ntest_first_token_eos_saves_evidence_and_is_excluded_without_replacement (test_live.LiveCollectionTests.test_first_token_eos_saves_evidence_and_is_excluded_without_replacement) ... ok\ntest_new_collection_manifest_contains_only_its_own_panel (test_live.LiveCollectionTests.test_new_collection_manifest_contains_only_its_own_panel) ... ok\ntest_raw_generation_is_retained_before_real_packet_validation_failure (test_live.LiveCollectionTests.test_raw_generation_is_retained_before_real_packet_validation_failure) ... ok\ntest_forward_keeps_native_gradients_and_calls_the_sampler_path_once (test_model.DraftBlockTests.test_forward_keeps_native_gradients_and_calls_the_sampler_path_once) ... ok\ntest_labels_teacher_predecessors_and_weights_match_scalar_positions (test_model.DraftBlockTests.test_labels_teacher_predecessors_and_weights_match_scalar_positions) ... ok\ntest_all_eligible_anchors_still_consume_full_candidate_rng_draw (test_model.NativeAnchorSamplerTests.test_all_eligible_anchors_still_consume_full_candidate_rng_draw) ... ok\ntest_seed_reproducibility_512_limit_sorted_starts_and_overlapping_blocks (test_model.NativeAnchorSamplerTests.test_seed_reproducibility_512_limit_sorted_starts_and_overlapping_blocks) ... ok\ntest_checkpointed_projections_keep_physical_shape_and_do_not_consume_rng (test_objective.ObjectiveTests.test_checkpointed_projections_keep_physical_shape_and_do_not_consume_rng) ... ok\ntest_gap_eos_seed_and_eos_mismatch_match_scalar_selection (test_objective.ObjectiveTests.test_gap_eos_seed_and_eos_mismatch_match_scalar_selection) ... ok\ntest_loss_does_not_backpropagate_into_position_weights (test_objective.ObjectiveTests.test_loss_does_not_backpropagate_into_position_weights) ... ok\ntest_mixed_priorities_across_chunks_match_independent_loss_and_gradients (test_objective.ObjectiveTests.test_mixed_priorities_across_chunks_match_independent_loss_and_gradients) ... ok\ntest_neutral_all_correct_and_single_priority_keep_native_bf16_gradient (test_objective.ObjectiveTests.test_neutral_all_correct_and_single_priority_keep_native_bf16_gradient) ... ok\ntest_no_eligible_positions_produce_zero_loss_and_zero_gradient (test_objective.ObjectiveTests.test_no_eligible_positions_produce_zero_loss_and_zero_gradient) ... ok\ntest_outside_prefix_probability_affects_scores_without_changing_its_weight (test_objective.ObjectiveTests.test_outside_prefix_probability_affects_scores_without_changing_its_weight) ... ok\ntest_prefix_weights_match_scalar_oracle_and_preserve_mass_bounds_support (test_objective.ObjectiveTests.test_prefix_weights_match_scalar_oracle_and_preserve_mass_bounds_support) ... ok\ntest_probability_is_exponentiated_after_bf16_log_probability_cast (test_objective.ObjectiveTests.test_probability_is_exponentiated_after_bf16_log_probability_cast) ... ok\ntest_two_responses_are_normalized_separately_before_accumulation (test_objective.ObjectiveTests.test_two_responses_are_normalized_separately_before_accumulation) ... ok\ntest_zero_valued_prefix_delta_preserves_its_nonzero_derivative (test_objective.ObjectiveTests.test_zero_valued_prefix_delta_preserves_its_nonzero_derivative) ... ok\ntest_chunked_prefill_and_cap_clipping_keep_only_canonical_features (test_sglang_capture.SGLangCaptureTests.test_chunked_prefill_and_cap_clipping_keep_only_canonical_features) ... ok\ntest_eos_clipping_and_trace_only_evaluation_need_no_teacher_rows (test_sglang_capture.SGLangCaptureTests.test_eos_clipping_and_trace_only_evaluation_need_no_teacher_rows) ... ok\ntest_first_prefill_eos_has_no_verification_blocks (test_sglang_capture.SGLangCaptureTests.test_first_prefill_eos_has_no_verification_blocks) ... ok\ntest_graph_bridge_survives_trim_without_mutating_graph_dictionary (test_sglang_capture.SGLangCaptureTests.test_graph_bridge_survives_trim_without_mutating_graph_dictionary) ... ok\ntest_outer_worker_discards_rejected_rows_but_keeps_native_full_trace (test_sglang_capture.SGLangCaptureTests.test_outer_worker_discards_rejected_rows_but_keeps_native_full_trace) ... ok\ntest_rejected_history_preserves_raw_observations_before_failure (test_sglang_capture.SGLangCaptureTests.test_rejected_history_preserves_raw_observations_before_failure) ... ok\ntest_rpc_rejects_overlap_and_releases_trace_only_session (test_sglang_capture.SGLangCaptureTests.test_rpc_rejects_overlap_and_releases_trace_only_session) ... ok\ntest_target_wrapper_owns_features_before_native_buffer_reuse (test_sglang_capture.SGLangCaptureTests.test_target_wrapper_owns_features_before_native_buffer_reuse) ... ok\ntest_terminal_rpc_uses_full_context_without_sampling_and_flushes_failures (test_sglang_capture.SGLangCaptureTests.test_terminal_rpc_uses_full_context_without_sampling_and_flushes_failures) ... ok\ntest_initializes_all_generators_once_without_consuming_draws (test_training.SeedTrainingTests.test_initializes_all_generators_once_without_consuming_draws) ... ok\ntest_forward_failure_propagates_without_retry_or_optimizer_step (test_training.TrainingLoopTests.test_forward_failure_propagates_without_retry_or_optimizer_step) ... ok\ntest_incomplete_window_fails_before_forward_or_optimizer_work (test_training.TrainingLoopTests.test_incomplete_window_fails_before_forward_or_optimizer_work) ... ok\ntest_separate_response_means_accumulate_then_clip_once_before_bf16_adam (test_training.TrainingLoopTests.test_separate_response_means_accumulate_then_clip_once_before_bf16_adam) ... ok\ntest_successive_events_keep_the_same_adam_moments_and_step_count (test_training.TrainingLoopTests.test_successive_events_keep_the_same_adam_moments_and_step_count) ... ok\ntest_two_shuffled_passes_preserve_interleaved_model_draws (test_training.TrainingLoopTests.test_two_shuffled_passes_preserve_interleaved_model_draws) ... ok\n\n----------------------------------------------------------------------\nRan 105 tests in 0.440s\n\nOK\n",
+  "retained_step5a_qualification": {
+    "initial_preflight": {
+      "free_disk_bytes": 80919166976,
+      "gpu_total_mib": 24576,
+      "gpu_free_mib": 24087,
+      "new_model_downloads": 0,
+      "expected_packet_upper_bytes_two_at_context4096": 402653184,
+      "additional_cache_allowance_bytes": 2147483648
+    },
+    "cpu_tests": {
+      "passed": 105,
+      "log": "/home/minhao2/Graduate-data/step5a-validation/cpu-tests.log"
+    },
+    "first_cli_attempt": {
+      "status": "failed_before_model_loading",
+      "source_commit": "0be873347ec39387ecc64a67fbf93d6c7ae928ba",
+      "cause": "Transformers5.12 apply_chat_template defaults to BatchEncoding; explicit return_dict=False fixed it.",
+      "complete_generations": 0,
+      "optimizer_steps": 0,
+      "log": "/home/minhao2/Graduate-data/step5a-validation/native-cli-attempt1.log"
+    },
+    "successful_cli": {
+      "source_commit": "080eddc",
+      "result": "/home/minhao2/Graduate-data/collection/20261123T062506412986Z/result.json",
+      "complete_generations": 2,
+      "optimizer_steps": 0,
+      "terminal_full_context_forwards": 2,
+      "terminal_input_rows": 264,
+      "log": "/home/minhao2/Graduate-data/step5a-validation/native-cli-attempt2.log"
+    },
+    "scope": "Graduate Step5A engineering qualification on Fenrir only. Not a research campaign or performance improvement claim.",
+    "superseded_alternative": {
+      "status": "user selected SGLang/FA3; PyTorch/SDPA alternative excluded from active code",
+      "directory": "/home/minhao2/Graduate-data/step5a-validation/superseded-local-sdpa",
+      "gpu_work": 0
+    },
+    "status": "passed_bounded_step5a_native_qualification",
+    "selected_runtime": "SGLang0.5.18; target/draft FA3; BF16; CUDA graphs; C1; block16; context4096; cap2048-or-EOS",
+    "latest_execution_commit": "b3c45e41efb632a16ccb418beecb2d9956e91e11",
+    "corrected_f5": {
+      "status": "passed",
+      "receipt": "/home/minhao2/Graduate-data/step5a-validation/dap/dap-20261123T063454878213Z/receipt.json",
+      "comparison": "/home/minhao2/Graduate-data/step5a-validation/dap/dap-20261123T063454878213Z/comparison.json",
+      "exit_code": 0,
+      "complete_generations": 2,
+      "optimizer_steps": 0,
+      "teacher_full_context_forwards": 2,
+      "step_over_and_variable_inspection": true,
+      "cli_tokens_termination_traces_and_all_four_packet_tensors_equal": true,
+      "peak_cuda_bytes": 20343804416,
+      "loading_seconds": 49.306
+    },
+    "first_f5_harness_attempt": {
+      "receipt": "/home/minhao2/Graduate-data/step5a-validation/dap/dap-20261123T062906255074Z/receipt.json",
+      "complete_generations": 2,
+      "teacher_full_context_forwards": 2,
+      "optimizer_steps": 0,
+      "application_collection_completed": true,
+      "harness_status": "failed at repeated with-exit breakpoint and truncated watch repr; all evidence retained; not counted as clean exit"
+    },
+    "capture_neutrality": {
+      "execution_commit": "b3c45e41efb632a16ccb418beecb2d9956e91e11",
+      "status": "passed",
+      "requests": [
+        {
+          "record_id": "20261123T062506412986Z:debug-math",
+          "tokens_equal": true,
+          "termination_equal": true,
+          "trace_equal": true,
+          "output_tokens": 60,
+          "verification_calls": 13,
+          "accepted_draft_tokens": 47,
+          "feature_capture": false
+        },
+        {
+          "record_id": "20261123T062506412986Z:debug-code",
+          "tokens_equal": true,
+          "termination_equal": true,
+          "trace_equal": true,
+          "output_tokens": 127,
+          "verification_calls": 15,
+          "accepted_draft_tokens": 112,
+          "feature_capture": false
+        }
+      ],
+      "head_checks": [
+        {
+          "record_id": "20261123T062506412986Z:debug-math",
+          "teacher_positions": 60,
+          "head_chunks": 4,
+          "argmax_mismatch_positions": [],
+          "arithmetic": "BF16 head; no model forward or optimizer"
+        },
+        {
+          "record_id": "20261123T062506412986Z:debug-code",
+          "teacher_positions": 127,
+          "head_chunks": 8,
+          "argmax_mismatch_positions": [],
+          "arithmetic": "BF16 head; no model forward or optimizer"
+        }
+      ],
+      "new_complete_generations": 2,
+      "new_optimizer_steps": 0,
+      "new_full_model_teacher_forwards": 0,
+      "comparison_scope": "same Fenrir native engine, capture on versus disabled; not target-only reference or performance benchmark"
+    },
+    "work_accounting": {
+      "distinct_debug_requests": 2,
+      "complete_generations": 8,
+      "target_prefill_forwards": 8,
+      "verification_forwards": 112,
+      "terminal_full_context_forwards": 6,
+      "terminal_total_input_rows": 792,
+      "terminal_retained_rows": 6,
+      "head_only_bf16_projection_chunks": 12,
+      "head_only_teacher_positions": 187,
+      "head_only_argmax_mismatches": 0,
+      "optimizer_steps": 0,
+      "startup": "Four native engine initializations, including compiler/graph capture. Internal initialization forwards are not separately instrumented; included in initialization time.",
+      "no_a800_operation": true
+    },
+    "postflight": {
+      "free_disk_bytes": 80871866368,
+      "gpu_idle": true,
+      "data_artifacts_outside_source_tree": true
+    },
+    "limits": [
+      "Two short real requests, not a 128-response event or long-context serving campaign.",
+      "Controlled installed debug-adapter test; Cursor GUI editor-follow focus not tested.",
+      "F5 steps the coordinator and packet loader; native inference/capture runs in SGLang workers with subprocess debugging disabled.",
+      "Capture-off has no feature copies or terminal preparation; it still retains validation traces. No serving speedup claim.",
+      "Original K+/C objective, training model and optimizer code remain unchanged."
+    ],
+    "documentation_commit": "4edc7a7"
+  },
+  "review_limits": [
+    "No continuous collect/train/export/reload/recovery loop yet; Step 5B remains pending review.",
+    "Model, data, debugger and compiler paths target the local Fenrir environment.",
+    "External pinned SpecForge/SGLang environment is required; pyproject alone does not provision it.",
+    "Native checks cover two short debug requests, not a complete training event or performance benchmark.",
+    "Historical validation paths point to private local artifacts; no generated response data or model tensors are published."
+  ]
+}
