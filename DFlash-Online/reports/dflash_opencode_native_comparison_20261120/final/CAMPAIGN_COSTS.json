@@ -1,0 +1,53 @@
+{
+  "activation_timer_scope": "Activation and phase wall times include nested engine loading/teardown. Current and archived source receipts are separate views, not additive totals; copied receipts must not be charged again. The cumulative CLOCK.json alone supplies occupied-card time, including historical failed attempts.",
+  "audit_wall_s": 168.21335752122104,
+  "authorized_policy_continuation": true,
+  "budget_continuation": {
+    "additional_qualification_work": 0,
+    "limits": {
+      "elapsed_s": 345600,
+      "forecast_fixed_s": 3600,
+      "forecast_multiplier": 1.25,
+      "free_reserve_bytes": 400000000000,
+      "new_allocated_bytes": 90000000000,
+      "occupied_card_s": 432000
+    },
+    "original_first_model_load_epoch": 1795217755.6244764,
+    "previous_limits": {
+      "elapsed_s": 172800,
+      "forecast_fixed_s": 3600,
+      "forecast_multiplier": 1.25,
+      "free_reserve_bytes": 400000000000,
+      "new_allocated_bytes": 90000000000,
+      "occupied_card_s": 324000
+    },
+    "production_execution_commit": "1551e5e5d0dd7736d8441977aa3dea250535da7b",
+    "qualified_execution_commit": "658d734c422a1a200fe400dceb256492f529204e",
+    "reused_precheck_generations": 2048,
+    "reused_qualification_generations": 66,
+    "status": "authenticated"
+  },
+  "elapsed_scope": "Original model-load clock through this CPU audit; final report writing/publication follows.",
+  "elapsed_until_audit_s": 207403.04865169525,
+  "final_publication_s": null,
+  "nested_timer_scope": "Nested cost fields overlap; do not sum arbitrary fields into a total",
+  "occupied_card_s": 343987.012996912,
+  "output_policy": "AR_speculative_differences_reported_speculative_exact_F_v1",
+  "startup_retry": {
+    "archive": "/data/sources/minhao/runs/dflash_opencode_native_comparison_20261120/attempts/failed_startup_001",
+    "authorization": "/data/sources/minhao/runs/dflash_opencode_native_comparison_20261120/retry_001/AUTHORIZATION.json",
+    "authorization_identity": {
+      "bytes": 429,
+      "sha256": "36a11a0b53ee69e0d6d2b5d2f7df3876ed2bb24940c49ed2922fb1c015f206a5"
+    },
+    "failed_startup_card_s": 56.031763792037964,
+    "original_piecewise_forward_count": "unknown additional initialization",
+    "prior_execution_commit": "9a7eabe7e3539410ce995a17d7407ea4f8fd495c",
+    "prior_plan": "/data/sources/minhao/runs/dflash_opencode_native_comparison_20261120/sealed/PLAN.json",
+    "prior_plan_identity": {
+      "bytes": 20373,
+      "sha256": "99aa38b6307ec5ecf2e2c6ba2db8144897352df7e53aabffc496c7b3287e81b0"
+    },
+    "receipt": "/data/sources/minhao/runs/dflash_opencode_native_comparison_20261120/STARTUP_RETRY_001.json"
+  }
+}

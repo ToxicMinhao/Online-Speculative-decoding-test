@@ -1,0 +1,115 @@
+{
+  "additional_model_work": 0,
+  "evaluation_status": "passed",
+  "execution_commit": "1551e5e5d0dd7736d8441977aa3dea250535da7b",
+  "independently_validated": 15600,
+  "methods": [
+    "O_CODE58",
+    "AREPO_CODE58",
+    "C_CODE58",
+    "F",
+    "AR"
+  ],
+  "planned_scored_generations": 15360,
+  "planned_warmups": 240,
+  "raw_audit_errors": 0,
+  "raw_audit_scope": "Independent CPU raw/metric reduction; shared project authorship, not independent GPU replication",
+  "raw_evaluation_failures": 0,
+  "report_commit": "Recorded by the publishing Git commit; distinct from execution commit",
+  "status": "passed",
+  "training_arms": {
+    "AREPO_CODE58": {
+      "actual_work": {
+        "attempts": {
+          "correctness_generations": 4,
+          "online_generations": 7424,
+          "optimizer_steps": 7424,
+          "response_backwards": 14848,
+          "response_forwards": 14848,
+          "terminal_preparation_forwards": 7424
+        },
+        "completed": {
+          "correctness_generations": 4,
+          "online_generations": 7424,
+          "optimizer_steps": 7424,
+          "response_backwards": 14848,
+          "response_forwards": 14848,
+          "terminal_preparation_forwards": 7424
+        },
+        "unknown": {
+          "correctness_generations": 0,
+          "online_generations": 0,
+          "optimizer_steps": 0,
+          "response_backwards": 0,
+          "response_forwards": 0,
+          "terminal_preparation_forwards": 0
+        }
+      },
+      "events_completed": 58,
+      "final_checkpoint": "/data/sources/minhao/runs/dflash_opencode_native_comparison_20261120/campaign_001/arms/AREPO_CODE58/trainer/events/event_058/export",
+      "status": "completed"
+    },
+    "C_CODE58": {
+      "actual_work": {
+        "attempts": {
+          "correctness_generations": 4,
+          "online_generations": 7424,
+          "optimizer_steps": 7424,
+          "response_backwards": 14848,
+          "response_forwards": 14848,
+          "terminal_preparation_forwards": 7424
+        },
+        "completed": {
+          "correctness_generations": 4,
+          "online_generations": 7424,
+          "optimizer_steps": 7424,
+          "response_backwards": 14848,
+          "response_forwards": 14848,
+          "terminal_preparation_forwards": 7424
+        },
+        "unknown": {
+          "correctness_generations": 0,
+          "online_generations": 0,
+          "optimizer_steps": 0,
+          "response_backwards": 0,
+          "response_forwards": 0,
+          "terminal_preparation_forwards": 0
+        }
+      },
+      "events_completed": 58,
+      "final_checkpoint": "/data/sources/minhao/runs/dflash_opencode_native_comparison_20261120/campaign_001/arms/C_CODE58/trainer/events/event_058/export",
+      "status": "completed"
+    },
+    "O_CODE58": {
+      "actual_work": {
+        "attempts": {
+          "correctness_generations": 4,
+          "online_generations": 7424,
+          "optimizer_steps": 7424,
+          "response_backwards": 14848,
+          "response_forwards": 14848,
+          "terminal_preparation_forwards": 7424
+        },
+        "completed": {
+          "correctness_generations": 4,
+          "online_generations": 7424,
+          "optimizer_steps": 7424,
+          "response_backwards": 14848,
+          "response_forwards": 14848,
+          "terminal_preparation_forwards": 7424
+        },
+        "unknown": {
+          "correctness_generations": 0,
+          "online_generations": 0,
+          "optimizer_steps": 0,
+          "response_backwards": 0,
+          "response_forwards": 0,
+          "terminal_preparation_forwards": 0
+        }
+      },
+      "events_completed": 58,
+      "final_checkpoint": "/data/sources/minhao/runs/dflash_opencode_native_comparison_20261120/campaign_001/arms/O_CODE58/trainer/events/event_058/export",
+      "status": "completed"
+    }
+  }
+}

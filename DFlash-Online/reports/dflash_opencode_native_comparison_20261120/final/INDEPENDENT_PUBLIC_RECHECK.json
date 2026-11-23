@@ -1,0 +1,42 @@
+{
+  "status": "passed_public_table_reanalysis",
+  "checked_local": "2026-11-23T03:07:41.107326-07:00",
+  "execution_commit": "1551e5e5d0dd7736d8441977aa3dea250535da7b",
+  "source": "Retained final public tables and on-server independent raw audit summary",
+  "additional_model_work": 0,
+  "transfer_files_verified": 17,
+  "scored_generations": 15360,
+  "warmups": 240,
+  "requests": 1024,
+  "methods": 5,
+  "repeats": 3,
+  "events_completed": 174,
+  "production_optimizer_steps": 22272,
+  "primary_latency_reduction_pct": 1.3938702901182043,
+  "primary_95ci_pct": [
+    1.0666945768124692,
+    1.7185964377566567
+  ],
+  "primary_call_reduction_pct": 1.3526299190524615,
+  "primary_call_95ci_pct": [
+    1.0271585847022002,
+    1.67849321874227
+  ],
+  "primary_call_wins_regressions_ties": [
+    530,
+    327,
+    167
+  ],
+  "primary_gross_calls_saved_added": [
+    1589,
+    817
+  ],
+  "repeat_means_max_difference": 0,
+  "independent_bootstrap_reproduction": "PCG64 seed20261120;10000 whole-request draws; draw digest and primary intervals reproduce exactly",
+  "claim_boundary": "Public-table arithmetic reanalysis and retained raw-audit review; no new GPU replication or rereading every private raw token trace.",
+  "historical_unknown": "Original qualification operation11 remains preserved; no unknown or invalid final evaluations.",
+  "free_bytes_at_check": 442074775552,
+  "original_elapsed_to_audit_hours": 57.61195795880424,
+  "occupied_card_hours": 95.55194805469777,
+  "finished_audit_local": "2026-11-23T02:12:38.673128-07:00"
+}
