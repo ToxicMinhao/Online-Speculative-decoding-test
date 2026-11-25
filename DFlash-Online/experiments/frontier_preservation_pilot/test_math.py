@@ -233,6 +233,25 @@ class AllocationTests(unittest.TestCase):
                     torch.ones(1, 2, dtype=torch.bool),
                 )
 
+    def test_common_score_offset_preserves_allocation_and_centered_identity(self):
+        scores = torch.tensor([[0.0, 0.125, 0.25]])
+        beta = torch.tensor([[1.0, 0.8, 0.6]])
+        prefix = torch.ones_like(beta, dtype=torch.bool)
+        reference, _ = M.allocate_prefix(scores, beta, prefix)
+        shifted, details = M.allocate_prefix(scores + 1e6, beta, prefix)
+        torch.testing.assert_close(shifted, reference, rtol=0, atol=0)
+        torch.testing.assert_close(
+            details['centered_signed_benefit'],
+            details['variance_identity_rhs'],
+            rtol=M.MASS_RTOL,
+            atol=M.MASS_ATOL,
+        )
+        self.assertGreater(float(details['centered_signed_benefit']), 0.0)
+        self.assertGreater(
+            float((details['signed_benefit'] - details['centered_signed_benefit']).abs()),
+            M.MASS_ATOL,
+        )
+
 
 class AdamShadowTests(unittest.TestCase):
     def test_preview_and_vjp_match_independent_fp64_and_native_adam_both_clip_branches(self):

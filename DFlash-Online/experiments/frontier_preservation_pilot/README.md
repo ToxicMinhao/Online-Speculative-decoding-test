@@ -31,6 +31,7 @@ python -m experiments.frontier_preservation_pilot.prepare \
   --parent-plan "$PARENT_PLAN" --root "$NEW_RUN" \
   --source-manifest "$SOURCE_MANIFEST" --execution-commit "$EXECUTION_COMMIT"
 python -m experiments.frontier_preservation_pilot.qualify --plan "$NEW_RUN/PLAN.json"
+python -m experiments.frontier_preservation_pilot.analyze --root "$NEW_RUN" --output "$REPORT_DIR"
 ```
 
 Preparation admits only this derivative check with a 6 GB additional storage
@@ -56,3 +57,5 @@ If the native derivative gate blocks, retain the work, source and restoration
 receipts and publish the exact limitation. Do not claim that the production
 trainer, full native coefficient sensitivity, disabled-path equivalence or
 serving comparison has been qualified.
+
+Current native outcome and remaining qualification: [report](../../reports/dflash_frontier_preservation_20261125/REPORT.md).

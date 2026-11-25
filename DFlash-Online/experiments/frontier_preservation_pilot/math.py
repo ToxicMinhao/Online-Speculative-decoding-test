@@ -198,11 +198,15 @@ def allocate_prefix(scores, beta, prefix, *, relative_cap=RELATIVE_CAP):
         (candidate[~prefix] == base[~prefix]).all(), 'Allocation changed non-prefix support'
     )
     benefit = ((candidate - base) * scores).sum(-1, keepdim=True)
+    centered_benefit = ((candidate - base) * center).sum(-1, keepdim=True)
     variance_mass = (base * center.square()).sum(-1, keepdim=True)
     expected = relative_cap * variance_mass / torch.where(maximum > 0, maximum, 1.0)
+    # Conservation makes these dot products identical in exact arithmetic.
+    # Check the centered form so a common score offset cannot amplify the FP32
+    # mass residual. Retain the raw dot and their difference for inspection.
     require(
-        torch.isclose(benefit, expected, rtol=MASS_RTOL, atol=MASS_ATOL).all()
-        and (benefit >= -MASS_ATOL).all(),
+        torch.isclose(centered_benefit, expected, rtol=MASS_RTOL, atol=MASS_ATOL).all()
+        and (centered_benefit >= -MASS_ATOL).all(),
         'Signed variance identity failed',
     )
     return candidate, dict(
@@ -215,7 +219,8 @@ def allocate_prefix(scores, beta, prefix, *, relative_cap=RELATIVE_CAP):
         reference_branch=(maximum == 0) | (relative_cap == 0),
         half_l1_mass_moved=(candidate - base).abs().sum(-1, keepdim=True) / 2,
         signed_benefit=benefit,
-        centered_signed_benefit=((candidate - base) * center).sum(-1, keepdim=True),
+        centered_signed_benefit=centered_benefit,
+        raw_centered_benefit_difference=benefit - centered_benefit,
         variance_identity_rhs=expected,
     )
 
