@@ -261,9 +261,108 @@ def qualify_model(module, response, parameters, baseline, cotangent, gradients, 
     return receipt
 
 
-def run_repair_probe(
-    parent_plan, original_probe, output, execution_commit, *, localize=False, failed_repair=None
+def first_vjp_comparison(names, actual, expected):
+    """Retain compact equality evidence; materialize differences one tensor at a time."""
+    rows = []
+    for name, left, right in zip(names, actual, expected):
+        equal = torch.equal(left.detach(), right)
+        row = dict(name=name, equal=equal, max_absolute_difference=0.0, l2_difference=0.0)
+        if not equal:
+            difference = left.detach().float() - right.float()
+            finite = bool(torch.isfinite(difference).all())
+            row.update(
+                finite_difference=finite,
+                max_absolute_difference=float(difference.abs().max()) if finite else None,
+                l2_difference=float(difference.norm()) if finite else None,
+            )
+            del difference
+        rows.append(row)
+    return rows
+
+
+def qualify_transposed_model(
+    module, response, parameters, baseline, cotangent, gradients, work, destination, failed_repair
 ):
+    """Transpose the native first VJP only in its incoming output cotangent."""
+    from .attention_reverse_jvp import native_attention_reverse_jvp
+
+    previous = json.loads((Path(failed_repair) / 'MODEL.json').read_text())
+    if previous['duality']['passed'] or not previous['native_primal_bit_equal']:
+        raise ValueError('Require the retained failed whole-model repair with exact primal')
+    direction = aligned_direction(gradients)
+    reference_dot = vector_dot(gradients, direction)
+    if reference_dot != previous['duality']['native_backward_dot']:
+        raise ValueError('Transposed check changed the retained native reference direction')
+    receipt = dict(
+        route='d/du <native J^T u, fixed direction>',
+        fixed_cotangent='same nonzero retained diagnostic cotangent',
+        native_reference_contraction_exact=True,
+        native_backward_reference=reference_dot,
+        native_primal_bit_equal=False,
+        ordinary_backward_bit_equal=False,
+        parameter_hessian_requested=False,
+    )
+    write_json(destination, receipt)
+    restore_rng(response.rng_after_sampling)
+    with native_attention_reverse_jvp() as accounting:
+        receipt['derivative_scope_accounting'] = accounting
+        try:
+            work.start('transposed_native_model_forward')
+            output = module(response)
+            work.finish('transposed_native_model_forward')
+            receipt['native_primal_bit_equal'] = torch.equal(output, baseline)
+            if not receipt['native_primal_bit_equal']:
+                raise ValueError('Cotangent-transpose wrapper changed the native model primal')
+            incoming = cotangent.detach().clone().requires_grad_(True)
+            work.start('transposed_native_parameter_vjp')
+            native_gradients = torch.autograd.grad(
+                output,
+                tuple(parameters.values()),
+                grad_outputs=incoming,
+                create_graph=True,
+                allow_unused=False,
+            )
+            work.finish('transposed_native_parameter_vjp')
+            receipt['first_vjp_parameters'] = first_vjp_comparison(
+                parameters, native_gradients, gradients
+            )
+            receipt['ordinary_backward_bit_equal'] = all(
+                row['equal'] for row in receipt['first_vjp_parameters']
+            )
+            write_json(destination, receipt)
+            if not receipt['ordinary_backward_bit_equal']:
+                raise ValueError('Cotangent-transpose wrapper changed the native first VJP')
+            contraction = sum(
+                (gradient.float() * vector.float()).sum()
+                for gradient, vector in zip(native_gradients, direction)
+            )
+            work.start('transposed_native_grad_output_vjp')
+            tangent = torch.autograd.grad(contraction, incoming, allow_unused=False)[0]
+            work.finish('transposed_native_grad_output_vjp')
+            if not bool(torch.isfinite(tangent).all()):
+                raise ValueError('Cotangent-transposed full-model tangent is nonfinite')
+            receipt['duality'] = duality_receipt(tangent, cotangent, gradients, direction)
+            if not receipt['duality']['passed']:
+                raise ValueError('Cotangent-transposed derivative failed the unchanged tolerance')
+        finally:
+            write_json(destination, receipt)
+    return receipt
+
+
+def run_repair_probe(
+    parent_plan,
+    original_probe,
+    output,
+    execution_commit,
+    *,
+    localize=False,
+    failed_repair=None,
+    transposed=False,
+):
+    if localize and transposed:
+        raise ValueError('Choose only one bounded diagnostic mode')
+    if (localize or transposed) and failed_repair is None:
+        raise ValueError('This diagnostic requires the retained failed repair path')
     output = Path(output)
     output.mkdir(parents=True, exist_ok=False)
     original_probe = Path(original_probe)
@@ -278,7 +377,7 @@ def run_repair_probe(
         production_admitted=False,
         derivative_tolerance=dict(atol=DUALITY_ATOL, rtol=DUALITY_RTOL),
         diagnostic_seed=DIAGNOSTIC_SEED,
-        derivative_model_reverse_graph=False,
+        derivative_model_reverse_graph=transposed,
         precision_policy=dict(
             float32_matmul_precision=torch.get_float32_matmul_precision(),
             cuda_matmul_allow_tf32=torch.backends.cuda.matmul.allow_tf32,
@@ -290,6 +389,7 @@ def run_repair_probe(
         model_responses_unattempted=2,
         head_calls=0,
         localization_only=localize,
+        transposed_only=transposed,
     )
     result_path = output / 'RESULT.json'
     work = WorkReceipt(output / 'WORK.json')
@@ -373,6 +473,22 @@ def run_repair_probe(
                     failed_repair,
                 )
                 receipt['status'] = 'native_derivative_localization_completed'
+            elif transposed:
+                baseline, cotangent, gradients = native_model_vjp(
+                    module, responses[0], parameters, work, 'ordinary_native'
+                )
+                receipt['model'] = qualify_transposed_model(
+                    module,
+                    responses[0],
+                    parameters,
+                    baseline,
+                    cotangent,
+                    gradients,
+                    work,
+                    output / 'MODEL.json',
+                    failed_repair,
+                )
+                receipt['status'] = 'transposed_native_derivative_qualified'
             else:
                 with capture_first_attention() as captured:
                     baseline, cotangent, gradients = native_model_vjp(
@@ -427,6 +543,7 @@ if __name__ == '__main__':
     parser.add_argument('--output', required=True)
     parser.add_argument('--execution-commit', required=True)
     parser.add_argument('--localize', action='store_true')
+    parser.add_argument('--transposed', action='store_true')
     parser.add_argument('--failed-repair')
     args = parser.parse_args()
     result = run_repair_probe(
@@ -436,5 +553,6 @@ if __name__ == '__main__':
         args.execution_commit,
         localize=args.localize,
         failed_repair=args.failed_repair,
+        transposed=args.transposed,
     )
     print(json.dumps({key: result[key] for key in ('status', 'native_adam_steps', 'wall_s')}))

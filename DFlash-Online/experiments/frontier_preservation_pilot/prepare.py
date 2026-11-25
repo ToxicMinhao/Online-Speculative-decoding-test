@@ -19,7 +19,7 @@ INPUT_IDENTITY = dict(bytes=32309622, sha256='df7194e667126f34f8e2ab2f6e22e2e548
 
 
 def prepare(parent_plan, root, source_manifest, execution_commit, original_run=None,
-            failed_repair=None):
+            failed_repair=None, completed_localization=None):
     root = Path(root)
     root.mkdir(parents=True, exist_ok=False)
     parent, recovery, selected = select_parent(parent_plan)
@@ -99,6 +99,28 @@ def prepare(parent_plan, root, source_manifest, execution_commit, original_run=N
             prior_occupied_card_s=failed_process['cumulative_occupied_card_s'],
             qualification_acceptance_changed=False,
         )
+    if completed_localization is not None:
+        if failed_repair is None:
+            raise ValueError('The reverse route requires the localized original discrepancy')
+        localized = Path(completed_localization)
+        local_plan = json.loads((localized / 'PLAN.json').read_text())
+        local_process = json.loads((localized / 'QUALIFICATION_PROCESS.json').read_text())
+        local_result = json.loads((localized / 'derivative_support_001/RESULT.json').read_text())
+        if (local_result['status'] != 'native_derivative_localization_completed'
+                or local_result['native_adam_steps'] != 0
+                or not local_result['localization']['global_reproduction_exact']):
+            raise ValueError('Require completed, unchanged-input zero-update localization')
+        records = [localized / name for name in ('PLAN.json', 'QUALIFICATION_PROCESS.json',
+                   'derivative_support_001/RESULT.json', 'derivative_support_001/LOCALIZATION.json')]
+        plan['prior_record_identities'].update({str(path): identity(path) for path in records})
+        plan['prior_charged_roots'].extend(
+            [str(localized), str(Path(local_plan['source_manifest']).parent)])
+        plan.update(
+            allowed_phase='native_derivative_transpose_only',
+            completed_localization=str(localized),
+            original_process=str(localized / 'QUALIFICATION_PROCESS.json'),
+            prior_occupied_card_s=local_process['cumulative_occupied_card_s'],
+        )
     write_json(root / 'PLAN.json', plan)
     if plan['status'] != 'admitted':
         raise RuntimeError('Derivative-only resource admission failed; production is not admitted')
@@ -113,7 +135,8 @@ if __name__ == '__main__':
     parser.add_argument('--execution-commit', required=True)
     parser.add_argument('--original-run')
     parser.add_argument('--failed-repair')
+    parser.add_argument('--completed-localization')
     args = parser.parse_args()
     plan = prepare(args.parent_plan, args.root, args.source_manifest, args.execution_commit,
-                   args.original_run, args.failed_repair)
+                   args.original_run, args.failed_repair, args.completed_localization)
     print(json.dumps({key: plan[key] for key in ('status', 'free_bytes', 'production_admitted')}))

@@ -65,6 +65,10 @@ def verify_original_records(plan):
     if plan.get('failed_repair'):
         required.update(str(Path(plan['failed_repair']) / name)
                         for name in ('RESULT.json', 'MODEL.json', 'OPERATOR.json'))
+    if plan.get('completed_localization'):
+        required.update(str(Path(plan['completed_localization']) / name)
+                        for name in ('derivative_support_001/RESULT.json',
+                                     'derivative_support_001/LOCALIZATION.json'))
     if not required <= plan['prior_record_identities'].keys():
         raise ValueError('Repair plan omits an original clock, process, result or window binding')
     for path, expected in plan['prior_record_identities'].items():
@@ -94,11 +98,14 @@ def qualify(plan_path):
     plan = json.loads(Path(plan_path).read_text())
     root = Path(plan['root'])
     localization = plan['allowed_phase'] == 'native_derivative_localization_only'
+    transposed = plan['allowed_phase'] == 'native_derivative_transpose_only'
     repair = plan['allowed_phase'] in ('native_derivative_repair_only',
-                                      'native_derivative_localization_only')
+                                      'native_derivative_localization_only',
+                                      'native_derivative_transpose_only')
     if plan['status'] != 'admitted' or plan['allowed_phase'] not in (
         'native_derivative_prerequisite_only', 'native_derivative_repair_only',
         'native_derivative_localization_only',
+        'native_derivative_transpose_only',
     ):
         raise ValueError('Require an admitted derivative-only plan')
     verify_source(plan)
@@ -134,6 +141,8 @@ def qualify(plan_path):
         command.extend(['--original-probe', plan['original_probe']])
     if localization:
         command.extend(['--localize', '--failed-repair', plan['failed_repair']])
+    if transposed:
+        command.extend(['--transposed', '--failed-repair', plan['failed_repair']])
     started = time.perf_counter()
     reason = None
     last_storage_check = 0.
