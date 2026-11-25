@@ -96,6 +96,11 @@ def verify_inputs(plan):
     if source['commit']!=plan['execution_commit']:
         raise ValueError('Staged source commit changed')
     for relative,expected in source['files'].items():
-        if identity(Path(plan['source_root'])/relative)!=expected:
+        path=Path(plan['source_root'])/relative
+        if expected.get('kind')=='symlink':
+            import os
+            if not path.is_symlink() or os.readlink(path)!=expected['target']:
+                raise ValueError('Staged source link changed: '+relative)
+        elif identity(path)!=expected:
             raise ValueError('Staged source changed: '+relative)
     return dict(status='passed',sealed_files=len(plan['sealed_files']),source_files=len(source['files']))
