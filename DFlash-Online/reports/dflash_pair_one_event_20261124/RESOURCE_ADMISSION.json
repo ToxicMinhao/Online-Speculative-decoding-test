@@ -1,0 +1,206 @@
+{
+  "storage": {
+    "admitted": false,
+    "strategy": "local_single",
+    "groups": [
+      {
+        "name": "main",
+        "allocation_roots": [
+          "/data/sources/minhao/runs/dflash_pair_one_event_20261124/execution_001",
+          "/data/sources/minhao/pair_one_event_source_20261124_001",
+          "/data/sources/minhao/runs/dflash_pair_one_event_20261124/execution_001/arms/BASE",
+          "/data/sources/minhao/runs/dflash_pair_one_event_20261124/execution_001/arms/PAIR"
+        ],
+        "filesystem": {
+          "device": 2066,
+          "capacity_key": "8:18",
+          "source": "/dev/sdb2[/share]",
+          "mount": "/data",
+          "fstype": "xfs",
+          "readonly": false,
+          "durable": true,
+          "total_bytes": 2014376198144,
+          "free_bytes": 425137819648
+        },
+        "projected_peak_bytes": 52615699048,
+        "reserve_bytes": 400000000000,
+        "free_bytes": 425137819648,
+        "allocated_bytes": 331878400,
+        "remaining_peak_bytes": 52283820648,
+        "deficit_bytes": 27146001000
+      }
+    ],
+    "projected_peak_bytes": 52615699048,
+    "components": {
+      "phases": [
+        {
+          "phase": "BASE_capture",
+          "main_bytes": 14261296464
+        },
+        {
+          "phase": "BASE_prepare",
+          "main_bytes": 14428355736
+        },
+        {
+          "phase": "witness",
+          "main_bytes": 14261296464
+        },
+        {
+          "phase": "BASE_state",
+          "main_bytes": 21053073776
+        },
+        {
+          "phase": "BASE_export",
+          "main_bytes": 23150332880
+        },
+        {
+          "phase": "PAIR_capture",
+          "main_bytes": 37411629344
+        },
+        {
+          "phase": "PAIR_prepare",
+          "main_bytes": 37578688616
+        },
+        {
+          "phase": "PAIR_state",
+          "main_bytes": 44203406656
+        },
+        {
+          "phase": "PAIR_export",
+          "main_bytes": 46300665760
+        }
+      ],
+      "peaks": {
+        "main": 52615699048
+      },
+      "tensor_margin_fraction": 0.05,
+      "source_logs_compiler_allowance_bytes": 4000000000,
+      "recovery_bound_bytes": 6791777312,
+      "export_bytes": 2097259104,
+      "feature_pool_bound_bytes": 14261296464,
+      "witness_copy_bound_bytes": 886033608,
+      "preparation_overlap_bytes": 167059272
+    },
+    "blockers": [
+      "main: projected peak misses reserve by 27146001000 bytes"
+    ]
+  },
+  "observed_filesystems": [
+    {
+      "path": "/data/sources/minhao",
+      "device": 2066,
+      "total_bytes": 2014376198144,
+      "free_bytes": 425146093568,
+      "source": "/dev/sdb2[/share]",
+      "fstype": "xfs",
+      "mount": "/data",
+      "capacity_key": "8:18",
+      "readonly": false
+    },
+    {
+      "path": "/",
+      "device": 43,
+      "total_bytes": 2014376198144,
+      "free_bytes": 425146093568,
+      "source": "overlay",
+      "fstype": "overlay",
+      "mount": "/",
+      "capacity_key": "0:43",
+      "readonly": false
+    },
+    {
+      "path": "/mnt",
+      "device": 43,
+      "total_bytes": 2014376198144,
+      "free_bytes": 425146093568,
+      "source": "overlay",
+      "fstype": "overlay",
+      "mount": "/",
+      "capacity_key": "0:43",
+      "readonly": false
+    },
+    {
+      "path": "/dev/shm",
+      "device": 56,
+      "total_bytes": 68719476736,
+      "free_bytes": 68713811968,
+      "source": "shm",
+      "fstype": "tmpfs",
+      "mount": "/dev/shm",
+      "capacity_key": "0:56",
+      "readonly": false
+    },
+    {
+      "path": "/usr/bin/nvidia-smi",
+      "device": 64768,
+      "total_bytes": 107307073536,
+      "free_bytes": 17011011584,
+      "source": "/dev/mapper/rlm-root[/usr/bin/nvidia-smi]",
+      "fstype": "xfs",
+      "mount": "/usr/bin/nvidia-smi",
+      "capacity_key": "253:0",
+      "readonly": true
+    }
+  ],
+  "limits": {
+    "elapsed_s": 10800,
+    "occupied_card_s": 18000,
+    "new_allocated_bytes": 90000000000,
+    "free_reserve_bytes": 400000000000
+  },
+  "postflight": {
+    "epoch": 1795580496.379734,
+    "new_clock_exists": false,
+    "new_launch_exists": false,
+    "new_arm_directories": [],
+    "source_manifest_identity": {
+      "bytes": 937003,
+      "sha256": "96dc2cd589489ced49d93e0ff628352874ab4d77cd74a4d673fbb82a6cb8b323"
+    },
+    "main_free_bytes": 425137856512,
+    "gpus": "0, GPU-9986735a-3e68-d1bd-5998-9634ef24341e, 0, 0\n1, GPU-c6943f33-bcd0-a724-0b35-f77af6b0a3f1, 0, 0\n",
+    "compute_apps": ""
+  },
+  "split_route": {
+    "main_peak_bytes": 23597311762,
+    "extra_feature_peak_bytes": 30124134810,
+    "extra_free_reserve_bytes": 2000000000,
+    "independent_extra_capacity_required_bytes": 32124134810,
+    "status": "No existing independent writable durable A800 filesystem identified"
+  },
+  "transfer": {
+    "bytes": 41161935,
+    "elapsed_s": 141.58277343027294,
+    "bytes_per_s": 290727.00020438246,
+    "sha256": "c3d157bf5cc98584a92b71b7efa064664f798acb76af3d873aaa0a15a9107124",
+    "verified": true,
+    "one_full_cap_pool_linear_estimate_s": 49053.91124310518,
+    "scope": "One real41.162MBcopy; linear extrapolation, not a guaranteed bulk throughput. No transfer route admitted.",
+    "temporary_copy_cleanup": {
+      "bytes": 41161935,
+      "source_retained": true,
+      "preexisting_artifacts_deleted": false
+    }
+  },
+  "forecast": {
+    "retained_source": "PR56 C event1 update589.38s + feedback154.95s per arm; first128 F maximum139.822s/pass",
+    "scored_passes": 6,
+    "expected_elapsed_s": 3600,
+    "conservative_elapsed_s": 7200,
+    "conservative_card_s": 12600,
+    "report_reserved_s": 600,
+    "includes": "both own events, startup, three witness readouts, graph/loading/export, 768 scores, 24 warmups and reporting",
+    "admitted_feature_transfer_seconds": 0,
+    "transfer_strategy": "none for local_single/local_split",
+    "rejected_transfer_probe": "/data/sources/minhao/runs/dflash_pair_one_event_20261124/execution_001/sealed/REJECTED_TRANSFER_PROBE.json"
+  },
+  "fenrir_preparation": {
+    "new_study_allocated_bytes": 342282240,
+    "free_bytes": 78644391936,
+    "scope": "new checkout, source staging, tests, compact receipts and report; old project files excluded",
+    "conservative_total_local_preparation_and_delivery_allowance_bytes": 1000000000,
+    "network_features_admitted": false
+  },
+  "global_all_local_bound_including_fenrir_allowance_bytes": 53615699048,
+  "global_all_local_bound_below_90GB": true
+}

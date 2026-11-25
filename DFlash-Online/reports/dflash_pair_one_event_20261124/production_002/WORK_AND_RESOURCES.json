@@ -1,0 +1,468 @@
+{
+  "schema": "pair_one_event_production_work_resources_v1",
+  "status": "completed",
+  "execution_commit": "416cb7931028621c09b8fa983e53fc8a7dcebaab",
+  "limits": {
+    "elapsed_s": 10800,
+    "occupied_card_s": 18000,
+    "new_allocated_bytes": 90000000000,
+    "free_reserve_bytes": 400000000000
+  },
+  "production": {
+    "completed_events": 2,
+    "events_per_arm": 1,
+    "own_feedback_generation": 256,
+    "native_preparation_units": 256,
+    "response_presentations": 512,
+    "response_forwards": 512,
+    "response_backwards": 512,
+    "adam_steps": 256,
+    "scored_generation": 768,
+    "warmup_generation": 24,
+    "total_generations": 1048,
+    "per_arm": {
+      "BASE": {
+        "feedback_generation": 128,
+        "teacher_preparation": 128,
+        "response_forward": 256,
+        "response_backward": 256,
+        "adam": 128
+      },
+      "PAIR": {
+        "feedback_generation": 128,
+        "teacher_preparation": 128,
+        "response_forward": 256,
+        "response_backward": 256,
+        "adam": 128
+      }
+    }
+  },
+  "startup": {
+    "per_arm": {
+      "BASE": {
+        "work": {
+          "attempts": {
+            "response_forwards": 2,
+            "response_backwards": 2,
+            "optimizer_steps": 0
+          },
+          "completed": {
+            "response_forwards": 2,
+            "response_backwards": 2,
+            "optimizer_steps": 0
+          },
+          "unknown": {
+            "response_forwards": 0,
+            "response_backwards": 0,
+            "optimizer_steps": 0
+          }
+        },
+        "physical_counts": {
+          "draft_forwards": 2,
+          "layer_forwards": 10,
+          "objective_chunks": 196,
+          "vocabulary_head_calls": 392,
+          "response_forwards": 2
+        }
+      },
+      "PAIR": {
+        "work": {
+          "attempts": {
+            "response_forwards": 2,
+            "response_backwards": 2,
+            "optimizer_steps": 0
+          },
+          "completed": {
+            "response_forwards": 2,
+            "response_backwards": 2,
+            "optimizer_steps": 0
+          },
+          "unknown": {
+            "response_forwards": 0,
+            "response_backwards": 0,
+            "optimizer_steps": 0
+          }
+        },
+        "physical_counts": {
+          "draft_forwards": 2,
+          "layer_forwards": 10,
+          "objective_chunks": 196,
+          "vocabulary_head_calls": 392,
+          "response_forwards": 2
+        }
+      }
+    },
+    "total_response_forwards": 4,
+    "total_response_backwards": 4,
+    "total_adam_steps": 0,
+    "exact_restoration_both_arms": true
+  },
+  "witnesses": {
+    "readouts": 3,
+    "diagnostic_draft_forwards": 24,
+    "diagnostic_head_calls": 24,
+    "teacher_forwards": 0,
+    "backwards": 0,
+    "adam_steps": 0,
+    "per_readout": {
+      "origin": {
+        "wall_s": 2.5580071918666363,
+        "draft_forwards": 8,
+        "head_calls": 8,
+        "repair_occurrences": 64
+      },
+      "BASE1": {
+        "wall_s": 0.4763357527554035,
+        "draft_forwards": 8,
+        "head_calls": 8,
+        "repair_occurrences": 64
+      },
+      "PAIR1": {
+        "wall_s": 2.0739051420241594,
+        "draft_forwards": 8,
+        "head_calls": 8,
+        "repair_occurrences": 64
+      }
+    },
+    "label": "Three existing fixed-input readouts; margin computations add no model/head forwards."
+  },
+  "physical_work": {
+    "training": {
+      "BASE": {
+        "draft_forwards": 256,
+        "layer_forwards": 1280,
+        "objective_chunks": 22988,
+        "vocabulary_head_calls": 45976,
+        "response_forwards": 256
+      },
+      "PAIR": {
+        "draft_forwards": 256,
+        "layer_forwards": 1280,
+        "objective_chunks": 22988,
+        "vocabulary_head_calls": 45976,
+        "response_forwards": 256
+      }
+    },
+    "terminal_features": {
+      "BASE": {
+        "target_forward_count": 128,
+        "forward_input_rows": 77963,
+        "retained_feature_rows": 128
+      },
+      "PAIR": {
+        "target_forward_count": 128,
+        "forward_input_rows": 77963,
+        "retained_feature_rows": 128
+      }
+    },
+    "native_serving_initialization_and_memory": {
+      "BASE": {
+        "graph_capture_operations": 17,
+        "graph_forward_calls": 51,
+        "graph_forward_completions": 51,
+        "graph_forward_failures": 0,
+        "graph_capture_wall_s": 1.0445736572146416,
+        "peak_gpu_allocated_bytes": 57607986176,
+        "peak_gpu_reserved_bytes": 57900269568,
+        "extra_model_calls": 0
+      },
+      "PAIR": {
+        "graph_capture_operations": 17,
+        "graph_forward_calls": 51,
+        "graph_forward_completions": 51,
+        "graph_forward_failures": 0,
+        "graph_capture_wall_s": 1.0188726484775543,
+        "peak_gpu_allocated_bytes": 57607986176,
+        "peak_gpu_reserved_bytes": 57900269568,
+        "extra_model_calls": 0
+      },
+      "evaluation": {
+        "graph_capture_operations": 17,
+        "graph_forward_calls": 51,
+        "graph_forward_completions": 51,
+        "graph_forward_failures": 0,
+        "graph_capture_wall_s": 1.017502449452877,
+        "peak_gpu_allocated_bytes": 57320988160,
+        "peak_gpu_reserved_bytes": 57633931264,
+        "extra_model_calls": 0
+      }
+    },
+    "traced_generation_counters": {
+      "feedback_BASE": {
+        "generations": 128,
+        "prefill_chunks": 128,
+        "verification_calls": 7733,
+        "native_accepted_draft_tokens": 42170,
+        "stop_clipped_accepted_draft_tokens": 42294,
+        "committed_progress": 49903
+      },
+      "feedback_PAIR": {
+        "generations": 128,
+        "prefill_chunks": 128,
+        "verification_calls": 7733,
+        "native_accepted_draft_tokens": 42170,
+        "stop_clipped_accepted_draft_tokens": 42294,
+        "committed_progress": 49903
+      },
+      "evaluation_scored": {
+        "generations": 768,
+        "prefill_chunks": 768,
+        "verification_calls": 45957,
+        "native_accepted_draft_tokens": 254631,
+        "stop_clipped_accepted_draft_tokens": 255390,
+        "committed_progress": 300588
+      },
+      "evaluation_warmup": {
+        "generations": 24,
+        "prefill_chunks": 24,
+        "verification_calls": 1968,
+        "native_accepted_draft_tokens": 8664,
+        "stop_clipped_accepted_draft_tokens": 8688,
+        "committed_progress": 10632
+      }
+    },
+    "counter_scope": "Trace counts include every executed generation, including timing repeats and warmups; they are work totals, not the one-count-per-request serving contrast. Head projections, model forwards and verification calls are different units and are not summed."
+  },
+  "failures": {
+    "production_failures": 0,
+    "production_unknown_work": 0,
+    "pending_operations": 0,
+    "automatic_retries": 0,
+    "valid_evaluation_generations": 792,
+    "invalid_evaluation_generations": 0,
+    "unattempted_evaluation_generations": 0,
+    "prior_qualification_reexecuted": false,
+    "supplemental_config_retrieval_note": "One read-only command failed because an unqualified python alias was absent; the pinned-interpreter retrieval passed. No model work or experiment retry."
+  },
+  "qualification": {
+    "execution_commit": "79b8c076610e9b4d310169b3891cb76ac6d0f9bb",
+    "status": "reused_passed",
+    "new_optimizer_steps": 0,
+    "new_model_forwards": 0,
+    "new_generations": 0
+  },
+  "clocks": {
+    "new_production": {
+      "elapsed_s": 2991.869740009308,
+      "occupied_s": 5053.873754739761
+    },
+    "historical_qualification": {
+      "elapsed_s": 288.52369570732117,
+      "occupied_s": 554.4458146095276
+    },
+    "combined_charged_elapsed_s": 3280.393435716629,
+    "combined_occupied_card_s": 5608.319569349289
+  },
+  "postflight_clock": {
+    "occupied_s": 5053.873754739761,
+    "elapsed_s": 3061.31614613533,
+    "active": {}
+  },
+  "clock_scope": "Completion clock is from LAUNCH.json; the later postflight elapsed clock includes CPU audit/report delay with unchanged occupied-card time. Historical qualification is separately charged once. No training-inclusive speedup is inferred.",
+  "adaptation_costs": {
+    "BASE": {
+      "arm_wall_s": 1001.7328783012927,
+      "trainer_loading_s": 20.212744034826756,
+      "serving_loading_s": 20.507993023842573,
+      "collection": {
+        "serve_call_s": 273.0963130351156,
+        "buffer_persistence_s": 58.446289625018835,
+        "generation_validation_and_recording_s": 214.65002341009676,
+        "native_request_latency_s": 155.02450348809361
+      },
+      "update_call_s": 660.267031352967,
+      "teacher_preparation_s": 8.206441747024655,
+      "feature_persistence_s": 10.599046729505062,
+      "training": {
+        "training_s": 510.16270832903683,
+        "checkpoint_save_s": 18.94886671565473,
+        "export_s": 14.85107609629631,
+        "event_wall_s_before_commit": 548.342356050387
+      },
+      "objective_nested_timers": {
+        "reference_setup_s": 0.0,
+        "reference_forward_s": 0.0,
+        "reference_head_s": 0.0,
+        "projection_s": 0.0,
+        "teacher_head_s": 144.68278463184834,
+        "selection_s": 18.799764880910516,
+        "kplus_chunk_s": 10.16649965941906,
+        "kplus_response_s": 0.13403518125414848
+      },
+      "startup_wall_s": 19.02975339628756,
+      "boundary_validation_s": null,
+      "post_event_activation_s": 0.9911580104380846,
+      "publication_check_activation_s": 0.9937057681381702
+    },
+    "PAIR": {
+      "arm_wall_s": 1051.8289507310838,
+      "trainer_loading_s": 20.543313147500157,
+      "serving_loading_s": 21.007311515510082,
+      "collection": {
+        "serve_call_s": 275.28084811381996,
+        "buffer_persistence_s": 59.656132040545344,
+        "generation_validation_and_recording_s": 215.6247160732746,
+        "native_request_latency_s": 154.7909566294402
+      },
+      "update_call_s": 702.4347418919206,
+      "teacher_preparation_s": 8.434096060693264,
+      "feature_persistence_s": 10.635888004675508,
+      "training": {
+        "training_s": 554.3069967310876,
+        "checkpoint_save_s": 20.567964671179652,
+        "export_s": 14.362469796091318,
+        "event_wall_s_before_commit": 594.4259654413909
+      },
+      "objective_nested_timers": {
+        "reference_setup_s": 0.0,
+        "reference_forward_s": 0.0,
+        "reference_head_s": 0.0,
+        "projection_s": 0.0,
+        "teacher_head_s": 144.46330736391246,
+        "selection_s": 19.16375028900802,
+        "kplus_chunk_s": 10.421816365793347,
+        "kplus_response_s": 0.13769244030117989
+      },
+      "startup_wall_s": 13.901896607130766,
+      "boundary_validation_s": null,
+      "post_event_activation_s": 0.9582102317363024,
+      "publication_check_activation_s": 0.9392739199101925
+    }
+  },
+  "evaluation_wall_s": 913.9702842757106,
+  "cost_scope": "Nested measured scopes are reported separately, never added. Arm/update timers include startup and witness work; training_s excludes those separate passes.",
+  "storage": {
+    "strategy": "local_single",
+    "filesystem": {
+      "fstype": "xfs",
+      "readonly": false,
+      "durable": true,
+      "total_bytes": 2014376198144
+    },
+    "projected_peak_bytes": 52615699048,
+    "components": {
+      "phases": [
+        {
+          "phase": "BASE_capture",
+          "main_bytes": 14261296464
+        },
+        {
+          "phase": "BASE_prepare",
+          "main_bytes": 14428355736
+        },
+        {
+          "phase": "witness",
+          "main_bytes": 14261296464
+        },
+        {
+          "phase": "BASE_state",
+          "main_bytes": 21053073776
+        },
+        {
+          "phase": "BASE_export",
+          "main_bytes": 23150332880
+        },
+        {
+          "phase": "PAIR_capture",
+          "main_bytes": 37411629344
+        },
+        {
+          "phase": "PAIR_prepare",
+          "main_bytes": 37578688616
+        },
+        {
+          "phase": "PAIR_state",
+          "main_bytes": 44203406656
+        },
+        {
+          "phase": "PAIR_export",
+          "main_bytes": 46300665760
+        }
+      ],
+      "peaks": {
+        "main": 52615699048
+      },
+      "tensor_margin_fraction": 0.05,
+      "source_logs_compiler_allowance_bytes": 4000000000,
+      "recovery_bound_bytes": 6791777312,
+      "export_bytes": 2097259104,
+      "feature_pool_bound_bytes": 14261296464,
+      "witness_copy_bound_bytes": 886033608,
+      "preparation_overlap_bytes": 167059272
+    },
+    "preflight": {
+      "allocated_bytes": 331911168,
+      "compiler_growth_bytes": 0,
+      "free_bytes": 458436395008,
+      "remaining_peak_bytes": 52283787880,
+      "reserve_bytes": 400000000000
+    },
+    "postflight": {
+      "allocated_bytes": 25405923328,
+      "compiler_growth_bytes": 11821056,
+      "free_bytes": 432128471040,
+      "remaining_peak_bytes": 27197954664,
+      "reserve_bytes": 400000000000
+    },
+    "postflight_total_charged_bytes": 25417744384,
+    "supplemental_config_retrieval_free_bytes": 432128397312,
+    "minimum_sampled_free_bytes": 432192114688,
+    "sampled_free_space_observations": 44,
+    "precise_peak_allocation_bytes": null,
+    "scope": "Admission is a conservative full-cap phase envelope; postflight is measured allocated blocks plus compiler growth. Polls are samples, not a continuous peak trace. Inodes are deduplicated across nested roots/hardlinks; no offload or second filesystem was used.",
+    "projected_peak_scope": "A800 main-filesystem admitted envelope only; global additional-allocation cap remains 90 GB across all locations.",
+    "separate_Fenrir_delivery_allowance_bytes": 1000000000,
+    "combined_admitted_envelope_with_delivery_allowance_bytes": 53615699048,
+    "latest_free_space_source": "CONFIG_RETRIEVAL.json after supplemental delivery, epoch 1795585438.6484907"
+  },
+  "memory": {
+    "training_allocator_peak_bytes": null,
+    "native_serving_worker_peaks": {
+      "BASE": {
+        "peak_gpu_allocated_bytes": 57607986176,
+        "peak_gpu_reserved_bytes": 57900269568
+      },
+      "PAIR": {
+        "peak_gpu_allocated_bytes": 57607986176,
+        "peak_gpu_reserved_bytes": 57900269568
+      },
+      "evaluation": {
+        "peak_gpu_allocated_bytes": 57320988160,
+        "peak_gpu_reserved_bytes": 57633931264
+      }
+    },
+    "observed_NVML_device_memory": {
+      "A": {
+        "samples": 44,
+        "maximum_observed_used_MiB": 56002.0,
+        "maximum_observed_used_bytes": 58722353152
+      },
+      "B": {
+        "samples": 44,
+        "maximum_observed_used_MiB": 22971.0,
+        "maximum_observed_used_bytes": 24086839296
+      }
+    },
+    "scope": "Training allocator peak was not captured. NVML values are maximum observed device usage across periodic samples, not exact process or allocator peaks. Native serving allocator high-water marks cover each worker lifetime on A."
+  },
+  "final_gpu_state": {
+    "postflight_active_processes": 0,
+    "config_retrieval_gpu_used_MiB": {
+      "A": 0,
+      "B": 0
+    },
+    "config_retrieval_gpu_utilization_pct": {
+      "A": 0,
+      "B": 0
+    },
+    "observation_epoch": 1795585438.6484907,
+    "source": "CONFIG_RETRIEVAL.json after supplemental YAML retrieval"
+  },
+  "report_preparation": {
+    "model_forwards": 0,
+    "optimizer_steps": 0,
+    "tensor_reloads": 0,
+    "remote_operations": 0,
+    "scope": "This metadata-construction script only; root performed separately recorded read-only remote status/configuration retrieval and documentation synchronization."
+  }
+}

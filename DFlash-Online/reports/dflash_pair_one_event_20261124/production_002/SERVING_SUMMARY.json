@@ -1,0 +1,286 @@
+{
+  "schema": "repair_pair_public_serving_tables_v1",
+  "execution_commit": "416cb7931028621c09b8fa983e53fc8a7dcebaab",
+  "status": "passed_independent_recomputation",
+  "requests": 128,
+  "scored_generations": 768,
+  "warmup_generations": 24,
+  "valid_generations": 792,
+  "invalid_generations": 0,
+  "unknown_generations": 0,
+  "serving_totals": {
+    "BASE": {
+      "request_latency_s": 136.70958931806186,
+      "native_generate_s": 132.71346729497117,
+      "cache_maintenance_s": 0.06386498858531316,
+      "output_tokens": 50226.0,
+      "verification_calls": 7669.0,
+      "accepted_draft_tokens": 42555.0,
+      "native_accepted_draft_tokens": 42429.0,
+      "committed_progress": 50098.0,
+      "native_accepted_per_call": 5.532533576737515,
+      "stop_clipped_accepted_per_call": 5.548963358977702,
+      "committed_per_call": 6.532533576737515,
+      "tokens_per_s": 367.39193095772265,
+      "repeat_totals": {
+        "request_latency_s": [
+          136.56809675507247,
+          136.7463414836675,
+          136.81432971544564
+        ],
+        "native_generate_s": [
+          132.57061888463795,
+          132.75041894055903,
+          132.81936405971646
+        ],
+        "cache_maintenance_s": [
+          0.06448916345834732,
+          0.06363770365715027,
+          0.0634680986404419
+        ]
+      },
+      "termination_counts": {
+        "eos": 128,
+        "length": 0
+      },
+      "output_length": {
+        "min": 144,
+        "max": 1314,
+        "mean": 392.390625,
+        "median": 359.5
+      }
+    },
+    "PAIR": {
+      "request_latency_s": 136.50456399222213,
+      "native_generate_s": 132.509288356329,
+      "cache_maintenance_s": 0.06396342813968658,
+      "output_tokens": 50226.0,
+      "verification_calls": 7650.0,
+      "accepted_draft_tokens": 42575.0,
+      "native_accepted_draft_tokens": 42448.0,
+      "committed_progress": 50098.0,
+      "native_accepted_per_call": 5.548758169934641,
+      "stop_clipped_accepted_per_call": 5.565359477124183,
+      "committed_per_call": 6.548758169934641,
+      "tokens_per_s": 367.9437414478084,
+      "repeat_totals": {
+        "request_latency_s": [
+          136.4688310958445,
+          136.51777431741357,
+          136.52708656340837
+        ],
+        "native_generate_s": [
+          132.47855189442635,
+          132.5157575495541,
+          132.53355562500656
+        ],
+        "cache_maintenance_s": [
+          0.06407799385488033,
+          0.06452960707247257,
+          0.06328268349170685
+        ]
+      },
+      "termination_counts": {
+        "eos": 128,
+        "length": 0
+      },
+      "output_length": {
+        "min": 144,
+        "max": 1314,
+        "mean": 392.390625,
+        "median": 359.5
+      }
+    }
+  },
+  "contrasts": {
+    "PAIR_vs_BASE": {
+      "candidate": "PAIR",
+      "baseline": "BASE",
+      "request_latency_s_reduction_pct": {
+        "value": 0.14997142984807255,
+        "ci95": [
+          -0.411005019842825,
+          0.6973739042782412
+        ],
+        "status": "prespecified_primary"
+      },
+      "native_generate_s_reduction_pct": {
+        "value": 0.15384944934665468,
+        "ci95": [
+          -0.4117706932906512,
+          0.6999525121248389
+        ],
+        "status": "descriptive_unadjusted"
+      },
+      "cache_maintenance_s_reduction_pct": {
+        "value": -0.15413696385764286,
+        "ci95": [
+          -2.729514420566455,
+          2.3115596813414268
+        ],
+        "status": "descriptive_unadjusted"
+      },
+      "verification_call_reduction_pct": {
+        "value": 0.24775068457425498,
+        "ci95": [
+          -0.32512836294087744,
+          0.8037613726649904
+        ],
+        "status": "descriptive_unadjusted"
+      },
+      "wins": 50,
+      "regressions": 43,
+      "ties": 35,
+      "gross_calls_saved": 100,
+      "gross_calls_added": 81,
+      "net_calls_saved": 19
+    }
+  },
+  "bootstrap": {
+    "draws": 10000,
+    "generator": "PCG64",
+    "seed": 20261124,
+    "draw_sha256": "99a3df302a2a0a9ca5f5f34aabd87f979a8ad1e0ec8684159fb6b7cf1a9248bc",
+    "percentiles": "linear 2.5/97.5; paired whole requests; average timing repeats within each request",
+    "counts": "one validated repeat per request; timing repeats are not independent training runs",
+    "input_order_ordinals": [
+      20,
+      113,
+      120,
+      65,
+      29,
+      31,
+      19,
+      5,
+      85,
+      62,
+      24,
+      58,
+      102,
+      49,
+      3,
+      106,
+      124,
+      42,
+      75,
+      33,
+      7,
+      63,
+      71,
+      77,
+      30,
+      32,
+      22,
+      61,
+      118,
+      52,
+      119,
+      59,
+      83,
+      11,
+      23,
+      34,
+      87,
+      93,
+      81,
+      69,
+      96,
+      117,
+      103,
+      67,
+      12,
+      64,
+      86,
+      43,
+      1,
+      109,
+      116,
+      90,
+      101,
+      60,
+      122,
+      45,
+      10,
+      108,
+      18,
+      84,
+      110,
+      80,
+      70,
+      0,
+      55,
+      56,
+      74,
+      125,
+      57,
+      28,
+      89,
+      25,
+      97,
+      95,
+      13,
+      114,
+      4,
+      17,
+      78,
+      105,
+      98,
+      99,
+      50,
+      82,
+      9,
+      47,
+      115,
+      51,
+      94,
+      8,
+      40,
+      72,
+      76,
+      26,
+      92,
+      21,
+      112,
+      27,
+      79,
+      54,
+      100,
+      53,
+      44,
+      68,
+      2,
+      73,
+      38,
+      15,
+      91,
+      121,
+      46,
+      126,
+      66,
+      35,
+      14,
+      6,
+      37,
+      107,
+      48,
+      111,
+      41,
+      16,
+      88,
+      36,
+      127,
+      104,
+      39,
+      123
+    ],
+    "ordinal_definition": "Zero-based evaluation manifest ordinal; listed in the exact audited bootstrap input order.",
+    "ordinal_input_order_sha256": "7ef4dc86abb644acb6866ea57f1a80cc5196e421e26e6d91e34d73c6dd9bb56a"
+  },
+  "table_rows": {
+    "PER_REQUEST.csv": 128,
+    "ALL_REPEATS.csv": 792
+  },
+  "units": "Times in seconds; reduction and confidence limits in percent; counts use one validated trajectory per request.",
+  "timing_scope": "Capture-disabled serving with endpoint already available; adaptation costs are separate.",
+  "repeat_scope": "Three timing repeats per request and endpoint; not independent training replications."
+}

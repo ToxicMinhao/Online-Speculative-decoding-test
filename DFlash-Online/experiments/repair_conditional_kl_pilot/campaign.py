@@ -1,7 +1,7 @@
 """One own-feedback event per arm, using the unchanged two-card native lifecycle."""
 
-from contextlib import ExitStack
 from pathlib import Path
+import shutil
 import time
 
 from online_feedback.controller import OnlineController
@@ -12,7 +12,11 @@ from experiments.kplus_full_gsm8k.storage import retire_redundant_features
 from experiments.fresh_confirmation.protocol import publication_errors, weight_check_errors
 from experiments.prefix_guard.qualify import pin_retained_graph_runtime
 from experiments.ok_coding.storage import identity
-from .resources import read, boundary, Ledger, occupied_card
+from experiments.opencode_native_comparison.training import (
+    recovery_size_plan,
+    validate_recovery_file,
+)
+from .resources import read, boundary, Ledger
 from .training import PilotTrainer, discarded_startup
 from .witness import freeze_witness, evaluate_witness
 
@@ -42,16 +46,80 @@ def check_publication(backend, checkpoint, destination):
     return publication
 
 
+def qualification_reuse(plan):
+    """Consume authenticated historical qualification without claiming new work."""
+    receipt = read(plan['qualification_reuse'])
+    if (
+        receipt.get('status') != 'reused_passed'
+        or receipt.get('qualified_execution_commit') != '79b8c076610e9b4d310169b3891cb76ac6d0f9bb'
+        or receipt.get('optimizer_steps_executed') != 0
+    ):
+        raise ValueError(
+            'Production requires an explicit authenticated qualification-reuse receipt'
+        )
+    return receipt
+
+
+def production_paths(plan, arm):
+    """Resolve an admitted real feature location, never an invented offload marker."""
+    root = Path(plan['root'])
+    if plan.get('execution_mode') != 'one_event_production':
+        # Retain the historical wrapper's gate for its original plan shape.
+        if (
+            arm == 'PAIR'
+            and read(root / 'BASE_FEATURE_OFFLOAD.json')['status'] != 'verified_retired'
+        ):
+            raise ValueError('BASE feature offload must complete before PAIR allocation')
+        if read(root / 'QUALIFICATION.json')['status'] != 'passed':
+            raise ValueError('Complete bounded native qualification is required')
+        return root, root / 'arms' / arm / 'event_001', root / 'arms' / arm / 'native'
+    if arm not in ('BASE', 'PAIR') or plan.get('maximum_events') != 1:
+        raise ValueError('Production requires exactly one BASE/PAIR event')
+    if plan.get('feature_strategy') not in ('local_single', 'local_split'):
+        raise ValueError('No verified offload implementation is admitted by this coordinator')
+    qualification_reuse(plan)
+    feature_root = Path(plan['feature_roots'][arm])
+    if not feature_root.is_absolute():
+        raise ValueError('The sealed feature root must be absolute')
+    event_root = feature_root / 'event_001'
+    return feature_root, event_root, event_root / 'native'
+
+
+def retain_witness_features(paths, witness_root):
+    """Keep eight exact BASE packets on the main filesystem for both endpoints."""
+    if len(paths) < 8:
+        raise ValueError('The fixed witness requires the first eight BASE responses')
+    destination = Path(witness_root) / 'features'
+    destination.mkdir(parents=True, exist_ok=False)
+    retained, rows = [], []
+    for ordinal, source in enumerate(paths[:8]):
+        source = Path(source)
+        target = destination / source.name
+        expected = identity(source)
+        shutil.copy2(source, target)
+        if identity(target) != expected:
+            raise ValueError('A retained witness packet differs from its own BASE feature')
+        sidecar = source.with_suffix('.json')
+        if sidecar.exists():
+            shutil.copy2(sidecar, target.with_suffix('.json'))
+            if identity(sidecar) != identity(target.with_suffix('.json')):
+                raise ValueError('A retained witness sidecar differs')
+        retained.append(target)
+        rows.append(
+            dict(ordinal=ordinal, source=str(source), retained=str(target), identity=expected)
+        )
+        write_json(Path(witness_root) / 'FEATURE_RETENTION.json', dict(status='copying', rows=rows))
+    write_json(Path(witness_root) / 'FEATURE_RETENTION.json', dict(status='verified', rows=rows))
+    return retained
+
+
 def run_arm(plan, arm):
     if not plan.get('production_admitted', False):
         raise RuntimeError('Production resource admission is blocked; qualification-only plan')
     root = Path(plan['root'])
+    allocation_root, event_root, native_root = production_paths(plan, arm)
     base = root / 'arms' / arm
     base.mkdir(parents=True, exist_ok=False)
-    if arm == 'PAIR' and read(root / 'BASE_FEATURE_OFFLOAD.json')['status'] != 'verified_retired':
-        raise ValueError('BASE feature offload must complete before PAIR allocation')
-    if read(root / 'QUALIFICATION.json')['status'] != 'passed':
-        raise ValueError('Complete bounded native qualification is required')
     inputs = read(plan['manifest'])
     original = Path(plan['original_config']).read_text()
     status = dict(
@@ -63,12 +131,17 @@ def run_arm(plan, arm):
     started = time.perf_counter()
     witness = root / 'witness'
     witness.mkdir(exist_ok=True)
-    event_root = base / 'event_001'
-    event_root.mkdir()
+    event_root.mkdir(parents=True, exist_ok=False)
     try:
         write_json(base / 'ADMISSION.json', boundary(plan))
-        write_json(base / 'RUNTIME_COMPATIBILITY.json', pin_retained_graph_runtime(base))
-        backend = create_backend(plan, base / 'native')
+        runtime = pin_retained_graph_runtime(base)
+        runtime.update(
+            applied_before='production trainer construction and compile startup',
+            scope='this one-event ' + arm + ' production process',
+        )
+        write_json(base / 'RUNTIME_COMPATIBILITY.json', runtime)
+        backend = create_backend(plan, native_root, card='A')
+        loading_started = time.perf_counter()
         trainer = PilotTrainer(
             plan['configs'][arm],
             base / 'trainer',
@@ -77,6 +150,9 @@ def run_arm(plan, arm):
             original_config_text=original,
             maximum_events=1,
         )
+        status['trainer_loading_s'] = time.perf_counter() - loading_started
+        status['serving_card'] = plan['devices']['A']
+        status['training_card'] = plan['devices']['B']
         status['initialization'] = trainer.save_initial(
             root / 'arms/BASE/trainer/INITIAL_WITNESS.pt' if arm == 'PAIR' else None
         )
@@ -94,7 +170,7 @@ def run_arm(plan, arm):
             receipt = ledger.call(
                 {'teacher_preparation': 1}, 'native_teacher', prepare, record, path
             )
-            retire_redundant_features(record, receipt, root, event_root)
+            retire_redundant_features(record, receipt, allocation_root, event_root)
             return receipt
 
         backend.generate, backend.prepare_feedback = generate_once, prepare_once
@@ -125,7 +201,14 @@ def run_arm(plan, arm):
             status['startup'] = discarded_startup(trainer, paths, base / 'startup')
             status['startup_work'] = dict(response_forward=2, response_backward=2, adam=0)
             if arm == 'BASE':
-                status['witness_seal'] = freeze_witness(trainer, paths, witness / 'bindings.pt')
+                witness_paths = (
+                    retain_witness_features(paths, witness)
+                    if plan.get('feature_strategy') == 'local_split'
+                    else paths
+                )
+                status['witness_seal'] = freeze_witness(
+                    trainer, witness_paths, witness / 'bindings.pt'
+                )
                 status['origin_witness'] = evaluate_witness(
                     trainer, witness / 'bindings.pt', witness / 'origin.json', endpoint='origin'
                 )
@@ -137,7 +220,19 @@ def run_arm(plan, arm):
                 ledger.wrap(owner, name, kind)
             status['phase'] = 'training'
             write_json(base / 'STATUS.json', status)
-            receipt = native_train(event_id, paths, passes=passes)
+            native_checkpoint = trainer._checkpoint_state
+
+            def bounded_checkpoint(event):
+                state = native_checkpoint(event)
+                write_json(base / 'RECOVERY_SIZE_PLAN.json', recovery_size_plan(state))
+                return state
+
+            trainer._checkpoint_state = bounded_checkpoint
+            try:
+                receipt = native_train(event_id, paths, passes=passes)
+            finally:
+                trainer._checkpoint_state = native_checkpoint
+            status['recovery_size'] = validate_recovery_file(trainer.latest)
             status['endpoint_witness'] = evaluate_witness(
                 trainer,
                 witness / 'bindings.pt',

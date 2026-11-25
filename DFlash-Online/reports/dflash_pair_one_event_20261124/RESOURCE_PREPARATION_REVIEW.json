@@ -1,0 +1,73 @@
+{
+  "status": "ready_for_CPU_preflight",
+  "blocking_scientific_findings": [],
+  "scope": "Independent phase-specific storage and witness review; implementation and focused CPU checks of production preparation. No A800 operations or GPU work by this reviewer.",
+  "resource_review": {
+    "basis": "Actual native fresh one-event persistence and retained first128 full-cap prompt lengths; initial witnesses contain tensor identities, startup pre/post exact comparisons are CPU-memory-only, and pending.tmp -> pending -> training_state is rename.",
+    "bytes": {
+      "feature_pool_per_arm": 14261296464,
+      "replacement_overlap": 167059272,
+      "first8_witness_copy": 886033608,
+      "recovery_per_arm_bound": 6791777312,
+      "export_per_arm": 2097259104,
+      "local_single_raw_peak": 46300665760,
+      "local_single_peak_with_5pct_and_4GB": 52615699048,
+      "split_main_peak_with_5pct_and_4GB": 23597311762,
+      "split_features_peak_with_5pct": 30124134810,
+      "extra_filesystem_free_reserve": 2000000000,
+      "reported_main_free_before_new_staging": 425146077184,
+      "local_single_deficit_at_that_inventory": 27469621864,
+      "split_main_surplus_at_that_inventory": 1548765422
+    },
+    "additional_filesystem_reserve_is_not_allocation": true,
+    "current_route": "No independent writable durable A800 feature filesystem identified. Offloading only BASE remains insufficient. Measured transfer is a rejected alternative, not admitted work. Actual post-staging CPU preflight controls admission.",
+    "hard_limits": {
+      "main_free_reserve_bytes": 400000000000,
+      "additional_allocation_bytes": 90000000000,
+      "new_elapsed_seconds": 10800,
+      "new_occupied_card_seconds": 18000
+    }
+  },
+  "preparation": {
+    "files": [
+      "experiments/repair_conditional_kl_pilot/prepare_production.py",
+      "experiments/repair_conditional_kl_pilot/test_prepare_production.py"
+    ],
+    "qualification_reuse": "Pinned reviewed PR58 ARTIFACTS identity and old SOURCE identity; validates every published compact receipt hash, old sealed inputs/source, completed native arm/reload/startup evidence and no pending work. Receipt explicitly reused_passed, zero new qualification work.",
+    "fresh_origins": "Builds independent BASE/PAIR configs preserving original scientific recipe/horizon; no qualification state is a production origin.",
+    "authentication": "Rechecks PR56 first128 ordered subset, unchanged PR58 canonicals and pins, released model artifacts, runtime versions, exact training interpreter and loaded sealed SpecForge source. Only explicit pilot plumbing/test changes and named publication paths are allowed.",
+    "storage": "Resolved physical paths are sealed; compiler filesystem routes checked. Admitted storage additionally requires live CPU boundary. Resource rejection is retained as blocked plan/preflight, with no GPU clock.",
+    "tests": {
+      "unique_passed": 7,
+      "module": "experiments.repair_conditional_kl_pilot.test_prepare_production",
+      "command": "CUDA_VISIBLE_DEVICES= PYTHONPATH=.:tests:training:inference /home/minhao2/.venvs/dflash-specforge/bin/python -m unittest experiments.repair_conditional_kl_pilot.test_prepare_production -v",
+      "coverage": [
+        "Published receipt tamper rejection and zero-work reuse",
+        "Self-consistent failed reload rejection",
+        "Unqualified scientific source and hidden Python rejection",
+        "Wrong child interpreter rejection",
+        "Blocked fresh preparation and exact work counts without clock",
+        "Live boundary requirement/rejection on admitted route",
+        "Wrong-filesystem compiler rejection"
+      ]
+    }
+  },
+  "witness_review": {
+    "status": "no blocker found by independent source review",
+    "findings": [
+      "Frozen origin e0/y/r0 bindings retained at endpoints, including repaired observations",
+      "BF16 full-vocabulary wrong argmax excludes only canonical token on private clone; gather then FP32 subtraction",
+      "Native correctness and deterministic lowest-ID tie handling retained",
+      "No-error blocks have null margins and preserved original prefix support",
+      "Useful repair requires boundary correctness and no earlier original-prefix damage",
+      "All block occurrences retained for net prefix progress and margins use only origin error support",
+      "Existing witness forward/head budget and no-grad/RNG/counter/mode isolation retained"
+    ],
+    "additional_tests_run": 0
+  },
+  "limits": [
+    "This preparation review does not claim actual remote CPU preflight passed.",
+    "Production has not run; no serving, margin, repair or efficacy result exists.",
+    "Formatting and final staged source hashes are controlled by the root agent after this review."
+  ]
+}

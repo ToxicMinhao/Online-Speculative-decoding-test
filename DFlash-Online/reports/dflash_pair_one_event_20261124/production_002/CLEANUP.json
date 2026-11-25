@@ -1,0 +1,247 @@
+{
+  "schema": "pair_production_cleanup_v1",
+  "status": "completed_and_independently_audited",
+  "scope": "Administrative retirement before unchanged one-event BASE/PAIR production. The independent audit reads retained receipts; it performs no remote command, model work, or additional deletion.",
+  "authorization": "User explicitly authorized retirement of verified unnecessary old A800 checkpoints/caches to free at least 30 GB while preserving important results, required states and the 400 GB reserve.",
+  "completed_utc": "2026-11-25T04:42:58.779168+00:00",
+  "reason": "Completed PR51/PR52 disposable qualification tensors are no longer needed for an active dependency; all production states/exports and compact qualification evidence remain retained.",
+  "retired_files": [
+    {
+      "path": "/data/sources/minhao/runs/dflash_mathqa_fixed_lr_transfer_20261116/execution_001/qualification/training_A/scaled_state.pt",
+      "bytes": 6297251643,
+      "allocated_bytes": 6297251840,
+      "sha256": "da2ba95b87655f8778744e10378e10b2c9a45a314b37a95766e4e45b70e958c9",
+      "payload_archived": false
+    },
+    {
+      "path": "/data/sources/minhao/runs/dflash_mathqa_fixed_lr_transfer_20261116/execution_001/qualification/training_A/scaled_export/model.safetensors",
+      "bytes": 2097259104,
+      "allocated_bytes": 2097262592,
+      "sha256": "74f652e5e24d9c443582b29e28dea46f7d400ca604c69657c6609554c19dee77",
+      "payload_archived": false
+    },
+    {
+      "path": "/data/sources/minhao/runs/dflash_mathqa_fixed_lr_transfer_20261116/execution_001/qualification/training_B/scaled_state.pt",
+      "bytes": 6297251643,
+      "allocated_bytes": 6297251840,
+      "sha256": "3c4ecd57ee37d2b957d9d4b61002f2b2887af6e10908473ddbc12a4f133c8445",
+      "payload_archived": false
+    },
+    {
+      "path": "/data/sources/minhao/runs/dflash_mathqa_fixed_lr_transfer_20261116/execution_001/qualification/training_B/scaled_export/model.safetensors",
+      "bytes": 2097259104,
+      "allocated_bytes": 2097262592,
+      "sha256": "74f652e5e24d9c443582b29e28dea46f7d400ca604c69657c6609554c19dee77",
+      "payload_archived": false
+    },
+    {
+      "path": "/data/sources/minhao/runs/dflash_unchanged_c_mathqa_transfer_20261117/execution_001/qualification/training_A/active_state.pt",
+      "bytes": 6297288827,
+      "allocated_bytes": 6297292800,
+      "sha256": "dc3ba4e02b078deaaab7cbe62bf7db22a45ad1593e89411eb0971d31ad77630a",
+      "payload_archived": false
+    },
+    {
+      "path": "/data/sources/minhao/runs/dflash_unchanged_c_mathqa_transfer_20261117/execution_001/qualification/training_A/active_export/model.safetensors",
+      "bytes": 2097259104,
+      "allocated_bytes": 2097262592,
+      "sha256": "dad70126c53e0b8c981daf7699871ed22795bcdb75704799e05c070a0a568726",
+      "payload_archived": false
+    },
+    {
+      "path": "/data/sources/minhao/runs/dflash_unchanged_c_mathqa_transfer_20261117/execution_001/qualification/training_B/active_state.pt",
+      "bytes": 6297288827,
+      "allocated_bytes": 6297292800,
+      "sha256": "e72688130b5209ea9d332f941b5199b3a0788481e67d7a645f1cf466ec7a68c2",
+      "payload_archived": false
+    },
+    {
+      "path": "/data/sources/minhao/runs/dflash_unchanged_c_mathqa_transfer_20261117/execution_001/qualification/training_B/active_export/model.safetensors",
+      "bytes": 2097259104,
+      "allocated_bytes": 2097262592,
+      "sha256": "dad70126c53e0b8c981daf7699871ed22795bcdb75704799e05c070a0a568726",
+      "payload_archived": false
+    }
+  ],
+  "file_count": 8,
+  "logical_bytes": 33578117356,
+  "allocated_bytes_before_retirement": 33578139648,
+  "free_before_bytes": 424861024256,
+  "free_after_bytes": 458439651328,
+  "measured_filesystem_free_gain_bytes": 33578627072,
+  "measured_gain_minus_file_allocations_bytes": 487424,
+  "free_space_interpretation": "Measured before/after filesystem free-space gain after synchronization; not an assumption that logical sizes or reflink allocations are reclaimed. The small difference from summed file allocations may include filesystem metadata or concurrent background changes.",
+  "minimum_required_gain_bytes": 30000000000,
+  "reserve_bytes": 400000000000,
+  "minimum_gain_satisfied": true,
+  "reserve_retained": true,
+  "lost_capability": "Direct loading, serving, and optimizer/RNG continuation from the four disposable qualification states and four disposable qualification weight exports is retired. These tensor payloads have no retained archival copy. Recorded qualification equality, restoration, runtime, validity and raw serving evidence remain auditable. All production boundaries and exports remain intact.",
+  "retained_evidence": [
+    {
+      "study": "dflash_mathqa_fixed_lr_transfer_20261116",
+      "execution_commit": "15284b323a307d01118e2630e665ed0191ba7c33",
+      "verified_compact_files": 8616,
+      "verified_compact_bytes": 643989619,
+      "compact_identity_errors": 0,
+      "qualification_compact_files": 78,
+      "compact_manifest": {
+        "bytes": 1371665,
+        "sha256": "c2f361a232d06d4ecbd62623e6573ea705b6e621058259c76e191e3975cff205"
+      },
+      "report_identity": {
+        "bytes": 12111,
+        "sha256": "bd9cfd607c697b10b38ccc3ea2237e7a4d630b88bcf97bd400857f277c20709a"
+      },
+      "completion_identity": {
+        "bytes": 1644,
+        "sha256": "dd5bb18c38d78c18764013ab1befe7ac63467f88abedd21648b1fad15a9634e9"
+      },
+      "launch_completed": true,
+      "retained_clock_active_count": 0,
+      "training_qualification_cards_passed": 2,
+      "each_own_resume_and_origin_restoration_passed": true
+    },
+    {
+      "study": "dflash_unchanged_c_mathqa_transfer_20261117",
+      "execution_commit": "3b25b068f0caa0035aeb4c8d58ba498f02a814cc",
+      "verified_compact_files": 8940,
+      "verified_compact_bytes": 756748406,
+      "compact_identity_errors": 0,
+      "qualification_compact_files": 86,
+      "compact_manifest": {
+        "bytes": 1397095,
+        "sha256": "5a4e2bae8cfc72648b393ed3e94d516fa455dd99ddea7593196c21969e2f8a9e"
+      },
+      "report_identity": {
+        "bytes": 12626,
+        "sha256": "a17bce3c2e80d542e3361456cda26ef8a1fffd22bee7fb8a04a623b2de97f9bb"
+      },
+      "completion_identity": {
+        "bytes": 2312,
+        "sha256": "20b775dd6385f0430cd4d667df40b17236b1ed0c32f147de5160a4b5732d6b32"
+      },
+      "launch_completed": true,
+      "retained_clock_active_count": 0,
+      "training_qualification_cards_passed": 2,
+      "each_own_resume_and_origin_restoration_passed": true
+    }
+  ],
+  "local_compact_files_verified": 17556,
+  "local_compact_bytes_verified": 1400738025,
+  "current_remote_compact_files_matched_to_local": 199,
+  "current_remote_compact_identity_errors": 0,
+  "protected": [
+    "PR56 whole-completion controls, required selected exports/recoveries, manifests and canonical references",
+    "All PR58 qualification artifacts",
+    "PR59 source/plans and current study",
+    "Released models, environments, current compiler caches",
+    "PR51 production N5/N6/S5/S6 states/exports and unique feature pools",
+    "PR52 production C5/C6 states/exports, prerequisite replay records and unique feature pools",
+    "All compact qualification/training/serving traces, result tables, source/data/runtime/model/config pins, failures and provenance"
+  ],
+  "cache_retirement": {
+    "files_removed": 0,
+    "bytes_removed": 0,
+    "current_compiler_caches_preserved": true,
+    "models_and_environments_preserved": true
+  },
+  "validation": {
+    "exact_eight_path_allowlist": true,
+    "full_file_sha256_recorded_before_retirement": true,
+    "regular_non_symlink_single_link_files": true,
+    "device_inode_size_mtime_rechecked_before_unlink": true,
+    "gpu_idle_before_retirement": true,
+    "inspected_open_descriptor_matches": 0,
+    "matching_project_environment_processes": 0,
+    "protected_os_descriptor_entries_unreadable": 1278,
+    "inspection_limit": "The replacement check inspected readable process descriptors and project-environment command lines. Protected OS descriptors were unavailable and recorded privately; it was not a complete process-memory-mapping audit.",
+    "retained_dependency_reference_matches": 0,
+    "deleted_directories": 0
+  },
+  "administrative_failure": {
+    "event": "Initial retirement attempt could not invoke fuser because it was not installed.",
+    "deletion_before_failure": 0,
+    "model_work": 0,
+    "resolution": "Stopped before creating the retirement record or unlinking files; used recorded process-descriptor/project-process inspection and idle-GPU checks for the successful attempt.",
+    "failure_evidence": {
+      "artifact": "RETIREMENT.fuser_unavailable.stderr",
+      "bytes": 691,
+      "sha256": "e1d6f29180ce4d55786d4bdf0c6744b956a1c9c9a325fc89ad54ea7eab00835b",
+      "retention": "private local receipt; identity only is public"
+    }
+  },
+  "fresh_production_cpu_preflight": {
+    "execution_commit": "416cb7931028621c09b8fa983e53fc8a7dcebaab",
+    "new_run": "execution_002",
+    "status": "passed",
+    "authentication_status": "passed",
+    "qualification_status": "reused_passed",
+    "new_qualification_optimizer_steps": 0,
+    "model_work": 0,
+    "clock_started": false,
+    "feature_strategy": "local_single",
+    "production_storage_admitted": true,
+    "main_peak_allocation_bytes": 52615699048,
+    "boundary_free_bytes": 458436395008,
+    "already_allocated_bytes": 331911168,
+    "remaining_peak_bytes": 52283787880,
+    "projected_main_free_at_peak_bytes": 406152607128,
+    "projected_headroom_above_400GB_bytes": 6152607128,
+    "compiler_growth_bytes": 0,
+    "interpretation": "Admission projection at the CPU preflight boundary, not a measured production disk high-water mark or completed experiment result."
+  },
+  "cleanup_new_gpu_work": 0,
+  "scientific_settings_changed": false,
+  "stage_changed": false,
+  "receipt_identities": [
+    {
+      "artifact": "AUTHORIZATION.json",
+      "bytes": 844,
+      "sha256": "2222c1a9e18ddc97edbf65afd4d40d3d13c8a325ad8cf0ce54f9c73d289a7f7e",
+      "retention": "private local receipt; identity only is public"
+    },
+    {
+      "artifact": "INVENTORY.json",
+      "bytes": 466799,
+      "sha256": "d4aeea110bdedbf44b287e033036f8571cf908d6432275166153ddcc6e925749",
+      "retention": "private local receipt; identity only is public"
+    },
+    {
+      "artifact": "RETENTION_REVIEW.json",
+      "bytes": 24239,
+      "sha256": "3371c034dcf225046886c71afc05e7c55d1c68dc8f846734eb06a6cb72e561d2",
+      "retention": "private local receipt; identity only is public"
+    },
+    {
+      "artifact": "CANDIDATES.json",
+      "bytes": 49999,
+      "sha256": "d9b57d6f75398aedd05b8c14f5dc3b0e48a728ad12197841f9031d691a96dbe5",
+      "retention": "private local receipt; identity only is public"
+    },
+    {
+      "artifact": "COMPACT_LIVE_COMPARISON.json",
+      "bytes": 22187,
+      "sha256": "fdba42b81346c94ebbfd2857118f1244504553d0640d9d52ef967dcacdbb4d72",
+      "retention": "private local receipt; identity only is public"
+    },
+    {
+      "artifact": "RETIREMENT.json",
+      "bytes": 65633,
+      "sha256": "e13a8450f17492cbe1684371032801a21ebf11aa78dd2895489f74ed49dd7ad4",
+      "retention": "private local receipt; identity only is public"
+    },
+    {
+      "artifact": "RESEAL.stdout",
+      "bytes": 4727,
+      "sha256": "51ab343bd039bcedc6a77d8882fb9e32167d20989f361e7578663b73585e22c4",
+      "retention": "private local receipt; identity only is public"
+    },
+    {
+      "artifact": "RESEAL_RESULT.json",
+      "bytes": 55,
+      "sha256": "21ed403de5038650b5e79b3516a16d326175c1281c245b37aabc55d0938c82ea",
+      "retention": "private local receipt; identity only is public"
+    }
+  ],
+  "privacy": "Public record contains exact retired artifact paths, sizes, hashes and scalar validation summaries. Raw process descriptors/commands, private prompts, responses, tokens, tensors and detailed private receipts remain outside this report."
+}

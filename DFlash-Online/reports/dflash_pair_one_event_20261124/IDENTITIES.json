@@ -1,0 +1,102 @@
+{
+  "execution_commit": "416cb7931028621c09b8fa983e53fc8a7dcebaab",
+  "reviewed_parent": "e38c942b5f607bb0b816cb05f3535a78c48110ec",
+  "qualified_execution_commit": "79b8c076610e9b4d310169b3891cb76ac6d0f9bb",
+  "original_scientific_recipe": "1551e5e5d0dd7736d8441977aa3dea250535da7b",
+  "new_plan_binding": "132576a44c84a3289b1c53bedc8878584495f0dec36a938cc78b9a4521486b49",
+  "source_manifest_identity": {
+    "bytes": 937003,
+    "sha256": "96dc2cd589489ced49d93e0ff628352874ab4d77cd74a4d673fbb82a6cb8b323"
+  },
+  "authentication_status": "passed",
+  "source_verification": {
+    "status": "passed",
+    "sealed_files": 105,
+    "source_files": 5062
+  },
+  "model_artifacts_checked": 20,
+  "sealed_compact_identities": {
+    "RUNTIME_PIN.json": {
+      "bytes": 2792,
+      "sha256": "53c15d9d0770a000ce7f510c84c7fa83c564d6fa36903163c485041bc03b97ec"
+    },
+    "MODEL_PIN.json": {
+      "bytes": 3397,
+      "sha256": "197e71a9be3bf5410d76de09eb53135e7c446b37e2530fb81d106e15bbdb9a05"
+    },
+    "PAIR.yaml": {
+      "bytes": 1522,
+      "sha256": "9f9b546c1722b15802a0ed1b0668936ab6c095d0d564dc9e09e0509fc7e80736"
+    },
+    "INPUTS.json": {
+      "bytes": 1584804,
+      "sha256": "8ac762f5c318c7381ce71ef832d0df700a147deb588d66d0a844724b6bafefea"
+    },
+    "TRAINING_PIN.json": {
+      "bytes": 246,
+      "sha256": "7526acdf471c0867267c6de09e60a6a1c2474b35a26f3fa376af84d2b7e0f512"
+    },
+    "BASE.yaml": {
+      "bytes": 1522,
+      "sha256": "4f8a93207b9b2c8981144999c50c54cfb0ce0c47e1509a387bba0c97241c6127"
+    },
+    "ORIGINAL_CONFIG.yaml": {
+      "bytes": 1517,
+      "sha256": "f71fb286701392e0c80af0915be406c3ccf71b2c15b612f9757357bea7fcf081"
+    },
+    "CANONICALS.json": {
+      "bytes": 1457446,
+      "sha256": "91be4cd690146d9798740e5650cdb8fd539d6127aa5f15d807df4c6356316761"
+    },
+    "WARMUP_CANONICALS.json": {
+      "bytes": 24422,
+      "sha256": "09099b13feae49b6361343a764632dfdcaef0e2272bce00a22d13b1806ceb03c"
+    }
+  },
+  "runtime": {
+    "training_environment": {
+      "python": "3.12.15",
+      "torch": "2.13.0+cu130",
+      "transformers": "5.12.1"
+    },
+    "native_runtime": {
+      "python_version": "3.12.14",
+      "torch": "2.9.1+cu130",
+      "transformers": "4.57.1",
+      "cuda": "13.0",
+      "native_runtime_sha256": {
+        "speculative/dflash_worker.py": "9397402f5cfbf60b00b7d27d551e5e9e1b605be9b084d028d4ddda76c475dc8c",
+        "speculative/dflash_info.py": "9c7ac23a1bf0840eec8218f02f2adbfc3e419099cd19822137ce5c6e0e902218",
+        "layers/logits_processor.py": "5c6c54bec37b941652e29908c773a756fe6c86f99932ab80043672a1eaa0f086",
+        "models/qwen3.py": "e23ee8af21eac46685852854a5fe585cf58477d4a1f8047887d6afeefaf8e32d",
+        "models/dflash.py": "d4fcfe005a1acc51a4938d038e1dbc1a2c8ff245842f4253338527335b2327b2",
+        "entrypoints/engine.py": "2bcd4b04c325d4ed65f867490c5bac9e915e02f05471c83dacb5a4a097cf1f2a",
+        "server_args.py": "bd60199803698e4ffe6dc44499a8d42be73f42db28056cb6750411523cf56c04"
+      }
+    },
+    "cuda_initialized": false,
+    "training_python": "/data/conda_envs/minhao/dflash_specforge_20261022/bin/python3.12",
+    "specforge_source": "/data/sources/minhao/pair_one_event_source_20261124_001/DFlash-Online/training/specforge/__init__.py"
+  },
+  "serving": {
+    "precision": "bfloat16",
+    "attention": "fa3",
+    "greedy": true,
+    "draft_layers": 5,
+    "block_size": 16,
+    "max_new_tokens": 2048,
+    "context_limit": 4096,
+    "physical_context_length": 4112,
+    "concurrency": 1,
+    "feedback_capture": false,
+    "cuda_graphs": true
+  },
+  "devices": {
+    "A": "GPU-9986735a-3e68-d1bd-5998-9634ef24341e",
+    "B": "GPU-c6943f33-bcd0-a724-0b35-f77af6b0a3f1"
+  },
+  "source_roots": {
+    "new": "/data/sources/minhao/pair_one_event_source_20261124_001/DFlash-Online",
+    "historical": "/data/sources/minhao/repair_pair_source_20261124_001/DFlash-Online"
+  }
+}

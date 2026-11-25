@@ -1,0 +1,48 @@
+{
+  "status": "passed",
+  "execution_commit": "416cb7931028621c09b8fa983e53fc8a7dcebaab",
+  "raw_generations_checked": 792,
+  "scored_generations": 768,
+  "warmup_generations": 24,
+  "native_verification_blocks": 47925,
+  "extra_model_work": 0,
+  "independently_recomputed": [
+    "native trace commits and stop clipping",
+    "frozen canonical tokens/termination",
+    "repeat counts",
+    "request-paired mean times and bootstrap",
+    "witness membership/outcomes and saved margin arithmetic",
+    "fresh startup/work ledgers"
+  ],
+  "limits": [
+    "No new native model replication",
+    "Unretained full vocabulary logits not reconstructed",
+    "State tensor equality relies on passed native receipts; offline check does not reload model tensors"
+  ],
+  "source_scripts": {
+    "audit_results.py": "e494cd066420c6103092a71cca65719ee47c5e8a59a63330cd033af75f62f873",
+    "summarize_training.py": "10c95c23d6e10bccebfee4264291b22ca6aa1db20437104def0ef4da4a7bc43b"
+  },
+  "raw_audit_receipt_sha256": "7fd761c7776d2e8127b6d04349389d1b602eddb1679688d77a315fdd25b567e8",
+  "compact_delivery": {
+    "path": "/data/sources/minhao/runs/dflash_pair_one_event_20261124/execution_002/compact_results_002.tar.gz",
+    "bytes": 62805733,
+    "sha256": "f8b5c489c8a4e9e0964d1b67297040d0aab117ab65f250711656607b4023a0fe",
+    "files": 3735,
+    "unpacked_bytes": 548656509
+  },
+  "additional_configuration_files": {
+    "ORIGINAL_CONFIG.yaml": {
+      "bytes": 1517,
+      "sha256": "f71fb286701392e0c80af0915be406c3ccf71b2c15b612f9757357bea7fcf081"
+    },
+    "BASE.yaml": {
+      "bytes": 1522,
+      "sha256": "7053d48249ec06cf391055fbbea326e97365edc6a8069789a8b0880be5131d37"
+    },
+    "PAIR.yaml": {
+      "bytes": 1522,
+      "sha256": "f39e6283b314d524457bba624a8d461d2f97e89081929d4a5178aba8db1028c5"
+    }
+  }
+}
