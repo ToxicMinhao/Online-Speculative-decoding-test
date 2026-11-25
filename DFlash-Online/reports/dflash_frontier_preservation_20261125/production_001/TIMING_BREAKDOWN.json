@@ -1,0 +1,113 @@
+{
+  "execution_commit": "225802657d630c0985abd68d6e7453f3e47c5b74",
+  "status": "reconciled",
+  "shared_responses": 128,
+  "scopes": "Nested timing scopes overlap. Worker loading is included in backend loading; native activation is included in publication activation; generation and buffer persistence sum to serve_call. Do not add nested subtotals.",
+  "shared_collection": {
+    "serve_call_s": 220.38173639960587,
+    "buffer_persistence_s": 59.03430672548711,
+    "generation_validation_and_recording_s": 161.34742967411876,
+    "native_request_latency_s": 160.44938760250807,
+    "teacher_preparation_s": 8.104593558236957,
+    "feature_persistence_s": 10.301002029329538
+  },
+  "initialization": {
+    "shared_worker_loading_s": 19.98122428357601,
+    "evaluation_worker_loading_s": 21.849473340436816
+  },
+  "evaluation": {
+    "backend_loading_s": 22.008864430710673,
+    "publication_activation_s": 12.44354958459735,
+    "native_activation_s": 4.382526356726885,
+    "activations": [
+      {
+        "activation": 0,
+        "arm": "CONTROL",
+        "loading_s": 22.008864430710673,
+        "activation_s": 1.258494209498167,
+        "native_activation_s": 0.47622877918183804
+      },
+      {
+        "activation": 1,
+        "arm": "FRONTIER_P",
+        "loading_s": 0.0,
+        "activation_s": 1.0487275011837482,
+        "native_activation_s": 0.37247447669506073
+      },
+      {
+        "activation": 2,
+        "arm": "FRONTIER_P",
+        "loading_s": 0.0,
+        "activation_s": 1.0655694473534822,
+        "native_activation_s": 0.37081017531454563
+      },
+      {
+        "activation": 3,
+        "arm": "CONTROL",
+        "loading_s": 0.0,
+        "activation_s": 0.9301817640662193,
+        "native_activation_s": 0.3348434064537287
+      },
+      {
+        "activation": 4,
+        "arm": "FRONTIER_P",
+        "loading_s": 0.0,
+        "activation_s": 1.024806372821331,
+        "native_activation_s": 0.381409116089344
+      },
+      {
+        "activation": 5,
+        "arm": "CONTROL",
+        "loading_s": 0.0,
+        "activation_s": 0.9734535701572895,
+        "native_activation_s": 0.3490839097648859
+      },
+      {
+        "activation": 6,
+        "arm": "CONTROL",
+        "loading_s": 0.0,
+        "activation_s": 0.9737171102315187,
+        "native_activation_s": 0.337106229737401
+      },
+      {
+        "activation": 7,
+        "arm": "FRONTIER_P",
+        "loading_s": 0.0,
+        "activation_s": 1.051595313474536,
+        "native_activation_s": 0.3688861560076475
+      },
+      {
+        "activation": 8,
+        "arm": "CONTROL",
+        "loading_s": 0.0,
+        "activation_s": 0.9991633519530296,
+        "native_activation_s": 0.33568765595555305
+      },
+      {
+        "activation": 9,
+        "arm": "FRONTIER_P",
+        "loading_s": 0.0,
+        "activation_s": 1.080116145312786,
+        "native_activation_s": 0.36894531548023224
+      },
+      {
+        "activation": 10,
+        "arm": "FRONTIER_P",
+        "loading_s": 0.0,
+        "activation_s": 1.085832266137004,
+        "native_activation_s": 0.3681308478116989
+      },
+      {
+        "activation": 11,
+        "arm": "CONTROL",
+        "loading_s": 0.0,
+        "activation_s": 0.9518925324082375,
+        "native_activation_s": 0.3189202882349491
+      }
+    ]
+  },
+  "trainer_loading": {
+    "status": "unavailable",
+    "reason": "No separate production trainer-loading timer was retained; phase residuals are not substituted"
+  }
+}

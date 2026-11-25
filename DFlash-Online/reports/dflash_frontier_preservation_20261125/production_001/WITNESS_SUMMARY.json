@@ -1,0 +1,650 @@
+{
+  "status": "audited",
+  "schema": "frontier_fixed_training_witness_v1",
+  "diagnostic_only": true,
+  "units": "overlapping fixed block occurrences in training responses; not held-out evidence",
+  "definitions": {
+    "raw_repair": "original first error now equals canonical",
+    "useful_repair": "raw repair with every original prefix position still canonical",
+    "damaged_prefix_positions": "original prefix positions now wrong; not the entire lost prefix",
+    "surviving_followers": "original positions e+1..K still canonical, regardless of earlier damage",
+    "reachable_followers": "original positions e+1..K inside the endpoint consecutive correct prefix",
+    "fixed_K_shortfall": "max(0, origin K - endpoint consecutive matching prefix length)",
+    "assessment": "origin-K weighted FP32 softplus margin sum; fresh strongest wrong rivals"
+  },
+  "sets": {
+    "new_buffer": {
+      "responses": 8,
+      "block_occurrences": 64,
+      "nonempty_blocks": 64,
+      "original_errors": 44,
+      "original_prefix_positions": 488,
+      "usable_followers": 60,
+      "parent_to_CONTROL": {
+        "raw_repair": {
+          "comparison": "CONTROL minus parent",
+          "first_sum": 0,
+          "second_sum": 33,
+          "delta": 33,
+          "gains": 33,
+          "losses": 0,
+          "ties": 31,
+          "lower_is_better": false
+        },
+        "useful_repair": {
+          "comparison": "CONTROL minus parent",
+          "first_sum": 0,
+          "second_sum": 33,
+          "delta": 33,
+          "gains": 33,
+          "losses": 0,
+          "ties": 31,
+          "lower_is_better": false
+        },
+        "damaged_prefix_positions": {
+          "comparison": "CONTROL minus parent",
+          "first_sum": 0,
+          "second_sum": 3,
+          "delta": 3,
+          "gains": 0,
+          "losses": 2,
+          "ties": 62,
+          "lower_is_better": true
+        },
+        "damaged_prefix_blocks": {
+          "comparison": "CONTROL minus parent",
+          "first_sum": 0,
+          "second_sum": 2,
+          "delta": 2,
+          "gains": 0,
+          "losses": 2,
+          "ties": 62,
+          "lower_is_better": true
+        },
+        "surviving_followers": {
+          "comparison": "CONTROL minus parent",
+          "first_sum": 60,
+          "second_sum": 58,
+          "delta": -2,
+          "gains": 0,
+          "losses": 2,
+          "ties": 62,
+          "lower_is_better": false
+        },
+        "reachable_followers": {
+          "comparison": "CONTROL minus parent",
+          "first_sum": 0,
+          "second_sum": 39,
+          "delta": 39,
+          "gains": 11,
+          "losses": 0,
+          "ties": 53,
+          "lower_is_better": false
+        },
+        "matching_prefix_length": {
+          "comparison": "CONTROL minus parent",
+          "first_sum": 488,
+          "second_sum": 656,
+          "delta": 168,
+          "gains": 33,
+          "losses": 2,
+          "ties": 29,
+          "lower_is_better": false
+        },
+        "fixed_K_shortfall": {
+          "comparison": "CONTROL minus parent",
+          "first_sum": 104,
+          "second_sum": 35,
+          "delta": -69,
+          "gains": 33,
+          "losses": 2,
+          "ties": 29,
+          "lower_is_better": true
+        },
+        "assessment": {
+          "comparison": "CONTROL minus parent",
+          "first_sum": 438.0764781758189,
+          "second_sum": 225.05929581914097,
+          "delta": -213.01718235667795,
+          "gains": 56,
+          "losses": 8,
+          "ties": 0,
+          "lower_is_better": true
+        }
+      },
+      "parent_to_FRONTIER_P": {
+        "raw_repair": {
+          "comparison": "FRONTIER_P minus parent",
+          "first_sum": 0,
+          "second_sum": 36,
+          "delta": 36,
+          "gains": 36,
+          "losses": 0,
+          "ties": 28,
+          "lower_is_better": false
+        },
+        "useful_repair": {
+          "comparison": "FRONTIER_P minus parent",
+          "first_sum": 0,
+          "second_sum": 35,
+          "delta": 35,
+          "gains": 35,
+          "losses": 0,
+          "ties": 29,
+          "lower_is_better": false
+        },
+        "damaged_prefix_positions": {
+          "comparison": "FRONTIER_P minus parent",
+          "first_sum": 0,
+          "second_sum": 3,
+          "delta": 3,
+          "gains": 0,
+          "losses": 2,
+          "ties": 62,
+          "lower_is_better": true
+        },
+        "damaged_prefix_blocks": {
+          "comparison": "FRONTIER_P minus parent",
+          "first_sum": 0,
+          "second_sum": 2,
+          "delta": 2,
+          "gains": 0,
+          "losses": 2,
+          "ties": 62,
+          "lower_is_better": true
+        },
+        "surviving_followers": {
+          "comparison": "FRONTIER_P minus parent",
+          "first_sum": 60,
+          "second_sum": 59,
+          "delta": -1,
+          "gains": 0,
+          "losses": 1,
+          "ties": 63,
+          "lower_is_better": false
+        },
+        "reachable_followers": {
+          "comparison": "FRONTIER_P minus parent",
+          "first_sum": 0,
+          "second_sum": 52,
+          "delta": 52,
+          "gains": 13,
+          "losses": 0,
+          "ties": 51,
+          "lower_is_better": false
+        },
+        "matching_prefix_length": {
+          "comparison": "FRONTIER_P minus parent",
+          "first_sum": 488,
+          "second_sum": 676,
+          "delta": 188,
+          "gains": 35,
+          "losses": 2,
+          "ties": 27,
+          "lower_is_better": false
+        },
+        "fixed_K_shortfall": {
+          "comparison": "FRONTIER_P minus parent",
+          "first_sum": 104,
+          "second_sum": 21,
+          "delta": -83,
+          "gains": 35,
+          "losses": 2,
+          "ties": 27,
+          "lower_is_better": true
+        },
+        "assessment": {
+          "comparison": "FRONTIER_P minus parent",
+          "first_sum": 438.0764781758189,
+          "second_sum": 201.5699409879744,
+          "delta": -236.50653718784451,
+          "gains": 57,
+          "losses": 7,
+          "ties": 0,
+          "lower_is_better": true
+        }
+      },
+      "CONTROL_to_FRONTIER_P": {
+        "raw_repair": {
+          "comparison": "FRONTIER_P minus CONTROL",
+          "first_sum": 33,
+          "second_sum": 36,
+          "delta": 3,
+          "gains": 3,
+          "losses": 0,
+          "ties": 61,
+          "lower_is_better": false
+        },
+        "useful_repair": {
+          "comparison": "FRONTIER_P minus CONTROL",
+          "first_sum": 33,
+          "second_sum": 35,
+          "delta": 2,
+          "gains": 3,
+          "losses": 1,
+          "ties": 60,
+          "lower_is_better": false
+        },
+        "damaged_prefix_positions": {
+          "comparison": "FRONTIER_P minus CONTROL",
+          "first_sum": 3,
+          "second_sum": 3,
+          "delta": 0,
+          "gains": 1,
+          "losses": 1,
+          "ties": 62,
+          "lower_is_better": true
+        },
+        "damaged_prefix_blocks": {
+          "comparison": "FRONTIER_P minus CONTROL",
+          "first_sum": 2,
+          "second_sum": 2,
+          "delta": 0,
+          "gains": 1,
+          "losses": 1,
+          "ties": 62,
+          "lower_is_better": true
+        },
+        "surviving_followers": {
+          "comparison": "FRONTIER_P minus CONTROL",
+          "first_sum": 58,
+          "second_sum": 59,
+          "delta": 1,
+          "gains": 1,
+          "losses": 0,
+          "ties": 63,
+          "lower_is_better": false
+        },
+        "reachable_followers": {
+          "comparison": "FRONTIER_P minus CONTROL",
+          "first_sum": 39,
+          "second_sum": 52,
+          "delta": 13,
+          "gains": 2,
+          "losses": 0,
+          "ties": 62,
+          "lower_is_better": false
+        },
+        "matching_prefix_length": {
+          "comparison": "FRONTIER_P minus CONTROL",
+          "first_sum": 656,
+          "second_sum": 676,
+          "delta": 20,
+          "gains": 5,
+          "losses": 3,
+          "ties": 56,
+          "lower_is_better": false
+        },
+        "fixed_K_shortfall": {
+          "comparison": "FRONTIER_P minus CONTROL",
+          "first_sum": 35,
+          "second_sum": 21,
+          "delta": -14,
+          "gains": 3,
+          "losses": 1,
+          "ties": 60,
+          "lower_is_better": true
+        },
+        "assessment": {
+          "comparison": "FRONTIER_P minus CONTROL",
+          "first_sum": 225.05929581914097,
+          "second_sum": 201.5699409879744,
+          "delta": -23.489354831166565,
+          "gains": 46,
+          "losses": 16,
+          "ties": 2,
+          "lower_is_better": true
+        }
+      },
+      "endpoints": {
+        "parent": {
+          "response_mean_assessment": 6.844944971497171,
+          "assessed_positions": 592,
+          "margin_mean": 5.6579391891891895,
+          "origin_rival_margin_mean": 5.6579391891891895,
+          "margin_ties": 5,
+          "wrong_rival_ties": 31,
+          "rival_changes": 0,
+          "old_rival_addressed_but_wrong": 0
+        },
+        "CONTROL": {
+          "response_mean_assessment": 3.5165514971740777,
+          "assessed_positions": 592,
+          "margin_mean": 6.490076013513513,
+          "origin_rival_margin_mean": 7.039168074324325,
+          "margin_ties": 4,
+          "wrong_rival_ties": 24,
+          "rival_changes": 216,
+          "old_rival_addressed_but_wrong": 6
+        },
+        "FRONTIER_P": {
+          "response_mean_assessment": 3.1495303279371,
+          "assessed_positions": 592,
+          "margin_mean": 6.619510135135135,
+          "origin_rival_margin_mean": 7.219383445945946,
+          "margin_ties": 1,
+          "wrong_rival_ties": 25,
+          "rival_changes": 222,
+          "old_rival_addressed_but_wrong": 3
+        }
+      }
+    },
+    "parent_training": {
+      "responses": 8,
+      "block_occurrences": 64,
+      "nonempty_blocks": 64,
+      "original_errors": 31,
+      "original_prefix_positions": 676,
+      "usable_followers": 33,
+      "parent_to_CONTROL": {
+        "raw_repair": {
+          "comparison": "CONTROL minus parent",
+          "first_sum": 0,
+          "second_sum": 10,
+          "delta": 10,
+          "gains": 10,
+          "losses": 0,
+          "ties": 54,
+          "lower_is_better": false
+        },
+        "useful_repair": {
+          "comparison": "CONTROL minus parent",
+          "first_sum": 0,
+          "second_sum": 9,
+          "delta": 9,
+          "gains": 9,
+          "losses": 0,
+          "ties": 55,
+          "lower_is_better": false
+        },
+        "damaged_prefix_positions": {
+          "comparison": "CONTROL minus parent",
+          "first_sum": 0,
+          "second_sum": 14,
+          "delta": 14,
+          "gains": 0,
+          "losses": 10,
+          "ties": 54,
+          "lower_is_better": true
+        },
+        "damaged_prefix_blocks": {
+          "comparison": "CONTROL minus parent",
+          "first_sum": 0,
+          "second_sum": 10,
+          "delta": 10,
+          "gains": 0,
+          "losses": 10,
+          "ties": 54,
+          "lower_is_better": true
+        },
+        "surviving_followers": {
+          "comparison": "CONTROL minus parent",
+          "first_sum": 33,
+          "second_sum": 30,
+          "delta": -3,
+          "gains": 0,
+          "losses": 2,
+          "ties": 62,
+          "lower_is_better": false
+        },
+        "reachable_followers": {
+          "comparison": "CONTROL minus parent",
+          "first_sum": 0,
+          "second_sum": 12,
+          "delta": 12,
+          "gains": 4,
+          "losses": 0,
+          "ties": 60,
+          "lower_is_better": false
+        },
+        "matching_prefix_length": {
+          "comparison": "CONTROL minus parent",
+          "first_sum": 676,
+          "second_sum": 675,
+          "delta": -1,
+          "gains": 9,
+          "losses": 10,
+          "ties": 45,
+          "lower_is_better": false
+        },
+        "fixed_K_shortfall": {
+          "comparison": "CONTROL minus parent",
+          "first_sum": 64,
+          "second_sum": 75,
+          "delta": 11,
+          "gains": 9,
+          "losses": 10,
+          "ties": 45,
+          "lower_is_better": true
+        },
+        "assessment": {
+          "comparison": "CONTROL minus parent",
+          "first_sum": 296.24689063685946,
+          "second_sum": 421.6128609427251,
+          "delta": 125.36597030586563,
+          "gains": 24,
+          "losses": 40,
+          "ties": 0,
+          "lower_is_better": true
+        }
+      },
+      "parent_to_FRONTIER_P": {
+        "raw_repair": {
+          "comparison": "FRONTIER_P minus parent",
+          "first_sum": 0,
+          "second_sum": 11,
+          "delta": 11,
+          "gains": 11,
+          "losses": 0,
+          "ties": 53,
+          "lower_is_better": false
+        },
+        "useful_repair": {
+          "comparison": "FRONTIER_P minus parent",
+          "first_sum": 0,
+          "second_sum": 10,
+          "delta": 10,
+          "gains": 10,
+          "losses": 0,
+          "ties": 54,
+          "lower_is_better": false
+        },
+        "damaged_prefix_positions": {
+          "comparison": "FRONTIER_P minus parent",
+          "first_sum": 0,
+          "second_sum": 14,
+          "delta": 14,
+          "gains": 0,
+          "losses": 7,
+          "ties": 57,
+          "lower_is_better": true
+        },
+        "damaged_prefix_blocks": {
+          "comparison": "FRONTIER_P minus parent",
+          "first_sum": 0,
+          "second_sum": 7,
+          "delta": 7,
+          "gains": 0,
+          "losses": 7,
+          "ties": 57,
+          "lower_is_better": true
+        },
+        "surviving_followers": {
+          "comparison": "FRONTIER_P minus parent",
+          "first_sum": 33,
+          "second_sum": 29,
+          "delta": -4,
+          "gains": 0,
+          "losses": 3,
+          "ties": 61,
+          "lower_is_better": false
+        },
+        "reachable_followers": {
+          "comparison": "FRONTIER_P minus parent",
+          "first_sum": 0,
+          "second_sum": 13,
+          "delta": 13,
+          "gains": 5,
+          "losses": 0,
+          "ties": 59,
+          "lower_is_better": false
+        },
+        "matching_prefix_length": {
+          "comparison": "FRONTIER_P minus parent",
+          "first_sum": 676,
+          "second_sum": 690,
+          "delta": 14,
+          "gains": 10,
+          "losses": 7,
+          "ties": 47,
+          "lower_is_better": false
+        },
+        "fixed_K_shortfall": {
+          "comparison": "FRONTIER_P minus parent",
+          "first_sum": 64,
+          "second_sum": 59,
+          "delta": -5,
+          "gains": 10,
+          "losses": 7,
+          "ties": 47,
+          "lower_is_better": true
+        },
+        "assessment": {
+          "comparison": "FRONTIER_P minus parent",
+          "first_sum": 296.24689063685946,
+          "second_sum": 442.86574973445386,
+          "delta": 146.6188590975944,
+          "gains": 27,
+          "losses": 37,
+          "ties": 0,
+          "lower_is_better": true
+        }
+      },
+      "CONTROL_to_FRONTIER_P": {
+        "raw_repair": {
+          "comparison": "FRONTIER_P minus CONTROL",
+          "first_sum": 10,
+          "second_sum": 11,
+          "delta": 1,
+          "gains": 1,
+          "losses": 0,
+          "ties": 63,
+          "lower_is_better": false
+        },
+        "useful_repair": {
+          "comparison": "FRONTIER_P minus CONTROL",
+          "first_sum": 9,
+          "second_sum": 10,
+          "delta": 1,
+          "gains": 1,
+          "losses": 0,
+          "ties": 63,
+          "lower_is_better": false
+        },
+        "damaged_prefix_positions": {
+          "comparison": "FRONTIER_P minus CONTROL",
+          "first_sum": 14,
+          "second_sum": 14,
+          "delta": 0,
+          "gains": 3,
+          "losses": 1,
+          "ties": 60,
+          "lower_is_better": true
+        },
+        "damaged_prefix_blocks": {
+          "comparison": "FRONTIER_P minus CONTROL",
+          "first_sum": 10,
+          "second_sum": 7,
+          "delta": -3,
+          "gains": 3,
+          "losses": 0,
+          "ties": 61,
+          "lower_is_better": true
+        },
+        "surviving_followers": {
+          "comparison": "FRONTIER_P minus CONTROL",
+          "first_sum": 30,
+          "second_sum": 29,
+          "delta": -1,
+          "gains": 0,
+          "losses": 1,
+          "ties": 63,
+          "lower_is_better": false
+        },
+        "reachable_followers": {
+          "comparison": "FRONTIER_P minus CONTROL",
+          "first_sum": 12,
+          "second_sum": 13,
+          "delta": 1,
+          "gains": 1,
+          "losses": 0,
+          "ties": 63,
+          "lower_is_better": false
+        },
+        "matching_prefix_length": {
+          "comparison": "FRONTIER_P minus CONTROL",
+          "first_sum": 675,
+          "second_sum": 690,
+          "delta": 15,
+          "gains": 3,
+          "losses": 1,
+          "ties": 60,
+          "lower_is_better": false
+        },
+        "fixed_K_shortfall": {
+          "comparison": "FRONTIER_P minus CONTROL",
+          "first_sum": 75,
+          "second_sum": 59,
+          "delta": -16,
+          "gains": 3,
+          "losses": 0,
+          "ties": 61,
+          "lower_is_better": true
+        },
+        "assessment": {
+          "comparison": "FRONTIER_P minus CONTROL",
+          "first_sum": 421.6128609427251,
+          "second_sum": 442.86574973445386,
+          "delta": 21.252888791728765,
+          "gains": 33,
+          "losses": 31,
+          "ties": 0,
+          "lower_is_better": true
+        }
+      },
+      "endpoints": {
+        "parent": {
+          "response_mean_assessment": 4.628857666200929,
+          "assessed_positions": 740,
+          "margin_mean": 7.206756756756757,
+          "origin_rival_margin_mean": 7.206756756756757,
+          "margin_ties": 6,
+          "wrong_rival_ties": 22,
+          "rival_changes": 0,
+          "old_rival_addressed_but_wrong": 0
+        },
+        "CONTROL": {
+          "response_mean_assessment": 6.58770095223008,
+          "assessed_positions": 740,
+          "margin_mean": 7.057516891891892,
+          "origin_rival_margin_mean": 7.263175675675676,
+          "margin_ties": 4,
+          "wrong_rival_ties": 25,
+          "rival_changes": 175,
+          "old_rival_addressed_but_wrong": 4
+        },
+        "FRONTIER_P": {
+          "response_mean_assessment": 6.9197773396008415,
+          "assessed_positions": 740,
+          "margin_mean": 7.105912162162162,
+          "origin_rival_margin_mean": 7.327787162162162,
+          "margin_ties": 4,
+          "wrong_rival_ties": 29,
+          "rival_changes": 176,
+          "old_rival_addressed_but_wrong": 4
+        }
+      }
+    }
+  },
+  "audit_limit": "Full vocabulary logits and feature tensors are not re-projected; strongest-rival identity and wrong-rival ties rely on retained native readouts."
+}

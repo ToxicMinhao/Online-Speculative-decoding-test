@@ -1,0 +1,5 @@
+Offline audit only; no model forwards or optimizer updates. Run `python export_results.py --root PRIVATE_COMPACT_ROOT --output NEW_OUTPUT_DIRECTORY`. The private sibling `dependencies/` contains authenticated PARENT_INPUTS.json and PARENT_FEATURE_IDENTITIES.json. Run CPU fixtures with `python -m unittest discover -p "test_*.py"`. The retrieval helper lists/hashes compact artifacts after process closure; it performs no network transfer. Actual model execution remains commit 225802657d630c0985abd68d6e7453f3e47c5b74.
+
+The independent_result_audit.py file is the exact independent script used. To repeat that check, place it alongside the private raw/, export_001/, RETRIEVAL.json, COMPACT_MANIFEST.json and compact_results.tar.gz delivery files. Its fixed file counts and hashes intentionally bind this completed execution.
+
+The exact supplement_results.py script is likewise placed beside the private delivery and its COLLECTION_COST_RECORDS_PRIVATE.json/INITIALIZATION_PRIVATE.json to reproduce additional allocation/timing tables. The first path-schema failure and corrected successful extraction are preserved outside Git.

@@ -1,0 +1,244 @@
+{
+  "status": "passed",
+  "verification_status": "ANALYZED",
+  "scope": "Independent local raw-file authentication and scalar arithmetic; no model rerun. No exporter or scientific module imports.",
+  "execution_commit": "225802657d630c0985abd68d6e7453f3e47c5b74",
+  "extra_model_work": 0,
+  "evidence": {
+    "files_verified": 1134,
+    "bytes_verified": 442061947,
+    "archive_sha256": "175cbffcda7117ee328c8d088195e3bcae2b0d9bf5bddf85e81752c89c3dc60f",
+    "manifest_sha256": "dd65e3f371b4c5b6a4f9385447fb3f02ceca68642d79a9940076f0ede3576cc5",
+    "measurements_sha256": "41c260d032cde90ba7a934f8f64b3d404e6553ed00d59a6e9fccbc3dad92c5ca",
+    "source_audit_script_sha256": "cdeacb9a84319031935a774084dc7b45ee55b8d94b1e3386c65a930b42deae65",
+    "exporter_raw_generations": 792,
+    "exporter_native_blocks": 47640
+  },
+  "serving": {
+    "requests": 128,
+    "repeats_per_request": 3,
+    "scored_generations": 768,
+    "separate_warmups": 24,
+    "totals": {
+      "CONTROL": {
+        "request_latency_s": 135.9983958390852,
+        "native_generate_s": 131.97567115848264,
+        "cache_maintenance_s": 0.057521622627973557,
+        "output_tokens": 50226.0,
+        "verification_calls": 7639.0,
+        "accepted_draft_tokens": 42580.0,
+        "native_accepted_draft_tokens": 42459.0,
+        "committed_progress": 50098.0
+      },
+      "FRONTIER_P": {
+        "request_latency_s": 136.02127209305763,
+        "native_generate_s": 131.99715377452472,
+        "cache_maintenance_s": 0.0565136739363273,
+        "output_tokens": 50226.0,
+        "verification_calls": 7637.0,
+        "accepted_draft_tokens": 42583.0,
+        "native_accepted_draft_tokens": 42461.0,
+        "committed_progress": 50098.0
+      }
+    },
+    "contrasts": {
+      "request_latency_s_reduction_pct": {
+        "value": -0.01682097338817634,
+        "ci95": [
+          -0.4870725461581643,
+          0.41004533455137876
+        ]
+      },
+      "native_generate_s_reduction_pct": {
+        "value": -0.016277709257694895,
+        "ci95": [
+          -0.4698558877675091,
+          0.4048688696008573
+        ]
+      },
+      "cache_maintenance_s_reduction_pct": {
+        "value": 1.7522953032205968,
+        "ci95": [
+          0.18883015932898456,
+          3.381602050754155
+        ]
+      },
+      "verification_call_reduction_pct": {
+        "value": 0.026181437360905946,
+        "ci95": [
+          -0.43924303953927435,
+          0.4625439086792245
+        ]
+      }
+    },
+    "call_changes": {
+      "wins": 50,
+      "regressions": 41,
+      "ties": 37,
+      "gross_calls_saved": 73,
+      "gross_calls_added": 71,
+      "net_calls_saved": 2
+    },
+    "repeat_latency_reduction_pct": [
+      0.03528533484294938,
+      -0.14935841165504282,
+      0.0636715509175545
+    ],
+    "bootstrap": {
+      "draws": 10000,
+      "seed": 20261125,
+      "generator": "PCG64",
+      "draw_sha256": "f6306d2449d775e38609cb8ba45833ca588815736e0605bed18ebaae5c8659a7",
+      "unit": "paired whole request after averaging its three timing repeats"
+    },
+    "conclusion": "completed_but_efficacy_unresolved"
+  },
+  "witnesses": {
+    "new_buffer": {
+      "responses": 8,
+      "blocks": 64,
+      "original_errors": 44,
+      "original_prefix_positions": 488,
+      "endpoints": {
+        "parent": {
+          "raw_repair": 0.0,
+          "useful_repair": 0.0,
+          "damaged_prefix_positions": 0.0,
+          "damaged_prefix_blocks": 0.0,
+          "surviving_followers": 60.0,
+          "reachable_followers": 0.0,
+          "matching_prefix_length": 488.0,
+          "fixed_K_shortfall": 104.0,
+          "assessment": 438.0764781758189,
+          "response_mean_assessment": 6.844944971497171
+        },
+        "CONTROL": {
+          "raw_repair": 33.0,
+          "useful_repair": 33.0,
+          "damaged_prefix_positions": 3.0,
+          "damaged_prefix_blocks": 2.0,
+          "surviving_followers": 58.0,
+          "reachable_followers": 39.0,
+          "matching_prefix_length": 656.0,
+          "fixed_K_shortfall": 35.0,
+          "assessment": 225.05929581914097,
+          "response_mean_assessment": 3.5165514971740777
+        },
+        "FRONTIER_P": {
+          "raw_repair": 36.0,
+          "useful_repair": 35.0,
+          "damaged_prefix_positions": 3.0,
+          "damaged_prefix_blocks": 2.0,
+          "surviving_followers": 59.0,
+          "reachable_followers": 52.0,
+          "matching_prefix_length": 676.0,
+          "fixed_K_shortfall": 21.0,
+          "assessment": 201.5699409879744,
+          "response_mean_assessment": 3.1495303279371
+        }
+      }
+    },
+    "parent_training": {
+      "responses": 8,
+      "blocks": 64,
+      "original_errors": 31,
+      "original_prefix_positions": 676,
+      "endpoints": {
+        "parent": {
+          "raw_repair": 0.0,
+          "useful_repair": 0.0,
+          "damaged_prefix_positions": 0.0,
+          "damaged_prefix_blocks": 0.0,
+          "surviving_followers": 33.0,
+          "reachable_followers": 0.0,
+          "matching_prefix_length": 676.0,
+          "fixed_K_shortfall": 64.0,
+          "assessment": 296.24689063685946,
+          "response_mean_assessment": 4.628857666200929
+        },
+        "CONTROL": {
+          "raw_repair": 10.0,
+          "useful_repair": 9.0,
+          "damaged_prefix_positions": 14.0,
+          "damaged_prefix_blocks": 10.0,
+          "surviving_followers": 30.0,
+          "reachable_followers": 12.0,
+          "matching_prefix_length": 675.0,
+          "fixed_K_shortfall": 75.0,
+          "assessment": 421.6128609427251,
+          "response_mean_assessment": 6.58770095223008
+        },
+        "FRONTIER_P": {
+          "raw_repair": 11.0,
+          "useful_repair": 10.0,
+          "damaged_prefix_positions": 14.0,
+          "damaged_prefix_blocks": 7.0,
+          "surviving_followers": 29.0,
+          "reachable_followers": 13.0,
+          "matching_prefix_length": 690.0,
+          "fixed_K_shortfall": 59.0,
+          "assessment": 442.86574973445386,
+          "response_mean_assessment": 6.9197773396008415
+        }
+      }
+    }
+  },
+  "limitations": [
+    "One warm-parent fork and one training seed, with a reused development panel.",
+    "The request bootstrap conditions on fixed endpoints; three timing repeats are not independent trained models or 384 independent requests.",
+    "Witness sets contain overlapping training blocks, not independent held-out evidence.",
+    "Stored margins permit formula checks, but strongest-wrong vocabulary rivals cannot be reprojected without model work.",
+    "Production selected-update actual/shadow parameter displacement norms were not recorded; integration BETA displacement is not a production substitute.",
+    "No equivalence margin was declared; intervals crossing zero do not establish equal performance.",
+    "Secondary intervals are unadjusted; a cache-maintenance interval does not establish complete-request benefit."
+  ],
+  "fallacy_scan": {
+    "checked": 11,
+    "findings": [
+      {
+        "name": "Simpson paradox",
+        "disposition": "No demonstrated paradox; repeat signs vary around zero. Keep new-buffer and parent-training witness sets separate because assessment changes have opposite directions."
+      },
+      {
+        "name": "Ecological fallacy",
+        "disposition": "Request-level bootstrap and wins are distinct from aggregate ratios. Do not infer universal request benefit or independent sample size from overlapping blocks."
+      },
+      {
+        "name": "Berkson selection",
+        "disposition": "Fixed reused first-128 panel and first-eight training witnesses limit representativeness. No outcome-conditioned filtering is applied."
+      },
+      {
+        "name": "Collider bias",
+        "disposition": "Panel, witnesses and common feedback were fixed before branch outcomes. Do not select only repaired or faster requests for the primary comparison."
+      },
+      {
+        "name": "Base-rate neglect",
+        "disposition": "Witness denominators retained: 44/31 original-error blocks and 488/676 original-prefix positions across new/parent sets."
+      },
+      {
+        "name": "Regression to mean",
+        "disposition": "Compare contemporaneous CONTROL and candidate from the same warm parent; before/after fitting alone does not show the candidate adds benefit."
+      },
+      {
+        "name": "Survivorship bias",
+        "disposition": "All 792 planned generations retained and valid; zero excluded invalids. Historical failed qualification remains a failed diagnostic."
+      },
+      {
+        "name": "Look-elsewhere effect",
+        "disposition": "Primary latency interval crosses zero. Secondary intervals are unadjusted; cache-maintenance change and favorable witness metrics cannot replace the primary outcome."
+      },
+      {
+        "name": "Garden of forking paths",
+        "disposition": "Prespecified counts, endpoints, seed and paired estimator retained. Disclose the prospective numerical-contract revision and unchanged earlier gate failure."
+      },
+      {
+        "name": "Correlation versus causation",
+        "disposition": "Controlled fork supports this fixed-run contrast, not general mechanism efficacy. Witness changes and derivative fidelity are not independent proof of serving benefit."
+      },
+      {
+        "name": "Reverse causality",
+        "disposition": "Training precedes serving and witness origins are frozen; no reverse-time selection route found. Post-update margin associations do not identify a causal mediator."
+      }
+    ]
+  }
+}

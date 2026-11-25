@@ -1,0 +1,351 @@
+{
+  "execution_commit": "225802657d630c0985abd68d6e7453f3e47c5b74",
+  "scope": "Retained production windows 1,64,128; scalar response/block reductions only",
+  "contrast_definition": "Per block maximum absolute centered score. The full signed per-token contrast range was not retained.",
+  "predicted_alignment_definition": "Sum over blocks of (assigned-beta)*score; centered form and variance identity retained separately. This is a local prediction, not measured endpoint benefit.",
+  "step_displacement_norms": {
+    "status": "unavailable",
+    "reason": "Not instrumented in production; no rerun or substitution"
+  },
+  "windows": [
+    {
+      "window": 1,
+      "global_step": 129,
+      "g0_global_norm_fp32": 0.4141637980937958,
+      "g0_clip_factor": 1.0,
+      "g0_clipping_active": false,
+      "g0_norm_scope": "FP32 global norm of native BF16 reference-gradient values",
+      "final_native_gradient_norm": 0.42578125,
+      "final_native_clipped": false,
+      "final_native_clip_factor": 1.0,
+      "final_native_clip_factor_scope": "Exact unity when retained native clipped flag is false; no clipped factor was separately logged",
+      "response_assessments": [
+        5.4096269607543945,
+        6.223016262054443
+      ],
+      "window_assessment": 5.816321611404419,
+      "score_s": 18.159805549308658,
+      "total_window_s": 23.331076418980956,
+      "responses": [
+        {
+          "response_ordinal": 0,
+          "blocks": 448,
+          "prefix_positions": 2875,
+          "prefix_pools": 407,
+          "multi_position_prefix_pools": 363,
+          "score_range": {
+            "minimum": -0.0010063480585813522,
+            "maximum": 0.017025429755449295
+          },
+          "weighted_mean_score_range": {
+            "minimum": -0.00025674031348899007,
+            "maximum": 0.0030385374557226896
+          },
+          "block_maximum_absolute_centered_score_range": {
+            "minimum": 0.0,
+            "maximum": 0.014918239787220955
+          },
+          "block_maximum_absolute_score_range": {
+            "minimum": 0.0,
+            "maximum": 0.017025429755449295
+          },
+          "reference_branch_blocks": 85,
+          "active_allocation_blocks": 363,
+          "reference_branch_multi_position_pools": 0,
+          "prefix_mass_before": 1681.1934299468994,
+          "prefix_mass_after": 1681.1934225559235,
+          "prefix_mass_signed_error": -7.3909759521484375e-06,
+          "prefix_mass_max_absolute_error": 4.76837158203125e-07,
+          "prefix_mass_l1_error": 4.076957702636719e-05,
+          "mass_moved_from_beta": 60.97311019897461,
+          "mass_moved_from_old_C": 98.99476623535156,
+          "sum_of_retained_block_half_l1_mass_moved": 60.97311295568943,
+          "predicted_signed_alignment": 0.06827527510190379,
+          "predicted_centered_alignment": 0.06827527482750972,
+          "variance_identity_rhs_sum": 0.06827527685747015,
+          "block_signed_alignment_range": {
+            "minimum": 0.0,
+            "maximum": 0.0022586658596992493
+          },
+          "block_centered_alignment_range": {
+            "minimum": 0.0,
+            "maximum": 0.002258666092529893
+          },
+          "raw_centered_alignment_difference_sum": 2.7439406384033676e-10
+        },
+        {
+          "response_ordinal": 1,
+          "blocks": 373,
+          "prefix_positions": 2414,
+          "prefix_pools": 339,
+          "multi_position_prefix_pools": 297,
+          "score_range": {
+            "minimum": -0.011931122280657291,
+            "maximum": 0.022756047546863556
+          },
+          "weighted_mean_score_range": {
+            "minimum": -0.0009675545152276754,
+            "maximum": 0.00753370113670826
+          },
+          "block_maximum_absolute_centered_score_range": {
+            "minimum": 0.0,
+            "maximum": 0.019219661131501198
+          },
+          "block_maximum_absolute_score_range": {
+            "minimum": 0.0,
+            "maximum": 0.022756047546863556
+          },
+          "reference_branch_blocks": 76,
+          "active_allocation_blocks": 297,
+          "reference_branch_multi_position_pools": 0,
+          "prefix_mass_before": 1404.1770129203796,
+          "prefix_mass_after": 1404.1770083904266,
+          "prefix_mass_signed_error": -4.5299530029296875e-06,
+          "prefix_mass_max_absolute_error": 4.76837158203125e-07,
+          "prefix_mass_l1_error": 2.9325485229492188e-05,
+          "mass_moved_from_beta": 56.85018539428711,
+          "mass_moved_from_old_C": 81.16511535644531,
+          "sum_of_retained_block_half_l1_mass_moved": 56.85018490999937,
+          "predicted_signed_alignment": 0.11912488804443018,
+          "predicted_centered_alignment": 0.11912488825839362,
+          "variance_identity_rhs_sum": 0.11912488883318867,
+          "block_signed_alignment_range": {
+            "minimum": 0.0,
+            "maximum": 0.0037496439181268215
+          },
+          "block_centered_alignment_range": {
+            "minimum": 0.0,
+            "maximum": 0.003749643452465534
+          },
+          "raw_centered_alignment_difference_sum": -2.1396344418614475e-10
+        }
+      ]
+    },
+    {
+      "window": 64,
+      "global_step": 192,
+      "g0_global_norm_fp32": 0.34790751338005066,
+      "g0_clip_factor": 1.0,
+      "g0_clipping_active": false,
+      "g0_norm_scope": "FP32 global norm of native BF16 reference-gradient values",
+      "final_native_gradient_norm": 0.361328125,
+      "final_native_clipped": false,
+      "final_native_clip_factor": 1.0,
+      "final_native_clip_factor_scope": "Exact unity when retained native clipped flag is false; no clipped factor was separately logged",
+      "response_assessments": [
+        6.575798034667969,
+        6.029752731323242
+      ],
+      "window_assessment": 6.3027753829956055,
+      "score_s": 14.640313206240535,
+      "total_window_s": 19.25610303133726,
+      "responses": [
+        {
+          "response_ordinal": 0,
+          "blocks": 440,
+          "prefix_positions": 2546,
+          "prefix_pools": 392,
+          "multi_position_prefix_pools": 344,
+          "score_range": {
+            "minimum": -0.007371908985078335,
+            "maximum": 0.013971522450447083
+          },
+          "weighted_mean_score_range": {
+            "minimum": -0.0011584428139030933,
+            "maximum": 0.0043529365211725235
+          },
+          "block_maximum_absolute_centered_score_range": {
+            "minimum": 0.0,
+            "maximum": 0.01246448140591383
+          },
+          "block_maximum_absolute_score_range": {
+            "minimum": 0.0,
+            "maximum": 0.013971522450447083
+          },
+          "reference_branch_blocks": 96,
+          "active_allocation_blocks": 344,
+          "reference_branch_multi_position_pools": 0,
+          "prefix_mass_before": 1552.5799868106842,
+          "prefix_mass_after": 1552.5799828767776,
+          "prefix_mass_signed_error": -3.933906555175781e-06,
+          "prefix_mass_max_absolute_error": 4.76837158203125e-07,
+          "prefix_mass_l1_error": 3.349781036376953e-05,
+          "mass_moved_from_beta": 62.924110412597656,
+          "mass_moved_from_old_C": 98.90438079833984,
+          "sum_of_retained_block_half_l1_mass_moved": 62.92410957813263,
+          "predicted_signed_alignment": 0.10659712527609533,
+          "predicted_centered_alignment": 0.10659712633945058,
+          "variance_identity_rhs_sum": 0.106597124780421,
+          "block_signed_alignment_range": {
+            "minimum": 0.0,
+            "maximum": 0.004360976628959179
+          },
+          "block_centered_alignment_range": {
+            "minimum": 0.0,
+            "maximum": 0.004360976628959179
+          },
+          "raw_centered_alignment_difference_sum": -1.063355258873629e-09
+        },
+        {
+          "response_ordinal": 1,
+          "blocks": 300,
+          "prefix_positions": 1941,
+          "prefix_pools": 270,
+          "multi_position_prefix_pools": 235,
+          "score_range": {
+            "minimum": -0.00442070746794343,
+            "maximum": 0.024975748732686043
+          },
+          "weighted_mean_score_range": {
+            "minimum": -0.00442070746794343,
+            "maximum": 0.005509217735379934
+          },
+          "block_maximum_absolute_centered_score_range": {
+            "minimum": 0.0,
+            "maximum": 0.01946653053164482
+          },
+          "block_maximum_absolute_score_range": {
+            "minimum": 0.0,
+            "maximum": 0.024975748732686043
+          },
+          "reference_branch_blocks": 65,
+          "active_allocation_blocks": 235,
+          "reference_branch_multi_position_pools": 0,
+          "prefix_mass_before": 1106.9429502487183,
+          "prefix_mass_after": 1106.9429395198822,
+          "prefix_mass_signed_error": -1.0728836059570312e-05,
+          "prefix_mass_max_absolute_error": 4.76837158203125e-07,
+          "prefix_mass_l1_error": 2.6464462280273438e-05,
+          "mass_moved_from_beta": 40.916316986083984,
+          "mass_moved_from_old_C": 63.28570556640625,
+          "sum_of_retained_block_half_l1_mass_moved": 40.91631866246462,
+          "predicted_signed_alignment": 0.0856825026802874,
+          "predicted_centered_alignment": 0.08568250445280032,
+          "variance_identity_rhs_sum": 0.08568250336085412,
+          "block_signed_alignment_range": {
+            "minimum": 0.0,
+            "maximum": 0.004207365680485964
+          },
+          "block_centered_alignment_range": {
+            "minimum": 0.0,
+            "maximum": 0.004207366146147251
+          },
+          "raw_centered_alignment_difference_sum": -1.772512914303406e-09
+        }
+      ]
+    },
+    {
+      "window": 128,
+      "global_step": 256,
+      "g0_global_norm_fp32": 0.2861177623271942,
+      "g0_clip_factor": 1.0,
+      "g0_clipping_active": false,
+      "g0_norm_scope": "FP32 global norm of native BF16 reference-gradient values",
+      "final_native_gradient_norm": 0.294921875,
+      "final_native_clipped": false,
+      "final_native_clip_factor": 1.0,
+      "final_native_clip_factor_scope": "Exact unity when retained native clipped flag is false; no clipped factor was separately logged",
+      "response_assessments": [
+        8.371546745300293,
+        4.8275885581970215
+      ],
+      "window_assessment": 6.599567651748657,
+      "score_s": 15.436367923393846,
+      "total_window_s": 20.176871318370104,
+      "responses": [
+        {
+          "response_ordinal": 0,
+          "blocks": 441,
+          "prefix_positions": 3843,
+          "prefix_pools": 416,
+          "multi_position_prefix_pools": 384,
+          "score_range": {
+            "minimum": -0.0038943488616496325,
+            "maximum": 0.01637917198240757
+          },
+          "weighted_mean_score_range": {
+            "minimum": -0.0004904242232441902,
+            "maximum": 0.003358157817274332
+          },
+          "block_maximum_absolute_centered_score_range": {
+            "minimum": 0.0,
+            "maximum": 0.014929314143955708
+          },
+          "block_maximum_absolute_score_range": {
+            "minimum": 0.0,
+            "maximum": 0.01637917198240757
+          },
+          "reference_branch_blocks": 57,
+          "active_allocation_blocks": 384,
+          "reference_branch_multi_position_pools": 0,
+          "prefix_mass_before": 2029.5145952701569,
+          "prefix_mass_after": 2029.5145735740662,
+          "prefix_mass_signed_error": -2.1696090698242188e-05,
+          "prefix_mass_max_absolute_error": 4.76837158203125e-07,
+          "prefix_mass_l1_error": 5.364418029785156e-05,
+          "mass_moved_from_beta": 63.65929412841797,
+          "mass_moved_from_old_C": 102.69977569580078,
+          "sum_of_retained_block_half_l1_mass_moved": 63.65929535031319,
+          "predicted_signed_alignment": 0.0787997185452039,
+          "predicted_centered_alignment": 0.07879971655226142,
+          "variance_identity_rhs_sum": 0.07879971738091651,
+          "block_signed_alignment_range": {
+            "minimum": 0.0,
+            "maximum": 0.0027397177182137966
+          },
+          "block_centered_alignment_range": {
+            "minimum": 0.0,
+            "maximum": 0.002739717485383153
+          },
+          "raw_centered_alignment_difference_sum": 1.9929424645469197e-09
+        },
+        {
+          "response_ordinal": 1,
+          "blocks": 324,
+          "prefix_positions": 3451,
+          "prefix_pools": 319,
+          "multi_position_prefix_pools": 311,
+          "score_range": {
+            "minimum": -0.01771601289510727,
+            "maximum": 0.04982628673315048
+          },
+          "weighted_mean_score_range": {
+            "minimum": -0.0009309393353760242,
+            "maximum": 0.004756550304591656
+          },
+          "block_maximum_absolute_centered_score_range": {
+            "minimum": 0.0,
+            "maximum": 0.04880955070257187
+          },
+          "block_maximum_absolute_score_range": {
+            "minimum": 0.0,
+            "maximum": 0.04982628673315048
+          },
+          "reference_branch_blocks": 13,
+          "active_allocation_blocks": 311,
+          "reference_branch_multi_position_pools": 0,
+          "prefix_mass_before": 1733.224051475525,
+          "prefix_mass_after": 1733.2240253686905,
+          "prefix_mass_signed_error": -2.6106834411621094e-05,
+          "prefix_mass_max_absolute_error": 4.76837158203125e-07,
+          "prefix_mass_l1_error": 4.8995018005371094e-05,
+          "mass_moved_from_beta": 46.09363555908203,
+          "mass_moved_from_old_C": 74.50906372070312,
+          "sum_of_retained_block_half_l1_mass_moved": 46.09363652020693,
+          "predicted_signed_alignment": 0.10660553869055149,
+          "predicted_centered_alignment": 0.10660554006631309,
+          "variance_identity_rhs_sum": 0.10660554051839508,
+          "block_signed_alignment_range": {
+            "minimum": 0.0,
+            "maximum": 0.007113645318895578
+          },
+          "block_centered_alignment_range": {
+            "minimum": 0.0,
+            "maximum": 0.007113645318895578
+          },
+          "raw_centered_alignment_difference_sum": -1.3757616083680257e-09
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "status": "passed",
+  "execution_commit": "225802657d630c0985abd68d6e7453f3e47c5b74",
+  "clock_at_completion": {
+    "first_gpu_action_epoch": 1795615777.8640497,
+    "new_phase_elapsed_s": 6612.312294721603,
+    "prior_occupied_card_s": 550.7010530568659,
+    "production_occupied_card_s": 4624.345974206924,
+    "cumulative_occupied_card_s": 5175.04702726379,
+    "active": null
+  },
+  "historical_clock": {
+    "schema": "frontier_allocation_phase_clock_v2",
+    "first_gpu_action_epoch": 1795615777.8640497,
+    "elapsed_limit_s": 14400,
+    "occupied_card_limit_s": 28800,
+    "prior_occupied_card_s": 267.4240171853453,
+    "historical_first_gpu_action_epoch": 1795608216.883463,
+    "historical_elapsed_interval_s": 3465.673397064209,
+    "prior_completion_to_new_phase_s": 4095.3071897029877,
+    "gap_scope": "user review and CPU implementation/staging; no occupied GPU time claimed"
+  },
+  "a800_free_bytes": 407983222784,
+  "a800_charged_bytes": 24112713728,
+  "local_allocated_bytes_including_retrieval": 848429056,
+  "all_locations_charged_bytes": 24961142784,
+  "limits": {
+    "elapsed_s": 14400,
+    "occupied_card_s": 28800,
+    "allocated_bytes": 40000000000,
+    "reserve_bytes": 400000000000
+  },
+  "gpu_processes_at_postflight": "",
+  "all_inherited_artifacts_preserved": true,
+  "source_and_endpoint_hashes_passed": true,
+  "scope": "Postflight + local delivery footprint; measured after model work. Final public files add only compact metadata.",
+  "operator_cleanup_removed_paths": [],
+  "automatic_new_redundant_feature_retirement": {
+    "status": "passed",
+    "completed_preparations": 128,
+    "equivalence_checks": 128,
+    "removed_files": 256,
+    "removed_bytes": 3719815616,
+    "validation_wall_s": 2.33008717559278,
+    "retirement_wall_s": 0.6214258689433336,
+    "scope": "Only redundant newly generated native-capture and terminal-feature tensors; replacement prepared packet exactly preserves all rows/tokens/masks. No inherited deletion.",
+    "private_exact_path_receipt_sha256": "44f0eb2d47b842a222c21a264217457e8afb9e7c692da48f885654a513ed6ae1",
+    "retained_prepared_packets": 128,
+    "additional_model_forwards": 0
+  },
+  "snapshot_scope": "After main and supplemental delivery/public report assembly; filesystem accounting, no future deletion credit."
+}
