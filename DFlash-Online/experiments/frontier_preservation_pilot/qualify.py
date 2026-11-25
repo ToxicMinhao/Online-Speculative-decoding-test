@@ -69,6 +69,10 @@ def verify_original_records(plan):
         required.update(str(Path(plan['completed_localization']) / name)
                         for name in ('derivative_support_001/RESULT.json',
                                      'derivative_support_001/LOCALIZATION.json'))
+    if plan.get('failed_transpose'):
+        required.update(str(Path(plan['failed_transpose']) / name)
+                        for name in ('derivative_support_001/RESULT.json',
+                                     'derivative_support_001/MODEL.json'))
     if not required <= plan['prior_record_identities'].keys():
         raise ValueError('Repair plan omits an original clock, process, result or window binding')
     for path, expected in plan['prior_record_identities'].items():

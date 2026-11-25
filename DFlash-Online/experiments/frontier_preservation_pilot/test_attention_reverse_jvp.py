@@ -58,6 +58,16 @@ class OpaqueSquare(torch.autograd.Function):
         return RejectDoubleBackward.apply(2 * value * incoming)
 
 
+class SingleUseAttention(OpaqueAttention):
+    """Model the compiled donated-buffer policy at the native VJP boundary."""
+
+    @staticmethod
+    def backward(ctx, incoming):
+        if torch.is_grad_enabled() or torch._C._autograd._get_current_graph_task_keep_graph():
+            raise RuntimeError('fixture native buffers require a single-use first backward')
+        return OpaqueAttention.backward(ctx, incoming)
+
+
 class CotangentTransposeTests(unittest.TestCase):
     def setUp(self):
         self.generator = torch.Generator().manual_seed(3501)
@@ -100,18 +110,57 @@ class CotangentTransposeTests(unittest.TestCase):
                 actual = torch.autograd.grad(output, values, cotangent, retain_graph=True)
                 for left, right in zip(actual, expected):
                     torch.testing.assert_close(left, right, rtol=0, atol=0)
-                tangent = self.transpose(output, values, directions)
+                # First-VJP identity and transpose are independent checks; each
+                # owns a fresh native forward whose inner graph is used once.
+                transpose_output = wrapped(*values, enable_gqa=True)
+                tangent = self.transpose(transpose_output, values, directions)
                 _, expected_tangent = torch.autograd.functional.jvp(
                     dense_attention, tuple(values), tuple(directions)
                 )
                 torch.testing.assert_close(
                     tangent, expected_tangent, rtol=tolerance, atol=tolerance
                 )
-                self.assertEqual(accounting['native_primal_forwards'], 1)
+                self.assertEqual(accounting['native_primal_forwards'], 2)
                 self.assertEqual(accounting['native_first_vjps'], 2)
                 self.assertEqual(accounting['cotangent_transposes'], 1)
                 self.assertEqual(accounting['derivative_fp32_precision'], 'ieee')
                 self.assertTrue(accounting['precision_restored'])
+
+    def test_transpose_consumes_native_inner_graph_once_without_retention(self):
+        values, directions = self.inputs()
+        saved_values = []
+
+        def native(query, key, value, *, return_aux=None, **kwargs):
+            output = SingleUseAttention.apply(query, key, value)
+            _, auxiliary = dense_attention(query, key, value, return_aux=True)
+            for tensor in (query, key, value, output, auxiliary.lse):
+                saved_values.append((tensor, tensor.detach().clone()))
+            return (output, auxiliary) if return_aux else output
+
+        accounting = {}
+        wrapper = attention_reverse_jvp_wrapper(native, accounting)
+        actual = self.transpose(wrapper(*values, enable_gqa=True), values, directions)
+        _, expected = torch.autograd.functional.jvp(
+            dense_attention, tuple(values), tuple(directions)
+        )
+        torch.testing.assert_close(actual, expected, rtol=1e-10, atol=1e-10)
+        for tensor, before in saved_values:
+            torch.testing.assert_close(tensor, before, rtol=0, atol=0)
+        self.assertEqual(accounting['native_primal_forwards'], 1)
+        self.assertEqual(accounting['native_first_vjps'], 1)
+        self.assertEqual(accounting['cotangent_transposes'], 1)
+
+    def test_repeated_native_vjp_requires_a_fresh_outer_forward(self):
+        values, _ = self.inputs()
+        accounting = {}
+        output = attention_reverse_jvp_wrapper(dense_attention, accounting)(
+            *values, enable_gqa=True
+        )
+        incoming = torch.ones_like(output)
+        torch.autograd.grad(output, values, incoming, retain_graph=True)
+        with self.assertRaisesRegex(RuntimeError, 'already consumed; run a fresh forward'):
+            torch.autograd.grad(output, values, incoming, retain_graph=True)
+        self.assertEqual(accounting['native_first_vjps'], 1)
 
     def test_native_bf16_primal_and_first_vjp_are_exact(self):
         values, _ = self.inputs(torch.bfloat16)

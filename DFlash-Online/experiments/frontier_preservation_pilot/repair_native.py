@@ -298,8 +298,8 @@ def qualify_transposed_model(
         fixed_cotangent='same nonzero retained diagnostic cotangent',
         native_reference_contraction_exact=True,
         native_backward_reference=reference_dot,
-        native_primal_bit_equal=False,
-        ordinary_backward_bit_equal=False,
+        native_primal_bit_equal=None,
+        ordinary_backward_bit_equal=None,
         parameter_hessian_requested=False,
     )
     write_json(destination, receipt)

@@ -19,7 +19,7 @@ INPUT_IDENTITY = dict(bytes=32309622, sha256='df7194e667126f34f8e2ab2f6e22e2e548
 
 
 def prepare(parent_plan, root, source_manifest, execution_commit, original_run=None,
-            failed_repair=None, completed_localization=None):
+            failed_repair=None, completed_localization=None, failed_transpose=None):
     root = Path(root)
     root.mkdir(parents=True, exist_ok=False)
     parent, recovery, selected = select_parent(parent_plan)
@@ -121,6 +121,27 @@ def prepare(parent_plan, root, source_manifest, execution_commit, original_run=N
             original_process=str(localized / 'QUALIFICATION_PROCESS.json'),
             prior_occupied_card_s=local_process['cumulative_occupied_card_s'],
         )
+    if failed_transpose is not None:
+        if completed_localization is None:
+            raise ValueError('The single-use graph repair retains the completed localization')
+        failed = Path(failed_transpose)
+        failed_result = json.loads((failed / 'derivative_support_001/RESULT.json').read_text())
+        previous = json.loads((failed / 'QUALIFICATION_PROCESS.json').read_text())
+        previous_plan = json.loads((failed / 'PLAN.json').read_text())
+        if (failed_result['status'] != 'failed' or failed_result['native_adam_steps'] != 0
+                or 'donated buffers' not in failed_result.get('error', '')):
+            raise ValueError('Require the preserved internal graph-retention failure')
+        records = [failed / name for name in ('PLAN.json', 'QUALIFICATION_PROCESS.json',
+                   'derivative_support_001/RESULT.json', 'derivative_support_001/MODEL.json')]
+        plan['prior_record_identities'].update({str(path): identity(path) for path in records})
+        plan['prior_charged_roots'].extend(
+            [str(failed), str(Path(previous_plan['source_manifest']).parent)])
+        plan.update(
+            failed_transpose=str(failed),
+            original_process=str(failed / 'QUALIFICATION_PROCESS.json'),
+            prior_occupied_card_s=previous['cumulative_occupied_card_s'],
+            implementation_fix='Consume each inner native backward graph exactly once',
+        )
     write_json(root / 'PLAN.json', plan)
     if plan['status'] != 'admitted':
         raise RuntimeError('Derivative-only resource admission failed; production is not admitted')
@@ -136,7 +157,9 @@ if __name__ == '__main__':
     parser.add_argument('--original-run')
     parser.add_argument('--failed-repair')
     parser.add_argument('--completed-localization')
+    parser.add_argument('--failed-transpose')
     args = parser.parse_args()
     plan = prepare(args.parent_plan, args.root, args.source_manifest, args.execution_commit,
-                   args.original_run, args.failed_repair, args.completed_localization)
+                   args.original_run, args.failed_repair, args.completed_localization,
+                   args.failed_transpose)
     print(json.dumps({key: plan[key] for key in ('status', 'free_bytes', 'production_admitted')}))

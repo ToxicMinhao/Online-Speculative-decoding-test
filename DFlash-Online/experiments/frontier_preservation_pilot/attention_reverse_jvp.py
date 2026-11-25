@@ -29,16 +29,25 @@ class _NativeState:
     lse: torch.Tensor
     options: dict
     accounting: dict
+    native_graph_used: bool = False
 
 
 def _native_vjp(incoming, state):
-    """A native first-order VJP; its opaque backward is never differentiated."""
+    """Consume one native graph; the later transpose uses only its primal values.
+
+    No second native backward is needed. AOT buffer donation excludes forward
+    inputs and public outputs, which protect our Q/K/V, output and returned LSE.
+    Independent VJP checks must each construct a fresh outer forward.
+    """
+    if state.native_graph_used:
+        raise RuntimeError('Native attention graph already consumed; run a fresh forward')
+    state.native_graph_used = True
     gradients = torch.autograd.grad(
         state.output,
         state.inputs,
         grad_outputs=incoming.detach(),
         create_graph=False,
-        retain_graph=True,
+        retain_graph=False,
         allow_unused=False,
     )
     state.accounting['native_first_vjps'] = state.accounting.get('native_first_vjps', 0) + 1
