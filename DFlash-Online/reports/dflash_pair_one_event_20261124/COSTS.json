@@ -1,0 +1,38 @@
+{
+  "historical_qualification": {
+    "occupied_s": 554.4458146095276,
+    "elapsed_s": 288.52369570732117,
+    "active": {}
+  },
+  "new_scientific_work": {
+    "occupied_card_s": 0,
+    "gpu_elapsed_s": 0,
+    "clock_created": false
+  },
+  "historical_plus_new": {
+    "occupied_card_s": 554.4458146095276,
+    "summed_model_action_elapsed_s": 288.52369570732117
+  },
+  "cpu_preflight": {
+    "command": "source /data/sources/minhao/EAGLE_SPEC/setup/a800/a800_env.sh && cd /data/sources/minhao/pair_one_event_source_20261124_001/DFlash-Online && env PYTHONDONTWRITEBYTECODE=1 CUDA_VISIBLE_DEVICES= PYTHONPATH=/data/sources/minhao/pair_one_event_source_20261124_001/DFlash-Online:/data/sources/minhao/pair_one_event_source_20261124_001/DFlash-Online/training:/data/sources/minhao/pair_one_event_source_20261124_001/DFlash-Online/inference /data/conda_envs/minhao/dflash_specforge_20261022/bin/python -m experiments.repair_conditional_kl_pilot.prepare_production --source-run /data/sources/minhao/runs/dflash_opencode_native_comparison_20261120 --qualification-run /data/sources/minhao/runs/dflash_repair_conditional_kl_20261124/execution_001 --root /data/sources/minhao/runs/dflash_pair_one_event_20261124/execution_001 --execution-commit 416cb7931028621c09b8fa983e53fc8a7dcebaab --source-root /data/sources/minhao/pair_one_event_source_20261124_001/DFlash-Online --transfer-probe /data/sources/minhao/pair_one_event_source_20261124_001/TRANSFER_PROBE.json",
+    "exit_code": 0,
+    "wall_s": 27.047646325081587,
+    "gpu_work_requested": false
+  },
+  "transfer_probe_wall_s": 141.58277343027294,
+  "forecast_if_storage_is_admitted": {
+    "retained_source": "PR56 C event1 update589.38s + feedback154.95s per arm; first128 F maximum139.822s/pass",
+    "scored_passes": 6,
+    "expected_elapsed_s": 3600,
+    "conservative_elapsed_s": 7200,
+    "conservative_card_s": 12600,
+    "report_reserved_s": 600,
+    "includes": "both own events, startup, three witness readouts, graph/loading/export, 768 scores, 24 warmups and reporting",
+    "admitted_feature_transfer_seconds": 0,
+    "transfer_strategy": "none for local_single/local_split",
+    "rejected_transfer_probe": "/data/sources/minhao/runs/dflash_pair_one_event_20261124/execution_001/sealed/REJECTED_TRANSFER_PROBE.json"
+  },
+  "training_memory_and_latency": null,
+  "serving_cost": null,
+  "note": "The three-hour production clock has not started. Historical qualification costs are not reexecuted work; CPU implementation time is not GPU event cost."
+}

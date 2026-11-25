@@ -1,0 +1,79 @@
+{
+  "status": "reused_passed",
+  "qualified_execution_commit": "79b8c076610e9b4d310169b3891cb76ac6d0f9bb",
+  "reviewed_publication_commit": "e38c942b5f607bb0b816cb05f3535a78c48110ec",
+  "qualified_plan_binding": "80ff86a4e62e442e0e78138a69f8167d5f28e1222d33d4038aa01af7f5756874",
+  "authenticated_evidence_files": 85,
+  "new_optimizer_steps": 0,
+  "new_generations": 0,
+  "new_model_forwards": 0,
+  "source_authentication": {
+    "status": "passed",
+    "qualified_execution_commit": "79b8c076610e9b4d310169b3891cb76ac6d0f9bb",
+    "execution_commit": "416cb7931028621c09b8fa983e53fc8a7dcebaab",
+    "scientific_dependencies_unchanged": true,
+    "reviewed_plumbing_changes": [
+      "experiments/repair_conditional_kl_pilot/campaign.py",
+      "experiments/repair_conditional_kl_pilot/prepare_production.py",
+      "experiments/repair_conditional_kl_pilot/production.py",
+      "experiments/repair_conditional_kl_pilot/production_storage.py",
+      "experiments/repair_conditional_kl_pilot/resources.py",
+      "experiments/repair_conditional_kl_pilot/test_prepare_production.py",
+      "experiments/repair_conditional_kl_pilot/test_production.py",
+      "experiments/repair_conditional_kl_pilot/test_production_storage.py",
+      "experiments/repair_conditional_kl_pilot/test_witness.py",
+      "experiments/repair_conditional_kl_pilot/witness.py"
+    ],
+    "nonruntime_publication_changes": [
+      "experiments/repair_conditional_kl_pilot/README.md",
+      "reports/dflash_repair_conditional_kl_20261124/ARTIFACTS.json",
+      "reports/dflash_repair_conditional_kl_20261124/AUDIT.json",
+      "reports/dflash_repair_conditional_kl_20261124/BASE.yaml",
+      "reports/dflash_repair_conditional_kl_20261124/COSTS.json",
+      "reports/dflash_repair_conditional_kl_20261124/CPU_CORE_INHERITED_RETAINED.log",
+      "reports/dflash_repair_conditional_kl_20261124/CPU_OBJECTIVE_FINAL.log",
+      "reports/dflash_repair_conditional_kl_20261124/CPU_PILOT_FINAL.log",
+      "reports/dflash_repair_conditional_kl_20261124/DELIVERY_RESOURCE.json",
+      "reports/dflash_repair_conditional_kl_20261124/ENDPOINTS.json",
+      "reports/dflash_repair_conditional_kl_20261124/IDENTITIES.json",
+      "reports/dflash_repair_conditional_kl_20261124/INDEPENDENT_REVIEW.json",
+      "reports/dflash_repair_conditional_kl_20261124/MECHANISM.json",
+      "reports/dflash_repair_conditional_kl_20261124/PAIR.yaml",
+      "reports/dflash_repair_conditional_kl_20261124/QUALIFICATION_REQUESTS.csv",
+      "reports/dflash_repair_conditional_kl_20261124/REPORT.md",
+      "reports/dflash_repair_conditional_kl_20261124/build_public_results.py",
+      "reports/dflash_repair_conditional_kl_20261124/collect_finished_qualification.py"
+    ],
+    "staged_source_files": 5062
+  },
+  "runtime_authentication": {
+    "training_environment": {
+      "python": "3.12.15",
+      "torch": "2.13.0+cu130",
+      "transformers": "5.12.1"
+    },
+    "native_runtime": {
+      "python_version": "3.12.14",
+      "torch": "2.9.1+cu130",
+      "transformers": "4.57.1",
+      "cuda": "13.0",
+      "native_runtime_sha256": {
+        "speculative/dflash_worker.py": "9397402f5cfbf60b00b7d27d551e5e9e1b605be9b084d028d4ddda76c475dc8c",
+        "speculative/dflash_info.py": "9c7ac23a1bf0840eec8218f02f2adbfc3e419099cd19822137ce5c6e0e902218",
+        "layers/logits_processor.py": "5c6c54bec37b941652e29908c773a756fe6c86f99932ab80043672a1eaa0f086",
+        "models/qwen3.py": "e23ee8af21eac46685852854a5fe585cf58477d4a1f8047887d6afeefaf8e32d",
+        "models/dflash.py": "d4fcfe005a1acc51a4938d038e1dbc1a2c8ff245842f4253338527335b2327b2",
+        "entrypoints/engine.py": "2bcd4b04c325d4ed65f867490c5bac9e915e02f05471c83dacb5a4a097cf1f2a",
+        "server_args.py": "bd60199803698e4ffe6dc44499a8d42be73f42db28056cb6750411523cf56c04"
+      }
+    },
+    "cuda_initialized": false,
+    "training_python": "/data/conda_envs/minhao/dflash_specforge_20261022/bin/python3.12",
+    "specforge_source": "/data/sources/minhao/pair_one_event_source_20261124_001/DFlash-Online/training/specforge/__init__.py"
+  },
+  "origin_policy": "Fresh released model, empty Adam and seed17 required; old qualification states are not origins.",
+  "receipt_identity": {
+    "bytes": 26271,
+    "sha256": "0ce4bcd1ccb209c1fe1cab7dbb89abb1754dae8dc46c6bd1bf20c757bce3ce6f"
+  }
+}

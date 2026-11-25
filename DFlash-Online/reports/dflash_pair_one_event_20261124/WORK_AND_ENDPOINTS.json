@@ -1,0 +1,86 @@
+{
+  "status": "resource_blocked_before_new_GPU_work",
+  "execution_commit": "416cb7931028621c09b8fa983e53fc8a7dcebaab",
+  "new_gpu_clock_started": false,
+  "new_qualification_steps": 0,
+  "production": {
+    "feedback_generation": {
+      "planned": 256,
+      "completed": 0,
+      "unattempted": 256
+    },
+    "teacher_preparation": {
+      "planned": 256,
+      "completed": 0,
+      "unattempted": 256
+    },
+    "response_forward": {
+      "planned": 512,
+      "completed": 0,
+      "unattempted": 512
+    },
+    "response_backward": {
+      "planned": 512,
+      "completed": 0,
+      "unattempted": 512
+    },
+    "adam": {
+      "planned": 256,
+      "completed": 0,
+      "unattempted": 256
+    },
+    "scored_generation": {
+      "planned": 768,
+      "completed": 0,
+      "unattempted": 768
+    },
+    "warmup_generation": {
+      "planned": 24,
+      "completed": 0,
+      "unattempted": 24
+    },
+    "startup_response_forward": {
+      "planned": 4,
+      "completed": 0,
+      "unattempted": 4
+    },
+    "startup_response_backward": {
+      "planned": 4,
+      "completed": 0,
+      "unattempted": 4
+    },
+    "witness_draft_forward": {
+      "planned_maximum": 24,
+      "completed": 0,
+      "unattempted_maximum": 24
+    }
+  },
+  "endpoints": {
+    "BASE1": {
+      "status": "not_created",
+      "completed_events": 0,
+      "optimizer_steps": 0
+    },
+    "PAIR1": {
+      "status": "not_created",
+      "completed_events": 0,
+      "optimizer_steps": 0
+    }
+  },
+  "comparison": {
+    "latency_reduction": null,
+    "latency_95pct_CI": null,
+    "call_reduction": null,
+    "witness_margin_changes": null,
+    "useful_repairs": null,
+    "prefix_damage": null,
+    "reason": "No production endpoint or scored/witness observation exists"
+  },
+  "failures": {
+    "new_gpu_failures": 0,
+    "new_retries": 0,
+    "new_unknown_work": 0,
+    "invalid_measurements": 0
+  },
+  "interpretation": "Not an unfavorable efficacy result; efficacy is unassessed."
+}
