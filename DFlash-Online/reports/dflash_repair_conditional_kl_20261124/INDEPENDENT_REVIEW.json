@@ -1,0 +1,159 @@
+{
+  "status": "passed",
+  "blocking_findings": [],
+  "execution_commit": "79b8c076610e9b4d310169b3891cb76ac6d0f9bb",
+  "review_scope": "Independent local arithmetic, receipt integrity, public privacy, resource and interpretation review; no remote access, model work, test execution or scientific edits.",
+  "inputs": {
+    "private_receipts": "result_private/RETRIEVAL_MANIFEST.json",
+    "handoff": "preparation/HANDOFF.txt",
+    "public_files": {
+      "ARTIFACTS.json": {
+        "bytes": 25405,
+        "sha256": "7cfc21b688b38d0354fe0dbe37269c60f96bfad4f70e3491a5dfcdaea18106e2"
+      },
+      "AUDIT.json": {
+        "bytes": 3735,
+        "sha256": "f6fae7b5580695fe2bd9bfbe40626a48d0ed1ac99a44c15342ae3502078d1334"
+      },
+      "BASE.yaml": {
+        "bytes": 1536,
+        "sha256": "b64971271116935c06c265c4c75b9078446c86ceb7c7e4e82af943a931d4fdb2"
+      },
+      "COSTS.json": {
+        "bytes": 28374,
+        "sha256": "f904b0cd2c80f5307417bd392751bfc45dea39edc780400b9f47af023573beee"
+      },
+      "CPU_CORE_INHERITED_RETAINED.log": {
+        "bytes": 9142,
+        "sha256": "b193d45a16ea74f58d26fba0f746d1207d481550cc08916d8a69b0cc044379e4"
+      },
+      "CPU_OBJECTIVE_FINAL.log": {
+        "bytes": 2235,
+        "sha256": "591740f3f878458ae5a03374510795d05a3e117cf89866023296431de4cf5665"
+      },
+      "CPU_PILOT_FINAL.log": {
+        "bytes": 4195,
+        "sha256": "77afe0d23a59af957d97247afd5f03e3a6084d4f6f7c936ff18bdda0bd53bd8e"
+      },
+      "DELIVERY_RESOURCE.json": {
+        "bytes": 539,
+        "sha256": "4214852302541f6a4696e8a8c0b58f97761853defd8885d6dc09204798310ab7"
+      },
+      "ENDPOINTS.json": {
+        "bytes": 684,
+        "sha256": "35ce9bc56115cc58bba971ad190010d52ca38e5ec48dd3aafb37d7c39fe94d29"
+      },
+      "IDENTITIES.json": {
+        "bytes": 18708,
+        "sha256": "107a9a4f4e9a6b2235852178157a7bf1d4ecedfaac616ac13d811dc9124784fc"
+      },
+      "MECHANISM.json": {
+        "bytes": 18166,
+        "sha256": "2866eb030a32fe61aa70ff67399092d337ebaba610f54b46ea71b30e5a31d4e9"
+      },
+      "PAIR.yaml": {
+        "bytes": 1536,
+        "sha256": "47a14619b59d252f8528d7bb3ee2685ac3e9baf3c3024560aea8483802c3ea2f"
+      },
+      "QUALIFICATION_REQUESTS.csv": {
+        "bytes": 1997,
+        "sha256": "7539e7c7969ba4ff032fcd501d136060bdf746abe784799a5573db0fb6f44789"
+      },
+      "REPORT.md": {
+        "bytes": 12198,
+        "sha256": "860bca91dba29a180a506075fbc57fa61b8c97184ff4f9fac1c79f2920a64dfc"
+      },
+      "build_public_results.py": {
+        "bytes": 12150,
+        "sha256": "83d9821da11a4075c48d96b6160ced17e99f368eccb28ea9458d2de5e2e1b597"
+      },
+      "collect_finished_qualification.py": {
+        "bytes": 4396,
+        "sha256": "ec6d23baa01e43c8060b0947f63778ef9b2750a4b34aa406ef1bf1b78a000fc6"
+      }
+    }
+  },
+  "checks": {
+    "retrieved_receipt_sha256_and_size_matches": 79,
+    "receipt_mismatches": 0,
+    "csv_rows_exactly_match_retained_native_scalars": 8,
+    "native_count_identity": "native_accepted_draft_tokens = committed_progress - verification_calls in every row",
+    "mechanism": "Original response observations match retained per-response JSONL; mean of separately normalized responses, repair-row aggregates, anchor digests, clipping and gradient values recomputed.",
+    "identities": "Published execution/source/model/runtime/serving/input bindings and arm configs match sealed receipts; artifact hashes match training receipts.",
+    "work": {
+      "feedback_generations": 4,
+      "reload_generations": 4,
+      "learning_response_forwards": 4,
+      "learning_response_backwards": 4,
+      "learning_Adam_steps": 2,
+      "startup_response_forwards": 4,
+      "startup_response_backwards": 4,
+      "startup_Adam_steps": 0,
+      "terminal_teacher_forwards": 4,
+      "terminal_teacher_input_rows": 2388,
+      "terminal_teacher_seconds": 0.19750699028372765,
+      "initial_graph_model_forwards": 102,
+      "verification_rounds": 1064,
+      "prefills": 8,
+      "unknown_operations": 0
+    },
+    "mechanism_pair": {
+      "repair_rows": 557,
+      "active_rows": 467,
+      "mean_ordinary_loss": 0.15587918187686328,
+      "mean_auxiliary_loss": 0.011275881453240651,
+      "mean_total_loss": 0.16715506445261105,
+      "auxiliary_relative_to_ordinary": 0.07233731481955064,
+      "clipped_windows": 0,
+      "optimizer_windows": 1
+    },
+    "costs": {
+      "launch_elapsed_seconds": 288.52369570732117,
+      "occupied_card_seconds": 554.4458146095276,
+      "retired_new_duplicate_bytes": 117501352,
+      "production_peak_additional_bytes": 52791111283,
+      "production_required_free_bytes": 452791111283,
+      "sealing_free_bytes": 442061979648,
+      "production_shortfall_bytes": 10729131635,
+      "expected_feature_offload_hours_at_observed_rate": 5.204521056513393,
+      "delivery_resource": {
+        "epoch": 1795575662.7708774,
+        "resource": {
+          "clock": {
+            "occupied_s": 554.4458146095276,
+            "elapsed_s": 727.2673900127411,
+            "active": {}
+          },
+          "free_bytes": 425146363904,
+          "allocated_bytes": 17235398656,
+          "compiler_growth_bytes": 13115392,
+          "limit": {
+            "elapsed_s": 10800,
+            "occupied_card_s": 18000,
+            "new_allocated_bytes": 90000000000,
+            "free_reserve_bytes": 400000000000
+          },
+          "remaining_peak_bytes": 7751485952
+        },
+        "gpus": [
+          "0, GPU-9986735a-3e68-d1bd-5998-9634ef24341e, 0 MiB, 0 %",
+          "1, GPU-c6943f33-bcd0-a724-0b35-f77af6b0a3f1, 0 MiB, 0 %"
+        ],
+        "processes": []
+      }
+    },
+    "privacy": "Reviewed public JSON, CSV, YAML, logs, report and collectors; public data contain scalar measurements, paths and identities, with no private prompt text, token arrays, native traces, sampled-anchor positions or tensors. Public JSON scan found no forbidden content fields or numeric arrays longer than two.",
+    "interpretation": "Report explicitly identifies qualification-only fallback selected before GPU work, active numerical intervention, unavailable production endpoints/uncertainty/witness results, nested timers and no efficacy or reliable production-overhead claim."
+  },
+  "resolved_findings": [
+    {
+      "issue": "Public builder initially omitted manually appended audit and source-manifest metadata.",
+      "resolution": "Builder now reads the retained source-manifest identity and CPU-test summary and emits native/preparatory failure fields."
+    }
+  ],
+  "limitations": [
+    "Independent review recomputes from retained compact receipts; it did not reload remote tensors or rerun raw native generation validation. The separately retained CPU audit attests raw native/canonical and exact initialization checks.",
+    "Native qualification is one disposable Adam step per arm on opposite serving cards, not a production endpoint or efficacy experiment.",
+    "Review attests the file hashes listed here; later publication-only additions are outside this snapshot."
+  ]
+}
