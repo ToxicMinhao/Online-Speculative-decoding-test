@@ -1,0 +1,606 @@
+{
+  "status": "blocked_native_derivative",
+  "execution_commit": "da4f4cfe28844141a5548401ca86e0ec08e73abf",
+  "parent_execution_commit": "416cb7931028621c09b8fa983e53fc8a7dcebaab",
+  "restored_parent": {
+    "global_step": 128,
+    "presentations": 256,
+    "completed_events": 1,
+    "adam_state_entries": 58
+  },
+  "restoration": {
+    "status": "passed",
+    "exact_resume": true,
+    "mismatches": [],
+    "global_step": 128,
+    "presentations": 256,
+    "no_rng_reset": true,
+    "extra_model_passes": 0,
+    "extra_optimizer_steps": 0
+  },
+  "first_order_control": {
+    "status": "passed",
+    "method": "first_order_control",
+    "started_epoch": 1795608250.1146693,
+    "result": {
+      "output_shape": [
+        1,
+        8192,
+        4096
+      ],
+      "output_dtype": "torch.bfloat16",
+      "gradient_tensors": 58,
+      "gradient_l2": 4404579.0
+    },
+    "wall_s": 2.3826869912445545,
+    "work": {
+      "attempted": {
+        "parent_runtime_initialization": 1,
+        "native_anchor_window_sampling": 1,
+        "control_native_forward": 1,
+        "control_native_parameter_vjp": 1
+      },
+      "completed": {
+        "parent_runtime_initialization": 1,
+        "native_anchor_window_sampling": 1,
+        "control_native_forward": 1,
+        "control_native_parameter_vjp": 1
+      },
+      "pending": [],
+      "native_adam_steps": 0
+    }
+  },
+  "methods": [
+    {
+      "method": "forward_ad_jvp",
+      "passed": false,
+      "responses": [
+        {
+          "status": "unsupported_or_failed",
+          "wall_s": 0.11386485584080219,
+          "error": "NotImplementedError('You must implement the jvp function for custom autograd.Function to use it with forward mode AD.')"
+        }
+      ],
+      "unattempted_responses": 1
+    },
+    {
+      "method": "transposed_reverse_jvp",
+      "passed": false,
+      "responses": [
+        {
+          "status": "unsupported_or_failed",
+          "wall_s": 0.2806484028697014,
+          "error": "RuntimeError('torch.compile with aot_autograd does not currently support double backward')"
+        }
+      ],
+      "unattempted_responses": 1
+    }
+  ],
+  "runtime": {
+    "torch_version": "2.13.0+cu130",
+    "flex_source": "/data/conda_envs/minhao/dflash_specforge_20261022/lib/python3.12/site-packages/torch/_higher_order_ops/flex_attention.py",
+    "flex_source_identity": {
+      "bytes": 51950,
+      "sha256": "0c5bb2a496f06df71b3e203923ef34fdb65c6a309ba966f091555736582c5471"
+    }
+  },
+  "optimizer_recipe": {
+    "type": "direct_bf16_adamw",
+    "version": 1,
+    "max_grad_norm": 1.0,
+    "parameters": [
+      [
+        "layers.0.self_attn.q_proj.weight",
+        [
+          4096,
+          4096
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.0.self_attn.k_proj.weight",
+        [
+          1024,
+          4096
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.0.self_attn.v_proj.weight",
+        [
+          1024,
+          4096
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.0.self_attn.o_proj.weight",
+        [
+          4096,
+          4096
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.0.self_attn.q_norm.weight",
+        [
+          128
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.0.self_attn.k_norm.weight",
+        [
+          128
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.0.mlp.gate_proj.weight",
+        [
+          12288,
+          4096
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.0.mlp.up_proj.weight",
+        [
+          12288,
+          4096
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.0.mlp.down_proj.weight",
+        [
+          4096,
+          12288
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.0.input_layernorm.weight",
+        [
+          4096
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.0.post_attention_layernorm.weight",
+        [
+          4096
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.1.self_attn.q_proj.weight",
+        [
+          4096,
+          4096
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.1.self_attn.k_proj.weight",
+        [
+          1024,
+          4096
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.1.self_attn.v_proj.weight",
+        [
+          1024,
+          4096
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.1.self_attn.o_proj.weight",
+        [
+          4096,
+          4096
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.1.self_attn.q_norm.weight",
+        [
+          128
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.1.self_attn.k_norm.weight",
+        [
+          128
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.1.mlp.gate_proj.weight",
+        [
+          12288,
+          4096
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.1.mlp.up_proj.weight",
+        [
+          12288,
+          4096
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.1.mlp.down_proj.weight",
+        [
+          4096,
+          12288
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.1.input_layernorm.weight",
+        [
+          4096
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.1.post_attention_layernorm.weight",
+        [
+          4096
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.2.self_attn.q_proj.weight",
+        [
+          4096,
+          4096
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.2.self_attn.k_proj.weight",
+        [
+          1024,
+          4096
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.2.self_attn.v_proj.weight",
+        [
+          1024,
+          4096
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.2.self_attn.o_proj.weight",
+        [
+          4096,
+          4096
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.2.self_attn.q_norm.weight",
+        [
+          128
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.2.self_attn.k_norm.weight",
+        [
+          128
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.2.mlp.gate_proj.weight",
+        [
+          12288,
+          4096
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.2.mlp.up_proj.weight",
+        [
+          12288,
+          4096
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.2.mlp.down_proj.weight",
+        [
+          4096,
+          12288
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.2.input_layernorm.weight",
+        [
+          4096
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.2.post_attention_layernorm.weight",
+        [
+          4096
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.3.self_attn.q_proj.weight",
+        [
+          4096,
+          4096
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.3.self_attn.k_proj.weight",
+        [
+          1024,
+          4096
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.3.self_attn.v_proj.weight",
+        [
+          1024,
+          4096
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.3.self_attn.o_proj.weight",
+        [
+          4096,
+          4096
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.3.self_attn.q_norm.weight",
+        [
+          128
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.3.self_attn.k_norm.weight",
+        [
+          128
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.3.mlp.gate_proj.weight",
+        [
+          12288,
+          4096
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.3.mlp.up_proj.weight",
+        [
+          12288,
+          4096
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.3.mlp.down_proj.weight",
+        [
+          4096,
+          12288
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.3.input_layernorm.weight",
+        [
+          4096
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.3.post_attention_layernorm.weight",
+        [
+          4096
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.4.self_attn.q_proj.weight",
+        [
+          4096,
+          4096
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.4.self_attn.k_proj.weight",
+        [
+          1024,
+          4096
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.4.self_attn.v_proj.weight",
+        [
+          1024,
+          4096
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.4.self_attn.o_proj.weight",
+        [
+          4096,
+          4096
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.4.self_attn.q_norm.weight",
+        [
+          128
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.4.self_attn.k_norm.weight",
+        [
+          128
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.4.mlp.gate_proj.weight",
+        [
+          12288,
+          4096
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.4.mlp.up_proj.weight",
+        [
+          12288,
+          4096
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.4.mlp.down_proj.weight",
+        [
+          4096,
+          12288
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.4.input_layernorm.weight",
+        [
+          4096
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.4.post_attention_layernorm.weight",
+        [
+          4096
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "norm.weight",
+        [
+          4096
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "fc.weight",
+        [
+          4096,
+          20480
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "hidden_norm.weight",
+        [
+          4096
+        ],
+        "torch.bfloat16"
+      ]
+    ],
+    "optimizer_options": {
+      "lr": 0.0003,
+      "betas": [
+        0.9,
+        0.999
+      ],
+      "eps": 1e-08,
+      "weight_decay": 0.01,
+      "amsgrad": false,
+      "maximize": false,
+      "foreach": null,
+      "capturable": false,
+      "differentiable": false,
+      "fused": null,
+      "decoupled_weight_decay": true
+    }
+  },
+  "selected_training_response_count": 2,
+  "frozen_anchor_counts": [
+    512,
+    269
+  ],
+  "physical_forward_entries": {
+    "draft_forwards": 3,
+    "layer_forwards": 11
+  },
+  "work": {
+    "attempted": {
+      "parent_runtime_initialization": 1,
+      "native_anchor_window_sampling": 1,
+      "control_native_forward": 1,
+      "control_native_parameter_vjp": 1,
+      "native_forward_ad_forward": 1,
+      "native_reverse_forward": 1,
+      "native_parameter_vjp": 1,
+      "native_grad_output_vjp": 1
+    },
+    "completed": {
+      "parent_runtime_initialization": 1,
+      "native_anchor_window_sampling": 1,
+      "control_native_forward": 1,
+      "control_native_parameter_vjp": 1,
+      "native_reverse_forward": 1,
+      "native_parameter_vjp": 1
+    },
+    "pending": [
+      "native_forward_ad_forward",
+      "native_grad_output_vjp"
+    ],
+    "native_adam_steps": 0
+  },
+  "peak_allocated_bytes": 46102092288,
+  "peak_reserved_bytes": 46913290240,
+  "probe_wall_s": 36.92808060348034,
+  "process": {
+    "exit_code": 0,
+    "stopped_reason": null,
+    "elapsed_s": 40.93851527944207,
+    "occupied_card_s": 40.93851527944207,
+    "allocated_bytes": 329351168,
+    "compiler_growth_bytes": 0,
+    "charged_bytes": 329351168,
+    "free_bytes": 431792476160,
+    "final_storage_error": null,
+    "native_adam_steps": 0,
+    "production_started": false
+  },
+  "full_coefficient_sensitivity_qualified": false,
+  "production_completed": false,
+  "serving_comparison": null,
+  "outcome": "Native derivative prerequisite blocked; candidate efficacy untested"
+}

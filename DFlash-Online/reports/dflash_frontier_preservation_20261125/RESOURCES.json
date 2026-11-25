@@ -1,0 +1,31 @@
+{
+  "epoch": 1795608361.9954565,
+  "free_bytes": 431792480256,
+  "gpus": "GPU-9986735a-3e68-d1bd-5998-9634ef24341e, 0 MiB, 0 %\nGPU-c6943f33-bcd0-a724-0b35-f77af6b0a3f1, 0 MiB, 0 %\n",
+  "gpu_processes": "",
+  "old_artifacts_deleted": [],
+  "new_tensor_checkpoints": [],
+  "flex_source_snippets": [
+    {
+      "line": 13,
+      "text": "    _has_potential_branch_input_mutation,\n    _maybe_reenter_make_fx,\n    autograd_not_implemented,\n    has_user_subclass,\n    redirect_to_mode,\n    reenter_make_fx,\n    register_fake,\n    save_values_for_backward,"
+    },
+    {
+      "line": 749,
+      "text": "\n\nclass FlexAttentionAutogradOp(torch.autograd.Function):\n    @staticmethod\n    # pyrefly: ignore [bad-override]\n    def forward(\n        ctx: Any,\n        query: Tensor,"
+    },
+    {
+      "line": 1481,
+      "text": "\nflex_attention_backward.py_autograd_impl(\n    autograd_not_implemented(flex_attention_backward, deferred_error=True)\n)"
+    }
+  ],
+  "before_free_bytes": 432124792832,
+  "a800_source_run_allocated_bytes": 329351168,
+  "fenrir_study_allocated_bytes_at_measurement": 336068608,
+  "combined_measured_allocation_bytes": 665419776,
+  "allocation_scope": "Study worktree/preparation/results plus remote source/run; shared Git object growth is small additional bookkeeping, not measured independently.",
+  "compiler_growth_bytes": 0,
+  "reserve_bytes": 400000000000,
+  "admitted_derivative_envelope_bytes": 6000000000,
+  "full_event_admitted": false
+}

@@ -1,0 +1,19 @@
+Traceback (most recent call last):
+  File "/data/sources/minhao/frontier_preservation_source_20261125_001/DFlash-Online/experiments/frontier_preservation_pilot/native.py", line 259, in support_attempt
+    result['result'] = method(module, response, parameters, direction, work)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/sources/minhao/frontier_preservation_source_20261125_001/DFlash-Online/experiments/frontier_preservation_pilot/native.py", line 217, in transposed_reverse_jvp
+    tangent = torch.autograd.grad(contraction, cotangent, allow_unused=False)[0]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/conda_envs/minhao/dflash_specforge_20261022/lib/python3.12/site-packages/torch/autograd/__init__.py", line 594, in grad
+    result = _engine_run_backward(
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "/data/conda_envs/minhao/dflash_specforge_20261022/lib/python3.12/site-packages/torch/autograd/graph.py", line 979, in _engine_run_backward
+    return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/conda_envs/minhao/dflash_specforge_20261022/lib/python3.12/site-packages/torch/autograd/function.py", line 325, in apply
+    return user_fn(self, *args)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/data/conda_envs/minhao/dflash_specforge_20261022/lib/python3.12/site-packages/torch/_functorch/_aot_autograd/runtime_wrappers.py", line 3501, in backward
+    raise RuntimeError(
+RuntimeError: torch.compile with aot_autograd does not currently support double backward

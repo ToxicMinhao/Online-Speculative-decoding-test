@@ -43,7 +43,7 @@ def analyze(root, destination):
     )
     write_json(destination / 'QUALIFICATION.json', summary)
     with (destination / 'WORK.csv').open('w', newline='') as stream:
-        writer = csv.DictWriter(stream, fieldnames=['operation', 'attempted', 'completed', 'incomplete'])
+        writer = csv.DictWriter(stream, fieldnames=['operation', 'attempted', 'completed', 'incomplete'], lineterminator='\n')
         writer.writeheader()
         for operation, attempted in work['attempted'].items():
             completed = work['completed'].get(operation, 0)

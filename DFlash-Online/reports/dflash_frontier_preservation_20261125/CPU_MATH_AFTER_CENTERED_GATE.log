@@ -1,0 +1,26 @@
+Follow-up working tree based on da4f4cf: centered-dot validation and regression. No production or GPU work.
+Working directory: /home/minhao2/EAGLE_SPEC/research/dflash_frontier_preservation_20261125/implementation_checkout/DFlash-Online
+Command: CUDA_VISIBLE_DEVICES='' PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=.:training:inference /home/minhao2/.venvs/dflash-specforge/bin/python -m unittest experiments.frontier_preservation_pilot.test_math -v
+
+test_exact_zero_coordinate_limit_and_nondifferentiable_state_rejection (experiments.frontier_preservation_pilot.test_math.AdamShadowTests.test_exact_zero_coordinate_limit_and_nondifferentiable_state_rejection) ... ok
+test_finite_gradient_norm_overflow_rejects_like_native_clipping (experiments.frontier_preservation_pilot.test_math.AdamShadowTests.test_finite_gradient_norm_overflow_rejects_like_native_clipping) ... ok
+test_fp32_promotion_and_global_clipping_couple_parameter_groups (experiments.frontier_preservation_pilot.test_math.AdamShadowTests.test_fp32_promotion_and_global_clipping_couple_parameter_groups) ... ok
+test_preview_and_vjp_match_independent_fp64_and_native_adam_both_clip_branches (experiments.frontier_preservation_pilot.test_math.AdamShadowTests.test_preview_and_vjp_match_independent_fp64_and_native_adam_both_clip_branches) ... ok
+test_common_score_offset_preserves_allocation_and_centered_identity (experiments.frontier_preservation_pilot.test_math.AllocationTests.test_common_score_offset_preserves_allocation_and_centered_identity) ... ok
+test_near_constant_representable_scores_keep_the_cap_without_losing_mass (experiments.frontier_preservation_pilot.test_math.AllocationTests.test_near_constant_representable_scores_keep_the_cap_without_losing_mass) ... ok
+test_nonfinite_inputs_fail_instead_of_becoming_uniform (experiments.frontier_preservation_pilot.test_math.AllocationTests.test_nonfinite_inputs_fail_instead_of_becoming_uniform) ... ok
+test_signed_block_local_budget_bounds_variance_and_reference_branches (experiments.frontier_preservation_pilot.test_math.AllocationTests.test_signed_block_local_budget_bounds_variance_and_reference_branches) ... ok
+test_bf16_token_direction_uses_fp32_coefficient_normalization_once (experiments.frontier_preservation_pilot.test_math.RoleAssessmentTests.test_bf16_token_direction_uses_fp32_coefficient_normalization_once) ... ok
+test_empty_response_keeps_the_other_half_and_empty_blocks_do_not_dilute (experiments.frontier_preservation_pilot.test_math.RoleAssessmentTests.test_empty_response_keeps_the_other_half_and_empty_blocks_do_not_dilute) ... ok
+test_final_direct_support_detaches_coefficients_but_reference_x_is_live (experiments.frontier_preservation_pilot.test_math.RoleAssessmentTests.test_final_direct_support_detaches_coefficients_but_reference_x_is_live) ... ok
+test_fresh_wrong_rival_native_ties_and_active_branch (experiments.frontier_preservation_pilot.test_math.RoleAssessmentTests.test_fresh_wrong_rival_native_ties_and_active_branch) ... ok
+test_frontier_example_and_native_validity_edges (experiments.frontier_preservation_pilot.test_math.RoleAssessmentTests.test_frontier_example_and_native_validity_edges) ... ok
+test_shortfall_bound_includes_simultaneous_prefix_and_follower_changes (experiments.frontier_preservation_pilot.test_math.RoleAssessmentTests.test_shortfall_bound_includes_simultaneous_prefix_and_follower_changes) ... ok
+test_matrix_free_scores_equal_direct_coefficient_ad_and_include_continuation (experiments.frontier_preservation_pilot.test_math.SharedParameterSensitivityTests.test_matrix_free_scores_equal_direct_coefficient_ad_and_include_continuation) ... /home/minhao2/.venvs/dflash-specforge/lib/python3.12/site-packages/torch/jit/_script.py:1488: DeprecationWarning: `torch.jit.script` is deprecated. Please switch to `torch.compile` or `torch.export`.
+  warnings.warn(
+ok
+
+----------------------------------------------------------------------
+Ran 15 tests in 0.833s
+
+OK

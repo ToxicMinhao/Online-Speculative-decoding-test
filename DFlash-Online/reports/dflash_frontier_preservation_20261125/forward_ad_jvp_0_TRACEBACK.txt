@@ -1,0 +1,94 @@
+Traceback (most recent call last):
+  File "/data/sources/minhao/frontier_preservation_source_20261125_001/DFlash-Online/experiments/frontier_preservation_pilot/native.py", line 259, in support_attempt
+    result['result'] = method(module, response, parameters, direction, work)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/sources/minhao/frontier_preservation_source_20261125_001/DFlash-Online/experiments/frontier_preservation_pilot/native.py", line 177, in forward_ad_jvp
+    output = torch.func.functional_call(module, dual_parameters, (response,))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/conda_envs/minhao/dflash_specforge_20261022/lib/python3.12/site-packages/torch/_functorch/functional_call.py", line 154, in functional_call
+    return nn.utils.stateless._functional_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/conda_envs/minhao/dflash_specforge_20261022/lib/python3.12/site-packages/torch/nn/utils/stateless.py", line 279, in _functional_call
+    return module(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/conda_envs/minhao/dflash_specforge_20261022/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1778, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/conda_envs/minhao/dflash_specforge_20261022/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1789, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/sources/minhao/frontier_preservation_source_20261125_001/DFlash-Online/experiments/frontier_preservation_pilot/native.py", line 118, in forward
+    anchors, keep, hidden = self.model._forward_draft_blocks(
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/sources/minhao/frontier_preservation_source_20261125_001/DFlash-Online/training/specforge/algorithms/common/dflash_family_model.py", line 679, in _forward_draft_blocks
+    output_hidden = self.draft_model(
+                    ^^^^^^^^^^^^^^^^^
+  File "/data/conda_envs/minhao/dflash_specforge_20261022/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1778, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/conda_envs/minhao/dflash_specforge_20261022/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1884, in _call_impl
+    return inner()
+           ^^^^^^^
+  File "/data/conda_envs/minhao/dflash_specforge_20261022/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1832, in inner
+    result = forward_call(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/sources/minhao/frontier_preservation_source_20261125_001/DFlash-Online/training/specforge/modeling/draft/dflash.py", line 887, in forward
+    hidden_states = layer(
+                    ^^^^^^
+  File "/data/conda_envs/minhao/dflash_specforge_20261022/lib/python3.12/site-packages/transformers/modeling_layers.py", line 93, in __call__
+    return super().__call__(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/conda_envs/minhao/dflash_specforge_20261022/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1778, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/conda_envs/minhao/dflash_specforge_20261022/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1884, in _call_impl
+    return inner()
+           ^^^^^^^
+  File "/data/conda_envs/minhao/dflash_specforge_20261022/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1832, in inner
+    result = forward_call(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/sources/minhao/frontier_preservation_source_20261125_001/DFlash-Online/training/specforge/modeling/draft/dflash.py", line 594, in forward
+    hidden_states = self.self_attn(
+                    ^^^^^^^^^^^^^^^
+  File "/data/conda_envs/minhao/dflash_specforge_20261022/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1778, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/conda_envs/minhao/dflash_specforge_20261022/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1789, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/sources/minhao/frontier_preservation_source_20261125_001/DFlash-Online/training/specforge/modeling/draft/dflash.py", line 299, in forward
+    attn_output = compile_friendly_flex_attention(
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/sources/minhao/frontier_preservation_source_20261125_001/DFlash-Online/training/specforge/modeling/draft/flex_attention.py", line 57, in compile_friendly_flex_attention
+    return flex_attention_compiled(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/conda_envs/minhao/dflash_specforge_20261022/lib/python3.12/site-packages/torch/_dynamo/eval_frame.py", line 1166, in compile_wrapper
+    result = fn(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^
+  File "/data/conda_envs/minhao/dflash_specforge_20261022/lib/python3.12/site-packages/torch/nn/attention/flex_attention.py", line 2236, in flex_attention
+    def flex_attention(
+  File "/data/conda_envs/minhao/dflash_specforge_20261022/lib/python3.12/site-packages/torch/_dynamo/eval_frame.py", line 1446, in _fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/data/conda_envs/minhao/dflash_specforge_20261022/lib/python3.12/site-packages/torch/_functorch/aot_autograd.py", line 1277, in forward
+    return compiled_fn(full_args)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/conda_envs/minhao/dflash_specforge_20261022/lib/python3.12/site-packages/torch/_functorch/_aot_autograd/runtime_wrappers.py", line 2548, in __call__
+    return self.compiled_fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/conda_envs/minhao/dflash_specforge_20261022/lib/python3.12/site-packages/torch/_functorch/_aot_autograd/runtime_wrappers.py", line 1141, in runtime_wrapper
+    result = _codegen_runtime_wrapper(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/conda_envs/minhao/dflash_specforge_20261022/lib/python3.12/site-packages/torch/_functorch/_aot_autograd/subclass_codegen.py:codegen(runtime_wrapper_orchestration)", line 11, in _runtime_wrapper
+  File "/data/conda_envs/minhao/dflash_specforge_20261022/lib/python3.12/site-packages/torch/_functorch/_aot_autograd/utils.py", line 93, in g
+    return f(*args)
+           ^^^^^^^^
+  File "/data/conda_envs/minhao/dflash_specforge_20261022/lib/python3.12/site-packages/torch/autograd/function.py", line 625, in apply
+    return super().apply(*args, **kwargs)  # type: ignore[misc]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/conda_envs/minhao/dflash_specforge_20261022/lib/python3.12/site-packages/torch/autograd/function.py", line 340, in apply_jvp
+    return self._forward_cls.jvp(self, *args)  # type: ignore[attr-defined]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/conda_envs/minhao/dflash_specforge_20261022/lib/python3.12/site-packages/torch/autograd/function.py", line 508, in jvp
+    raise NotImplementedError(
+NotImplementedError: You must implement the jvp function for custom autograd.Function to use it with forward mode AD.

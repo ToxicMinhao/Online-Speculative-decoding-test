@@ -1,0 +1,267 @@
+{
+  "schema": "frontier_native_prerequisite_independent_audit_v1",
+  "status": "passed_with_scope_limits",
+  "verification_status": "ANALYZED",
+  "audit_mode": "local_receipt_and_pinned_source_audit_no_remote_no_model_rerun",
+  "execution_commit": "da4f4cfe28844141a5548401ca86e0ec08e73abf",
+  "blockers": [],
+  "outcome": {
+    "native_status": "blocked_native_derivative",
+    "ordinary_first_order_passed": true,
+    "forward_ad_failure": "custom autograd.Function JVP unavailable",
+    "transposed_reverse_failure": "compiled AOTAutograd double backward unsupported",
+    "scientific_efficacy_assessed": false,
+    "full_coefficient_sensitivity_qualified": false,
+    "interpretation": "Bounded prerequisite blocked in the pinned native compiled runtime; no claim that FRONTIER_P is ineffective or impossible in other runtimes."
+  },
+  "selection": {
+    "same_first_two_ordered_retained_PAIR_packets": true,
+    "parent_pool_responses": 128,
+    "fixed_windows_sampled": 1,
+    "responses_loaded_and_anchors_frozen": 2,
+    "anchor_counts": [
+      512,
+      269
+    ],
+    "responses_used_in_model_probe": 1,
+    "second_response_model_probe_unattempted": true,
+    "sampling_rng_chain_exact": true,
+    "parent_plan_binding": "b120c76b0036b4786eb6b9d11b1594ec1dc6e57e3d20c9ed931924262b1c072a",
+    "parent_recovery_identity": {
+      "bytes": 6296473051,
+      "sha256": "728770a7abf0ba3ef96805ef760997976ad7bedbbee1d8debe165e785a4d98a2"
+    }
+  },
+  "state": {
+    "original_PAIR_contract_resume_passed": true,
+    "initial_and_final_exact_receipts_equal": true,
+    "mismatches": [],
+    "global_step_before_after": 128,
+    "presentations_before_after": 256,
+    "completed_events_before_after": 1,
+    "adam_state_entries": 58,
+    "weights_moments_rng_counters_history_preserved_by_native_live_comparison": true,
+    "new_recovery_or_export_written": false,
+    "receipt_extra_model_passes_zero_scope": "The verifier itself performs no model work; this field is not the whole-probe work count."
+  },
+  "work": {
+    "ledger_attempted_operations": 8,
+    "ledger_completed_operations": 6,
+    "ledger_uncompleted_operations": 2,
+    "attempted": {
+      "parent_runtime_initialization": 1,
+      "native_anchor_window_sampling": 1,
+      "control_native_forward": 1,
+      "control_native_parameter_vjp": 1,
+      "native_forward_ad_forward": 1,
+      "native_reverse_forward": 1,
+      "native_parameter_vjp": 1,
+      "native_grad_output_vjp": 1
+    },
+    "completed": {
+      "parent_runtime_initialization": 1,
+      "native_anchor_window_sampling": 1,
+      "control_native_forward": 1,
+      "control_native_parameter_vjp": 1,
+      "native_reverse_forward": 1,
+      "native_parameter_vjp": 1
+    },
+    "failed_operation_names": [
+      "native_forward_ad_forward",
+      "native_grad_output_vjp"
+    ],
+    "failed_derivative_routes": 2,
+    "unattempted_response_route_pairs": 2,
+    "full_draft_forwards_completed": 2,
+    "draft_forward_attempts": 3,
+    "native_parameter_VJPs_completed": 2,
+    "grad_output_VJP_attempted_failed": 1,
+    "raw_forward_pre_hook_counts": {
+      "draft_forwards": 3,
+      "layer_forwards": 11
+    },
+    "pre_hook_interpretation": "3 draft-entry and 11 layer-entry observations include the partial failed forward-AD path; they are not 3 completed forwards and are not added again to the logical primitive ledger. No kernel-level completion count is inferred.",
+    "vocabulary_head_calls": 0,
+    "teacher_model_forwards": 0,
+    "native_adam_steps": 0,
+    "committed_learning_presentations": 0,
+    "complete_generations": 0,
+    "new_feedback": 0,
+    "scored_generations": 0,
+    "warmups": 0,
+    "assessment_forwards": 0,
+    "native_candidate_coefficients_or_candidate_update": 0,
+    "automatic_retry": false,
+    "production_started": false
+  },
+  "cost": {
+    "process_elapsed_s": 40.93851527944207,
+    "occupied_card_s": 40.93851527944207,
+    "occupied_card_hours": 0.01137180979984502,
+    "native_probe_nested_s": 36.92808060348034,
+    "parent_process_overhead_s": 4.010434675961733,
+    "control_nested_s": 2.3826869912445545,
+    "forward_AD_nested_s": 0.11386485584080219,
+    "reverse_JVP_nested_s": 0.2806484028697014,
+    "scope": "All operation timings are nested within the single-card process total; do not sum them again. Historical PR59/PR58 costs are separate and excluded.",
+    "qualification_wall_limit_s": 900,
+    "elapsed_within_limit": true,
+    "peak_allocated_bytes": 46102092288,
+    "peak_reserved_bytes": 46913290240,
+    "memory_scope": "Peak counters reset after parent initialization; these are probe-phase allocator peaks, not an independently measured initialization peak."
+  },
+  "storage": {
+    "main_plan_free_bytes": 431792623616,
+    "main_final_free_bytes": 431792476160,
+    "main_reserve_bytes": 400000000000,
+    "main_reserve_margin_bytes": 31792476160,
+    "A800_run_and_staging_allocated_bytes": 329351168,
+    "compiler_growth_bytes": 0,
+    "A800_charged_bytes": 329351168,
+    "feasibility_envelope_bytes": 6000000000,
+    "feasibility_headroom_bytes": 5670648832,
+    "Fenrir_study_allocated_snapshot_bytes": 336097280,
+    "combined_observed_allocated_snapshot_bytes": 665448448,
+    "all_locations_cap_bytes": 40000000000,
+    "combined_snapshot_headroom_bytes": 39334551552,
+    "scope": "Allocated-block snapshots, not a reconstructed continuous peak. Includes local source, preparation and retained archive/extraction; future report writes remain small but are not measured here. No production admission or old-artifact retirement inferred."
+  },
+  "provenance": {
+    "manifest_identity": {
+      "bytes": 944611,
+      "sha256": "665216b8bfb865545eda35c0a187750df2ee54ab550b6056524b5b6e2af5df11"
+    },
+    "manifest_files": 5104,
+    "reviewed_runtime_files_match_execution_commit_and_manifest": [
+      "experiments/frontier_preservation_pilot/native.py",
+      "experiments/frontier_preservation_pilot/prepare.py",
+      "experiments/frontier_preservation_pilot/qualify.py",
+      "experiments/repair_conditional_kl_pilot/training.py",
+      "experiments/full_k_gsm8k/training.py",
+      "online_feedback/training.py",
+      "training/specforge/modeling/draft/dflash.py"
+    ],
+    "archive_identity": {
+      "bytes": 11108,
+      "sha256": "3e5ffb2d60b958c402792dca1ed09130fb54ae3c272173fdf830bba39484dfad"
+    },
+    "local_archive_files": 20,
+    "local_archive_uncompressed_bytes": 70270,
+    "archive_extraction_mismatches": 0,
+    "evidence_identities": {
+      "result_private/execution_001/PLAN.json": {
+        "bytes": 3307,
+        "sha256": "2bd1704261530c2d698fa7daf583ef2d8b6355d42ceb4e91c11b647ad952b87f"
+      },
+      "result_private/execution_001/QUALIFICATION_PROCESS.json": {
+        "bytes": 331,
+        "sha256": "dd4999797020dbde39663226859e7bb276eab8ef124eeb89143a171cffa4e777"
+      },
+      "result_private/execution_001/derivative_support_001/RESULT.json": {
+        "bytes": 23158,
+        "sha256": "47e8d5d514da9e462d33dd1cfd13d5004e1854e7a6e2453b3d24e5d44db1ad55"
+      },
+      "result_private/execution_001/derivative_support_001/WORK.json": {
+        "bytes": 654,
+        "sha256": "7a0b4ad7797720f7cd80e588b8b217aaf28a2de5fa68f6f48039fc33470d7ccb"
+      },
+      "result_private/execution_001/derivative_support_001/FIRST_ORDER_CONTROL.json": {
+        "bytes": 739,
+        "sha256": "b467f82629cd404f249e21df725d7564b86d2caa86deebf0b253f635f342e4e7"
+      },
+      "result_private/execution_001/derivative_support_001/FINAL_RESTORATION.json": {
+        "bytes": 196,
+        "sha256": "5c1c5d772ea09b0a199d7ec6019d4e7160437a58be769864e1bce427754e72a9"
+      },
+      "result_private/execution_001/derivative_support_001/trainer/RESUME_CHECK.json": {
+        "bytes": 196,
+        "sha256": "5c1c5d772ea09b0a199d7ec6019d4e7160437a58be769864e1bce427754e72a9"
+      },
+      "result_private/execution_001/derivative_support_001/SELECTION.json": {
+        "bytes": 1313,
+        "sha256": "876fac1fddcbc781f163fae616db43c12cc126496a048c20455ca1fb61e3499f"
+      },
+      "result_private/execution_001/derivative_support_001/WINDOW.json": {
+        "bytes": 25388,
+        "sha256": "a4245d34875ecc349e04cf34de24ef1d626d9cbd03ee30176f637d189d431d3d"
+      },
+      "result_private/execution_001/derivative_support_001/forward_ad_jvp_response_0.json": {
+        "bytes": 8490,
+        "sha256": "dc9c16ac5ecdca209dca8ce819a0b05f514cd3aa60f38a340ba53a8608e85639"
+      },
+      "result_private/execution_001/derivative_support_001/transposed_reverse_jvp_response_0.json": {
+        "bytes": 2741,
+        "sha256": "44d57358d5fb910910ba665d65206b803bf8bcd690c93ed114dd8f3e0931c8c2"
+      }
+    }
+  },
+  "CPU_checks": {
+    "preexecution_combined_tests_passed": 32,
+    "initial_cpu_attempt_failed_teardowns": 4,
+    "initial_cpu_attempt_tests": 18,
+    "initial_failure_scope": "CUDA visibility was not masked in the initial local CPU suite; RNG helper initialized CUDA. Retained failure log is separate from the native model probe.",
+    "postexecution_math_tests_passed": 15,
+    "postexecution_math_fix": "Stable centered-dot variance diagnostic gate; raw signed benefit retained. Not part of executed da4f4cf and no native rerun."
+  },
+  "privacy": {
+    "no_prompts_tokens_or_anchor_positions_in_this_audit": true,
+    "raw_tracebacks_selection_anchor_arrays_retained_privately": true
+  },
+  "fallacy_scan": {
+    "checked": 11,
+    "findings": [
+      {
+        "name": "Simpson paradox",
+        "assessment": "not_applicable_no_population_comparison"
+      },
+      {
+        "name": "Ecological fallacy",
+        "assessment": "not_applicable_no_individual_efficacy_inference"
+      },
+      {
+        "name": "Berkson paradox",
+        "assessment": "fixed_training_selection_limits_generalization"
+      },
+      {
+        "name": "Collider bias",
+        "assessment": "not_applicable_no_covariate_model"
+      },
+      {
+        "name": "Base rate neglect",
+        "assessment": "not_applicable_no_accuracy_or_prevalence_claim"
+      },
+      {
+        "name": "Regression to mean",
+        "assessment": "not_applicable_no_prepost_improvement_claim"
+      },
+      {
+        "name": "Survivorship bias",
+        "assessment": "both_failed_routes_and_unattempted_responses_retained"
+      },
+      {
+        "name": "Look elsewhere effect",
+        "assessment": "both_declared_routes_reported_no_selected_success"
+      },
+      {
+        "name": "Garden of forking paths",
+        "assessment": "execution_commit_frozen_postrun_math_fix_distinguished"
+      },
+      {
+        "name": "Correlation versus causation",
+        "assessment": "runtime_errors_support_only_native_feasibility_blocker"
+      },
+      {
+        "name": "Reverse causality",
+        "assessment": "not_applicable_no_population_directional_claim"
+      }
+    ]
+  },
+  "report_requirements": [
+    "Describe a native derivative feasibility blocker, not a negative efficacy result.",
+    "Report first-order control success separately from both derivative failures.",
+    "Retain two unattempted response-route pairs and two failed/uncompleted primitive attempts.",
+    "Keep pre-hook observations separate from completed logical forwards.",
+    "Do not interpret restoration receipt extra_model_passes=0 as zero probe work.",
+    "Keep post-execution CPU math correction distinct from the actual native execution source."
+  ]
+}
