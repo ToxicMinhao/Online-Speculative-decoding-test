@@ -20,13 +20,15 @@ def frozen_reference(value):
     return value['F'] if set(value) == {'AR', 'F'} else value
 
 
-def evaluation_schedule(requests):
+def evaluation_schedule(requests, *, methods=METHODS):
+    if len(methods) != 2 or len(set(methods)) != 2:
+        raise ValueError("Require two distinct explicit endpoint labels")
     validate_requests(requests, count=REQUESTS, role='evaluation')
     schedule = []
     for repeat in range(REPEATS):
         for group in range(REQUESTS // GROUP_SIZE):
-            shift = (repeat + group) % len(METHODS)
-            for position, method in enumerate(METHODS[shift:] + METHODS[:shift]):
+            shift = (repeat + group) % len(methods)
+            for position, method in enumerate(methods[shift:] + methods[:shift]):
                 schedule.append(dict(activation=len(schedule), repeat=repeat,
                     group=group, position=position, method=method, warmups=2,
                     request_ids=[r['request_id'] for r in
@@ -34,11 +36,11 @@ def evaluation_schedule(requests):
     return schedule
 
 
-def schedule_summary(schedule):
+def schedule_summary(schedule, *, methods=METHODS):
     coverage, first, positions = Counter(), Counter(), Counter()
     for start in range(0, len(schedule), 2):
         batch = schedule[start:start + 2]
-        if (len(batch) != 2 or {row['method'] for row in batch} != set(METHODS)
+        if (len(batch) != 2 or {row['method'] for row in batch} != set(methods)
                 or batch[0]['request_ids'] != batch[1]['request_ids']
                 or len(batch[0]['request_ids']) != GROUP_SIZE):
             raise ValueError('Each timing group requires the same 64 requests in both arms')
@@ -54,17 +56,17 @@ def schedule_summary(schedule):
                     first[entry['repeat'], entry['method']] += 1
     if (len(schedule) != 12 or len(coverage) != 768
             or any(value != 1 for value in coverage.values())
-            or any(first[repeat, method] != 64 for repeat in range(REPEATS) for method in METHODS)
-            or any(positions[method, position] != 3 for method in METHODS for position in (0, 1))):
+            or any(first[repeat, method] != 64 for repeat in range(REPEATS) for method in methods)
+            or any(positions[method, position] != 3 for method in methods for position in (0, 1))):
         raise ValueError('Fixed two-arm coverage or per-repeat position balance changed')
     return dict(activations=12, scored_generations=768, warmup_generations=24,
         groups=6, requests=128, repeats=3, group_size=64,
         first_position_requests_per_repeat={method: [first[r, method] for r in range(REPEATS)]
-                                           for method in METHODS})
+                                           for method in methods})
 
 
 def execute(plan, root, requests, warmups, canonicals, warmup_canonicals,
-            checkpoints, *, activate, boundary, ledger):
+            checkpoints, *, activate, boundary, ledger, methods=METHODS):
     """Use native measurement checks without changing the historical coordinator.
 
     ``activate(method, checkpoint, slot)`` returns a backend and publication
@@ -75,10 +77,10 @@ def execute(plan, root, requests, warmups, canonicals, warmup_canonicals,
     """
     root = Path(root)
     root.mkdir(parents=True, exist_ok=False)
-    schedule = evaluation_schedule(requests)
-    balance = schedule_summary(schedule)
-    if set(checkpoints) != set(METHODS) or len(set(map(str, checkpoints.values()))) != 2:
-        raise ValueError('Require the two distinct BASE/PAIR exports')
+    schedule = evaluation_schedule(requests, methods=methods)
+    balance = schedule_summary(schedule, methods=methods)
+    if set(checkpoints) != set(methods) or len(set(map(str, checkpoints.values()))) != 2:
+        raise ValueError('Require the two distinct explicitly labeled endpoint exports')
     validate_requests(warmups, count=2, role='warmup')
     all_requests = requests + warmups
     if (len({r['request_id'] for r in all_requests}) != 130

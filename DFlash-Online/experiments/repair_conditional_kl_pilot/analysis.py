@@ -13,18 +13,20 @@ TIMES = ('request_latency_s', 'native_generate_s', 'cache_maintenance_s')
 BOOTSTRAP_SEED, BOOTSTRAP_DRAWS = 20261124, 10000
 
 
-def reduce_requests(rows, *, expected_requests=REQUESTS):
+def reduce_requests(rows, *, expected_requests=REQUESTS, methods=METHODS):
+    if len(methods) != 2 or len(set(methods)) != 2:
+        raise ValueError("Require two distinct explicit endpoint labels")
     groups = defaultdict(list)
     for row in rows:
-        if (row['phase'] not in ('warmup', 'scored') or row['method'] not in METHODS
+        if (row['phase'] not in ('warmup', 'scored') or row['method'] not in methods
                 or row['valid_measurement'] is not True or row['errors']):
             raise ValueError('Invalid evidence cannot enter pilot gain calculations')
         if row['phase'] == 'scored':
             groups[row['request_id'], row['method']].append(row)
     ids = sorted({key[0] for key in groups})
-    if len(ids) != expected_requests or len(groups) != len(ids) * len(METHODS):
+    if len(ids) != expected_requests or len(groups) != len(ids) * len(methods):
         raise ValueError('Incomplete two-arm request panel')
-    for method in METHODS:
+    for method in methods:
         endpoints = {row['checkpoint_id'] for group in groups.values() for row in group
                      if row['method'] == method}
         if len(endpoints) != 1:
@@ -33,10 +35,10 @@ def reduce_requests(rows, *, expected_requests=REQUESTS):
         raise ValueError('All timing must use one fixed physical card')
     result = []
     for request_id in ids:
-        if len({row['source_id'] for method in METHODS for row in groups[request_id, method]}) != 1:
+        if len({row['source_id'] for method in methods for row in groups[request_id, method]}) != 1:
             raise ValueError('Source identity differs across arms')
         item = dict(request_id=request_id)
-        for method in METHODS:
+        for method in methods:
             records = sorted(groups[request_id, method], key=lambda row: row['repeat'])
             if [row['repeat'] for row in records] != list(range(REPEATS)):
                 raise ValueError('Exactly three distinct timing repeats are required')
@@ -64,18 +66,20 @@ def reduce_requests(rows, *, expected_requests=REQUESTS):
             item[method] = {key: first[key] for key in (*COUNT_FIELDS, 'finish_reason')}
             item[method].update({key: float(np.mean([row[key] for row in records])) for key in TIMES})
             item[method]['repeat_times'] = {key: [row[key] for row in records] for key in TIMES}
-        if len({(item[method]['output_tokens'], item[method]['finish_reason']) for method in METHODS}) != 1:
+        if len({(item[method]['output_tokens'], item[method]['finish_reason']) for method in methods}) != 1:
             raise ValueError('Paired output length or termination differs')
         result.append(item)
     return result
 
 
-def summarize(rows, *, expected_requests=REQUESTS):
-    paired = reduce_requests(rows, expected_requests=expected_requests)
-    draws = np.random.Generator(np.random.PCG64(BOOTSTRAP_SEED)).integers(
+def summarize(rows, *, expected_requests=REQUESTS, methods=METHODS,
+              bootstrap_seed=BOOTSTRAP_SEED):
+    baseline, candidate = methods
+    paired = reduce_requests(rows, expected_requests=expected_requests, methods=methods)
+    draws = np.random.Generator(np.random.PCG64(bootstrap_seed)).integers(
         0, len(paired), size=(BOOTSTRAP_DRAWS, len(paired)))
     values = {method: {key: np.asarray([row[method][key] for row in paired], dtype=np.float64)
-                       for key in (*TIMES, *COUNT_FIELDS)} for method in METHODS}
+                       for key in (*TIMES, *COUNT_FIELDS)} for method in methods}
     totals = {}
     for method, metrics in values.items():
         sums = {key: float(value.sum()) for key, value in metrics.items()}
@@ -92,23 +96,23 @@ def summarize(rows, *, expected_requests=REQUESTS):
         sums['output_length'] = dict(min=int(metrics['output_tokens'].min()), max=int(metrics['output_tokens'].max()),
             mean=float(metrics['output_tokens'].mean()), median=float(np.median(metrics['output_tokens'])))
         totals[method] = sums
-    comparison = dict(candidate='PAIR', baseline='BASE')
+    comparison = dict(candidate=candidate, baseline=baseline)
     for output_name, key in [(key + '_reduction_pct', key) for key in TIMES] + [
             ('verification_call_reduction_pct', 'verification_calls')]:
-        current, reference = values['PAIR'][key], values['BASE'][key]
+        current, reference = values[candidate][key], values[baseline][key]
         point = 100 * (1 - current.sum() / reference.sum()) if reference.sum() else float('nan')
         with np.errstate(divide='ignore', invalid='ignore'):
             samples = 100 * (1 - current[draws].sum(1) / reference[draws].sum(1))
         comparison[output_name] = _interval(point, samples)
     if comparison['request_latency_s_reduction_pct']['status'] != 'undefined':
         comparison['request_latency_s_reduction_pct']['status'] = 'prespecified_primary'
-    difference = values['BASE']['verification_calls'] - values['PAIR']['verification_calls']
+    difference = values[baseline]['verification_calls'] - values[candidate]['verification_calls']
     comparison.update(wins=int((difference > 0).sum()), regressions=int((difference < 0).sum()),
         ties=int((difference == 0).sum()), gross_calls_saved=int(np.maximum(difference, 0).sum()),
         gross_calls_added=int(np.maximum(-difference, 0).sum()), net_calls_saved=int(difference.sum()))
     ordered_ids = [row['request_id'] for row in paired]
-    return dict(requests=len(paired), totals=totals, contrasts={'PAIR_vs_BASE': comparison}, paired=paired,
-        bootstrap=dict(draws=BOOTSTRAP_DRAWS, generator='PCG64', seed=BOOTSTRAP_SEED,
+    return dict(requests=len(paired), totals=totals, contrasts={candidate + '_vs_' + baseline: comparison}, paired=paired,
+        bootstrap=dict(draws=BOOTSTRAP_DRAWS, generator='PCG64', seed=bootstrap_seed,
             input_order=ordered_ids, input_order_digest=digest(ordered_ids),
             draw_sha256=hashlib.sha256(draws.astype('<i8', copy=False).tobytes()).hexdigest(),
             percentiles='linear 2.5/97.5; paired whole requests; average timing repeats within each request',

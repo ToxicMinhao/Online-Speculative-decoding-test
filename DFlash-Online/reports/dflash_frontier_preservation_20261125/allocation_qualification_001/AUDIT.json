@@ -1,0 +1,122 @@
+{
+  "schema": "independent_allocation_numerical_audit_v1",
+  "status": "passed",
+  "errors": [],
+  "execution_commit": "bf7c93455968ca1bba1c7cc179bde1abb6810444",
+  "raw_files_rehashed": 31,
+  "raw_bytes": 1492258,
+  "numerical_contract_identity": {
+    "bytes": 1829,
+    "sha256": "f5c380be6ffb55684a76e8b2bdba3ffecd4268ea0703e735490ad60aaccc30e6"
+  },
+  "pools": [
+    {
+      "response_index": 0,
+      "block_index": 0,
+      "positions": 13,
+      "gate_b": true,
+      "gate_c": true,
+      "active_both": true,
+      "reported_arithmetic_matches": true,
+      "maximum_error_relative_beta": 0.0016822414681506705,
+      "maximum_gate_b_bound_fraction": 0.0672820301635838,
+      "alignment_ratio": [
+        1.000594369772011,
+        1.000594369772011
+      ],
+      "repeat_coefficient_difference": 0.0,
+      "independent_FP64_allocation_within_inherited_tolerance": true
+    },
+    {
+      "response_index": 0,
+      "block_index": 34,
+      "positions": 15,
+      "gate_b": true,
+      "gate_c": true,
+      "active_both": true,
+      "reported_arithmetic_matches": true,
+      "maximum_error_relative_beta": 0.01259196840796962,
+      "maximum_gate_b_bound_fraction": 0.5036190533513094,
+      "alignment_ratio": [
+        1.0147384434286675,
+        1.0147384434286675
+      ],
+      "repeat_coefficient_difference": 0.0,
+      "independent_FP64_allocation_within_inherited_tolerance": true
+    },
+    {
+      "response_index": 1,
+      "block_index": 0,
+      "positions": 15,
+      "gate_b": true,
+      "gate_c": true,
+      "active_both": true,
+      "reported_arithmetic_matches": true,
+      "maximum_error_relative_beta": 0.0024995933913301103,
+      "maximum_gate_b_bound_fraction": 0.09997061518189033,
+      "alignment_ratio": [
+        1.0004402145073061,
+        1.0004402145073061
+      ],
+      "repeat_coefficient_difference": 0.0,
+      "independent_FP64_allocation_within_inherited_tolerance": true
+    },
+    {
+      "response_index": 1,
+      "block_index": 1,
+      "positions": 15,
+      "gate_b": true,
+      "gate_c": true,
+      "active_both": true,
+      "reported_arithmetic_matches": true,
+      "maximum_error_relative_beta": 0.004026622629309528,
+      "maximum_gate_b_bound_fraction": 0.16104664540245883,
+      "alignment_ratio": [
+        0.9984628119868387,
+        0.9984628119868387
+      ],
+      "repeat_coefficient_difference": 0.0,
+      "independent_FP64_allocation_within_inherited_tolerance": true
+    }
+  ],
+  "reference_backwards": 58,
+  "normalization_recomputed_rows": 58,
+  "gate_A_receipts_all_passed": true,
+  "gate_A_scope": "Authenticated runtime invariant receipts reviewed; full unsaved tensors cannot be independently reconstructed from scalar receipts.",
+  "native_elapsed_s": 118.06527748517692,
+  "occupied_card_s": 123.04898111522198,
+  "historical_occupied_card_s": 267.4240171853453,
+  "cumulative_occupied_card_s": 390.47299830056727,
+  "native_adam_steps": 0,
+  "production_qualified": false,
+  "state_restoration_receipts_rechecked": 4,
+  "aggregate_diagnostic": {
+    "native_effect_fp64": 0.16704796974490202,
+    "centered_score_prediction_fp64": 0.16701885306623132,
+    "raw_score_prediction_fp64": 0.1670188520307402,
+    "native_minus_centered_prediction": 2.911667867069867e-05,
+    "reference_gradient_l2": 0.15282143062599426,
+    "allocated_gradient_l2": 0.1627061145251914,
+    "native_gradient_difference_l2": 0.01920783711009782,
+    "admission_gate": false,
+    "interpretation": "Native rounded aggregate backward need not equal the token-gradient extension."
+  },
+  "peak_allocated_bytes": 37604353024,
+  "peak_reserved_bytes": 48368713728,
+  "peak_scope": "Probe after parent import; initialization peak not separately established.",
+  "interpretation": "Declared allocation-level numerical gate passes on the fixed training window. Old hidden-state gate remains failed. No efficacy or remaining integration/activity/resource qualification follows from this audit.",
+  "ARS_fallacy_scan": {
+    "coverage": "11/11 checked; deterministic numerical admission, no statistical efficacy inference",
+    "Simpsons_paradox": "All four pool gates reported individually; aggregate does not replace them.",
+    "Ecological_fallacy": "No token/pool result generalized to useful drafting or held-out behavior.",
+    "Berksons_paradox": "Pools deliberately require at least two prefix positions; selection does not estimate population effects.",
+    "Collider_bias": "No adjusted causal association is estimated.",
+    "Base_rate_neglect": "Eligible483/261, selected2/2, all58 selected positions and all four pools retained.",
+    "Regression_to_mean": "No pre-post learning effect inferred from numerical rechecks.",
+    "Survivorship_bias": "First audit attempt58/58 completed; historical six failed/partial attempts remain disclosed.",
+    "Look_elsewhere_effect": "Four complete pools selected before sensitivities; all are reported; no efficacy significance tests.",
+    "Garden_of_forking_paths": "Changed numerical target explicitly user-authorized and prospectively sealed; old1.6% gate remains failed.",
+    "Correlation_causation": "Gate pass establishes this finite-window numerical realization, not learning or serving causality.",
+    "Reverse_causality": "No directional observational causal conclusion is made."
+  }
+}

@@ -1,0 +1,188 @@
+{
+  "status": "completed",
+  "failed_repair": "/data/sources/minhao/runs/dflash_frontier_preservation_20261125/repair_001/derivative_support_001",
+  "global_reproduction_exact": true,
+  "global_signed_residual": -0.44499001427342577,
+  "attention": [
+    {
+      "output_contraction": 3.1998726792137413,
+      "input_contraction": 3.1999790679640894,
+      "parameter_contraction": 0.0,
+      "signed_residual": -0.00010638875034807427,
+      "relative_to_output": -3.3247807339076894e-05,
+      "layer": 0,
+      "native_primal_bit_equal": true,
+      "input_contributions": {
+        "query": 0.04007419560218226,
+        "key": 0.5164466430236073,
+        "value": 2.6434582293382998
+      }
+    },
+    {
+      "output_contraction": 3.34103709415133,
+      "input_contraction": 3.340039128188376,
+      "parameter_contraction": 0.0,
+      "signed_residual": 0.0009979659629539839,
+      "relative_to_output": 0.0002986994561362334,
+      "layer": 1,
+      "native_primal_bit_equal": true,
+      "input_contributions": {
+        "query": 1.115849068777853,
+        "key": 0.6592899400945593,
+        "value": 1.5649001193159635
+      }
+    },
+    {
+      "output_contraction": 4.94244720376836,
+      "input_contraction": 4.942131313952518,
+      "parameter_contraction": 0.0,
+      "signed_residual": 0.0003158898158419632,
+      "relative_to_output": 6.391364496541583e-05,
+      "layer": 2,
+      "native_primal_bit_equal": true,
+      "input_contributions": {
+        "query": 1.5435382976344143,
+        "key": 0.7623050743837922,
+        "value": 2.6362879419343113
+      }
+    },
+    {
+      "output_contraction": 6.024988427434281,
+      "input_contraction": 6.024967867330021,
+      "parameter_contraction": 0.0,
+      "signed_residual": 2.056010425999233e-05,
+      "relative_to_output": 3.4124719918753057e-06,
+      "layer": 3,
+      "native_primal_bit_equal": true,
+      "input_contributions": {
+        "query": 1.5667067393431267,
+        "key": 0.9867849100849706,
+        "value": 3.471476217901924
+      }
+    },
+    {
+      "output_contraction": 6.131147767623754,
+      "input_contraction": 6.130058708842419,
+      "parameter_contraction": 0.0,
+      "signed_residual": 0.0010890587813348063,
+      "relative_to_output": 0.00017762722782277554,
+      "layer": 4,
+      "native_primal_bit_equal": true,
+      "input_contributions": {
+        "query": 1.0966848634579436,
+        "key": 0.5751412650638261,
+        "value": 4.45823258032065
+      }
+    }
+  ],
+  "attention_signed_residual_sum": 0.0023170859140426714,
+  "residual_outside_attention": -0.44730710018746844,
+  "derivative_scope_accounting": {
+    "ordinary_calls": 0,
+    "dual_calls": 5,
+    "native_aux_forwards": 5,
+    "query_tiles": 320,
+    "key_tiles": 2295,
+    "max_score_elements": 524288,
+    "last_precision_before": "none",
+    "derivative_fp32_precision": "ieee",
+    "derivative_autocast": false,
+    "last_precision_after": "none",
+    "precision_restored": true
+  },
+  "local_acceptance_gate": false,
+  "native_adam_steps": 0,
+  "layers": [
+    {
+      "output_contraction": 4.910050376067161,
+      "input_contraction": 1.9696674664615796,
+      "parameter_contraction": 3.025309201577394,
+      "signed_residual": -0.08492629197181234,
+      "relative_to_output": -0.017296419683546376,
+      "layer": 0,
+      "native_primal_bit_equal": true,
+      "hidden_input_contraction": 0.0,
+      "shared_context_input_contraction": 1.9696674664615796,
+      "local_parameter_gradients_bit_equal": true,
+      "global_parameter_contraction": 3.025309201577394
+    },
+    {
+      "output_contraction": 8.36888766962427,
+      "input_contraction": 6.117222199250884,
+      "parameter_contraction": 2.3777323103005648,
+      "signed_residual": -0.12606683992717915,
+      "relative_to_output": -0.015063750991036908,
+      "layer": 1,
+      "native_primal_bit_equal": true,
+      "hidden_input_contraction": 4.910050376067161,
+      "shared_context_input_contraction": 1.2071718231837223,
+      "local_parameter_gradients_bit_equal": true,
+      "global_parameter_contraction": 2.3777323103005648
+    },
+    {
+      "output_contraction": 12.33135284031539,
+      "input_contraction": 9.71895253036184,
+      "parameter_contraction": 2.7112175721825547,
+      "signed_residual": -0.09881726222900467,
+      "relative_to_output": -0.008013497262517492,
+      "layer": 2,
+      "native_primal_bit_equal": true,
+      "hidden_input_contraction": 8.36888766962427,
+      "shared_context_input_contraction": 1.3500648607375692,
+      "local_parameter_gradients_bit_equal": true,
+      "global_parameter_contraction": 2.7112175721825547
+    },
+    {
+      "output_contraction": 16.929507744180626,
+      "input_contraction": 14.031664218852336,
+      "parameter_contraction": 2.9807726084313395,
+      "signed_residual": -0.08292908310305025,
+      "relative_to_output": -0.004898493468101954,
+      "layer": 3,
+      "native_primal_bit_equal": true,
+      "hidden_input_contraction": 12.33135284031539,
+      "shared_context_input_contraction": 1.700311378536947,
+      "local_parameter_gradients_bit_equal": true,
+      "global_parameter_contraction": 2.9807726084313395
+    },
+    {
+      "output_contraction": 21.26154403337796,
+      "input_contraction": 18.52005206538626,
+      "parameter_contraction": 2.78091982798889,
+      "signed_residual": -0.03942785999719067,
+      "relative_to_output": -0.001854421293923615,
+      "layer": 4,
+      "native_primal_bit_equal": true,
+      "hidden_input_contraction": 16.929507744180626,
+      "shared_context_input_contraction": 1.5905443212056358,
+      "local_parameter_gradients_bit_equal": true,
+      "global_parameter_contraction": 2.78091982798889
+    }
+  ],
+  "chain_regions": {
+    "fc": {
+      "output_contraction": 7.501012726741196,
+      "input_contraction": 0.0,
+      "parameter_contraction": 7.500708424927754,
+      "signed_residual": 0.00030430181344254237,
+      "relative_to_output": 4.056809720608831e-05
+    },
+    "hidden_norm": {
+      "output_contraction": 7.817798070296959,
+      "input_contraction": 7.501012726741196,
+      "parameter_contraction": 0.31658180197421937,
+      "signed_residual": 0.0002035415815434538,
+      "relative_to_output": 2.6035666272424237e-05
+    },
+    "norm": {
+      "output_contraction": 21.291557381703647,
+      "input_contraction": 21.26154403337796,
+      "parameter_contraction": 0.0433056485943568,
+      "signed_residual": -0.01329230026866822,
+      "relative_to_output": -0.0006242991074053895
+    }
+  },
+  "shared_context_merge_residual": 3.8220171505010114e-05,
+  "reconstructed_global_residual": -0.44499001427342433,
+  "reconstruction_remainder": -1.4432899320127035e-15
+}

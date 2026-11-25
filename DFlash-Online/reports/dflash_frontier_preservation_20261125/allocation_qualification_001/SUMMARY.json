@@ -1,0 +1,303 @@
+{
+  "schema": "public_native_token_contraction_qualification_v2",
+  "status": "numerically_qualified",
+  "production_qualified": false,
+  "execution_commit": "bf7c93455968ca1bba1c7cc179bde1abb6810444",
+  "attempt": 1,
+  "numerical_contract": "native_token_contraction_v2",
+  "historical_hidden_state_gate": {
+    "status": "FAILED",
+    "relative_error": 0.020471973132024777,
+    "relative_tolerance": 0.016,
+    "absolute_tolerance": 1e-05,
+    "production_veto_under_new_contract": false
+  },
+  "coverage": {
+    "fixed_training_responses": 2,
+    "frozen_anchors": [
+      512,
+      269
+    ],
+    "eligible_prefix_pools": [
+      483,
+      261
+    ],
+    "selected_pools": 4,
+    "selected_positions": 58,
+    "oracle_backwards_completed": 58,
+    "oracle_backwards_attempted": 58,
+    "fast_evaluations": 2,
+    "complete_pool_selection_before_scores": true
+  },
+  "checks": {
+    "coverage": true,
+    "gate_a": true,
+    "gate_b": true,
+    "gate_c": true,
+    "active_nonconstant_pool": true
+  },
+  "gate_A_by_fast_evaluation_and_response": [
+    [
+      {
+        "passed": true,
+        "checks": {
+          "allocator_fp32": true,
+          "finite": true,
+          "disjoint_teaching_roles": true,
+          "positive_weights": true,
+          "block_mass": true,
+          "relative_cap": true,
+          "nonprefix_preservation_unchanged": true,
+          "repair_unchanged": true,
+          "direct_support_exact": true,
+          "native_response_denominator": true,
+          "accumulation_once": true
+        },
+        "failures": [],
+        "denominator": 2959.242919921875,
+        "full_sum_denominator": 2959.242919921875,
+        "native_vs_full_sum_difference": 0.0,
+        "prefix_positions": 5931,
+        "repair_positions": 230,
+        "maximum_block_mass_error": 4.76837158203125e-07
+      },
+      {
+        "passed": true,
+        "checks": {
+          "allocator_fp32": true,
+          "finite": true,
+          "disjoint_teaching_roles": true,
+          "positive_weights": true,
+          "block_mass": true,
+          "relative_cap": true,
+          "nonprefix_preservation_unchanged": true,
+          "repair_unchanged": true,
+          "direct_support_exact": true,
+          "native_response_denominator": true,
+          "accumulation_once": true
+        },
+        "failures": [],
+        "denominator": 1564.56884765625,
+        "full_sum_denominator": 1564.568603515625,
+        "native_vs_full_sum_difference": 0.000244140625,
+        "prefix_positions": 3048,
+        "repair_positions": 141,
+        "maximum_block_mass_error": 4.76837158203125e-07
+      }
+    ],
+    [
+      {
+        "passed": true,
+        "checks": {
+          "allocator_fp32": true,
+          "finite": true,
+          "disjoint_teaching_roles": true,
+          "positive_weights": true,
+          "block_mass": true,
+          "relative_cap": true,
+          "nonprefix_preservation_unchanged": true,
+          "repair_unchanged": true,
+          "direct_support_exact": true,
+          "native_response_denominator": true,
+          "accumulation_once": true
+        },
+        "failures": [],
+        "denominator": 2959.242919921875,
+        "full_sum_denominator": 2959.242919921875,
+        "native_vs_full_sum_difference": 0.0,
+        "prefix_positions": 5931,
+        "repair_positions": 230,
+        "maximum_block_mass_error": 4.76837158203125e-07
+      },
+      {
+        "passed": true,
+        "checks": {
+          "allocator_fp32": true,
+          "finite": true,
+          "disjoint_teaching_roles": true,
+          "positive_weights": true,
+          "block_mass": true,
+          "relative_cap": true,
+          "nonprefix_preservation_unchanged": true,
+          "repair_unchanged": true,
+          "direct_support_exact": true,
+          "native_response_denominator": true,
+          "accumulation_once": true
+        },
+        "failures": [],
+        "denominator": 1564.56884765625,
+        "full_sum_denominator": 1564.568603515625,
+        "native_vs_full_sum_difference": 0.000244140625,
+        "prefix_positions": 3048,
+        "repair_positions": 141,
+        "maximum_block_mass_error": 4.76837158203125e-07
+      }
+    ]
+  ],
+  "direction": {
+    "primary_sha256": "a247146adcac8dd72ef8d7100940fcfeb6240a24f87b441ec7b2e82298f9db52",
+    "effective_sha256": "3b8f04627511bfb4864aa6517ea315c0db37536e4b159453373824912110c267",
+    "primary_dtype": "torch.float32",
+    "effective_dtype": "torch.bfloat16",
+    "scale": 1.0,
+    "represented_directions_equal": false,
+    "primary_unchanged": true,
+    "interpretation": "Primary target remains FP32 w; cast and derivative-route score errors are separately diagnostic."
+  },
+  "aggregate_diagnostic": {
+    "native_effect_fp64": 0.16704796974490202,
+    "centered_score_prediction_fp64": 0.16701885306623132,
+    "raw_score_prediction_fp64": 0.1670188520307402,
+    "native_minus_centered_prediction": 2.911667867069867e-05,
+    "reference_gradient_l2": 0.15282143062599426,
+    "allocated_gradient_l2": 0.1627061145251914,
+    "native_gradient_difference_l2": 0.01920783711009782,
+    "admission_gate": false,
+    "interpretation": "Native rounded aggregate backward need not equal the token-gradient extension."
+  },
+  "preview_diagnostics": {
+    "response_assessments": [
+      4.480522155761719,
+      6.196382522583008
+    ],
+    "window_assessment": 5.338452339172363,
+    "gradient_norm": 0.15282142162322998,
+    "clip": 1.0,
+    "clipping_active": false,
+    "shadow_dtype": "torch.float32",
+    "preview_parameter_dtype": "torch.bfloat16",
+    "assessment_dtype": "torch.float32",
+    "direction_dtype": "torch.float32",
+    "accumulation_factor": 0.5,
+    "native_adam_steps": 0
+  },
+  "exact_state": {
+    "global_step": 128,
+    "presentations": 256,
+    "completed_event": 1,
+    "gradient_buffers_before_restore": 0,
+    "four_state_receipts_rechecked": 4,
+    "final_restoration": {
+      "status": "passed",
+      "exact_resume": true,
+      "mismatches": [],
+      "global_step": 128,
+      "presentations": 256,
+      "no_rng_reset": true,
+      "extra_model_passes": 0,
+      "extra_optimizer_steps": 0
+    }
+  },
+  "work": {
+    "native_adam_steps": 0,
+    "production_events": 0,
+    "feedback_generations": 0,
+    "serving_generations": 0,
+    "physical_hook_entries": {
+      "draft_forwards": 70,
+      "layer_forwards": 350,
+      "vocabulary_head_calls": 1586,
+      "objective_chunks": 392
+    },
+    "operation_ledger": {
+      "attempted": {
+        "parent_runtime_initialization": 1,
+        "original_native_anchor_window_sampling": 1,
+        "allocation_native_backbone_forward": 70,
+        "allocation_freeze_native_head_chunk": 98,
+        "reference_window_gradient": 1,
+        "allocation_native_teaching_head_chunk": 392,
+        "allocation_native_reference_backward": 4,
+        "optimizer_shadow_and_assessment_direction": 1,
+        "allocation_fp32_adam_shadow": 1,
+        "allocation_preview_native_head_chunk": 196,
+        "allocation_preview_native_backward": 2,
+        "fast_scoring_window": 2,
+        "allocation_native_token_head_chunk": 254,
+        "scientific_state_verification": 3,
+        "serial_reference_token_graph": 58,
+        "serial_reference_token_vjp": 58,
+        "serial_reference_fp64_contractions": 58,
+        "allocated_window_gradient": 1
+      },
+      "completed": {
+        "parent_runtime_initialization": 1,
+        "original_native_anchor_window_sampling": 1,
+        "allocation_native_backbone_forward": 70,
+        "allocation_freeze_native_head_chunk": 98,
+        "allocation_native_teaching_head_chunk": 392,
+        "allocation_native_reference_backward": 4,
+        "reference_window_gradient": 1,
+        "allocation_preview_native_head_chunk": 196,
+        "allocation_preview_native_backward": 2,
+        "allocation_fp32_adam_shadow": 1,
+        "optimizer_shadow_and_assessment_direction": 1,
+        "allocation_native_token_head_chunk": 254,
+        "fast_scoring_window": 2,
+        "scientific_state_verification": 3,
+        "serial_reference_token_graph": 58,
+        "serial_reference_token_vjp": 58,
+        "serial_reference_fp64_contractions": 58,
+        "allocated_window_gradient": 1
+      },
+      "pending": [],
+      "native_adam_steps": 0
+    },
+    "full_forward_decomposition": {
+      "current_role_freeze": 2,
+      "reference_teaching": 2,
+      "preview_assessment": 2,
+      "two_fast_evaluations": 4,
+      "serial_token_oracles": 58,
+      "allocated_teaching_diagnostic": 2
+    },
+    "ordinary_backwards": {
+      "reference_and_allocated_teaching": 4,
+      "preview_assessment": 2,
+      "serial_token_oracles": 58
+    },
+    "counting_note": "WorkReceipt operations nest. The two fast evaluations contain four full draft forwards; attention/head calls are not additional whole-model forwards. Head checkpoint recomputation is included in physical hooks."
+  },
+  "resources": {
+    "native_wall_s": 118.06527748517692,
+    "supervised_occupied_card_s": 123.04898111522198,
+    "historical_occupied_card_s": 267.4240171853453,
+    "cumulative_occupied_card_s": 390.47299830056727,
+    "new_phase_elapsed_s_at_process_end": 123.76916933059692,
+    "original_phase_clock": {
+      "schema": "frontier_allocation_phase_clock_v2",
+      "first_gpu_action_epoch": 1795615777.8640497,
+      "elapsed_limit_s": 14400,
+      "occupied_card_limit_s": 28800,
+      "prior_occupied_card_s": 267.4240171853453,
+      "historical_first_gpu_action_epoch": 1795608216.883463,
+      "historical_elapsed_interval_s": 3465.673397064209,
+      "prior_completion_to_new_phase_s": 4095.3071897029877,
+      "gap_scope": "user review and CPU implementation/staging; no occupied GPU time claimed"
+    },
+    "peak_allocated_bytes": 37604353024,
+    "peak_reserved_bytes": 48368713728,
+    "peak_scope": "After parent import and before audit; initialization peak not separately established.",
+    "new_or_current_study_storage_receipt": {
+      "allocated_bytes": 2308792320,
+      "compiler_growth_bytes": 16896000,
+      "charged_bytes": 2325688320,
+      "free_bytes": 429778173952,
+      "local_allocated_bytes": 343470080,
+      "all_locations_charged_bytes": 2669158400
+    },
+    "storage_scope": "Study allocation includes all prior charged roots and compiler growth; this is not solely this audit incremental writing.",
+    "limits": {
+      "elapsed_s": 14400,
+      "occupied_card_s": 28800,
+      "additional_allocated_bytes": 40000000000
+    },
+    "free_reserve_bytes": 400000000000,
+    "no_inherited_retirement": true
+  },
+  "CPU_tests": {
+    "local": 103,
+    "A800": 103
+  },
+  "remaining": "This numerical receipt alone did not qualify integration/activity. The subsequent passed integration is documented separately in INTEGRATION_SUMMARY.json; production resource admission remains pending."
+}

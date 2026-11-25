@@ -1,0 +1,642 @@
+{
+  "schema": "frontier_native_derivative_support_v1",
+  "status": "blocked_native_derivative",
+  "execution_commit": "da4f4cfe28844141a5548401ca86e0ec08e73abf",
+  "parent_execution_commit": "416cb7931028621c09b8fa983e53fc8a7dcebaab",
+  "native_adam_steps": 0,
+  "full_coefficient_sensitivity_qualified": false,
+  "automatic_retry": false,
+  "discarded_optimizer_startup_executed": false,
+  "startup_scope": "First-order native control compiles the same path; all control/derivative work is separate from committed training.",
+  "primitive_scope": "parameter-to-native-hidden JVP prerequisite; no alternative attention or loss",
+  "methods": [
+    {
+      "method": "forward_ad_jvp",
+      "responses": [
+        {
+          "status": "unsupported_or_failed",
+          "method": "forward_ad_jvp",
+          "started_epoch": 1795608252.4987645,
+          "error": "NotImplementedError('You must implement the jvp function for custom autograd.Function to use it with forward mode AD.')",
+          "traceback": "Traceback (most recent call last):\n  File \"/data/sources/minhao/frontier_preservation_source_20261125_001/DFlash-Online/experiments/frontier_preservation_pilot/native.py\", line 259, in support_attempt\n    result['result'] = method(module, response, parameters, direction, work)\n                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/data/sources/minhao/frontier_preservation_source_20261125_001/DFlash-Online/experiments/frontier_preservation_pilot/native.py\", line 177, in forward_ad_jvp\n    output = torch.func.functional_call(module, dual_parameters, (response,))\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/data/conda_envs/minhao/dflash_specforge_20261022/lib/python3.12/site-packages/torch/_functorch/functional_call.py\", line 154, in functional_call\n    return nn.utils.stateless._functional_call(\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/data/conda_envs/minhao/dflash_specforge_20261022/lib/python3.12/site-packages/torch/nn/utils/stateless.py\", line 279, in _functional_call\n    return module(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/data/conda_envs/minhao/dflash_specforge_20261022/lib/python3.12/site-packages/torch/nn/modules/module.py\", line 1778, in _wrapped_call_impl\n    return self._call_impl(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/data/conda_envs/minhao/dflash_specforge_20261022/lib/python3.12/site-packages/torch/nn/modules/module.py\", line 1789, in _call_impl\n    return forward_call(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/data/sources/minhao/frontier_preservation_source_20261125_001/DFlash-Online/experiments/frontier_preservation_pilot/native.py\", line 118, in forward\n    anchors, keep, hidden = self.model._forward_draft_blocks(\n                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/data/sources/minhao/frontier_preservation_source_20261125_001/DFlash-Online/training/specforge/algorithms/common/dflash_family_model.py\", line 679, in _forward_draft_blocks\n    output_hidden = self.draft_model(\n                    ^^^^^^^^^^^^^^^^^\n  File \"/data/conda_envs/minhao/dflash_specforge_20261022/lib/python3.12/site-packages/torch/nn/modules/module.py\", line 1778, in _wrapped_call_impl\n    return self._call_impl(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/data/conda_envs/minhao/dflash_specforge_20261022/lib/python3.12/site-packages/torch/nn/modules/module.py\", line 1884, in _call_impl\n    return inner()\n           ^^^^^^^\n  File \"/data/conda_envs/minhao/dflash_specforge_20261022/lib/python3.12/site-packages/torch/nn/modules/module.py\", line 1832, in inner\n    result = forward_call(*args, **kwargs)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/data/sources/minhao/frontier_preservation_source_20261125_001/DFlash-Online/training/specforge/modeling/draft/dflash.py\", line 887, in forward\n    hidden_states = layer(\n                    ^^^^^^\n  File \"/data/conda_envs/minhao/dflash_specforge_20261022/lib/python3.12/site-packages/transformers/modeling_layers.py\", line 93, in __call__\n    return super().__call__(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/data/conda_envs/minhao/dflash_specforge_20261022/lib/python3.12/site-packages/torch/nn/modules/module.py\", line 1778, in _wrapped_call_impl\n    return self._call_impl(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/data/conda_envs/minhao/dflash_specforge_20261022/lib/python3.12/site-packages/torch/nn/modules/module.py\", line 1884, in _call_impl\n    return inner()\n           ^^^^^^^\n  File \"/data/conda_envs/minhao/dflash_specforge_20261022/lib/python3.12/site-packages/torch/nn/modules/module.py\", line 1832, in inner\n    result = forward_call(*args, **kwargs)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/data/sources/minhao/frontier_preservation_source_20261125_001/DFlash-Online/training/specforge/modeling/draft/dflash.py\", line 594, in forward\n    hidden_states = self.self_attn(\n                    ^^^^^^^^^^^^^^^\n  File \"/data/conda_envs/minhao/dflash_specforge_20261022/lib/python3.12/site-packages/torch/nn/modules/module.py\", line 1778, in _wrapped_call_impl\n    return self._call_impl(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/data/conda_envs/minhao/dflash_specforge_20261022/lib/python3.12/site-packages/torch/nn/modules/module.py\", line 1789, in _call_impl\n    return forward_call(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/data/sources/minhao/frontier_preservation_source_20261125_001/DFlash-Online/training/specforge/modeling/draft/dflash.py\", line 299, in forward\n    attn_output = compile_friendly_flex_attention(\n                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/data/sources/minhao/frontier_preservation_source_20261125_001/DFlash-Online/training/specforge/modeling/draft/flex_attention.py\", line 57, in compile_friendly_flex_attention\n    return flex_attention_compiled(\n           ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/data/conda_envs/minhao/dflash_specforge_20261022/lib/python3.12/site-packages/torch/_dynamo/eval_frame.py\", line 1166, in compile_wrapper\n    result = fn(*args, **kwargs)\n             ^^^^^^^^^^^^^^^^^^^\n  File \"/data/conda_envs/minhao/dflash_specforge_20261022/lib/python3.12/site-packages/torch/nn/attention/flex_attention.py\", line 2236, in flex_attention\n    def flex_attention(\n  File \"/data/conda_envs/minhao/dflash_specforge_20261022/lib/python3.12/site-packages/torch/_dynamo/eval_frame.py\", line 1446, in _fn\n    return fn(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^\n  File \"/data/conda_envs/minhao/dflash_specforge_20261022/lib/python3.12/site-packages/torch/_functorch/aot_autograd.py\", line 1277, in forward\n    return compiled_fn(full_args)\n           ^^^^^^^^^^^^^^^^^^^^^^\n  File \"/data/conda_envs/minhao/dflash_specforge_20261022/lib/python3.12/site-packages/torch/_functorch/_aot_autograd/runtime_wrappers.py\", line 2548, in __call__\n    return self.compiled_fn(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/data/conda_envs/minhao/dflash_specforge_20261022/lib/python3.12/site-packages/torch/_functorch/_aot_autograd/runtime_wrappers.py\", line 1141, in runtime_wrapper\n    result = _codegen_runtime_wrapper(\n             ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/data/conda_envs/minhao/dflash_specforge_20261022/lib/python3.12/site-packages/torch/_functorch/_aot_autograd/subclass_codegen.py:codegen(runtime_wrapper_orchestration)\", line 11, in _runtime_wrapper\n  File \"/data/conda_envs/minhao/dflash_specforge_20261022/lib/python3.12/site-packages/torch/_functorch/_aot_autograd/utils.py\", line 93, in g\n    return f(*args)\n           ^^^^^^^^\n  File \"/data/conda_envs/minhao/dflash_specforge_20261022/lib/python3.12/site-packages/torch/autograd/function.py\", line 625, in apply\n    return super().apply(*args, **kwargs)  # type: ignore[misc]\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/data/conda_envs/minhao/dflash_specforge_20261022/lib/python3.12/site-packages/torch/autograd/function.py\", line 340, in apply_jvp\n    return self._forward_cls.jvp(self, *args)  # type: ignore[attr-defined]\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/data/conda_envs/minhao/dflash_specforge_20261022/lib/python3.12/site-packages/torch/autograd/function.py\", line 508, in jvp\n    raise NotImplementedError(\nNotImplementedError: You must implement the jvp function for custom autograd.Function to use it with forward mode AD.\n",
+          "wall_s": 0.11386485584080219,
+          "work": {
+            "attempted": {
+              "parent_runtime_initialization": 1,
+              "native_anchor_window_sampling": 1,
+              "control_native_forward": 1,
+              "control_native_parameter_vjp": 1,
+              "native_forward_ad_forward": 1
+            },
+            "completed": {
+              "parent_runtime_initialization": 1,
+              "native_anchor_window_sampling": 1,
+              "control_native_forward": 1,
+              "control_native_parameter_vjp": 1
+            },
+            "pending": [
+              "native_forward_ad_forward"
+            ],
+            "native_adam_steps": 0
+          }
+        }
+      ],
+      "unattempted_responses": 1,
+      "passed": false
+    },
+    {
+      "method": "transposed_reverse_jvp",
+      "responses": [
+        {
+          "status": "unsupported_or_failed",
+          "method": "transposed_reverse_jvp",
+          "started_epoch": 1795608252.797063,
+          "error": "RuntimeError('torch.compile with aot_autograd does not currently support double backward')",
+          "traceback": "Traceback (most recent call last):\n  File \"/data/sources/minhao/frontier_preservation_source_20261125_001/DFlash-Online/experiments/frontier_preservation_pilot/native.py\", line 259, in support_attempt\n    result['result'] = method(module, response, parameters, direction, work)\n                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/data/sources/minhao/frontier_preservation_source_20261125_001/DFlash-Online/experiments/frontier_preservation_pilot/native.py\", line 217, in transposed_reverse_jvp\n    tangent = torch.autograd.grad(contraction, cotangent, allow_unused=False)[0]\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/data/conda_envs/minhao/dflash_specforge_20261022/lib/python3.12/site-packages/torch/autograd/__init__.py\", line 594, in grad\n    result = _engine_run_backward(\n             ^^^^^^^^^^^^^^^^^^^^^\n  File \"/data/conda_envs/minhao/dflash_specforge_20261022/lib/python3.12/site-packages/torch/autograd/graph.py\", line 979, in _engine_run_backward\n    return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/data/conda_envs/minhao/dflash_specforge_20261022/lib/python3.12/site-packages/torch/autograd/function.py\", line 325, in apply\n    return user_fn(self, *args)\n           ^^^^^^^^^^^^^^^^^^^^\n  File \"/data/conda_envs/minhao/dflash_specforge_20261022/lib/python3.12/site-packages/torch/_functorch/_aot_autograd/runtime_wrappers.py\", line 3501, in backward\n    raise RuntimeError(\nRuntimeError: torch.compile with aot_autograd does not currently support double backward\n",
+          "wall_s": 0.2806484028697014,
+          "work": {
+            "attempted": {
+              "parent_runtime_initialization": 1,
+              "native_anchor_window_sampling": 1,
+              "control_native_forward": 1,
+              "control_native_parameter_vjp": 1,
+              "native_forward_ad_forward": 1,
+              "native_reverse_forward": 1,
+              "native_parameter_vjp": 1,
+              "native_grad_output_vjp": 1
+            },
+            "completed": {
+              "parent_runtime_initialization": 1,
+              "native_anchor_window_sampling": 1,
+              "control_native_forward": 1,
+              "control_native_parameter_vjp": 1,
+              "native_reverse_forward": 1,
+              "native_parameter_vjp": 1
+            },
+            "pending": [
+              "native_forward_ad_forward",
+              "native_grad_output_vjp"
+            ],
+            "native_adam_steps": 0
+          }
+        }
+      ],
+      "unattempted_responses": 1,
+      "passed": false
+    }
+  ],
+  "runtime": {
+    "torch_version": "2.13.0+cu130",
+    "flex_source": "/data/conda_envs/minhao/dflash_specforge_20261022/lib/python3.12/site-packages/torch/_higher_order_ops/flex_attention.py",
+    "flex_source_identity": {
+      "bytes": 51950,
+      "sha256": "0c5bb2a496f06df71b3e203923ef34fdb65c6a309ba966f091555736582c5471"
+    }
+  },
+  "restored_parent": {
+    "global_step": 128,
+    "presentations": 256,
+    "completed_events": 1,
+    "adam_state_entries": 58
+  },
+  "optimizer_recipe": {
+    "type": "direct_bf16_adamw",
+    "version": 1,
+    "max_grad_norm": 1.0,
+    "parameters": [
+      [
+        "layers.0.self_attn.q_proj.weight",
+        [
+          4096,
+          4096
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.0.self_attn.k_proj.weight",
+        [
+          1024,
+          4096
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.0.self_attn.v_proj.weight",
+        [
+          1024,
+          4096
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.0.self_attn.o_proj.weight",
+        [
+          4096,
+          4096
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.0.self_attn.q_norm.weight",
+        [
+          128
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.0.self_attn.k_norm.weight",
+        [
+          128
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.0.mlp.gate_proj.weight",
+        [
+          12288,
+          4096
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.0.mlp.up_proj.weight",
+        [
+          12288,
+          4096
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.0.mlp.down_proj.weight",
+        [
+          4096,
+          12288
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.0.input_layernorm.weight",
+        [
+          4096
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.0.post_attention_layernorm.weight",
+        [
+          4096
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.1.self_attn.q_proj.weight",
+        [
+          4096,
+          4096
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.1.self_attn.k_proj.weight",
+        [
+          1024,
+          4096
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.1.self_attn.v_proj.weight",
+        [
+          1024,
+          4096
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.1.self_attn.o_proj.weight",
+        [
+          4096,
+          4096
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.1.self_attn.q_norm.weight",
+        [
+          128
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.1.self_attn.k_norm.weight",
+        [
+          128
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.1.mlp.gate_proj.weight",
+        [
+          12288,
+          4096
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.1.mlp.up_proj.weight",
+        [
+          12288,
+          4096
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.1.mlp.down_proj.weight",
+        [
+          4096,
+          12288
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.1.input_layernorm.weight",
+        [
+          4096
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.1.post_attention_layernorm.weight",
+        [
+          4096
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.2.self_attn.q_proj.weight",
+        [
+          4096,
+          4096
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.2.self_attn.k_proj.weight",
+        [
+          1024,
+          4096
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.2.self_attn.v_proj.weight",
+        [
+          1024,
+          4096
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.2.self_attn.o_proj.weight",
+        [
+          4096,
+          4096
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.2.self_attn.q_norm.weight",
+        [
+          128
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.2.self_attn.k_norm.weight",
+        [
+          128
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.2.mlp.gate_proj.weight",
+        [
+          12288,
+          4096
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.2.mlp.up_proj.weight",
+        [
+          12288,
+          4096
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.2.mlp.down_proj.weight",
+        [
+          4096,
+          12288
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.2.input_layernorm.weight",
+        [
+          4096
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.2.post_attention_layernorm.weight",
+        [
+          4096
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.3.self_attn.q_proj.weight",
+        [
+          4096,
+          4096
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.3.self_attn.k_proj.weight",
+        [
+          1024,
+          4096
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.3.self_attn.v_proj.weight",
+        [
+          1024,
+          4096
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.3.self_attn.o_proj.weight",
+        [
+          4096,
+          4096
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.3.self_attn.q_norm.weight",
+        [
+          128
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.3.self_attn.k_norm.weight",
+        [
+          128
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.3.mlp.gate_proj.weight",
+        [
+          12288,
+          4096
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.3.mlp.up_proj.weight",
+        [
+          12288,
+          4096
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.3.mlp.down_proj.weight",
+        [
+          4096,
+          12288
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.3.input_layernorm.weight",
+        [
+          4096
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.3.post_attention_layernorm.weight",
+        [
+          4096
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.4.self_attn.q_proj.weight",
+        [
+          4096,
+          4096
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.4.self_attn.k_proj.weight",
+        [
+          1024,
+          4096
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.4.self_attn.v_proj.weight",
+        [
+          1024,
+          4096
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.4.self_attn.o_proj.weight",
+        [
+          4096,
+          4096
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.4.self_attn.q_norm.weight",
+        [
+          128
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.4.self_attn.k_norm.weight",
+        [
+          128
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.4.mlp.gate_proj.weight",
+        [
+          12288,
+          4096
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.4.mlp.up_proj.weight",
+        [
+          12288,
+          4096
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.4.mlp.down_proj.weight",
+        [
+          4096,
+          12288
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.4.input_layernorm.weight",
+        [
+          4096
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "layers.4.post_attention_layernorm.weight",
+        [
+          4096
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "norm.weight",
+        [
+          4096
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "fc.weight",
+        [
+          4096,
+          20480
+        ],
+        "torch.bfloat16"
+      ],
+      [
+        "hidden_norm.weight",
+        [
+          4096
+        ],
+        "torch.bfloat16"
+      ]
+    ],
+    "optimizer_options": {
+      "lr": 0.0003,
+      "betas": [
+        0.9,
+        0.999
+      ],
+      "eps": 1e-08,
+      "weight_decay": 0.01,
+      "amsgrad": false,
+      "maximize": false,
+      "foreach": null,
+      "capturable": false,
+      "differentiable": false,
+      "fused": null,
+      "decoupled_weight_decay": true
+    }
+  },
+  "first_order_control": {
+    "status": "passed",
+    "method": "first_order_control",
+    "started_epoch": 1795608250.1146693,
+    "result": {
+      "output_shape": [
+        1,
+        8192,
+        4096
+      ],
+      "output_dtype": "torch.bfloat16",
+      "gradient_tensors": 58,
+      "gradient_l2": 4404579.0
+    },
+    "wall_s": 2.3826869912445545,
+    "work": {
+      "attempted": {
+        "parent_runtime_initialization": 1,
+        "native_anchor_window_sampling": 1,
+        "control_native_forward": 1,
+        "control_native_parameter_vjp": 1
+      },
+      "completed": {
+        "parent_runtime_initialization": 1,
+        "native_anchor_window_sampling": 1,
+        "control_native_forward": 1,
+        "control_native_parameter_vjp": 1
+      },
+      "pending": [],
+      "native_adam_steps": 0
+    }
+  },
+  "native_jvp_supported": false,
+  "physical_work_delta": {
+    "draft_forwards": 3,
+    "layer_forwards": 11
+  },
+  "peak_allocated_bytes": 46102092288,
+  "peak_reserved_bytes": 46913290240,
+  "work": {
+    "attempted": {
+      "parent_runtime_initialization": 1,
+      "native_anchor_window_sampling": 1,
+      "control_native_forward": 1,
+      "control_native_parameter_vjp": 1,
+      "native_forward_ad_forward": 1,
+      "native_reverse_forward": 1,
+      "native_parameter_vjp": 1,
+      "native_grad_output_vjp": 1
+    },
+    "completed": {
+      "parent_runtime_initialization": 1,
+      "native_anchor_window_sampling": 1,
+      "control_native_forward": 1,
+      "control_native_parameter_vjp": 1,
+      "native_reverse_forward": 1,
+      "native_parameter_vjp": 1
+    },
+    "pending": [
+      "native_forward_ad_forward",
+      "native_grad_output_vjp"
+    ],
+    "native_adam_steps": 0
+  },
+  "restoration": {
+    "status": "passed",
+    "exact_resume": true,
+    "mismatches": [],
+    "global_step": 128,
+    "presentations": 256,
+    "no_rng_reset": true,
+    "extra_model_passes": 0,
+    "extra_optimizer_steps": 0
+  },
+  "wall_s": 36.92808060348034
+}

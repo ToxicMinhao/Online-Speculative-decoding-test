@@ -1,0 +1,423 @@
+{
+  "route": "d/du <native J^T u, fixed direction>",
+  "fixed_cotangent": "same nonzero retained diagnostic cotangent",
+  "native_reference_contraction_exact": true,
+  "native_backward_reference": 21.736547395977073,
+  "native_primal_bit_equal": true,
+  "ordinary_backward_bit_equal": false,
+  "parameter_hessian_requested": false,
+  "derivative_scope_accounting": {
+    "passthrough_calls": 0,
+    "native_primal_forwards": 5,
+    "native_first_vjps": 5,
+    "cotangent_transposes": 0,
+    "query_tiles": 0,
+    "key_tiles": 0,
+    "max_score_elements": 0
+  },
+  "first_vjp_parameters": [
+    {
+      "name": "model.draft_model.layers.0.self_attn.q_proj.weight",
+      "equal": false,
+      "max_absolute_difference": 0.0001220703125,
+      "l2_difference": 0.008040588349103928,
+      "finite_difference": true
+    },
+    {
+      "name": "model.draft_model.layers.0.self_attn.k_proj.weight",
+      "equal": false,
+      "max_absolute_difference": 0.0009765625,
+      "l2_difference": 0.014861343428492546,
+      "finite_difference": true
+    },
+    {
+      "name": "model.draft_model.layers.0.self_attn.v_proj.weight",
+      "equal": false,
+      "max_absolute_difference": 0.001953125,
+      "l2_difference": 0.050799258053302765,
+      "finite_difference": true
+    },
+    {
+      "name": "model.draft_model.layers.0.self_attn.o_proj.weight",
+      "equal": false,
+      "max_absolute_difference": 0.000202178955078125,
+      "l2_difference": 0.04166369140148163,
+      "finite_difference": true
+    },
+    {
+      "name": "model.draft_model.layers.0.self_attn.q_norm.weight",
+      "equal": false,
+      "max_absolute_difference": 0.001953125,
+      "l2_difference": 0.004315728787332773,
+      "finite_difference": true
+    },
+    {
+      "name": "model.draft_model.layers.0.self_attn.k_norm.weight",
+      "equal": false,
+      "max_absolute_difference": 0.001953125,
+      "l2_difference": 0.004322886932641268,
+      "finite_difference": true
+    },
+    {
+      "name": "model.draft_model.layers.0.mlp.gate_proj.weight",
+      "equal": false,
+      "max_absolute_difference": 0.00042724609375,
+      "l2_difference": 0.019340334460139275,
+      "finite_difference": true
+    },
+    {
+      "name": "model.draft_model.layers.0.mlp.up_proj.weight",
+      "equal": false,
+      "max_absolute_difference": 0.000244140625,
+      "l2_difference": 0.013590999878942966,
+      "finite_difference": true
+    },
+    {
+      "name": "model.draft_model.layers.0.mlp.down_proj.weight",
+      "equal": false,
+      "max_absolute_difference": 0.000244140625,
+      "l2_difference": 0.025384914129972458,
+      "finite_difference": true
+    },
+    {
+      "name": "model.draft_model.layers.0.input_layernorm.weight",
+      "equal": false,
+      "max_absolute_difference": 0.000732421875,
+      "l2_difference": 0.004545923788100481,
+      "finite_difference": true
+    },
+    {
+      "name": "model.draft_model.layers.0.post_attention_layernorm.weight",
+      "equal": false,
+      "max_absolute_difference": 0.015625,
+      "l2_difference": 0.018426837399601936,
+      "finite_difference": true
+    },
+    {
+      "name": "model.draft_model.layers.1.self_attn.q_proj.weight",
+      "equal": false,
+      "max_absolute_difference": 0.0009765625,
+      "l2_difference": 0.015617331489920616,
+      "finite_difference": true
+    },
+    {
+      "name": "model.draft_model.layers.1.self_attn.k_proj.weight",
+      "equal": false,
+      "max_absolute_difference": 0.0006103515625,
+      "l2_difference": 0.01648813486099243,
+      "finite_difference": true
+    },
+    {
+      "name": "model.draft_model.layers.1.self_attn.v_proj.weight",
+      "equal": false,
+      "max_absolute_difference": 0.001953125,
+      "l2_difference": 0.030603744089603424,
+      "finite_difference": true
+    },
+    {
+      "name": "model.draft_model.layers.1.self_attn.o_proj.weight",
+      "equal": false,
+      "max_absolute_difference": 7.62939453125e-05,
+      "l2_difference": 0.02729951962828636,
+      "finite_difference": true
+    },
+    {
+      "name": "model.draft_model.layers.1.self_attn.q_norm.weight",
+      "equal": false,
+      "max_absolute_difference": 0.001220703125,
+      "l2_difference": 0.0033403602428734303,
+      "finite_difference": true
+    },
+    {
+      "name": "model.draft_model.layers.1.self_attn.k_norm.weight",
+      "equal": false,
+      "max_absolute_difference": 0.001953125,
+      "l2_difference": 0.003990133758634329,
+      "finite_difference": true
+    },
+    {
+      "name": "model.draft_model.layers.1.mlp.gate_proj.weight",
+      "equal": false,
+      "max_absolute_difference": 0.0006103515625,
+      "l2_difference": 0.024415593594312668,
+      "finite_difference": true
+    },
+    {
+      "name": "model.draft_model.layers.1.mlp.up_proj.weight",
+      "equal": false,
+      "max_absolute_difference": 0.00043487548828125,
+      "l2_difference": 0.01623467169702053,
+      "finite_difference": true
+    },
+    {
+      "name": "model.draft_model.layers.1.mlp.down_proj.weight",
+      "equal": false,
+      "max_absolute_difference": 0.000244140625,
+      "l2_difference": 0.0244155153632164,
+      "finite_difference": true
+    },
+    {
+      "name": "model.draft_model.layers.1.input_layernorm.weight",
+      "equal": false,
+      "max_absolute_difference": 0.015625,
+      "l2_difference": 0.016026074066758156,
+      "finite_difference": true
+    },
+    {
+      "name": "model.draft_model.layers.1.post_attention_layernorm.weight",
+      "equal": false,
+      "max_absolute_difference": 0.0234375,
+      "l2_difference": 0.024903275072574615,
+      "finite_difference": true
+    },
+    {
+      "name": "model.draft_model.layers.2.self_attn.q_proj.weight",
+      "equal": false,
+      "max_absolute_difference": 0.0009765625,
+      "l2_difference": 0.016609754413366318,
+      "finite_difference": true
+    },
+    {
+      "name": "model.draft_model.layers.2.self_attn.k_proj.weight",
+      "equal": false,
+      "max_absolute_difference": 0.0009765625,
+      "l2_difference": 0.015330166555941105,
+      "finite_difference": true
+    },
+    {
+      "name": "model.draft_model.layers.2.self_attn.v_proj.weight",
+      "equal": false,
+      "max_absolute_difference": 0.00128173828125,
+      "l2_difference": 0.02659626677632332,
+      "finite_difference": true
+    },
+    {
+      "name": "model.draft_model.layers.2.self_attn.o_proj.weight",
+      "equal": false,
+      "max_absolute_difference": 6.103515625e-05,
+      "l2_difference": 0.023164456710219383,
+      "finite_difference": true
+    },
+    {
+      "name": "model.draft_model.layers.2.self_attn.q_norm.weight",
+      "equal": false,
+      "max_absolute_difference": 0.00103759765625,
+      "l2_difference": 0.003077245317399502,
+      "finite_difference": true
+    },
+    {
+      "name": "model.draft_model.layers.2.self_attn.k_norm.weight",
+      "equal": false,
+      "max_absolute_difference": 0.001953125,
+      "l2_difference": 0.003941706381738186,
+      "finite_difference": true
+    },
+    {
+      "name": "model.draft_model.layers.2.mlp.gate_proj.weight",
+      "equal": false,
+      "max_absolute_difference": 0.00030517578125,
+      "l2_difference": 0.025449786335229874,
+      "finite_difference": true
+    },
+    {
+      "name": "model.draft_model.layers.2.mlp.up_proj.weight",
+      "equal": false,
+      "max_absolute_difference": 0.000274658203125,
+      "l2_difference": 0.016303151845932007,
+      "finite_difference": true
+    },
+    {
+      "name": "model.draft_model.layers.2.mlp.down_proj.weight",
+      "equal": false,
+      "max_absolute_difference": 0.0001220703125,
+      "l2_difference": 0.024700678884983063,
+      "finite_difference": true
+    },
+    {
+      "name": "model.draft_model.layers.2.input_layernorm.weight",
+      "equal": false,
+      "max_absolute_difference": 0.0009765625,
+      "l2_difference": 0.0027829408645629883,
+      "finite_difference": true
+    },
+    {
+      "name": "model.draft_model.layers.2.post_attention_layernorm.weight",
+      "equal": false,
+      "max_absolute_difference": 0.005859375,
+      "l2_difference": 0.01082898210734129,
+      "finite_difference": true
+    },
+    {
+      "name": "model.draft_model.layers.3.self_attn.q_proj.weight",
+      "equal": false,
+      "max_absolute_difference": 0.00146484375,
+      "l2_difference": 0.014347126707434654,
+      "finite_difference": true
+    },
+    {
+      "name": "model.draft_model.layers.3.self_attn.k_proj.weight",
+      "equal": false,
+      "max_absolute_difference": 0.001953125,
+      "l2_difference": 0.013621736317873001,
+      "finite_difference": true
+    },
+    {
+      "name": "model.draft_model.layers.3.self_attn.v_proj.weight",
+      "equal": false,
+      "max_absolute_difference": 0.0009765625,
+      "l2_difference": 0.01784481666982174,
+      "finite_difference": true
+    },
+    {
+      "name": "model.draft_model.layers.3.self_attn.o_proj.weight",
+      "equal": false,
+      "max_absolute_difference": 3.814697265625e-05,
+      "l2_difference": 0.016056017950177193,
+      "finite_difference": true
+    },
+    {
+      "name": "model.draft_model.layers.3.self_attn.q_norm.weight",
+      "equal": false,
+      "max_absolute_difference": 0.0009765625,
+      "l2_difference": 0.0032561977859586477,
+      "finite_difference": true
+    },
+    {
+      "name": "model.draft_model.layers.3.self_attn.k_norm.weight",
+      "equal": false,
+      "max_absolute_difference": 0.00390625,
+      "l2_difference": 0.006093543488532305,
+      "finite_difference": true
+    },
+    {
+      "name": "model.draft_model.layers.3.mlp.gate_proj.weight",
+      "equal": false,
+      "max_absolute_difference": 0.000244140625,
+      "l2_difference": 0.022230034694075584,
+      "finite_difference": true
+    },
+    {
+      "name": "model.draft_model.layers.3.mlp.up_proj.weight",
+      "equal": false,
+      "max_absolute_difference": 0.000152587890625,
+      "l2_difference": 0.013153855688869953,
+      "finite_difference": true
+    },
+    {
+      "name": "model.draft_model.layers.3.mlp.down_proj.weight",
+      "equal": false,
+      "max_absolute_difference": 0.0001220703125,
+      "l2_difference": 0.017534291371703148,
+      "finite_difference": true
+    },
+    {
+      "name": "model.draft_model.layers.3.input_layernorm.weight",
+      "equal": false,
+      "max_absolute_difference": 0.00244140625,
+      "l2_difference": 0.0033585375640541315,
+      "finite_difference": true
+    },
+    {
+      "name": "model.draft_model.layers.3.post_attention_layernorm.weight",
+      "equal": false,
+      "max_absolute_difference": 0.015625,
+      "l2_difference": 0.017939679324626923,
+      "finite_difference": true
+    },
+    {
+      "name": "model.draft_model.layers.4.self_attn.q_proj.weight",
+      "equal": false,
+      "max_absolute_difference": 0.00048828125,
+      "l2_difference": 0.009700844064354897,
+      "finite_difference": true
+    },
+    {
+      "name": "model.draft_model.layers.4.self_attn.k_proj.weight",
+      "equal": false,
+      "max_absolute_difference": 0.001220703125,
+      "l2_difference": 0.009043874219059944,
+      "finite_difference": true
+    },
+    {
+      "name": "model.draft_model.layers.4.self_attn.v_proj.weight",
+      "equal": false,
+      "max_absolute_difference": 0.0009765625,
+      "l2_difference": 0.010789726860821247,
+      "finite_difference": true
+    },
+    {
+      "name": "model.draft_model.layers.4.self_attn.o_proj.weight",
+      "equal": false,
+      "max_absolute_difference": 6.103515625e-05,
+      "l2_difference": 0.008366130292415619,
+      "finite_difference": true
+    },
+    {
+      "name": "model.draft_model.layers.4.self_attn.q_norm.weight",
+      "equal": false,
+      "max_absolute_difference": 0.00341796875,
+      "l2_difference": 0.004676909651607275,
+      "finite_difference": true
+    },
+    {
+      "name": "model.draft_model.layers.4.self_attn.k_norm.weight",
+      "equal": false,
+      "max_absolute_difference": 0.0068359375,
+      "l2_difference": 0.007429187186062336,
+      "finite_difference": true
+    },
+    {
+      "name": "model.draft_model.layers.4.mlp.gate_proj.weight",
+      "equal": false,
+      "max_absolute_difference": 0.000244140625,
+      "l2_difference": 0.014519134536385536,
+      "finite_difference": true
+    },
+    {
+      "name": "model.draft_model.layers.4.mlp.up_proj.weight",
+      "equal": true,
+      "max_absolute_difference": 0.0,
+      "l2_difference": 0.0
+    },
+    {
+      "name": "model.draft_model.layers.4.mlp.down_proj.weight",
+      "equal": true,
+      "max_absolute_difference": 0.0,
+      "l2_difference": 0.0
+    },
+    {
+      "name": "model.draft_model.layers.4.input_layernorm.weight",
+      "equal": false,
+      "max_absolute_difference": 0.00390625,
+      "l2_difference": 0.004256890621036291,
+      "finite_difference": true
+    },
+    {
+      "name": "model.draft_model.layers.4.post_attention_layernorm.weight",
+      "equal": false,
+      "max_absolute_difference": 0.0029296875,
+      "l2_difference": 0.006873698439449072,
+      "finite_difference": true
+    },
+    {
+      "name": "model.draft_model.norm.weight",
+      "equal": true,
+      "max_absolute_difference": 0.0,
+      "l2_difference": 0.0
+    },
+    {
+      "name": "model.draft_model.fc.weight",
+      "equal": false,
+      "max_absolute_difference": 0.00390625,
+      "l2_difference": 0.10387403517961502,
+      "finite_difference": true
+    },
+    {
+      "name": "model.draft_model.hidden_norm.weight",
+      "equal": false,
+      "max_absolute_difference": 0.0078125,
+      "l2_difference": 0.01338436920195818,
+      "finite_difference": true
+    }
+  ]
+}

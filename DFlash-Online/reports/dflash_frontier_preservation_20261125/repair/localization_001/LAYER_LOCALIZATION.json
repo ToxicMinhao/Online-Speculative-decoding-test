@@ -1,0 +1,70 @@
+{
+  "status": "completed",
+  "layers": [
+    {
+      "output_contraction": 4.910050376067161,
+      "input_contraction": 1.9696674664615796,
+      "parameter_contraction": 3.025309201577394,
+      "signed_residual": -0.08492629197181234,
+      "relative_to_output": -0.017296419683546376,
+      "layer": 0,
+      "native_primal_bit_equal": true,
+      "hidden_input_contraction": 0.0,
+      "shared_context_input_contraction": 1.9696674664615796,
+      "local_parameter_gradients_bit_equal": true,
+      "global_parameter_contraction": 3.025309201577394
+    },
+    {
+      "output_contraction": 8.36888766962427,
+      "input_contraction": 6.117222199250884,
+      "parameter_contraction": 2.3777323103005648,
+      "signed_residual": -0.12606683992717915,
+      "relative_to_output": -0.015063750991036908,
+      "layer": 1,
+      "native_primal_bit_equal": true,
+      "hidden_input_contraction": 4.910050376067161,
+      "shared_context_input_contraction": 1.2071718231837223,
+      "local_parameter_gradients_bit_equal": true,
+      "global_parameter_contraction": 2.3777323103005648
+    },
+    {
+      "output_contraction": 12.33135284031539,
+      "input_contraction": 9.71895253036184,
+      "parameter_contraction": 2.7112175721825547,
+      "signed_residual": -0.09881726222900467,
+      "relative_to_output": -0.008013497262517492,
+      "layer": 2,
+      "native_primal_bit_equal": true,
+      "hidden_input_contraction": 8.36888766962427,
+      "shared_context_input_contraction": 1.3500648607375692,
+      "local_parameter_gradients_bit_equal": true,
+      "global_parameter_contraction": 2.7112175721825547
+    },
+    {
+      "output_contraction": 16.929507744180626,
+      "input_contraction": 14.031664218852336,
+      "parameter_contraction": 2.9807726084313395,
+      "signed_residual": -0.08292908310305025,
+      "relative_to_output": -0.004898493468101954,
+      "layer": 3,
+      "native_primal_bit_equal": true,
+      "hidden_input_contraction": 12.33135284031539,
+      "shared_context_input_contraction": 1.700311378536947,
+      "local_parameter_gradients_bit_equal": true,
+      "global_parameter_contraction": 2.9807726084313395
+    },
+    {
+      "output_contraction": 21.26154403337796,
+      "input_contraction": 18.52005206538626,
+      "parameter_contraction": 2.78091982798889,
+      "signed_residual": -0.03942785999719067,
+      "relative_to_output": -0.001854421293923615,
+      "layer": 4,
+      "native_primal_bit_equal": true,
+      "hidden_input_contraction": 16.929507744180626,
+      "shared_context_input_contraction": 1.5905443212056358,
+      "local_parameter_gradients_bit_equal": true,
+      "global_parameter_contraction": 2.78091982798889
+    }
+  ]
+}

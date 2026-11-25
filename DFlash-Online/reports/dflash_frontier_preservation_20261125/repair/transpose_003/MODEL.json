@@ -1,0 +1,396 @@
+{
+  "route": "d/du <native J^T u, fixed direction>",
+  "fixed_cotangent": "same nonzero retained diagnostic cotangent",
+  "native_reference_contraction_exact": true,
+  "native_backward_reference": 21.736547395977073,
+  "native_primal_bit_equal": true,
+  "ordinary_backward_bit_equal": true,
+  "parameter_hessian_requested": false,
+  "derivative_scope_accounting": {
+    "passthrough_calls": 0,
+    "native_primal_forwards": 5,
+    "native_first_vjps": 5,
+    "cotangent_transposes": 5,
+    "query_tiles": 320,
+    "key_tiles": 2295,
+    "max_score_elements": 524288,
+    "last_precision_before": "none",
+    "derivative_fp32_precision": "ieee",
+    "derivative_autocast": false,
+    "last_precision_after": "none",
+    "precision_restored": true
+  },
+  "silu_scope_accounting": {
+    "passthrough_calls": 0,
+    "native_silu_forwards": 5,
+    "native_silu_first_vjps": 5,
+    "silu_cotangent_transposes": 5
+  },
+  "expected_silu_calls": 5,
+  "first_vjp_parameters": [
+    {
+      "name": "model.draft_model.layers.0.self_attn.q_proj.weight",
+      "equal": true,
+      "max_absolute_difference": 0.0,
+      "l2_difference": 0.0
+    },
+    {
+      "name": "model.draft_model.layers.0.self_attn.k_proj.weight",
+      "equal": true,
+      "max_absolute_difference": 0.0,
+      "l2_difference": 0.0
+    },
+    {
+      "name": "model.draft_model.layers.0.self_attn.v_proj.weight",
+      "equal": true,
+      "max_absolute_difference": 0.0,
+      "l2_difference": 0.0
+    },
+    {
+      "name": "model.draft_model.layers.0.self_attn.o_proj.weight",
+      "equal": true,
+      "max_absolute_difference": 0.0,
+      "l2_difference": 0.0
+    },
+    {
+      "name": "model.draft_model.layers.0.self_attn.q_norm.weight",
+      "equal": true,
+      "max_absolute_difference": 0.0,
+      "l2_difference": 0.0
+    },
+    {
+      "name": "model.draft_model.layers.0.self_attn.k_norm.weight",
+      "equal": true,
+      "max_absolute_difference": 0.0,
+      "l2_difference": 0.0
+    },
+    {
+      "name": "model.draft_model.layers.0.mlp.gate_proj.weight",
+      "equal": true,
+      "max_absolute_difference": 0.0,
+      "l2_difference": 0.0
+    },
+    {
+      "name": "model.draft_model.layers.0.mlp.up_proj.weight",
+      "equal": true,
+      "max_absolute_difference": 0.0,
+      "l2_difference": 0.0
+    },
+    {
+      "name": "model.draft_model.layers.0.mlp.down_proj.weight",
+      "equal": true,
+      "max_absolute_difference": 0.0,
+      "l2_difference": 0.0
+    },
+    {
+      "name": "model.draft_model.layers.0.input_layernorm.weight",
+      "equal": true,
+      "max_absolute_difference": 0.0,
+      "l2_difference": 0.0
+    },
+    {
+      "name": "model.draft_model.layers.0.post_attention_layernorm.weight",
+      "equal": true,
+      "max_absolute_difference": 0.0,
+      "l2_difference": 0.0
+    },
+    {
+      "name": "model.draft_model.layers.1.self_attn.q_proj.weight",
+      "equal": true,
+      "max_absolute_difference": 0.0,
+      "l2_difference": 0.0
+    },
+    {
+      "name": "model.draft_model.layers.1.self_attn.k_proj.weight",
+      "equal": true,
+      "max_absolute_difference": 0.0,
+      "l2_difference": 0.0
+    },
+    {
+      "name": "model.draft_model.layers.1.self_attn.v_proj.weight",
+      "equal": true,
+      "max_absolute_difference": 0.0,
+      "l2_difference": 0.0
+    },
+    {
+      "name": "model.draft_model.layers.1.self_attn.o_proj.weight",
+      "equal": true,
+      "max_absolute_difference": 0.0,
+      "l2_difference": 0.0
+    },
+    {
+      "name": "model.draft_model.layers.1.self_attn.q_norm.weight",
+      "equal": true,
+      "max_absolute_difference": 0.0,
+      "l2_difference": 0.0
+    },
+    {
+      "name": "model.draft_model.layers.1.self_attn.k_norm.weight",
+      "equal": true,
+      "max_absolute_difference": 0.0,
+      "l2_difference": 0.0
+    },
+    {
+      "name": "model.draft_model.layers.1.mlp.gate_proj.weight",
+      "equal": true,
+      "max_absolute_difference": 0.0,
+      "l2_difference": 0.0
+    },
+    {
+      "name": "model.draft_model.layers.1.mlp.up_proj.weight",
+      "equal": true,
+      "max_absolute_difference": 0.0,
+      "l2_difference": 0.0
+    },
+    {
+      "name": "model.draft_model.layers.1.mlp.down_proj.weight",
+      "equal": true,
+      "max_absolute_difference": 0.0,
+      "l2_difference": 0.0
+    },
+    {
+      "name": "model.draft_model.layers.1.input_layernorm.weight",
+      "equal": true,
+      "max_absolute_difference": 0.0,
+      "l2_difference": 0.0
+    },
+    {
+      "name": "model.draft_model.layers.1.post_attention_layernorm.weight",
+      "equal": true,
+      "max_absolute_difference": 0.0,
+      "l2_difference": 0.0
+    },
+    {
+      "name": "model.draft_model.layers.2.self_attn.q_proj.weight",
+      "equal": true,
+      "max_absolute_difference": 0.0,
+      "l2_difference": 0.0
+    },
+    {
+      "name": "model.draft_model.layers.2.self_attn.k_proj.weight",
+      "equal": true,
+      "max_absolute_difference": 0.0,
+      "l2_difference": 0.0
+    },
+    {
+      "name": "model.draft_model.layers.2.self_attn.v_proj.weight",
+      "equal": true,
+      "max_absolute_difference": 0.0,
+      "l2_difference": 0.0
+    },
+    {
+      "name": "model.draft_model.layers.2.self_attn.o_proj.weight",
+      "equal": true,
+      "max_absolute_difference": 0.0,
+      "l2_difference": 0.0
+    },
+    {
+      "name": "model.draft_model.layers.2.self_attn.q_norm.weight",
+      "equal": true,
+      "max_absolute_difference": 0.0,
+      "l2_difference": 0.0
+    },
+    {
+      "name": "model.draft_model.layers.2.self_attn.k_norm.weight",
+      "equal": true,
+      "max_absolute_difference": 0.0,
+      "l2_difference": 0.0
+    },
+    {
+      "name": "model.draft_model.layers.2.mlp.gate_proj.weight",
+      "equal": true,
+      "max_absolute_difference": 0.0,
+      "l2_difference": 0.0
+    },
+    {
+      "name": "model.draft_model.layers.2.mlp.up_proj.weight",
+      "equal": true,
+      "max_absolute_difference": 0.0,
+      "l2_difference": 0.0
+    },
+    {
+      "name": "model.draft_model.layers.2.mlp.down_proj.weight",
+      "equal": true,
+      "max_absolute_difference": 0.0,
+      "l2_difference": 0.0
+    },
+    {
+      "name": "model.draft_model.layers.2.input_layernorm.weight",
+      "equal": true,
+      "max_absolute_difference": 0.0,
+      "l2_difference": 0.0
+    },
+    {
+      "name": "model.draft_model.layers.2.post_attention_layernorm.weight",
+      "equal": true,
+      "max_absolute_difference": 0.0,
+      "l2_difference": 0.0
+    },
+    {
+      "name": "model.draft_model.layers.3.self_attn.q_proj.weight",
+      "equal": true,
+      "max_absolute_difference": 0.0,
+      "l2_difference": 0.0
+    },
+    {
+      "name": "model.draft_model.layers.3.self_attn.k_proj.weight",
+      "equal": true,
+      "max_absolute_difference": 0.0,
+      "l2_difference": 0.0
+    },
+    {
+      "name": "model.draft_model.layers.3.self_attn.v_proj.weight",
+      "equal": true,
+      "max_absolute_difference": 0.0,
+      "l2_difference": 0.0
+    },
+    {
+      "name": "model.draft_model.layers.3.self_attn.o_proj.weight",
+      "equal": true,
+      "max_absolute_difference": 0.0,
+      "l2_difference": 0.0
+    },
+    {
+      "name": "model.draft_model.layers.3.self_attn.q_norm.weight",
+      "equal": true,
+      "max_absolute_difference": 0.0,
+      "l2_difference": 0.0
+    },
+    {
+      "name": "model.draft_model.layers.3.self_attn.k_norm.weight",
+      "equal": true,
+      "max_absolute_difference": 0.0,
+      "l2_difference": 0.0
+    },
+    {
+      "name": "model.draft_model.layers.3.mlp.gate_proj.weight",
+      "equal": true,
+      "max_absolute_difference": 0.0,
+      "l2_difference": 0.0
+    },
+    {
+      "name": "model.draft_model.layers.3.mlp.up_proj.weight",
+      "equal": true,
+      "max_absolute_difference": 0.0,
+      "l2_difference": 0.0
+    },
+    {
+      "name": "model.draft_model.layers.3.mlp.down_proj.weight",
+      "equal": true,
+      "max_absolute_difference": 0.0,
+      "l2_difference": 0.0
+    },
+    {
+      "name": "model.draft_model.layers.3.input_layernorm.weight",
+      "equal": true,
+      "max_absolute_difference": 0.0,
+      "l2_difference": 0.0
+    },
+    {
+      "name": "model.draft_model.layers.3.post_attention_layernorm.weight",
+      "equal": true,
+      "max_absolute_difference": 0.0,
+      "l2_difference": 0.0
+    },
+    {
+      "name": "model.draft_model.layers.4.self_attn.q_proj.weight",
+      "equal": true,
+      "max_absolute_difference": 0.0,
+      "l2_difference": 0.0
+    },
+    {
+      "name": "model.draft_model.layers.4.self_attn.k_proj.weight",
+      "equal": true,
+      "max_absolute_difference": 0.0,
+      "l2_difference": 0.0
+    },
+    {
+      "name": "model.draft_model.layers.4.self_attn.v_proj.weight",
+      "equal": true,
+      "max_absolute_difference": 0.0,
+      "l2_difference": 0.0
+    },
+    {
+      "name": "model.draft_model.layers.4.self_attn.o_proj.weight",
+      "equal": true,
+      "max_absolute_difference": 0.0,
+      "l2_difference": 0.0
+    },
+    {
+      "name": "model.draft_model.layers.4.self_attn.q_norm.weight",
+      "equal": true,
+      "max_absolute_difference": 0.0,
+      "l2_difference": 0.0
+    },
+    {
+      "name": "model.draft_model.layers.4.self_attn.k_norm.weight",
+      "equal": true,
+      "max_absolute_difference": 0.0,
+      "l2_difference": 0.0
+    },
+    {
+      "name": "model.draft_model.layers.4.mlp.gate_proj.weight",
+      "equal": true,
+      "max_absolute_difference": 0.0,
+      "l2_difference": 0.0
+    },
+    {
+      "name": "model.draft_model.layers.4.mlp.up_proj.weight",
+      "equal": true,
+      "max_absolute_difference": 0.0,
+      "l2_difference": 0.0
+    },
+    {
+      "name": "model.draft_model.layers.4.mlp.down_proj.weight",
+      "equal": true,
+      "max_absolute_difference": 0.0,
+      "l2_difference": 0.0
+    },
+    {
+      "name": "model.draft_model.layers.4.input_layernorm.weight",
+      "equal": true,
+      "max_absolute_difference": 0.0,
+      "l2_difference": 0.0
+    },
+    {
+      "name": "model.draft_model.layers.4.post_attention_layernorm.weight",
+      "equal": true,
+      "max_absolute_difference": 0.0,
+      "l2_difference": 0.0
+    },
+    {
+      "name": "model.draft_model.norm.weight",
+      "equal": true,
+      "max_absolute_difference": 0.0,
+      "l2_difference": 0.0
+    },
+    {
+      "name": "model.draft_model.fc.weight",
+      "equal": true,
+      "max_absolute_difference": 0.0,
+      "l2_difference": 0.0
+    },
+    {
+      "name": "model.draft_model.hidden_norm.weight",
+      "equal": true,
+      "max_absolute_difference": 0.0,
+      "l2_difference": 0.0
+    }
+  ],
+  "duality": {
+    "passed": false,
+    "forward_dot": 21.291557381703647,
+    "native_backward_dot": 21.736547395977073,
+    "absolute_error": 0.44499001427342577,
+    "relative_error": 0.020471973132024777,
+    "cauchy_normalized_error": 0.00012444413037805224,
+    "tolerance": 0.34779475833563317,
+    "atol": 1e-05,
+    "rtol": 0.016,
+    "tangent_norm": 3576.2036393300855,
+    "cotangent_norm": 0.9998931827716023,
+    "native_gradient_norm": 21.737876377544804,
+    "direction_norm": 0.9999402915858251,
+    "direction": "normalized native J^T u, rounded to native dtype"
+  }
+}

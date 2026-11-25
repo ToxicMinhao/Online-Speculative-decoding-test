@@ -1,0 +1,136 @@
+{
+  "native_primal_bit_equal": true,
+  "query_shape": [
+    1,
+    32,
+    8192,
+    128
+  ],
+  "key_shape": [
+    1,
+    8,
+    9205,
+    128
+  ],
+  "value_shape": [
+    1,
+    8,
+    9205,
+    128
+  ],
+  "dtype": "torch.bfloat16",
+  "full_native_block_mask": true,
+  "enable_gqa": true,
+  "scale": 0.08838834764831845,
+  "kernel_options": {
+    "BACKEND": "TRITON"
+  },
+  "lse_dtype": "torch.float32",
+  "lse_units": "natural logarithm from native AuxOutput",
+  "duality": {
+    "query": {
+      "passed": true,
+      "forward_dot": 1.1294542168916588,
+      "native_backward_dot": 1.1294640871285306,
+      "absolute_error": 9.870236871822868e-06,
+      "relative_error": 8.738867383482956e-06,
+      "cauchy_normalized_error": 8.068678727226762e-07,
+      "tolerance": 0.01808142539405649,
+      "atol": 1e-05,
+      "rtol": 0.016,
+      "tangent_norm": 12.234086434115087,
+      "cotangent_norm": 0.9998931827716023,
+      "native_gradient_norm": 2.040199522265655,
+      "direction_norm": 0.9999442796522467,
+      "direction": "normalized native J^T u, rounded to native dtype",
+      "tangent_accounting": {
+        "last_precision_before": "none",
+        "derivative_fp32_precision": "ieee",
+        "derivative_autocast": false,
+        "query_tiles": 64,
+        "key_tiles": 459,
+        "max_score_elements": 524288,
+        "last_precision_after": "none",
+        "precision_restored": true
+      }
+    },
+    "key": {
+      "passed": true,
+      "forward_dot": 1.6389173391282434,
+      "native_backward_dot": 1.6389256492474895,
+      "absolute_error": 8.310119246068837e-06,
+      "relative_error": 5.07046750405329e-06,
+      "cauchy_normalized_error": 6.156565981399345e-08,
+      "tolerance": 0.026232810387959833,
+      "atol": 1e-05,
+      "rtol": 0.016,
+      "tangent_norm": 134.99420017444933,
+      "cotangent_norm": 0.9998931827716023,
+      "native_gradient_norm": 2.040199522265655,
+      "direction_norm": 0.9999536081376523,
+      "direction": "normalized native J^T u, rounded to native dtype",
+      "tangent_accounting": {
+        "last_precision_before": "none",
+        "derivative_fp32_precision": "ieee",
+        "derivative_autocast": false,
+        "query_tiles": 64,
+        "key_tiles": 459,
+        "max_score_elements": 524288,
+        "last_precision_after": "none",
+        "precision_restored": true
+      }
+    },
+    "value": {
+      "passed": true,
+      "forward_dot": 0.44745979216302656,
+      "native_backward_dot": 0.44744596613634396,
+      "absolute_error": 1.3826026682595138e-05,
+      "relative_error": 3.089988005028103e-05,
+      "cauchy_normalized_error": 1.247969462492776e-06,
+      "tolerance": 0.007169135458181503,
+      "atol": 1e-05,
+      "rtol": 0.016,
+      "tangent_norm": 11.080001645710047,
+      "cotangent_norm": 0.9998931827716023,
+      "native_gradient_norm": 2.040199522265655,
+      "direction_norm": 0.9999074515365851,
+      "direction": "normalized native J^T u, rounded to native dtype",
+      "tangent_accounting": {
+        "last_precision_before": "none",
+        "derivative_fp32_precision": "ieee",
+        "derivative_autocast": false,
+        "query_tiles": 64,
+        "key_tiles": 459,
+        "max_score_elements": 524288,
+        "last_precision_after": "none",
+        "precision_restored": true
+      }
+    },
+    "joint": {
+      "passed": true,
+      "forward_dot": 2.03965994103494,
+      "native_backward_dot": 2.0396463517806525,
+      "absolute_error": 1.3589254287627028e-05,
+      "relative_error": 6.662554160805051e-06,
+      "cauchy_normalized_error": 1.2406288667598478e-07,
+      "tolerance": 0.03264434162849044,
+      "atol": 1e-05,
+      "rtol": 0.016,
+      "tangent_norm": 109.54691103286804,
+      "cotangent_norm": 0.9998931827716023,
+      "native_gradient_norm": 2.040199522265655,
+      "direction_norm": 0.9997300674137442,
+      "direction": "normalized native J^T u, rounded to native dtype",
+      "tangent_accounting": {
+        "last_precision_before": "none",
+        "derivative_fp32_precision": "ieee",
+        "derivative_autocast": false,
+        "query_tiles": 64,
+        "key_tiles": 459,
+        "max_score_elements": 524288,
+        "last_precision_after": "none",
+        "precision_restored": true
+      }
+    }
+  }
+}

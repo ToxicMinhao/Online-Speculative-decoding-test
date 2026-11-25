@@ -1,0 +1,49 @@
+{
+  "epoch": 1795611964.845547,
+  "identities": [
+    {
+      "path": "/data/sources/minhao/runs/dflash_pair_one_event_20261124/execution_002/arms/PAIR/trainer/training_state.pt",
+      "bytes": 6296473051,
+      "sha256": "728770a7abf0ba3ef96805ef760997976ad7bedbbee1d8debe165e785a4d98a2"
+    },
+    {
+      "path": "/data/sources/minhao/runs/dflash_pair_one_event_20261124/execution_002/arms/PAIR/trainer/events/event_001/export/model.safetensors",
+      "bytes": 2097259104,
+      "sha256": "1556409004f7c73c0007c1f01764d4fd1dd189827994596939597be43b2d21b2"
+    },
+    {
+      "path": "/data/sources/minhao/runs/dflash_opencode_native_comparison_20261120/sealed/INPUTS.json",
+      "bytes": 32309622,
+      "sha256": "df7194e667126f34f8e2ab2f6e22e2e5480cd7921728ceb4f946bd3a0cce6581"
+    },
+    {
+      "path": "/data/sources/minhao/runs/dflash_pair_one_event_20261124/execution_002/arms/PAIR/event_001/loop/features/opencode:034e9c0b89852876347ab84bc390d34ddded1bfba13c0933b633572da1cb3bae.pt",
+      "bytes": 49816207,
+      "sha256": "6087b3875976686c090eeb9721e190b4461089eefef7a997fe8a838d010f8a44"
+    },
+    {
+      "path": "/data/sources/minhao/runs/dflash_pair_one_event_20261124/execution_002/arms/PAIR/event_001/loop/features/opencode:139d8d246a3c56c360d005e1ecbdf8b67e80b66e8d801d27af6d1f23248216c7.pt",
+      "bytes": 19378319,
+      "sha256": "39f6c792c2a9fe145d6b9dcfd35c660f2d2326b0837c796c580afabb549aca29"
+    }
+  ],
+  "free_bytes": 430119174144,
+  "gpus": "GPU-9986735a-3e68-d1bd-5998-9634ef24341e, 0 MiB, 0 %\nGPU-c6943f33-bcd0-a724-0b35-f77af6b0a3f1, 0 MiB, 0 %\n",
+  "gpu_processes": "",
+  "flex_source_snippets": [
+    {
+      "line": 13,
+      "text": "    _has_potential_branch_input_mutation,\n    _maybe_reenter_make_fx,\n    autograd_not_implemented,\n    has_user_subclass,\n    redirect_to_mode,\n    reenter_make_fx,\n    register_fake,\n    save_values_for_backward,"
+    },
+    {
+      "line": 749,
+      "text": "\n\nclass FlexAttentionAutogradOp(torch.autograd.Function):\n    @staticmethod\n    # pyrefly: ignore [bad-override]\n    def forward(\n        ctx: Any,\n        query: Tensor,"
+    },
+    {
+      "line": 1481,
+      "text": "\nflex_attention_backward.py_autograd_impl(\n    autograd_not_implemented(flex_attention_backward, deferred_error=True)\n)"
+    }
+  ],
+  "old_artifacts_deleted": [],
+  "new_tensor_checkpoints": []
+}
