@@ -1,0 +1,62 @@
+{
+  "case_counters": [
+    129,
+    258,
+    1
+  ],
+  "cases": [
+    "BETA",
+    "C",
+    "F",
+    "C_REPEAT"
+  ],
+  "clip_jvp_test_atol": 2e-12,
+  "clip_jvp_test_rtol": 2e-12,
+  "coefficients": "frozen once from current native roles; C from actual native path",
+  "created_epoch": 1795648659.887327,
+  "devices": {
+    "A": "GPU-9986735a-3e68-d1bd-5998-9634ef24341e",
+    "B": "GPU-c6943f33-bcd0-a724-0b35-f77af6b0a3f1"
+  },
+  "diagnostic_product_reduction": "FP64",
+  "execution_commit": "269f05644eeed2f0396602c47beb2a71166f8dd0",
+  "full_events": 0,
+  "generation_calls": 0,
+  "limits": {
+    "allocated_bytes": 2000000000,
+    "attempted_adam_calls": 6,
+    "correction_retries": 1,
+    "elapsed_s": 3600,
+    "occupied_card_s": 3600,
+    "planned_adam_calls": 4,
+    "reserve_bytes": 400000000000
+  },
+  "live_precision": "native BF16",
+  "local_allocated_bytes": 500000000,
+  "native_C_repeatability": "exact complete state and gradients",
+  "native_beta_g0_equality": "exact",
+  "native_steps_independently_restored": true,
+  "objective_changes": false,
+  "old_hidden_gate_status": "failed_retained_diagnostic",
+  "parent_counters": [
+    128,
+    256,
+    1
+  ],
+  "primary_contrast": "F_minus_C",
+  "prior_occupied_card_s": 5175.047027264,
+  "remaining_write_budget_bytes": 1000000000,
+  "schema": "point1_update_fidelity_v1",
+  "secondary_contrast": "F_minus_BETA",
+  "serial_token_oracle_calls": 0,
+  "shadow_precision": "FP32",
+  "status": "admitted",
+  "vector_zero_policy": "report exact zero; no denominator floor; undefined cosine/ratio is null",
+  "witness": {
+    "qualification_feature_paths_disjoint": true,
+    "qualification_record_ids_disjoint": true,
+    "responses": 8,
+    "set_name": "new_buffer",
+    "status": "authenticated"
+  }
+}

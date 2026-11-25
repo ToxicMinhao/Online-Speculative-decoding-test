@@ -1,0 +1,45 @@
+{
+  "status": "passed",
+  "execution_commit": "269f05644eeed2f0396602c47beb2a71166f8dd0",
+  "source_files_verified": 5256,
+  "unchanged_input_files": 15,
+  "inputs_unchanged": true,
+  "raw_files_verified": 57,
+  "raw_bytes": 63030015,
+  "raw_manifest_sha256": "2c4827851a59669c23cedd6f51d423b36c5e8e1fe9d821fe7ba3d5ec108c4b55",
+  "storage": {
+    "remote_allocated_bytes": 394674176,
+    "local_allocated_bytes": 500000000,
+    "compiler_growth_bytes": 0,
+    "all_locations_charged_bytes": 894674176,
+    "free_bytes": 407576043520
+  },
+  "sampled_min_free_bytes": 407577923584,
+  "sampled_min_host_available_bytes": 41936658432,
+  "sampled_child_peak_RSS_bytes": 68467118080,
+  "sampled_gpu_B_peak_used_bytes": 49598693376,
+  "sampling_interval_s": 30,
+  "peak_limits": "Torch allocator peak measured after startup; device and host snapshots every30s are sampled, not exact launch-to-exit peaks.",
+  "gpu_postflight": {
+    "cards": [
+      {
+        "ordinal": 0,
+        "uuid": "GPU-9986735a-3e68-d1bd-5998-9634ef24341e",
+        "total_bytes": 85899345920,
+        "used_bytes": 0
+      },
+      {
+        "ordinal": 1,
+        "uuid": "GPU-c6943f33-bcd0-a724-0b35-f77af6b0a3f1",
+        "total_bytes": 85899345920,
+        "used_bytes": 0
+      }
+    ],
+    "processes": ""
+  },
+  "no_checkpoint_or_full_vector_files": true,
+  "inherited_deletions": [],
+  "postflight_cpu_wall_s": 10.411697689443827,
+  "local_study_allocated_bytes": 409473024,
+  "local_storage_envelope_bytes": 500000000
+}

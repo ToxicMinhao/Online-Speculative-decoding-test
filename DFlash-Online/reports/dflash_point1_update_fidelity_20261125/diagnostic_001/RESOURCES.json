@@ -1,0 +1,84 @@
+{
+  "admission": {
+    "admitted": true,
+    "charged_bytes": 831476992,
+    "checks": {
+      "all_locations": true,
+      "disk_reserve": true,
+      "gpu_idle": true,
+      "gpu_memory": true,
+      "host_memory": true
+    },
+    "free_bytes": 407639060480,
+    "gpu_free_bytes": 85899345920,
+    "gpu_inventory": {
+      "cards": [
+        {
+          "ordinal": 0,
+          "total_bytes": 85899345920,
+          "used_bytes": 0,
+          "uuid": "GPU-9986735a-3e68-d1bd-5998-9634ef24341e"
+        },
+        {
+          "ordinal": 1,
+          "total_bytes": 85899345920,
+          "used_bytes": 0,
+          "uuid": "GPU-c6943f33-bcd0-a724-0b35-f77af6b0a3f1"
+        }
+      ],
+      "processes": ""
+    },
+    "gpu_required_free_bytes": 60000000000,
+    "host_available_bytes": 102687449088,
+    "host_memory": {
+      "available_bytes": 102687449088,
+      "total_bytes": 269529780224
+    },
+    "host_reserve_bytes": 32000000000,
+    "host_workspace_bytes": 55000000000,
+    "remaining_write_bytes": 1000000000
+  },
+  "clock": {
+    "active_attempt": null,
+    "attempts": [
+      {
+        "exit_code": 0,
+        "number": 1,
+        "occupied_card_s": 335.81099539995193,
+        "stopped_reason": null
+      }
+    ],
+    "completed_occupied_card_s": 335.81099539995193,
+    "contract_identity": {
+      "bytes": 14742,
+      "sha256": "f4e74fa6715ee6d3cea183e214ddb6232c27688bb993dd83b4576df507f07163"
+    },
+    "elapsed_limit_s": 3600,
+    "first_gpu_action_epoch": 1795648711.439852,
+    "historical_occupied_card_s": 5175.047027264,
+    "occupied_card_limit_s": 3600,
+    "schema": "point1_clock_v1"
+  },
+  "native": {
+    "peak_allocated_bytes": 37657841152,
+    "peak_reserved_bytes": 48565846016,
+    "wall_s": 328.2383299060166
+  },
+  "process": {
+    "all_locations_charged_bytes": 894661888,
+    "compiler_growth_bytes": 0,
+    "elapsed_s": 335.81099539995193,
+    "exit_code": 0,
+    "final_storage_error": null,
+    "free_bytes": 407576055808,
+    "historical_occupied_card_s": 5175.047027264,
+    "historical_plus_new_occupied_card_s": 5510.8580226639515,
+    "local_allocated_bytes": 500000000,
+    "new_phase_elapsed_s": 336.2569274902344,
+    "new_phase_occupied_card_s": 335.81099539995193,
+    "occupied_card_s": 335.81099539995193,
+    "remote_allocated_bytes": 394661888,
+    "status": "completed",
+    "stopped_reason": null
+  }
+}

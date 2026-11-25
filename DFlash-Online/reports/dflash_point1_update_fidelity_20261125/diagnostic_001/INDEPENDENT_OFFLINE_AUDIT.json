@@ -1,0 +1,2375 @@
+{
+  "assertions": 798571,
+  "audit_code_identity": {
+    "bytes": 44140,
+    "sha256": "0c3238bf87c317da736fd85cac2e508e809042e89cff978b72799fa295d9987a"
+  },
+  "authenticated_files": 64,
+  "benefits": {
+    "new_buffer": {
+      "N_BETA-parent": -0.05691823797238271,
+      "N_C-N_BETA": -0.01766407789180313,
+      "N_C-parent": -0.07458231586418584,
+      "N_F-N_BETA": -0.019783347162176668,
+      "N_F-N_C": -0.002119269270373536,
+      "N_F-parent": -0.07670158513455938
+    },
+    "window": {
+      "N_BETA-parent": 0.6069507565526259,
+      "N_C-N_BETA": -0.03745222050821592,
+      "N_C-parent": 0.5694985360444099,
+      "N_F-N_BETA": 0.04324177442012128,
+      "N_F-N_C": 0.0806939949283372,
+      "N_F-parent": 0.6501925309727472,
+      "Q_BETA-parent": 0.5988268980990168,
+      "Q_C-Q_BETA": -0.03676403674466151,
+      "Q_C-parent": 0.5620628613543552,
+      "Q_F-Q_BETA": 0.05530038924257031,
+      "Q_F-Q_C": 0.09206442598723182,
+      "Q_F-parent": 0.6541272873415871
+    }
+  },
+  "fallacy_scan": {
+    "checks": [
+      {
+        "detail": "Matched response means, every response benefit, and block gains/losses are retained. Mixed subgroup signs are reported; no aggregate-to-subgroup inference.",
+        "name": "Simpson's paradox",
+        "number": 1,
+        "status": "CHECKED_DESCRIPTIVE"
+      },
+      {
+        "detail": "Fixed response/block results do not imply individual requests, populations, or serving gains. Anchors overlap and are not independent observations.",
+        "name": "Ecological fallacy",
+        "number": 2,
+        "status": "CHECKED_NO_INFERENCE"
+      },
+      {
+        "detail": "No estimated association or selected-sample correlation. Fixed TRAIN selection limits external validity and is disclosed.",
+        "name": "Berkson's paradox",
+        "number": 3,
+        "status": "NOT_APPLICABLE"
+      },
+      {
+        "detail": "No regression adjustment or conditioning on post-treatment covariates; roles are frozen at the common parent.",
+        "name": "Collider bias",
+        "number": 4,
+        "status": "NOT_APPLICABLE"
+      },
+      {
+        "detail": "Raw repair/follower counts accompany original opportunity totals; no diagnostic accuracy or population predictive probability is claimed.",
+        "name": "Base rate neglect",
+        "number": 5,
+        "status": "CHECKED_DESCRIPTIVE"
+      },
+      {
+        "detail": "F and native C are matched one-step interventions from the same fixed warm parent. Selection is fixed; no selected-extreme cohort efficacy inference.",
+        "name": "Regression to the mean",
+        "number": 6,
+        "status": "CHECKED_CONTROLLED_LOCAL"
+      },
+      {
+        "detail": "All four planned cases, all selected endpoint readouts, every reserved call and attempt are audited. C_REPEAT is an integrity check, not an independent replicate.",
+        "name": "Survivorship bias",
+        "number": 7,
+        "status": "CHECKED_COMPLETE_RECEIPTS"
+      },
+      {
+        "detail": "F-C is primary, F-BETA secondary, C-BETA derived context. All fixed contrasts and native-point probes are retained; no p-values or selective significance claims.",
+        "name": "Look-elsewhere effect",
+        "number": 8,
+        "status": "CHECKED_NO_INFERENCE"
+      },
+      {
+        "detail": "The fixed handoff, contract, source commit and ledger constrain this local diagnostic. Historical development selection prevents a confirmatory population interpretation.",
+        "name": "Garden of forking paths",
+        "number": 9,
+        "status": "CHECKED_BOUNDED_DIAGNOSTIC"
+      },
+      {
+        "detail": "Controlled local endpoint differences support only this exact intervention/window. A discrepancy does not uniquely explain the preceding 128-update serving result.",
+        "name": "Correlation versus causation",
+        "number": 10,
+        "status": "CHECKED_SCOPE_LIMITED"
+      },
+      {
+        "detail": "Frozen coefficients precede independently restored one-step endpoints; no cross-sectional directional association is estimated.",
+        "name": "Reverse causality",
+        "number": 11,
+        "status": "NOT_APPLICABLE"
+      }
+    ],
+    "coverage": "11/11"
+  },
+  "limits": [
+    "Full model vectors were not saved, so tensor contractions cannot be independently reconstructed.",
+    "FP32 softplus/head outputs are retained native measurements, not independently recomputed logits.",
+    "Source-input and parent model identities are compared to pinned receipts; this offline audit does not rehash remote model/feature files.",
+    "Score per-pool sums and cancellation are checked; unsaved per-token coefficient/score products cannot be independently reconstructed.",
+    "Resource receipts are sampled and do not prove the absence of a transient peak between samples.",
+    "Few fixed overlapping TRAIN blocks support no population or serving claims."
+  ],
+  "model_rerun": false,
+  "paired_summaries": {
+    "N_BETA to N_C (2 responses)": {
+      "assessment_benefit": -0.03745222050821592,
+      "block_metrics": {
+        "assessment": {
+          "delta": 28.425239756703377,
+          "gains": 302,
+          "losses": 427,
+          "ties": 52
+        },
+        "damaged_prefix_blocks": {
+          "delta": 1.0,
+          "gains": 0,
+          "losses": 1,
+          "ties": 780
+        },
+        "damaged_prefix_positions": {
+          "delta": 1.0,
+          "gains": 0,
+          "losses": 1,
+          "ties": 780
+        },
+        "fixed_K_shortfall": {
+          "delta": 12.0,
+          "gains": 0,
+          "losses": 9,
+          "ties": 772
+        },
+        "matching_prefix_length": {
+          "delta": -13.0,
+          "gains": 1,
+          "losses": 11,
+          "ties": 769
+        },
+        "raw_repair": {
+          "delta": -8.0,
+          "gains": 0,
+          "losses": 8,
+          "ties": 773
+        },
+        "reachable_followers": {
+          "delta": -3.0,
+          "gains": 0,
+          "losses": 2,
+          "ties": 779
+        },
+        "surviving_followers": {
+          "delta": 1.0,
+          "gains": 1,
+          "losses": 0,
+          "ties": 780
+        },
+        "useful_repair": {
+          "delta": -8.0,
+          "gains": 0,
+          "losses": 8,
+          "ties": 773
+        }
+      },
+      "negative": -0.09202160602717674,
+      "per_response_benefits": [
+        -0.03405737041131941,
+        -0.04084707060511243
+      ],
+      "positive": 0.05456938551896081,
+      "response_metrics": {
+        "assessment": {
+          "delta": 0.07490445747652096,
+          "gains": 0,
+          "losses": 2,
+          "ties": 0
+        },
+        "damaged_prefix_blocks": {
+          "delta": 1.0,
+          "gains": 0,
+          "losses": 1,
+          "ties": 1
+        },
+        "damaged_prefix_positions": {
+          "delta": 1.0,
+          "gains": 0,
+          "losses": 1,
+          "ties": 1
+        },
+        "fixed_K_shortfall": {
+          "delta": 12.0,
+          "gains": 0,
+          "losses": 2,
+          "ties": 0
+        },
+        "matching_prefix_length": {
+          "delta": -13.0,
+          "gains": 0,
+          "losses": 2,
+          "ties": 0
+        },
+        "raw_repair": {
+          "delta": -8.0,
+          "gains": 0,
+          "losses": 2,
+          "ties": 0
+        },
+        "reachable_followers": {
+          "delta": -3.0,
+          "gains": 0,
+          "losses": 1,
+          "ties": 1
+        },
+        "surviving_followers": {
+          "delta": 1.0,
+          "gains": 1,
+          "losses": 0,
+          "ties": 1
+        },
+        "useful_repair": {
+          "delta": -8.0,
+          "gains": 0,
+          "losses": 2,
+          "ties": 0
+        }
+      }
+    },
+    "N_BETA to N_C (8 responses)": {
+      "assessment_benefit": -0.01766407789180313,
+      "block_metrics": {
+        "assessment": {
+          "delta": 1.1305037513375282,
+          "gains": 21,
+          "losses": 35,
+          "ties": 8
+        },
+        "damaged_prefix_blocks": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 64
+        },
+        "damaged_prefix_positions": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 64
+        },
+        "fixed_K_shortfall": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 64
+        },
+        "matching_prefix_length": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 64
+        },
+        "raw_repair": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 64
+        },
+        "reachable_followers": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 64
+        },
+        "surviving_followers": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 64
+        },
+        "useful_repair": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 64
+        }
+      },
+      "negative": -0.09709568760603204,
+      "per_response_benefits": [
+        -0.06437173813468178,
+        -0.0032131340567502775,
+        -0.06585633752729336,
+        -0.03578549231860961,
+        -0.19023701892956524,
+        0.05582263377777963,
+        -0.06284323594823604,
+        0.22517170000293163
+      ],
+      "positive": 0.07943160971422891,
+      "response_metrics": {
+        "assessment": {
+          "delta": 0.14131296891719103,
+          "gains": 2,
+          "losses": 6,
+          "ties": 0
+        },
+        "damaged_prefix_blocks": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 8
+        },
+        "damaged_prefix_positions": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 8
+        },
+        "fixed_K_shortfall": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 8
+        },
+        "matching_prefix_length": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 8
+        },
+        "raw_repair": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 8
+        },
+        "reachable_followers": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 8
+        },
+        "surviving_followers": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 8
+        },
+        "useful_repair": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 8
+        }
+      }
+    },
+    "N_BETA to N_F (2 responses)": {
+      "assessment_benefit": 0.04324177442012128,
+      "block_metrics": {
+        "assessment": {
+          "delta": -31.502035287674516,
+          "gains": 428,
+          "losses": 302,
+          "ties": 51
+        },
+        "damaged_prefix_blocks": {
+          "delta": -1.0,
+          "gains": 1,
+          "losses": 0,
+          "ties": 780
+        },
+        "damaged_prefix_positions": {
+          "delta": -1.0,
+          "gains": 1,
+          "losses": 0,
+          "ties": 780
+        },
+        "fixed_K_shortfall": {
+          "delta": -8.0,
+          "gains": 5,
+          "losses": 6,
+          "ties": 770
+        },
+        "matching_prefix_length": {
+          "delta": 8.0,
+          "gains": 5,
+          "losses": 6,
+          "ties": 770
+        },
+        "raw_repair": {
+          "delta": -2.0,
+          "gains": 4,
+          "losses": 6,
+          "ties": 771
+        },
+        "reachable_followers": {
+          "delta": -1.0,
+          "gains": 1,
+          "losses": 1,
+          "ties": 779
+        },
+        "surviving_followers": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 781
+        },
+        "useful_repair": {
+          "delta": -2.0,
+          "gains": 4,
+          "losses": 6,
+          "ties": 771
+        }
+      },
+      "negative": -0.051178462862021434,
+      "per_response_benefits": [
+        0.033901000442214585,
+        0.05258254839802797
+      ],
+      "positive": 0.09442023728214272,
+      "response_metrics": {
+        "assessment": {
+          "delta": -0.08648358174344656,
+          "gains": 2,
+          "losses": 0,
+          "ties": 0
+        },
+        "damaged_prefix_blocks": {
+          "delta": -1.0,
+          "gains": 1,
+          "losses": 0,
+          "ties": 1
+        },
+        "damaged_prefix_positions": {
+          "delta": -1.0,
+          "gains": 1,
+          "losses": 0,
+          "ties": 1
+        },
+        "fixed_K_shortfall": {
+          "delta": -8.0,
+          "gains": 1,
+          "losses": 1,
+          "ties": 0
+        },
+        "matching_prefix_length": {
+          "delta": 8.0,
+          "gains": 1,
+          "losses": 1,
+          "ties": 0
+        },
+        "raw_repair": {
+          "delta": -2.0,
+          "gains": 0,
+          "losses": 2,
+          "ties": 0
+        },
+        "reachable_followers": {
+          "delta": -1.0,
+          "gains": 1,
+          "losses": 1,
+          "ties": 0
+        },
+        "surviving_followers": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 2
+        },
+        "useful_repair": {
+          "delta": -2.0,
+          "gains": 0,
+          "losses": 2,
+          "ties": 0
+        }
+      }
+    },
+    "N_BETA to N_F (8 responses)": {
+      "assessment_benefit": -0.019783347162176668,
+      "block_metrics": {
+        "assessment": {
+          "delta": 1.266140528023243,
+          "gains": 25,
+          "losses": 29,
+          "ties": 10
+        },
+        "damaged_prefix_blocks": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 64
+        },
+        "damaged_prefix_positions": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 64
+        },
+        "fixed_K_shortfall": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 64
+        },
+        "matching_prefix_length": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 64
+        },
+        "raw_repair": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 64
+        },
+        "reachable_followers": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 64
+        },
+        "surviving_followers": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 64
+        },
+        "useful_repair": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 64
+        }
+      },
+      "negative": -0.08890004851618372,
+      "per_response_benefits": [
+        -0.07064502654809246,
+        -0.05394111209352559,
+        -0.05299007458052074,
+        -0.046912263134800014,
+        -0.046208649646359845,
+        0.009201701470146872,
+        -0.04758702184031449,
+        0.15081566907605293
+      ],
+      "positive": 0.06911670135400705,
+      "response_metrics": {
+        "assessment": {
+          "delta": 0.15826756600290537,
+          "gains": 2,
+          "losses": 6,
+          "ties": 0
+        },
+        "damaged_prefix_blocks": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 8
+        },
+        "damaged_prefix_positions": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 8
+        },
+        "fixed_K_shortfall": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 8
+        },
+        "matching_prefix_length": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 8
+        },
+        "raw_repair": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 8
+        },
+        "reachable_followers": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 8
+        },
+        "surviving_followers": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 8
+        },
+        "useful_repair": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 8
+        }
+      }
+    },
+    "N_C to N_F (2 responses)": {
+      "assessment_benefit": 0.0806939949283372,
+      "block_metrics": {
+        "assessment": {
+          "delta": -59.92727504437789,
+          "gains": 464,
+          "losses": 270,
+          "ties": 47
+        },
+        "damaged_prefix_blocks": {
+          "delta": -2.0,
+          "gains": 2,
+          "losses": 0,
+          "ties": 779
+        },
+        "damaged_prefix_positions": {
+          "delta": -2.0,
+          "gains": 2,
+          "losses": 0,
+          "ties": 779
+        },
+        "fixed_K_shortfall": {
+          "delta": -20.0,
+          "gains": 10,
+          "losses": 2,
+          "ties": 769
+        },
+        "matching_prefix_length": {
+          "delta": 21.0,
+          "gains": 12,
+          "losses": 3,
+          "ties": 766
+        },
+        "raw_repair": {
+          "delta": 6.0,
+          "gains": 8,
+          "losses": 2,
+          "ties": 771
+        },
+        "reachable_followers": {
+          "delta": 2.0,
+          "gains": 3,
+          "losses": 1,
+          "ties": 777
+        },
+        "surviving_followers": {
+          "delta": -1.0,
+          "gains": 0,
+          "losses": 1,
+          "ties": 780
+        },
+        "useful_repair": {
+          "delta": 6.0,
+          "gains": 8,
+          "losses": 2,
+          "ties": 771
+        }
+      },
+      "negative": -0.051152284240240244,
+      "per_response_benefits": [
+        0.067958370853534,
+        0.09342961900314041
+      ],
+      "positive": 0.13184627916857744,
+      "response_metrics": {
+        "assessment": {
+          "delta": -0.16138803921996753,
+          "gains": 2,
+          "losses": 0,
+          "ties": 0
+        },
+        "damaged_prefix_blocks": {
+          "delta": -2.0,
+          "gains": 1,
+          "losses": 0,
+          "ties": 1
+        },
+        "damaged_prefix_positions": {
+          "delta": -2.0,
+          "gains": 1,
+          "losses": 0,
+          "ties": 1
+        },
+        "fixed_K_shortfall": {
+          "delta": -20.0,
+          "gains": 1,
+          "losses": 0,
+          "ties": 1
+        },
+        "matching_prefix_length": {
+          "delta": 21.0,
+          "gains": 1,
+          "losses": 1,
+          "ties": 0
+        },
+        "raw_repair": {
+          "delta": 6.0,
+          "gains": 2,
+          "losses": 0,
+          "ties": 0
+        },
+        "reachable_followers": {
+          "delta": 2.0,
+          "gains": 1,
+          "losses": 1,
+          "ties": 0
+        },
+        "surviving_followers": {
+          "delta": -1.0,
+          "gains": 0,
+          "losses": 1,
+          "ties": 1
+        },
+        "useful_repair": {
+          "delta": 6.0,
+          "gains": 2,
+          "losses": 0,
+          "ties": 0
+        }
+      }
+    },
+    "N_C to N_F (8 responses)": {
+      "assessment_benefit": -0.002119269270373536,
+      "block_metrics": {
+        "assessment": {
+          "delta": 0.13563677668571472,
+          "gains": 28,
+          "losses": 28,
+          "ties": 8
+        },
+        "damaged_prefix_blocks": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 64
+        },
+        "damaged_prefix_positions": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 64
+        },
+        "fixed_K_shortfall": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 64
+        },
+        "matching_prefix_length": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 64
+        },
+        "raw_repair": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 64
+        },
+        "reachable_followers": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 64
+        },
+        "surviving_followers": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 64
+        },
+        "useful_repair": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 64
+        }
+      },
+      "negative": -0.08065904368928045,
+      "per_response_benefits": [
+        -0.0062732884134106826,
+        -0.05072797803677531,
+        0.012866262946772622,
+        -0.011126770816190401,
+        0.1440283692832054,
+        -0.046620932307632756,
+        0.01525621410792155,
+        -0.0743560309268787
+      ],
+      "positive": 0.07853977441890692,
+      "response_metrics": {
+        "assessment": {
+          "delta": 0.01695459708571434,
+          "gains": 3,
+          "losses": 5,
+          "ties": 0
+        },
+        "damaged_prefix_blocks": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 8
+        },
+        "damaged_prefix_positions": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 8
+        },
+        "fixed_K_shortfall": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 8
+        },
+        "matching_prefix_length": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 8
+        },
+        "raw_repair": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 8
+        },
+        "reachable_followers": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 8
+        },
+        "surviving_followers": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 8
+        },
+        "useful_repair": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 8
+        }
+      }
+    },
+    "Q_BETA to Q_C (2 responses)": {
+      "assessment_benefit": -0.03676403674466151,
+      "block_metrics": {
+        "assessment": {
+          "delta": 23.809285059571266,
+          "gains": 310,
+          "losses": 420,
+          "ties": 51
+        },
+        "damaged_prefix_blocks": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 781
+        },
+        "damaged_prefix_positions": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 781
+        },
+        "fixed_K_shortfall": {
+          "delta": 2.0,
+          "gains": 2,
+          "losses": 5,
+          "ties": 774
+        },
+        "matching_prefix_length": {
+          "delta": -2.0,
+          "gains": 4,
+          "losses": 7,
+          "ties": 770
+        },
+        "raw_repair": {
+          "delta": -3.0,
+          "gains": 2,
+          "losses": 5,
+          "ties": 774
+        },
+        "reachable_followers": {
+          "delta": 1.0,
+          "gains": 1,
+          "losses": 0,
+          "ties": 780
+        },
+        "surviving_followers": {
+          "delta": -2.0,
+          "gains": 0,
+          "losses": 2,
+          "ties": 779
+        },
+        "useful_repair": {
+          "delta": -3.0,
+          "gains": 2,
+          "losses": 5,
+          "ties": 774
+        }
+      },
+      "negative": -0.09474989700301362,
+      "per_response_benefits": [
+        -0.01658534322730837,
+        -0.05694273026201465
+      ],
+      "positive": 0.05798586025835211,
+      "response_metrics": {
+        "assessment": {
+          "delta": 0.07352804869853002,
+          "gains": 0,
+          "losses": 2,
+          "ties": 0
+        },
+        "damaged_prefix_blocks": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 2
+        },
+        "damaged_prefix_positions": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 2
+        },
+        "fixed_K_shortfall": {
+          "delta": 2.0,
+          "gains": 0,
+          "losses": 1,
+          "ties": 1
+        },
+        "matching_prefix_length": {
+          "delta": -2.0,
+          "gains": 0,
+          "losses": 1,
+          "ties": 1
+        },
+        "raw_repair": {
+          "delta": -3.0,
+          "gains": 0,
+          "losses": 2,
+          "ties": 0
+        },
+        "reachable_followers": {
+          "delta": 1.0,
+          "gains": 1,
+          "losses": 0,
+          "ties": 1
+        },
+        "surviving_followers": {
+          "delta": -2.0,
+          "gains": 0,
+          "losses": 2,
+          "ties": 0
+        },
+        "useful_repair": {
+          "delta": -3.0,
+          "gains": 0,
+          "losses": 2,
+          "ties": 0
+        }
+      }
+    },
+    "Q_BETA to Q_F (2 responses)": {
+      "assessment_benefit": 0.05530038924257031,
+      "block_metrics": {
+        "assessment": {
+          "delta": -38.77163672167808,
+          "gains": 430,
+          "losses": 303,
+          "ties": 48
+        },
+        "damaged_prefix_blocks": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 781
+        },
+        "damaged_prefix_positions": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 781
+        },
+        "fixed_K_shortfall": {
+          "delta": -11.0,
+          "gains": 4,
+          "losses": 2,
+          "ties": 775
+        },
+        "matching_prefix_length": {
+          "delta": 11.0,
+          "gains": 4,
+          "losses": 3,
+          "ties": 774
+        },
+        "raw_repair": {
+          "delta": 2.0,
+          "gains": 4,
+          "losses": 2,
+          "ties": 775
+        },
+        "reachable_followers": {
+          "delta": 9.0,
+          "gains": 1,
+          "losses": 0,
+          "ties": 780
+        },
+        "surviving_followers": {
+          "delta": 0.0,
+          "gains": 1,
+          "losses": 1,
+          "ties": 779
+        },
+        "useful_repair": {
+          "delta": 2.0,
+          "gains": 4,
+          "losses": 2,
+          "ties": 775
+        }
+      },
+      "negative": -0.057211290612663696,
+      "per_response_benefits": [
+        0.03711950107180356,
+        0.07348127741333706
+      ],
+      "positive": 0.112511679855234,
+      "response_metrics": {
+        "assessment": {
+          "delta": -0.11060076319346895,
+          "gains": 2,
+          "losses": 0,
+          "ties": 0
+        },
+        "damaged_prefix_blocks": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 2
+        },
+        "damaged_prefix_positions": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 2
+        },
+        "fixed_K_shortfall": {
+          "delta": -11.0,
+          "gains": 2,
+          "losses": 0,
+          "ties": 0
+        },
+        "matching_prefix_length": {
+          "delta": 11.0,
+          "gains": 1,
+          "losses": 0,
+          "ties": 1
+        },
+        "raw_repair": {
+          "delta": 2.0,
+          "gains": 2,
+          "losses": 0,
+          "ties": 0
+        },
+        "reachable_followers": {
+          "delta": 9.0,
+          "gains": 1,
+          "losses": 0,
+          "ties": 1
+        },
+        "surviving_followers": {
+          "delta": 0.0,
+          "gains": 1,
+          "losses": 1,
+          "ties": 0
+        },
+        "useful_repair": {
+          "delta": 2.0,
+          "gains": 2,
+          "losses": 0,
+          "ties": 0
+        }
+      }
+    },
+    "Q_C to Q_F (2 responses)": {
+      "assessment_benefit": 0.09206442598723182,
+      "block_metrics": {
+        "assessment": {
+          "delta": -62.580921781249344,
+          "gains": 474,
+          "losses": 264,
+          "ties": 43
+        },
+        "damaged_prefix_blocks": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 781
+        },
+        "damaged_prefix_positions": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 781
+        },
+        "fixed_K_shortfall": {
+          "delta": -13.0,
+          "gains": 9,
+          "losses": 4,
+          "ties": 768
+        },
+        "matching_prefix_length": {
+          "delta": 13.0,
+          "gains": 10,
+          "losses": 6,
+          "ties": 765
+        },
+        "raw_repair": {
+          "delta": 5.0,
+          "gains": 9,
+          "losses": 4,
+          "ties": 768
+        },
+        "reachable_followers": {
+          "delta": 8.0,
+          "gains": 1,
+          "losses": 1,
+          "ties": 779
+        },
+        "surviving_followers": {
+          "delta": 2.0,
+          "gains": 2,
+          "losses": 0,
+          "ties": 779
+        },
+        "useful_repair": {
+          "delta": 5.0,
+          "gains": 9,
+          "losses": 4,
+          "ties": 768
+        }
+      },
+      "negative": -0.047804534730387406,
+      "per_response_benefits": [
+        0.05370484429911193,
+        0.1304240076753517
+      ],
+      "positive": 0.13986896071761923,
+      "response_metrics": {
+        "assessment": {
+          "delta": -0.18412881189199898,
+          "gains": 2,
+          "losses": 0,
+          "ties": 0
+        },
+        "damaged_prefix_blocks": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 2
+        },
+        "damaged_prefix_positions": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 2
+        },
+        "fixed_K_shortfall": {
+          "delta": -13.0,
+          "gains": 2,
+          "losses": 0,
+          "ties": 0
+        },
+        "matching_prefix_length": {
+          "delta": 13.0,
+          "gains": 2,
+          "losses": 0,
+          "ties": 0
+        },
+        "raw_repair": {
+          "delta": 5.0,
+          "gains": 2,
+          "losses": 0,
+          "ties": 0
+        },
+        "reachable_followers": {
+          "delta": 8.0,
+          "gains": 1,
+          "losses": 1,
+          "ties": 0
+        },
+        "surviving_followers": {
+          "delta": 2.0,
+          "gains": 1,
+          "losses": 0,
+          "ties": 1
+        },
+        "useful_repair": {
+          "delta": 5.0,
+          "gains": 2,
+          "losses": 0,
+          "ties": 0
+        }
+      }
+    },
+    "parent to N_BETA (2 responses)": {
+      "assessment_benefit": 0.6069507565526259,
+      "block_metrics": {
+        "assessment": {
+          "delta": -401.53254564804956,
+          "gains": 573,
+          "losses": 193,
+          "ties": 15
+        },
+        "damaged_prefix_blocks": {
+          "delta": 1.0,
+          "gains": 0,
+          "losses": 1,
+          "ties": 780
+        },
+        "damaged_prefix_positions": {
+          "delta": 1.0,
+          "gains": 0,
+          "losses": 1,
+          "ties": 780
+        },
+        "fixed_K_shortfall": {
+          "delta": -95.0,
+          "gains": 65,
+          "losses": 1,
+          "ties": 715
+        },
+        "matching_prefix_length": {
+          "delta": 105.0,
+          "gains": 65,
+          "losses": 1,
+          "ties": 715
+        },
+        "raw_repair": {
+          "delta": 65.0,
+          "gains": 65,
+          "losses": 0,
+          "ties": 716
+        },
+        "reachable_followers": {
+          "delta": 41.0,
+          "gains": 23,
+          "losses": 0,
+          "ties": 758
+        },
+        "surviving_followers": {
+          "delta": -3.0,
+          "gains": 0,
+          "losses": 3,
+          "ties": 778
+        },
+        "useful_repair": {
+          "delta": 65.0,
+          "gains": 65,
+          "losses": 0,
+          "ties": 716
+        }
+      },
+      "negative": -0.09663086972850388,
+      "per_response_benefits": [
+        0.3086132614723578,
+        0.905288251632894
+      ],
+      "positive": 0.7035816262811297,
+      "response_metrics": {
+        "assessment": {
+          "delta": -1.2139015399284239,
+          "gains": 2,
+          "losses": 0,
+          "ties": 0
+        },
+        "damaged_prefix_blocks": {
+          "delta": 1.0,
+          "gains": 0,
+          "losses": 1,
+          "ties": 1
+        },
+        "damaged_prefix_positions": {
+          "delta": 1.0,
+          "gains": 0,
+          "losses": 1,
+          "ties": 1
+        },
+        "fixed_K_shortfall": {
+          "delta": -95.0,
+          "gains": 2,
+          "losses": 0,
+          "ties": 0
+        },
+        "matching_prefix_length": {
+          "delta": 105.0,
+          "gains": 2,
+          "losses": 0,
+          "ties": 0
+        },
+        "raw_repair": {
+          "delta": 65.0,
+          "gains": 2,
+          "losses": 0,
+          "ties": 0
+        },
+        "reachable_followers": {
+          "delta": 41.0,
+          "gains": 2,
+          "losses": 0,
+          "ties": 0
+        },
+        "surviving_followers": {
+          "delta": -3.0,
+          "gains": 0,
+          "losses": 2,
+          "ties": 0
+        },
+        "useful_repair": {
+          "delta": 65.0,
+          "gains": 2,
+          "losses": 0,
+          "ties": 0
+        }
+      }
+    },
+    "parent to N_BETA (8 responses)": {
+      "assessment_benefit": -0.05691823797238271,
+      "block_metrics": {
+        "assessment": {
+          "delta": 3.6427565217018127,
+          "gains": 33,
+          "losses": 26,
+          "ties": 5
+        },
+        "damaged_prefix_blocks": {
+          "delta": 1.0,
+          "gains": 0,
+          "losses": 1,
+          "ties": 63
+        },
+        "damaged_prefix_positions": {
+          "delta": 1.0,
+          "gains": 0,
+          "losses": 1,
+          "ties": 63
+        },
+        "fixed_K_shortfall": {
+          "delta": 5.0,
+          "gains": 0,
+          "losses": 1,
+          "ties": 63
+        },
+        "matching_prefix_length": {
+          "delta": -5.0,
+          "gains": 0,
+          "losses": 1,
+          "ties": 63
+        },
+        "raw_repair": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 64
+        },
+        "reachable_followers": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 64
+        },
+        "surviving_followers": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 64
+        },
+        "useful_repair": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 64
+        }
+      },
+      "negative": -0.1708785753723987,
+      "per_response_benefits": [
+        -0.2765790767723644,
+        -0.1106565822238963,
+        0.06004037067577883,
+        0.021337740717171982,
+        -0.01983202806650297,
+        -0.10317673086683499,
+        0.036585016520248814,
+        -0.0630646137626627
+      ],
+      "positive": 0.11396033740001599,
+      "response_metrics": {
+        "assessment": {
+          "delta": 0.4553445652127266,
+          "gains": 3,
+          "losses": 5,
+          "ties": 0
+        },
+        "damaged_prefix_blocks": {
+          "delta": 1.0,
+          "gains": 0,
+          "losses": 1,
+          "ties": 7
+        },
+        "damaged_prefix_positions": {
+          "delta": 1.0,
+          "gains": 0,
+          "losses": 1,
+          "ties": 7
+        },
+        "fixed_K_shortfall": {
+          "delta": 5.0,
+          "gains": 0,
+          "losses": 1,
+          "ties": 7
+        },
+        "matching_prefix_length": {
+          "delta": -5.0,
+          "gains": 0,
+          "losses": 1,
+          "ties": 7
+        },
+        "raw_repair": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 8
+        },
+        "reachable_followers": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 8
+        },
+        "surviving_followers": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 8
+        },
+        "useful_repair": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 8
+        }
+      }
+    },
+    "parent to N_C (2 responses)": {
+      "assessment_benefit": 0.5694985360444099,
+      "block_metrics": {
+        "assessment": {
+          "delta": -373.1073058913462,
+          "gains": 565,
+          "losses": 203,
+          "ties": 13
+        },
+        "damaged_prefix_blocks": {
+          "delta": 2.0,
+          "gains": 0,
+          "losses": 2,
+          "ties": 779
+        },
+        "damaged_prefix_positions": {
+          "delta": 2.0,
+          "gains": 0,
+          "losses": 2,
+          "ties": 779
+        },
+        "fixed_K_shortfall": {
+          "delta": -83.0,
+          "gains": 57,
+          "losses": 2,
+          "ties": 722
+        },
+        "matching_prefix_length": {
+          "delta": 92.0,
+          "gains": 57,
+          "losses": 2,
+          "ties": 722
+        },
+        "raw_repair": {
+          "delta": 57.0,
+          "gains": 57,
+          "losses": 0,
+          "ties": 724
+        },
+        "reachable_followers": {
+          "delta": 38.0,
+          "gains": 21,
+          "losses": 0,
+          "ties": 760
+        },
+        "surviving_followers": {
+          "delta": -2.0,
+          "gains": 0,
+          "losses": 2,
+          "ties": 779
+        },
+        "useful_repair": {
+          "delta": 57.0,
+          "gains": 57,
+          "losses": 0,
+          "ties": 724
+        }
+      },
+      "negative": -0.09475994896571621,
+      "per_response_benefits": [
+        0.27455589106103834,
+        0.8644411810277816
+      ],
+      "positive": 0.6642584850101262,
+      "response_metrics": {
+        "assessment": {
+          "delta": -1.138997082451903,
+          "gains": 2,
+          "losses": 0,
+          "ties": 0
+        },
+        "damaged_prefix_blocks": {
+          "delta": 2.0,
+          "gains": 0,
+          "losses": 1,
+          "ties": 1
+        },
+        "damaged_prefix_positions": {
+          "delta": 2.0,
+          "gains": 0,
+          "losses": 1,
+          "ties": 1
+        },
+        "fixed_K_shortfall": {
+          "delta": -83.0,
+          "gains": 2,
+          "losses": 0,
+          "ties": 0
+        },
+        "matching_prefix_length": {
+          "delta": 92.0,
+          "gains": 2,
+          "losses": 0,
+          "ties": 0
+        },
+        "raw_repair": {
+          "delta": 57.0,
+          "gains": 2,
+          "losses": 0,
+          "ties": 0
+        },
+        "reachable_followers": {
+          "delta": 38.0,
+          "gains": 2,
+          "losses": 0,
+          "ties": 0
+        },
+        "surviving_followers": {
+          "delta": -2.0,
+          "gains": 0,
+          "losses": 1,
+          "ties": 1
+        },
+        "useful_repair": {
+          "delta": 57.0,
+          "gains": 2,
+          "losses": 0,
+          "ties": 0
+        }
+      }
+    },
+    "parent to N_C (8 responses)": {
+      "assessment_benefit": -0.07458231586418584,
+      "block_metrics": {
+        "assessment": {
+          "delta": 4.773260273039341,
+          "gains": 30,
+          "losses": 26,
+          "ties": 8
+        },
+        "damaged_prefix_blocks": {
+          "delta": 1.0,
+          "gains": 0,
+          "losses": 1,
+          "ties": 63
+        },
+        "damaged_prefix_positions": {
+          "delta": 1.0,
+          "gains": 0,
+          "losses": 1,
+          "ties": 63
+        },
+        "fixed_K_shortfall": {
+          "delta": 5.0,
+          "gains": 0,
+          "losses": 1,
+          "ties": 63
+        },
+        "matching_prefix_length": {
+          "delta": -5.0,
+          "gains": 0,
+          "losses": 1,
+          "ties": 63
+        },
+        "raw_repair": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 64
+        },
+        "reachable_followers": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 64
+        },
+        "surviving_followers": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 64
+        },
+        "useful_repair": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 64
+        }
+      },
+      "negative": -0.1776984591769164,
+      "per_response_benefits": [
+        -0.34095081490704615,
+        -0.11386971628064657,
+        -0.005815966851514531,
+        -0.01444775160143763,
+        -0.2100690469960682,
+        -0.04735409708905536,
+        -0.02625821942798723,
+        0.16210708624026893
+      ],
+      "positive": 0.10311614331273056,
+      "response_metrics": {
+        "assessment": {
+          "delta": 0.5966575341299176,
+          "gains": 1,
+          "losses": 7,
+          "ties": 0
+        },
+        "damaged_prefix_blocks": {
+          "delta": 1.0,
+          "gains": 0,
+          "losses": 1,
+          "ties": 7
+        },
+        "damaged_prefix_positions": {
+          "delta": 1.0,
+          "gains": 0,
+          "losses": 1,
+          "ties": 7
+        },
+        "fixed_K_shortfall": {
+          "delta": 5.0,
+          "gains": 0,
+          "losses": 1,
+          "ties": 7
+        },
+        "matching_prefix_length": {
+          "delta": -5.0,
+          "gains": 0,
+          "losses": 1,
+          "ties": 7
+        },
+        "raw_repair": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 8
+        },
+        "reachable_followers": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 8
+        },
+        "surviving_followers": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 8
+        },
+        "useful_repair": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 8
+        }
+      }
+    },
+    "parent to N_F (2 responses)": {
+      "assessment_benefit": 0.6501925309727472,
+      "block_metrics": {
+        "assessment": {
+          "delta": -433.0345809357241,
+          "gains": 578,
+          "losses": 189,
+          "ties": 14
+        },
+        "damaged_prefix_blocks": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 781
+        },
+        "damaged_prefix_positions": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 781
+        },
+        "fixed_K_shortfall": {
+          "delta": -103.0,
+          "gains": 63,
+          "losses": 0,
+          "ties": 718
+        },
+        "matching_prefix_length": {
+          "delta": 113.0,
+          "gains": 63,
+          "losses": 0,
+          "ties": 718
+        },
+        "raw_repair": {
+          "delta": 63.0,
+          "gains": 63,
+          "losses": 0,
+          "ties": 718
+        },
+        "reachable_followers": {
+          "delta": 40.0,
+          "gains": 23,
+          "losses": 0,
+          "ties": 758
+        },
+        "surviving_followers": {
+          "delta": -3.0,
+          "gains": 0,
+          "losses": 3,
+          "ties": 778
+        },
+        "useful_repair": {
+          "delta": 63.0,
+          "gains": 63,
+          "losses": 0,
+          "ties": 718
+        }
+      },
+      "negative": -0.08242184451447507,
+      "per_response_benefits": [
+        0.34251426191457235,
+        0.9578708000309221
+      ],
+      "positive": 0.7326143754872222,
+      "response_metrics": {
+        "assessment": {
+          "delta": -1.3003851216718705,
+          "gains": 2,
+          "losses": 0,
+          "ties": 0
+        },
+        "damaged_prefix_blocks": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 2
+        },
+        "damaged_prefix_positions": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 2
+        },
+        "fixed_K_shortfall": {
+          "delta": -103.0,
+          "gains": 2,
+          "losses": 0,
+          "ties": 0
+        },
+        "matching_prefix_length": {
+          "delta": 113.0,
+          "gains": 2,
+          "losses": 0,
+          "ties": 0
+        },
+        "raw_repair": {
+          "delta": 63.0,
+          "gains": 2,
+          "losses": 0,
+          "ties": 0
+        },
+        "reachable_followers": {
+          "delta": 40.0,
+          "gains": 2,
+          "losses": 0,
+          "ties": 0
+        },
+        "surviving_followers": {
+          "delta": -3.0,
+          "gains": 0,
+          "losses": 2,
+          "ties": 0
+        },
+        "useful_repair": {
+          "delta": 63.0,
+          "gains": 2,
+          "losses": 0,
+          "ties": 0
+        }
+      }
+    },
+    "parent to N_F (8 responses)": {
+      "assessment_benefit": -0.07670158513455938,
+      "block_metrics": {
+        "assessment": {
+          "delta": 4.908897049725056,
+          "gains": 27,
+          "losses": 30,
+          "ties": 7
+        },
+        "damaged_prefix_blocks": {
+          "delta": 1.0,
+          "gains": 0,
+          "losses": 1,
+          "ties": 63
+        },
+        "damaged_prefix_positions": {
+          "delta": 1.0,
+          "gains": 0,
+          "losses": 1,
+          "ties": 63
+        },
+        "fixed_K_shortfall": {
+          "delta": 5.0,
+          "gains": 0,
+          "losses": 1,
+          "ties": 63
+        },
+        "matching_prefix_length": {
+          "delta": -5.0,
+          "gains": 0,
+          "losses": 1,
+          "ties": 63
+        },
+        "raw_repair": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 64
+        },
+        "reachable_followers": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 64
+        },
+        "surviving_followers": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 64
+        },
+        "useful_repair": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 64
+        }
+      },
+      "negative": -0.1891047208251706,
+      "per_response_benefits": [
+        -0.34722410332045683,
+        -0.16459769431742188,
+        0.007050296095258091,
+        -0.02557452241762803,
+        -0.06604067771286282,
+        -0.09397502939668811,
+        -0.011002005320065678,
+        0.08775105531339022
+      ],
+      "positive": 0.11240313569061122,
+      "response_metrics": {
+        "assessment": {
+          "delta": 0.613612131215632,
+          "gains": 2,
+          "losses": 6,
+          "ties": 0
+        },
+        "damaged_prefix_blocks": {
+          "delta": 1.0,
+          "gains": 0,
+          "losses": 1,
+          "ties": 7
+        },
+        "damaged_prefix_positions": {
+          "delta": 1.0,
+          "gains": 0,
+          "losses": 1,
+          "ties": 7
+        },
+        "fixed_K_shortfall": {
+          "delta": 5.0,
+          "gains": 0,
+          "losses": 1,
+          "ties": 7
+        },
+        "matching_prefix_length": {
+          "delta": -5.0,
+          "gains": 0,
+          "losses": 1,
+          "ties": 7
+        },
+        "raw_repair": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 8
+        },
+        "reachable_followers": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 8
+        },
+        "surviving_followers": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 8
+        },
+        "useful_repair": {
+          "delta": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "ties": 8
+        }
+      }
+    },
+    "parent to Q_BETA (2 responses)": {
+      "assessment_benefit": 0.5988268980990168,
+      "block_metrics": {
+        "assessment": {
+          "delta": -395.95164992753416,
+          "gains": 569,
+          "losses": 198,
+          "ties": 14
+        },
+        "damaged_prefix_blocks": {
+          "delta": 1.0,
+          "gains": 0,
+          "losses": 1,
+          "ties": 780
+        },
+        "damaged_prefix_positions": {
+          "delta": 1.0,
+          "gains": 0,
+          "losses": 1,
+          "ties": 780
+        },
+        "fixed_K_shortfall": {
+          "delta": -89.0,
+          "gains": 62,
+          "losses": 1,
+          "ties": 718
+        },
+        "matching_prefix_length": {
+          "delta": 98.0,
+          "gains": 62,
+          "losses": 1,
+          "ties": 718
+        },
+        "raw_repair": {
+          "delta": 62.0,
+          "gains": 62,
+          "losses": 0,
+          "ties": 719
+        },
+        "reachable_followers": {
+          "delta": 38.0,
+          "gains": 21,
+          "losses": 0,
+          "ties": 760
+        },
+        "surviving_followers": {
+          "delta": -2.0,
+          "gains": 0,
+          "losses": 2,
+          "ties": 779
+        },
+        "useful_repair": {
+          "delta": 62.0,
+          "gains": 62,
+          "losses": 0,
+          "ties": 719
+        }
+      },
+      "negative": -0.0933374415811288,
+      "per_response_benefits": [
+        0.30363274916291255,
+        0.8940210470351211
+      ],
+      "positive": 0.6921643396801456,
+      "response_metrics": {
+        "assessment": {
+          "delta": -1.1976538325006847,
+          "gains": 2,
+          "losses": 0,
+          "ties": 0
+        },
+        "damaged_prefix_blocks": {
+          "delta": 1.0,
+          "gains": 0,
+          "losses": 1,
+          "ties": 1
+        },
+        "damaged_prefix_positions": {
+          "delta": 1.0,
+          "gains": 0,
+          "losses": 1,
+          "ties": 1
+        },
+        "fixed_K_shortfall": {
+          "delta": -89.0,
+          "gains": 2,
+          "losses": 0,
+          "ties": 0
+        },
+        "matching_prefix_length": {
+          "delta": 98.0,
+          "gains": 2,
+          "losses": 0,
+          "ties": 0
+        },
+        "raw_repair": {
+          "delta": 62.0,
+          "gains": 2,
+          "losses": 0,
+          "ties": 0
+        },
+        "reachable_followers": {
+          "delta": 38.0,
+          "gains": 2,
+          "losses": 0,
+          "ties": 0
+        },
+        "surviving_followers": {
+          "delta": -2.0,
+          "gains": 0,
+          "losses": 1,
+          "ties": 1
+        },
+        "useful_repair": {
+          "delta": 62.0,
+          "gains": 2,
+          "losses": 0,
+          "ties": 0
+        }
+      }
+    },
+    "parent to Q_C (2 responses)": {
+      "assessment_benefit": 0.5620628613543552,
+      "block_metrics": {
+        "assessment": {
+          "delta": -372.1423648679629,
+          "gains": 557,
+          "losses": 209,
+          "ties": 15
+        },
+        "damaged_prefix_blocks": {
+          "delta": 1.0,
+          "gains": 0,
+          "losses": 1,
+          "ties": 780
+        },
+        "damaged_prefix_positions": {
+          "delta": 1.0,
+          "gains": 0,
+          "losses": 1,
+          "ties": 780
+        },
+        "fixed_K_shortfall": {
+          "delta": -87.0,
+          "gains": 59,
+          "losses": 1,
+          "ties": 721
+        },
+        "matching_prefix_length": {
+          "delta": 96.0,
+          "gains": 59,
+          "losses": 1,
+          "ties": 721
+        },
+        "raw_repair": {
+          "delta": 59.0,
+          "gains": 59,
+          "losses": 0,
+          "ties": 722
+        },
+        "reachable_followers": {
+          "delta": 39.0,
+          "gains": 22,
+          "losses": 0,
+          "ties": 759
+        },
+        "surviving_followers": {
+          "delta": -4.0,
+          "gains": 0,
+          "losses": 4,
+          "ties": 777
+        },
+        "useful_repair": {
+          "delta": 59.0,
+          "gains": 59,
+          "losses": 0,
+          "ties": 722
+        }
+      },
+      "negative": -0.10211041499647375,
+      "per_response_benefits": [
+        0.2870474059356042,
+        0.8370783167731064
+      ],
+      "positive": 0.664173276350829,
+      "response_metrics": {
+        "assessment": {
+          "delta": -1.1241257838021546,
+          "gains": 2,
+          "losses": 0,
+          "ties": 0
+        },
+        "damaged_prefix_blocks": {
+          "delta": 1.0,
+          "gains": 0,
+          "losses": 1,
+          "ties": 1
+        },
+        "damaged_prefix_positions": {
+          "delta": 1.0,
+          "gains": 0,
+          "losses": 1,
+          "ties": 1
+        },
+        "fixed_K_shortfall": {
+          "delta": -87.0,
+          "gains": 2,
+          "losses": 0,
+          "ties": 0
+        },
+        "matching_prefix_length": {
+          "delta": 96.0,
+          "gains": 2,
+          "losses": 0,
+          "ties": 0
+        },
+        "raw_repair": {
+          "delta": 59.0,
+          "gains": 2,
+          "losses": 0,
+          "ties": 0
+        },
+        "reachable_followers": {
+          "delta": 39.0,
+          "gains": 2,
+          "losses": 0,
+          "ties": 0
+        },
+        "surviving_followers": {
+          "delta": -4.0,
+          "gains": 0,
+          "losses": 2,
+          "ties": 0
+        },
+        "useful_repair": {
+          "delta": 59.0,
+          "gains": 2,
+          "losses": 0,
+          "ties": 0
+        }
+      }
+    },
+    "parent to Q_F (2 responses)": {
+      "assessment_benefit": 0.6541272873415871,
+      "block_metrics": {
+        "assessment": {
+          "delta": -434.72328664921224,
+          "gains": 577,
+          "losses": 192,
+          "ties": 12
+        },
+        "damaged_prefix_blocks": {
+          "delta": 1.0,
+          "gains": 0,
+          "losses": 1,
+          "ties": 780
+        },
+        "damaged_prefix_positions": {
+          "delta": 1.0,
+          "gains": 0,
+          "losses": 1,
+          "ties": 780
+        },
+        "fixed_K_shortfall": {
+          "delta": -100.0,
+          "gains": 64,
+          "losses": 1,
+          "ties": 716
+        },
+        "matching_prefix_length": {
+          "delta": 109.0,
+          "gains": 64,
+          "losses": 1,
+          "ties": 716
+        },
+        "raw_repair": {
+          "delta": 64.0,
+          "gains": 64,
+          "losses": 0,
+          "ties": 717
+        },
+        "reachable_followers": {
+          "delta": 47.0,
+          "gains": 22,
+          "losses": 0,
+          "ties": 759
+        },
+        "surviving_followers": {
+          "delta": -2.0,
+          "gains": 0,
+          "losses": 2,
+          "ties": 779
+        },
+        "useful_repair": {
+          "delta": 64.0,
+          "gains": 64,
+          "losses": 0,
+          "ties": 717
+        }
+      },
+      "negative": -0.08791597865366847,
+      "per_response_benefits": [
+        0.3407522502347161,
+        0.9675023244484581
+      ],
+      "positive": 0.7420432659952556,
+      "response_metrics": {
+        "assessment": {
+          "delta": -1.3082545956941536,
+          "gains": 2,
+          "losses": 0,
+          "ties": 0
+        },
+        "damaged_prefix_blocks": {
+          "delta": 1.0,
+          "gains": 0,
+          "losses": 1,
+          "ties": 1
+        },
+        "damaged_prefix_positions": {
+          "delta": 1.0,
+          "gains": 0,
+          "losses": 1,
+          "ties": 1
+        },
+        "fixed_K_shortfall": {
+          "delta": -100.0,
+          "gains": 2,
+          "losses": 0,
+          "ties": 0
+        },
+        "matching_prefix_length": {
+          "delta": 109.0,
+          "gains": 2,
+          "losses": 0,
+          "ties": 0
+        },
+        "raw_repair": {
+          "delta": 64.0,
+          "gains": 2,
+          "losses": 0,
+          "ties": 0
+        },
+        "reachable_followers": {
+          "delta": 47.0,
+          "gains": 2,
+          "losses": 0,
+          "ties": 0
+        },
+        "surviving_followers": {
+          "delta": -2.0,
+          "gains": 0,
+          "losses": 2,
+          "ties": 0
+        },
+        "useful_repair": {
+          "delta": 64.0,
+          "gains": 2,
+          "losses": 0,
+          "ties": 0
+        }
+      }
+    }
+  },
+  "private_audit_identity": {
+    "bytes": 67177,
+    "sha256": "b58d7702e4c2ed7366a58d677965b41282bcfe74dfb35727cbbfc630f410b765"
+  },
+  "public_content_policy": "Only scalar readouts, receipt counts and hashes. No raw token values, request IDs, feature paths or anchor positions.",
+  "receipts": {
+    "adam_completed": 4,
+    "adam_reserved": 4,
+    "attempts": 1,
+    "elapsed_s": 336.2569274902344,
+    "final_charged_bytes": 894661888,
+    "final_free_bytes": 407576055808,
+    "historical_plus_new_occupied_card_s": 5510.8580226639515,
+    "occupied_card_s": 335.81099539995193,
+    "postflight_bytes_rehashed": 63030015,
+    "postflight_charged_bytes": 894674176,
+    "postflight_files_rehashed": 57,
+    "postflight_free_bytes": 407576043520,
+    "postflight_input_checks": 15,
+    "resource_samples": 11,
+    "source_files_rehashed": 5256,
+    "witness_status": "authenticated"
+  },
+  "scalar_tolerance": {
+    "atol": 2e-12,
+    "rtol": 2e-12
+  },
+  "score_cancellation": {
+    "F-BETA": {
+      "beta_centered": 0.16701885306623132,
+      "centered_negative": 0.0,
+      "centered_positive": 0.16701885306623132,
+      "raw": 0.1670188520307402,
+      "raw_negative": -0.0016059350916090758,
+      "raw_positive": 0.1686247871223493
+    },
+    "F-C": {
+      "beta_centered": 0.24965463077514008,
+      "centered_negative": -0.004101711734410294,
+      "centered_positive": 0.25375634250955037,
+      "raw": 0.24965463052722356,
+      "raw_negative": -0.005176003891657421,
+      "raw_positive": 0.25483063441888093
+    }
+  },
+  "status": "passed",
+  "verification_status": "ANALYZED"
+}

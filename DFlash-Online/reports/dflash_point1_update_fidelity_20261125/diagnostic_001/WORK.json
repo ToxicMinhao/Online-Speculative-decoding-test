@@ -1,0 +1,82 @@
+{
+  "interpretation": "Module-operation counters; recomputation retained separately where instrumented.",
+  "startup": {
+    "optimizer_steps": 0,
+    "physical_work": {
+      "counts": {
+        "draft_forwards": 2,
+        "layer_forwards": 10,
+        "objective_chunks": 196,
+        "response_forwards": 2,
+        "vocabulary_head_calls": 392
+      },
+      "optimizer_window_observations": 0,
+      "response_observations": 2
+    },
+    "status": "completed",
+    "wall_s": 19.488290168344975,
+    "work": {
+      "attempts": {
+        "optimizer_steps": 0,
+        "response_backwards": 2,
+        "response_forwards": 2
+      },
+      "completed": {
+        "optimizer_steps": 0,
+        "response_backwards": 2,
+        "response_forwards": 2
+      },
+      "unknown": {
+        "optimizer_steps": 0,
+        "response_backwards": 0,
+        "response_forwards": 0
+      }
+    }
+  },
+  "work": {
+    "attempted": {
+      "allocation_freeze_native_head_chunk": 98,
+      "allocation_native_backbone_forward": 12,
+      "allocation_native_reference_backward": 2,
+      "allocation_native_teaching_head_chunk": 196,
+      "allocation_native_token_head_chunk": 98,
+      "allocation_preview_native_head_chunk": 392,
+      "native_committed_response_forward_backward": 8,
+      "point1_fp32_shadow": 3,
+      "point1_native_C_capture_head_chunk": 98,
+      "point1_native_adam": 4,
+      "point1_native_beta_assessment_backward": 2,
+      "point1_optimizer_jvp_C-BETA": 1,
+      "point1_optimizer_jvp_F-BETA": 1,
+      "point1_optimizer_jvp_F-C": 1,
+      "point1_optimizer_vjp_native_beta": 1,
+      "point1_optimizer_vjp_shadow_beta": 1,
+      "point1_readout_backbone_forward": 46,
+      "point1_readout_head_chunk": 718,
+      "point1_shadow_beta_assessment_backward": 2
+    },
+    "completed": {
+      "allocation_freeze_native_head_chunk": 98,
+      "allocation_native_backbone_forward": 12,
+      "allocation_native_reference_backward": 2,
+      "allocation_native_teaching_head_chunk": 196,
+      "allocation_native_token_head_chunk": 98,
+      "allocation_preview_native_head_chunk": 392,
+      "native_committed_response_forward_backward": 8,
+      "point1_fp32_shadow": 3,
+      "point1_native_C_capture_head_chunk": 98,
+      "point1_native_adam": 4,
+      "point1_native_beta_assessment_backward": 2,
+      "point1_optimizer_jvp_C-BETA": 1,
+      "point1_optimizer_jvp_F-BETA": 1,
+      "point1_optimizer_jvp_F-C": 1,
+      "point1_optimizer_vjp_native_beta": 1,
+      "point1_optimizer_vjp_shadow_beta": 1,
+      "point1_readout_backbone_forward": 46,
+      "point1_readout_head_chunk": 718,
+      "point1_shadow_beta_assessment_backward": 2
+    },
+    "native_adam_steps": 4,
+    "pending": []
+  }
+}
