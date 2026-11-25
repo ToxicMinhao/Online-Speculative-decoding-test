@@ -18,7 +18,7 @@ FULL_INPUTS = Path('/data/sources/minhao/runs/dflash_opencode_native_comparison_
 INPUT_IDENTITY = dict(bytes=32309622, sha256='df7194e667126f34f8e2ab2f6e22e2e5480cd7921728ceb4f946bd3a0cce6581')
 
 
-def prepare(parent_plan, root, source_manifest, execution_commit):
+def prepare(parent_plan, root, source_manifest, execution_commit, original_run=None):
     root = Path(root)
     root.mkdir(parents=True, exist_ok=False)
     parent, recovery, selected = select_parent(parent_plan)
@@ -48,6 +48,30 @@ def prepare(parent_plan, root, source_manifest, execution_commit):
         gpu_processes=processes,
         status='admitted' if not processes and free - FEASIBILITY_BYTES >= RESERVE else 'blocked',
     )
+    if original_run is not None:
+        original_run = Path(original_run)
+        old_plan = json.loads((original_run / 'PLAN.json').read_text())
+        previous = json.loads((original_run / 'QUALIFICATION_PROCESS.json').read_text())
+        probe = original_run / 'derivative_support_001'
+        result = json.loads((probe / 'RESULT.json').read_text())
+        if (old_plan['parent_plan'] != str(parent_plan)
+                or result['status'] != 'blocked_native_derivative'
+                or previous['native_adam_steps'] != 0):
+            raise ValueError('Repair must reuse the original blocked zero-update prerequisite')
+        records = [original_run / name for name in
+                   ('PLAN.json', 'CLOCK.json', 'QUALIFICATION_PROCESS.json')]
+        records.extend(probe / name for name in ('RESULT.json', 'WINDOW.json'))
+        plan.update(
+            allowed_phase='native_derivative_repair_only',
+            original_probe=str(probe), original_clock=str(original_run / 'CLOCK.json'),
+            original_process=str(original_run / 'QUALIFICATION_PROCESS.json'),
+            prior_record_identities={str(path): identity(path) for path in records},
+            prior_charged_roots=[str(original_run), str(Path(old_plan['source_manifest']).parent)],
+            compiler_baseline=old_plan['compiler_baseline'],
+            prior_occupied_card_s=previous['occupied_card_s'],
+            prospective_duality_criterion=dict(atol=1e-5, rtol=0.016),
+            prospective_primal_and_ordinary_backward='exact equality',
+        )
     write_json(root / 'PLAN.json', plan)
     if plan['status'] != 'admitted':
         raise RuntimeError('Derivative-only resource admission failed; production is not admitted')
@@ -60,6 +84,8 @@ if __name__ == '__main__':
     parser.add_argument('--root', required=True)
     parser.add_argument('--source-manifest', required=True)
     parser.add_argument('--execution-commit', required=True)
+    parser.add_argument('--original-run')
     args = parser.parse_args()
-    plan = prepare(args.parent_plan, args.root, args.source_manifest, args.execution_commit)
+    plan = prepare(args.parent_plan, args.root, args.source_manifest, args.execution_commit,
+                   args.original_run)
     print(json.dumps({key: plan[key] for key in ('status', 'free_bytes', 'production_admitted')}))
