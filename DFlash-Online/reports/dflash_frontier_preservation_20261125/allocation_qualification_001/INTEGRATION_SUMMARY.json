@@ -1,0 +1,173 @@
+{
+  "schema": "public_native_integration_qualification_v2",
+  "status": "passed",
+  "native_integration_qualified": true,
+  "production_event_started": false,
+  "production_resource_admission": "pending",
+  "execution_commit": "a7ae158dba4ef350ba061ccb3ec596da1652e894",
+  "numerical_audit_identity": {
+    "bytes": 172551,
+    "sha256": "494394772f9be995924717bb09caf8d39f22b77de7d04f9661e5875399065a02"
+  },
+  "checks": {
+    "passed": true,
+    "control_disabled_exact": true,
+    "cached_native_anchor_identity": true,
+    "beta_g0_exact": true,
+    "candidate_active": true,
+    "parent_restored_after_every_case": true
+  },
+  "activity": {
+    "coefficient_positions_changed": 8961,
+    "preclip_gradient_changed": true,
+    "bf16_parameters_changed": true,
+    "first_moment_changed": true,
+    "second_moment_changed": true
+  },
+  "disposable_adam_steps": 4,
+  "fixed_windows": 1,
+  "endpoint_counters_per_disposable_case": {
+    "global_step": 129,
+    "presentations": 258
+  },
+  "restored_parent": {
+    "status": "passed",
+    "exact_resume": true,
+    "mismatches": [],
+    "global_step": 128,
+    "presentations": 256,
+    "no_rng_reset": true,
+    "extra_model_passes": 0,
+    "extra_optimizer_steps": 0
+  },
+  "work": {
+    "startup": {
+      "status": "completed",
+      "optimizer_steps": 0,
+      "physical_work": {
+        "counts": {
+          "draft_forwards": 2,
+          "layer_forwards": 10,
+          "objective_chunks": 196,
+          "vocabulary_head_calls": 392,
+          "response_forwards": 2
+        },
+        "response_observations": 2,
+        "optimizer_window_observations": 0
+      },
+      "wall_s": 20.36655950732529,
+      "work": {
+        "attempts": {
+          "response_forwards": 2,
+          "response_backwards": 2,
+          "optimizer_steps": 0
+        },
+        "completed": {
+          "response_forwards": 2,
+          "response_backwards": 2,
+          "optimizer_steps": 0
+        },
+        "unknown": {
+          "response_forwards": 0,
+          "response_backwards": 0,
+          "optimizer_steps": 0
+        }
+      }
+    },
+    "allocation_and_update_ledger": {
+      "attempted": {
+        "allocation_native_backbone_forward": 8,
+        "allocation_freeze_native_head_chunk": 98,
+        "allocation_native_teaching_head_chunk": 196,
+        "allocation_native_reference_backward": 2,
+        "allocation_fp32_adam_shadow": 1,
+        "allocation_preview_native_head_chunk": 196,
+        "allocation_preview_native_backward": 2,
+        "allocation_native_token_head_chunk": 98,
+        "native_committed_response_forward_backward": 8,
+        "disposable_native_adam_step": 4,
+        "beta_same_coefficient_shadow_diagnostic": 1
+      },
+      "completed": {
+        "allocation_native_backbone_forward": 8,
+        "allocation_freeze_native_head_chunk": 98,
+        "allocation_native_teaching_head_chunk": 196,
+        "allocation_native_reference_backward": 2,
+        "allocation_preview_native_head_chunk": 196,
+        "allocation_preview_native_backward": 2,
+        "allocation_fp32_adam_shadow": 1,
+        "allocation_native_token_head_chunk": 98,
+        "native_committed_response_forward_backward": 8,
+        "disposable_native_adam_step": 4,
+        "beta_same_coefficient_shadow_diagnostic": 1
+      },
+      "pending": [],
+      "native_adam_steps": 4
+    },
+    "physical_hook_totals_including_startup_cache_and_cases": {
+      "draft_forwards": 18,
+      "layer_forwards": 90,
+      "vocabulary_head_calls": 2842,
+      "objective_chunks": 1176
+    },
+    "ordinary_first_order_backwards": 14,
+    "serial_oracle_backwards": 0,
+    "fp32_scoring_shadow_previews": 1,
+    "same_coefficient_shadow_diagnostics": 1,
+    "feedback_generations": 0,
+    "serving_generations": 0,
+    "production_events": 0,
+    "counting_note": "18full forwards=2startup+8cache+8cases;14backwards=2startup+2g0+2preview+8cases. Head/attention/checkpoint operations nest; count no extra full pass for them."
+  },
+  "timing": {
+    "wall_s": 153.58596785366535,
+    "cache_scoring_wall_s": 17.14576491340995,
+    "candidate_native_training_s": 4.623279957100749,
+    "candidate_timing_scope": "Two native response boundaries minus qualification preclip hashing/inspection; endpoint hashes, restoration and shadow diagnostic excluded",
+    "complete_candidate_window_s": 21.769044870510697,
+    "complete_candidate_timing_scope": "Synchronized frozen-window sampling/scoring plus candidate native teaching; excludes startup, parent/state hashes, restores, other branches and BETA shadow diagnostic; bounded work-ledger bookkeeping included"
+  },
+  "same_coefficient_shadow_native_diagnostic": {
+    "same_restored_state": true,
+    "same_preclip_gradient": true,
+    "coefficients": "beta prefix plus unchanged native K+PAIR repair",
+    "continuous_gradient_norm": 0.15282142162322998,
+    "continuous_clip": 1.0,
+    "continuous_shadow_displacement_l2": 1.9680267322484912,
+    "native_bf16_displacement_l2": 1.2307600862686452,
+    "native_minus_shadow_l2": 1.7593116721452415,
+    "native_minus_shadow_max_abs": 0.0004326552152633667,
+    "relative_to_shadow_displacement": 0.8939470401071278,
+    "native_vs_cast_shadow_different_elements": 1420195,
+    "full_preview_vectors_retained": 0,
+    "promoted_parameter_states_live_at_once": 1,
+    "reduction": "FP32 differences and squares, FP64 sums",
+    "admission_gate": false,
+    "native_adam_steps": 0,
+    "wall_s": 1.7885457687079906
+  },
+  "resources": {
+    "supervised_occupied_card_s": 160.22805475629866,
+    "prior_occupied_card_s": 390.47299830056727,
+    "cumulative_occupied_card_s": 550.7010530568659,
+    "new_phase_elapsed_s_at_process_end": 1560.045084476471,
+    "peak_allocated_bytes": 37657740800,
+    "peak_reserved_bytes": 48565846016,
+    "peak_scope": "Reset after parent restore and discarded startup; initialization/startup peak not separately established.",
+    "storage": {
+      "allocated_bytes": 2641412096,
+      "compiler_growth_bytes": 16896000,
+      "charged_bytes": 2658308096,
+      "free_bytes": 429442310144,
+      "local_allocated_bytes": 346447872,
+      "all_locations_charged_bytes": 3004755968
+    },
+    "storage_scope": "All study roots plus compiler growth and measured local allocation at this receipt, not integration incremental writing."
+  },
+  "CPU_tests": {
+    "local_full_suite": 133,
+    "A800_focused_integration_training_witness_suite": 14
+  },
+  "privacy": "No response rows, token IDs, inputs, anchors or tensors exported.",
+  "interpretation": "The disabled path reproduces native C+K+PAIR and the detached allocator changes the actual BF16 update versus beta at identical native support. This establishes integration/activity on one fixed training window, not efficacy."
+}
