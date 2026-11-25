@@ -3,7 +3,7 @@
 No optimizer step occurs here. The reference preserves the authored BF16 FKL,
 K+ correction, PAIR term, eight-block head shape and response reduction order.
 Only the optimizer shadow and its analytic pullback use continuous FP32 algebra.
-Fast tangents use the already qualified attention implementation and explicitly
+Fast tangents use the tested attention implementation and explicitly
 represent the FP32 direction in native parameter precision before differentiation.
 """
 
@@ -69,13 +69,14 @@ class NativeAllocationScorer:
     small per-position state; neither logits nor per-token gradients are cached.
     """
 
-    def __init__(self, trainer, responses, work=None):
+    def __init__(self, trainer, responses, work=None, *, collect_diagnostics=False):
         require(len(responses) == 2, 'Require exactly two frozen native responses')
         require(not trainer.core.accumulation_remainder, 'Require an accumulation boundary')
         self.trainer = trainer
         self.model = trainer.bundle.model
         self.responses = tuple(responses)
         self.work = work
+        self.collect_diagnostics = collect_diagnostics
         self.hidden = NativeHidden(self.model)
         named = trainable_parameters(self.hidden)
         self.parameter_names = tuple(named)
@@ -175,12 +176,16 @@ class NativeAllocationScorer:
                     ids, response.tensors['loss_mask'], response.anchors, response.keep
                 )
                 hidden = self._blocks(response)
-                proposals = []
+                proposals, probabilities = [], []
                 for _, part in self._slices(hidden):
                     with self._operation('allocation_freeze_native_head_chunk'):
                         logits = self.model.lm_head(hidden[:, part]).to(self.model.loss_dtype)
                         require(torch.isfinite(logits).all(), 'Nonfinite current native logits')
                         proposals.append(logits.argmax(-1))
+                        if self.collect_diagnostics:
+                            canonical = F.log_softmax(logits, -1).gather(
+                                -1, labels[:, part].unsqueeze(-1)).squeeze(-1)
+                            probabilities.append(canonical.float().exp())
                         del logits
                 proposals = torch.cat(proposals, dim=1)
                 roles = current_roles(proposals, labels, beta, self.model.eos_token_ids)
@@ -237,6 +242,10 @@ class NativeAllocationScorer:
                         kplus_coefficient2=metrics['kplus_coefficient2'],
                     )
                 )
+                if self.collect_diagnostics:
+                    from online_feedback.prefix_allocation import bounded_prefix_coefficients
+                    snapshots[-1]['old_C_coefficients'] = bounded_prefix_coefficients(
+                        torch.cat(probabilities, 1), beta, roles['valid'], roles['prefix'])
                 del hidden
         self.snapshots = snapshots
         self.current_direct_loss_masks = [item['direct_loss_mask'] for item in snapshots]

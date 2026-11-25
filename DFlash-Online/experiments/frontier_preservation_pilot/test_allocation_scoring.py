@@ -189,6 +189,23 @@ class AllocationScoringTests(unittest.TestCase):
             self.assertEqual(observed.dtype, torch.bfloat16)
             self.assertTrue(torch.equal(observed, native), (observed, native))
 
+    def test_sparse_old_C_observation_does_not_change_scoring_or_forward_count(self):
+        ordinary = fixture()
+        observed = fixture()
+        observed.model.load_state_dict(ordinary.model.state_dict())
+        observed.collect_diagnostics = True
+        left, right = ordinary.freeze_current(), observed.freeze_current()
+        self.assertEqual(ordinary.model.forward_calls, observed.model.forward_calls)
+        self.assertEqual(ordinary.model.lm_head.shapes, observed.model.lm_head.shapes)
+        for before, after in zip(left, right):
+            for key in ('labels', 'beta', 'prefix', 'repair', 'denominator'):
+                self.assertTrue(torch.equal(before['roles'][key], after['roles'][key]))
+            self.assertNotIn('old_C_coefficients', before)
+            self.assertEqual(after['old_C_coefficients'].shape, after['roles']['beta'].shape)
+            self.assertFalse(after['old_C_coefficients'].requires_grad)
+        for a, b in zip(ordinary.reference_gradient(), observed.reference_gradient()):
+            self.assertTrue(torch.equal(a, b))
+
     def test_token_oracle_retains_original_eight_block_head_boundary_and_raw_loss(self):
         scorer = fixture()
         scorer.freeze_current()
