@@ -34,6 +34,14 @@ def read_bound_json(path, expected):
     return json.loads(Path(path).read_text())
 
 
+def authenticate_parent_export(export_directory):
+    """The production plan names the directory; the handoff binds its weights."""
+    path = Path(export_directory)/'model.safetensors'
+    if identity(path) != EXPORT_IDENTITY:
+        raise ValueError('Protected parent export changed')
+    return path
+
+
 def host_memory():
     values = {}
     for line in Path('/proc/meminfo').read_text().splitlines():
@@ -147,9 +155,9 @@ def prepare(production_plan, root, source_manifest, execution_commit,
         raise ValueError('Parent contract or exact qualification features changed')
     if imports['parent_plan_identity'] != identity(production['parent_plan']):
         raise ValueError('Parent plan changed since qualification')
-    export = Path(production['parent_export'])
-    if identity(recovery) != RECOVERY_IDENTITY or identity(export) != EXPORT_IDENTITY:
-        raise ValueError('Protected parent state/export changed')
+    export = authenticate_parent_export(production['parent_export'])
+    if identity(recovery) != RECOVERY_IDENTITY:
+        raise ValueError('Protected parent recovery changed')
     window_path = Path(old_plan['original_probe']) / 'WINDOW.json'
     window = read_bound_json(window_path, WINDOW_IDENTITY)
     if [len(row['anchors'][0]) for row in window['responses']] != [512, 269]:

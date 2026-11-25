@@ -7,11 +7,21 @@ from unittest.mock import patch
 
 from experiments.ok_coding.storage import identity
 from online_feedback.storage import write_json
-from .point1_prepare import authenticate_witness, resource_admission
+from .point1_prepare import authenticate_parent_export, authenticate_witness, resource_admission
 from .point1_launch import Point1StepLedger, child_memory, completed_cases, phase_clock, remaining_time
 
 
 class AdmissionTests(unittest.TestCase):
+    def test_export_directory_resolves_to_authenticated_weight_file(self):
+        with tempfile.TemporaryDirectory() as d:
+            path=Path(d)/'model.safetensors'
+            path.write_bytes(b'protected weights')
+            with patch('experiments.frontier_preservation_pilot.point1_prepare.EXPORT_IDENTITY',identity(path)):
+                self.assertEqual(authenticate_parent_export(d),path)
+                path.write_bytes(b'changed weights')
+                with self.assertRaisesRegex(ValueError,'export changed'):
+                    authenticate_parent_export(d)
+
     def admission(self, **changes):
         values = dict(free_bytes=408_000_000_000, charged_bytes=600_000_000,
             remaining_write_bytes=1_000_000_000, host_available_bytes=103_000_000_000,
