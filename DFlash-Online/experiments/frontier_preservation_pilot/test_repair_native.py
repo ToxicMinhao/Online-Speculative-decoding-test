@@ -112,7 +112,10 @@ class RepairNativeTests(unittest.TestCase):
                 self.weight = torch.nn.Parameter(torch.tensor([0.2, 0.7], dtype=torch.float64))
 
             def forward(self, response):
-                return self.weight.sin() + self.weight.square()
+                value = self.weight
+                for _ in range(5):
+                    value = torch.nn.functional.silu(value)
+                return value + self.weight.square()
 
         model = TinyModel()
         response = SimpleNamespace(rng_after_sampling=capture_rng())
@@ -154,6 +157,9 @@ class RepairNativeTests(unittest.TestCase):
             self.assertTrue(receipt['duality']['passed'])
             self.assertEqual(receipt['duality']['native_backward_dot'], reference)
             self.assertFalse(receipt['parameter_hessian_requested'])
+            self.assertEqual(receipt['silu_scope_accounting']['native_silu_forwards'], 5)
+            self.assertEqual(receipt['silu_scope_accounting']['native_silu_first_vjps'], 5)
+            self.assertEqual(receipt['silu_scope_accounting']['silu_cotangent_transposes'], 5)
             self.assertEqual(sum(work.value['completed'].values()), 5)
             self.assertEqual(work.value['pending'], [])
             self.assertEqual(work.value['native_adam_steps'], 0)

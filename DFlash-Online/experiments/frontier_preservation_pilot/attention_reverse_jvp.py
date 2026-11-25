@@ -1,4 +1,4 @@
-"""Prototype: transpose native first backward only in its incoming cotangent.
+"""Transpose native attention/SiLU backward only in its incoming cotangent.
 
 This is deliberately not a general second derivative of FlexAttention. The
 Q/K/V primal state is frozen inside the native-VJP node. Its only differentiable
@@ -6,7 +6,7 @@ input is the incoming output cotangent; its transpose uses attention_tangent.
 Use it for d/du <direction, J(theta)^T u> with theta fixed. Parameter Hessians
 and third derivatives are outside this interface and must not be requested.
 
-Both the attention primal and first VJP execute the original native operator.
+Attention and SiLU primals and first VJPs execute their original native operators.
 Ordinary training and serving never install this scoped prototype. Native
 identity and whole-model duality require separate real-runtime qualification.
 """
@@ -17,6 +17,7 @@ import importlib
 
 import torch
 from torch.autograd.function import once_differentiable
+from torch.nn import functional as F
 from torch.nn.attention.flex_attention import AuxRequest
 
 from .attention_jvp import attention_tangent
@@ -168,3 +169,76 @@ def native_attention_reverse_jvp():
         yield accounting
     finally:
         module.compile_friendly_flex_attention = original
+
+
+class _SiLUCotangentVJP(torch.autograd.Function):
+    @staticmethod
+    def forward(ctx, incoming, fixed_input, accounting):
+        ctx.save_for_backward(fixed_input)
+        ctx.accounting = accounting
+        return torch.ops.aten.silu_backward.default(incoming, fixed_input)
+
+    @staticmethod
+    @once_differentiable
+    def backward(ctx, direction):
+        (fixed_input,) = ctx.saved_tensors
+        ctx.accounting['silu_cotangent_transposes'] += 1
+        # At fixed input, SiLU's local Jacobian is diagonal. Apply the same
+        # native elementwise backward kernel for its cotangent transpose.
+        return torch.ops.aten.silu_backward.default(direction, fixed_input), None, None
+
+
+class _NativeSiLU(torch.autograd.Function):
+    @staticmethod
+    def forward(ctx, value, native_silu, accounting):
+        ctx.save_for_backward(value.detach())
+        ctx.accounting = accounting
+        ctx.set_materialize_grads(False)
+        accounting['native_silu_forwards'] += 1
+        return native_silu(value, inplace=False)
+
+    @staticmethod
+    def backward(ctx, incoming):
+        if incoming is None:
+            return None, None, None
+        (fixed_input,) = ctx.saved_tensors
+        ctx.accounting['native_silu_first_vjps'] += 1
+        if torch.is_grad_enabled():
+            gradient = _SiLUCotangentVJP.apply(incoming, fixed_input, ctx.accounting)
+        else:
+            gradient = torch.ops.aten.silu_backward.default(incoming, fixed_input)
+        return gradient, None, None
+
+
+@contextmanager
+def native_silu_reverse_jvp():
+    """Preserve native SiLU first backward during the cotangent-only route.
+
+    Torch's create_graph=True SiLU backward uses a differentiable expression
+    whose BF16 rounding can differ from its ordinary native kernel. This scope
+    retains the native kernel for both first VJP and its fixed-input transpose.
+    It does not expose input Hessians. Outside the scope, F.silu is untouched.
+    """
+    original = F.silu
+    accounting = dict(
+        passthrough_calls=0,
+        native_silu_forwards=0,
+        native_silu_first_vjps=0,
+        silu_cotangent_transposes=0,
+    )
+
+    def wrapped(value, inplace=False):
+        if torch.autograd.forward_ad.unpack_dual(value).tangent is not None:
+            raise ValueError('The SiLU cotangent transpose cannot be combined with forward AD')
+        if not torch.is_grad_enabled() or not value.requires_grad:
+            accounting['passthrough_calls'] += 1
+            return original(value, inplace=inplace)
+        if inplace:
+            raise ValueError('In-place SiLU is unsupported by the cotangent transpose')
+        return _NativeSiLU.apply(value, original, accounting)
+
+    F.silu = wrapped
+    try:
+        yield accounting
+    finally:
+        F.silu = original

@@ -6,7 +6,11 @@ from unittest import mock
 
 import torch
 
-from .attention_reverse_jvp import attention_reverse_jvp_wrapper, native_attention_reverse_jvp
+from .attention_reverse_jvp import (
+    attention_reverse_jvp_wrapper,
+    native_attention_reverse_jvp,
+    native_silu_reverse_jvp,
+)
 from .test_attention_jvp import dense_attention
 
 
@@ -255,6 +259,101 @@ class CotangentTransposeTests(unittest.TestCase):
             ]
             with self.assertRaisesRegex(ValueError, 'combined with forward AD'):
                 wrapper(*duals)
+
+
+class SiLUCotangentTests(unittest.TestCase):
+    def tearDown(self):
+        self.assertFalse(torch.cuda.is_initialized(), 'CPU SiLU qualification initialized CUDA')
+
+    def test_bf16_before_discrepancy_and_exact_native_first_vjp_after_fix(self):
+        generator = torch.Generator().manual_seed(20261125)
+        value = torch.randn(8192, generator=generator).bfloat16().requires_grad_()
+        incoming = torch.randn(8192, generator=generator).bfloat16().requires_grad_()
+        direction = torch.randn(8192, generator=generator).bfloat16()
+        original = torch.nn.functional.silu
+        native_output = original(value)
+        ordinary = torch.autograd.grad(native_output, value, incoming)[0]
+        higher_order = torch.autograd.grad(original(value), value, incoming, create_graph=True)[
+            0
+        ]
+        mismatch_count = int(torch.count_nonzero(ordinary != higher_order))
+        self.assertGreater(mismatch_count, 0)
+        native_kernel = torch.ops.aten.silu_backward.default(incoming.detach(), value.detach())
+        torch.testing.assert_close(native_kernel, ordinary, rtol=0, atol=0)
+        with native_silu_reverse_jvp() as accounting:
+            output = torch.nn.functional.silu(value)
+            first = torch.autograd.grad(output, value, incoming, create_graph=True)[0]
+            torch.testing.assert_close(output, native_output, rtol=0, atol=0)
+            torch.testing.assert_close(first, ordinary, rtol=0, atol=0)
+            contraction = (first.float() * direction.float()).sum()
+            transpose = torch.autograd.grad(contraction, incoming)[0]
+            expected = torch.ops.aten.silu_backward.default(direction, value.detach())
+            torch.testing.assert_close(transpose, expected, rtol=0, atol=0)
+        self.assertIs(torch.nn.functional.silu, original)
+        self.assertEqual(accounting['native_silu_forwards'], 1)
+        self.assertEqual(accounting['native_silu_first_vjps'], 1)
+        self.assertEqual(accounting['silu_cotangent_transposes'], 1)
+        difference = ordinary.float() - higher_order.detach().float()
+        print(
+            f'SiLU BF16 fixture: native create_graph mismatch {mismatch_count}/8192; '
+            f'max_abs={float(difference.abs().max()):.9g}; '
+            f'relative_l2={float(difference.norm() / ordinary.float().norm()):.9g}; '
+            'shim first-VJP and cotangent-transpose native equality=True'
+        )
+
+    def test_continuous_silu_transpose_and_shared_swiglu_first_vjp(self):
+        generator = torch.Generator().manual_seed(610)
+        for dtype, tolerance in ((torch.float64, 1e-10), (torch.float32, 2e-5)):
+            value = torch.randn(31, generator=generator, dtype=dtype).requires_grad_()
+            direction = torch.randn(31, generator=generator, dtype=dtype)
+            _, expected = torch.autograd.functional.jvp(
+                torch.nn.functional.silu, value, direction
+            )
+            incoming = torch.randn(31, generator=generator, dtype=dtype).requires_grad_()
+            with native_silu_reverse_jvp():
+                output = torch.nn.functional.silu(value)
+                gradient = torch.autograd.grad(output, value, incoming, create_graph=True)[0]
+                actual = torch.autograd.grad((gradient * direction).sum(), incoming)[0]
+            torch.testing.assert_close(actual, expected, rtol=tolerance, atol=tolerance)
+
+        hidden = torch.randn(2, 17, 16, generator=generator).bfloat16()
+        parameters = [
+            torch.randn(shape, generator=generator).bfloat16().requires_grad_()
+            for shape in ((16, 48), (16, 48), (48, 16))
+        ]
+
+        def swiglu():
+            gate, up, down = parameters
+            return (torch.nn.functional.silu(hidden @ gate) * (hidden @ up)) @ down
+
+        native_output = swiglu()
+        incoming = (
+            torch.randn(native_output.shape, generator=generator).bfloat16().requires_grad_()
+        )
+        reference = torch.autograd.grad(native_output, parameters, incoming)
+        with native_silu_reverse_jvp() as accounting:
+            output = swiglu()
+            actual = torch.autograd.grad(output, parameters, incoming, create_graph=True)
+        torch.testing.assert_close(output, native_output, rtol=0, atol=0)
+        for left, right in zip(actual, reference):
+            torch.testing.assert_close(left, right, rtol=0, atol=0)
+        self.assertEqual(accounting['native_silu_first_vjps'], 1)
+
+    def test_silu_scope_restoration_passthrough_and_inplace_rejection(self):
+        original = torch.nn.functional.silu
+        value = torch.tensor([-1.0, 0.0, 1.0], requires_grad=True)
+        before = value.detach().clone()
+        with self.assertRaisesRegex(RuntimeError, 'fixture exit'):
+            with native_silu_reverse_jvp() as accounting:
+                with torch.no_grad():
+                    output = torch.nn.SiLU()(value)
+                torch.testing.assert_close(output, original(value), rtol=0, atol=0)
+                self.assertEqual(accounting['passthrough_calls'], 1)
+                with self.assertRaisesRegex(ValueError, 'In-place SiLU'):
+                    torch.nn.functional.silu(value, inplace=True)
+                raise RuntimeError('fixture exit')
+        self.assertIs(torch.nn.functional.silu, original)
+        torch.testing.assert_close(value, before, rtol=0, atol=0)
 
 
 if __name__ == '__main__':

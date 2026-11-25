@@ -284,7 +284,7 @@ def qualify_transposed_model(
     module, response, parameters, baseline, cotangent, gradients, work, destination, failed_repair
 ):
     """Transpose the native first VJP only in its incoming output cotangent."""
-    from .attention_reverse_jvp import native_attention_reverse_jvp
+    from .attention_reverse_jvp import native_attention_reverse_jvp, native_silu_reverse_jvp
 
     previous = json.loads((Path(failed_repair) / 'MODEL.json').read_text())
     if previous['duality']['passed'] or not previous['native_primal_bit_equal']:
@@ -304,8 +304,10 @@ def qualify_transposed_model(
     )
     write_json(destination, receipt)
     restore_rng(response.rng_after_sampling)
-    with native_attention_reverse_jvp() as accounting:
+    with native_attention_reverse_jvp() as accounting, native_silu_reverse_jvp() as silu_accounting:
         receipt['derivative_scope_accounting'] = accounting
+        receipt['silu_scope_accounting'] = silu_accounting
+        receipt['expected_silu_calls'] = 5
         try:
             work.start('transposed_native_model_forward')
             output = module(response)
@@ -313,6 +315,8 @@ def qualify_transposed_model(
             receipt['native_primal_bit_equal'] = torch.equal(output, baseline)
             if not receipt['native_primal_bit_equal']:
                 raise ValueError('Cotangent-transpose wrapper changed the native model primal')
+            if silu_accounting['native_silu_forwards'] != 5:
+                raise ValueError('Expected exactly five native SiLU calls in the derivative scope')
             incoming = cotangent.detach().clone().requires_grad_(True)
             work.start('transposed_native_parameter_vjp')
             native_gradients = torch.autograd.grad(
@@ -323,6 +327,8 @@ def qualify_transposed_model(
                 allow_unused=False,
             )
             work.finish('transposed_native_parameter_vjp')
+            if silu_accounting['native_silu_first_vjps'] != 5:
+                raise ValueError('Expected exactly five native SiLU first VJPs')
             receipt['first_vjp_parameters'] = first_vjp_comparison(
                 parameters, native_gradients, gradients
             )
@@ -339,6 +345,8 @@ def qualify_transposed_model(
             work.start('transposed_native_grad_output_vjp')
             tangent = torch.autograd.grad(contraction, incoming, allow_unused=False)[0]
             work.finish('transposed_native_grad_output_vjp')
+            if silu_accounting['silu_cotangent_transposes'] != 5:
+                raise ValueError('Expected exactly five SiLU cotangent transposes')
             if not bool(torch.isfinite(tangent).all()):
                 raise ValueError('Cotangent-transposed full-model tangent is nonfinite')
             receipt['duality'] = duality_receipt(tangent, cotangent, gradients, direction)

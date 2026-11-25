@@ -19,7 +19,8 @@ INPUT_IDENTITY = dict(bytes=32309622, sha256='df7194e667126f34f8e2ab2f6e22e2e548
 
 
 def prepare(parent_plan, root, source_manifest, execution_commit, original_run=None,
-            failed_repair=None, completed_localization=None, failed_transpose=None):
+            failed_repair=None, completed_localization=None, failed_transpose=None,
+            failed_higher_vjp=None):
     root = Path(root)
     root.mkdir(parents=True, exist_ok=False)
     parent, recovery, selected = select_parent(parent_plan)
@@ -142,6 +143,29 @@ def prepare(parent_plan, root, source_manifest, execution_commit, original_run=N
             prior_occupied_card_s=previous['cumulative_occupied_card_s'],
             implementation_fix='Consume each inner native backward graph exactly once',
         )
+    if failed_higher_vjp is not None:
+        if failed_transpose is None:
+            raise ValueError('Higher-order SiLU repair retains the graph-lifetime attempt')
+        failed = Path(failed_higher_vjp)
+        failed_result = json.loads((failed / 'derivative_support_001/RESULT.json').read_text())
+        model_result = json.loads((failed / 'derivative_support_001/MODEL.json').read_text())
+        previous = json.loads((failed / 'QUALIFICATION_PROCESS.json').read_text())
+        previous_plan = json.loads((failed / 'PLAN.json').read_text())
+        if (failed_result['status'] != 'failed' or failed_result['native_adam_steps'] != 0
+                or model_result['ordinary_backward_bit_equal'] is not False
+                or len(model_result.get('first_vjp_parameters', [])) != 58):
+            raise ValueError('Require the preserved, measured higher-order first-VJP discrepancy')
+        records = [failed / name for name in ('PLAN.json', 'QUALIFICATION_PROCESS.json',
+                   'derivative_support_001/RESULT.json', 'derivative_support_001/MODEL.json')]
+        plan['prior_record_identities'].update({str(path): identity(path) for path in records})
+        plan['prior_charged_roots'].extend(
+            [str(failed), str(Path(previous_plan['source_manifest']).parent)])
+        plan.update(
+            failed_higher_vjp=str(failed),
+            original_process=str(failed / 'QUALIFICATION_PROCESS.json'),
+            prior_occupied_card_s=previous['cumulative_occupied_card_s'],
+            implementation_fix='Preserve native SiLU first backward in the cotangent derivative graph',
+        )
     write_json(root / 'PLAN.json', plan)
     if plan['status'] != 'admitted':
         raise RuntimeError('Derivative-only resource admission failed; production is not admitted')
@@ -158,8 +182,9 @@ if __name__ == '__main__':
     parser.add_argument('--failed-repair')
     parser.add_argument('--completed-localization')
     parser.add_argument('--failed-transpose')
+    parser.add_argument('--failed-higher-vjp')
     args = parser.parse_args()
     plan = prepare(args.parent_plan, args.root, args.source_manifest, args.execution_commit,
                    args.original_run, args.failed_repair, args.completed_localization,
-                   args.failed_transpose)
+                   args.failed_transpose, args.failed_higher_vjp)
     print(json.dumps({key: plan[key] for key in ('status', 'free_bytes', 'production_admitted')}))
