@@ -1,0 +1,764 @@
+{
+  "execution_commit": "79b8c076610e9b4d310169b3891cb76ac6d0f9bb",
+  "launch": {
+    "status": "completed",
+    "execution_commit": "79b8c076610e9b4d310169b3891cb76ac6d0f9bb",
+    "phases": [
+      {
+        "arm": "BASE",
+        "pid": 1165151,
+        "started_epoch": 1795574936.0046856,
+        "log": "/data/sources/minhao/runs/dflash_repair_conditional_kl_20261124/execution_001/BASE_qualification.log",
+        "elapsed_s": 148.5564248561859,
+        "exit_code": 0
+      },
+      {
+        "arm": "PAIR",
+        "pid": 1166311,
+        "started_epoch": 1795575085.8329513,
+        "log": "/data/sources/minhao/runs/dflash_repair_conditional_kl_20261124/execution_001/PAIR_qualification.log",
+        "elapsed_s": 138.1923131942749,
+        "exit_code": 0
+      }
+    ],
+    "automatic_retry": false,
+    "clock": {
+      "occupied_s": 554.4458146095276,
+      "elapsed_s": 288.52369570732117,
+      "active": {}
+    }
+  },
+  "final_resource": {
+    "clock": {
+      "occupied_s": 554.4458146095276,
+      "elapsed_s": 319.61094403266907,
+      "active": {}
+    },
+    "free_bytes": 425146650624,
+    "allocated_bytes": 17235111936,
+    "compiler_growth_bytes": 13115392,
+    "limit": {
+      "elapsed_s": 10800,
+      "occupied_card_s": 18000,
+      "new_allocated_bytes": 90000000000,
+      "free_reserve_bytes": 400000000000
+    },
+    "remaining_peak_bytes": 7751772672
+  },
+  "arms": {
+    "BASE": {
+      "phase_wall_s": 142.7086575254798,
+      "native_loading_s": 20.507227459922433,
+      "training_qualification_wall_s": 94.7810070514679,
+      "native_two_response_training_s": 4.5018877647817135,
+      "startup_wall_s": 21.176706785336137,
+      "training_peak_allocated_bytes": 18461421056,
+      "training_peak_reserved_bytes": 19553845248,
+      "serving_peak_allocated_bytes": 57320532992,
+      "serving_peak_reserved_bytes": 57636028416,
+      "host_maxrss_bytes": 12942581760,
+      "learning_physical_work": {
+        "draft_forwards": 2,
+        "layer_forwards": 10,
+        "objective_chunks": 202,
+        "vocabulary_head_calls": 404,
+        "response_forwards": 2
+      },
+      "startup_physical_work": {
+        "counts": {
+          "draft_forwards": 2,
+          "layer_forwards": 10,
+          "objective_chunks": 202,
+          "vocabulary_head_calls": 404,
+          "response_forwards": 2
+        },
+        "response_observations": 2,
+        "optimizer_window_observations": 0
+      },
+      "startup_work": {
+        "attempts": {
+          "response_forwards": 2,
+          "response_backwards": 2,
+          "optimizer_steps": 0
+        },
+        "completed": {
+          "response_forwards": 2,
+          "response_backwards": 2,
+          "optimizer_steps": 0
+        },
+        "unknown": {
+          "response_forwards": 0,
+          "response_backwards": 0,
+          "optimizer_steps": 0
+        }
+      },
+      "native_initialization": {
+        "initialization": [
+          {
+            "kind": "graph_capture",
+            "batch_size": 1,
+            "draft": false,
+            "tokens_per_batch": 16,
+            "status": "completed",
+            "model_forward_calls": 3,
+            "model_forward_completions": 3,
+            "model_forward_failures": 0,
+            "wall_s": 0.2939643878489733
+          },
+          {
+            "kind": "graph_capture",
+            "batch_size": 1,
+            "draft": false,
+            "tokens_per_batch": 1,
+            "status": "completed",
+            "model_forward_calls": 3,
+            "model_forward_completions": 3,
+            "model_forward_failures": 0,
+            "wall_s": 0.04920522682368755
+          },
+          {
+            "kind": "graph_capture",
+            "batch_size": 1,
+            "draft": false,
+            "tokens_per_batch": 2,
+            "status": "completed",
+            "model_forward_calls": 3,
+            "model_forward_completions": 3,
+            "model_forward_failures": 0,
+            "wall_s": 0.050183773040771484
+          },
+          {
+            "kind": "graph_capture",
+            "batch_size": 1,
+            "draft": false,
+            "tokens_per_batch": 3,
+            "status": "completed",
+            "model_forward_calls": 3,
+            "model_forward_completions": 3,
+            "model_forward_failures": 0,
+            "wall_s": 0.05094168521463871
+          },
+          {
+            "kind": "graph_capture",
+            "batch_size": 1,
+            "draft": false,
+            "tokens_per_batch": 4,
+            "status": "completed",
+            "model_forward_calls": 3,
+            "model_forward_completions": 3,
+            "model_forward_failures": 0,
+            "wall_s": 0.05045489966869354
+          },
+          {
+            "kind": "graph_capture",
+            "batch_size": 1,
+            "draft": false,
+            "tokens_per_batch": 5,
+            "status": "completed",
+            "model_forward_calls": 3,
+            "model_forward_completions": 3,
+            "model_forward_failures": 0,
+            "wall_s": 0.05164663307368755
+          },
+          {
+            "kind": "graph_capture",
+            "batch_size": 1,
+            "draft": false,
+            "tokens_per_batch": 6,
+            "status": "completed",
+            "model_forward_calls": 3,
+            "model_forward_completions": 3,
+            "model_forward_failures": 0,
+            "wall_s": 0.05463598296046257
+          },
+          {
+            "kind": "graph_capture",
+            "batch_size": 1,
+            "draft": false,
+            "tokens_per_batch": 7,
+            "status": "completed",
+            "model_forward_calls": 3,
+            "model_forward_completions": 3,
+            "model_forward_failures": 0,
+            "wall_s": 0.055442312732338905
+          },
+          {
+            "kind": "graph_capture",
+            "batch_size": 1,
+            "draft": false,
+            "tokens_per_batch": 8,
+            "status": "completed",
+            "model_forward_calls": 3,
+            "model_forward_completions": 3,
+            "model_forward_failures": 0,
+            "wall_s": 0.055699316784739494
+          },
+          {
+            "kind": "graph_capture",
+            "batch_size": 1,
+            "draft": false,
+            "tokens_per_batch": 9,
+            "status": "completed",
+            "model_forward_calls": 3,
+            "model_forward_completions": 3,
+            "model_forward_failures": 0,
+            "wall_s": 0.05585513263940811
+          },
+          {
+            "kind": "graph_capture",
+            "batch_size": 1,
+            "draft": false,
+            "tokens_per_batch": 10,
+            "status": "completed",
+            "model_forward_calls": 3,
+            "model_forward_completions": 3,
+            "model_forward_failures": 0,
+            "wall_s": 0.05520406365394592
+          },
+          {
+            "kind": "graph_capture",
+            "batch_size": 1,
+            "draft": false,
+            "tokens_per_batch": 11,
+            "status": "completed",
+            "model_forward_calls": 3,
+            "model_forward_completions": 3,
+            "model_forward_failures": 0,
+            "wall_s": 0.055103765800595284
+          },
+          {
+            "kind": "graph_capture",
+            "batch_size": 1,
+            "draft": false,
+            "tokens_per_batch": 12,
+            "status": "completed",
+            "model_forward_calls": 3,
+            "model_forward_completions": 3,
+            "model_forward_failures": 0,
+            "wall_s": 0.05464118346571922
+          },
+          {
+            "kind": "graph_capture",
+            "batch_size": 1,
+            "draft": false,
+            "tokens_per_batch": 13,
+            "status": "completed",
+            "model_forward_calls": 3,
+            "model_forward_completions": 3,
+            "model_forward_failures": 0,
+            "wall_s": 0.05476800724864006
+          },
+          {
+            "kind": "graph_capture",
+            "batch_size": 1,
+            "draft": false,
+            "tokens_per_batch": 14,
+            "status": "completed",
+            "model_forward_calls": 3,
+            "model_forward_completions": 3,
+            "model_forward_failures": 0,
+            "wall_s": 0.05473322980105877
+          },
+          {
+            "kind": "graph_capture",
+            "batch_size": 1,
+            "draft": false,
+            "tokens_per_batch": 15,
+            "status": "completed",
+            "model_forward_calls": 3,
+            "model_forward_completions": 3,
+            "model_forward_failures": 0,
+            "wall_s": 0.05571667104959488
+          },
+          {
+            "kind": "graph_capture",
+            "batch_size": 1,
+            "draft": true,
+            "tokens_per_batch": 16,
+            "status": "completed",
+            "model_forward_calls": 3,
+            "model_forward_completions": 3,
+            "model_forward_failures": 0,
+            "wall_s": 0.01371125876903534
+          }
+        ],
+        "physical": {},
+        "peak_gpu_allocated_bytes": 57320532992,
+        "peak_gpu_reserved_bytes": 57636028416,
+        "extra_model_calls": 0,
+        "scope": "Existing CUDA graph forward calls; graph replay counted by native request traces"
+      },
+      "native_publications": [
+        {
+          "native_activation_s": 0.30570272728800774,
+          "native_status": {
+            "status": "passed",
+            "poisoned": null,
+            "capture_pending": false,
+            "publication": {
+              "status": "passed",
+              "checkpoint_path": "/data/sources/minhao/runs/dflash_repair_conditional_kl_20261124/execution_001/qualification/BASE/export",
+              "activation_s": 0.30412675626575947,
+              "native_load_s": 0.2999153006821871,
+              "helper_refresh_s": 0.0019117668271064758,
+              "cache_maintenance_s": 0.002004079520702362,
+              "timing_scope": "Host wall time including synchronization; native load includes its requested internal flush",
+              "cache_policy": "full_flush_before_publication_and_every_request",
+              "cache_after_tokens": 0,
+              "helper_matches_current_layers": true,
+              "helper_norm_matches_current_layers": true,
+              "fused_enabled": true
+            },
+            "cache_tokens": 0,
+            "attention_backend": "fa3",
+            "block_size": 16
+          },
+          "checkpoint_structure_valid": true,
+          "checkpoint_id": "/data/sources/minhao/runs/dflash_repair_conditional_kl_20261124/execution_001/qualification/BASE/export",
+          "activation_s": 1.0117852315306664,
+          "cache_policy": "full_flush_and_fused_KV_helper_refresh"
+        },
+        {
+          "native_activation_s": 0.42224107310175896,
+          "native_status": {
+            "status": "passed",
+            "poisoned": null,
+            "capture_pending": false,
+            "publication": {
+              "status": "passed",
+              "checkpoint_path": "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/draft",
+              "activation_s": 0.4214086849242449,
+              "native_load_s": 0.4195029567927122,
+              "helper_refresh_s": 0.001235269010066986,
+              "cache_maintenance_s": 0.0005906913429498672,
+              "timing_scope": "Host wall time including synchronization; native load includes its requested internal flush",
+              "cache_policy": "full_flush_before_publication_and_every_request",
+              "cache_after_tokens": 0,
+              "helper_matches_current_layers": true,
+              "helper_norm_matches_current_layers": true,
+              "fused_enabled": true
+            },
+            "cache_tokens": 0,
+            "attention_backend": "fa3",
+            "block_size": 16
+          },
+          "checkpoint_structure_valid": true,
+          "checkpoint_id": "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/draft",
+          "activation_s": 1.129481304436922,
+          "cache_policy": "full_flush_and_fused_KV_helper_refresh"
+        },
+        {
+          "native_activation_s": 0.30811613984405994,
+          "native_status": {
+            "status": "passed",
+            "poisoned": null,
+            "capture_pending": false,
+            "publication": {
+              "status": "passed",
+              "checkpoint_path": "/data/sources/minhao/runs/dflash_repair_conditional_kl_20261124/execution_001/qualification/BASE/export",
+              "activation_s": 0.30717285722494125,
+              "native_load_s": 0.3048869278281927,
+              "helper_refresh_s": 0.0012677386403083801,
+              "cache_maintenance_s": 0.0008971970528364182,
+              "timing_scope": "Host wall time including synchronization; native load includes its requested internal flush",
+              "cache_policy": "full_flush_before_publication_and_every_request",
+              "cache_after_tokens": 0,
+              "helper_matches_current_layers": true,
+              "helper_norm_matches_current_layers": true,
+              "fused_enabled": true
+            },
+            "cache_tokens": 0,
+            "attention_backend": "fa3",
+            "block_size": 16
+          },
+          "checkpoint_structure_valid": true,
+          "checkpoint_id": "/data/sources/minhao/runs/dflash_repair_conditional_kl_20261124/execution_001/qualification/BASE/export",
+          "activation_s": 0.9332909230142832,
+          "cache_policy": "full_flush_and_fused_KV_helper_refresh"
+        }
+      ],
+      "teacher_preparation": [
+        {
+          "status": "passed",
+          "target_forward_count": 1,
+          "forward_input_rows": 837,
+          "retained_feature_rows": 1,
+          "final_feature_logits_used_for_labels": false,
+          "capture_backend": "same_frozen_SGLang_full_context_final_row",
+          "teacher_preparation_s": 0.06908012926578522,
+          "tensor_path": "/data/sources/minhao/runs/dflash_repair_conditional_kl_20261124/execution_001/qualification_inputs/BASE/loop/features/opencode:0f78fcf4b231d883411926509abab4c66914d998648f4caadaa2c7e1e9f89957.terminal.pt"
+        },
+        {
+          "status": "passed",
+          "target_forward_count": 1,
+          "forward_input_rows": 357,
+          "retained_feature_rows": 1,
+          "final_feature_logits_used_for_labels": false,
+          "capture_backend": "same_frozen_SGLang_full_context_final_row",
+          "teacher_preparation_s": 0.02954886294901371,
+          "tensor_path": "/data/sources/minhao/runs/dflash_repair_conditional_kl_20261124/execution_001/qualification_inputs/BASE/loop/features/opencode:3bfc816ea5ecece143b16183a1f1f77c8e1d915ae4d5185f08f2f5a337967deb.terminal.pt"
+        }
+      ],
+      "pending_operations": {}
+    },
+    "PAIR": {
+      "phase_wall_s": 134.45203369483352,
+      "native_loading_s": 20.257021512836218,
+      "training_qualification_wall_s": 86.71616649627686,
+      "native_two_response_training_s": 4.935959294438362,
+      "startup_wall_s": 12.743049196898937,
+      "training_peak_allocated_bytes": 18402835968,
+      "training_peak_reserved_bytes": 19486736384,
+      "serving_peak_allocated_bytes": 57320532992,
+      "serving_peak_reserved_bytes": 57636028416,
+      "host_maxrss_bytes": 12990468096,
+      "learning_physical_work": {
+        "draft_forwards": 2,
+        "layer_forwards": 10,
+        "objective_chunks": 202,
+        "vocabulary_head_calls": 404,
+        "response_forwards": 2
+      },
+      "startup_physical_work": {
+        "counts": {
+          "draft_forwards": 2,
+          "layer_forwards": 10,
+          "objective_chunks": 202,
+          "vocabulary_head_calls": 404,
+          "response_forwards": 2
+        },
+        "response_observations": 2,
+        "optimizer_window_observations": 0
+      },
+      "startup_work": {
+        "attempts": {
+          "response_forwards": 2,
+          "response_backwards": 2,
+          "optimizer_steps": 0
+        },
+        "completed": {
+          "response_forwards": 2,
+          "response_backwards": 2,
+          "optimizer_steps": 0
+        },
+        "unknown": {
+          "response_forwards": 0,
+          "response_backwards": 0,
+          "optimizer_steps": 0
+        }
+      },
+      "native_initialization": {
+        "initialization": [
+          {
+            "kind": "graph_capture",
+            "batch_size": 1,
+            "draft": false,
+            "tokens_per_batch": 16,
+            "status": "completed",
+            "model_forward_calls": 3,
+            "model_forward_completions": 3,
+            "model_forward_failures": 0,
+            "wall_s": 0.25532054528594017
+          },
+          {
+            "kind": "graph_capture",
+            "batch_size": 1,
+            "draft": false,
+            "tokens_per_batch": 1,
+            "status": "completed",
+            "model_forward_calls": 3,
+            "model_forward_completions": 3,
+            "model_forward_failures": 0,
+            "wall_s": 0.04860389046370983
+          },
+          {
+            "kind": "graph_capture",
+            "batch_size": 1,
+            "draft": false,
+            "tokens_per_batch": 2,
+            "status": "completed",
+            "model_forward_calls": 3,
+            "model_forward_completions": 3,
+            "model_forward_failures": 0,
+            "wall_s": 0.04959963634610176
+          },
+          {
+            "kind": "graph_capture",
+            "batch_size": 1,
+            "draft": false,
+            "tokens_per_batch": 3,
+            "status": "completed",
+            "model_forward_calls": 3,
+            "model_forward_completions": 3,
+            "model_forward_failures": 0,
+            "wall_s": 0.04941952973604202
+          },
+          {
+            "kind": "graph_capture",
+            "batch_size": 1,
+            "draft": false,
+            "tokens_per_batch": 4,
+            "status": "completed",
+            "model_forward_calls": 3,
+            "model_forward_completions": 3,
+            "model_forward_failures": 0,
+            "wall_s": 0.049671219661831856
+          },
+          {
+            "kind": "graph_capture",
+            "batch_size": 1,
+            "draft": false,
+            "tokens_per_batch": 5,
+            "status": "completed",
+            "model_forward_calls": 3,
+            "model_forward_completions": 3,
+            "model_forward_failures": 0,
+            "wall_s": 0.050122153013944626
+          },
+          {
+            "kind": "graph_capture",
+            "batch_size": 1,
+            "draft": false,
+            "tokens_per_batch": 6,
+            "status": "completed",
+            "model_forward_calls": 3,
+            "model_forward_completions": 3,
+            "model_forward_failures": 0,
+            "wall_s": 0.04948818311095238
+          },
+          {
+            "kind": "graph_capture",
+            "batch_size": 1,
+            "draft": false,
+            "tokens_per_batch": 7,
+            "status": "completed",
+            "model_forward_calls": 3,
+            "model_forward_completions": 3,
+            "model_forward_failures": 0,
+            "wall_s": 0.04937933012843132
+          },
+          {
+            "kind": "graph_capture",
+            "batch_size": 1,
+            "draft": false,
+            "tokens_per_batch": 8,
+            "status": "completed",
+            "model_forward_calls": 3,
+            "model_forward_completions": 3,
+            "model_forward_failures": 0,
+            "wall_s": 0.0491141676902771
+          },
+          {
+            "kind": "graph_capture",
+            "batch_size": 1,
+            "draft": false,
+            "tokens_per_batch": 9,
+            "status": "completed",
+            "model_forward_calls": 3,
+            "model_forward_completions": 3,
+            "model_forward_failures": 0,
+            "wall_s": 0.04951164126396179
+          },
+          {
+            "kind": "graph_capture",
+            "batch_size": 1,
+            "draft": false,
+            "tokens_per_batch": 10,
+            "status": "completed",
+            "model_forward_calls": 3,
+            "model_forward_completions": 3,
+            "model_forward_failures": 0,
+            "wall_s": 0.049332572147250175
+          },
+          {
+            "kind": "graph_capture",
+            "batch_size": 1,
+            "draft": false,
+            "tokens_per_batch": 11,
+            "status": "completed",
+            "model_forward_calls": 3,
+            "model_forward_completions": 3,
+            "model_forward_failures": 0,
+            "wall_s": 0.04917367734014988
+          },
+          {
+            "kind": "graph_capture",
+            "batch_size": 1,
+            "draft": false,
+            "tokens_per_batch": 12,
+            "status": "completed",
+            "model_forward_calls": 3,
+            "model_forward_completions": 3,
+            "model_forward_failures": 0,
+            "wall_s": 0.04967103153467178
+          },
+          {
+            "kind": "graph_capture",
+            "batch_size": 1,
+            "draft": false,
+            "tokens_per_batch": 13,
+            "status": "completed",
+            "model_forward_calls": 3,
+            "model_forward_completions": 3,
+            "model_forward_failures": 0,
+            "wall_s": 0.04955059848725796
+          },
+          {
+            "kind": "graph_capture",
+            "batch_size": 1,
+            "draft": false,
+            "tokens_per_batch": 14,
+            "status": "completed",
+            "model_forward_calls": 3,
+            "model_forward_completions": 3,
+            "model_forward_failures": 0,
+            "wall_s": 0.049936236813664436
+          },
+          {
+            "kind": "graph_capture",
+            "batch_size": 1,
+            "draft": false,
+            "tokens_per_batch": 15,
+            "status": "completed",
+            "model_forward_calls": 3,
+            "model_forward_completions": 3,
+            "model_forward_failures": 0,
+            "wall_s": 0.05015107989311218
+          },
+          {
+            "kind": "graph_capture",
+            "batch_size": 1,
+            "draft": true,
+            "tokens_per_batch": 16,
+            "status": "completed",
+            "model_forward_calls": 3,
+            "model_forward_completions": 3,
+            "model_forward_failures": 0,
+            "wall_s": 0.013321137055754662
+          }
+        ],
+        "physical": {},
+        "peak_gpu_allocated_bytes": 57320532992,
+        "peak_gpu_reserved_bytes": 57636028416,
+        "extra_model_calls": 0,
+        "scope": "Existing CUDA graph forward calls; graph replay counted by native request traces"
+      },
+      "native_publications": [
+        {
+          "native_activation_s": 0.3383501395583153,
+          "native_status": {
+            "status": "passed",
+            "poisoned": null,
+            "capture_pending": false,
+            "publication": {
+              "status": "passed",
+              "checkpoint_path": "/data/sources/minhao/runs/dflash_repair_conditional_kl_20261124/execution_001/qualification/PAIR/export",
+              "activation_s": 0.33696956746280193,
+              "native_load_s": 0.33366573974490166,
+              "helper_refresh_s": 0.0016570352017879486,
+              "cache_maintenance_s": 0.001497732475399971,
+              "timing_scope": "Host wall time including synchronization; native load includes its requested internal flush",
+              "cache_policy": "full_flush_before_publication_and_every_request",
+              "cache_after_tokens": 0,
+              "helper_matches_current_layers": true,
+              "helper_norm_matches_current_layers": true,
+              "fused_enabled": true
+            },
+            "cache_tokens": 0,
+            "attention_backend": "fa3",
+            "block_size": 16
+          },
+          "checkpoint_structure_valid": true,
+          "checkpoint_id": "/data/sources/minhao/runs/dflash_repair_conditional_kl_20261124/execution_001/qualification/PAIR/export",
+          "activation_s": 0.9604036696255207,
+          "cache_policy": "full_flush_and_fused_KV_helper_refresh"
+        },
+        {
+          "native_activation_s": 0.41448886319994926,
+          "native_status": {
+            "status": "passed",
+            "poisoned": null,
+            "capture_pending": false,
+            "publication": {
+              "status": "passed",
+              "checkpoint_path": "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/draft",
+              "activation_s": 0.41359689831733704,
+              "native_load_s": 0.4107315968722105,
+              "helper_refresh_s": 0.0015233997255563736,
+              "cache_maintenance_s": 0.0011051744222640991,
+              "timing_scope": "Host wall time including synchronization; native load includes its requested internal flush",
+              "cache_policy": "full_flush_before_publication_and_every_request",
+              "cache_after_tokens": 0,
+              "helper_matches_current_layers": true,
+              "helper_norm_matches_current_layers": true,
+              "fused_enabled": true
+            },
+            "cache_tokens": 0,
+            "attention_backend": "fa3",
+            "block_size": 16
+          },
+          "checkpoint_structure_valid": true,
+          "checkpoint_id": "/data/sources/minhao/models/qwen3_dflash_foundation_20261022/draft",
+          "activation_s": 1.0705601833760738,
+          "cache_policy": "full_flush_and_fused_KV_helper_refresh"
+        },
+        {
+          "native_activation_s": 0.3362031616270542,
+          "native_status": {
+            "status": "passed",
+            "poisoned": null,
+            "capture_pending": false,
+            "publication": {
+              "status": "passed",
+              "checkpoint_path": "/data/sources/minhao/runs/dflash_repair_conditional_kl_20261124/execution_001/qualification/PAIR/export",
+              "activation_s": 0.3350841198116541,
+              "native_load_s": 0.3318219408392906,
+              "helper_refresh_s": 0.0015548299998044968,
+              "cache_maintenance_s": 0.0014698896557092667,
+              "timing_scope": "Host wall time including synchronization; native load includes its requested internal flush",
+              "cache_policy": "full_flush_before_publication_and_every_request",
+              "cache_after_tokens": 0,
+              "helper_matches_current_layers": true,
+              "helper_norm_matches_current_layers": true,
+              "fused_enabled": true
+            },
+            "cache_tokens": 0,
+            "attention_backend": "fa3",
+            "block_size": 16
+          },
+          "checkpoint_structure_valid": true,
+          "checkpoint_id": "/data/sources/minhao/runs/dflash_repair_conditional_kl_20261124/execution_001/qualification/PAIR/export",
+          "activation_s": 0.9605551827698946,
+          "cache_policy": "full_flush_and_fused_KV_helper_refresh"
+        }
+      ],
+      "teacher_preparation": [
+        {
+          "status": "passed",
+          "target_forward_count": 1,
+          "forward_input_rows": 837,
+          "retained_feature_rows": 1,
+          "final_feature_logits_used_for_labels": false,
+          "capture_backend": "same_frozen_SGLang_full_context_final_row",
+          "teacher_preparation_s": 0.06938047148287296,
+          "tensor_path": "/data/sources/minhao/runs/dflash_repair_conditional_kl_20261124/execution_001/qualification_inputs/PAIR/loop/features/opencode:0f78fcf4b231d883411926509abab4c66914d998648f4caadaa2c7e1e9f89957.terminal.pt"
+        },
+        {
+          "status": "passed",
+          "target_forward_count": 1,
+          "forward_input_rows": 357,
+          "retained_feature_rows": 1,
+          "final_feature_logits_used_for_labels": false,
+          "capture_backend": "same_frozen_SGLang_full_context_final_row",
+          "teacher_preparation_s": 0.029497526586055756,
+          "tensor_path": "/data/sources/minhao/runs/dflash_repair_conditional_kl_20261124/execution_001/qualification_inputs/PAIR/loop/features/opencode:3bfc816ea5ecece143b16183a1f1f77c8e1d915ae4d5185f08f2f5a337967deb.terminal.pt"
+        }
+      ],
+      "pending_operations": {}
+    }
+  },
+  "startup_and_training_timers_are_nested": true,
+  "publication_timers_include_internal_cache_maintenance": true,
+  "export_and_serialization_not_separately_timed": true,
+  "claim": "One step per arm, different cards and serial order; no reliable production overhead estimate."
+}

@@ -1,0 +1,535 @@
+{
+  "execution_commit": "79b8c076610e9b4d310169b3891cb76ac6d0f9bb",
+  "run_root": "/data/sources/minhao/runs/dflash_repair_conditional_kl_20261124/execution_001",
+  "arms": {
+    "BASE": {
+      "state": {
+        "path": "/data/sources/minhao/runs/dflash_repair_conditional_kl_20261124/execution_001/qualification/BASE/disposable_state.pt",
+        "bytes": 6291857787,
+        "sha256": "f4babb389c1a25584755395a53a05f38105b64c92fb5915767d99cfe05f8dbb2",
+        "role": "disposable one-step qualification state; no production event committed"
+      },
+      "export": {
+        "path": "/data/sources/minhao/runs/dflash_repair_conditional_kl_20261124/execution_001/qualification/BASE/export/model.safetensors",
+        "bytes": 2097259104,
+        "sha256": "1166732fd5b0f15f37c70a25e459974cf95111cc2477509f2054c8bd96b6b1fd"
+      },
+      "feedback": [
+        {
+          "path": "/data/sources/minhao/runs/dflash_repair_conditional_kl_20261124/execution_001/qualification_inputs/BASE/loop/features/opencode:3bfc816ea5ecece143b16183a1f1f77c8e1d915ae4d5185f08f2f5a337967deb.pt",
+          "bytes": 17559247,
+          "sha256": "493b0a42dd24dda0ec0cb8bcd975d634879a46952166ef8915ea8479d94ef417"
+        },
+        {
+          "path": "/data/sources/minhao/runs/dflash_repair_conditional_kl_20261124/execution_001/qualification_inputs/BASE/loop/features/opencode:0f78fcf4b231d883411926509abab4c66914d998648f4caadaa2c7e1e9f89957.pt",
+          "bytes": 41161935,
+          "sha256": "c3d157bf5cc98584a92b71b7efa064664f798acb76af3d873aaa0a15a9107124"
+        }
+      ]
+    },
+    "PAIR": {
+      "state": {
+        "path": "/data/sources/minhao/runs/dflash_repair_conditional_kl_20261124/execution_001/qualification/PAIR/disposable_state.pt",
+        "bytes": 6291857787,
+        "sha256": "7c5c7599395bedb162e2ce93314e53e6306a4885b241f57b68f35eb25e0b931a",
+        "role": "disposable one-step qualification state; no production event committed"
+      },
+      "export": {
+        "path": "/data/sources/minhao/runs/dflash_repair_conditional_kl_20261124/execution_001/qualification/PAIR/export/model.safetensors",
+        "bytes": 2097259104,
+        "sha256": "abdd22498fbc68067958aa7fcf33412b76ba14462ed3614bded8a8cd96f8cc49"
+      },
+      "feedback": [
+        {
+          "path": "/data/sources/minhao/runs/dflash_repair_conditional_kl_20261124/execution_001/qualification_inputs/PAIR/loop/features/opencode:3bfc816ea5ecece143b16183a1f1f77c8e1d915ae4d5185f08f2f5a337967deb.pt",
+          "bytes": 17559247,
+          "sha256": "0bcbe27fa9cd1ec49e68b1697aebeb97a5b7d31dada58ee864d065d5871b5f94"
+        },
+        {
+          "path": "/data/sources/minhao/runs/dflash_repair_conditional_kl_20261124/execution_001/qualification_inputs/PAIR/loop/features/opencode:0f78fcf4b231d883411926509abab4c66914d998648f4caadaa2c7e1e9f89957.pt",
+          "bytes": 41161935,
+          "sha256": "06ebb64c36edc5abe49985083cffd236294a2644cd6a170fa5b702dbff2cd9e2"
+        }
+      ]
+    }
+  },
+  "raw_native_records": [
+    {
+      "path": "/data/sources/minhao/runs/dflash_repair_conditional_kl_20261124/execution_001/qualification_inputs/BASE/records/a000_qualification_0000_BASE.json",
+      "bytes": 563365,
+      "sha256": "7bc9e5bdfda70b7139b6e2bdaa8cbf8bd80f0884ef1c8e22e567fad224151387"
+    },
+    {
+      "path": "/data/sources/minhao/runs/dflash_repair_conditional_kl_20261124/execution_001/qualification_inputs/BASE/records/a001_qualification_0000_BASE.json",
+      "bytes": 563366,
+      "sha256": "9e76ff8d789ceb420fe7546a7f242350aa20fdbe6920aa3247b83665a9531065"
+    },
+    {
+      "path": "/data/sources/minhao/runs/dflash_repair_conditional_kl_20261124/execution_001/qualification_inputs/BASE/records/opencode:0f78fcf4b231d883411926509abab4c66914d998648f4caadaa2c7e1e9f89957.json",
+      "bytes": 371001,
+      "sha256": "e974ce15318319429083e25d9b87de52b41144926f247b45777a8f47c49a1ba1"
+    },
+    {
+      "path": "/data/sources/minhao/runs/dflash_repair_conditional_kl_20261124/execution_001/qualification_inputs/BASE/records/opencode:3bfc816ea5ecece143b16183a1f1f77c8e1d915ae4d5185f08f2f5a337967deb.json",
+      "bytes": 103635,
+      "sha256": "d05c5defe14c0a3bfb0c0993203b59d2ce51da160b3050884532fa4af31104d4"
+    },
+    {
+      "path": "/data/sources/minhao/runs/dflash_repair_conditional_kl_20261124/execution_001/qualification_inputs/PAIR/records/a000_qualification_0000_PAIR.json",
+      "bytes": 560919,
+      "sha256": "ec780cd608ed5d50ce24e485400489aeaa77a0b87f834b34e8f55403de8c3cd2"
+    },
+    {
+      "path": "/data/sources/minhao/runs/dflash_repair_conditional_kl_20261124/execution_001/qualification_inputs/PAIR/records/a001_qualification_0000_PAIR.json",
+      "bytes": 560920,
+      "sha256": "b90900679275c5e53b38ebe8467d20a584c94058ad4f4143ae3910d0a38e3523"
+    },
+    {
+      "path": "/data/sources/minhao/runs/dflash_repair_conditional_kl_20261124/execution_001/qualification_inputs/PAIR/records/opencode:0f78fcf4b231d883411926509abab4c66914d998648f4caadaa2c7e1e9f89957.json",
+      "bytes": 371002,
+      "sha256": "7fd4150300f2c77513fa0b2b2364f633206bc4c58cf05ec37d24706f33d39be4"
+    },
+    {
+      "path": "/data/sources/minhao/runs/dflash_repair_conditional_kl_20261124/execution_001/qualification_inputs/PAIR/records/opencode:3bfc816ea5ecece143b16183a1f1f77c8e1d915ae4d5185f08f2f5a337967deb.json",
+      "bytes": 103635,
+      "sha256": "d167751e4a8ea0d393a4c4432484a2aaf6a8ff29b9d19c6441e9d4965dd2eab6"
+    }
+  ],
+  "compact_retrieval": {
+    "CPU_PREFLIGHT.json": {
+      "bytes": 2192,
+      "sha256": "5e4f7a83997bc4d6cbb1216f65929e5b0397892503f6e12474761626ff740d92"
+    },
+    "RUN.sh": {
+      "bytes": 946,
+      "sha256": "47a65f1b5bcb5d0d0bc460cf797cfd784cfed19d4be47ee51e278ef3d9cbbf8c"
+    },
+    "launcher.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "CLOCK.json": {
+      "bytes": 1181,
+      "sha256": "e31301912461da2a85c1ffb5b04381d6f51bbde1f22e12dcdb67c27f501d8684"
+    },
+    "LAUNCH.json": {
+      "bytes": 799,
+      "sha256": "ef9d93b9afa42e62275ab4f8eded5573ed2ca34d0ac7348e816dfee21cad50ed"
+    },
+    "BASE_qualification.log": {
+      "bytes": 1235,
+      "sha256": "9b0e628ffb970f2c2812d3cafbeace017555a7c7de086610065d4857a9d0aef3"
+    },
+    "PAIR_qualification.log": {
+      "bytes": 1235,
+      "sha256": "df6c47f75911daf2e95d08b8690f84033ecc7c77de645c9f6e69dff985606102"
+    },
+    "QUALIFICATION.json": {
+      "bytes": 425,
+      "sha256": "e798be441fa67f5aed34ea5aa35d4e227ed48e607741e3f5d5f77a71c6554768"
+    },
+    "EXIT_CODE.txt": {
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    "FINAL_CPU_AUDIT.json": {
+      "bytes": 2604,
+      "sha256": "690f3ec317f304ea503cc8d39698c701d74d82e86b95911cc42b65df4cf5f461"
+    },
+    "sealed/ORIGINAL_CONFIG.yaml": {
+      "bytes": 1517,
+      "sha256": "f71fb286701392e0c80af0915be406c3ccf71b2c15b612f9757357bea7fcf081"
+    },
+    "sealed/MODEL_PIN.json": {
+      "bytes": 3397,
+      "sha256": "197e71a9be3bf5410d76de09eb53135e7c446b37e2530fb81d106e15bbdb9a05"
+    },
+    "sealed/RUNTIME_PIN.json": {
+      "bytes": 2792,
+      "sha256": "53c15d9d0770a000ce7f510c84c7fa83c564d6fa36903163c485041bc03b97ec"
+    },
+    "sealed/TRAINING_PIN.json": {
+      "bytes": 246,
+      "sha256": "7526acdf471c0867267c6de09e60a6a1c2474b35a26f3fa376af84d2b7e0f512"
+    },
+    "sealed/BASE.yaml": {
+      "bytes": 1536,
+      "sha256": "b64971271116935c06c265c4c75b9078446c86ceb7c7e4e82af943a931d4fdb2"
+    },
+    "sealed/PAIR.yaml": {
+      "bytes": 1536,
+      "sha256": "47a14619b59d252f8528d7bb3ee2685ac3e9baf3c3024560aea8483802c3ea2f"
+    },
+    "sealed/PLAN.json": {
+      "bytes": 18386,
+      "sha256": "bd06169413abbdc2ce6edee9091a4339b17a0106344d906c2d5e0c3915d3ad73"
+    },
+    "phases/qualify_BASE.json": {
+      "bytes": 195626,
+      "sha256": "b4c39edf5b0221fb86f5247201bd8a786bddf7aedddc4be249c0678d9117b782"
+    },
+    "phases/qualify_PAIR.json": {
+      "bytes": 198312,
+      "sha256": "262503f9d89a121bcef71438fea816aa9f24b803e94254b861e5d533850b334f"
+    },
+    "qualification_inputs/BASE/WORK.json": {
+      "bytes": 474,
+      "sha256": "48a820077a2bc2fccd6c87705f66f01ecb2b9641ab820c1958919d289b012005"
+    },
+    "qualification_inputs/BASE/ADMISSION.json": {
+      "bytes": 829,
+      "sha256": "654031d501e73666b7c46fd8a594f7ca06852d3ffbd722112f55873f1ad102e5"
+    },
+    "qualification_inputs/BASE/STATUS.json": {
+      "bytes": 183532,
+      "sha256": "c13ebcc34ac65826a42586b54ff5d6f4d08e0152de6a1bc4e9903ea8f040ea5a"
+    },
+    "qualification_inputs/BASE/EXPORT_RELOAD_0.json": {
+      "bytes": 3506,
+      "sha256": "71d06c1ac960d5d105bc79a2aa2a05b90162892edfd00913d0ec5a22958dcb38"
+    },
+    "qualification_inputs/BASE/EVALUATION_0.json": {
+      "bytes": 877,
+      "sha256": "d82bbcc34f58a095eb584b6e957202829d883cc0c357815abb85afb3fa7c2d30"
+    },
+    "qualification_inputs/BASE/FROZEN_RELOAD.json": {
+      "bytes": 3393,
+      "sha256": "d5e77913fdf04f497cafa3a2998ff69663dd4216be3cfc5d4f95b342ee74521f"
+    },
+    "qualification_inputs/BASE/EXPORT_RELOAD_1.json": {
+      "bytes": 3507,
+      "sha256": "8f64448d3443105ccf9502783a074763588e1e032c3a639b3fef3fbfc85db61c"
+    },
+    "qualification_inputs/BASE/EVALUATION_1.json": {
+      "bytes": 879,
+      "sha256": "31bdb8f91fd7e801c718f858649401bb07afc81d573a820f7c47d6b5796707ac"
+    },
+    "qualification_inputs/BASE/PHYSICAL_WORK.json": {
+      "bytes": 5159,
+      "sha256": "17eaa8ab278caee2c5ccea0335a330d66e02ff9f27567ad08bbd25f9f005327f"
+    },
+    "qualification_inputs/PAIR/WORK.json": {
+      "bytes": 474,
+      "sha256": "48a820077a2bc2fccd6c87705f66f01ecb2b9641ab820c1958919d289b012005"
+    },
+    "qualification_inputs/PAIR/ADMISSION.json": {
+      "bytes": 835,
+      "sha256": "5e7ee6c016bfddcbee5762d1db22b43d180bdad7fda1d9d88adfc67ea5a0f500"
+    },
+    "qualification_inputs/PAIR/STATUS.json": {
+      "bytes": 186118,
+      "sha256": "c4dbeb7fcb59e835141b998994bd21929be13b70fa3c6ff00d0f285a1049daef"
+    },
+    "qualification_inputs/PAIR/EXPORT_RELOAD_0.json": {
+      "bytes": 3506,
+      "sha256": "f82323cd29c80c23bae40ed7ee88b9ce447104bd040c73039d872d505358f316"
+    },
+    "qualification_inputs/PAIR/EVALUATION_0.json": {
+      "bytes": 878,
+      "sha256": "19f347f753223944287f4dba3f63a5f56323b8f179d96d3f359f5044940c9889"
+    },
+    "qualification_inputs/PAIR/FROZEN_RELOAD.json": {
+      "bytes": 3396,
+      "sha256": "40f4f4994224ebe2ed8cac94c4ee370259fe17571d880db908afd69832de2c3a"
+    },
+    "qualification_inputs/PAIR/EXPORT_RELOAD_1.json": {
+      "bytes": 3505,
+      "sha256": "c7334f7db7737c1aa79719463962a8afda02b6bc6cf7eceff1d21caab3c19cba"
+    },
+    "qualification_inputs/PAIR/EVALUATION_1.json": {
+      "bytes": 877,
+      "sha256": "cee342ecdd7e20189af502131640d47d14c8f21a705df923b6b5d9c64dee38a4"
+    },
+    "qualification_inputs/PAIR/PHYSICAL_WORK.json": {
+      "bytes": 5160,
+      "sha256": "555d703ba07007c4452f81b05323e9501e96a259089ac72894a644b47655b9da"
+    },
+    "qualification_inputs/BASE/preparation_retirement/opencode:3bfc816ea5ecece143b16183a1f1f77c8e1d915ae4d5185f08f2f5a337967deb.equivalence.json": {
+      "bytes": 1014,
+      "sha256": "d3959647d10acb8df5ea54b71a1c0de75ce95a0562d91076d8ebe6d88a3e0c33"
+    },
+    "qualification_inputs/BASE/preparation_retirement/opencode:3bfc816ea5ecece143b16183a1f1f77c8e1d915ae4d5185f08f2f5a337967deb.plan.json": {
+      "bytes": 2467,
+      "sha256": "6e4cd0782f733c6816bcce614a74f129f4967b37d7c4efdc14447a1829d8068a"
+    },
+    "qualification_inputs/BASE/preparation_retirement/opencode:3bfc816ea5ecece143b16183a1f1f77c8e1d915ae4d5185f08f2f5a337967deb.json": {
+      "bytes": 3249,
+      "sha256": "defccb7324cbb68c496b448b96a8db3384e59b1d93cb17c72a26f978311bf4c8"
+    },
+    "qualification_inputs/BASE/preparation_retirement/opencode:0f78fcf4b231d883411926509abab4c66914d998648f4caadaa2c7e1e9f89957.equivalence.json": {
+      "bytes": 1014,
+      "sha256": "80158b3e1674fd0a5e509a751977c1515c9599a3ba3df5393d96caa27029f5f2"
+    },
+    "qualification_inputs/BASE/preparation_retirement/opencode:0f78fcf4b231d883411926509abab4c66914d998648f4caadaa2c7e1e9f89957.plan.json": {
+      "bytes": 2468,
+      "sha256": "7bd089c7a078123e4fca3794532b710441a444f4aa1cac5a3de2bcbb2565c47f"
+    },
+    "qualification_inputs/BASE/preparation_retirement/opencode:0f78fcf4b231d883411926509abab4c66914d998648f4caadaa2c7e1e9f89957.json": {
+      "bytes": 3248,
+      "sha256": "c6175bfdfcd56fd6b762df9e2182e039d342c836d6cd5c70636c0d3968ade1b3"
+    },
+    "qualification_inputs/BASE/loop/features/opencode:3bfc816ea5ecece143b16183a1f1f77c8e1d915ae4d5185f08f2f5a337967deb.terminal.json": {
+      "bytes": 3896,
+      "sha256": "4dc117cdedb7dff51256b8804365a963fecc191322d9083db7245e616bc5c7ba"
+    },
+    "qualification_inputs/BASE/loop/features/opencode:3bfc816ea5ecece143b16183a1f1f77c8e1d915ae4d5185f08f2f5a337967deb.json": {
+      "bytes": 11681,
+      "sha256": "2bde75f13a07939f2ef5edba9bd24b5dba8421ea50040db0dafaaf4142f9dc89"
+    },
+    "qualification_inputs/BASE/loop/features/opencode:0f78fcf4b231d883411926509abab4c66914d998648f4caadaa2c7e1e9f89957.terminal.json": {
+      "bytes": 8414,
+      "sha256": "e4043d1555f92007be3137a6715882cf9f51c6d48e7c7290a21f2350fa96c4b5"
+    },
+    "qualification_inputs/BASE/loop/features/opencode:0f78fcf4b231d883411926509abab4c66914d998648f4caadaa2c7e1e9f89957.json": {
+      "bytes": 26125,
+      "sha256": "70955ab2741efe7f73e93a2b970d9f7f9875d2d21ae866d76eb1bcc0a8fcdd6d"
+    },
+    "qualification_inputs/PAIR/preparation_retirement/opencode:3bfc816ea5ecece143b16183a1f1f77c8e1d915ae4d5185f08f2f5a337967deb.equivalence.json": {
+      "bytes": 1015,
+      "sha256": "ed5f84c91124bd25b602a1ed627f461492eef788922e68fad99cd83fb042ea83"
+    },
+    "qualification_inputs/PAIR/preparation_retirement/opencode:3bfc816ea5ecece143b16183a1f1f77c8e1d915ae4d5185f08f2f5a337967deb.plan.json": {
+      "bytes": 2468,
+      "sha256": "81f09b61fa3c377bb49936c8e21e5fbd5bb81bcf3e2c1cc1013128acf51438a7"
+    },
+    "qualification_inputs/PAIR/preparation_retirement/opencode:3bfc816ea5ecece143b16183a1f1f77c8e1d915ae4d5185f08f2f5a337967deb.json": {
+      "bytes": 3251,
+      "sha256": "114c2cf625079094e37bc0fea3b4a9aef0bcff4231b99c9b1aef5d63eb653f55"
+    },
+    "qualification_inputs/PAIR/preparation_retirement/opencode:0f78fcf4b231d883411926509abab4c66914d998648f4caadaa2c7e1e9f89957.equivalence.json": {
+      "bytes": 1014,
+      "sha256": "1376ce04f7403f2b6d5e9aec4f03fcc21310c44d8aa9739fb27575d95aa86181"
+    },
+    "qualification_inputs/PAIR/preparation_retirement/opencode:0f78fcf4b231d883411926509abab4c66914d998648f4caadaa2c7e1e9f89957.plan.json": {
+      "bytes": 2469,
+      "sha256": "93dedb4d204ef980611929e75b603f8e0d66ccf7690d98d6d32956cded277277"
+    },
+    "qualification_inputs/PAIR/preparation_retirement/opencode:0f78fcf4b231d883411926509abab4c66914d998648f4caadaa2c7e1e9f89957.json": {
+      "bytes": 3252,
+      "sha256": "8f2cb1c46bc89c955afdbd7aac03b88be5cf043d7473c137a4cc0a9d6fbad93a"
+    },
+    "qualification_inputs/PAIR/loop/features/opencode:3bfc816ea5ecece143b16183a1f1f77c8e1d915ae4d5185f08f2f5a337967deb.terminal.json": {
+      "bytes": 3897,
+      "sha256": "1cb593574654b0434394c4dfd3e279dff6e9d034147a1502e2858b3cf5bfd52c"
+    },
+    "qualification_inputs/PAIR/loop/features/opencode:3bfc816ea5ecece143b16183a1f1f77c8e1d915ae4d5185f08f2f5a337967deb.json": {
+      "bytes": 11682,
+      "sha256": "bff6e224eca36c65f82f6dee5282b8fbfa393836da8cd6764a6f5b4d57744d60"
+    },
+    "qualification_inputs/PAIR/loop/features/opencode:0f78fcf4b231d883411926509abab4c66914d998648f4caadaa2c7e1e9f89957.terminal.json": {
+      "bytes": 8414,
+      "sha256": "75b00bc1ec605e1d3a32aad8bb23fc8b2df4c7d971c8e68440325ae0d21045cc"
+    },
+    "qualification_inputs/PAIR/loop/features/opencode:0f78fcf4b231d883411926509abab4c66914d998648f4caadaa2c7e1e9f89957.json": {
+      "bytes": 26124,
+      "sha256": "4afb214dd9a3a9f2853b94b23a831952eb5ba422c93d84ee6f846230d8c76315"
+    },
+    "qualification/BASE/TRAINING_QUALIFICATION.json": {
+      "bytes": 171221,
+      "sha256": "47af583495ff9dd704c9f1d8e8573f59027a4e1f6234cac8e99f922e377b414a"
+    },
+    "qualification/BASE/RUNTIME_COMPATIBILITY.json": {
+      "bytes": 324,
+      "sha256": "4ab02156b178e170dd5ceed0658d293e045c09581b7322269441ccfc23518c8e"
+    },
+    "qualification/PAIR/TRAINING_QUALIFICATION.json": {
+      "bytes": 173706,
+      "sha256": "554a54af90adba6d987c44128094d376055215ac910d20d02631bd2f81701492"
+    },
+    "qualification/PAIR/RUNTIME_COMPATIBILITY.json": {
+      "bytes": 324,
+      "sha256": "1377122d1b8579083d20d1069b115b5b83a7c6e61bc379bb658f644669da613e"
+    },
+    "qualification/BASE/trainer/INITIAL_CHECK.json": {
+      "bytes": 442,
+      "sha256": "f2272786b70b78236c4ae71d5183da30a49c769b4c6da32948526de8fa73bd40"
+    },
+    "qualification/BASE/startup/WORK.jsonl": {
+      "bytes": 524,
+      "sha256": "cfe8d444340ee36d1fc7e271f93998048a9a5793d2014861c833148c2e1afac3"
+    },
+    "qualification/BASE/startup/EXACT_RESTORATION.json": {
+      "bytes": 10829,
+      "sha256": "75587383639cf2d3ead6131ac03a7cc7104cf9a024b64cd38f5da99ac8811b21"
+    },
+    "qualification/BASE/startup/RESULT.json": {
+      "bytes": 710,
+      "sha256": "c033f9756fc2c7177f30b01cb0227aad9b0fd28f9ae325c10d263a62cd0fe943"
+    },
+    "qualification/BASE/export/config.json": {
+      "bytes": 1211,
+      "sha256": "5749d96966f9ce7e6a9662c9f482b8aa0d461845fb6b9ce09ac2c08311fab2aa"
+    },
+    "qualification/BASE/trainer/events/disposable/RESPONSE_OBSERVATIONS.jsonl": {
+      "bytes": 69885,
+      "sha256": "8b6119f6db53f91ba2516bf22148ff37686e5ffe319b02f49c10d2b0eb815e71"
+    },
+    "qualification/BASE/trainer/events/disposable/PRESENTATIONS.jsonl": {
+      "bytes": 84279,
+      "sha256": "a3a378c0a142d84ae4b626cf7da0299f0a026e03478d73fcced68cbfb2372696"
+    },
+    "qualification/BASE/trainer/events/disposable/WINDOW_OBSERVATIONS.jsonl": {
+      "bytes": 371,
+      "sha256": "49559c7b0c6a8ad35bb8611a2c283596894a52f05f8b9ed553566d417eb0d23e"
+    },
+    "qualification/BASE/startup/response_observations/RESPONSE_OBSERVATIONS.jsonl": {
+      "bytes": 69901,
+      "sha256": "1ace3a83e1a9c187e12fb8c61724fdc12eb540c123336e5683b2db0e6d472140"
+    },
+    "qualification/PAIR/trainer/INITIAL_CHECK.json": {
+      "bytes": 442,
+      "sha256": "51db4dad9d3c39faed627c130b3c78119fceac7c4f5a8db0a907fcc3cf47499b"
+    },
+    "qualification/PAIR/startup/WORK.jsonl": {
+      "bytes": 524,
+      "sha256": "cfe8d444340ee36d1fc7e271f93998048a9a5793d2014861c833148c2e1afac3"
+    },
+    "qualification/PAIR/startup/EXACT_RESTORATION.json": {
+      "bytes": 10829,
+      "sha256": "1619aae36d36c4295d8382e2c96bab68f73489edf0b95af6491460d77c4f7560"
+    },
+    "qualification/PAIR/startup/RESULT.json": {
+      "bytes": 710,
+      "sha256": "05e1a32cfc9594b92fbe839acd2276692db07b897f79cb4e5b4716e17003d308"
+    },
+    "qualification/PAIR/export/config.json": {
+      "bytes": 1211,
+      "sha256": "5749d96966f9ce7e6a9662c9f482b8aa0d461845fb6b9ce09ac2c08311fab2aa"
+    },
+    "qualification/PAIR/trainer/events/disposable/RESPONSE_OBSERVATIONS.jsonl": {
+      "bytes": 70904,
+      "sha256": "cea529ecdfe1b53a0c676c2ee08adedd77ddaeaf03b3de04be00e94d454526cc"
+    },
+    "qualification/PAIR/trainer/events/disposable/PRESENTATIONS.jsonl": {
+      "bytes": 86277,
+      "sha256": "3c075ce22475bf9a87b6126e74150a7455f57fcf7b174b93642aa7f8b3e81e8a"
+    },
+    "qualification/PAIR/trainer/events/disposable/WINDOW_OBSERVATIONS.jsonl": {
+      "bytes": 371,
+      "sha256": "56ed15e49830dcde009a11c9df05932c78d7aa09f256b4de24ce5024400f7f98"
+    },
+    "qualification/PAIR/startup/response_observations/RESPONSE_OBSERVATIONS.jsonl": {
+      "bytes": 70920,
+      "sha256": "5a6cea8dc9cc2858594a7cd741fdad7d7be157f705f7b4fdd223d59d9defd648"
+    }
+  },
+  "new_duplicate_retirements": [
+    {
+      "arm": "BASE",
+      "removed": [
+        {
+          "path": "/data/sources/minhao/runs/dflash_repair_conditional_kl_20261124/execution_001/qualification_inputs/BASE/native/request_000002.pt",
+          "kind": "native_capture",
+          "bytes": 41130421,
+          "inode": 189824644,
+          "device": 2066,
+          "mtime_ns": 1795574964627766977
+        },
+        {
+          "path": "/data/sources/minhao/runs/dflash_repair_conditional_kl_20261124/execution_001/qualification_inputs/BASE/loop/features/opencode:0f78fcf4b231d883411926509abab4c66914d998648f4caadaa2c7e1e9f89957.terminal.pt",
+          "kind": "terminal_feature",
+          "bytes": 55061,
+          "inode": 1346646523,
+          "device": 2066,
+          "mtime_ns": 1795574964828770378
+        }
+      ],
+      "removed_bytes": 41185482,
+      "retained": {
+        "prepared_packet": "/data/sources/minhao/runs/dflash_repair_conditional_kl_20261124/execution_001/qualification_inputs/BASE/loop/features/opencode:0f78fcf4b231d883411926509abab4c66914d998648f4caadaa2c7e1e9f89957.pt"
+      },
+      "reason": "Durable packet exactly preserves native/terminal tensor rows and token/mask binding.",
+      "free_before_bytes": 441961545728,
+      "free_after_bytes": 441961545728,
+      "lost_capability": "Deleted tensors are not archived; direct tensor replay is lost."
+    },
+    {
+      "arm": "BASE",
+      "removed": [
+        {
+          "path": "/data/sources/minhao/runs/dflash_repair_conditional_kl_20261124/execution_001/qualification_inputs/BASE/native/request_000001.pt",
+          "kind": "native_capture",
+          "bytes": 17511477,
+          "inode": 189824644,
+          "device": 2066,
+          "mtime_ns": 1795574962286727354
+        },
+        {
+          "path": "/data/sources/minhao/runs/dflash_repair_conditional_kl_20261124/execution_001/qualification_inputs/BASE/loop/features/opencode:3bfc816ea5ecece143b16183a1f1f77c8e1d915ae4d5185f08f2f5a337967deb.terminal.pt",
+          "kind": "terminal_feature",
+          "bytes": 53717,
+          "inode": 1346646523,
+          "device": 2066,
+          "mtime_ns": 1795574962370728776
+        }
+      ],
+      "removed_bytes": 17565194,
+      "retained": {
+        "prepared_packet": "/data/sources/minhao/runs/dflash_repair_conditional_kl_20261124/execution_001/qualification_inputs/BASE/loop/features/opencode:3bfc816ea5ecece143b16183a1f1f77c8e1d915ae4d5185f08f2f5a337967deb.pt"
+      },
+      "reason": "Durable packet exactly preserves native/terminal tensor rows and token/mask binding.",
+      "free_before_bytes": 442026971136,
+      "free_after_bytes": 442026962944,
+      "lost_capability": "Deleted tensors are not archived; direct tensor replay is lost."
+    },
+    {
+      "arm": "PAIR",
+      "removed": [
+        {
+          "path": "/data/sources/minhao/runs/dflash_repair_conditional_kl_20261124/execution_001/qualification_inputs/PAIR/native/request_000002.pt",
+          "kind": "native_capture",
+          "bytes": 41130421,
+          "inode": 2886542972,
+          "device": 2066,
+          "mtime_ns": 1795575114191298390
+        },
+        {
+          "path": "/data/sources/minhao/runs/dflash_repair_conditional_kl_20261124/execution_001/qualification_inputs/PAIR/loop/features/opencode:0f78fcf4b231d883411926509abab4c66914d998648f4caadaa2c7e1e9f89957.terminal.pt",
+          "kind": "terminal_feature",
+          "bytes": 55061,
+          "inode": 4035601943,
+          "device": 2066,
+          "mtime_ns": 1795575114395301842
+        }
+      ],
+      "removed_bytes": 41185482,
+      "retained": {
+        "prepared_packet": "/data/sources/minhao/runs/dflash_repair_conditional_kl_20261124/execution_001/qualification_inputs/PAIR/loop/features/opencode:0f78fcf4b231d883411926509abab4c66914d998648f4caadaa2c7e1e9f89957.pt"
+      },
+      "reason": "Durable packet exactly preserves native/terminal tensor rows and token/mask binding.",
+      "free_before_bytes": 433497108480,
+      "free_after_bytes": 433497108480,
+      "lost_capability": "Deleted tensors are not archived; direct tensor replay is lost."
+    },
+    {
+      "arm": "PAIR",
+      "removed": [
+        {
+          "path": "/data/sources/minhao/runs/dflash_repair_conditional_kl_20261124/execution_001/qualification_inputs/PAIR/native/request_000001.pt",
+          "kind": "native_capture",
+          "bytes": 17511477,
+          "inode": 2886542972,
+          "device": 2066,
+          "mtime_ns": 1795575111849258750
+        },
+        {
+          "path": "/data/sources/minhao/runs/dflash_repair_conditional_kl_20261124/execution_001/qualification_inputs/PAIR/loop/features/opencode:3bfc816ea5ecece143b16183a1f1f77c8e1d915ae4d5185f08f2f5a337967deb.terminal.pt",
+          "kind": "terminal_feature",
+          "bytes": 53717,
+          "inode": 4035601943,
+          "device": 2066,
+          "mtime_ns": 1795575111932260155
+        }
+      ],
+      "removed_bytes": 17565194,
+      "retained": {
+        "prepared_packet": "/data/sources/minhao/runs/dflash_repair_conditional_kl_20261124/execution_001/qualification_inputs/PAIR/loop/features/opencode:3bfc816ea5ecece143b16183a1f1f77c8e1d915ae4d5185f08f2f5a337967deb.pt"
+      },
+      "reason": "Durable packet exactly preserves native/terminal tensor rows and token/mask binding.",
+      "free_before_bytes": 433562533888,
+      "free_after_bytes": 433562525696,
+      "lost_capability": "Deleted tensors are not archived; direct tensor replay is lost."
+    }
+  ],
+  "preexisting_artifacts_deleted": 0
+}

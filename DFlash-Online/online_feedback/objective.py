@@ -258,6 +258,13 @@ class TargetObjectiveModel(OnlineDFlashModel):
                         log_probability, token_loss, proposals, labels, weights,
                         selection, self.eos_token_ids,
                     )
+                    if getattr(self, 'repair_conditional_kl', False):
+                        from .repair_conditional_kl import repair_pair_chunk_terms
+                        pair_terms = repair_pair_chunk_terms(
+                            logits, teacher_logits, proposals, labels, weights,
+                            selection, self.eos_token_ids,
+                        )
+                        return (*terms, *extra, *auxiliary, *pair_terms)
                     return (*terms, *extra, *auxiliary)
                 return (*terms, *extra)
             guard = getattr(self, "prefix_guard", None)
@@ -426,6 +433,10 @@ class TargetObjectiveModel(OnlineDFlashModel):
         # Target labels were verified against canonical frozen-target replay at
         # the feature boundary. The head/reference use exactly these same blocks.
         redistribution = getattr(self, 'first_error_redistribution', None)
+        repair_pair = getattr(self, 'repair_conditional_kl', False)
+        if repair_pair:
+            from .repair_conditional_kl import validate_repair_conditional_kl
+            validate_repair_conditional_kl(self)
         if redistribution is not None:
             redistribution.validate_response(input_ids)
         role_loss = getattr(self, 'role_loss_extension', None)
@@ -530,8 +541,17 @@ class TargetObjectiveModel(OnlineDFlashModel):
             self.costs['kplus_response_s'] = self.costs.get('kplus_response_s', 0.0) + (
                 time.perf_counter() - started)
         if prefix_allocation is not None:
-            loss_sum, allocation_metrics = prefix_allocation.reduce_response(loss_sum, terms[11:])
+            allocation_terms = terms[11:15] if repair_pair else terms[11:]
+            loss_sum, allocation_metrics = prefix_allocation.reduce_response(loss_sum, allocation_terms)
             redistribution_metrics.update(allocation_metrics)
+        forward_kl_sum = loss_sum
+        if repair_pair:
+            from .repair_conditional_kl import repair_pair_reduce_response
+            pair_numerator, pair_metrics = repair_pair_reduce_response(terms[15:], redistribution_metrics)
+            # No-error responses retain the original native numerator object.
+            if bool(pair_metrics['repair_pair_repair_rows'] > 0):
+                loss_sum = loss_sum + pair_numerator
+            redistribution_metrics.update(pair_metrics)
         if self.is_osd:
             # Apply the author's epsilon once per response, not once per chunk.
             denominator = denominator + 1e-6
@@ -569,16 +589,20 @@ class TargetObjectiveModel(OnlineDFlashModel):
             )
             metrics['sum_metrics'].update(dict(zip(names, statistics)))
             metrics['sum_metrics'].update({
-                'main_loss_numerator': loss_sum.detach(),
+                'main_loss_numerator': forward_kl_sum.detach(),
                 'loss_denominator': denominator.detach(),
             })
             loss_name = ('native_selected_forward_kl' if role_loss is not None else
                          'canonical_ce' if self.objective in CE_OBJECTIVES else 'forward_kl')
             metrics['ratio_metrics'].update({
-                loss_name: (loss_sum.detach(), denominator.detach()),
+                loss_name: (forward_kl_sum.detach(), denominator.detach()),
                 'selection_rate': (statistics[1], statistics[0]),
             })
         metrics['sum_metrics'].update(redistribution_metrics)
+        if repair_pair:
+            metrics['ratio_metrics']['repair_pair_auxiliary'] = (
+                pair_numerator.detach(), denominator.detach(),
+            )
         if retention is not None and retention.active:
             loss, sums, ratios = retention.augment_response(loss, denominator, terms[11:])
             metrics['sum_metrics'].update(sums)

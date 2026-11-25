@@ -1,0 +1,120 @@
+{
+  "native_cpu_recheck": {
+    "status": "passed",
+    "execution_commit": "79b8c076610e9b4d310169b3891cb76ac6d0f9bb",
+    "exact_initialization_comparison": {
+      "status": "passed",
+      "exact_weights_empty_Adam_RNG": true,
+      "rng_overwritten": false
+    },
+    "raw_native_records": [
+      {
+        "arm": "BASE",
+        "phase": "feedback",
+        "request_id": "opencode:3bfc816ea5ecece143b16183a1f1f77c8e1d915ae4d5185f08f2f5a337967deb",
+        "valid": true,
+        "verification_calls": 30
+      },
+      {
+        "arm": "BASE",
+        "phase": "feedback",
+        "request_id": "opencode:0f78fcf4b231d883411926509abab4c66914d998648f4caadaa2c7e1e9f89957",
+        "valid": true,
+        "verification_calls": 121
+      },
+      {
+        "arm": "BASE",
+        "phase": "reload",
+        "request_id": "opencode:7382a9ffc9a1d7c12ea0aeaf0c819df424d12bcc0c040d797a70067e1d6cf878",
+        "repeat": 0,
+        "valid": true,
+        "verification_calls": 191
+      },
+      {
+        "arm": "BASE",
+        "phase": "reload",
+        "request_id": "opencode:7382a9ffc9a1d7c12ea0aeaf0c819df424d12bcc0c040d797a70067e1d6cf878",
+        "repeat": 1,
+        "valid": true,
+        "verification_calls": 191
+      },
+      {
+        "arm": "PAIR",
+        "phase": "feedback",
+        "request_id": "opencode:3bfc816ea5ecece143b16183a1f1f77c8e1d915ae4d5185f08f2f5a337967deb",
+        "valid": true,
+        "verification_calls": 30
+      },
+      {
+        "arm": "PAIR",
+        "phase": "feedback",
+        "request_id": "opencode:0f78fcf4b231d883411926509abab4c66914d998648f4caadaa2c7e1e9f89957",
+        "valid": true,
+        "verification_calls": 121
+      },
+      {
+        "arm": "PAIR",
+        "phase": "reload",
+        "request_id": "opencode:7382a9ffc9a1d7c12ea0aeaf0c819df424d12bcc0c040d797a70067e1d6cf878",
+        "repeat": 0,
+        "valid": true,
+        "verification_calls": 190
+      },
+      {
+        "arm": "PAIR",
+        "phase": "reload",
+        "request_id": "opencode:7382a9ffc9a1d7c12ea0aeaf0c819df424d12bcc0c040d797a70067e1d6cf878",
+        "repeat": 1,
+        "valid": true,
+        "verification_calls": 190
+      }
+    ],
+    "new_model_forwards": 0,
+    "new_backward_calls": 0,
+    "new_optimizer_steps": 0,
+    "cuda_initialized": false,
+    "resource": {
+      "clock": {
+        "occupied_s": 554.4458146095276,
+        "elapsed_s": 319.61094403266907,
+        "active": {}
+      },
+      "free_bytes": 425146650624,
+      "allocated_bytes": 17235111936,
+      "compiler_growth_bytes": 13115392,
+      "limit": {
+        "elapsed_s": 10800,
+        "occupied_card_s": 18000,
+        "new_allocated_bytes": 90000000000,
+        "free_reserve_bytes": 400000000000
+      },
+      "remaining_peak_bytes": 7751772672
+    },
+    "free_bytes": 425146650624
+  },
+  "retrieved_receipts": 79,
+  "original_forward_anchors_base_loss_coefficients_and_denominators_equal": true,
+  "native_accepted_progress_identity_passed": true,
+  "native_execution_failures": 0,
+  "unknown_operations": 0,
+  "qualification_attempts": 1,
+  "preparatory_failures": "CPU package/import and source-symlink checks were repaired before the first GPU action; original preparatory logs retained privately.",
+  "cpu_tests": {
+    "unique_passed": 63,
+    "objective_new": 10,
+    "inherited_objective": 33,
+    "pilot": 20,
+    "formatting_rechecks": 13,
+    "formatting_rechecks_are_not_additional_unique_tests": true
+  },
+  "production_status": "not admitted before GPU work",
+  "unexecuted_production": {
+    "feedback_generation": 256,
+    "scored_generation": 768,
+    "warmup_generation": 24,
+    "response_forward": 512,
+    "response_backward": 512,
+    "adam": 256,
+    "teacher_preparation": 256
+  }
+}
