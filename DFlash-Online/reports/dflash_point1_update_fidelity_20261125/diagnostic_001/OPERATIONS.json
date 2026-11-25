@@ -1,0 +1,31 @@
+{
+  "scientific_retry_count": 0,
+  "new_adam_attempts": 4,
+  "operations": [
+    {
+      "phase": "CPU preflight",
+      "issue": "Parent export binding named a directory, while authentication needed model.safetensors.",
+      "resolution": "Fixed and regression-tested before any GPU action; execution commit269f056 containsfix."
+    },
+    {
+      "phase": "CPU inherited tests",
+      "issue": "First local invocation omitted CUDA hiding;16 teardown CUDA-initialization assertions failed.",
+      "resolution": "Reran with CUDA_VISIBLE_DEVICES empty;31 inheritedtests passed; no model GPU execution."
+    },
+    {
+      "phase": "evidence retrieval",
+      "issue": "Remote rsync unavailable; first uncompressed tarstream was stopped for slowtransfer.",
+      "resolution": "Complete compressed stream retrieved and all57filehashesverified; no experiment rerun."
+    },
+    {
+      "phase": "CPU export",
+      "issue": "First invocation selected old local dflash Conda environment lackingpydantic.",
+      "resolution": "Export completed using original /home/minhao2/.venvs/dflash-specforge CPUenvironment; no model rerun."
+    },
+    {
+      "phase": "final",
+      "issue": null,
+      "resolution": "No inherited artifacts deleted; both GPUsidle; no tensorcheckpoint exports."
+    }
+  ]
+}

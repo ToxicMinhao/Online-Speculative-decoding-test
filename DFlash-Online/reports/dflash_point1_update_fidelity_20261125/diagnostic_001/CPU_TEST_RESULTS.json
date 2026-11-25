@@ -1,0 +1,30 @@
+{
+  "status": "passed",
+  "execution_commit": "269f05644eeed2f0396602c47beb2a71166f8dd0",
+  "new_tests": {
+    "math": 15,
+    "native": 2,
+    "readout": 8,
+    "export": 4,
+    "prepare_launch": 12
+  },
+  "new_total": 41,
+  "A800_new_tests_passed": 41,
+  "Fenrir_inherited_tests_passed": 31,
+  "local_log_identities": {
+    "CPU_TESTS.log": {
+      "bytes": 676,
+      "sha256": "d98f07f605913a6082ad00c382da333aacf656645447d0486eea1d41d8a0294f"
+    },
+    "CPU_EXPORT_TESTS.log": {
+      "bytes": 97,
+      "sha256": "70525635cb3e6d6b1ab3dd9243bd706071e2612fe15619ef8cde07db836aeaaf"
+    },
+    "CPU_ADMISSION_TESTS.log": {
+      "bytes": 98,
+      "sha256": "b4b6ffb43420d3fd3a0cc113ffce9f06a8175f48676f5ab9784862618f750894"
+    }
+  },
+  "source_model_GPU_work_in_CPU_tests": false,
+  "limitations": "First inherited invocation initialized local CUDA and failed teardown-only guards; corrected CUDA-hidden invocation passed. No model GPU execution."
+}
