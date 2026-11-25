@@ -162,6 +162,7 @@ class ForkTrainer(parent_training.PilotTrainer):
                 gradients = scorer.reference_gradient()
                 preview = scorer.preview_and_direction(gradients)
                 fast = scorer.fast_scores(preview['w'])
+                torch.cuda.synchronize()
                 diagnostics = dict(window=window, score_s=time.perf_counter()-started,
                     preview=preview['diagnostics'], direction_policy=fast['direction_policy'],
                     allocation=[{key: value.detach().cpu().tolist()
@@ -184,6 +185,8 @@ class ForkTrainer(parent_training.PilotTrainer):
                 result = train_window(self, pair, enabled=True, responses=responses,
                     snapshots=snapshots, coefficients=coefficients, work=work,
                     pass_index=pass_index)
+                work.value['native_adam_steps'] = 1
+                work.save()
                 diagnostics.update(total_window_s=time.perf_counter()-started,
                                    native=result['window'])
                 write_json(output / 'RESULT.json', diagnostics)
