@@ -46,7 +46,12 @@ def initialize(plan):
         raise FileExistsError('Pilot GPU clock already exists; no automatic retry')
     write_json(
         root / 'CLOCK.json',
-        dict(first_model_load_epoch=time.time(), completed_card_s=0.0, active={}, finished=[]),
+        dict(
+            first_model_load_epoch=time.time(),
+            completed_card_s=0.0,
+            active={},
+            finished=[],
+        ),
     )
 
 
@@ -57,9 +62,28 @@ def boundary(plan):
         if (root / 'CLOCK.json').exists()
         else dict(elapsed_s=0.0, occupied_s=0.0)
     )
+    if plan.get('execution_mode') == 'one_event_production':
+        from .production_storage import check_storage
+
+        compiler = compiler_snapshot()
+        if compiler['directories'] != plan['compiler_baseline']['directories']:
+            raise ValueError('Compiler cache locations changed after admission')
+        growth = max(
+            0,
+            compiler['allocated_bytes'] - plan['compiler_baseline']['allocated_bytes'],
+        )
+        result = check_storage(plan, growth)
+        if (
+            clock['elapsed_s'] >= LIMITS['elapsed_s']
+            or clock['occupied_s'] >= LIMITS['occupied_card_s']
+        ):
+            raise TimeoutError('Pilot cumulative time limit reached')
+        return dict(result, clock=clock, limit=LIMITS)
     charged = allocated_bytes(plan['allocation_roots'])
     growth = max(
-        0, compiler_snapshot()['allocated_bytes'] - plan['compiler_baseline']['allocated_bytes']
+        0,
+        compiler_snapshot()['allocated_bytes']
+        - plan['compiler_baseline']['allocated_bytes'],
     )
     free = shutil.disk_usage(root).free
     result = dict(
@@ -68,10 +92,14 @@ def boundary(plan):
         allocated_bytes=charged,
         compiler_growth_bytes=growth,
         limit=LIMITS,
-        remaining_peak_bytes=max(0, plan['storage']['projected_peak_bytes'] - charged - growth),
+        remaining_peak_bytes=max(
+            0, plan['storage']['projected_peak_bytes'] - charged - growth
+        ),
     )
     if free - result['remaining_peak_bytes'] < LIMITS['free_reserve_bytes']:
-        raise RuntimeError('Pilot projected peak would cross400GBreserve: ' + repr(result))
+        raise RuntimeError(
+            'Pilot projected peak would cross400GBreserve: ' + repr(result)
+        )
     if charged + growth > min(
         LIMITS['new_allocated_bytes'], plan['storage']['projected_peak_bytes']
     ):
@@ -90,7 +118,9 @@ class Ledger:
     def __init__(self, path):
         self.path = Path(path)
         if not self.path.exists():
-            write_json(self.path, dict(attempted={}, completed={}, pending={}, operations=0))
+            write_json(
+                self.path, dict(attempted={}, completed={}, pending={}, operations=0)
+            )
 
     def call(self, counts, label, function, *args, **kwargs):
         with exclusive(self.path.with_suffix('.lock')):
@@ -142,5 +172,7 @@ def verify_inputs(plan):
         elif identity(path) != expected:
             raise ValueError('Staged source changed: ' + relative)
     return dict(
-        status='passed', sealed_files=len(plan['sealed_files']), source_files=len(source['files'])
+        status='passed',
+        sealed_files=len(plan['sealed_files']),
+        source_files=len(source['files']),
     )
