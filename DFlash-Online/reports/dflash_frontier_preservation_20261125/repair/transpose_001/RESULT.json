@@ -1,0 +1,69 @@
+{
+  "schema": "frontier_native_derivative_repair_v1",
+  "status": "failed",
+  "execution_commit": "0242cccce91456c4645719fdb470774ff60067e5",
+  "parent_execution_commit": "416cb7931028621c09b8fa983e53fc8a7dcebaab",
+  "original_probe": "/data/sources/minhao/runs/dflash_frontier_preservation_20261125/execution_001/derivative_support_001",
+  "native_adam_steps": 0,
+  "full_coefficient_sensitivity_qualified": false,
+  "production_admitted": false,
+  "derivative_tolerance": {
+    "atol": 1e-05,
+    "rtol": 0.016
+  },
+  "diagnostic_seed": 20261125,
+  "derivative_model_reverse_graph": true,
+  "precision_policy": {
+    "float32_matmul_precision": "highest",
+    "cuda_matmul_allow_tf32": false,
+    "cudnn_allow_tf32": true,
+    "bf16_reduced_precision_reduction": true,
+    "global_precision_settings_changed": false
+  },
+  "model_responses_attempted": 1,
+  "model_responses_unattempted": 1,
+  "head_calls": 0,
+  "localization_only": false,
+  "transposed_only": true,
+  "original_window_exact": true,
+  "physical_work_delta": {
+    "draft_forwards": 2,
+    "layer_forwards": 10
+  },
+  "peak_allocated_bytes": 27774969344,
+  "peak_reserved_bytes": 28393340928,
+  "work": {
+    "attempted": {
+      "parent_runtime_initialization": 1,
+      "native_anchor_window_sampling": 1,
+      "ordinary_native_forward": 1,
+      "ordinary_native_parameter_vjp": 1,
+      "transposed_native_model_forward": 1,
+      "transposed_native_parameter_vjp": 1
+    },
+    "completed": {
+      "parent_runtime_initialization": 1,
+      "native_anchor_window_sampling": 1,
+      "ordinary_native_forward": 1,
+      "ordinary_native_parameter_vjp": 1,
+      "transposed_native_model_forward": 1
+    },
+    "pending": [
+      "transposed_native_parameter_vjp"
+    ],
+    "native_adam_steps": 0
+  },
+  "restoration": {
+    "status": "passed",
+    "exact_resume": true,
+    "mismatches": [],
+    "global_step": 128,
+    "presentations": 256,
+    "no_rng_reset": true,
+    "extra_model_passes": 0,
+    "extra_optimizer_steps": 0
+  },
+  "error": "RuntimeError('This backward function was compiled with non-empty donated buffers which requires create_graph=False and retain_graph=False. Please keep backward(create_graph=False, retain_graph=False) across all backward() function calls, or set torch._functorch.config.donated_buffer=False to disable donated buffer.')",
+  "traceback": "Traceback (most recent call last):\n  File \"/data/sources/minhao/frontier_preservation_source_20261125_004/DFlash-Online/experiments/frontier_preservation_pilot/repair_native.py\", line 480, in run_repair_probe\n    receipt['model'] = qualify_transposed_model(\n                       ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/data/sources/minhao/frontier_preservation_source_20261125_004/DFlash-Online/experiments/frontier_preservation_pilot/repair_native.py\", line 318, in qualify_transposed_model\n    native_gradients = torch.autograd.grad(\n                       ^^^^^^^^^^^^^^^^^^^^\n  File \"/data/conda_envs/minhao/dflash_specforge_20261022/lib/python3.12/site-packages/torch/autograd/__init__.py\", line 594, in grad\n    result = _engine_run_backward(\n             ^^^^^^^^^^^^^^^^^^^^^\n  File \"/data/conda_envs/minhao/dflash_specforge_20261022/lib/python3.12/site-packages/torch/autograd/graph.py\", line 979, in _engine_run_backward\n    return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/data/conda_envs/minhao/dflash_specforge_20261022/lib/python3.12/site-packages/torch/autograd/function.py\", line 325, in apply\n    return user_fn(self, *args)\n           ^^^^^^^^^^^^^^^^^^^^\n  File \"/data/sources/minhao/frontier_preservation_source_20261125_004/DFlash-Online/experiments/frontier_preservation_pilot/attention_reverse_jvp.py\", line 99, in backward\n    gradients = _CotangentVJP.apply(incoming, ctx.state)\n                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/data/conda_envs/minhao/dflash_specforge_20261022/lib/python3.12/site-packages/torch/autograd/function.py\", line 625, in apply\n    return super().apply(*args, **kwargs)  # type: ignore[misc]\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/data/sources/minhao/frontier_preservation_source_20261125_004/DFlash-Online/experiments/frontier_preservation_pilot/attention_reverse_jvp.py\", line 55, in forward\n    return _native_vjp(incoming, state)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/data/sources/minhao/frontier_preservation_source_20261125_004/DFlash-Online/experiments/frontier_preservation_pilot/attention_reverse_jvp.py\", line 36, in _native_vjp\n    gradients = torch.autograd.grad(\n                ^^^^^^^^^^^^^^^^^^^^\n  File \"/data/conda_envs/minhao/dflash_specforge_20261022/lib/python3.12/site-packages/torch/autograd/__init__.py\", line 594, in grad\n    result = _engine_run_backward(\n             ^^^^^^^^^^^^^^^^^^^^^\n  File \"/data/conda_envs/minhao/dflash_specforge_20261022/lib/python3.12/site-packages/torch/autograd/graph.py\", line 979, in _engine_run_backward\n    return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/data/conda_envs/minhao/dflash_specforge_20261022/lib/python3.12/site-packages/torch/autograd/function.py\", line 333, in apply_boxed\n    return self._get_user_fn()(self, *args)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/data/conda_envs/minhao/dflash_specforge_20261022/lib/python3.12/site-packages/torch/_functorch/_aot_autograd/runtime_wrappers.py\", line 3473, in backward\n    return CompiledFunction._bwd_fn(\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/data/conda_envs/minhao/dflash_specforge_20261022/lib/python3.12/site-packages/torch/_functorch/_aot_autograd/subclass_codegen.py:codegen(compiled_function_backward)\", line 21, in _compiled_backward\n  File \"/data/conda_envs/minhao/dflash_specforge_20261022/lib/python3.12/site-packages/torch/_functorch/_aot_autograd/subclass_codegen.py:codegen(compiled_function_backward)\", line 14, in impl_fn\n  File \"/data/conda_envs/minhao/dflash_specforge_20261022/lib/python3.12/site-packages/torch/_functorch/_aot_autograd/runtime_wrappers.py\", line 3539, in _backward_impl\n    torch._check(\n  File \"/data/conda_envs/minhao/dflash_specforge_20261022/lib/python3.12/site-packages/torch/__init__.py\", line 1768, in _check\n    _check_with(RuntimeError, cond, message)  # pyrefly: ignore [bad-argument-type]\n    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/data/conda_envs/minhao/dflash_specforge_20261022/lib/python3.12/site-packages/torch/__init__.py\", line 1750, in _check_with\n    raise error_type(message_evaluated)\nRuntimeError: This backward function was compiled with non-empty donated buffers which requires create_graph=False and retain_graph=False. Please keep backward(create_graph=False, retain_graph=False) across all backward() function calls, or set torch._functorch.config.donated_buffer=False to disable donated buffer.\n",
+  "wall_s": 36.24112873338163
+}

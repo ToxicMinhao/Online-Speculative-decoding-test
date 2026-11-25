@@ -1,0 +1,259 @@
+{
+  "status": "BLOCKED_NUMERICAL_DERIVATIVE_QUALIFICATION",
+  "latest_execution_commit": "65ae6f95bd73aef8f60542a3d2ed3f5a3e51b48c",
+  "attempts": [
+    {
+      "attempt": "execution_001",
+      "execution_commit": "da4f4cfe28844141a5548401ca86e0ec08e73abf",
+      "status": "blocked_native_derivative",
+      "native_probe_seconds": 36.92808060348034,
+      "occupied_card_seconds": 40.93851527944207,
+      "peak_allocated_bytes": 46102092288,
+      "peak_reserved_bytes": 46913290240,
+      "native_adam_steps": 0,
+      "work": {
+        "attempted": {
+          "parent_runtime_initialization": 1,
+          "native_anchor_window_sampling": 1,
+          "control_native_forward": 1,
+          "control_native_parameter_vjp": 1,
+          "native_forward_ad_forward": 1,
+          "native_reverse_forward": 1,
+          "native_parameter_vjp": 1,
+          "native_grad_output_vjp": 1
+        },
+        "completed": {
+          "parent_runtime_initialization": 1,
+          "native_anchor_window_sampling": 1,
+          "control_native_forward": 1,
+          "control_native_parameter_vjp": 1,
+          "native_reverse_forward": 1,
+          "native_parameter_vjp": 1
+        },
+        "pending": [
+          "native_forward_ad_forward",
+          "native_grad_output_vjp"
+        ],
+        "native_adam_steps": 0
+      },
+      "physical_work_delta": {
+        "draft_forwards": 3,
+        "layer_forwards": 11
+      }
+    },
+    {
+      "attempt": "repair_001",
+      "execution_commit": "534f02da561bdd513974f448a12f4e68b8a8a093",
+      "status": "failed",
+      "native_probe_seconds": 45.89859085343778,
+      "occupied_card_seconds": 51.19152317941189,
+      "peak_allocated_bytes": 22915739136,
+      "peak_reserved_bytes": 26675773440,
+      "native_adam_steps": 0,
+      "work": {
+        "attempted": {
+          "parent_runtime_initialization": 1,
+          "native_anchor_window_sampling": 1,
+          "ordinary_native_forward": 1,
+          "ordinary_native_parameter_vjp": 1,
+          "native_operator_aux_forward": 1,
+          "native_operator_qkv_vjp": 1,
+          "analytic_operator_tangent_query": 1,
+          "analytic_operator_tangent_key": 1,
+          "analytic_operator_tangent_value": 1,
+          "analytic_operator_tangent_joint": 1,
+          "scoped_ordinary_native_forward": 1,
+          "scoped_ordinary_native_parameter_vjp": 1,
+          "repaired_model_jvp_forward": 1
+        },
+        "completed": {
+          "parent_runtime_initialization": 1,
+          "native_anchor_window_sampling": 1,
+          "ordinary_native_forward": 1,
+          "ordinary_native_parameter_vjp": 1,
+          "native_operator_aux_forward": 1,
+          "native_operator_qkv_vjp": 1,
+          "analytic_operator_tangent_query": 1,
+          "analytic_operator_tangent_key": 1,
+          "analytic_operator_tangent_value": 1,
+          "analytic_operator_tangent_joint": 1,
+          "scoped_ordinary_native_forward": 1,
+          "scoped_ordinary_native_parameter_vjp": 1,
+          "repaired_model_jvp_forward": 1
+        },
+        "pending": [],
+        "native_adam_steps": 0
+      },
+      "physical_work_delta": {
+        "draft_forwards": 3,
+        "layer_forwards": 15
+      }
+    },
+    {
+      "attempt": "localization_001",
+      "execution_commit": "f8f8c4d3ef2f4c558e5acb18d699ea2f3eaf438e",
+      "status": "native_derivative_localization_completed",
+      "native_probe_seconds": 39.78797988779843,
+      "occupied_card_seconds": 46.19275187142193,
+      "peak_allocated_bytes": 22768153088,
+      "peak_reserved_bytes": 24853348352,
+      "native_adam_steps": 0,
+      "work": {
+        "attempted": {
+          "parent_runtime_initialization": 1,
+          "native_anchor_window_sampling": 1,
+          "localization_native_model_forward": 1,
+          "localization_native_model_vjp": 1,
+          "localization_repaired_model_jvp": 1,
+          "layer_0_local_native_forward": 1,
+          "layer_0_local_native_vjp": 1,
+          "layer_1_local_native_forward": 1,
+          "layer_1_local_native_vjp": 1,
+          "layer_2_local_native_forward": 1,
+          "layer_2_local_native_vjp": 1,
+          "layer_3_local_native_forward": 1,
+          "layer_3_local_native_vjp": 1,
+          "layer_4_local_native_forward": 1,
+          "layer_4_local_native_vjp": 1
+        },
+        "completed": {
+          "parent_runtime_initialization": 1,
+          "native_anchor_window_sampling": 1,
+          "localization_native_model_forward": 1,
+          "localization_native_model_vjp": 1,
+          "localization_repaired_model_jvp": 1,
+          "layer_0_local_native_forward": 1,
+          "layer_0_local_native_vjp": 1,
+          "layer_1_local_native_forward": 1,
+          "layer_1_local_native_vjp": 1,
+          "layer_2_local_native_forward": 1,
+          "layer_2_local_native_vjp": 1,
+          "layer_3_local_native_forward": 1,
+          "layer_3_local_native_vjp": 1,
+          "layer_4_local_native_forward": 1,
+          "layer_4_local_native_vjp": 1
+        },
+        "pending": [],
+        "native_adam_steps": 0
+      },
+      "physical_work_delta": {
+        "draft_forwards": 2,
+        "layer_forwards": 15
+      }
+    },
+    {
+      "attempt": "transpose_001",
+      "execution_commit": "0242cccce91456c4645719fdb470774ff60067e5",
+      "status": "failed",
+      "native_probe_seconds": 36.24112873338163,
+      "occupied_card_seconds": 41.25245499238372,
+      "peak_allocated_bytes": 27774969344,
+      "peak_reserved_bytes": 28393340928,
+      "native_adam_steps": 0,
+      "work": {
+        "attempted": {
+          "parent_runtime_initialization": 1,
+          "native_anchor_window_sampling": 1,
+          "ordinary_native_forward": 1,
+          "ordinary_native_parameter_vjp": 1,
+          "transposed_native_model_forward": 1,
+          "transposed_native_parameter_vjp": 1
+        },
+        "completed": {
+          "parent_runtime_initialization": 1,
+          "native_anchor_window_sampling": 1,
+          "ordinary_native_forward": 1,
+          "ordinary_native_parameter_vjp": 1,
+          "transposed_native_model_forward": 1
+        },
+        "pending": [
+          "transposed_native_parameter_vjp"
+        ],
+        "native_adam_steps": 0
+      },
+      "physical_work_delta": {
+        "draft_forwards": 2,
+        "layer_forwards": 10
+      }
+    },
+    {
+      "attempt": "transpose_002",
+      "execution_commit": "4540d6a70e2ad210bb0c1736cffedf94d3c73361",
+      "status": "failed",
+      "native_probe_seconds": 36.97699308767915,
+      "occupied_card_seconds": 41.29696771502495,
+      "peak_allocated_bytes": 44578497024,
+      "peak_reserved_bytes": 46158315520,
+      "native_adam_steps": 0,
+      "work": {
+        "attempted": {
+          "parent_runtime_initialization": 1,
+          "native_anchor_window_sampling": 1,
+          "ordinary_native_forward": 1,
+          "ordinary_native_parameter_vjp": 1,
+          "transposed_native_model_forward": 1,
+          "transposed_native_parameter_vjp": 1
+        },
+        "completed": {
+          "parent_runtime_initialization": 1,
+          "native_anchor_window_sampling": 1,
+          "ordinary_native_forward": 1,
+          "ordinary_native_parameter_vjp": 1,
+          "transposed_native_model_forward": 1,
+          "transposed_native_parameter_vjp": 1
+        },
+        "pending": [],
+        "native_adam_steps": 0
+      },
+      "physical_work_delta": {
+        "draft_forwards": 2,
+        "layer_forwards": 10
+      }
+    },
+    {
+      "attempt": "transpose_003",
+      "execution_commit": "65ae6f95bd73aef8f60542a3d2ed3f5a3e51b48c",
+      "status": "failed",
+      "native_probe_seconds": 39.13787305727601,
+      "occupied_card_seconds": 46.55180414766073,
+      "peak_allocated_bytes": 43404457984,
+      "peak_reserved_bytes": 47567601664,
+      "native_adam_steps": 0,
+      "work": {
+        "attempted": {
+          "parent_runtime_initialization": 1,
+          "native_anchor_window_sampling": 1,
+          "ordinary_native_forward": 1,
+          "ordinary_native_parameter_vjp": 1,
+          "transposed_native_model_forward": 1,
+          "transposed_native_parameter_vjp": 1,
+          "transposed_native_grad_output_vjp": 1
+        },
+        "completed": {
+          "parent_runtime_initialization": 1,
+          "native_anchor_window_sampling": 1,
+          "ordinary_native_forward": 1,
+          "ordinary_native_parameter_vjp": 1,
+          "transposed_native_model_forward": 1,
+          "transposed_native_parameter_vjp": 1,
+          "transposed_native_grad_output_vjp": 1
+        },
+        "pending": [],
+        "native_adam_steps": 0
+      },
+      "physical_work_delta": {
+        "draft_forwards": 2,
+        "layer_forwards": 10
+      }
+    }
+  ],
+  "occupied_card_seconds": 267.4240171853453,
+  "occupied_card_hours": 0.07428444921815147,
+  "native_adam_steps": 0,
+  "shadow_optimizer_previews": 0,
+  "head_calls": 0,
+  "complete_response_generations": 0,
+  "new_feedback": 0,
+  "production_started": false,
+  "cpu_tests_passed": 66
+}

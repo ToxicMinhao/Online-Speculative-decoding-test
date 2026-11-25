@@ -1,0 +1,1125 @@
+{
+  "schema": "frontier_six_attempt_independent_closeout_audit_v1",
+  "status": "verified_evidence_numerical_qualification_failed",
+  "result_integrity_blockers": [],
+  "attempts": [
+    {
+      "attempt": "original",
+      "execution_commit": "da4f4cfe28844141a5548401ca86e0ec08e73abf",
+      "result_status": "blocked_native_derivative",
+      "native_child_exit_code": 0,
+      "supervisor_exit_code": 0,
+      "process_card_s": 40.93851527944207,
+      "native_probe_nested_s": 36.92808060348034,
+      "cumulative_card_s": 40.93851527944207,
+      "ledger_attempted": 8,
+      "ledger_completed": 6,
+      "incomplete_primitives": [
+        "native_forward_ad_forward",
+        "native_grad_output_vjp"
+      ],
+      "physical_forward_pre_hooks": {
+        "draft_forwards": 3,
+        "layer_forwards": 11
+      },
+      "native_adam_steps": 0,
+      "state_restoration_exact": true,
+      "window_identical": true,
+      "peak_allocated_after_import_bytes": 46102092288,
+      "peak_reserved_after_import_bytes": 46913290240,
+      "raw_files": 20,
+      "raw_bytes": 70270
+    },
+    {
+      "attempt": "repair_001",
+      "execution_commit": "534f02da561bdd513974f448a12f4e68b8a8a093",
+      "result_status": "failed",
+      "native_child_exit_code": 1,
+      "supervisor_exit_code": 0,
+      "process_card_s": 51.19152317941189,
+      "native_probe_nested_s": 45.89859085343778,
+      "cumulative_card_s": 92.13003845885396,
+      "ledger_attempted": 13,
+      "ledger_completed": 13,
+      "incomplete_primitives": [],
+      "physical_forward_pre_hooks": {
+        "draft_forwards": 3,
+        "layer_forwards": 15
+      },
+      "native_adam_steps": 0,
+      "state_restoration_exact": true,
+      "window_identical": true,
+      "peak_allocated_after_import_bytes": 22915739136,
+      "peak_reserved_after_import_bytes": 26675773440,
+      "raw_files": 19,
+      "raw_bytes": 52320
+    },
+    {
+      "attempt": "localization_001",
+      "execution_commit": "f8f8c4d3ef2f4c558e5acb18d699ea2f3eaf438e",
+      "result_status": "native_derivative_localization_completed",
+      "native_child_exit_code": 0,
+      "supervisor_exit_code": 0,
+      "process_card_s": 46.19275187142193,
+      "native_probe_nested_s": 39.78797988779843,
+      "cumulative_card_s": 138.3227903302759,
+      "ledger_attempted": 15,
+      "ledger_completed": 15,
+      "incomplete_primitives": [],
+      "physical_forward_pre_hooks": {
+        "draft_forwards": 2,
+        "layer_forwards": 15
+      },
+      "native_adam_steps": 0,
+      "state_restoration_exact": true,
+      "window_identical": true,
+      "peak_allocated_after_import_bytes": 22768153088,
+      "peak_reserved_after_import_bytes": 24853348352,
+      "raw_files": 20,
+      "raw_bytes": 59506
+    },
+    {
+      "attempt": "transpose_001",
+      "execution_commit": "0242cccce91456c4645719fdb470774ff60067e5",
+      "result_status": "failed",
+      "native_child_exit_code": 1,
+      "supervisor_exit_code": 0,
+      "process_card_s": 41.25245499238372,
+      "native_probe_nested_s": 36.24112873338163,
+      "cumulative_card_s": 179.5752453226596,
+      "ledger_attempted": 6,
+      "ledger_completed": 5,
+      "incomplete_primitives": [
+        "transposed_native_parameter_vjp"
+      ],
+      "physical_forward_pre_hooks": {
+        "draft_forwards": 2,
+        "layer_forwards": 10
+      },
+      "native_adam_steps": 0,
+      "state_restoration_exact": true,
+      "window_identical": true,
+      "peak_allocated_after_import_bytes": 27774969344,
+      "peak_reserved_after_import_bytes": 28393340928,
+      "raw_files": 18,
+      "raw_bytes": 53406
+    },
+    {
+      "attempt": "transpose_002",
+      "execution_commit": "4540d6a70e2ad210bb0c1736cffedf94d3c73361",
+      "result_status": "failed",
+      "native_child_exit_code": 1,
+      "supervisor_exit_code": 0,
+      "process_card_s": 41.29696771502495,
+      "native_probe_nested_s": 36.97699308767915,
+      "cumulative_card_s": 220.87221303768456,
+      "ledger_attempted": 6,
+      "ledger_completed": 6,
+      "incomplete_primitives": [],
+      "physical_forward_pre_hooks": {
+        "draft_forwards": 2,
+        "layer_forwards": 10
+      },
+      "native_adam_steps": 0,
+      "state_restoration_exact": true,
+      "window_identical": true,
+      "peak_allocated_after_import_bytes": 44578497024,
+      "peak_reserved_after_import_bytes": 46158315520,
+      "raw_files": 18,
+      "raw_bytes": 58733
+    },
+    {
+      "attempt": "transpose_003",
+      "execution_commit": "65ae6f95bd73aef8f60542a3d2ed3f5a3e51b48c",
+      "result_status": "failed",
+      "native_child_exit_code": 1,
+      "supervisor_exit_code": 0,
+      "process_card_s": 46.55180414766073,
+      "native_probe_nested_s": 39.13787305727601,
+      "cumulative_card_s": 267.4240171853453,
+      "ledger_attempted": 7,
+      "ledger_completed": 7,
+      "incomplete_primitives": [],
+      "physical_forward_pre_hooks": {
+        "draft_forwards": 2,
+        "layer_forwards": 10
+      },
+      "native_adam_steps": 0,
+      "state_restoration_exact": true,
+      "window_identical": true,
+      "peak_allocated_after_import_bytes": 43404457984,
+      "peak_reserved_after_import_bytes": 47567601664,
+      "raw_files": 18,
+      "raw_bytes": 57723
+    }
+  ],
+  "aggregate": {
+    "gpu_process_attempts": 6,
+    "card_seconds": 267.4240171853453,
+    "card_hours": 0.07428444921815147,
+    "elapsed_since_original_clock_s": 3465.673397064209,
+    "ledger_attempted_operations": 55,
+    "ledger_completed_operations": 52,
+    "incomplete_primitives": 3,
+    "native_adam_steps": 0,
+    "ordinary_loss_presentations": 0,
+    "vocabulary_head_calls": 0,
+    "teacher_model_forwards": 0,
+    "shadow_optimizer_previews": 0,
+    "feedback_generations": 0,
+    "serving_generations": 0,
+    "production_events": 0,
+    "unique_fixed_windows": 1,
+    "selected_responses_per_attempt": 2,
+    "unique_response_used_for_model_probes": 1,
+    "new_repair_attempts_excluding_original_card_seconds": 226.48550190590322,
+    "elapsed_minutes_at_last_completion": 57.761223284403485,
+    "parent_initializations": 6,
+    "anchor_window_samplings": 6,
+    "completed_full_model_forwards": 13,
+    "completed_full_model_parameter_vjps": 10,
+    "completed_whole_model_forward_ad_jvps": 2,
+    "completed_whole_model_cotangent_transposes": 1,
+    "separate_operator_aux_forwards": 1,
+    "separate_operator_qkv_vjps": 1,
+    "separate_operator_analytic_tangents": 4,
+    "separate_local_decoder_forwards": 5,
+    "separate_local_decoder_vjps": 5,
+    "completed_analytic_attention_tangents_including_nested": 19,
+    "physical_draft_forward_pre_hook_entries": 14,
+    "physical_layer_forward_pre_hook_entries": 71
+  },
+  "work_interpretation": {
+    "original": "Two full model forwards and two parameter VJPs completed; forward-AD forward and reverse cotangent VJP failed. Two second-response route attempts were not undertaken.",
+    "repair_001": "Three full-model forwards, two whole-model parameter VJPs, one separate attention auxiliary forward/QKV VJP, four separate attention tangents, plus five attention tangents nested inside the model JVP. All 13 ledger operations completed; the numerical acceptance gate then failed.",
+    "localization_001": "Two full-model forwards, one whole-model VJP, five local decoder forwards/VJPs, and five attention tangents nested inside the model JVP. All 15 ledger operations completed.",
+    "transpose_001": "Two full-model forwards and one ordinary parameter VJP completed. Transposed first VJP failed inside the first native inner VJP; zero inner native VJPs/cotangent transposes completed. Whole-model transpose duality was unattempted.",
+    "counter_rule": "Forward pre-hooks are entries, not kernel/completion counts. Operator and local-decoder work is distinct from full-model work. Nested operator counts are not added again to full-model totals.",
+    "transpose_002": "Two full-model forwards and two parameter VJPs completed; five inner attention VJPs completed. Native first-gradient identity failed for55/58 tensors, so whole-model cotangent transpose was unattempted.",
+    "transpose_003": "Two full-model forwards, two parameter VJPs and one cotangent transpose completed. Five native attention and five SiLU VJPs/transposes are nested work. Exact primal/all58-gradient identity passed, then the numerical gate failed.",
+    "exit_code_scope": "PROCESS_EXIT_CODE is supervisor status0 for all six. QUALIFICATION_PROCESS.exit_code is native child status1 on repair_001 and all three transpose attempts. Native failure is retained even when supervisor exits successfully."
+  },
+  "analytic_repair": {
+    "operator_four_gates_passed": true,
+    "operator_relative_errors": {
+      "query": 8.738867383482956e-06,
+      "key": 5.07046750405329e-06,
+      "value": 3.089988005028103e-05,
+      "joint": 6.662554160805051e-06
+    },
+    "native_primal_and_58_ordinary_gradients_exact": true,
+    "whole_model_passed": false,
+    "forward_dot": 21.291557381703647,
+    "reference_dot": 21.736547395977073,
+    "absolute_error": 0.44499001427342577,
+    "relative_error": 0.020471973132024777,
+    "atol": 1e-05,
+    "rtol": 0.016,
+    "allowed_absolute_error": 0.34779475833563317,
+    "excess_over_allowed_error": 0.0971952559377926,
+    "cauchy_error_does_not_override_gate": true
+  },
+  "localization": {
+    "global_reproduction_exact": true,
+    "global_signed_residual": -0.44499001427342577,
+    "attention_signed_residual_sum": 0.0023170859140426714,
+    "outside_attention_residual": -0.44730710018746844,
+    "all_five_local_parameter_gradients_exact": true,
+    "shared_context_merge_residual": 3.8220171505010114e-05,
+    "final_norm_residual": -0.01329230026866822,
+    "reconstructed_global_residual": -0.44499001427342433,
+    "reconstruction_remainder": -1.4432899320127035e-15,
+    "interpretation": "Attention and shared-context merge do not dominate the discrepancy. The remaining decoder regions and final norm account for it; no specific Linear/RMSNorm primitive or exact rounding cause has been isolated. Attention residuals are nested within decoder residuals and must not be summed as additional work or error."
+  },
+  "transpose_001": {
+    "native_primal_exact": true,
+    "native_reference_contraction_exact": true,
+    "first_vjp_parity_status": "not_reached",
+    "duality_status": "not_attempted",
+    "cause": "Native inner VJP requested retain_graph=True; the compiled runtime refused retention with donated buffers.",
+    "false_default_not_observed_mismatch": true,
+    "cache_or_runtime_pin_cause_proven": false,
+    "implementation_repair_review": "One-shot retain_graph=False is consistent with the intended inner graph lifecycle. Pinned Torch donation collector excludes forward-input/public-output aliases, preserving required Q/K/V/O/public-LSE values; fresh compiler-cache replacement is not established as necessary. Any revised implementation still needs unchanged native parity/duality gates."
+  },
+  "resources": {
+    "latest_remote_cumulative_allocation_bytes": 1977155584,
+    "compiler_growth_from_original_baseline_bytes": 10760192,
+    "latest_remote_cumulative_charge_bytes": 1987915776,
+    "remote_free_bytes_at_last_process_exit": 430119170048,
+    "reserve_bytes": 400000000000,
+    "reserve_margin_bytes": 30119170048,
+    "Fenrir_study_allocated_snapshot_before_audit_bytes": 339775488,
+    "observed_combined_allocated_snapshot_bytes": 2327691264,
+    "feasibility_envelope_bytes": 6000000000,
+    "study_all_locations_cap_bytes": 40000000000,
+    "elapsed_limit_seconds": 14400,
+    "card_limit_seconds": 28800,
+    "scope": "Do not sum cumulative phase allocation snapshots. Local snapshot deduplicates inodes and excludes shared Git objects outside the study and this audit write. Memory peaks reset after parent import. Native/subcheck timing is nested in supervised process cost.",
+    "Fenrir_root_retained_snapshot": {
+      "epoch": 1795612108.5843918,
+      "local_study_allocated_bytes": 339738624,
+      "fenrir_free_bytes": 76067700736,
+      "method": "sum regular files allocated blocks within study; shared Git object store outside this tree not included"
+    },
+    "observed_combined_allocated_root_snapshot_bytes": 2327654400
+  },
+  "remaining_qualification": "No full coefficient sensitivity composition, candidate intervention, disabled-path identity, beta-reference control, production trainer or serving comparison is qualified by these diagnostics. Candidate efficacy remains unmeasured.",
+  "privacy": "No private prompt text, token sequences or anchor positions included in this audit.",
+  "raw_evidence_identities": {
+    "original": {
+      "CLOCK.json": {
+        "bytes": 148,
+        "sha256": "62dbdca34c06021a31d88e4940dcd30e5556bc778f5636b679def23b2dfa06c5"
+      },
+      "LAUNCH.json": {
+        "bytes": 549,
+        "sha256": "5303e8eef782eaaaa7e3ff69050fa101d49465394785d7a5686afa97e4301429"
+      },
+      "PLAN.json": {
+        "bytes": 3307,
+        "sha256": "2bd1704261530c2d698fa7daf583ef2d8b6355d42ceb4e91c11b647ad952b87f"
+      },
+      "PROCESS_EXIT_CODE": {
+        "bytes": 2,
+        "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+      },
+      "PROCESS_PID": {
+        "bytes": 8,
+        "sha256": "b102b7bdf6ea486d049b5f8aa48d45a461a13c541470c18cef877e037dda504b"
+      },
+      "QUALIFICATION_PROCESS.json": {
+        "bytes": 331,
+        "sha256": "dd4999797020dbde39663226859e7bb276eab8ef124eeb89143a171cffa4e777"
+      },
+      "RUN.sh": {
+        "bytes": 1256,
+        "sha256": "b2a5a4666bb4e6fd009a764551d2d3b4815b8e21ce0009cb9214f3cc66f847d4"
+      },
+      "STORAGE_CURRENT.json": {
+        "bytes": 125,
+        "sha256": "1f6072fd5e406f0ff90d5723880474f385b0096b0333e61cb41818e97f6a0603"
+      },
+      "derivative_support_001/FINAL_RESTORATION.json": {
+        "bytes": 196,
+        "sha256": "5c1c5d772ea09b0a199d7ec6019d4e7160437a58be769864e1bce427754e72a9"
+      },
+      "derivative_support_001/FIRST_ORDER_CONTROL.json": {
+        "bytes": 739,
+        "sha256": "b467f82629cd404f249e21df725d7564b86d2caa86deebf0b253f635f342e4e7"
+      },
+      "derivative_support_001/RESULT.json": {
+        "bytes": 23158,
+        "sha256": "47e8d5d514da9e462d33dd1cfd13d5004e1854e7a6e2453b3d24e5d44db1ad55"
+      },
+      "derivative_support_001/RUNTIME_COMPATIBILITY.json": {
+        "bytes": 296,
+        "sha256": "c87147645d333b6c09a6b984f3b48753610e4c911344b0ee07a4ccc492bbc11c"
+      },
+      "derivative_support_001/SELECTION.json": {
+        "bytes": 1313,
+        "sha256": "876fac1fddcbc781f163fae616db43c12cc126496a048c20455ca1fb61e3499f"
+      },
+      "derivative_support_001/WINDOW.json": {
+        "bytes": 25388,
+        "sha256": "a4245d34875ecc349e04cf34de24ef1d626d9cbd03ee30176f637d189d431d3d"
+      },
+      "derivative_support_001/WORK.json": {
+        "bytes": 654,
+        "sha256": "7a0b4ad7797720f7cd80e588b8b217aaf28a2de5fa68f6f48039fc33470d7ccb"
+      },
+      "derivative_support_001/forward_ad_jvp_response_0.json": {
+        "bytes": 8490,
+        "sha256": "dc9c16ac5ecdca209dca8ce819a0b05f514cd3aa60f38a340ba53a8608e85639"
+      },
+      "derivative_support_001/trainer/RESUME_CHECK.json": {
+        "bytes": 196,
+        "sha256": "5c1c5d772ea09b0a199d7ec6019d4e7160437a58be769864e1bce427754e72a9"
+      },
+      "derivative_support_001/transposed_reverse_jvp_response_0.json": {
+        "bytes": 2741,
+        "sha256": "44d57358d5fb910910ba665d65206b803bf8bcd690c93ed114dd8f3e0931c8c2"
+      },
+      "native.log": {
+        "bytes": 1066,
+        "sha256": "d33b413da3ae752b474fe6d61292927384d1fb018d7a43d5ef6bb9e30589de66"
+      },
+      "supervisor.log": {
+        "bytes": 307,
+        "sha256": "7002321a8f6167e0331745efccb4be19eaa4663ad38cb8856dfed2cef417b327"
+      }
+    },
+    "repair_001": {
+      "CLOCK.json": {
+        "bytes": 211,
+        "sha256": "bc740b41728a46643acf03fb9adcaef1ea5469c253f234bc192272f94bf8009e"
+      },
+      "LAUNCH.json": {
+        "bytes": 685,
+        "sha256": "775ce556dcb8480e6d1f5cf423505d5fb9511db6264fa030f0f6ee6c50e6501b"
+      },
+      "PLAN.json": {
+        "bytes": 5182,
+        "sha256": "67e82a394ceac22d300187abbd20d582165dcb0cbea19739e4fa54cbe4796e38"
+      },
+      "PROCESS_EXIT_CODE": {
+        "bytes": 2,
+        "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+      },
+      "PROCESS_PID": {
+        "bytes": 8,
+        "sha256": "40428d4a40b03f94d05eba28943c692ab57c526335986abc4d1a575ede9e83ca"
+      },
+      "QUALIFICATION_PROCESS.json": {
+        "bytes": 434,
+        "sha256": "49490349fbd9591781cdbf0cc39c1d795672a56bf76b990e5f10989f32e8a77b"
+      },
+      "RUN.sh": {
+        "bytes": 1253,
+        "sha256": "03f565ee008c88d50ee68e8f60c14590d79e8a9358f06c32813a654db198e661"
+      },
+      "STORAGE_CURRENT.json": {
+        "bytes": 125,
+        "sha256": "cc65860864107dae395801435dfa6ef694f4fb1a42c5e2133ea513c5fc75a75c"
+      },
+      "derivative_support_001/FINAL_RESTORATION.json": {
+        "bytes": 196,
+        "sha256": "5c1c5d772ea09b0a199d7ec6019d4e7160437a58be769864e1bce427754e72a9"
+      },
+      "derivative_support_001/MODEL.json": {
+        "bytes": 1299,
+        "sha256": "e0f691e0e6b4a381634a631742fcb110496f33a8a470e48acf91100d51003914"
+      },
+      "derivative_support_001/OPERATOR.json": {
+        "bytes": 4260,
+        "sha256": "a08d529677b8d27bae78477b61773c8c1287969238a6653f5eccdd70cc8e2035"
+      },
+      "derivative_support_001/RESULT.json": {
+        "bytes": 7864,
+        "sha256": "9818fba49339d50557dc75d68652788b679f219aaa4e3746f92ad32a7c2fa8a6"
+      },
+      "derivative_support_001/RUNTIME_COMPATIBILITY.json": {
+        "bytes": 302,
+        "sha256": "61aeccc2f76f9729201f2d0bc957d7cd5247b55798d3a62fc77a7ee7a1b081db"
+      },
+      "derivative_support_001/SELECTION.json": {
+        "bytes": 1347,
+        "sha256": "0237394e6a1602a7b0ec3cb077239f87a5e13c30b35c6a65268973db8160296a"
+      },
+      "derivative_support_001/WINDOW.json": {
+        "bytes": 25388,
+        "sha256": "a4245d34875ecc349e04cf34de24ef1d626d9cbd03ee30176f637d189d431d3d"
+      },
+      "derivative_support_001/WORK.json": {
+        "bytes": 1122,
+        "sha256": "c65ed950798f62985fbdebd972a4dfc7f6addf0a7005b31223118e93558846b1"
+      },
+      "derivative_support_001/trainer/RESUME_CHECK.json": {
+        "bytes": 196,
+        "sha256": "5c1c5d772ea09b0a199d7ec6019d4e7160437a58be769864e1bce427754e72a9"
+      },
+      "native.log": {
+        "bytes": 2040,
+        "sha256": "fb70e5ba3c4081fedde3dd9e5041e6cc16815c96829dc8d9ee1545d28ae85f20"
+      },
+      "supervisor.log": {
+        "bytes": 406,
+        "sha256": "4c87aec19b2ed6e8a9813bcc4f2299cb100b3856a888d467ee08365df215a7d9"
+      }
+    },
+    "localization_001": {
+      "CLOCK.json": {
+        "bytes": 211,
+        "sha256": "ad8814a20c69bcbc94c7f29999509ae1b3e3694c5a5217859b14866a2b4359e7"
+      },
+      "LAUNCH.json": {
+        "bytes": 837,
+        "sha256": "eec256dae28b488e415c5fa2a31ebd83cd879d55360a7751850e15fa597d6ae7"
+      },
+      "PLAN.json": {
+        "bytes": 6625,
+        "sha256": "c63c6d781eca0cdd42ab4c10463fe90074598a3973de40bc2d9435cb46d7de85"
+      },
+      "PROCESS_EXIT_CODE": {
+        "bytes": 2,
+        "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+      },
+      "PROCESS_PID": {
+        "bytes": 8,
+        "sha256": "18d7e0c66b7de93e578da2e7da406b309c03ec59ecf2ed393b7fdf333abaf710"
+      },
+      "QUALIFICATION_PROCESS.json": {
+        "bytes": 434,
+        "sha256": "db609afcbbecc4fef56b7f26403cb32c009ae8bd5205528f8f0f0878a2f1b46a"
+      },
+      "RUN.sh": {
+        "bytes": 1259,
+        "sha256": "2e778fff14af1b499eb6744cc1c05ba0d5ed9542ac026bb030a1247009fd8497"
+      },
+      "STORAGE_CURRENT.json": {
+        "bytes": 132,
+        "sha256": "13ff95bf739265a128cde42cfb79571247d093b776e59c6deb37b262dcf8b2bd"
+      },
+      "derivative_support_001/FINAL_RESTORATION.json": {
+        "bytes": 196,
+        "sha256": "5c1c5d772ea09b0a199d7ec6019d4e7160437a58be769864e1bce427754e72a9"
+      },
+      "derivative_support_001/LAYER_LOCALIZATION.json": {
+        "bytes": 2701,
+        "sha256": "add7ab8e6dd8cdfe9034b4f6bd7fd4963af50d0f301fbbad17808aaa429b1e4a"
+      },
+      "derivative_support_001/LOCALIZATION.json": {
+        "bytes": 6684,
+        "sha256": "226538d87620846dcffec9fbcf1bfd5596b58eb05a24b69ec20d56d5561b09a7"
+      },
+      "derivative_support_001/REPRODUCTION.json": {
+        "bytes": 623,
+        "sha256": "f4eacf7b682b9f24822e5abeaf76bde0556f2551dc3a77d409c941700a8000db"
+      },
+      "derivative_support_001/RESULT.json": {
+        "bytes": 9834,
+        "sha256": "6889699585ac41e7520b22da6a3900e9ebb438ebeda6a2ad5f60577f55c163c9"
+      },
+      "derivative_support_001/RUNTIME_COMPATIBILITY.json": {
+        "bytes": 302,
+        "sha256": "61aeccc2f76f9729201f2d0bc957d7cd5247b55798d3a62fc77a7ee7a1b081db"
+      },
+      "derivative_support_001/SELECTION.json": {
+        "bytes": 1347,
+        "sha256": "0237394e6a1602a7b0ec3cb077239f87a5e13c30b35c6a65268973db8160296a"
+      },
+      "derivative_support_001/WINDOW.json": {
+        "bytes": 25388,
+        "sha256": "a4245d34875ecc349e04cf34de24ef1d626d9cbd03ee30176f637d189d431d3d"
+      },
+      "derivative_support_001/WORK.json": {
+        "bytes": 1240,
+        "sha256": "6d87f4ecda849175b36c17ff9ded42d0af24bfe522774a29e09d0368a90b5374"
+      },
+      "derivative_support_001/trainer/RESUME_CHECK.json": {
+        "bytes": 196,
+        "sha256": "5c1c5d772ea09b0a199d7ec6019d4e7160437a58be769864e1bce427754e72a9"
+      },
+      "native.log": {
+        "bytes": 1081,
+        "sha256": "377459dc8ecf4e236ecb822993780f77f66242d4db1be87dd677a2beade53ce3"
+      },
+      "supervisor.log": {
+        "bytes": 406,
+        "sha256": "1f032eac04ce935e1f68b5ed36a87e049c7d7d2552751bda66924a4b08bf5ed1"
+      }
+    },
+    "transpose_001": {
+      "CLOCK.json": {
+        "bytes": 211,
+        "sha256": "6ddb4de12e6c3ea44964f46140647189325136803132492f868777b6b65ad734"
+      },
+      "LAUNCH.json": {
+        "bytes": 836,
+        "sha256": "b9edc4b2453f7eb5e99efb23daeb467c3f8151c4a6f9de288d68f68ca56a6c1f"
+      },
+      "PLAN.json": {
+        "bytes": 7810,
+        "sha256": "5fddd11ce9d8b2cf2b9c020f7c3e22d84307935e522ea655ffb60e93f60d47dc"
+      },
+      "PROCESS_EXIT_CODE": {
+        "bytes": 2,
+        "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+      },
+      "PROCESS_PID": {
+        "bytes": 8,
+        "sha256": "aa39bf32a94c5b51f31f50618751366854254cd73835ca26af4f9a3d096af501"
+      },
+      "QUALIFICATION_PROCESS.json": {
+        "bytes": 437,
+        "sha256": "e307f7827d3f57a6ed20fc21657f8997dbcabe83132569bbc16d7f84a31b5f5d"
+      },
+      "RUN.sh": {
+        "bytes": 1256,
+        "sha256": "41d183b206526436e6db3d3ff996476ca2545b693d66715593e572e8c6c105e7"
+      },
+      "STORAGE_CURRENT.json": {
+        "bytes": 134,
+        "sha256": "da7e5e015f700ec6770322308e36080b9f28134506f328db24ddd0d7031881e9"
+      },
+      "derivative_support_001/FINAL_RESTORATION.json": {
+        "bytes": 196,
+        "sha256": "5c1c5d772ea09b0a199d7ec6019d4e7160437a58be769864e1bce427754e72a9"
+      },
+      "derivative_support_001/MODEL.json": {
+        "bytes": 563,
+        "sha256": "e992803a6930f02ea71d60d1256f551fb71ad41cb29db5ad04e3964e8cb46fea"
+      },
+      "derivative_support_001/RESULT.json": {
+        "bytes": 7212,
+        "sha256": "681650071adb47c134f8534b01783a396db9f6a5d8010f549e2c7a9ca1c5080c"
+      },
+      "derivative_support_001/RUNTIME_COMPATIBILITY.json": {
+        "bytes": 302,
+        "sha256": "61aeccc2f76f9729201f2d0bc957d7cd5247b55798d3a62fc77a7ee7a1b081db"
+      },
+      "derivative_support_001/SELECTION.json": {
+        "bytes": 1347,
+        "sha256": "0237394e6a1602a7b0ec3cb077239f87a5e13c30b35c6a65268973db8160296a"
+      },
+      "derivative_support_001/WINDOW.json": {
+        "bytes": 25388,
+        "sha256": "a4245d34875ecc349e04cf34de24ef1d626d9cbd03ee30176f637d189d431d3d"
+      },
+      "derivative_support_001/WORK.json": {
+        "bytes": 563,
+        "sha256": "cc57d0f4222f76703bbe0f2516e32d03d546bd80b9693f2c61f60913e99c0c31"
+      },
+      "derivative_support_001/trainer/RESUME_CHECK.json": {
+        "bytes": 196,
+        "sha256": "5c1c5d772ea09b0a199d7ec6019d4e7160437a58be769864e1bce427754e72a9"
+      },
+      "native.log": {
+        "bytes": 6536,
+        "sha256": "253dc366fbb99e894a896439efc7e6b88ef6bbcbdd4fca4a8b493cbf02e6e7b3"
+      },
+      "supervisor.log": {
+        "bytes": 409,
+        "sha256": "396fdb57606fb16c8902259cbf9575249f4a4e9539afc5d61e7c8b9ca724a86c"
+      }
+    },
+    "transpose_002": {
+      "CLOCK.json": {
+        "bytes": 211,
+        "sha256": "db3917a21c5a350e4028ba20da1c93bcfd98d5bbaa6d5d9e3382e917f0c15904"
+      },
+      "LAUNCH.json": {
+        "bytes": 836,
+        "sha256": "7543e54094ed43e51d2d6d0f53470a790c6eb1c8e63a4e98480d7d123f429288"
+      },
+      "PLAN.json": {
+        "bytes": 9043,
+        "sha256": "000111584a8b4db2244d8e2a2eca2261189491e8685f0cf05e2cc714c027d4e6"
+      },
+      "PROCESS_EXIT_CODE": {
+        "bytes": 2,
+        "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+      },
+      "PROCESS_PID": {
+        "bytes": 8,
+        "sha256": "8e7f4ab7c236e4c4c5ac8e5d3984f9441e4a37d95542ad225f76bbea7a5212ca"
+      },
+      "QUALIFICATION_PROCESS.json": {
+        "bytes": 438,
+        "sha256": "db606beb53621cc79b198379a2a0400e59124a994ad28cac54d78d34098a8d03"
+      },
+      "RUN.sh": {
+        "bytes": 1256,
+        "sha256": "a6b61a1ec163dc8f25a0b248f4b0ee819c092486d30e6492f2e396890e88e256"
+      },
+      "STORAGE_CURRENT.json": {
+        "bytes": 134,
+        "sha256": "971ca65ab06c11bc374014147a5b49124c4addfd53025ab2c5f271ef4fabe76c"
+      },
+      "derivative_support_001/FINAL_RESTORATION.json": {
+        "bytes": 196,
+        "sha256": "5c1c5d772ea09b0a199d7ec6019d4e7160437a58be769864e1bce427754e72a9"
+      },
+      "derivative_support_001/MODEL.json": {
+        "bytes": 13557,
+        "sha256": "05de7110ab1f086f5c431b663685e59c22abff5b5320d842076b19a5bf7f0a55"
+      },
+      "derivative_support_001/RESULT.json": {
+        "bytes": 2792,
+        "sha256": "38b2c87a6d7253c4337ad54e0f7c0cc962907f04ebbbd226bb6ffdc84e15adc9"
+      },
+      "derivative_support_001/RUNTIME_COMPATIBILITY.json": {
+        "bytes": 302,
+        "sha256": "61aeccc2f76f9729201f2d0bc957d7cd5247b55798d3a62fc77a7ee7a1b081db"
+      },
+      "derivative_support_001/SELECTION.json": {
+        "bytes": 1347,
+        "sha256": "0237394e6a1602a7b0ec3cb077239f87a5e13c30b35c6a65268973db8160296a"
+      },
+      "derivative_support_001/WINDOW.json": {
+        "bytes": 25388,
+        "sha256": "a4245d34875ecc349e04cf34de24ef1d626d9cbd03ee30176f637d189d431d3d"
+      },
+      "derivative_support_001/WORK.json": {
+        "bytes": 564,
+        "sha256": "177f88d00d2689d4afcd4331f72c49e26f1b6f6e529fa733e8316488515714cb"
+      },
+      "derivative_support_001/trainer/RESUME_CHECK.json": {
+        "bytes": 196,
+        "sha256": "5c1c5d772ea09b0a199d7ec6019d4e7160437a58be769864e1bce427754e72a9"
+      },
+      "native.log": {
+        "bytes": 2053,
+        "sha256": "92f80d7aab37b798850add4939ce86c8926cf62483d47712077d802f84778047"
+      },
+      "supervisor.log": {
+        "bytes": 410,
+        "sha256": "88f0e582365dedf4481321a57f944a39e0d2c0621d6c2b3802c1974fc03682cd"
+      }
+    },
+    "transpose_003": {
+      "CLOCK.json": {
+        "bytes": 212,
+        "sha256": "d6b8e5f3f659282f7275e7e434ba20eb6c08b10f001aeaf637ca992982dd1796"
+      },
+      "LAUNCH.json": {
+        "bytes": 836,
+        "sha256": "6204128a27e0627c69d939471fee6a386c70b7efc929ec65e34d0bad12e6eab4"
+      },
+      "PLAN.json": {
+        "bytes": 10217,
+        "sha256": "1be5360ec85eb9974ceb50782faa3899fc443bde60fd1410d3b11303f275ceac"
+      },
+      "PROCESS_EXIT_CODE": {
+        "bytes": 2,
+        "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+      },
+      "PROCESS_PID": {
+        "bytes": 8,
+        "sha256": "3783e14dcacd75789465b6c0f89dc202b069b580f1d5843b4d678badb7cb33df"
+      },
+      "QUALIFICATION_PROCESS.json": {
+        "bytes": 436,
+        "sha256": "9613e303d133550ef9106660f030e45b23c486f426b555c244007e575043fea4"
+      },
+      "RUN.sh": {
+        "bytes": 1256,
+        "sha256": "6ccd0c894fda749120357f2e98a355a905662ea8cf7372feea44b46075c50d22"
+      },
+      "STORAGE_CURRENT.json": {
+        "bytes": 134,
+        "sha256": "158110ab4602d4b615dbb2e76c5b70a68230ecc4e0220769d4648482b448f749"
+      },
+      "derivative_support_001/FINAL_RESTORATION.json": {
+        "bytes": 196,
+        "sha256": "5c1c5d772ea09b0a199d7ec6019d4e7160437a58be769864e1bce427754e72a9"
+      },
+      "derivative_support_001/MODEL.json": {
+        "bytes": 11166,
+        "sha256": "c0ebf38e6b8839f8d20d39823c4a43cb5cc33e24a28306b9da555ca1d4e77e9d"
+      },
+      "derivative_support_001/RESULT.json": {
+        "bytes": 2902,
+        "sha256": "47fa701d3236871b8c33346f1a222b171b62ed4eafe5a43435985e6cf178f6c8"
+      },
+      "derivative_support_001/RUNTIME_COMPATIBILITY.json": {
+        "bytes": 302,
+        "sha256": "61aeccc2f76f9729201f2d0bc957d7cd5247b55798d3a62fc77a7ee7a1b081db"
+      },
+      "derivative_support_001/SELECTION.json": {
+        "bytes": 1347,
+        "sha256": "0237394e6a1602a7b0ec3cb077239f87a5e13c30b35c6a65268973db8160296a"
+      },
+      "derivative_support_001/WINDOW.json": {
+        "bytes": 25388,
+        "sha256": "a4245d34875ecc349e04cf34de24ef1d626d9cbd03ee30176f637d189d431d3d"
+      },
+      "derivative_support_001/WORK.json": {
+        "bytes": 652,
+        "sha256": "7409667b0ddd03431f87956bb76e78facb2664c9efe199783a0aaf42253e15b6"
+      },
+      "derivative_support_001/trainer/RESUME_CHECK.json": {
+        "bytes": 196,
+        "sha256": "5c1c5d772ea09b0a199d7ec6019d4e7160437a58be769864e1bce427754e72a9"
+      },
+      "native.log": {
+        "bytes": 2065,
+        "sha256": "158fd517d85fcc87f52c7f27ef6951892d45742812fcc189dd0ffe0a59218b84"
+      },
+      "supervisor.log": {
+        "bytes": 408,
+        "sha256": "2eef10ef7cd92659c4c0643d5970ec89ca93a22150ad11473470cb3d05677882"
+      }
+    }
+  },
+  "fallacy_scan": {
+    "checked": 11,
+    "covered": [
+      "Simpson paradox",
+      "ecological inference",
+      "Berkson selection",
+      "collider adjustment",
+      "base-rate neglect",
+      "regression to mean",
+      "survivorship",
+      "look-elsewhere",
+      "forking paths",
+      "correlation/causation",
+      "reverse causality"
+    ],
+    "finding": "No population efficacy inference is supported. All failures and unattempted stages are retained; diagnostic directions and numerical acceptance threshold remain fixed."
+  },
+  "audit_mode": "Independent local receipt/hash/source inspection; shared team context. No GPU, remote action, model rerun or experiment code edit.",
+  "created_utc": "2026-11-25T13:10:21.001157+00:00",
+  "scope": [
+    "original",
+    "repair_001",
+    "localization_001",
+    "transpose_001",
+    "transpose_002",
+    "transpose_003"
+  ],
+  "archives": {
+    "original": {
+      "path": "result_private/execution_001.tar.gz",
+      "bytes": 11108,
+      "sha256": "3e5ffb2d60b958c402792dca1ed09130fb54ae3c272173fdf830bba39484dfad",
+      "files": 20,
+      "uncompressed_bytes": 70270,
+      "matches_extraction": true
+    },
+    "repair_001": {
+      "path": "repair_001/raw.tar.gz",
+      "bytes": 10151,
+      "sha256": "371ba6235a8aadf2305cc4bc02e7fb5e29c8c7d63a0f06267299068555c686fd",
+      "files": 19,
+      "uncompressed_bytes": 52320,
+      "matches_extraction": true
+    },
+    "localization_001": {
+      "path": "localization_001/raw.tar.gz",
+      "bytes": 11154,
+      "sha256": "bd66bfc3343689e30841f8a045042b13643d64cd493b8f2662b8232fa5c2627c",
+      "files": 20,
+      "uncompressed_bytes": 59506,
+      "matches_extraction": true
+    },
+    "transpose_001": {
+      "path": "transpose_001/raw.tar.gz",
+      "bytes": 10706,
+      "sha256": "b904a92b73baa30b0960705f666c9d2daa27804b2190a45295eaccf2716e4756",
+      "files": 18,
+      "uncompressed_bytes": 53406,
+      "matches_extraction": true
+    },
+    "transpose_002": {
+      "path": "transpose_002/raw.tar.gz",
+      "bytes": 10996,
+      "sha256": "23f1927a64d849de151481556c0b073a249ba17cdd1df41454b9f8454a8477cd",
+      "files": 18,
+      "uncompressed_bytes": 58733,
+      "matches_extraction": true
+    },
+    "transpose_003": {
+      "path": "transpose_003/raw.tar.gz",
+      "bytes": 10558,
+      "sha256": "44ad0d744a7cb76023eeaae56a8706524cd137ade0f04952c81a57f494dc228d",
+      "files": 18,
+      "uncompressed_bytes": 57723,
+      "matches_extraction": true
+    }
+  },
+  "source_checks": {
+    "original": {
+      "execution_commit": "da4f4cfe28844141a5548401ca86e0ec08e73abf",
+      "source_manifest_identity": {
+        "bytes": 944611,
+        "sha256": "665216b8bfb865545eda35c0a187750df2ee54ab550b6056524b5b6e2af5df11"
+      },
+      "manifest_files": 5104,
+      "critical_runtime_files_matched_to_git_commit": [
+        "experiments/frontier_preservation_pilot/native.py",
+        "experiments/frontier_preservation_pilot/prepare.py",
+        "experiments/frontier_preservation_pilot/qualify.py",
+        "experiments/repair_conditional_kl_pilot/training.py",
+        "experiments/full_k_gsm8k/training.py",
+        "online_feedback/training.py",
+        "training/specforge/modeling/draft/dflash.py"
+      ]
+    },
+    "repair_001": {
+      "execution_commit": "534f02da561bdd513974f448a12f4e68b8a8a093",
+      "source_manifest_identity": {
+        "bytes": 948304,
+        "sha256": "5c7636da92c25f59f6b3c23c36b3e31c2b0b6113c97e1a2623c9f8d4cffb9b40"
+      },
+      "manifest_files": 5124,
+      "critical_runtime_files_matched_to_git_commit": [
+        "experiments/frontier_preservation_pilot/native.py",
+        "experiments/frontier_preservation_pilot/prepare.py",
+        "experiments/frontier_preservation_pilot/qualify.py",
+        "experiments/frontier_preservation_pilot/repair_native.py",
+        "experiments/frontier_preservation_pilot/attention_jvp.py",
+        "experiments/repair_conditional_kl_pilot/training.py",
+        "experiments/full_k_gsm8k/training.py",
+        "online_feedback/training.py",
+        "training/specforge/modeling/draft/dflash.py"
+      ]
+    },
+    "localization_001": {
+      "execution_commit": "f8f8c4d3ef2f4c558e5acb18d699ea2f3eaf438e",
+      "source_manifest_identity": {
+        "bytes": 949044,
+        "sha256": "4943b14fb71f18d252f27eafbdb32a4acdab837d400f30016bff33b0405505d7"
+      },
+      "manifest_files": 5128,
+      "critical_runtime_files_matched_to_git_commit": [
+        "experiments/frontier_preservation_pilot/native.py",
+        "experiments/frontier_preservation_pilot/prepare.py",
+        "experiments/frontier_preservation_pilot/qualify.py",
+        "experiments/frontier_preservation_pilot/repair_native.py",
+        "experiments/frontier_preservation_pilot/localize_native.py",
+        "experiments/frontier_preservation_pilot/attention_jvp.py",
+        "experiments/frontier_preservation_pilot/attention_reverse_jvp.py",
+        "experiments/repair_conditional_kl_pilot/training.py",
+        "experiments/full_k_gsm8k/training.py",
+        "online_feedback/training.py",
+        "training/specforge/modeling/draft/dflash.py"
+      ]
+    },
+    "transpose_001": {
+      "execution_commit": "0242cccce91456c4645719fdb470774ff60067e5",
+      "source_manifest_identity": {
+        "bytes": 949044,
+        "sha256": "cfffac6b26fcfca42a5ea226ce0a06dea6e76a07fd8d9c8ff9405d6a39474d1e"
+      },
+      "manifest_files": 5128,
+      "critical_runtime_files_matched_to_git_commit": [
+        "experiments/frontier_preservation_pilot/native.py",
+        "experiments/frontier_preservation_pilot/prepare.py",
+        "experiments/frontier_preservation_pilot/qualify.py",
+        "experiments/frontier_preservation_pilot/repair_native.py",
+        "experiments/frontier_preservation_pilot/localize_native.py",
+        "experiments/frontier_preservation_pilot/attention_jvp.py",
+        "experiments/frontier_preservation_pilot/attention_reverse_jvp.py",
+        "experiments/repair_conditional_kl_pilot/training.py",
+        "experiments/full_k_gsm8k/training.py",
+        "online_feedback/training.py",
+        "training/specforge/modeling/draft/dflash.py"
+      ]
+    },
+    "transpose_002": {
+      "execution_commit": "4540d6a70e2ad210bb0c1736cffedf94d3c73361",
+      "source_manifest_identity": {
+        "bytes": 949044,
+        "sha256": "c666ae8236e4778a8b091f10d5c945cd99612a4fe9b6ff45f3720b982831c6a4"
+      },
+      "manifest_files": 5128,
+      "critical_runtime_files_matched_to_git_commit": [
+        "experiments/frontier_preservation_pilot/native.py",
+        "experiments/frontier_preservation_pilot/prepare.py",
+        "experiments/frontier_preservation_pilot/qualify.py",
+        "experiments/frontier_preservation_pilot/repair_native.py",
+        "experiments/frontier_preservation_pilot/localize_native.py",
+        "experiments/frontier_preservation_pilot/attention_jvp.py",
+        "experiments/frontier_preservation_pilot/attention_reverse_jvp.py",
+        "experiments/repair_conditional_kl_pilot/training.py",
+        "experiments/full_k_gsm8k/training.py",
+        "online_feedback/training.py",
+        "training/specforge/modeling/draft/dflash.py"
+      ]
+    },
+    "transpose_003": {
+      "execution_commit": "65ae6f95bd73aef8f60542a3d2ed3f5a3e51b48c",
+      "source_manifest_identity": {
+        "bytes": 949046,
+        "sha256": "6b8438e2e2cf5ade6976c054668df7f91d3924e29c7698290c5ba674cb2b2e0d"
+      },
+      "manifest_files": 5128,
+      "critical_runtime_files_matched_to_git_commit": [
+        "experiments/frontier_preservation_pilot/native.py",
+        "experiments/frontier_preservation_pilot/prepare.py",
+        "experiments/frontier_preservation_pilot/qualify.py",
+        "experiments/frontier_preservation_pilot/repair_native.py",
+        "experiments/frontier_preservation_pilot/localize_native.py",
+        "experiments/frontier_preservation_pilot/attention_jvp.py",
+        "experiments/frontier_preservation_pilot/attention_reverse_jvp.py",
+        "experiments/repair_conditional_kl_pilot/training.py",
+        "experiments/full_k_gsm8k/training.py",
+        "online_feedback/training.py",
+        "training/specforge/modeling/draft/dflash.py"
+      ]
+    }
+  },
+  "verification": {
+    "raw_files": 113,
+    "raw_bytes": 351958,
+    "raw_manifest_mismatches": 0,
+    "all_six_archives_match": true,
+    "previous_four_attempt_evidence_unchanged": true,
+    "prior_receipt_identity_bindings_checked": 69,
+    "source_manifests_match_plans": true,
+    "twelve_initial_final_state_receipts_equal": true,
+    "six_windows_byte_identical": true,
+    "window_identity": {
+      "bytes": 25388,
+      "sha256": "a4245d34875ecc349e04cf34de24ef1d626d9cbd03ee30176f637d189d431d3d"
+    },
+    "parent_binding": "b120c76b0036b4786eb6b9d11b1594ec1dc6e57e3d20c9ed931924262b1c072a",
+    "parent_recovery_identity": {
+      "bytes": 6296473051,
+      "sha256": "728770a7abf0ba3ef96805ef760997976ad7bedbbee1d8debe165e785a4d98a2"
+    },
+    "no_new_remote_rehash_claimed": true
+  },
+  "raw_work_totals": {
+    "attempted": {
+      "parent_runtime_initialization": 6,
+      "native_anchor_window_sampling": 6,
+      "control_native_forward": 1,
+      "control_native_parameter_vjp": 1,
+      "native_forward_ad_forward": 1,
+      "native_reverse_forward": 1,
+      "native_parameter_vjp": 1,
+      "native_grad_output_vjp": 1,
+      "ordinary_native_forward": 4,
+      "ordinary_native_parameter_vjp": 4,
+      "native_operator_aux_forward": 1,
+      "native_operator_qkv_vjp": 1,
+      "analytic_operator_tangent_query": 1,
+      "analytic_operator_tangent_key": 1,
+      "analytic_operator_tangent_value": 1,
+      "analytic_operator_tangent_joint": 1,
+      "scoped_ordinary_native_forward": 1,
+      "scoped_ordinary_native_parameter_vjp": 1,
+      "repaired_model_jvp_forward": 1,
+      "localization_native_model_forward": 1,
+      "localization_native_model_vjp": 1,
+      "localization_repaired_model_jvp": 1,
+      "layer_0_local_native_forward": 1,
+      "layer_0_local_native_vjp": 1,
+      "layer_1_local_native_forward": 1,
+      "layer_1_local_native_vjp": 1,
+      "layer_2_local_native_forward": 1,
+      "layer_2_local_native_vjp": 1,
+      "layer_3_local_native_forward": 1,
+      "layer_3_local_native_vjp": 1,
+      "layer_4_local_native_forward": 1,
+      "layer_4_local_native_vjp": 1,
+      "transposed_native_model_forward": 3,
+      "transposed_native_parameter_vjp": 3,
+      "transposed_native_grad_output_vjp": 1
+    },
+    "completed": {
+      "parent_runtime_initialization": 6,
+      "native_anchor_window_sampling": 6,
+      "control_native_forward": 1,
+      "control_native_parameter_vjp": 1,
+      "native_reverse_forward": 1,
+      "native_parameter_vjp": 1,
+      "ordinary_native_forward": 4,
+      "ordinary_native_parameter_vjp": 4,
+      "native_operator_aux_forward": 1,
+      "native_operator_qkv_vjp": 1,
+      "analytic_operator_tangent_query": 1,
+      "analytic_operator_tangent_key": 1,
+      "analytic_operator_tangent_value": 1,
+      "analytic_operator_tangent_joint": 1,
+      "scoped_ordinary_native_forward": 1,
+      "scoped_ordinary_native_parameter_vjp": 1,
+      "repaired_model_jvp_forward": 1,
+      "localization_native_model_forward": 1,
+      "localization_native_model_vjp": 1,
+      "localization_repaired_model_jvp": 1,
+      "layer_0_local_native_forward": 1,
+      "layer_0_local_native_vjp": 1,
+      "layer_1_local_native_forward": 1,
+      "layer_1_local_native_vjp": 1,
+      "layer_2_local_native_forward": 1,
+      "layer_2_local_native_vjp": 1,
+      "layer_3_local_native_forward": 1,
+      "layer_3_local_native_vjp": 1,
+      "layer_4_local_native_forward": 1,
+      "layer_4_local_native_vjp": 1,
+      "transposed_native_model_forward": 3,
+      "transposed_native_parameter_vjp": 2,
+      "transposed_native_grad_output_vjp": 1
+    }
+  },
+  "transpose_002": {
+    "native_primal_exact": true,
+    "first_vjp_tensors_compared": 58,
+    "exact_tensors": 3,
+    "different_tensors": 55,
+    "exact_parameter_names": [
+      "model.draft_model.layers.4.mlp.up_proj.weight",
+      "model.draft_model.layers.4.mlp.down_proj.weight",
+      "model.draft_model.norm.weight"
+    ],
+    "duality_status": "not_attempted",
+    "reason": "Native first-gradient identity gate failed."
+  },
+  "transpose_003": {
+    "native_primal_exact": true,
+    "native_first_gradient_tensors_exact": 58,
+    "full_duality": {
+      "passed": false,
+      "forward_dot": 21.291557381703647,
+      "native_backward_dot": 21.736547395977073,
+      "absolute_error": 0.44499001427342577,
+      "relative_error": 0.020471973132024777,
+      "cauchy_normalized_error": 0.00012444413037805224,
+      "tolerance": 0.34779475833563317,
+      "atol": 1e-05,
+      "rtol": 0.016,
+      "tangent_norm": 3576.2036393300855,
+      "cotangent_norm": 0.9998931827716023,
+      "native_gradient_norm": 21.737876377544804,
+      "direction_norm": 0.9999402915858251,
+      "direction": "normalized native J^T u, rounded to native dtype"
+    },
+    "full_duality_receipt_exactly_equals_repair_001": true,
+    "attention_scope": {
+      "passthrough_calls": 0,
+      "native_primal_forwards": 5,
+      "native_first_vjps": 5,
+      "cotangent_transposes": 5,
+      "query_tiles": 320,
+      "key_tiles": 2295,
+      "max_score_elements": 524288,
+      "last_precision_before": "none",
+      "derivative_fp32_precision": "ieee",
+      "derivative_autocast": false,
+      "last_precision_after": "none",
+      "precision_restored": true
+    },
+    "silu_scope": {
+      "passthrough_calls": 0,
+      "native_silu_forwards": 5,
+      "native_silu_first_vjps": 5,
+      "silu_cotangent_transposes": 5
+    },
+    "parameter_hessian_requested": false,
+    "excess_over_allowed_absolute_error": 0.0971952559377926
+  },
+  "safe_conclusions": [
+    "Derivative support and graph lifetime repairs allow full forward-mode and cotangent-transposed routes to execute on the fixed diagnostic.",
+    "Native SiLU repair restores all58 first-gradient tensors exactly on this diagnostic.",
+    "The final reverse route reproduces every retained whole-model duality scalar from repair_001, including failing2.0471973132% discrepancy; fixed1.6% gate remains failed.",
+    "Attention and shared-context merge are small contributors; remaining decoder-layer regions dominate the exactly reconstructed residual.",
+    "Evidence is consistent with finite-precision forward/reverse arithmetic disagreement but does not isolate a specific Linear/RMSNorm/kernel/reduction cause.",
+    "Candidate sensitivity, intervention, production and efficacy remain unmeasured."
+  ],
+  "unsupported_conclusions": [
+    "Small Cauchy-normalized error does not override the gate.",
+    "No universal impossibility, negative efficacy or exact per-primitive BF16 cause is established.",
+    "Do not say all six probes used one identical diagnostic direction: the retained reference applies to repair/localization/transpose checks; the original support probes have a separate purpose.",
+    "Identical scalar receipts do not establish bit-equality of unretained full tangent tensors.",
+    "No full candidate qualification or retrospective threshold change is justified."
+  ],
+  "postflight": {
+    "receipt_identity": {
+      "bytes": 2376,
+      "sha256": "b75ebde7dffa58ff08e9d8bf6d638aec40dc9f8cad2e2fcc65ad1d41f92968ab"
+    },
+    "inherited_file_identities_compared": 5,
+    "all_match_original_authenticated_bytes": true,
+    "free_bytes": 430119174144,
+    "reserve_margin_bytes": 30119174144,
+    "both_gpus_idle": true,
+    "old_artifacts_deleted": [],
+    "new_tensor_checkpoints": [],
+    "scope": "Independent comparison of root-collected postflight receipt against retained preflight and sealed feature identities; no new remote operations by reviewer."
+  },
+  "public_review": {
+    "scope": "Draft repair/REPORT.md and current scalar JSON copies",
+    "scalar_copy_files_byte_checked": 43,
+    "scalar_copy_mismatches": 0,
+    "ordinary_scientific_source_diff_vs_parent": [],
+    "payload_scan": "No prompt text, token sequences, anchor/keep arrays or WINDOW/SELECTION payloads published. Source snippets in POSTFLIGHT are code, not private prompts.",
+    "sampling_limit": "One fixed training window, only response1 tested; no holdout, no efficacy inference. Original unsupported probes have a different diagnostic construction from subsequent matched global comparisons.",
+    "wording_corrections_sent": [
+      "Restrict identical diagnostic direction claim to repair/localization/transpose checks.",
+      "The positive shared-context merge residual is subtracted in global reconstruction."
+    ]
+  }
+}

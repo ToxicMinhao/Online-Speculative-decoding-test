@@ -58,4 +58,15 @@ receipts and publish the exact limitation. Do not claim that the production
 trainer, full native coefficient sensitivity, disabled-path equivalence or
 serving comparison has been qualified.
 
-Current native outcome and remaining qualification: [report](../../reports/dflash_frontier_preservation_20261125/REPORT.md).
+Current native outcome: [bounded repair report](../../reports/dflash_frontier_preservation_20261125/repair/REPORT.md).
+The original unsupported-operation [failure report](../../reports/dflash_frontier_preservation_20261125/REPORT.md) remains historical evidence.
+The scoped attention/SiLU derivative now executes with exact native output and
+first gradients, but its full-model numerical consistency check still fails.
+Neither production nor a numerical-tolerance change is admitted.
+
+The repair entry point is `python -m experiments.frontier_preservation_pilot.repair_native --help`.
+It exposes fixed-input analytic, localization and cotangent-transpose diagnostics;
+`prepare`/`qualify` bind their prior receipts and cumulative costs. These are
+zero-update prerequisites, not alternate production trainers. Run only against
+the recorded source, state and plan; the retained failure does not authorize an
+automatic retry.

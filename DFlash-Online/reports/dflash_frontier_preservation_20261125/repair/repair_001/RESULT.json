@@ -1,0 +1,216 @@
+{
+  "schema": "frontier_native_derivative_repair_v1",
+  "status": "failed",
+  "execution_commit": "534f02da561bdd513974f448a12f4e68b8a8a093",
+  "parent_execution_commit": "416cb7931028621c09b8fa983e53fc8a7dcebaab",
+  "original_probe": "/data/sources/minhao/runs/dflash_frontier_preservation_20261125/execution_001/derivative_support_001",
+  "native_adam_steps": 0,
+  "full_coefficient_sensitivity_qualified": false,
+  "production_admitted": false,
+  "derivative_tolerance": {
+    "atol": 1e-05,
+    "rtol": 0.016
+  },
+  "diagnostic_seed": 20261125,
+  "derivative_model_reverse_graph": false,
+  "precision_policy": {
+    "float32_matmul_precision": "highest",
+    "cuda_matmul_allow_tf32": false,
+    "cudnn_allow_tf32": true,
+    "bf16_reduced_precision_reduction": true,
+    "global_precision_settings_changed": false
+  },
+  "model_responses_attempted": 1,
+  "model_responses_unattempted": 1,
+  "head_calls": 0,
+  "original_window_exact": true,
+  "operator": {
+    "native_primal_bit_equal": true,
+    "query_shape": [
+      1,
+      32,
+      8192,
+      128
+    ],
+    "key_shape": [
+      1,
+      8,
+      9205,
+      128
+    ],
+    "value_shape": [
+      1,
+      8,
+      9205,
+      128
+    ],
+    "dtype": "torch.bfloat16",
+    "full_native_block_mask": true,
+    "enable_gqa": true,
+    "scale": 0.08838834764831845,
+    "kernel_options": {
+      "BACKEND": "TRITON"
+    },
+    "lse_dtype": "torch.float32",
+    "lse_units": "natural logarithm from native AuxOutput",
+    "duality": {
+      "query": {
+        "passed": true,
+        "forward_dot": 1.1294542168916588,
+        "native_backward_dot": 1.1294640871285306,
+        "absolute_error": 9.870236871822868e-06,
+        "relative_error": 8.738867383482956e-06,
+        "cauchy_normalized_error": 8.068678727226762e-07,
+        "tolerance": 0.01808142539405649,
+        "atol": 1e-05,
+        "rtol": 0.016,
+        "tangent_norm": 12.234086434115087,
+        "cotangent_norm": 0.9998931827716023,
+        "native_gradient_norm": 2.040199522265655,
+        "direction_norm": 0.9999442796522467,
+        "direction": "normalized native J^T u, rounded to native dtype",
+        "tangent_accounting": {
+          "last_precision_before": "none",
+          "derivative_fp32_precision": "ieee",
+          "derivative_autocast": false,
+          "query_tiles": 64,
+          "key_tiles": 459,
+          "max_score_elements": 524288,
+          "last_precision_after": "none",
+          "precision_restored": true
+        }
+      },
+      "key": {
+        "passed": true,
+        "forward_dot": 1.6389173391282434,
+        "native_backward_dot": 1.6389256492474895,
+        "absolute_error": 8.310119246068837e-06,
+        "relative_error": 5.07046750405329e-06,
+        "cauchy_normalized_error": 6.156565981399345e-08,
+        "tolerance": 0.026232810387959833,
+        "atol": 1e-05,
+        "rtol": 0.016,
+        "tangent_norm": 134.99420017444933,
+        "cotangent_norm": 0.9998931827716023,
+        "native_gradient_norm": 2.040199522265655,
+        "direction_norm": 0.9999536081376523,
+        "direction": "normalized native J^T u, rounded to native dtype",
+        "tangent_accounting": {
+          "last_precision_before": "none",
+          "derivative_fp32_precision": "ieee",
+          "derivative_autocast": false,
+          "query_tiles": 64,
+          "key_tiles": 459,
+          "max_score_elements": 524288,
+          "last_precision_after": "none",
+          "precision_restored": true
+        }
+      },
+      "value": {
+        "passed": true,
+        "forward_dot": 0.44745979216302656,
+        "native_backward_dot": 0.44744596613634396,
+        "absolute_error": 1.3826026682595138e-05,
+        "relative_error": 3.089988005028103e-05,
+        "cauchy_normalized_error": 1.247969462492776e-06,
+        "tolerance": 0.007169135458181503,
+        "atol": 1e-05,
+        "rtol": 0.016,
+        "tangent_norm": 11.080001645710047,
+        "cotangent_norm": 0.9998931827716023,
+        "native_gradient_norm": 2.040199522265655,
+        "direction_norm": 0.9999074515365851,
+        "direction": "normalized native J^T u, rounded to native dtype",
+        "tangent_accounting": {
+          "last_precision_before": "none",
+          "derivative_fp32_precision": "ieee",
+          "derivative_autocast": false,
+          "query_tiles": 64,
+          "key_tiles": 459,
+          "max_score_elements": 524288,
+          "last_precision_after": "none",
+          "precision_restored": true
+        }
+      },
+      "joint": {
+        "passed": true,
+        "forward_dot": 2.03965994103494,
+        "native_backward_dot": 2.0396463517806525,
+        "absolute_error": 1.3589254287627028e-05,
+        "relative_error": 6.662554160805051e-06,
+        "cauchy_normalized_error": 1.2406288667598478e-07,
+        "tolerance": 0.03264434162849044,
+        "atol": 1e-05,
+        "rtol": 0.016,
+        "tangent_norm": 109.54691103286804,
+        "cotangent_norm": 0.9998931827716023,
+        "native_gradient_norm": 2.040199522265655,
+        "direction_norm": 0.9997300674137442,
+        "direction": "normalized native J^T u, rounded to native dtype",
+        "tangent_accounting": {
+          "last_precision_before": "none",
+          "derivative_fp32_precision": "ieee",
+          "derivative_autocast": false,
+          "query_tiles": 64,
+          "key_tiles": 459,
+          "max_score_elements": 524288,
+          "last_precision_after": "none",
+          "precision_restored": true
+        }
+      }
+    }
+  },
+  "physical_work_delta": {
+    "draft_forwards": 3,
+    "layer_forwards": 15
+  },
+  "peak_allocated_bytes": 22915739136,
+  "peak_reserved_bytes": 26675773440,
+  "work": {
+    "attempted": {
+      "parent_runtime_initialization": 1,
+      "native_anchor_window_sampling": 1,
+      "ordinary_native_forward": 1,
+      "ordinary_native_parameter_vjp": 1,
+      "native_operator_aux_forward": 1,
+      "native_operator_qkv_vjp": 1,
+      "analytic_operator_tangent_query": 1,
+      "analytic_operator_tangent_key": 1,
+      "analytic_operator_tangent_value": 1,
+      "analytic_operator_tangent_joint": 1,
+      "scoped_ordinary_native_forward": 1,
+      "scoped_ordinary_native_parameter_vjp": 1,
+      "repaired_model_jvp_forward": 1
+    },
+    "completed": {
+      "parent_runtime_initialization": 1,
+      "native_anchor_window_sampling": 1,
+      "ordinary_native_forward": 1,
+      "ordinary_native_parameter_vjp": 1,
+      "native_operator_aux_forward": 1,
+      "native_operator_qkv_vjp": 1,
+      "analytic_operator_tangent_query": 1,
+      "analytic_operator_tangent_key": 1,
+      "analytic_operator_tangent_value": 1,
+      "analytic_operator_tangent_joint": 1,
+      "scoped_ordinary_native_forward": 1,
+      "scoped_ordinary_native_parameter_vjp": 1,
+      "repaired_model_jvp_forward": 1
+    },
+    "pending": [],
+    "native_adam_steps": 0
+  },
+  "restoration": {
+    "status": "passed",
+    "exact_resume": true,
+    "mismatches": [],
+    "global_step": 128,
+    "presentations": 256,
+    "no_rng_reset": true,
+    "extra_model_passes": 0,
+    "extra_optimizer_steps": 0
+  },
+  "error": "ValueError('Repaired full-model primal or derivative failed its declared check')",
+  "traceback": "Traceback (most recent call last):\n  File \"/data/sources/minhao/frontier_preservation_source_20261125_002/DFlash-Online/experiments/frontier_preservation_pilot/repair_native.py\", line 367, in run_repair_probe\n    receipt['model'] = qualify_model(\n                       ^^^^^^^^^^^^^^\n  File \"/data/sources/minhao/frontier_preservation_source_20261125_002/DFlash-Online/experiments/frontier_preservation_pilot/repair_native.py\", line 260, in qualify_model\n    raise ValueError('Repaired full-model primal or derivative failed its declared check')\nValueError: Repaired full-model primal or derivative failed its declared check\n",
+  "wall_s": 45.89859085343778
+}

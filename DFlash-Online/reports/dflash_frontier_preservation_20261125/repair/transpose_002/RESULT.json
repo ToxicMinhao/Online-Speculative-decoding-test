@@ -1,0 +1,68 @@
+{
+  "schema": "frontier_native_derivative_repair_v1",
+  "status": "failed",
+  "execution_commit": "4540d6a70e2ad210bb0c1736cffedf94d3c73361",
+  "parent_execution_commit": "416cb7931028621c09b8fa983e53fc8a7dcebaab",
+  "original_probe": "/data/sources/minhao/runs/dflash_frontier_preservation_20261125/execution_001/derivative_support_001",
+  "native_adam_steps": 0,
+  "full_coefficient_sensitivity_qualified": false,
+  "production_admitted": false,
+  "derivative_tolerance": {
+    "atol": 1e-05,
+    "rtol": 0.016
+  },
+  "diagnostic_seed": 20261125,
+  "derivative_model_reverse_graph": true,
+  "precision_policy": {
+    "float32_matmul_precision": "highest",
+    "cuda_matmul_allow_tf32": false,
+    "cudnn_allow_tf32": true,
+    "bf16_reduced_precision_reduction": true,
+    "global_precision_settings_changed": false
+  },
+  "model_responses_attempted": 1,
+  "model_responses_unattempted": 1,
+  "head_calls": 0,
+  "localization_only": false,
+  "transposed_only": true,
+  "original_window_exact": true,
+  "physical_work_delta": {
+    "draft_forwards": 2,
+    "layer_forwards": 10
+  },
+  "peak_allocated_bytes": 44578497024,
+  "peak_reserved_bytes": 46158315520,
+  "work": {
+    "attempted": {
+      "parent_runtime_initialization": 1,
+      "native_anchor_window_sampling": 1,
+      "ordinary_native_forward": 1,
+      "ordinary_native_parameter_vjp": 1,
+      "transposed_native_model_forward": 1,
+      "transposed_native_parameter_vjp": 1
+    },
+    "completed": {
+      "parent_runtime_initialization": 1,
+      "native_anchor_window_sampling": 1,
+      "ordinary_native_forward": 1,
+      "ordinary_native_parameter_vjp": 1,
+      "transposed_native_model_forward": 1,
+      "transposed_native_parameter_vjp": 1
+    },
+    "pending": [],
+    "native_adam_steps": 0
+  },
+  "restoration": {
+    "status": "passed",
+    "exact_resume": true,
+    "mismatches": [],
+    "global_step": 128,
+    "presentations": 256,
+    "no_rng_reset": true,
+    "extra_model_passes": 0,
+    "extra_optimizer_steps": 0
+  },
+  "error": "ValueError('Cotangent-transpose wrapper changed the native first VJP')",
+  "traceback": "Traceback (most recent call last):\n  File \"/data/sources/minhao/frontier_preservation_source_20261125_005/DFlash-Online/experiments/frontier_preservation_pilot/repair_native.py\", line 480, in run_repair_probe\n    receipt['model'] = qualify_transposed_model(\n                       ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/data/sources/minhao/frontier_preservation_source_20261125_005/DFlash-Online/experiments/frontier_preservation_pilot/repair_native.py\", line 334, in qualify_transposed_model\n    raise ValueError('Cotangent-transpose wrapper changed the native first VJP')\nValueError: Cotangent-transpose wrapper changed the native first VJP\n",
+  "wall_s": 36.97699308767915
+}

@@ -1,0 +1,25 @@
+{
+  "attempted": {
+    "parent_runtime_initialization": 1,
+    "native_anchor_window_sampling": 1,
+    "control_native_forward": 1,
+    "control_native_parameter_vjp": 1,
+    "native_forward_ad_forward": 1,
+    "native_reverse_forward": 1,
+    "native_parameter_vjp": 1,
+    "native_grad_output_vjp": 1
+  },
+  "completed": {
+    "parent_runtime_initialization": 1,
+    "native_anchor_window_sampling": 1,
+    "control_native_forward": 1,
+    "control_native_parameter_vjp": 1,
+    "native_reverse_forward": 1,
+    "native_parameter_vjp": 1
+  },
+  "pending": [
+    "native_forward_ad_forward",
+    "native_grad_output_vjp"
+  ],
+  "native_adam_steps": 0
+}
