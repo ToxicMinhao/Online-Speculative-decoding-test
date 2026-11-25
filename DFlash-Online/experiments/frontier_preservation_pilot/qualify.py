@@ -62,6 +62,9 @@ def verify_original_records(plan):
     required = {plan['original_clock'], plan['original_process']}
     required.update(str(Path(plan['original_probe']) / name)
                     for name in ('RESULT.json', 'WINDOW.json'))
+    if plan.get('failed_repair'):
+        required.update(str(Path(plan['failed_repair']) / name)
+                        for name in ('RESULT.json', 'MODEL.json', 'OPERATOR.json'))
     if not required <= plan['prior_record_identities'].keys():
         raise ValueError('Repair plan omits an original clock, process, result or window binding')
     for path, expected in plan['prior_record_identities'].items():
@@ -90,9 +93,12 @@ def stop_child(child):
 def qualify(plan_path):
     plan = json.loads(Path(plan_path).read_text())
     root = Path(plan['root'])
-    repair = plan['allowed_phase'] == 'native_derivative_repair_only'
+    localization = plan['allowed_phase'] == 'native_derivative_localization_only'
+    repair = plan['allowed_phase'] in ('native_derivative_repair_only',
+                                      'native_derivative_localization_only')
     if plan['status'] != 'admitted' or plan['allowed_phase'] not in (
-        'native_derivative_prerequisite_only', 'native_derivative_repair_only'
+        'native_derivative_prerequisite_only', 'native_derivative_repair_only',
+        'native_derivative_localization_only',
     ):
         raise ValueError('Require an admitted derivative-only plan')
     verify_source(plan)
@@ -109,7 +115,7 @@ def qualify(plan_path):
         verify_original_records(plan)
         clock_state = json.loads(Path(plan['original_clock']).read_text())
         previous = json.loads(Path(plan['original_process']).read_text())
-        prior_card_s = previous['occupied_card_s']
+        prior_card_s = previous.get('cumulative_occupied_card_s', previous['occupied_card_s'])
     else:
         clock_state = dict(first_gpu_action_epoch=time.time(), elapsed_limit_s=14400,
                            occupied_card_limit_s=28800, scope='one-card native derivative child')
@@ -126,6 +132,8 @@ def qualify(plan_path):
                '--execution-commit', plan['execution_commit']]
     if repair:
         command.extend(['--original-probe', plan['original_probe']])
+    if localization:
+        command.extend(['--localize', '--failed-repair', plan['failed_repair']])
     started = time.perf_counter()
     reason = None
     last_storage_check = 0.

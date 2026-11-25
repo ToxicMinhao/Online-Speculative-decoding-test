@@ -261,7 +261,9 @@ def qualify_model(module, response, parameters, baseline, cotangent, gradients, 
     return receipt
 
 
-def run_repair_probe(parent_plan, original_probe, output, execution_commit):
+def run_repair_probe(
+    parent_plan, original_probe, output, execution_commit, *, localize=False, failed_repair=None
+):
     output = Path(output)
     output.mkdir(parents=True, exist_ok=False)
     original_probe = Path(original_probe)
@@ -287,6 +289,7 @@ def run_repair_probe(parent_plan, original_probe, output, execution_commit):
         model_responses_attempted=0,
         model_responses_unattempted=2,
         head_calls=0,
+        localization_only=localize,
     )
     result_path = output / 'RESULT.json'
     work = WorkReceipt(output / 'WORK.json')
@@ -356,25 +359,40 @@ def run_repair_probe(parent_plan, original_probe, output, execution_commit):
             receipt['model_responses_attempted'] = 1
             receipt['model_responses_unattempted'] = 1
             write_json(result_path, receipt)
-            with capture_first_attention() as captured:
-                baseline, cotangent, gradients = native_model_vjp(
-                    module, responses[0], parameters, work, 'ordinary_native'
+            if localize:
+                from .localize_native import run_localization
+
+                if failed_repair is None:
+                    raise ValueError('Localization requires the retained failed repair path')
+                receipt['localization'] = run_localization(
+                    module,
+                    responses[0],
+                    parameters,
+                    work,
+                    output,
+                    failed_repair,
                 )
-            receipt['operator'] = qualify_operator(captured, work, output / 'OPERATOR.json')
-            del captured
-            gc.collect()
-            torch.cuda.empty_cache()
-            receipt['model'] = qualify_model(
-                module,
-                responses[0],
-                parameters,
-                baseline,
-                cotangent,
-                gradients,
-                work,
-                output / 'MODEL.json',
-            )
-            receipt['status'] = 'repaired_native_derivative_qualified'
+                receipt['status'] = 'native_derivative_localization_completed'
+            else:
+                with capture_first_attention() as captured:
+                    baseline, cotangent, gradients = native_model_vjp(
+                        module, responses[0], parameters, work, 'ordinary_native'
+                    )
+                receipt['operator'] = qualify_operator(captured, work, output / 'OPERATOR.json')
+                del captured
+                gc.collect()
+                torch.cuda.empty_cache()
+                receipt['model'] = qualify_model(
+                    module,
+                    responses[0],
+                    parameters,
+                    baseline,
+                    cotangent,
+                    gradients,
+                    work,
+                    output / 'MODEL.json',
+                )
+                receipt['status'] = 'repaired_native_derivative_qualified'
         finally:
             receipt['physical_work_delta'] = {
                 key: value - initial_work.get(key, 0) for key, value in trainer.work.items()
@@ -408,8 +426,15 @@ if __name__ == '__main__':
     parser.add_argument('--original-probe', required=True)
     parser.add_argument('--output', required=True)
     parser.add_argument('--execution-commit', required=True)
+    parser.add_argument('--localize', action='store_true')
+    parser.add_argument('--failed-repair')
     args = parser.parse_args()
     result = run_repair_probe(
-        args.parent_plan, args.original_probe, args.output, args.execution_commit
+        args.parent_plan,
+        args.original_probe,
+        args.output,
+        args.execution_commit,
+        localize=args.localize,
+        failed_repair=args.failed_repair,
     )
     print(json.dumps({key: result[key] for key in ('status', 'native_adam_steps', 'wall_s')}))

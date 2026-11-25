@@ -18,7 +18,8 @@ FULL_INPUTS = Path('/data/sources/minhao/runs/dflash_opencode_native_comparison_
 INPUT_IDENTITY = dict(bytes=32309622, sha256='df7194e667126f34f8e2ab2f6e22e2e5480cd7921728ceb4f946bd3a0cce6581')
 
 
-def prepare(parent_plan, root, source_manifest, execution_commit, original_run=None):
+def prepare(parent_plan, root, source_manifest, execution_commit, original_run=None,
+            failed_repair=None):
     root = Path(root)
     root.mkdir(parents=True, exist_ok=False)
     parent, recovery, selected = select_parent(parent_plan)
@@ -72,6 +73,32 @@ def prepare(parent_plan, root, source_manifest, execution_commit, original_run=N
             prospective_duality_criterion=dict(atol=1e-5, rtol=0.016),
             prospective_primal_and_ordinary_backward='exact equality',
         )
+    if failed_repair is not None:
+        if original_run is None:
+            raise ValueError('Localization requires the original qualification clock')
+        failed_repair = Path(failed_repair)
+        failed_probe = failed_repair / 'derivative_support_001'
+        failed_model = json.loads((failed_probe / 'MODEL.json').read_text())
+        failed_result = json.loads((failed_probe / 'RESULT.json').read_text())
+        failed_plan = json.loads((failed_repair / 'PLAN.json').read_text())
+        failed_process = json.loads((failed_repair / 'QUALIFICATION_PROCESS.json').read_text())
+        if (failed_result['status'] != 'failed' or failed_result['native_adam_steps'] != 0
+                or not failed_model['native_primal_bit_equal']
+                or not failed_model['ordinary_backward_bit_equal']
+                or failed_model['duality']['passed']):
+            raise ValueError('Localization requires the retained finite derivative discrepancy')
+        records = [failed_repair / name for name in ('PLAN.json', 'QUALIFICATION_PROCESS.json')]
+        records.extend(failed_probe / name for name in ('RESULT.json', 'MODEL.json', 'OPERATOR.json'))
+        plan['prior_record_identities'].update({str(path): identity(path) for path in records})
+        plan['prior_charged_roots'].extend(
+            [str(failed_repair), str(Path(failed_plan['source_manifest']).parent)])
+        plan.update(
+            allowed_phase='native_derivative_localization_only',
+            failed_repair=str(failed_probe),
+            original_process=str(failed_repair / 'QUALIFICATION_PROCESS.json'),
+            prior_occupied_card_s=failed_process['cumulative_occupied_card_s'],
+            qualification_acceptance_changed=False,
+        )
     write_json(root / 'PLAN.json', plan)
     if plan['status'] != 'admitted':
         raise RuntimeError('Derivative-only resource admission failed; production is not admitted')
@@ -85,7 +112,8 @@ if __name__ == '__main__':
     parser.add_argument('--source-manifest', required=True)
     parser.add_argument('--execution-commit', required=True)
     parser.add_argument('--original-run')
+    parser.add_argument('--failed-repair')
     args = parser.parse_args()
     plan = prepare(args.parent_plan, args.root, args.source_manifest, args.execution_commit,
-                   args.original_run)
+                   args.original_run, args.failed_repair)
     print(json.dumps({key: plan[key] for key in ('status', 'free_bytes', 'production_admitted')}))
