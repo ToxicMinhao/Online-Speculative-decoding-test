@@ -1,0 +1,551 @@
+{
+  "schema": "pair_one_event_production_identities_v1",
+  "status": "passed",
+  "execution_commit": "416cb7931028621c09b8fa983e53fc8a7dcebaab",
+  "scientific_base_commit": "1551e5e5d0dd7736d8441977aa3dea250535da7b",
+  "reviewed_parent_publication_commit": "e38c942b5f607bb0b816cb05f3535a78c48110ec",
+  "qualified_execution_commit": "79b8c076610e9b4d310169b3891cb76ac6d0f9bb",
+  "plan_binding": "b120c76b0036b4786eb6b9d11b1594ec1dc6e57e3d20c9ed931924262b1c072a",
+  "source": {
+    "manifest": {
+      "bytes": 937003,
+      "sha256": "96dc2cd589489ced49d93e0ff628352874ab4d77cd74a4d673fbb82a6cb8b323"
+    },
+    "authenticated_files": 5062,
+    "scientific_dependencies_unchanged": true,
+    "scientific_files": {
+      "online_feedback/objective.py": {
+        "bytes": 35361,
+        "sha256": "f2833b3046bca3bf170a847b04bafda2c2661b94e8323ced0911a645c09b84b8"
+      },
+      "online_feedback/repair_conditional_kl.py": {
+        "bytes": 6668,
+        "sha256": "9adc501649e1873ee708346c8aa4675163cd75308e7287ade7771bf16fd49fe8"
+      },
+      "online_feedback/kplus.py": {
+        "bytes": 6292,
+        "sha256": "218faa074d42676905da26dc4c49e835e4d6e19cd324409f7e9ea07357730872"
+      },
+      "online_feedback/prefix_allocation.py": {
+        "bytes": 9544,
+        "sha256": "581234d69a25480285cc375c84a451b498cd28c9f36136e0ae8779ea80641bb9"
+      },
+      "online_feedback/training.py": {
+        "bytes": 35690,
+        "sha256": "315db6b9a494c3cebf1b8e3f23ff9193ffac15ad546399ced7644ffc20097c2b"
+      },
+      "experiments/repair_conditional_kl_pilot/training.py": {
+        "bytes": 17364,
+        "sha256": "2766ab5799d8fe32eb8f95a64208f055922a0bd6dd63f69bf2bf85d6cba2c884"
+      },
+      "experiments/repair_conditional_kl_pilot/configuration.py": {
+        "bytes": 1177,
+        "sha256": "c95c341596e0aa4c8d3ca465ff4b2fa03826f11c03be19059c5b7415ec3ae57d"
+      }
+    },
+    "changed_runtime_scope": "Only reviewed orchestration, storage and no-grad witness logging; scientific objective, trainer and configuration unchanged from qualified PR58.",
+    "reviewed_plumbing_files": [
+      "experiments/repair_conditional_kl_pilot/campaign.py",
+      "experiments/repair_conditional_kl_pilot/prepare_production.py",
+      "experiments/repair_conditional_kl_pilot/production.py",
+      "experiments/repair_conditional_kl_pilot/production_storage.py",
+      "experiments/repair_conditional_kl_pilot/resources.py",
+      "experiments/repair_conditional_kl_pilot/test_prepare_production.py",
+      "experiments/repair_conditional_kl_pilot/test_production.py",
+      "experiments/repair_conditional_kl_pilot/test_production_storage.py",
+      "experiments/repair_conditional_kl_pilot/test_witness.py",
+      "experiments/repair_conditional_kl_pilot/witness.py"
+    ]
+  },
+  "sealed_files": {
+    "INPUTS.json": {
+      "bytes": 1584804,
+      "sha256": "8ac762f5c318c7381ce71ef832d0df700a147deb588d66d0a844724b6bafefea"
+    },
+    "CANONICALS.json": {
+      "bytes": 1457446,
+      "sha256": "91be4cd690146d9798740e5650cdb8fd539d6127aa5f15d807df4c6356316761"
+    },
+    "WARMUP_CANONICALS.json": {
+      "bytes": 24422,
+      "sha256": "09099b13feae49b6361343a764632dfdcaef0e2272bce00a22d13b1806ceb03c"
+    },
+    "ORIGINAL_CONFIG.yaml": {
+      "bytes": 1517,
+      "sha256": "f71fb286701392e0c80af0915be406c3ccf71b2c15b612f9757357bea7fcf081"
+    },
+    "BASE.yaml": {
+      "bytes": 1522,
+      "sha256": "7053d48249ec06cf391055fbbea326e97365edc6a8069789a8b0880be5131d37"
+    },
+    "PAIR.yaml": {
+      "bytes": 1522,
+      "sha256": "f39e6283b314d524457bba624a8d461d2f97e89081929d4a5178aba8db1028c5"
+    },
+    "MODEL_PIN.json": {
+      "bytes": 3397,
+      "sha256": "197e71a9be3bf5410d76de09eb53135e7c446b37e2530fb81d106e15bbdb9a05"
+    },
+    "RUNTIME_PIN.json": {
+      "bytes": 2792,
+      "sha256": "53c15d9d0770a000ce7f510c84c7fa83c564d6fa36903163c485041bc03b97ec"
+    },
+    "TRAINING_PIN.json": {
+      "bytes": 246,
+      "sha256": "7526acdf471c0867267c6de09e60a6a1c2474b35a26f3fa376af84d2b7e0f512"
+    },
+    "QUALIFICATION_REUSE.json": {
+      "bytes": 26271,
+      "sha256": "0ce4bcd1ccb209c1fe1cab7dbb89abb1754dae8dc46c6bd1bf20c757bce3ce6f"
+    }
+  },
+  "sealed_plan": {
+    "bytes": 44647,
+    "sha256": "20c842e89ff7175c0fd886c972ba92a88d7c7a5cd96bb93f6b2f2bd669b14731"
+  },
+  "inputs": {
+    "dataset": "OpenCodeInstruct",
+    "selection": "First 128 training and first 128 held-out requests from the retained ordered PR56 manifest; existing two warmups.",
+    "train_requests": 128,
+    "evaluation_requests": 128,
+    "warmup_requests": 2,
+    "retained_qualification_requests_not_executed": 2,
+    "distinct_input_count": 260,
+    "prior_PR56_artifacts": {
+      "sealed/INPUTS.json": {
+        "bytes": 32309622,
+        "sha256": "df7194e667126f34f8e2ab2f6e22e2e5480cd7921728ceb4f946bd3a0cce6581"
+      },
+      "sealed/ORIGINAL_CONFIG.yaml": {
+        "bytes": 1517,
+        "sha256": "f71fb286701392e0c80af0915be406c3ccf71b2c15b612f9757357bea7fcf081"
+      },
+      "sealed/MODEL_PIN.json": {
+        "bytes": 3397,
+        "sha256": "197e71a9be3bf5410d76de09eb53135e7c446b37e2530fb81d106e15bbdb9a05"
+      },
+      "sealed/RUNTIME_PIN.json": {
+        "bytes": 2792,
+        "sha256": "53c15d9d0770a000ce7f510c84c7fa83c564d6fa36903163c485041bc03b97ec"
+      },
+      "sealed/TRAINING_PIN.json": {
+        "bytes": 246,
+        "sha256": "7526acdf471c0867267c6de09e60a6a1c2474b35a26f3fa376af84d2b7e0f512"
+      },
+      "precheck/CANONICALS.json": {
+        "bytes": 26367667,
+        "sha256": "87fbb1714d69a44d8480e6e167213f59f30140042f5a9bf639bbb81449589d46"
+      },
+      "qualification_policy_001/WARMUP_CANONICALS.json": {
+        "bytes": 55246,
+        "sha256": "f005a05c0686a350600d6cde69e3fb16b5de541ceabea462c09841eb6591063f"
+      },
+      "precheck/AR_F_PRECHECK.json": {
+        "bytes": 274,
+        "sha256": "20ef6a0f3da07ed033d1fd31f30eae7f79c95f197571eef3f5fa6cca7e644303"
+      }
+    },
+    "canonical_policy": "Every speculative output matches existing frozen-F canonical"
+  },
+  "models": {
+    "target": {
+      "repository": "Qwen/Qwen3-8B",
+      "revision": "b968826d9c46dd6066d109eabc6255188de91218",
+      "files": {
+        ".gitattributes": {
+          "bytes": 1570,
+          "sha256": "34448b82c17d60fec9b65b1f093c115ddbaadc04beb1b0140b6bfed2e012a930"
+        },
+        "LICENSE": {
+          "bytes": 11343,
+          "sha256": "832dd9e00a68dd83b3c3fb9f5588dad7dcf337a0db50f7d9483f310cd292e92e"
+        },
+        "README.md": {
+          "bytes": 16660,
+          "sha256": "0f36caaff9c2516411a7738db384606263ba653c1e63e61d72f511606164d5a6"
+        },
+        "config.json": {
+          "bytes": 728,
+          "sha256": "f7c4eadfbbf522470667b797a3c89be2524832d2d599797248dc304fff447c30"
+        },
+        "generation_config.json": {
+          "bytes": 239,
+          "sha256": "2325da0f15bb848e018c5ae071b7943332e9f871d6b60e2ed22ca97d4cb993d2"
+        },
+        "merges.txt": {
+          "bytes": 1671853,
+          "sha256": "8831e4f1a044471340f7c0a83d7bd71306a5b867e95fd870f74d0c5308a904d5"
+        },
+        "model-00001-of-00005.safetensors": {
+          "bytes": 3996250744,
+          "sha256": "31d6a825ae35f11fb85b195b4c42c146c051e446433125a215336abdf95cbf5f"
+        },
+        "model-00002-of-00005.safetensors": {
+          "bytes": 3993160032,
+          "sha256": "5991236cea6fe21f3d43cab0f0e84448734fbbe0789816202989f2ddc9d18282"
+        },
+        "model-00003-of-00005.safetensors": {
+          "bytes": 3959604768,
+          "sha256": "c5185c4794be2d8a9784d5753c9922db38df478ce11f9ed0b415b7304d896836"
+        },
+        "model-00004-of-00005.safetensors": {
+          "bytes": 3187841392,
+          "sha256": "b5ee7de71fbf17db3d5704e0c8f2bc7d005ca9e1d7ca2aeb19827b0cfcaa917a"
+        },
+        "model-00005-of-00005.safetensors": {
+          "bytes": 1244659840,
+          "sha256": "20c2d6366ab85c90786ccdd829cd2b9e7d30ef3b2ebbb998280e7e4014b542ff"
+        },
+        "model.safetensors.index.json": {
+          "bytes": 32878,
+          "sha256": "f9fdbcb91c23971c13ec5d5f2573d2349e8f61f2f049371ec699281748fdb1bc"
+        },
+        "tokenizer.json": {
+          "bytes": 11422654,
+          "sha256": "aeb13307a71acd8fe81861d94ad54ab689df773318809eed3cbe794b4492dae4"
+        },
+        "tokenizer_config.json": {
+          "bytes": 9732,
+          "sha256": "d5d09f07b48c3086c508b30d1c9114bd1189145b74e982a265350c923acd8101"
+        },
+        "vocab.json": {
+          "bytes": 2776833,
+          "sha256": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910"
+        }
+      },
+      "total_bytes": 16397461266
+    },
+    "draft": {
+      "repository": "z-lab/Qwen3-8B-DFlash-b16",
+      "revision": "9b41424b7109f9c5413454f481b09a82b85333f4",
+      "files": {
+        "config.json": {
+          "bytes": 1099,
+          "sha256": "9834d608c9ca53d5548b415471ae9e8ebc9aab6cedfc2a7af95b6bd097373102"
+        },
+        "dflash.py": {
+          "bytes": 12340,
+          "sha256": "17ab761ba665a41965b27bdc3a1c6795d1b07b285ec1f0789ad146f2ee9c1cc5"
+        },
+        "model.safetensors": {
+          "bytes": 2097259104,
+          "sha256": "c702878094f38ad5843e6ac40b327720b3147ffbf669a5d9ca1974865ca6c080"
+        },
+        "modeling_dflash.py": {
+          "bytes": 13271,
+          "sha256": "d2b61a1fa5d469830c2285b552d75773274943fae5ac66dc2713beddea338528"
+        },
+        "utils.py": {
+          "bytes": 5731,
+          "sha256": "00b91431932c94b87443d9e2c0cf4d743846bd6c9666c9c736008df7bbd0faf1"
+        }
+      },
+      "total_bytes": 2097291545
+    }
+  },
+  "runtime": {
+    "training": {
+      "environment": {
+        "python": "3.12.15",
+        "torch": "2.13.0+cu130",
+        "transformers": "5.12.1"
+      },
+      "author_commit": "1839aae30003e3573d00979eb1edd57347b3578c",
+      "compatibility_changes": [
+        "scripts/prepare_hidden_states.py"
+      ]
+    },
+    "serving": {
+      "python_version": "3.12.14",
+      "torch": "2.9.1+cu130",
+      "transformers": "4.57.1",
+      "cuda": "13.0",
+      "native_runtime_sha256": {
+        "speculative/dflash_worker.py": "9397402f5cfbf60b00b7d27d551e5e9e1b605be9b084d028d4ddda76c475dc8c",
+        "speculative/dflash_info.py": "9c7ac23a1bf0840eec8218f02f2adbfc3e419099cd19822137ce5c6e0e902218",
+        "layers/logits_processor.py": "5c6c54bec37b941652e29908c773a756fe6c86f99932ab80043672a1eaa0f086",
+        "models/qwen3.py": "e23ee8af21eac46685852854a5fe585cf58477d4a1f8047887d6afeefaf8e32d",
+        "models/dflash.py": "d4fcfe005a1acc51a4938d038e1dbc1a2c8ff245842f4253338527335b2327b2",
+        "entrypoints/engine.py": "2bcd4b04c325d4ed65f867490c5bac9e915e02f05471c83dacb5a4a097cf1f2a",
+        "server_args.py": "bd60199803698e4ffe6dc44499a8d42be73f42db28056cb6750411523cf56c04"
+      }
+    },
+    "hardware": "Two NVIDIA A800 80GB PCIe",
+    "training_attention": "flex_attention",
+    "serving_attention": "fa3",
+    "source_imports_checked": true,
+    "cpu_preflight_cuda_initialized": false
+  },
+  "configuration": {
+    "training": {
+      "strategy": "dflash",
+      "num_epochs": 1,
+      "max_steps": 7424,
+      "batch_size": 1,
+      "accumulation_steps": 2,
+      "fsdp_sharding": "NO_SHARD",
+      "optimizer_cpu_offload": false,
+      "learning_rate": 0.0003,
+      "lr_scheduler": "constant",
+      "warmup_ratio": 0.0,
+      "max_grad_norm": 1.0,
+      "attention_backend": "flex_attention",
+      "num_anchors": 512,
+      "objective_chunk_blocks": 8,
+      "loss_type": "dflash",
+      "lk_loss_type": null,
+      "loss_decay_gamma": 7.0,
+      "log_interval": 1,
+      "dist_timeout": 30,
+      "seed": 17
+    },
+    "online_feedback": {
+      "responses_per_event": 128,
+      "passes_per_event": 2,
+      "max_events": 58,
+      "optimizer": "bf16_adamw",
+      "weight_decay": 0.01,
+      "shuffle_responses": true,
+      "kl_precision": "bfloat16"
+    },
+    "model_precision": "bfloat16",
+    "use_liger_kernel": false,
+    "max_length": 4096,
+    "draft_layers": 5,
+    "serving": {
+      "precision": "bfloat16",
+      "attention": "fa3",
+      "greedy": true,
+      "draft_layers": 5,
+      "block_size": 16,
+      "max_new_tokens": 2048,
+      "context_limit": 4096,
+      "physical_context_length": 4112,
+      "concurrency": 1,
+      "feedback_capture": false,
+      "cuda_graphs": true
+    },
+    "independent_production_event_limit": 1,
+    "inherited_horizon_note": "7424 optimizer horizon and configuration max_events=58 are preserved; a separate one-event guard limits this campaign.",
+    "arms": {
+      "BASE": "Native full C+K+",
+      "PAIR": "Identical C+K+ plus qualified FP32 first-error conditional pair KL; coefficient 1-mu."
+    },
+    "serving_settings_scope": "Capture=false is the scored/warmup evaluation policy; own-feedback collection enables native capture."
+  },
+  "qualification_reuse": {
+    "status": "reused_passed",
+    "qualified_execution_commit": "79b8c076610e9b4d310169b3891cb76ac6d0f9bb",
+    "reviewed_publication_commit": "e38c942b5f607bb0b816cb05f3535a78c48110ec",
+    "qualified_plan_binding": "80ff86a4e62e442e0e78138a69f8167d5f28e1222d33d4038aa01af7f5756874",
+    "optimizer_steps_executed": 0,
+    "model_forwards_executed": 0,
+    "generations_executed": 0,
+    "fresh_production_origin_required": true,
+    "qualification_states_are_not_origins": true
+  },
+  "validation": {
+    "BASE": {
+      "released_origin": {
+        "status": "passed",
+        "global_step": 0,
+        "presentations": 0,
+        "adam_state_entries": 0,
+        "cuda_rng_states": 1,
+        "export_exact": true,
+        "actual_state_unchanged": true
+      },
+      "startup_restoration": {
+        "exact_equal": true,
+        "compared_tensors": 65,
+        "compared_coordinates": 1048632384
+      },
+      "final_boundary": {
+        "status": "passed",
+        "completed_event": 1,
+        "global_step": 128,
+        "presentations": 256,
+        "adam_state_entries": 58,
+        "cuda_rng_states": 1,
+        "export_exact": true,
+        "actual_state_unchanged": true
+      },
+      "exact_live_state_check": {
+        "status": "passed",
+        "exact_resume": true,
+        "no_rng_reset": true,
+        "extra_model_passes": 0,
+        "extra_optimizer_steps": 0
+      },
+      "native_publication": {
+        "status": "passed",
+        "all_equal": true,
+        "tensors": 58,
+        "source_tensor_count": 58,
+        "native_tensor_count": 43,
+        "helper_matches_current_layers": true,
+        "helper_norm_matches_current_layers": true,
+        "fused_enabled": true
+      },
+      "receipt_identities": {
+        "STATUS.json": {
+          "bytes": 343377,
+          "sha256": "0dc719a749642efdf5737d7c278a76989ce8c087bacf665b1d13723814f738ce"
+        },
+        "trainer/INITIAL_CHECK.json": {
+          "bytes": 426,
+          "sha256": "ebc4e2a449323ef628d5ae22bb28dfd27642269eaa36a11d14d2e82356d5a7a1"
+        },
+        "FINAL_STATE_CHECK.json": {
+          "bytes": 527,
+          "sha256": "bb812c6b92ffbd2a0bcb086761bce87d157995ca873abe3fcbc355f07b573f21"
+        },
+        "startup/EXACT_RESTORATION.json": {
+          "bytes": 10829,
+          "sha256": "ae5bd8885513f9187f877fa83ed0282db24418bcf88974c3e0f3acfc892dcb55"
+        },
+        "PUBLICATION_CHECK.json": {
+          "bytes": 3535,
+          "sha256": "0196d8dcad2e176417e038e444473946520881eb285ddc379a3023ed3251298f"
+        }
+      }
+    },
+    "PAIR": {
+      "released_origin": {
+        "status": "passed",
+        "global_step": 0,
+        "presentations": 0,
+        "adam_state_entries": 0,
+        "cuda_rng_states": 1,
+        "export_exact": true,
+        "actual_state_unchanged": true
+      },
+      "startup_restoration": {
+        "exact_equal": true,
+        "compared_tensors": 65,
+        "compared_coordinates": 1048632384
+      },
+      "final_boundary": {
+        "status": "passed",
+        "completed_event": 1,
+        "global_step": 128,
+        "presentations": 256,
+        "adam_state_entries": 58,
+        "cuda_rng_states": 1,
+        "export_exact": true,
+        "actual_state_unchanged": true
+      },
+      "exact_live_state_check": {
+        "status": "passed",
+        "exact_resume": true,
+        "no_rng_reset": true,
+        "extra_model_passes": 0,
+        "extra_optimizer_steps": 0
+      },
+      "native_publication": {
+        "status": "passed",
+        "all_equal": true,
+        "tensors": 58,
+        "source_tensor_count": 58,
+        "native_tensor_count": 43,
+        "helper_matches_current_layers": true,
+        "helper_norm_matches_current_layers": true,
+        "fused_enabled": true
+      },
+      "receipt_identities": {
+        "STATUS.json": {
+          "bytes": 170888,
+          "sha256": "2932efe06f834c3ca69a59c11a62c2cc1176e12639a9f0fb95a10cce47243fd9"
+        },
+        "trainer/INITIAL_CHECK.json": {
+          "bytes": 555,
+          "sha256": "f933886de48fc3559c939a3818651c7969cfe42dc572104a40cf05913a674d25"
+        },
+        "FINAL_STATE_CHECK.json": {
+          "bytes": 527,
+          "sha256": "6509a4ba33522735a901063158027841f48d46282fb76da6ea0aa68e22e4de40"
+        },
+        "startup/EXACT_RESTORATION.json": {
+          "bytes": 10829,
+          "sha256": "5722dd2c02aefcebe8493acd9505fc87494641728d89973761806dd53fdb52b8"
+        },
+        "PUBLICATION_CHECK.json": {
+          "bytes": 3532,
+          "sha256": "a9f4ca93db0d09d781d4a89878f9284af084f1d5b6b3138a6943282876f1a542"
+        }
+      },
+      "paired_origin": {
+        "status": "passed",
+        "exact_weights_empty_Adam_RNG": true,
+        "rng_overwritten": false
+      }
+    }
+  },
+  "final_artifacts": {
+    "BASE": {
+      "export": {
+        "relative_path": "arms/BASE/trainer/events/event_001/export/model.safetensors",
+        "bytes": 2097259104,
+        "sha256": "1ce7e2f58c11ecebcdb9a1448a50f437bdfefab191ffea2aa88b2471d6581fe3"
+      },
+      "recovery": {
+        "relative_path": "arms/BASE/trainer/training_state.pt",
+        "bytes": 6296311963,
+        "sha256": "1d096c45cbe2fffb1b34c1449ecf6abfbb48978dc47ed252386af02936ee9018"
+      },
+      "recovery_size_gate": {
+        "status": "passed",
+        "bytes": 6296311963,
+        "maximum_bytes": 6791777312
+      }
+    },
+    "PAIR": {
+      "export": {
+        "relative_path": "arms/PAIR/trainer/events/event_001/export/model.safetensors",
+        "bytes": 2097259104,
+        "sha256": "1556409004f7c73c0007c1f01764d4fd1dd189827994596939597be43b2d21b2"
+      },
+      "recovery": {
+        "relative_path": "arms/PAIR/trainer/training_state.pt",
+        "bytes": 6296473051,
+        "sha256": "728770a7abf0ba3ef96805ef760997976ad7bedbbee1d8debe165e785a4d98a2"
+      },
+      "recovery_size_gate": {
+        "status": "passed",
+        "bytes": 6296473051,
+        "maximum_bytes": 6791777312
+      }
+    }
+  },
+  "retrieval": {
+    "compact_manifest": {
+      "bytes": 799686,
+      "sha256": "7d172166c544f8e4697bae4782536fb2b26509268754ff23b9ef25094937516b"
+    },
+    "compact_files": 3735,
+    "compact_payload_bytes": 548656509,
+    "supplemental_configuration_receipt": {
+      "bytes": 1485,
+      "sha256": "627d54e37bd583a9535b4415366a11f8d53e94a6bf28477493d3c8643335d22c"
+    },
+    "supplemental_configuration_files": 3,
+    "supplemental_configs_verified_against_sealed_plan": true,
+    "original_compact_manifest_unchanged": true
+  },
+  "report_evidence": {
+    "cpu_preflight": {
+      "bytes": 4727,
+      "sha256": "51ab343bd039bcedc6a77d8882fb9e32167d20989f361e7578663b73585e22c4"
+    },
+    "postflight": {
+      "bytes": 183417,
+      "sha256": "538c8b452ae0ace4dc595ea9cb5f5a7c83ffb19c469274104ae46952bd75c289"
+    },
+    "training_summary": {
+      "bytes": 34879,
+      "sha256": "fd228a847d35c147120a953a310ea7a77a47fb3b8672b043eb9b28b3e1808980"
+    }
+  },
+  "publication_scope": "Only fixed artifact hashes, configuration/runtime/model facts and aggregate validity; no inputs, token arrays, per-response rows, witness block rows or tensors.",
+  "tensor_identity_limit": "Final export/recovery hashes are recorded at production completion; report preparation reads receipts and does not reload or rehash the remote tensor payloads."
+}

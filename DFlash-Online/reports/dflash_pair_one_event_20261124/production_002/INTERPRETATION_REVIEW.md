@@ -1,0 +1,51 @@
+## Material Passport
+
+- Origin: ARS experiment-agent, validate mode; independent interpretation review, November 24, 2026.
+- Verification status: **ANALYZED** from completed native receipts and the separate passed CPU raw-results audit. No independent model rerun or new model work.
+- Execution: `416cb7931028621c09b8fa983e53fc8a7dcebaab`, `execution_002`.
+- Scope: one fresh BASE/PAIR event, inherited seed 17, 128 held-out requests and three timing repeats; all 11 statistical/methodological fallacy categories checked.
+- Confidence assessment: **CAUTION** for efficacy: the primary interval crosses zero and training-seed variability is unmeasured.
+- Reviewer independence: separate from the objective/witness implementation and final raw-results auditor; this reviewer previously contributed preparation/evaluation plumbing and retention review. This is not blind external replication.
+
+**The held-out benefit remains unresolved.** PAIR's complete-request latency reduction is **0.14997%**, with paired 95% interval **[−0.41101%, +0.69737%]**. The point is favorable and small, but the interval permits both slowing and improvement. It does not establish superiority, equivalence, universal ineffectiveness, or a reliable practical benefit. No prespecified equivalence margin or practical-gain threshold is tested here.
+
+**Serving evidence and validity.** BASE and PAIR sum to 136.709589 and 136.504564 seconds respectively after averaging three timings within each request. The difference is 0.205025 seconds across the panel, or 1.602 ms per request on average. Repeat reductions are +0.07269%, +0.16715% and +0.20995%; these repeated timings of the same endpoints are not three independent training replications. The 10,000 whole-paired-request bootstrap draws use PCG64 seed 20261124 and linear percentiles. The interval conditions on the fixed trained endpoints and this panel; it does not include training-seed uncertainty, other model/domain populations, or all possible run-level timing drift.
+
+All 792 declared generations completed and passed canonical/termination validation: 768 scored and 24 warmups, with zero invalid, unknown or unattempted generations. Both arms return the same 50,226 held-out output tokens; all 128 requests end at EOS, with no cap-hit requests. The raw audit checks all 792 outputs, repeat-count agreement and the matched summaries. Canonical agreement establishes preservation of the retained frozen-F outputs, not semantic answer quality or equality to a separately measured target-only AR system. There is no new AR baseline.
+
+PAIR uses 7,650 verification calls versus BASE's 7,669: 100 gross calls saved, 81 added, **19 net saved**, with 50 request wins, 43 regressions and 35 ties. Call reduction is +0.24775% [−0.32513%, +0.80376%], descriptive and unadjusted. Native accepted proposals/call are 5.548758 versus 5.532534; the distinct stop-clipped counters are 5.565359 versus 5.548963. With identical output lengths, committed progress is 50,226 − 128 = 50,098 per arm, and native accepted totals are committed progress minus calls. These linked counters are not independent confirmations of benefit.
+
+**Training fit and activity.** The fixed witness contains 64 overlapping block occurrences from the first eight BASE training responses, including 64 origin first errors and 326 original prefix positions. PAIR has 47 useful repairs versus BASE's 43: five PAIR-only, one BASE-only, 42 shared and 16 neither. Origin boundaries repaired are 51 versus 49. Damaged prefix positions are 16 versus 18, across five versus eight blocks. Full valid consecutive-prefix totals are 494 versus 487, a net PAIR advantage of seven positions; 13 blocks improve, eight regress and 43 tie relative to BASE.
+
+Mean original-rival margin change is +3.03125 for PAIR versus +2.722656 for BASE; strongest-current-rival margin change is +2.660156 versus +2.46875. Their PAIR-minus-BASE differences are +0.308594 and +0.191406. Each endpoint still has one case where the original rival is addressed but the full-vocabulary prediction remains wrong; current rival changes occur in 22 versus 18 cases. Native token ordering resolves ties; zero margin is not automatically incorrect or correct. These diagnostics support a modest favorable training-fit difference in this small fixed sample. They do not establish held-out transfer, independent-example significance, or that `1−mu` estimates repair value.
+
+The auxiliary is active on 52,646 of 65,929 PAIR repair occurrences (79.8526%), where active means **positive computed auxiliary value**, not a nonzero gradient. Its equal-response mean is 0.0147624, or 7.4463% of PAIR's ordinary FKL mean 0.198252. There are 1,682 teacher ties, zero strict teacher reversals and zero log-mass clamps. Mean preclip norms are 0.298729 for PAIR versus 0.286102 for BASE; neither clips in any of 128 windows. Activity, a larger gradient norm, and declining training loss do not establish a better Adam update or generalization. Ordinary training FKL remains separate from the auxiliary; the changing-role training loss is not a fixed held-out quality metric.
+
+**Costs and scope.** Measured training timers are 554.307 seconds for PAIR versus 510.163 for BASE (**+8.6530%**); full arm walls are 1,051.829 versus 1,001.733 seconds (+5.0009%). This serial single-run contrast does not isolate the auxiliary kernel from other trajectory/runtime effects. Nested training, objective, update, loading, persistence and witness timers are not additive. Training allocator peak and separate boundary-validation time were not recorded and remain unavailable; serving-worker peaks are not substitutes.
+
+New execution costs are 2,991.870 elapsed seconds and 5,053.874 occupied-card seconds. Historical PR58 qualification remains separate at 288.524 and 554.446 seconds, giving charged sums of 3,280.393 elapsed and 5,608.320 occupied-card seconds. Summed charged elapsed intervals are not a continuous wall-clock interval across the two studies. Qualification was reused, with zero new qualification Adam steps. These measurements do not establish training-inclusive speedup or amortization break-even.
+
+| Fallacy category | Assessment and interpretation limit |
+|---|---|
+| 1. Simpson's paradox | No aggregate-versus-all-subgroups reversal was observed in the two scheduled 64-request groups. Their descriptive pooled latency points differ: group 0 −0.07919%, group 1 +0.41183%. This heterogeneity prevents a claim of uniform improvement; it is not a newly selected endpoint or additional significance test. |
+| 2. Ecological fallacy | A positive total does not imply every request improves: calls include 43 regressions. Witness block occurrences are not independent responses or unique tokens. No per-user or broad workload claim follows. |
+| 3. Berkson's paradox | The first 128 requests were selected by the sealed input order, not endpoint success. The selected panel still limits population generalization; no selection-induced association analysis is claimed. |
+| 4. Collider bias | No filtering or adjustment by post-training margins, losses, repair success, latency or output outcome enters the primary comparison. The witness keeps frozen origin support, including cases subsequently repaired or damaged. |
+| 5. Base-rate neglect | Repair, activity and damage counts retain their distinct denominators: 64 origin repair blocks, 326 prefix positions, and 65,929 training repair occurrences. Useful repair is not reported as a general token-accuracy rate. |
+| 6. Regression to the mean | Both fixed endpoints start from the authenticated common origin. The witness is training data and origin-error selected; its improvement cannot be treated as transfer. Both arms and the separate held-out comparison remain necessary context. |
+| 7. Survivorship bias | All declared generations and all scheduled requests are retained, with zero missing/invalid/unknown cases and no outcome-based replacement. No cap case was discarded; none occurred on this panel. No endpoint or repeat was selected after results. |
+| 8. Look-elsewhere effect | One primary latency contrast is distinguished from three descriptive unadjusted intervals and numerous diagnostic summaries. No positive secondary point or witness metric overrides the primary interval. No corrected secondary significance claim is made. |
+| 9. Garden of forking paths | The one-event limit, panel, repeats, rotated order, canonical checks, primary formula and bootstrap seed were sealed before execution. Cleanup/resealing changed storage admission, not scientific settings. Group checks above are explicitly descriptive review checks, not a revised decision rule. |
+| 10. Correlation versus causation | This controlled two-arm run compares the complete PAIR update under its fixed protocol. Correlation among margins, activity, gradient norm and serving changes does not identify the causal repair mechanism. It cannot distinguish this auxiliary from a simple increase in repair strength, which was not included. |
+| 11. Reverse causality | Updates precede the fixed endpoint evaluations; held-out outputs do not supply feedback. There is no observed temporal reversal. Relationships among post-update diagnostics still do not establish a directional mechanism. |
+
+**Review disposition:** all 11/11 categories checked; no additional validity blocker found in the reviewed completed evidence. Interpret the result as **modestly favorable training-witness fit with unresolved held-out benefit and measured added adaptation time**. Do not promote the candidate or automatically extend the experiment on this evidence. The scientific stage remains unchanged.
+
+Source identity checks for this review (SHA-256; raw token/per-block files remain private):
+
+| Retained source | SHA-256 |
+|---|---|
+| Serving summary | `6290bea053d31bef1e3631f332480b417bb2c22ce74ce50d1cb7e2bd24106890` |
+| Matched witness summary and private block records | `66cefda68148c689bd91864037ac02967fdbe5679e35b3148522e7cc463139c6` |
+| Aggregate training summary | `fd228a847d35c147120a953a310ea7a77a47fb3b8672b043eb9b28b3e1808980` |
+| Passed independent raw-audit public summary | `e6aac57444ad2bba7a1a9e878dcc596901b05365be523d41eaba838e99e5b0db` |
