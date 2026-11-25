@@ -1,0 +1,109 @@
+{
+  "C_from_sampled_anchor_widths": {
+    "CONTROL": 11790,
+    "FRONTIER_P": 11790
+  },
+  "C_startup_from_sampled_anchor_widths": 132,
+  "all_checked_raw_identities_match_compact_manifest": true,
+  "checked_raw_bindings_sha256": "9e55b81d160aab46e5e31e5f5e5e839b70e91b53b294d530d7f586484f451c73",
+  "checked_raw_files": 269,
+  "checks_passed": 3003,
+  "combined_training_first_order_backwards": 1024,
+  "combined_training_native_adam_steps": 256,
+  "combined_training_physical_module_counts": {
+    "draft_forwards": 1536,
+    "layer_forwards": 7680,
+    "objective_chunks": 70740,
+    "response_forwards": 512,
+    "vocabulary_head_calls": 200430
+  },
+  "compact_manifest_sha256": "dd65e3f371b4c5b6a4f9385447fb3f02ceca68642d79a9940076f0ede3576cc5",
+  "costs_summary_sha256": "7b39325d96ab2c4c7a65470fd01ceeda5646a14f019a65b428ed4c2f28b9a234",
+  "execution_commit": "225802657d630c0985abd68d6e7453f3e47c5b74",
+  "failed_checks": [],
+  "limitations": [
+    "Counts are instrumented module calls and first-order backward invocations, not kernel launches or FLOPs.",
+    "Optimizer VJP and directional subcounts are source-derived from completed scopes, not independent runtime counters.",
+    "Actual/shadow displacement norms at production updates 1, 64, 128 were not retained; no reconstruction or model rerun.",
+    "Per-window attention tile counts and scratch maxima were not retained.",
+    "Feedback, teacher preparation, serving and initialization work are outside this scoped audit and must remain separately reported."
+  ],
+  "retrieval_sha256": "66cb35dce8407c58f270da9b0e38b30593b6951e0b970baf6f84437b55bfb76d",
+  "schema": "independent_production_work_formula_audit_v1",
+  "scope": "Local saved-receipt arithmetic and source-bound operation classification only; no Torch, model, GPU or remote operations.",
+  "scoring_attempted_equals_completed_every_window": true,
+  "scoring_completed_operation_counts": {
+    "allocation_fp32_adam_shadow": 128,
+    "allocation_freeze_native_head_chunk": 11790,
+    "allocation_native_backbone_forward": 1024,
+    "allocation_native_reference_backward": 256,
+    "allocation_native_teaching_head_chunk": 23580,
+    "allocation_native_token_head_chunk": 11790,
+    "allocation_preview_native_backward": 256,
+    "allocation_preview_native_head_chunk": 23580,
+    "native_committed_response_forward_backward": 256
+  },
+  "scoring_pending_operations": 0,
+  "source_derived_counts_not_separately_instrumented": {
+    "basis": "One fast directional pass per response; one optimizer VJP inside each completed allocation_fp32_adam_shadow scope. Directional forwards are already included in total backbone counts.",
+    "directional_backbone_forwards": 256,
+    "optimizer_map_vjps": 128
+  },
+  "source_hashes": {
+    "allocation_scoring.py": "4cb9e9504f5220c1da42ac1eb5c685e3c9025e482a4474ae6470a08438b34f69",
+    "allocation_training.py": "55ae2083719b73b9ac94ad6d66a840f79847439c3eae36719009e2fea04256f1"
+  },
+  "startup_first_order_backwards": 4,
+  "startup_native_adam_steps": 0,
+  "startup_physical_module_counts": {
+    "draft_forwards": 4,
+    "layer_forwards": 20,
+    "objective_chunks": 264,
+    "response_forwards": 4,
+    "vocabulary_head_calls": 528
+  },
+  "status": "passed",
+  "timer_checks": {
+    "candidate_window_s": 2443.155274808407,
+    "scopes_overlap_do_not_add": true,
+    "scoring_s": 1860.1611085124314,
+    "training_s": {
+      "CONTROL": 564.5454941540956,
+      "FRONTIER_P": 2439.32303320989
+    }
+  },
+  "training_physical_module_counts": {
+    "CONTROL": {
+      "draft_forwards": 256,
+      "layer_forwards": 1280,
+      "objective_chunks": 23580,
+      "response_forwards": 256,
+      "vocabulary_head_calls": 47160
+    },
+    "FRONTIER_P": {
+      "draft_forwards": 1280,
+      "layer_forwards": 6400,
+      "objective_chunks": 47160,
+      "response_forwards": 256,
+      "vocabulary_head_calls": 153270
+    }
+  },
+  "training_startup_witness_totals": {
+    "draft_forwards": 1588,
+    "first_order_backwards": 1028,
+    "layer_forwards": 7940,
+    "native_adam_steps": 256,
+    "objective_chunks": 71004,
+    "response_forwards": 516,
+    "vocabulary_head_calls": 201006
+  },
+  "witness_first_order_backwards": 0,
+  "witness_native_adam_steps": 0,
+  "witness_physical_module_counts": {
+    "draft_forwards": 48,
+    "layer_forwards": 240,
+    "objective_chunks": 0,
+    "response_forwards": 0,
+    "vocabulary_head_calls": 48
+  }
+}
