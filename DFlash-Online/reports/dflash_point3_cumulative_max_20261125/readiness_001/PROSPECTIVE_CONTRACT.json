@@ -1,0 +1,121 @@
+{
+  "schema": "point3_cumulative_max_v1",
+  "base_commit": "a1558c0c78c543fb257d1e21889b333be1675eec",
+  "cases": [
+    "C",
+    "F_C_SUM",
+    "F_C_MAX"
+  ],
+  "arms": [
+    "F_C_SUM",
+    "F_C_MAX"
+  ],
+  "limits": {
+    "elapsed_s": 21600,
+    "occupied_card_s": 14400,
+    "allocated_bytes": 25000000000,
+    "reserve_bytes": 400000000000,
+    "qualification_adam_calls": 6,
+    "qualification_attempts": 2,
+    "oracle_backwards_total": 60,
+    "event_adam_calls_per_arm": 128,
+    "attempted_adam_calls": 262,
+    "generation_calls": 1188
+  },
+  "prior_occupied_card_s": 5790.93129579185,
+  "scientific_change": "SUM -> cumulative MAX outer assessment only",
+  "reference_gradient": "actual normalized native C preclip gradient; no reference Adam step",
+  "allocator": "unchanged beta-centered, beta-budget, cap 0.25",
+  "assessment_tie_rule": "earliest margin minimum, strict-less replacement",
+  "live_precision": "native BF16",
+  "shadow_precision": "FP32",
+  "diagnostic_product_reduction": "FP64",
+  "parent_counters": [
+    128,
+    256,
+    1
+  ],
+  "qualification_counters": [
+    129,
+    258,
+    1
+  ],
+  "final_counters": [
+    256,
+    512,
+    2
+  ],
+  "event_id": "event_002",
+  "parent_binding": "b120c76b0036b4786eb6b9d11b1594ec1dc6e57e3d20c9ed931924262b1c072a",
+  "original_window_identity": {
+    "bytes": 25388,
+    "sha256": "a4245d34875ecc349e04cf34de24ef1d626d9cbd03ee30176f637d189d431d3d"
+  },
+  "parent_recovery_identity": {
+    "bytes": 6296473051,
+    "sha256": "728770a7abf0ba3ef96805ef760997976ad7bedbbee1d8debe165e785a4d98a2"
+  },
+  "parent_export_identity": {
+    "bytes": 2097259104,
+    "sha256": "1556409004f7c73c0007c1f01764d4fd1dd189827994596939597be43b2d21b2"
+  },
+  "full_events": 2,
+  "new_feedback_generations": 0,
+  "planned_qualification_adam_calls": 3,
+  "planned_oracle_backwards": 28,
+  "expected_oracle_pool_lengths": [
+    13,
+    15
+  ],
+  "committed_presentations": 512,
+  "committed_adam_calls": 256,
+  "evaluation": {
+    "methods": [
+      "C",
+      "F_C_SUM",
+      "F_C_MAX"
+    ],
+    "groups": 2,
+    "requests_per_group": 64,
+    "repeats": 3,
+    "rotation": "(repeat + group) % 3",
+    "activations": 18,
+    "warmups_per_activation": 2,
+    "scored_generations": 1152,
+    "warmup_generations": 36,
+    "total_generations": 1188,
+    "bootstrap_draws": 10000,
+    "bootstrap_seed": 20261125
+  },
+  "freeze_rule": "complete/valid distinct candidate: latency<C and calls<=C; lowest latency, then calls, then SUM; otherwise C",
+  "inherited_deletion_allowed": false,
+  "full_event_restart_allowed": false,
+  "point2b_executed": false,
+  "status": "resource_blocked_before_gpu",
+  "forecast": {
+    "components": {
+      "qualification_s": 900.0,
+      "training_s": 6586.1721,
+      "serving_s": 2100.0,
+      "readouts_loading_persistence_s": 900.0
+    },
+    "raw_s": 10486.1721,
+    "contingency_factor": 1.25,
+    "forecast_s": 13107.715124999999,
+    "reference": "PR60 candidate 2439.323s; new C-reference route unmeasured",
+    "transfer_s": 0.0,
+    "storage": {
+      "recovery_bytes_each": 6400000000,
+      "export_bytes_each": 2100000000,
+      "endpoints_bytes": 17000000000,
+      "remote_source_logs_cache_allowance_bytes": 3000000000,
+      "remote_peak_bytes": 20000000000,
+      "local_allowance_bytes": 600000000,
+      "all_locations_peak_bytes": 20600000000,
+      "replacement_overlap": "new outputs only; pending recovery rename is not a second copy"
+    }
+  },
+  "resource_snapshot_epoch": 1795662372.1469016,
+  "implementation_commit": "2e2cb39222ff54f0de5f351b2ecb530d1e0a7f42",
+  "native_execution_commit": null
+}

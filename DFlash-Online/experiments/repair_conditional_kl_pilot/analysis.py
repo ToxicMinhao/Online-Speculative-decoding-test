@@ -16,6 +16,11 @@ BOOTSTRAP_SEED, BOOTSTRAP_DRAWS = 20261124, 10000
 def reduce_requests(rows, *, expected_requests=REQUESTS, methods=METHODS):
     if len(methods) != 2 or len(set(methods)) != 2:
         raise ValueError("Require two distinct explicit endpoint labels")
+    return _reduce_requests(rows, expected_requests=expected_requests, methods=methods)
+
+
+def _reduce_requests(rows, *, expected_requests, methods):
+    """Shared evidence checks; each public experiment fixes its own arm set."""
     groups = defaultdict(list)
     for row in rows:
         if (row['phase'] not in ('warmup', 'scored') or row['method'] not in methods
@@ -25,7 +30,7 @@ def reduce_requests(rows, *, expected_requests=REQUESTS, methods=METHODS):
             groups[row['request_id'], row['method']].append(row)
     ids = sorted({key[0] for key in groups})
     if len(ids) != expected_requests or len(groups) != len(ids) * len(methods):
-        raise ValueError('Incomplete two-arm request panel')
+        raise ValueError('Incomplete request panel')
     for method in methods:
         endpoints = {row['checkpoint_id'] for group in groups.values() for row in group
                      if row['method'] == method}

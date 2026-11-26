@@ -1,0 +1,99 @@
+{
+  "status": "passed",
+  "epoch": 1795677202.9666123,
+  "cpu_wall_s": 39.305006980895996,
+  "gpu_work": 0,
+  "experimental_modules_imported": false,
+  "weights_loaded_into_framework": false,
+  "source": {
+    "commit": "6f7f3a5d1769a630e4ec852205eb06ca55047341",
+    "files_verified": 5346,
+    "manifest_identity": {
+      "bytes": 991836,
+      "sha256": "b922f22037854b872721bb21017a001929070f146d971fa1a1956032b3c8667a"
+    }
+  },
+  "tensor_content_identities": {
+    "F_C_SUM": {
+      "sha256": "0b6366534c3e64a6d91559a01904c8fe8a688e58c2f51dc131071c237284f638",
+      "tensors": 58,
+      "elements": 1048626432
+    },
+    "F_C_MAX": {
+      "sha256": "96acae91cb5bf1eb3be5050b1809a0df23c96ea091735fb496cea610d546f7a2",
+      "tensors": 58,
+      "elements": 1048626432
+    },
+    "C": {
+      "sha256": "558b515442397b1984058dc87035bf3e50a489325802b3a3d00a22df6fba43fd",
+      "tensors": 58,
+      "elements": 1048626432
+    }
+  },
+  "three_distinct_serving_models": true,
+  "limitations": [
+    "Postflight CPU time is separate from the completed GPU clock.",
+    "Current storage and prior boundary samples are not a continuous disk trace.",
+    "Feedback tensor byte equality uses authenticated launch/runtime manifests; this postflight does not reread all feedback tensors.",
+    "Recovery file hashes authenticated in place; exact internal state/export equality is additionally supported by runtime receipts, not a fresh optimizer load."
+  ],
+  "protected_files": {
+    "F_C_SUM/checkpoint": {
+      "identity": {
+        "bytes": 2097259104,
+        "sha256": "df81c6331f2d90b636600d9a3b9ec91462b783bd2db80175ea3766e5b5ba8f44"
+      },
+      "matched_record": true
+    },
+    "F_C_SUM/recovery": {
+      "identity": {
+        "bytes": 6301106587,
+        "sha256": "be8e31748d32ea89b884117ed23a4e9051c5f583a267d1949fab8c825c8b11bc"
+      },
+      "matched_record": true
+    },
+    "F_C_MAX/checkpoint": {
+      "identity": {
+        "bytes": 2097259104,
+        "sha256": "6b55b218734ef78794ed33191d0d61520016210a2a70e80231303284156c4c91"
+      },
+      "matched_record": true
+    },
+    "F_C_MAX/recovery": {
+      "identity": {
+        "bytes": 6301107931,
+        "sha256": "07756327865d97883e8c83cbbe202424fa21bfdc7fb48c30b98813af567fff62"
+      },
+      "matched_record": true
+    },
+    "parent_recovery": {
+      "identity": {
+        "bytes": 6296473051,
+        "sha256": "728770a7abf0ba3ef96805ef760997976ad7bedbbee1d8debe165e785a4d98a2"
+      },
+      "matched_record": true
+    },
+    "parent_export": {
+      "identity": {
+        "bytes": 2097259104,
+        "sha256": "1556409004f7c73c0007c1f01764d4fd1dd189827994596939597be43b2d21b2"
+      },
+      "matched_record": true
+    },
+    "control_recovery": {
+      "identity": {
+        "bytes": 6301108315,
+        "sha256": "3f3e5075926e3f08c06958c7ab77eb0eb9bf9af2cd5b8ea2cb77aeab70750ddd"
+      },
+      "matched_record": true
+    },
+    "control_export": {
+      "identity": {
+        "bytes": 2097259104,
+        "sha256": "b675b559c0fe2f7db4251a585a53740c7ea66868137cdf3be432c5cb6e634cc6"
+      },
+      "matched_record": true
+    }
+  },
+  "receipt_sha256": "8a763dbbe5b0ca3afb4ced8fc929d2fee0850dd257b32490aa98ec33c92878d0"
+}

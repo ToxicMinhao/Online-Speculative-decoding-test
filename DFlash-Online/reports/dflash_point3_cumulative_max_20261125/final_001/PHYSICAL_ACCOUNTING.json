@@ -1,0 +1,120 @@
+{
+  "F_C_SUM": {
+    "scope": "Event physical instrumentation; excludes startup and final witnesses",
+    "event_counters_excluding_isolated_C_reference": {
+      "draft_forwards": 1024,
+      "layer_forwards": 5120,
+      "vocabulary_head_calls": 106110,
+      "objective_chunks": 23580,
+      "response_forwards": 256
+    },
+    "isolated_C_reference_counters": {
+      "draft_forwards": 256,
+      "layer_forwards": 1280,
+      "vocabulary_head_calls": 47160,
+      "objective_chunks": 23580,
+      "response_forwards": 0
+    },
+    "combined_instrumented_event_counters": {
+      "vocabulary_head_calls": 153270,
+      "response_forwards": 256,
+      "layer_forwards": 6400,
+      "draft_forwards": 1280,
+      "objective_chunks": 47160
+    },
+    "startup": {
+      "counts": {
+        "draft_forwards": 2,
+        "layer_forwards": 10,
+        "objective_chunks": 132,
+        "vocabulary_head_calls": 264,
+        "response_forwards": 2
+      },
+      "response_observations": 2,
+      "optimizer_window_observations": 0
+    },
+    "startup_response_forwards": 2,
+    "startup_response_backwards": 2,
+    "startup_Adam": 0,
+    "final_witness_response_forwards": 16,
+    "nested_counter_notice": "WORK operation counts overlap these counters; do not add them again. response_forwards is committed-observation instrumentation and does not count all physical forwards. Vocabulary-head/objective chunks include recorded checkpoint recomputation.",
+    "event_objective_subtimers": {
+      "reference_setup_s": 0.0,
+      "reference_forward_s": 0.0,
+      "reference_head_s": 0.0,
+      "projection_s": 0.0,
+      "teacher_head_s": 148.35747865773737,
+      "selection_s": 19.603163136169314,
+      "kplus_chunk_s": 10.481990894302726,
+      "kplus_response_s": 0.13498669490218163,
+      "work": {
+        "draft_forwards": 1024,
+        "layer_forwards": 5120,
+        "vocabulary_head_calls": 106110,
+        "objective_chunks": 23580,
+        "response_forwards": 256
+      },
+      "reference_operations": 256,
+      "reference_operation_unit": "native_C_response_forward_backward"
+    }
+  },
+  "F_C_MAX": {
+    "scope": "Event physical instrumentation; excludes startup and final witnesses",
+    "event_counters_excluding_isolated_C_reference": {
+      "draft_forwards": 1024,
+      "layer_forwards": 5120,
+      "vocabulary_head_calls": 106110,
+      "objective_chunks": 23580,
+      "response_forwards": 256
+    },
+    "isolated_C_reference_counters": {
+      "draft_forwards": 256,
+      "layer_forwards": 1280,
+      "vocabulary_head_calls": 47160,
+      "objective_chunks": 23580,
+      "response_forwards": 0
+    },
+    "combined_instrumented_event_counters": {
+      "vocabulary_head_calls": 153270,
+      "response_forwards": 256,
+      "layer_forwards": 6400,
+      "draft_forwards": 1280,
+      "objective_chunks": 47160
+    },
+    "startup": {
+      "counts": {
+        "draft_forwards": 2,
+        "layer_forwards": 10,
+        "objective_chunks": 132,
+        "vocabulary_head_calls": 264,
+        "response_forwards": 2
+      },
+      "response_observations": 2,
+      "optimizer_window_observations": 0
+    },
+    "startup_response_forwards": 2,
+    "startup_response_backwards": 2,
+    "startup_Adam": 0,
+    "final_witness_response_forwards": 16,
+    "nested_counter_notice": "WORK operation counts overlap these counters; do not add them again. response_forwards is committed-observation instrumentation and does not count all physical forwards. Vocabulary-head/objective chunks include recorded checkpoint recomputation.",
+    "event_objective_subtimers": {
+      "reference_setup_s": 0.0,
+      "reference_forward_s": 0.0,
+      "reference_head_s": 0.0,
+      "projection_s": 0.0,
+      "teacher_head_s": 148.18506774120033,
+      "selection_s": 19.352696193382144,
+      "kplus_chunk_s": 10.591681566089392,
+      "kplus_response_s": 0.13320817798376083,
+      "work": {
+        "draft_forwards": 1024,
+        "layer_forwards": 5120,
+        "vocabulary_head_calls": 106110,
+        "objective_chunks": 23580,
+        "response_forwards": 256
+      },
+      "reference_operations": 256,
+      "reference_operation_unit": "native_C_response_forward_backward"
+    }
+  }
+}

@@ -70,12 +70,17 @@ def current_roles(proposals, labels, weights, eos_token_ids=()):
     )
 
 
-def assessment(logits, roles):
+def assessment(logits, roles, *, kind='SUM'):
     """Response-mean R with a fresh deterministic strongest-wrong active branch.
 
     Select native logits before FP32 promotion. The detached argmax chooses one
     lowest-ID rival at ties; gather preserves the chosen branch's derivative.
     """
+    if kind == 'MAX':
+        from .point3_math import cumulative_max_assessment
+
+        return cumulative_max_assessment(logits, roles)
+    require(kind == 'SUM', 'Assessment must be SUM or MAX')
     require(
         logits.shape[:-1] == roles['labels'].shape, 'Assessment logits lost their role binding'
     )

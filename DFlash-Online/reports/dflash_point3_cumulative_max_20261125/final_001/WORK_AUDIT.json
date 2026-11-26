@@ -1,0 +1,246 @@
+{
+  "schema": "point3_independent_receipt_audit_public_v1",
+  "status": "passed",
+  "auditor_identity": {
+    "bytes": 45351,
+    "sha256": "c9490f0a5577ca5cdddd57566c1739878cb788ebd14c3f8dc2f39077c2575418"
+  },
+  "checks": 783262,
+  "sections": {
+    "retrieval": {
+      "status": "passed",
+      "files": 3255,
+      "bytes": 814912280,
+      "independently_hashed_all_compact_artifacts": true,
+      "checks": 6515
+    },
+    "contract": {
+      "status": "passed",
+      "execution_commit": "6f7f3a5d1769a630e4ec852205eb06ca55047341",
+      "science": "fixed SUM/MAX comparison",
+      "checks": 21
+    },
+    "qualification": {
+      "status": "passed",
+      "native_receipts": "exact retained receipt comparison; full tensors not independently reloaded",
+      "historical_receipt_files_supplied": true,
+      "checks": 84
+    },
+    "numerical_gates": {
+      "status": "passed",
+      "independently_recomputed": "coefficient formula, gates, mass/caps and retained scalar contractions",
+      "unavailable": "full native gradients and directions; their dot products cannot be independently rebuilt",
+      "checks": 122
+    },
+    "work_ledger": {
+      "status": "passed",
+      "attempts": 1,
+      "attempted_adam": 259,
+      "disposable_adam": 3,
+      "event_adam": 256,
+      "oracle_backwards": 28,
+      "unknown_adam": 0,
+      "unknown_oracles": 0,
+      "checks": 18
+    },
+    "F_C_SUM": {
+      "status": "passed",
+      "counters": [
+        256,
+        512,
+        2
+      ],
+      "new_adam": 128,
+      "presentations": 256,
+      "costs": {
+        "scoring_s": 1830.70782943815,
+        "window_s": 2404.6007575020194,
+        "wall_s": 2519.3631002232432,
+        "training_s": 2397.9674901366234,
+        "checkpoint_save_s": 19.535203725099564,
+        "export_s": 14.949538819491863,
+        "event_wall_s_before_commit": 2443.6219160277396
+      },
+      "physical_work": {
+        "allocation_native_backbone_forward": 768,
+        "allocation_freeze_native_head_chunk": 11790,
+        "point3_native_C_reference_forward": 256,
+        "point3_native_C_reference_backward": 256,
+        "point1_fp32_shadow": 128,
+        "allocation_preview_native_head_chunk": 23580,
+        "point1_shadow_C_assessment_backward": 256,
+        "point3_optimizer_vjp_shadow_C": 128,
+        "allocation_native_token_head_chunk": 11790,
+        "native_committed_response_forward_backward": 256
+      },
+      "export_identity": {
+        "bytes": 2097259104,
+        "sha256": "df81c6331f2d90b636600d9a3b9ec91462b783bd2db80175ea3766e5b5ba8f44"
+      },
+      "recovery_identity": {
+        "bytes": 6301106587,
+        "sha256": "be8e31748d32ea89b884117ed23a4e9051c5f583a267d1949fab8c825c8b11bc"
+      },
+      "tensor_boundary": "runtime exact-state/export receipts checked, full tensors not reloaded offline",
+      "checks": 3235
+    },
+    "F_C_MAX": {
+      "status": "passed",
+      "counters": [
+        256,
+        512,
+        2
+      ],
+      "new_adam": 128,
+      "presentations": 256,
+      "costs": {
+        "scoring_s": 1901.6797123011202,
+        "window_s": 2473.785520840436,
+        "wall_s": 2592.7843318711966,
+        "training_s": 2466.659656928852,
+        "checkpoint_save_s": 20.61912837252021,
+        "export_s": 15.223584983497858,
+        "event_wall_s_before_commit": 2513.6118731722236
+      },
+      "physical_work": {
+        "allocation_native_backbone_forward": 768,
+        "allocation_freeze_native_head_chunk": 11790,
+        "point3_native_C_reference_forward": 256,
+        "point3_native_C_reference_backward": 256,
+        "point1_fp32_shadow": 128,
+        "allocation_preview_native_head_chunk": 23580,
+        "point1_shadow_C_assessment_backward": 256,
+        "point3_optimizer_vjp_shadow_C": 128,
+        "allocation_native_token_head_chunk": 11790,
+        "native_committed_response_forward_backward": 256
+      },
+      "export_identity": {
+        "bytes": 2097259104,
+        "sha256": "6b55b218734ef78794ed33191d0d61520016210a2a70e80231303284156c4c91"
+      },
+      "recovery_identity": {
+        "bytes": 6301107931,
+        "sha256": "07756327865d97883e8c83cbbe202424fa21bfdc7fb48c30b98813af567fff62"
+      },
+      "tensor_boundary": "runtime exact-state/export receipts checked, full tensors not reloaded offline",
+      "checks": 3235
+    },
+    "readout_scalars": {
+      "status": "passed",
+      "blocks": 3636,
+      "files": 8,
+      "scalar_audit_tolerance": "2e-6 absolute +2e-6 relative for stored FP32 softplus only; not a changed native gate",
+      "independently_recomputed": "running minima, earliest ties, multiplicity, SUM/MAX terms, fixed-K bound and response averaging",
+      "checks": 310996
+    },
+    "costs_and_storage": {
+      "status": "passed",
+      "occupied_card_s": 6878.770442724228,
+      "elapsed_s": 6878.969584941864,
+      "cumulative_card_s": 12669.701738516078,
+      "storage_evidence": "sealed admission and nineteen serving boundary samples; no claim of a continuous independent disk trace",
+      "checks": 149
+    },
+    "generation_coverage": {
+      "status": "passed",
+      "scored": 1152,
+      "warmups": 36,
+      "activations": 18,
+      "exact_raw_token_termination_checks": 1188,
+      "paired_CI_and_freeze": "audited separately by independent_serving_audit.py",
+      "checks": 458855
+    },
+    "postflight": {
+      "status": "passed",
+      "source_files": 5346,
+      "protected_file_hashes": 8,
+      "distinct_parameter_identities": 3,
+      "remote_allocated_bytes": 17964646400,
+      "actual_local_allocated_bytes": 1178677248,
+      "new_shared_git_object_allocated_bytes": 364544,
+      "charged_all_locations_bytes": 19143688192,
+      "publication_peak_bytes": 19153688192,
+      "local_allowance_exceeded": true,
+      "scope": "cross-check of independent CPU postflight receipts; auditor does not load full tensors",
+      "checks": 32
+    }
+  },
+  "limitations": [
+    "No GPU operations or imported production analysis helpers",
+    "No independent model-sized gradient, optimizer-state or parameter reconstruction",
+    "Native tensor equality remains authenticated runtime receipt evidence",
+    "No serving-speed or mechanism claim follows from qualification alone"
+  ],
+  "verification_status": "ANALYZED: independently checked retained evidence; no experimental rerun",
+  "execution_commit": "6f7f3a5d1769a630e4ec852205eb06ca55047341",
+  "root_manifest_identity": {
+    "bytes": 519498,
+    "sha256": "44e555deeb57515695fb7aab2c1d46e3d71a3123a1389d794e04e3b7e07cc6ac"
+  },
+  "retrieval_counts": {
+    "files": 3255,
+    "bytes": 814912280,
+    "remote_archive_created": false,
+    "model_tensors_transferred": false
+  },
+  "qualification_extrema": {
+    "maximum_coefficient_error_fraction_of_beta": 0.003424022533306656,
+    "maximum_error_to_allowed_bound": 0.13694598270953384,
+    "minimum_alignment_ratio": 1.0020929628283877,
+    "complete_pool_sizes": [
+      13,
+      15
+    ],
+    "native_oracle_backwards": 28,
+    "original_hidden_state_gate": "failed_retained_diagnostic"
+  },
+  "final_storage": {
+    "status": "passed",
+    "epoch": 1795677369.436853,
+    "charged_remote_bytes": 17964646400,
+    "actual_local_allocated_bytes": 1178677248,
+    "new_shared_git_object_allocated_bytes": 364544,
+    "charged_all_locations_bytes": 19143688192,
+    "publication_growth_allowance_bytes": 10000000,
+    "free_bytes": 405989289984,
+    "reserve_bytes": 400000000000,
+    "fenrir_free_bytes": 73716789248,
+    "fenrir_reserve_bytes": 20000000000,
+    "cap_bytes": 25000000000,
+    "original_local_delivery_allowance_bytes": 600000000,
+    "local_allowance_exceeded": true,
+    "temporary_remote_archive_bytes": 0,
+    "remote_check_epoch": 1795677202.9666123,
+    "method": "Actual allocated local study tree (including checkout and retrieved compact evidence) plus new shared Git objects plus remote artifacts/compiler growth; final publication allowance added prospectively. No model tensors transferred. Whole-study cap unchanged; original600MB local forecast is not presented as actual delivery.",
+    "scope": "Postflight observations plus prospective publication headroom, not continuous peak measurement",
+    "conservative_postflight_peak_bytes": 19153688192
+  },
+  "preserved_auditor_failures": [
+    {
+      "attempt": "independent_work_audit_001",
+      "status": "incomplete",
+      "checks": 774407,
+      "identity": {
+        "bytes": 221404,
+        "sha256": "80e22acd0aaf8c2106d895cbaf921a54983b08fd56868b214048aae0f92496c6"
+      },
+      "cause": "Auditor joined an already-rooted relative path twice.",
+      "repair": "Resolve the supplied raw root once before joining input paths; regression test added.",
+      "experiment_repeated": false
+    },
+    {
+      "attempt": "remote_cpu_postflight_001",
+      "status": "failed",
+      "cause": "CPU file-identity checker attempted to read a tracked directory symlink as a file.",
+      "repair": "Honor the source manifest symlink entry type before hashing its target.",
+      "experiment_repeated": false,
+      "gpu_operations": 0
+    }
+  ],
+  "privacy": "Private input identity/path map, request identifiers, tokens and raw responses remain outside Git. Output checkpoint identities and the root compact-manifest identity are retained.",
+  "cpu_tests": {
+    "file": "CPU_TESTS.json",
+    "tests": 9,
+    "status": "passed"
+  }
+}

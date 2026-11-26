@@ -75,12 +75,25 @@ def execute(plan, root, requests, warmups, canonicals, warmup_canonicals,
     The inherited record session is kept solely for native validator parity;
     this pilot's immutable protocol and unique root identify the experiment.
     """
-    root = Path(root)
-    root.mkdir(parents=True, exist_ok=False)
     schedule = evaluation_schedule(requests, methods=methods)
     balance = schedule_summary(schedule, methods=methods)
-    if set(checkpoints) != set(methods) or len(set(map(str, checkpoints.values()))) != 2:
-        raise ValueError('Require the two distinct explicitly labeled endpoint exports')
+    return _execute_schedule(
+        plan, root, requests, warmups, canonicals, warmup_canonicals, checkpoints,
+        activate=activate, boundary=boundary, ledger=ledger, methods=methods,
+        schedule=schedule, balance=balance,
+        schema='repair_conditional_kl_evaluation_v1',
+    )
+
+
+def _execute_schedule(plan, root, requests, warmups, canonicals, warmup_canonicals,
+                      checkpoints, *, activate, boundary, ledger, methods,
+                      schedule, balance, schema):
+    """Shared native execution only; the caller validates its own arm schedule."""
+    root = Path(root)
+    root.mkdir(parents=True, exist_ok=False)
+    if (set(checkpoints) != set(methods)
+            or len(set(map(str, checkpoints.values()))) != len(methods)):
+        raise ValueError('Require distinct explicitly labeled endpoint exports')
     validate_requests(warmups, count=2, role='warmup')
     all_requests = requests + warmups
     if (len({r['request_id'] for r in all_requests}) != 130
@@ -96,18 +109,20 @@ def execute(plan, root, requests, warmups, canonicals, warmup_canonicals,
                             plan['canonical_provenance'], method='F')
         references.append(selected)
     panel_references, warmup_references = references
-    write_json(root / 'PROTOCOL.json', dict(schema='repair_conditional_kl_evaluation_v1',
+    write_json(root / 'PROTOCOL.json', dict(schema=schema,
         schedule=schedule, balance=balance, checkpoints=checkpoints,
         execution_commit=plan['execution_commit'], gpu=plan['devices']['A'],
         canonical_provenance=plan['canonical_provenance'], native_record_session=SESSION,
-        canonical_policy='Both speculative arms exactly match retained frozen F',
+        canonical_policy='Every speculative arm exactly matches retained frozen F',
         feedback_capture=False, initial_prefill_token_excluded_from_committed_progress=True,
         native_and_stop_clipped_acceptance_separate=True))
     write_json(root / 'REFERENCES.json', dict(panel=panel_references, warmup=warmup_references))
     write_json(root / 'INPUTS.json', dict(panel=requests, warmup=warmups))
     by_id = {row['request_id']: row for row in requests}
     grouped, checked = defaultdict(list), set()
-    progress = dict(status='running', planned=792, attempted=0, returned=0,
+    progress = dict(status='running',
+        planned=balance['scored_generations'] + balance['warmup_generations'],
+        attempted=0, returned=0,
         completed_valid=0, invalid=0, pending=None, automatic_retry=False)
     started = time.perf_counter()
 

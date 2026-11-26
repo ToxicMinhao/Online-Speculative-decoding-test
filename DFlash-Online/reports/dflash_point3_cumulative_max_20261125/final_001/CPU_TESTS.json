@@ -1,0 +1,24 @@
+{
+  "schema": "point3_independent_work_auditor_tests_v1",
+  "status": "passed",
+  "tests": 9,
+  "exit_code": 0,
+  "wall_s": 0.05732113867998123,
+  "command": "CUDA_VISIBLE_DEVICES=\"\" PYTHONDONTWRITEBYTECODE=1 python audit_code/test_audit_work.py -q",
+  "python_version": "Python 3.12.15",
+  "gpu_operations": 0,
+  "imports_experimental_code": false,
+  "fixtures": "Portable synthetic fixtures only; no retained private data or model runtime is required.",
+  "stdout": "",
+  "stderr": "----------------------------------------------------------------------\nRan 9 tests in 0.006s\n\nOK\n",
+  "code_identities": {
+    "audit_work.py": {
+      "bytes": 45351,
+      "sha256": "c9490f0a5577ca5cdddd57566c1739878cb788ebd14c3f8dc2f39077c2575418"
+    },
+    "test_audit_work.py": {
+      "bytes": 8219,
+      "sha256": "c507cfa1d6a10dbe622b08286b76049ca3b12991385877a7a374e9ad14d0d714"
+    }
+  }
+}

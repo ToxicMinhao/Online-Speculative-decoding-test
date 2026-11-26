@@ -113,7 +113,8 @@ def evaluate_responses(trainer, responses, *, endpoint, origins=None, parameters
 
 @torch.no_grad()
 def _evaluate_responses(trainer, responses, *, endpoint, origins=None, parameters=None,
-                        work=None, readout_name):
+                        work=None, readout_name, boundary_check=_boundary,
+                        chunk_assessment=_chunk_assessment):
     """Read a parent or alternative endpoint, retaining native eight-block heads.
 
     Functional dictionaries use NativeHidden parameter names. FP32 shadow leaves
@@ -121,7 +122,7 @@ def _evaluate_responses(trainer, responses, *, endpoint, origins=None, parameter
     No counter is forged when a functional endpoint is evaluated at the parent.
     Existing modes, gradients, observer buffers, costs and RNG are preserved.
     """
-    before = _boundary(trainer)
+    before = boundary_check(trainer)
     model = trainer.bundle.model
     require(model.block_size == 16 and model.objective_chunk_blocks == 8,
             'Point1 requires native sixteen-slot/eight-block shapes')
@@ -196,7 +197,7 @@ def _evaluate_responses(trainer, responses, *, endpoint, origins=None, parameter
                             logits, labels[:, part], weights[:, part], model.eos_token_ids,
                             origin=None if first is None else first['blocks'][part],
                         )
-                        chunk_numerator = _chunk_assessment(chunk, device)
+                        chunk_numerator = chunk_assessment(chunk, device)
                         numerator = chunk_numerator if numerator is None else numerator + chunk_numerator
                         blocks.extend(chunk)
                         del logits
@@ -231,7 +232,7 @@ def _evaluate_responses(trainer, responses, *, endpoint, origins=None, parameter
             }
             if device.type == 'cuda':
                 torch.cuda.synchronize(device)
-        require(_boundary(trainer) == before and trainer.events == history,
+        require(boundary_check(trainer) == before and trainer.events == history,
                 'Readout changed counters or event history')
         require(all(parameter._version == version for parameter, version in versions),
                 'Readout changed native parameters')

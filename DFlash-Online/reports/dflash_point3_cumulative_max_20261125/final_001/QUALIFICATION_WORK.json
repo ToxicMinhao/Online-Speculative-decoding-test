@@ -1,0 +1,129 @@
+{
+  "execution_commit": "6f7f3a5d1769a630e4ec852205eb06ca55047341",
+  "qualification_work": {
+    "attempted": {
+      "allocation_native_backbone_forward": 42,
+      "allocation_freeze_native_head_chunk": 98,
+      "point1_native_C_capture_head_chunk": 98,
+      "native_committed_response_forward_backward": 6,
+      "point2a_native_adam": 3,
+      "point3_native_C_reference_forward": 2,
+      "point3_native_C_reference_backward": 2,
+      "point1_fp32_shadow": 2,
+      "allocation_preview_native_head_chunk": 392,
+      "point1_shadow_C_assessment_backward": 4,
+      "point3_optimizer_vjp_shadow_C": 2,
+      "allocation_native_token_head_chunk": 322,
+      "point2a_fast_scoring_window": 2,
+      "serial_reference_token_graph": 28,
+      "serial_reference_token_vjp": 28,
+      "serial_reference_fp64_contractions": 28,
+      "point3_readout_backbone_forward": 40,
+      "point3_readout_head_chunk": 424
+    },
+    "completed": {
+      "allocation_native_backbone_forward": 42,
+      "allocation_freeze_native_head_chunk": 98,
+      "point1_native_C_capture_head_chunk": 98,
+      "native_committed_response_forward_backward": 6,
+      "point2a_native_adam": 3,
+      "point3_native_C_reference_forward": 2,
+      "point3_native_C_reference_backward": 2,
+      "point1_fp32_shadow": 2,
+      "allocation_preview_native_head_chunk": 392,
+      "point1_shadow_C_assessment_backward": 4,
+      "point3_optimizer_vjp_shadow_C": 2,
+      "allocation_native_token_head_chunk": 322,
+      "point2a_fast_scoring_window": 2,
+      "serial_reference_token_graph": 28,
+      "serial_reference_token_vjp": 28,
+      "serial_reference_fp64_contractions": 28,
+      "point3_readout_backbone_forward": 40,
+      "point3_readout_head_chunk": 424
+    },
+    "pending": [],
+    "native_adam_steps": 3
+  },
+  "startup": {
+    "status": "completed",
+    "optimizer_steps": 0,
+    "physical_work": {
+      "counts": {
+        "draft_forwards": 2,
+        "layer_forwards": 10,
+        "objective_chunks": 196,
+        "vocabulary_head_calls": 392,
+        "response_forwards": 2
+      },
+      "response_observations": 2,
+      "optimizer_window_observations": 0
+    },
+    "wall_s": 19.719149012118578,
+    "work": {
+      "attempts": {
+        "response_forwards": 2,
+        "response_backwards": 2,
+        "optimizer_steps": 0
+      },
+      "completed": {
+        "response_forwards": 2,
+        "response_backwards": 2,
+        "optimizer_steps": 0
+      },
+      "unknown": {
+        "response_forwards": 0,
+        "response_backwards": 0,
+        "optimizer_steps": 0
+      }
+    }
+  },
+  "case_physical_work": {
+    "C": {
+      "draft_forwards": 2,
+      "layer_forwards": 10,
+      "objective_chunks": 196,
+      "vocabulary_head_calls": 392,
+      "response_forwards": 2
+    },
+    "F_C_SUM": {
+      "draft_forwards": 2,
+      "layer_forwards": 10,
+      "objective_chunks": 196,
+      "vocabulary_head_calls": 392,
+      "response_forwards": 2
+    },
+    "F_C_MAX": {
+      "draft_forwards": 2,
+      "layer_forwards": 10,
+      "objective_chunks": 196,
+      "vocabulary_head_calls": 392,
+      "response_forwards": 2
+    }
+  },
+  "native_reference": {
+    "response_forwards": 2,
+    "response_backwards": 2,
+    "native_adam_steps": 0,
+    "committed_presentations": 0,
+    "sampling_calls": 0,
+    "physical_work": {
+      "draft_forwards": 2,
+      "layer_forwards": 10,
+      "objective_chunks": 196,
+      "vocabulary_head_calls": 392
+    },
+    "wall_s": 4.615424880757928,
+    "rng_restored": true,
+    "gradients_cleared": true,
+    "bitwise_native_preclip_parity": true,
+    "scientific_state_unchanged": true,
+    "status": "passed"
+  },
+  "new_feedback": 0,
+  "generations": 0,
+  "full_vectors_written": 0,
+  "wall_s": 254.26905867643654,
+  "peak_allocated_bytes": 35560160768,
+  "peak_reserved_bytes": 56616812544,
+  "scope": "Operation and physical-work counters overlap; startup is separately recorded. No counters are additional optimizer steps beyond the three disposable qualification steps."
+}

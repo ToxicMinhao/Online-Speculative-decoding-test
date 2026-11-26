@@ -1,0 +1,24 @@
+{
+  "status": "passed_cpu_resource_receipt_review",
+  "source_identity": {
+    "bytes": 19361,
+    "sha256": "5d917959dc22129ee140b940ab4118d64e4723729a5a76cd1082bd36e65af64b"
+  },
+  "checks": {
+    "approved_roots_same_physical_device": true,
+    "endpoint_only_deficit_exact": true,
+    "conservative_deficit_exact": true,
+    "probe_rate_exact": true,
+    "linear_extrapolation_exact": true,
+    "ordinary_single_endpoint_peak_exceeds_headroom": true,
+    "probe_hash_matches_retained_source_slice": true,
+    "recorded_new_work_zero": true,
+    "recorded_inherited_deletion_zero": true,
+    "new_temp_retirement_free_space_delta_exact": true
+  },
+  "assertions": 10,
+  "native_qualified": false,
+  "new_model_executions": 0,
+  "transfer_caveat": "An end-to-end16MiB sample gives a planning extrapolation, not a guaranteed bulk-transfer lower bound; connection startup may affect the sample.",
+  "scope": "Independent arithmetic and consistency review of retained resource receipts; not a new remote hardware measurement or reconstruction of model states."
+}
