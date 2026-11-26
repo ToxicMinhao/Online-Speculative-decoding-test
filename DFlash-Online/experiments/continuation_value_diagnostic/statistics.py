@@ -185,6 +185,7 @@ class ClusterSolver:
         keep = singular > machine_cutoff
         self.white = left[:, keep]
         self.mapping = singular[keep, None] * right[keep]
+        self.discarded_singular_norm = float(np.linalg.norm(singular[~keep]))
         self.condition = float(singular[0] / singular[keep][-1]) if keep.any() else float("inf")
         self.mapping_norm = float(singular[0])
         self.grams = np.array([self.white[design.clusters == i].T @ self.white[design.clusters == i]
@@ -215,6 +216,10 @@ class ClusterSolver:
         roots = np.sqrt(values[keep])
         factor = (roots[:, None] * vectors[:, keep].T) @ self.mapping
         response = (vectors[:, keep].T @ cross) / roots[:, None]
+        reference_lower_bound = np.linalg.norm(factor) / math.sqrt(min(factor.shape))
+        omitted_bound = math.sqrt(float(np.max(multiplicity))) * self.discarded_singular_norm
+        if omitted_bound > .01 * RANK_RCOND * reference_lower_bound:
+            return self.fallback(multiplicity, "global_truncation_bound")
         if not keep.all():
             # Bound the discarded original-design factor using actual rows.
             row_weights = np.sqrt(np.asarray(multiplicity)[self.design.clusters])

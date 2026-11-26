@@ -137,6 +137,19 @@ class ContinuationStatisticsTests(unittest.TestCase):
         self.assertEqual(result["numerical_failures"][0]["draw"], 1)
         self.assertTrue(all(c.sum() == 6 for c in calls))
 
+    def test_bootstrap_retains_draws_without_identifiable_score_variation(self):
+        rows = fixture(responses=2, blocks=24)
+        for row in rows:
+            if row["record_id"] == "response_001":
+                row["D"] = 0.
+                row["u"] = row["r"] * row["h1"] / 14
+        design = make_design(rows)
+        result = bootstrap(design, ClusterSolver(design), .01, draws=100)
+        self.assertEqual(result["planned"], 100)
+        self.assertEqual(len(result["coefficients"]), 100)
+        self.assertGreater(result["status_counts"].get("unidentifiable", 0), 0)
+        self.assertLess(result["valid_fraction"], .95)
+
     def test_constant_D_does_not_pass_support_via_raw_u_variation(self):
         rows = fixture(responses=6, blocks=12)
         for row in rows:
