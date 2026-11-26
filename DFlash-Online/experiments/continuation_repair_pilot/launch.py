@@ -178,7 +178,8 @@ def allowed_repair_file(relative):
     return (relative in ('experiments/continuation_repair_pilot/launch.py',
                          'experiments/continuation_repair_pilot/readout.py',
                          'experiments/continuation_repair_pilot/analysis.py',
-                         'experiments/continuation_repair_pilot/README.md')
+                         'experiments/continuation_repair_pilot/README.md',
+                         'reports/acl2027_method_development/SEQUENCE.md')
             or (relative.startswith('tests/test_continuation_repair_') and relative.endswith('.py'))
             or relative.startswith('reports/dflash_continuation_repair_pilot_20261126/'))
 
@@ -231,7 +232,42 @@ def validate_pre_model_rejection(root, clock):
                 prior_source_manifest=previous_plan['source_manifest'],
                 prior_charged_roots=previous_plan.get('prior_charged_roots', []))
 
-def prepare_continuation(plan_path, *, repair_source_root, repair_manifest, repair_commit, preflight_only=False):
+
+def apply_elapsed_authorization(original, repaired, clock, authorization_path):
+    """Apply the user's one elapsed-only extension to an execution view."""
+    path = Path(authorization_path)
+    authorization = json.loads(path.read_text())
+    expected = dict(kind='elapsed_limit_extension', original_plan_binding=original['binding'],
+        original_clock_epoch=clock['first_gpu_action_epoch'], previous_elapsed_s=14400,
+        approved_elapsed_s=43200, occupied_card_s=14400,
+        authorized_scope='remaining readouts and evaluation', user_answer='Extend elapsed limit to 12 hours')
+    if (any(authorization.get(key) != value for key, value in expected.items())
+            or original['limits']['elapsed_s'] != 14400
+            or original['limits']['occupied_card_s'] != 14400):
+        raise ValueError('Elapsed authorization does not match the approved scope, clock or unchanged GPU cap')
+    manifest_path = Path(authorization['prior_preflight_source_manifest'])
+    expected_identity = authorization['prior_preflight_source_identity']
+    if identity(manifest_path) != expected_identity:
+        raise ValueError('Prior CPU-preflight source manifest identity changed')
+    manifest = json.loads(manifest_path.read_text())
+    if manifest.get('clean') is not True:
+        raise ValueError('Prior CPU preflight did not use a clean source identity')
+    verify_source(dict(source_root=authorization['prior_preflight_source_root'],
+                       source_manifest=str(manifest_path), source_identity=expected_identity,
+                       execution_commit=manifest['commit']))
+    repaired['limits'] = dict(original['limits'], elapsed_s=43200)
+    repaired['prior_charged_roots'] = list(dict.fromkeys([
+        *repaired['prior_charged_roots'], str(manifest_path.parent)]))
+    repaired['elapsed_extension_authorization'] = str(path)
+    repaired['elapsed_extension_authorization_identity'] = identity(path)
+    return dict(authorization_path=str(path), authorization_identity=identity(path),
+                original_limits=original['limits'], effective_limits=repaired['limits'],
+                original_clock_epoch=clock['first_gpu_action_epoch'],
+                prior_preflight_source_identity=expected_identity,
+                prior_preflight_source_commit=manifest['commit'], only_elapsed_limit_changed=True)
+
+def prepare_continuation(plan_path, *, repair_source_root, repair_manifest, repair_commit,
+                         preflight_only=False, elapsed_authorization=None):
     """Bind a single I/O repair to the unchanged experiment and completed state."""
     plan_path = Path(plan_path)
     plan = json.loads(plan_path.read_text())
@@ -289,6 +325,8 @@ def prepare_continuation(plan_path, *, repair_source_root, repair_manifest, repa
             or abs(sum(row['end_epoch']-row['start_epoch'] for row in clock['processes'])
                    - clock['occupied_card_s']) > 1e-6):
         raise ValueError('Original occupied work is incomplete or inconsistent')
+    elapsed_extension = (apply_elapsed_authorization(plan, repaired, clock, elapsed_authorization)
+                         if elapsed_authorization is not None else None)
     boundary(repaired, remaining_write_bytes=2_000_000_000)
     if gpu_inventory()['processes']:
         raise RuntimeError('Both cards must be idle before restoring remaining phases')
@@ -301,7 +339,8 @@ def prepare_continuation(plan_path, *, repair_source_root, repair_manifest, repa
         readout_preflight = None
     if preflight_only:
         return repaired, dict(directory=str(directory), clock=clock, status=status, preflight_only=True,
-                              rejected_preparation=rejected_preparation, readout_preflight=readout_preflight)
+                              rejected_preparation=rejected_preparation, readout_preflight=readout_preflight,
+                              elapsed_extension=elapsed_extension)
     directory.mkdir()
     prior = directory/'prior'
     prior.mkdir()
@@ -326,7 +365,11 @@ def prepare_continuation(plan_path, *, repair_source_root, repair_manifest, repa
                    original_clock_epoch=clock['first_gpu_action_epoch'], prior_occupied_card_s=clock['occupied_card_s'],
                    original_adam_applications=len(calls), additional_adam_applications=0,
                    preserved_failures=preserved, original_settings_unchanged=True,
-                   rejected_preparation=rejected_preparation, CPU_readout_preflight=readout_preflight)
+                   rejected_preparation=rejected_preparation, CPU_readout_preflight=readout_preflight,
+                   elapsed_extension_authorization=repaired.get('elapsed_extension_authorization'),
+                   elapsed_extension_authorization_identity=repaired.get('elapsed_extension_authorization_identity'),
+                   original_limits=plan['limits'], effective_limits=repaired['limits'],
+                   elapsed_extension=elapsed_extension)
     write_json(directory/'REPAIR.json', receipt)
     write_json(directory/'EXECUTION_PLAN.json', repaired)
     return repaired, dict(directory=str(directory), clock=clock, status=status)
@@ -341,6 +384,8 @@ def main():
     parser.add_argument('--repair-source-root')
     parser.add_argument('--repair-source-manifest')
     parser.add_argument('--repair-commit')
+    parser.add_argument('--elapsed-authorization',
+                        help='Separate explicit user authorization for only14400→43200 elapsed seconds')
     args=parser.parse_args()
     if args.resume_unexecuted and args.preflight_resume:
         parser.error('Choose CPU preflight or actual continuation, never both')
@@ -349,17 +394,18 @@ def main():
             parser.error('Remaining-phase continuation requires all three repair source arguments')
         plan, continuation = prepare_continuation(args.plan, repair_source_root=args.repair_source_root,
             repair_manifest=args.repair_source_manifest, repair_commit=args.repair_commit,
-            preflight_only=args.preflight_resume)
+            preflight_only=args.preflight_resume, elapsed_authorization=args.elapsed_authorization)
         if args.preflight_resume:
             print(json.dumps(dict(status='passed', mode='CPU_ONLY_PREFLIGHT',
                 directory=continuation['directory'], original_clock=continuation['clock'],
                 rejected_preparation=continuation['rejected_preparation'],
-                readout_preflight=continuation['readout_preflight'], model_loads=0,
+                readout_preflight=continuation['readout_preflight'],
+                elapsed_extension=continuation['elapsed_extension'], model_loads=0,
                 forwards=0, backwards=0, optimizer_steps=0)))
         else:
             execute(plan, continuation=continuation)
     else:
-        if any((args.repair_source_root, args.repair_source_manifest, args.repair_commit)):
+        if any((args.repair_source_root, args.repair_source_manifest, args.repair_commit, args.elapsed_authorization)):
             parser.error('Repair source arguments require --resume-unexecuted or --preflight-resume')
         execute(json.loads(Path(args.plan).read_text()))
 

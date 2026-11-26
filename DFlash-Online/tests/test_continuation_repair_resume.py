@@ -219,6 +219,59 @@ class ResumeTests(unittest.TestCase):
             self.assertEqual(readout.call_args.kwargs, {'preserve':False})
             self.assertEqual(json.loads((root/'CLOCK.json').read_text()), clock)
 
+    def test_elapsed_authorization_changes_only_elapsed_and_charges_preflight_source(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            preflight = root/'source003'
+            preflight.mkdir()
+            manifest = preflight/'SOURCE_CHECKER_REPAIR.json'
+            manifest.write_text(json.dumps(dict(clean=True, commit='c'*40, files={})))
+            original = dict(binding='f'*64, source_root=str(root/'source001'),
+                limits=dict(elapsed_s=14400, occupied_card_s=14400, allocated_bytes=24000000000,
+                            reserve_bytes=400000000000, training_adam_steps=128))
+            repaired = deepcopy(original)
+            repaired.update(source_root=str(root/'source004'),
+                            prior_charged_roots=[str(root/'source001'),str(root/'source002')])
+            before = deepcopy(repaired)
+            clock = dict(first_gpu_action_epoch=1795699866.5963655, occupied_card_s=1308.517726)
+            authorization = dict(kind='elapsed_limit_extension', original_plan_binding='f'*64,
+                original_clock_epoch=clock['first_gpu_action_epoch'], previous_elapsed_s=14400,
+                approved_elapsed_s=43200, occupied_card_s=14400,
+                authorized_scope='remaining readouts and evaluation', user_answer='Extend elapsed limit to 12 hours',
+                prior_preflight_source_manifest=str(manifest), prior_preflight_source_identity=identity(manifest),
+                prior_preflight_source_root=str(preflight/'DFlash-Online'))
+            path = root/'ELAPSED_EXTENSION_AUTHORIZATION.json'
+            path.write_text(json.dumps(authorization))
+            with mock.patch.object(launch, 'verify_source') as verify:
+                receipt = launch.apply_elapsed_authorization(original, repaired, clock, path)
+            self.assertEqual(verify.call_count,1)
+            self.assertEqual(repaired['limits'],dict(original['limits'],elapsed_s=43200))
+            self.assertEqual(original['limits']['elapsed_s'],14400)
+            self.assertEqual(clock,dict(first_gpu_action_epoch=1795699866.5963655,occupied_card_s=1308.517726))
+            self.assertEqual(repaired['prior_charged_roots'],
+                             [str(root/'source001'),str(root/'source002'),str(preflight)])
+            self.assertEqual(repaired['elapsed_extension_authorization_identity'],identity(path))
+            self.assertTrue(receipt['only_elapsed_limit_changed'])
+            for field, bad in [('occupied_card_s',43200), ('original_clock_epoch',1795699867.),
+                               ('approved_elapsed_s',86400), ('original_plan_binding','b'*64),
+                               ('previous_elapsed_s',36000)]:
+                with self.subTest(field=field):
+                    altered = dict(authorization, **{field:bad})
+                    path.write_text(json.dumps(altered))
+                    candidate = deepcopy(before)
+                    with self.assertRaisesRegex(ValueError,'approved scope, clock'):
+                        launch.apply_elapsed_authorization(original,candidate,clock,path)
+                    self.assertEqual(candidate,before)
+            path.write_text(json.dumps(authorization))
+            manifest.write_text(manifest.read_text()+'\n')
+            with self.assertRaisesRegex(ValueError,'manifest identity changed'):
+                launch.apply_elapsed_authorization(original,deepcopy(before),clock,path)
+
+    def test_only_exact_sequence_document_is_admitted(self):
+        self.assertTrue(launch.allowed_repair_file('reports/acl2027_method_development/SEQUENCE.md'))
+        self.assertFalse(launch.allowed_repair_file('reports/acl2027_method_development/OTHER.md'))
+        self.assertFalse(launch.allowed_repair_file('online_feedback/continuation_repair.py'))
+
 
 if __name__=='__main__':
     unittest.main()
