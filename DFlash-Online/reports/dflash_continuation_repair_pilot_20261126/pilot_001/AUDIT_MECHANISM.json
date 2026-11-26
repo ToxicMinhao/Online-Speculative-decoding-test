@@ -1,0 +1,200 @@
+{
+  "status": "passed",
+  "checks": 1856640,
+  "independence": "Independent standard-library reconstruction; shared-context/native-plumbing author",
+  "limitations": [
+    "Validity and native proposals are authenticated retained observations, not independently rerun.",
+    "Full-vocabulary rival optimality and model-forward correctness cannot be reconstructed from compact records.",
+    "TRAIN/retention outcomes are descriptive and do not establish serving gains; no regression or block-level inference."
+  ],
+  "cohorts": {
+    "primary": {
+      "responses": 128,
+      "blocks": 8192,
+      "totals": {
+        "BASE": {
+          "blocks": 8192,
+          "origin_errors": 6329,
+          "raw_repair": 5065,
+          "useful_repair": 4861,
+          "reachable_origin_followers": 5301,
+          "lost_prefix": 1464,
+          "damaged_prefix_positions": 564,
+          "prefix_damaged": 401,
+          "surviving_origin_followers": 6451,
+          "positive_progress": 10162,
+          "Y": 8698,
+          "uncapped_progress": 20525
+        },
+        "TAIL": {
+          "blocks": 8192,
+          "origin_errors": 6329,
+          "raw_repair": 5065,
+          "useful_repair": 4860,
+          "reachable_origin_followers": 5327,
+          "lost_prefix": 1539,
+          "damaged_prefix_positions": 589,
+          "prefix_damaged": 409,
+          "surviving_origin_followers": 6462,
+          "positive_progress": 10187,
+          "Y": 8648,
+          "uncapped_progress": 20505
+        }
+      },
+      "differences": {
+        "raw_repair": 0,
+        "useful_repair": -1,
+        "reachable_origin_followers": 26,
+        "lost_prefix": 75,
+        "damaged_prefix_positions": 25,
+        "prefix_damaged": 8,
+        "surviving_origin_followers": 11,
+        "positive_progress": 25,
+        "Y": -50,
+        "uncapped_progress": -20
+      }
+    },
+    "parent_training": {
+      "responses": 8,
+      "blocks": 64,
+      "totals": {
+        "BASE": {
+          "blocks": 64,
+          "origin_errors": 31,
+          "raw_repair": 10,
+          "useful_repair": 9,
+          "reachable_origin_followers": 12,
+          "lost_prefix": 32,
+          "damaged_prefix_positions": 14,
+          "prefix_damaged": 10,
+          "surviving_origin_followers": 30,
+          "positive_progress": 21,
+          "Y": -11,
+          "uncapped_progress": -1
+        },
+        "TAIL": {
+          "blocks": 64,
+          "origin_errors": 31,
+          "raw_repair": 10,
+          "useful_repair": 9,
+          "reachable_origin_followers": 12,
+          "lost_prefix": 18,
+          "damaged_prefix_positions": 13,
+          "prefix_damaged": 8,
+          "surviving_origin_followers": 30,
+          "positive_progress": 21,
+          "Y": 3,
+          "uncapped_progress": 13
+        }
+      },
+      "differences": {
+        "raw_repair": 0,
+        "useful_repair": 0,
+        "reachable_origin_followers": 0,
+        "lost_prefix": -14,
+        "damaged_prefix_positions": -1,
+        "prefix_damaged": -2,
+        "surviving_origin_followers": 0,
+        "positive_progress": 0,
+        "Y": 14,
+        "uncapped_progress": 14
+      }
+    }
+  },
+  "wall_s": 3.4909382699988782,
+  "audited_input_files": 400,
+  "partial_cohorts": {
+    "primary": {
+      "responses": 128,
+      "blocks": 8192,
+      "totals": {
+        "BASE": {
+          "blocks": 8192,
+          "origin_errors": 6329,
+          "raw_repair": 5065,
+          "useful_repair": 4861,
+          "reachable_origin_followers": 5301,
+          "lost_prefix": 1464,
+          "damaged_prefix_positions": 564,
+          "prefix_damaged": 401,
+          "surviving_origin_followers": 6451,
+          "positive_progress": 10162,
+          "Y": 8698,
+          "uncapped_progress": 20525
+        },
+        "TAIL": {
+          "blocks": 8192,
+          "origin_errors": 6329,
+          "raw_repair": 5065,
+          "useful_repair": 4860,
+          "reachable_origin_followers": 5327,
+          "lost_prefix": 1539,
+          "damaged_prefix_positions": 589,
+          "prefix_damaged": 409,
+          "surviving_origin_followers": 6462,
+          "positive_progress": 10187,
+          "Y": 8648,
+          "uncapped_progress": 20505
+        }
+      },
+      "differences": {
+        "raw_repair": 0,
+        "useful_repair": -1,
+        "reachable_origin_followers": 26,
+        "lost_prefix": 75,
+        "damaged_prefix_positions": 25,
+        "prefix_damaged": 8,
+        "surviving_origin_followers": 11,
+        "positive_progress": 25,
+        "Y": -50,
+        "uncapped_progress": -20
+      }
+    },
+    "parent_training": {
+      "responses": 8,
+      "blocks": 64,
+      "totals": {
+        "BASE": {
+          "blocks": 64,
+          "origin_errors": 31,
+          "raw_repair": 10,
+          "useful_repair": 9,
+          "reachable_origin_followers": 12,
+          "lost_prefix": 32,
+          "damaged_prefix_positions": 14,
+          "prefix_damaged": 10,
+          "surviving_origin_followers": 30,
+          "positive_progress": 21,
+          "Y": -11,
+          "uncapped_progress": -1
+        },
+        "TAIL": {
+          "blocks": 64,
+          "origin_errors": 31,
+          "raw_repair": 10,
+          "useful_repair": 9,
+          "reachable_origin_followers": 12,
+          "lost_prefix": 18,
+          "damaged_prefix_positions": 13,
+          "prefix_damaged": 8,
+          "surviving_origin_followers": 30,
+          "positive_progress": 21,
+          "Y": 3,
+          "uncapped_progress": 13
+        }
+      },
+      "differences": {
+        "raw_repair": 0,
+        "useful_repair": 0,
+        "reachable_origin_followers": 0,
+        "lost_prefix": -14,
+        "damaged_prefix_positions": -1,
+        "prefix_damaged": -2,
+        "surviving_origin_followers": 0,
+        "positive_progress": 0,
+        "Y": 14,
+        "uncapped_progress": 14
+      }
+    }
+  }
+}

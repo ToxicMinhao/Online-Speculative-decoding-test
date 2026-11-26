@@ -1,0 +1,103 @@
+{
+  "status": "passed",
+  "checks": 6957,
+  "failures": [],
+  "totals": {
+    "qualification_cases": 3,
+    "qualification_startup_forwards": 6,
+    "qualification_core_forwards": 6,
+    "qualification_advance_forwards": 0,
+    "training_steps": 128,
+    "training_presentations": 256,
+    "training_work": {
+      "draft_forwards": 256,
+      "layer_forwards": 1280,
+      "objective_chunks": 23580,
+      "vocabulary_head_calls": 47160,
+      "response_forwards": 256,
+      "backwards_attempted": 256,
+      "backwards_completed": 256
+    },
+    "training_startup_forwards": 2,
+    "active_responses": 256,
+    "changed_HIGH_occurrences": 22781,
+    "moved_weight_sum": 158.50616573542356,
+    "readout_work": {
+      "response_reads_attempted": 137,
+      "response_reads_completed": 137,
+      "draft_forwards_attempted": 137,
+      "draft_forwards_completed": 137,
+      "head_calls_attempted": 1040,
+      "head_calls_completed": 1040,
+      "blocks_completed": 8320,
+      "backwards": 0,
+      "optimizer_steps": 0,
+      "teacher_forwards": 0,
+      "feedback_generations": 0,
+      "serving_generations": 0
+    },
+    "readout_attempts": 3,
+    "readout_model_forward_attempts": 2,
+    "readout_forward_counts_by_process": [
+      74,
+      0,
+      63
+    ],
+    "readout_prior_completed": 74,
+    "readout_resumed_completed": 63,
+    "readout_process_attempts": 3,
+    "pre_model_rejection_occupied_seconds": 8.846716165542603,
+    "Adam_applications": 131,
+    "occupied_card_seconds": 2401.5523097515106,
+    "campaign_elapsed_seconds": 31880.663005828857,
+    "training_execution_commit": "b3637cfe4ac3fb4096368cc0c93896b420bdb9a8",
+    "orchestration_execution_commit": "b059d0ea7595f24a9db114b46a98cae60f0602b0",
+    "source_identity_chain": {
+      "original": {
+        "identity": {
+          "bytes": 1011994,
+          "sha256": "6df4a773f11ea42609aa10779ac29a9126c38611aed06cb0efcb5d3b262f3e5b"
+        },
+        "commit": "b3637cfe4ac3fb4096368cc0c93896b420bdb9a8"
+      },
+      "first_repair": {
+        "identity": {
+          "bytes": 1012347,
+          "sha256": "5424c0c64828715c389e4d6c737d82b35344f93abe05d806fd1fbee227f9e0f6"
+        },
+        "commit": "b3a467200af0b255fe2a491924d03c2c1f0c286b"
+      },
+      "CPU_preflight": {
+        "identity": {
+          "bytes": 1013120,
+          "sha256": "5e92ef3cf0edd0d30fd28ccba724c82dfe196ee6f103649eb7d2036830c72803"
+        },
+        "commit": "d819c243235e5a650ce5292f2fa26ebfa563a758"
+      },
+      "resumed": {
+        "identity": {
+          "bytes": 1013508,
+          "sha256": "943fafaebcfebe5c7cb9f52389695d895487c843ae909c1dcc2bf4b1a05e4aeb"
+        },
+        "commit": "b059d0ea7595f24a9db114b46a98cae60f0602b0"
+      }
+    },
+    "elapsed_limit_seconds": 43200,
+    "occupied_limit_seconds": 14400,
+    "serving_scored_generations": 768,
+    "serving_warmup_generations": 24,
+    "serving_total_generations": 792
+  },
+  "limitations": [
+    "Qualification gradient/parameter/Adam/RNG equality is independently compared between saved fingerprints; tensor bytes are not available to this audit.",
+    "Compact coefficient receipts omit beta/HIGH/score/candidate vectors. Their exact FP64 oracle cannot be independently recomputed offline; production flags and saved scalar bounds are checked, with source/CPU mathematics review separate.",
+    "Restoration and final export exactness remain authenticated native runtime assertions supplemented by endpoint fingerprints and later external file postflight.",
+    "Readout full-vocabulary rival optimality cannot be reconstructed from compact selected logits; this work audit does not claim it.",
+    "Fresh per-response hashes bind retained readouts at continuation; historical per-response hashes did not exist. The zero-model rejected attempt is supported by authenticated traceback, unchanged aggregate receipts and pre-attempt file times, not an invented historical byte hash.",
+    "Source manifest bytes and phase identities are independently checked; live remote file contents and full model tensors require the separately retained native/postflight checks.",
+    "No CUDA, optimizer, teacher, serving or scientific rerun is performed by this auditor."
+  ],
+  "execution_commit": "b3637cfe4ac3fb4096368cc0c93896b420bdb9a8",
+  "execution_commit_scope": "Original qualification/training and first74 readouts; resumed phase source appears in totals/source_identity_chain",
+  "independence": "Independent standard-library compact-receipt audit; no production validators imported. Reviewer authored serving/readout implementation and reviewed native integration in shared context, so this is not a blind or author-independent experiment."
+}

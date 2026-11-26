@@ -1,0 +1,19 @@
+# Readout storage-receipt repair
+
+The original execution at `b3637cfe4ac3fb4096368cc0c93896b420bdb9a8` passed GPU qualification (three disposable Adam steps) and completed TAIL's 128-step event. At readout 74, the supervisor and child raced over the same `STORAGE.json.tmp`: one process renamed the other's temporary file. This was an orchestration failure before the next model forward. No serving had begun.
+
+The fix gives each process its own atomic storage receipt. A single explicit continuation authenticates the original clean source, sealed plan, final TAIL recovery/export, passed qualification, 131 completed Adam applications, readout bindings and unchanged export/state checks. It preserves the original failed status, clock, logs and costs. The original source remains intact; a separate source checkout executes the repair. Only 55 unexecuted primary and eight retention readouts remain, followed by the original 768 scored generations and 24 warmups. The completed 73 primary readouts and one determinism repeat are reused without repeating model work. The original four-hour limits and clock continue, and both source directories count toward storage.
+
+No objective, optimizer, model, sampling, anchor, coefficient, precision, serving setting or scientific criterion changes. Training uses the original commit; resumed orchestration/reporting uses the separate repair commit recorded in execution receipts. The historical failure is not relabelled a pass.
+
+All 49 pilot CPU tests pass, including concurrent receipt writers, source-scope enforcement, original-plan/clock preservation, completed-work authentication, unexecuted-only continuation, and cumulative 137-forward accounting. A separate review agent passed 16 focused resume/resource/readout tests and checked immutable-plan, original-clock, source-scope and completed-work preservation. The reviewer shares the repository and task context; this is not a blinded external review. This uses the handoff's one localized implementation repair; no new training or qualification optimizer steps are authorized or needed.
+
+## Correction to the first review
+
+The first repair attempt was rejected before model loading because its synthetic error fixture wrongly placed a filename inside `repr(FileNotFoundError)`. Real Python error serialization omits it. The repair now authenticates the original full traceback by its preserved hash, checks the compact error separately, and offers a CPU-only preflight using the actual retained files. It does not rewrite the original error to make it pass. The initial review pass is superseded; the original review/failure remains retained.
+
+The first rejected restart consumed 8.846716 charged process seconds and no model work. A second explicit preparation preserves both prior attempts and their costs, charges all three source checkouts, and verifies all existing readouts before creating any new attempt. Fresh individual-file hashes are current bindings, not a claim of unavailable historical byte hashes. All 50 pilot CPU tests pass, and a separate checker run on the 158-file authenticated retrieval passes without a model load. Any further GPU execution requires user approval because the handoff's one localized retry has been consumed.
+
+## Authorized remaining-work continuation
+
+The user explicitly approved resuming the remaining readouts and evaluation. Because the original four-hour elapsed ceiling expired while awaiting that decision, the user separately approved twelve elapsed hours from the original start. The four occupied GPU-hour cap, storage limits, original clock, failure costs and all scientific settings remain unchanged. An explicit authorization receipt changes only the copied execution plan's elapsed ceiling; the original sealed plan remains intact. Source and bookkeeping changes are separately recorded, including all four source checkouts in storage accounting. No training or completed readout is repeated.

@@ -115,9 +115,10 @@ def tensor_batch(raw, maximum_length, device):
 class ReadOnlyEndpoint:
     """One directly loaded draft and its unchanged frozen target head/embedding."""
 
-    def __init__(self, model, *, endpoint, maximum_length, loading=None):
-        if endpoint not in ('parent', 'child'):
-            raise ValueError('Only the retained PAIR1 parent and native C child are allowed')
+    def __init__(self, model, *, endpoint, maximum_length, loading=None,
+                 allowed_endpoints=('parent', 'child')):
+        if endpoint not in allowed_endpoints:
+            raise ValueError("Endpoint label is outside this caller's explicit read-only contract")
         if (model.block_size, model.objective_chunk_blocks, model.loss_dtype) != (16, 8, torch.bfloat16):
             raise ValueError('Readout requires native BF16 block16/head-chunk8 geometry')
         self.model = model
@@ -132,7 +133,8 @@ class ReadOnlyEndpoint:
             head_calls_attempted=0, head_calls_completed=0, blocks_completed=0, **ZERO_WORK)
 
     @classmethod
-    def load(cls, config_path, export_path, expected_export_identity, *, endpoint, device='cuda:0'):
+    def load(cls, config_path, export_path, expected_export_identity, *, endpoint, device='cuda:0',
+             allowed_endpoints=('parent', 'child')):
         """Assemble author inference geometry only; never construct TrainerCore."""
         from specforge.application import resolve_run
         from specforge.training.assembly import build_model_bundle
@@ -185,7 +187,8 @@ class ReadOnlyEndpoint:
             startup_forwards=0, startup_backwards=0, optimizer_created=False, **ZERO_WORK)
         if loading['rng_before'] != loading['rng_after']:
             raise ValueError('Read-only model loading changed the caller RNG')
-        return cls(model, endpoint=endpoint, maximum_length=config.data.max_length, loading=loading)
+        return cls(model, endpoint=endpoint, maximum_length=config.data.max_length, loading=loading,
+                   allowed_endpoints=allowed_endpoints)
 
     def read_response(self, binding, receipt_path):
         """Forward one sealed geometry and durably account for every operation."""

@@ -1,0 +1,31 @@
+{
+  "status": "passed_cpu_actual_receipts",
+  "checked_retrieval_files": 158,
+  "retained_error": "FileNotFoundError(2, 'No such file or directory')",
+  "prior_bug_reproduced": "Old filename-in-repr predicate rejects the actual retained error",
+  "verified_prior_response_forwards": 74,
+  "remaining_response_forwards": 63,
+  "verified_prior_head_calls": 592,
+  "verified_prior_blocks": 4736,
+  "disposable_adam_steps": 3,
+  "main_adam_steps": 128,
+  "original_clock_epoch": 1795699866.5963655,
+  "occupied_card_s": 1308.5177264213562,
+  "failed_pre_model_resume_s": 8.846716165542603,
+  "negative_cases_rejected": [
+    "log",
+    "compact_error",
+    "incomplete_native_read"
+  ],
+  "raw_files_unchanged": true,
+  "preflight_creates_attempt_directories": false,
+  "preflight_writes_receipts": false,
+  "cuda_initialized": false,
+  "new_model_forwards": 0,
+  "new_adam_steps": 0,
+  "source_sha256": "db4260bd480af91e0cb1a1d3fff76b37cab464cc99be9f1441f8e4ae4dd6ce28",
+  "elapsed_s": 1.1107253869995475,
+  "scope": "Actual relocated compact receipts; no log/PLAN/content rewriting. Live endpoint tensor authentication and resource admission require the separate authorized preflight. No new execution authorization.",
+  "hash_scope": "Retrieval and current-byte integrity verified. Per-response hashes are fresh continuation bindings, not unavailable historical generation-time hashes.",
+  "independence": "Separate raw counting/hash checks; production resume checker exercised as system under test. Shared context and prior objective authorship disclosed."
+}

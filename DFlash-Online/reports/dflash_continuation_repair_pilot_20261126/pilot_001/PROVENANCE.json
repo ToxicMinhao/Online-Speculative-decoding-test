@@ -1,0 +1,71 @@
+{
+  "training_execution_commit": "b3637cfe4ac3fb4096368cc0c93896b420bdb9a8",
+  "serving_execution_commit": "b059d0ea7595f24a9db114b46a98cae60f0602b0",
+  "analysis_execution_commit": "00ac1944e8d8d535c24c690917e2a2890af64659",
+  "original_plan_binding": "bb6990fc2af7ab63cfd1b0298c112271e1c501120117c5bc688f2ce727190caf",
+  "original_plan_identity": {
+    "bytes": 203176,
+    "sha256": "2d4e24408fc64343406525a9a1ee9eb61ca553ffca69f650d278867012b207d4"
+  },
+  "source_commits": [
+    "b3637cfe4ac3fb4096368cc0c93896b420bdb9a8",
+    "b3a467200af0b255fe2a491924d03c2c1f0c286b",
+    "d819c243235e5a650ce5292f2fa26ebfa563a758",
+    "b059d0ea7595f24a9db114b46a98cae60f0602b0"
+  ],
+  "PAIR1_recovery_identity": {
+    "bytes": 6296473051,
+    "sha256": "728770a7abf0ba3ef96805ef760997976ad7bedbbee1d8debe165e785a4d98a2"
+  },
+  "BASE_export_identity": {
+    "bytes": 2097259104,
+    "sha256": "b675b559c0fe2f7db4251a585a53740c7ea66868137cdf3be432c5cb6e634cc6"
+  },
+  "TAIL_export_identity": {
+    "bytes": 2097259104,
+    "sha256": "7d27ae593ab34c34d2bb24e92ca3dadb5ff7aa22cec8e3f7fa7bfeb6c5a04114"
+  },
+  "TAIL_recovery_identity": {
+    "bytes": 6301374683,
+    "sha256": "d2cd291d9e5c29bb0a64c76d9511f4d8204d5d5b0a8c4ac82ccf59769641be12"
+  },
+  "serving_tensor_identities": {
+    "BASE": {
+      "sha256": "558b515442397b1984058dc87035bf3e50a489325802b3a3d00a22df6fba43fd",
+      "tensors": 58,
+      "elements": 1048626432,
+      "representation": "sorted names/shapes/dtypes/native tensor bytes; header metadata excluded"
+    },
+    "TAIL": {
+      "sha256": "3d194e6b7099cd936367a503e050f7e18e23e5193c533a0b5d8d8867ec2edb8a",
+      "tensors": 58,
+      "elements": 1048626432,
+      "representation": "sorted names/shapes/dtypes/native tensor bytes; header metadata excluded"
+    }
+  },
+  "postflight": {
+    "status": "passed",
+    "checked_original_and_endpoint_files": 492,
+    "four_sources_unchanged": true,
+    "new_model_work": 0
+  },
+  "retrieval": {
+    "primary_files": 1864,
+    "primary_bytes": 701109871,
+    "supplemental_files": 6,
+    "supplemental_bytes": 30,
+    "all_authenticated": true,
+    "mtime_scope": "Retrieval-time observations do not establish retrospective byte identity; preserved receipts provide historical authentication."
+  },
+  "analysis_source": {
+    "analysis_execution_commit": "00ac1944e8d8d535c24c690917e2a2890af64659",
+    "serving_execution_commit": "b059d0ea7595f24a9db114b46a98cae60f0602b0",
+    "training_execution_commit": "b3637cfe4ac3fb4096368cc0c93896b420bdb9a8",
+    "clean": true,
+    "analysis_py_sha256": "20bb3f72785bcadd354bd826ee1a67fc04f26cdc197a2765c1912e2f930bbbd9",
+    "local_analysis_view_identity": {
+      "bytes": 204115,
+      "sha256": "44e2f1353a7f34833bd711007dde882f4f12ec33806de523c7f596349d6bbd66"
+    }
+  }
+}

@@ -121,6 +121,7 @@ class PrefixAllocation:
         self.contract = prefix_allocation_contract(relative_cap)
         self.relative_cap = float(relative_cap)
         self.last_summary = None
+        self.coefficient_probe = None
 
     def chunk_terms(self, log_probability, token_loss, proposals, labels, weights,
                     selection, eos_token_ids=()):
@@ -134,6 +135,8 @@ class PrefixAllocation:
                 probability, base, valid, prefix, relative_cap=self.relative_cap)
             summaries = allocation_summaries(base, candidate, valid, prefix)
             summaries[0][-1] += (~torch.isfinite(probability) & valid).sum()
+            if self.coefficient_probe is not None:
+                self.coefficient_probe(dict(base=base, candidate=candidate, prefix=prefix, valid=valid))
         # Do not branch on this scalar value: cancellation can leave a nonzero
         # gradient even when the correction evaluates to zero.
         delta = ((candidate - base) * token_loss).sum()

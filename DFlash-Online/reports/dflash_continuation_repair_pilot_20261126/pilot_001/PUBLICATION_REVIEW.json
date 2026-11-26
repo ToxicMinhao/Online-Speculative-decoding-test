@@ -1,0 +1,29 @@
+{
+  "status": "passed",
+  "scope": "Agent privacy/provenance review plus root final storage-attachment check",
+  "privacy": {
+    "actual_private_identifiers_checked": 266,
+    "matches": 0,
+    "csv_identifiers": "ordinals only",
+    "token_arrays_or_anchor_arrays_published": false,
+    "command_runtime_locators": "Explicit reproducibility paths; no private request contents"
+  },
+  "copied_audit_code": {
+    "files": 6,
+    "hash_manifest_and_private_original_matches": true
+  },
+  "provenance": {
+    "original_plan_identity_and_binding": true,
+    "training_and_serving_commits": true,
+    "analysis_git_blob_sha256": true
+  },
+  "missing_markdown_links": [],
+  "pending": null,
+  "limitations": "Shared-context source-author review; no GPU, remote operation, new experimental analysis or raw edits",
+  "prior_agent_scope": "30 new report/audit files inspected before final storage receipt attachment; no unchanged repository review",
+  "root_final_storage_check": {
+    "status": "passed",
+    "conservative_peak_bytes": 11798152832,
+    "cap_bytes": 24000000000
+  }
+}

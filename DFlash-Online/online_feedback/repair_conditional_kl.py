@@ -94,7 +94,7 @@ def conditional_pair_values(draft_pair, teacher_pair, teacher_rows):
 
 
 def repair_pair_chunk_terms(logits, teacher_logits, proposals, labels, weights,
-                            selection, eos_token_ids=()):
+                            selection, eos_token_ids=(), *, return_rows=False):
     """Additive priority-1/2 auxiliary numerators plus detached diagnostics."""
     if teacher_logits is None:
         raise ValueError("Repair conditional KL requires native frozen teacher logits")
@@ -103,7 +103,8 @@ def repair_pair_chunk_terms(logits, teacher_logits, proposals, labels, weights,
     errors = group1 | group2
     if not bool(errors.any()):
         zero = logits.new_zeros((), dtype=torch.float32)
-        return zero, zero, zero.new_zeros(len(SUMMARY_FIELDS))
+        terms = (zero, zero, zero.new_zeros(len(SUMMARY_FIELDS)))
+        return (terms, (errors, zero.new_empty(0))) if return_rows else terms
     # Select BEFORE the full-vocabulary FP32 cast: at most one row per block.
     teacher_rows = teacher_logits.detach()[errors].float()
     pair = torch.stack((labels[errors], proposals.detach()[errors]), dim=-1)
@@ -122,7 +123,8 @@ def repair_pair_chunk_terms(logits, teacher_logits, proposals, labels, weights,
             pair_kl.sum(), (preference > 0).sum().float(), (preference == 0).sum().float(),
             (preference < 0).sum().float(), clamps,
         ))
-    return numerator1, numerator2, summary
+    terms = (numerator1, numerator2, summary)
+    return (terms, (errors, extra)) if return_rows else terms
 
 
 def repair_pair_reduce_response(terms, native_metrics):
