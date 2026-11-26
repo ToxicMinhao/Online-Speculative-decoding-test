@@ -1,0 +1,75 @@
+{
+  "epoch": 1795662372.1469016,
+  "host_memory": {
+    "MemTotal": 269529780224,
+    "MemAvailable": 103889346560
+  },
+  "gpu_inventory": "0, GPU-9986735a-3e68-d1bd-5998-9634ef24341e, 81920, 0\n1, GPU-c6943f33-bcd0-a724-0b35-f77af6b0a3f1, 81920, 0\n",
+  "gpu_processes": "",
+  "storage_options": {
+    "same_a800_filesystem": {
+      "observed_endpoint_pair_bytes": 16796734838,
+      "endpoint_only_deficit_bytes": 9614730614,
+      "conservative_remaining_peak_bytes": 20000000000,
+      "conservative_deficit_bytes": 12817995776
+    },
+    "fenrir_offload": {
+      "measured_bytes_per_s": 259919.8334230432,
+      "minimum_needed_offload_bytes": 9614730614,
+      "minimum_linear_offload_s": 36991.138719110946,
+      "all_endpoint_linear_offload_s": 64622.75162612076,
+      "ordinary_single_endpoint_peak_bytes": 8500000000,
+      "available_a800_headroom_bytes": 7182004224,
+      "caveat": "16MiB end-to-end sample is a planning estimate, not a bulk transfer guarantee",
+      "admitted": false
+    },
+    "alternate_a800_durable_root": "None among approved roots or their nested mounts; tmpfs/RAM and unapproved overlay are excluded"
+  },
+  "status": "blocked_before_gpu",
+  "admission": {
+    "admitted": false,
+    "checks": {
+      "filesystems": false,
+      "storage_cap": true,
+      "host_memory": true,
+      "gpu_memory": true,
+      "gpu_idle": true,
+      "elapsed": true,
+      "card_time": true
+    },
+    "filesystems": [
+      {
+        "role": "a800_original",
+        "device": "A800:2066",
+        "free_bytes": 407182004224,
+        "remaining_peak_bytes": 20000000000,
+        "reserve_bytes": 400000000000,
+        "projected_free_bytes": 387182004224,
+        "deficit_bytes": 12817995776,
+        "passed": false
+      },
+      {
+        "role": "local_delivery",
+        "device": "Fenrir:66306",
+        "free_bytes": 74588794880,
+        "remaining_peak_bytes": 600000000,
+        "reserve_bytes": 20000000000,
+        "projected_free_bytes": 73988794880,
+        "deficit_bytes": 0,
+        "passed": true
+      }
+    ],
+    "all_locations_peak_bytes": 20600000000,
+    "forecast_s": 13107.715124999999,
+    "occupied_forecast_s": 13107.715124999999,
+    "host_available_bytes": 103889346560,
+    "gpu_free_bytes": 85899345920,
+    "gpu_busy": false
+  },
+  "new_gpu_actions": 0,
+  "inherited_files_deleted": 0,
+  "new_probe_retired_bytes": 16777216,
+  "local_free_bytes": 74588794880,
+  "local_safety_reserve_bytes": 20000000000,
+  "independent_audit": "INDEPENDENT_RESOURCE_REVIEW.json"
+}
