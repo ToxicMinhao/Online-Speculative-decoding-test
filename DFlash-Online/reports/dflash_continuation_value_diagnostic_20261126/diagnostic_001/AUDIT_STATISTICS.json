@@ -1,0 +1,59 @@
+{
+  "schema": "continuation_value_independent_statistics_audit_v1",
+  "status": "passed",
+  "verification_status": "ANALYZED: independent retained-result reconstruction, no model rerun",
+  "checks": 25372,
+  "execution_commit": "b6f2a2c8d487bcc2d32a5e716b870c10eb5067b3",
+  "rows": 8192,
+  "high_rows": 2114,
+  "response_clusters": 128,
+  "main_theta": 3.062720141238919,
+  "explicit_response_FE_coefficients": [
+    3.06272014123897,
+    0.19779449622312678,
+    -0.005033790135871401
+  ],
+  "residual_df": 1824,
+  "supported_response_clusters": 127,
+  "residual_u_sd": 0.05342978183200228,
+  "bootstrap_draws_authenticated": 10000,
+  "direct_bootstrap_refits": 20,
+  "direct_LOO_refits": 128,
+  "independently_recomputed_decision": "INCONCLUSIVE",
+  "positive_valid_LOO_fraction": 1.0,
+  "theta_ci95": [
+    -2.5389875433455513,
+    8.248467951538423
+  ],
+  "root_identities": {
+    "BLOCK_READOUTS.json": {
+      "bytes": 118970277,
+      "sha256": "9a81cd5b94c237c995847c7d0446e3b056e89b7b8a52af328cd1cf56f65c181b"
+    },
+    "ANALYSIS_PRIVATE.json": {
+      "bytes": 947665,
+      "sha256": "e14ad8e22eacccc2f15cd3346471c5226a3db28fc058c9904c4fbd8259693220"
+    },
+    "CONTRACT.json": {
+      "bytes": 269270,
+      "sha256": "a10be1fb2176eac8d785a4792f573f39503610c0649c3d33714f1658085aeff4"
+    }
+  },
+  "cpu_wall_s": 5.79516321932897,
+  "gpu_work": 0,
+  "limitations": [
+    "Same assistant team; independently written audit, not blinded external review",
+    "NumPy FP64 SVD solver family is shared; construction and reductions are independent",
+    "Only first20 bootstrap draws are refitted; all10000 draw identities and saved-coefficient intervals are checked",
+    "Native primitives and file provenance are checked by the companion audit"
+  ],
+  "auditor_identity": {
+    "bytes": 15875,
+    "sha256": "ad1acccc8577bd6611f06ddac2158e298294dd38214a718b5aa40dd06d281eed"
+  },
+  "tests": {
+    "status": "passed",
+    "count": 4,
+    "receipt": "AUDIT_CPU_TESTS.json"
+  }
+}

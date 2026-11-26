@@ -1,0 +1,265 @@
+{
+  "execution_commit": "b6f2a2c8d487bcc2d32a5e716b870c10eb5067b3",
+  "cohort": {
+    "responses": 128,
+    "paired_blocks": 8192,
+    "source_index_range": [
+      128,
+      255
+    ],
+    "scope": "Retained event-2 training buffer; not held out"
+  },
+  "physical_gpu_uuids": [
+    "GPU-9986735a-3e68-d1bd-5998-9634ef24341e",
+    "GPU-c6943f33-bcd0-a724-0b35-f77af6b0a3f1"
+  ],
+  "work": {
+    "qualification": {
+      "response_reads_attempted": 16,
+      "response_reads_completed": 16,
+      "draft_forwards_attempted": 16,
+      "draft_forwards_completed": 16,
+      "head_calls_attempted": 72,
+      "head_calls_completed": 72,
+      "blocks_completed": 576,
+      "backwards": 0,
+      "optimizer_steps": 0,
+      "teacher_forwards": 0,
+      "feedback_generations": 0,
+      "serving_generations": 0
+    },
+    "primary": {
+      "response_reads_attempted": 256,
+      "response_reads_completed": 256,
+      "draft_forwards_attempted": 256,
+      "draft_forwards_completed": 256,
+      "head_calls_attempted": 2048,
+      "head_calls_completed": 2048,
+      "blocks_completed": 16384,
+      "backwards": 0,
+      "optimizer_steps": 0,
+      "teacher_forwards": 0,
+      "feedback_generations": 0,
+      "serving_generations": 0
+    }
+  },
+  "invalid": 0,
+  "unknown": 0,
+  "unattempted": 0,
+  "retries": 0,
+  "startup_response_forwards": 0,
+  "startup_backwards": 0,
+  "optimizer_created": 0,
+  "timing": {
+    "occupied_card_s": 367.23716855049133,
+    "elapsed_s": 189.09929370880127,
+    "phase_wall_s": {
+      "qualification": 81.36852884292603,
+      "primary": 103.0997793674469
+    },
+    "load_s_by_phase": {
+      "qualification": 137.44745065644383,
+      "primary": 136.80889747291803
+    },
+    "readout_s_by_phase": {
+      "qualification": 17.075978588312864,
+      "primary": 55.86433555185795
+    },
+    "passive_compiler_timer_s_nested": {
+      "CacheBase.get_system.triton_key": 1.772518562,
+      "CachingAutotuner.benchmark_all_configs": 0.2707592,
+      "GraphLowering.codegen": 1.165289798,
+      "GraphLowering.compile_to_fn": 7.883477867999999,
+      "GraphLowering.compile_to_module": 7.883167198,
+      "GraphLowering.run": 1.43344104,
+      "OutputGraph.call_user_compiler": 16.317241734000003,
+      "PyCodeCache.load_by_key_path": 6.783703472,
+      "PythonWrapperCodegen.generate": 0.046125989000000006,
+      "Scheduler.__init__": 0.47435877699999995,
+      "Scheduler.codegen": 0.633535722,
+      "Scheduler.fused_nodes": 0.086447843,
+      "TritonBundler.collect": 0.008867683,
+      "_compile.compile_inner": 29.270999755999995,
+      "_recursive_joint_graph_passes": 0.9886402750000001,
+      "_recursive_post_grad_passes": 0.286536365,
+      "_recursive_pre_grad_passes": 0.07537887500000001,
+      "additional_fake_tensor_prop": 0.090552284,
+      "aot_collect_metadata": 0.8914288979999999,
+      "async_compile.precompile": 4.279598959,
+      "async_compile.wait": 2.433420438,
+      "build_guards": 0.9555933860000001,
+      "bytecode_tracing": 11.500477643000002,
+      "compile_attempt_0": 28.192944196,
+      "compile_fx.<locals>.fw_compiler_base": 11.019367691,
+      "compile_fx_inner": 10.047849786,
+      "create_aot_dispatcher_function": 13.313430759000001,
+      "create_proxy": 0.668017816,
+      "fx_codegen_and_compile": 10.029606514,
+      "gc": 0.011691215,
+      "get_fake_value": 3.7392374189999997,
+      "inductor_codecache_torch_key": 0.46795635299999994,
+      "insert_deferred_runtime_asserts": 0.088260548,
+      "pass.joint_graph_passes.constant_fold_uniform_value": 0.044712824,
+      "pass.joint_graph_passes.pass_pattern_0": 0.057967349,
+      "pass.joint_graph_passes.pass_pattern_1": 0.002928503,
+      "pass.joint_graph_passes.remove_noop_ops": 0.023317670999999998,
+      "pass.post_grad_passes.decompose_auto_functionalized": 0.0035342700000000004,
+      "pass.post_grad_passes.decompose_map_to_while_loop": 0.000554523,
+      "pass.post_grad_passes.decompose_scan_to_while_loop": 0.0006209200000000001,
+      "pass.post_grad_passes.decompose_triton_kernel_wrapper_functional": 0.001074555,
+      "pass.post_grad_passes.fix_auto_functionalized_dtype_views": 0.000502413,
+      "pass.post_grad_passes.move_constructors_to_cuda": 0.002565904,
+      "pass.post_grad_passes.pass_pattern_0": 0.000198881,
+      "pass.post_grad_passes.pass_pattern_1": 0.045438528000000006,
+      "pass.post_grad_passes.pass_pattern_2": 0.0013516729999999999,
+      "pass.post_grad_passes.post_grad_custom_pre_pass": 0.000412161,
+      "pass.post_grad_passes.reinplace_inplaceable_ops": 0.038426136,
+      "pass.post_grad_passes.remove_assert_ops": 0.000271062,
+      "pass.post_grad_passes.remove_noop_ops": 0.004751118,
+      "pass.post_grad_passes.remove_profiler_ops": 0.000847967,
+      "pass.post_grad_passes.reorder_for_locality": 0.006819621,
+      "pass.post_grad_passes.stable_sort": 0.001504601,
+      "pass.pre_grad_passes.apply_gumbel_max_trick_pass": 0.000469621,
+      "pass.pre_grad_passes.efficient_conv_bn_eval_pass": 0.00232761,
+      "pass.pre_grad_passes.group_batch_fusion_passes": 0.000602387,
+      "variable_builder_call": 0.9353151120000001,
+      "wrap_to_fake_tensor_and_record": 0.300100485,
+      "AOTAutogradCache.inductor_load": 0.08365390199999999,
+      "StaticAutotunerFuture.warm_precompile": 0.030876696999999995,
+      "TritonBundler.load_cached_static_autotuners": 0.0022791870000000002,
+      "TritonBundler.read_and_emit": 0.004704667,
+      "pgo.dynamic_whitelist": 0.000327302
+    },
+    "note": "Loading/readout/compiler timers overlap. Occupied-card time charges complete child-process lifetimes. Compiler categories can be nested within each other."
+  },
+  "endpoint_costs": [
+    {
+      "phase": "qualification",
+      "shard": 0,
+      "endpoint": "parent",
+      "load_s": 35.856050327420235,
+      "adapter_loading_s_nested": 31.94861151278019,
+      "device_initialization_s_nested": 0.4637482240796089,
+      "readout_s": 8.64293896779418,
+      "process_peak_allocated_bytes": 4784472576,
+      "process_peak_reserved_bytes": 4882169856
+    },
+    {
+      "phase": "qualification",
+      "shard": 0,
+      "endpoint": "child",
+      "load_s": 32.925142638385296,
+      "adapter_loading_s_nested": 32.92351343855262,
+      "device_initialization_s_nested": 7.61076807975769e-05,
+      "readout_s": 0.3766796514391899,
+      "process_peak_allocated_bytes": 9356363264,
+      "process_peak_reserved_bytes": 9470738432
+    },
+    {
+      "phase": "qualification",
+      "shard": 1,
+      "endpoint": "parent",
+      "load_s": 37.077961068600416,
+      "adapter_loading_s_nested": 33.15246329084039,
+      "device_initialization_s_nested": 0.45018209144473076,
+      "readout_s": 7.691863026469946,
+      "process_peak_allocated_bytes": 4791495168,
+      "process_peak_reserved_bytes": 4888461312
+    },
+    {
+      "phase": "qualification",
+      "shard": 1,
+      "endpoint": "child",
+      "load_s": 31.588296622037888,
+      "adapter_loading_s_nested": 31.586352102458477,
+      "device_initialization_s_nested": 1.7601996660232544e-05,
+      "readout_s": 0.36449694260954857,
+      "process_peak_allocated_bytes": 9356363264,
+      "process_peak_reserved_bytes": 9470738432
+    },
+    {
+      "phase": "primary",
+      "shard": 0,
+      "endpoint": "parent",
+      "load_s": 35.91048641875386,
+      "adapter_loading_s_nested": 32.02470859885216,
+      "device_initialization_s_nested": 0.5040025301277637,
+      "readout_s": 17.89466343447566,
+      "process_peak_allocated_bytes": 4820556800,
+      "process_peak_reserved_bytes": 5043650560
+    },
+    {
+      "phase": "primary",
+      "shard": 0,
+      "endpoint": "child",
+      "load_s": 32.4609895683825,
+      "adapter_loading_s_nested": 32.45972068235278,
+      "device_initialization_s_nested": 1.7911195755004883e-05,
+      "readout_s": 10.13213250786066,
+      "process_peak_allocated_bytes": 9376365568,
+      "process_peak_reserved_bytes": 9623830528
+    },
+    {
+      "phase": "primary",
+      "shard": 1,
+      "endpoint": "parent",
+      "load_s": 36.083180107176304,
+      "adapter_loading_s_nested": 32.17175594344735,
+      "device_initialization_s_nested": 0.4732198491692543,
+      "readout_s": 17.77867527678609,
+      "process_peak_allocated_bytes": 4825228288,
+      "process_peak_reserved_bytes": 4976541696
+    },
+    {
+      "phase": "primary",
+      "shard": 1,
+      "endpoint": "child",
+      "load_s": 32.354241378605366,
+      "adapter_loading_s_nested": 32.35290265455842,
+      "device_initialization_s_nested": 1.790747046470642e-05,
+      "readout_s": 10.058864332735538,
+      "process_peak_allocated_bytes": 9382659072,
+      "process_peak_reserved_bytes": 9558818816
+    }
+  ],
+  "resources": {
+    "postflight_free_bytes": 405509931008,
+    "remote_study_and_cache_allocated_bytes": 476626944,
+    "compiler_growth_bytes": 17264640,
+    "local_envelope_bytes": 750000000,
+    "current_local_study_allocated_bytes": 590389248,
+    "remote_plus_local_envelope_bytes": 1226626944,
+    "peak_gpu_allocated_bytes": 9382659072,
+    "peak_gpu_reserved_bytes": 9623830528,
+    "publication_and_shared_git_allowance_bytes": 10000000,
+    "actual_remote_plus_local_bytes": 1067016192,
+    "all_location_actual_plus_publication_allowance_bytes": 1077016192,
+    "all_location_envelope_plus_publication_allowance_bytes": 1236626944,
+    "storage_cap_bytes": 2000000000,
+    "fenrir_free_bytes": 73076441088,
+    "fenrir_required_reserve_bytes": 20000000000,
+    "accounting_note": "Actual study allocation includes the isolated checkout, private retrieval/paired records, analysis/audits and public report. A 10MB allowance covers remaining publication/Git objects and receipt growth; the prelaunch 750MB local envelope remains conservative."
+  },
+  "cpu": {
+    "analysis": {
+      "cpu_analysis_wall_s": 94.76028229808435
+    },
+    "main_and_bootstrap": {
+      "main_and_reduced_fit_s": 0.1626593661494553,
+      "bootstrap_s": 89.71562689216807,
+      "influence_s": 1.0685728481039405,
+      "total_cpu_wall_s": 90.98638026602566
+    },
+    "local_correctness_tests": {
+      "passed": 49,
+      "wall_s": 3.911
+    },
+    "a800_cpu_tests": {
+      "passed": 49,
+      "wall_s": 4.195
+    },
+    "preparation_wall_s": null,
+    "preparation_timing_note": "File authentication/staging were CPU-only and outside the GPU clock; a separate end-to-end preparation wall timer was not retained."
+  },
+  "cost_interpretation": "Model loading/readout totals are sums across endpoints/cards; parallel phase wall and occupied card time differ. Compiler timers are nested and must not be summed as additional cost. No serving or adaptation gain is measured."
+}
