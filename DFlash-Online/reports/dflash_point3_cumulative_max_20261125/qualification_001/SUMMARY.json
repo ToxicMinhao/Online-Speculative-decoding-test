@@ -1,0 +1,58 @@
+{
+  "status": "completed",
+  "execution_commit": "6f7f3a5d1769a630e4ec852205eb06ca55047341",
+  "native_reference": {
+    "source": "actual_native_C_forward_backward",
+    "response_forwards": 2,
+    "response_backwards": 2,
+    "native_adam_steps": 0,
+    "committed_presentations": 0,
+    "sampling_calls": 0,
+    "wall_s": 4.615424880757928,
+    "rng_restored": true,
+    "gradients_cleared": true,
+    "bitwise_native_preclip_parity": true,
+    "scientific_state_unchanged": true,
+    "status": "passed"
+  },
+  "qualification": {
+    "status": "passed",
+    "passed": true,
+    "checks": {
+      "coverage": true,
+      "gate_a": true,
+      "gate_b": true,
+      "gate_c": true,
+      "active_nonconstant_pool": true
+    },
+    "failures": [],
+    "selected_pools": 2,
+    "reference_backward_count": 28,
+    "old_hidden_state_gate": "failed_retained_diagnostic",
+    "repeat_exact": {
+      "scores": true,
+      "allocations": true
+    },
+    "reference": "C"
+  },
+  "final_restoration": {
+    "status": "passed",
+    "exact_resume": true,
+    "mismatches": [],
+    "global_step": 128,
+    "presentations": 256,
+    "no_rng_reset": true,
+    "extra_model_passes": 0,
+    "extra_optimizer_steps": 0,
+    "runtime_exact": true,
+    "ancillary_exact": true,
+    "additional_mismatches": []
+  },
+  "native_adam_calls": 3,
+  "exports": 0,
+  "new_feedback": 0,
+  "generations": 0,
+  "wall_s": 254.26905867643654,
+  "peak_allocated_bytes": 35560160768,
+  "peak_reserved_bytes": 56616812544
+}
