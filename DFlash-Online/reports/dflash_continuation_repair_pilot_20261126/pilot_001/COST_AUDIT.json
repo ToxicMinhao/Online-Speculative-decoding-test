@@ -1,0 +1,584 @@
+{
+  "status": "passed",
+  "independence": "Separate standard-library receipt reduction; shared native/launcher authorship disclosed",
+  "clock": {
+    "original_epoch": 1795699866.5963655,
+    "occupied_card_s": 2401.5523097515106,
+    "elapsed_s": 31880.663005828857,
+    "non_process_elapsed_s": 29479.110696077347,
+    "phases": [
+      {
+        "process_ordinal": 0,
+        "phase": "qualification",
+        "exit_code": 0,
+        "occupied_card_s": 422.16040539741516,
+        "relative_start_s": 0.4835958480834961,
+        "relative_end_s": 422.64400124549866,
+        "continuation": false,
+        "execution_commit": "b3637cfe4ac3fb4096368cc0c93896b420bdb9a8",
+        "physical_gpu_role": "training_B"
+      },
+      {
+        "process_ordinal": 1,
+        "phase": "training",
+        "exit_code": 0,
+        "occupied_card_s": 783.7081968784332,
+        "relative_start_s": 423.07242584228516,
+        "relative_end_s": 1206.7806227207184,
+        "continuation": false,
+        "execution_commit": "b3637cfe4ac3fb4096368cc0c93896b420bdb9a8",
+        "physical_gpu_role": "training_B"
+      },
+      {
+        "process_ordinal": 2,
+        "phase": "readout",
+        "exit_code": 1,
+        "occupied_card_s": 93.80240797996521,
+        "relative_start_s": 1207.2512044906616,
+        "relative_end_s": 1301.0536124706268,
+        "continuation": false,
+        "execution_commit": "b3637cfe4ac3fb4096368cc0c93896b420bdb9a8",
+        "physical_gpu_role": "training_B"
+      },
+      {
+        "process_ordinal": 3,
+        "phase": "readout",
+        "exit_code": 1,
+        "occupied_card_s": 8.846716165542603,
+        "relative_start_s": 1867.5619060993195,
+        "relative_end_s": 1876.408622264862,
+        "continuation": true,
+        "execution_commit": "b3a467200af0b255fe2a491924d03c2c1f0c286b",
+        "physical_gpu_role": "training_B"
+      },
+      {
+        "process_ordinal": 4,
+        "phase": "readout",
+        "exit_code": 0,
+        "occupied_card_s": 112.11584067344666,
+        "relative_start_s": 30787.03516626358,
+        "relative_end_s": 30899.151006937027,
+        "continuation": true,
+        "execution_commit": "b059d0ea7595f24a9db114b46a98cae60f0602b0",
+        "physical_gpu_role": "training_B"
+      },
+      {
+        "process_ordinal": 5,
+        "phase": "evaluation",
+        "exit_code": 0,
+        "occupied_card_s": 980.9187426567078,
+        "relative_start_s": 30899.74426317215,
+        "relative_end_s": 31880.663005828857,
+        "continuation": true,
+        "execution_commit": "b059d0ea7595f24a9db114b46a98cae60f0602b0",
+        "physical_gpu_role": "serving_A"
+      }
+    ],
+    "definition": "Child process lifetime is charged conservatively as occupied-card time; nested timers are not added again"
+  },
+  "training": {
+    "training_s": 607.4276065342128,
+    "per_response_mean_s": 2.372764088024269,
+    "per_optimizer_window_mean_s": 4.745528176048538,
+    "costs": {
+      "training_s": 607.4276065342128,
+      "checkpoint_save_s": 19.076024562120438,
+      "export_s": 15.791034530848265,
+      "event_wall_s_before_commit": 651.7456300593913
+    },
+    "loading_s": 48.21888284385204,
+    "startup": {
+      "wall_s": 39.86509656533599,
+      "logical_work": {
+        "attempts": {
+          "response_forwards": 2,
+          "response_backwards": 2,
+          "optimizer_steps": 0
+        },
+        "completed": {
+          "response_forwards": 2,
+          "response_backwards": 2,
+          "optimizer_steps": 0
+        },
+        "unknown": {
+          "response_forwards": 0,
+          "response_backwards": 0,
+          "optimizer_steps": 0
+        }
+      },
+      "physical_work": {
+        "draft_forwards": 2,
+        "layer_forwards": 10,
+        "objective_chunks": 132,
+        "vocabulary_head_calls": 264,
+        "response_forwards": 2,
+        "backwards_attempted": 2,
+        "backwards_completed": 2
+      }
+    },
+    "process_receipt_wall_s": 776.9229786396027,
+    "actual_work": {
+      "draft_forwards": 256,
+      "layer_forwards": 1280,
+      "objective_chunks": 23580,
+      "vocabulary_head_calls": 47160,
+      "response_forwards": 256,
+      "backwards_attempted": 256,
+      "backwards_completed": 256
+    },
+    "objective_costs_nested": {
+      "reference_setup_s": 0.0,
+      "reference_forward_s": 0.0,
+      "reference_head_s": 0.0,
+      "projection_s": 0.0,
+      "teacher_head_s": 148.09791054576635,
+      "selection_s": 19.338416930288076,
+      "kplus_chunk_s": 10.647052425891161,
+      "kplus_response_s": 0.13395468890666962,
+      "work": {
+        "draft_forwards": 256,
+        "layer_forwards": 1280,
+        "objective_chunks": 23580,
+        "vocabulary_head_calls": 47160,
+        "response_forwards": 256,
+        "backwards_attempted": 256,
+        "backwards_completed": 256
+      },
+      "reference_operations": 0
+    },
+    "peak_allocated_bytes": 20555326976,
+    "peak_reserved_bytes": 27780972544,
+    "timer_scope": "Training/persistence/export are nested in event/process wall; objective timers are nested in training, not additive"
+  },
+  "qualification": [
+    {
+      "arm": "BASE",
+      "fixture": 0,
+      "wall_s": 145.3810537904501,
+      "loading_s": 48.62658824771643,
+      "startup": {
+        "wall_s": 39.39215875789523,
+        "logical_work": {
+          "attempts": {
+            "response_forwards": 2,
+            "response_backwards": 2,
+            "optimizer_steps": 0
+          },
+          "completed": {
+            "response_forwards": 2,
+            "response_backwards": 2,
+            "optimizer_steps": 0
+          },
+          "unknown": {
+            "response_forwards": 0,
+            "response_backwards": 0,
+            "optimizer_steps": 0
+          }
+        },
+        "physical_work": {
+          "draft_forwards": 2,
+          "layer_forwards": 10,
+          "objective_chunks": 132,
+          "vocabulary_head_calls": 264,
+          "response_forwards": 2,
+          "backwards_attempted": 2,
+          "backwards_completed": 2
+        }
+      },
+      "actual_work": {
+        "draft_forwards": 2,
+        "layer_forwards": 10,
+        "objective_chunks": 206,
+        "vocabulary_head_calls": 412,
+        "response_forwards": 2,
+        "backwards_attempted": 2,
+        "backwards_completed": 2
+      },
+      "objective_costs_nested": {
+        "reference_setup_s": 0.0,
+        "reference_forward_s": 0.0,
+        "reference_head_s": 0.0,
+        "projection_s": 0.0,
+        "teacher_head_s": 1.298763882368803,
+        "selection_s": 0.1764928102493286,
+        "kplus_chunk_s": 0.0955558605492115,
+        "kplus_response_s": 0.0011455155909061432,
+        "work": {
+          "draft_forwards": 2,
+          "layer_forwards": 10,
+          "objective_chunks": 206,
+          "vocabulary_head_calls": 412,
+          "response_forwards": 2,
+          "backwards_attempted": 2,
+          "backwards_completed": 2
+        },
+        "reference_operations": 0
+      }
+    },
+    {
+      "arm": "TAIL_DISABLED",
+      "fixture": 0,
+      "wall_s": 135.75958444178104,
+      "loading_s": 43.63692719116807,
+      "startup": {
+        "wall_s": 35.36224213987589,
+        "logical_work": {
+          "attempts": {
+            "response_forwards": 2,
+            "response_backwards": 2,
+            "optimizer_steps": 0
+          },
+          "completed": {
+            "response_forwards": 2,
+            "response_backwards": 2,
+            "optimizer_steps": 0
+          },
+          "unknown": {
+            "response_forwards": 0,
+            "response_backwards": 0,
+            "optimizer_steps": 0
+          }
+        },
+        "physical_work": {
+          "draft_forwards": 2,
+          "layer_forwards": 10,
+          "objective_chunks": 132,
+          "vocabulary_head_calls": 264,
+          "response_forwards": 2,
+          "backwards_attempted": 2,
+          "backwards_completed": 2
+        }
+      },
+      "actual_work": {
+        "draft_forwards": 2,
+        "layer_forwards": 10,
+        "objective_chunks": 206,
+        "vocabulary_head_calls": 412,
+        "response_forwards": 2,
+        "backwards_attempted": 2,
+        "backwards_completed": 2
+      },
+      "objective_costs_nested": {
+        "reference_setup_s": 0.0,
+        "reference_forward_s": 0.0,
+        "reference_head_s": 0.0,
+        "projection_s": 0.0,
+        "teacher_head_s": 1.2995888479053974,
+        "selection_s": 0.17365312203764915,
+        "kplus_chunk_s": 0.09440631791949272,
+        "kplus_response_s": 0.001096833497285843,
+        "work": {
+          "draft_forwards": 2,
+          "layer_forwards": 10,
+          "objective_chunks": 206,
+          "vocabulary_head_calls": 412,
+          "response_forwards": 2,
+          "backwards_attempted": 2,
+          "backwards_completed": 2
+        },
+        "reference_operations": 0
+      }
+    },
+    {
+      "arm": "TAIL",
+      "fixture": 0,
+      "wall_s": 135.8637800179422,
+      "loading_s": 43.611990075558424,
+      "startup": {
+        "wall_s": 35.48852279037237,
+        "logical_work": {
+          "attempts": {
+            "response_forwards": 2,
+            "response_backwards": 2,
+            "optimizer_steps": 0
+          },
+          "completed": {
+            "response_forwards": 2,
+            "response_backwards": 2,
+            "optimizer_steps": 0
+          },
+          "unknown": {
+            "response_forwards": 0,
+            "response_backwards": 0,
+            "optimizer_steps": 0
+          }
+        },
+        "physical_work": {
+          "draft_forwards": 2,
+          "layer_forwards": 10,
+          "objective_chunks": 132,
+          "vocabulary_head_calls": 264,
+          "response_forwards": 2,
+          "backwards_attempted": 2,
+          "backwards_completed": 2
+        }
+      },
+      "actual_work": {
+        "draft_forwards": 2,
+        "layer_forwards": 10,
+        "objective_chunks": 206,
+        "vocabulary_head_calls": 412,
+        "response_forwards": 2,
+        "backwards_attempted": 2,
+        "backwards_completed": 2
+      },
+      "objective_costs_nested": {
+        "reference_setup_s": 0.0,
+        "reference_forward_s": 0.0,
+        "reference_head_s": 0.0,
+        "projection_s": 0.0,
+        "teacher_head_s": 1.2978502437472343,
+        "selection_s": 0.17367172613739967,
+        "kplus_chunk_s": 0.09444397315382957,
+        "kplus_response_s": 0.0010630078613758087,
+        "work": {
+          "draft_forwards": 2,
+          "layer_forwards": 10,
+          "objective_chunks": 206,
+          "vocabulary_head_calls": 412,
+          "response_forwards": 2,
+          "backwards_attempted": 2,
+          "backwards_completed": 2
+        },
+        "reference_operations": 0
+      }
+    }
+  ],
+  "work": {
+    "qualification_adam_steps": 3,
+    "committed_adam_steps": 128,
+    "total_adam_steps": 131,
+    "process_attempts": 6,
+    "completed_processes": 4,
+    "failed_processes": 2,
+    "failed_readout_first_attempt_completed_forwards": 74,
+    "failed_pre_model_resume_forwards": 0,
+    "committed_presentations": 256,
+    "qualification_presentations": 6,
+    "discarded_startup_presentations": 8,
+    "native_training_and_startup_physical_work": {
+      "draft_forwards": 270,
+      "layer_forwards": 1350,
+      "objective_chunks": 24726,
+      "vocabulary_head_calls": 49452,
+      "response_forwards": 270,
+      "backwards_attempted": 270,
+      "backwards_completed": 270
+    },
+    "readout": {
+      "response_reads_attempted": 137,
+      "response_reads_completed": 137,
+      "draft_forwards_attempted": 137,
+      "draft_forwards_completed": 137,
+      "head_calls_attempted": 1040,
+      "head_calls_completed": 1040,
+      "blocks_completed": 8320,
+      "backwards": 0,
+      "optimizer_steps": 0,
+      "teacher_forwards": 0,
+      "feedback_generations": 0,
+      "serving_generations": 0
+    },
+    "scored_generations": 768,
+    "warmup_generations": 24,
+    "new_feedback": 0,
+    "new_teacher_preparation": 0
+  },
+  "activity": {
+    "continuation_changed_high_positions": 22781.0,
+    "continuation_active_response": 256.0,
+    "continuation_high_count": 22781.0,
+    "continuation_low_count": 46348.0,
+    "continuation_moved_weight": 158.50616573542356
+  },
+  "readout": {
+    "cumulative_model_attempt_wall_s": 197.51043185591698,
+    "model_forward_attempts": [
+      {
+        "attempt": 1,
+        "status": "failed_after74_successful_forwards",
+        "wall_s": 89.97723547369242,
+        "work": {
+          "response_reads_attempted": 74,
+          "response_reads_completed": 74,
+          "draft_forwards_attempted": 74,
+          "draft_forwards_completed": 74,
+          "head_calls_attempted": 592,
+          "head_calls_completed": 592,
+          "blocks_completed": 4736,
+          "backwards": 0,
+          "optimizer_steps": 0,
+          "teacher_forwards": 0,
+          "feedback_generations": 0,
+          "serving_generations": 0
+        }
+      },
+      {
+        "attempt": 2,
+        "status": "completed_remaining63",
+        "wall_s": 107.53319638222456,
+        "work": {
+          "response_reads_attempted": 63,
+          "response_reads_completed": 63,
+          "draft_forwards_attempted": 63,
+          "draft_forwards_completed": 63,
+          "head_calls_attempted": 448,
+          "head_calls_completed": 448,
+          "blocks_completed": 3584,
+          "backwards": 0,
+          "optimizer_steps": 0,
+          "teacher_forwards": 0,
+          "feedback_generations": 0,
+          "serving_generations": 0
+        }
+      }
+    ],
+    "loading": [
+      {
+        "wall_s": 28.536550145596266,
+        "device_initialization_s_nested": 0.18934931233525276,
+        "exact_export_copy": true,
+        "startup_forwards": 0,
+        "startup_backwards": 0
+      },
+      {
+        "wall_s": 28.983894512057304,
+        "device_initialization_s_nested": 0.13503824174404144,
+        "exact_export_copy": true,
+        "startup_forwards": 0,
+        "startup_backwards": 0
+      }
+    ],
+    "work": {
+      "response_reads_attempted": 137,
+      "response_reads_completed": 137,
+      "draft_forwards_attempted": 137,
+      "draft_forwards_completed": 137,
+      "head_calls_attempted": 1040,
+      "head_calls_completed": 1040,
+      "blocks_completed": 8320,
+      "backwards": 0,
+      "optimizer_steps": 0,
+      "teacher_forwards": 0,
+      "feedback_generations": 0,
+      "serving_generations": 0
+    },
+    "peaks": [
+      {
+        "allocated_bytes": 4795752960,
+        "reserved_bytes": 5041553408
+      },
+      {
+        "allocated_bytes": 4796148224,
+        "reserved_bytes": 5014290432
+      }
+    ],
+    "process_attempts": [
+      {
+        "attempt": 1,
+        "completed_response_forwards": 74,
+        "exit_code": 1,
+        "occupied_card_s": 93.80240797996521,
+        "execution_commit": "b3637cfe4ac3fb4096368cc0c93896b420bdb9a8"
+      },
+      {
+        "attempt": 2,
+        "completed_response_forwards": 0,
+        "exit_code": 1,
+        "occupied_card_s": 8.846716165542603,
+        "execution_commit": "b3a467200af0b255fe2a491924d03c2c1f0c286b"
+      },
+      {
+        "attempt": 3,
+        "completed_response_forwards": 63,
+        "exit_code": 0,
+        "occupied_card_s": 112.11584067344666,
+        "execution_commit": "b059d0ea7595f24a9db114b46a98cae60f0602b0"
+      }
+    ],
+    "cost_scope": "Two endpoint-loading/model attempts plus the separately charged zero-model checker rejection; process lifetimes include startup/cleanup and are not added to their nested model timers"
+  },
+  "serving": {
+    "recorded": {
+      "loading_s": 21.76104050129652,
+      "activation_s": 63.843535136431456,
+      "warmup_request_latency_s": 32.997910905629396,
+      "scored_request_latency_s": 815.064337875694,
+      "primary_uses": "Sum of per-request means across three scored repeats; excludes loading/switching/warmups"
+    },
+    "status_wall_s": 964.1894679069519,
+    "scored_generations": 768,
+    "warmup_generations": 24,
+    "note": "Serving, cache maintenance, activation, loading and warmups remain distinct; no historical serving latency claim"
+  },
+  "storage": {
+    "sampled_minimum_free_bytes": 414286766080,
+    "sampled_maximum_all_locations_charged_bytes": 11947360000,
+    "allocated_limit_bytes": 24000000000,
+    "reserve_bytes": 400000000000,
+    "conservative_admission": {
+      "free_bytes": 424401014784,
+      "remote_remaining_peak_bytes": 22000000000,
+      "local_bytes": 1500000000,
+      "all_locations_peak_bytes": 23500000000,
+      "checks": {
+        "idle": true,
+        "disk": true,
+        "total": true,
+        "host": true,
+        "gpu": true
+      },
+      "admitted": true
+    },
+    "evidence_scope": "Boundary samples plus conservative admission; samples alone are not an exact instantaneous peak measurement",
+    "source_copies_charged": 4,
+    "runtime_local_allowance_bytes": 1500000000,
+    "local_allowance_scope": "Runtime boundary totals use the declared local allowance. Actual retrieval/archive/publication allocation is checked separately.",
+    "postflight_free_bytes": 414287224832,
+    "postflight_remote_charged_bytes": 10446884864,
+    "postflight_identity": {
+      "bytes": 126456,
+      "sha256": "8b2c58f12a70451398cbed8eb9d185dfc7e4c4f2ebe677392d039778c3476d8b"
+    },
+    "delivery": {
+      "local_study_allocated_with_archive_bytes": 1281024000,
+      "local_study_allocated_after_transport_removal_bytes": 1229369344,
+      "additional_shared_git_allocated_bytes": 0,
+      "observed_all_locations_with_archive_bytes": 11727908864,
+      "all_locations_after_transport_removal_bytes": 11676254208,
+      "publication_allowance_remaining_bytes": 10000000,
+      "final_publication_recheck_required": true,
+      "fenrir_free_bytes": 71750123520,
+      "accounting_scope": "Allocated study includes blocked snapshot, checkout, extracted raw, and any public output already present. Remote charge includes four source trees; existing shared Git history is inherited. These are observed boundaries, not exact continuous peaks."
+    }
+  },
+  "cleanup": {
+    "files_retired": 3,
+    "freed_allocated_bytes": 19243552768,
+    "before_free_bytes": 405508534272,
+    "after_free_bytes": 424752062464,
+    "retained_selected_endpoints": 6,
+    "no_results_or_failure_records_deleted": true,
+    "lost_capability": "Direct CODE event57 optimizer/RNG rollback; final event58 and compact scientific evidence remain"
+  },
+  "historical_BASE_context": {
+    "BASE_training_s": 564.5454941540956,
+    "TAIL_training_s": 607.4276065342128,
+    "ratio": 1.0759586478400132,
+    "percent_change": 7.595864784001316,
+    "limitation": "Historical BASE event timer, not fresh matched causal overhead or training-inclusive speedup"
+  },
+  "memory_limitations": "Qualification and serving CUDA peaks were not recorded; available TAIL/readout peaks are not a measured campaign-wide maximum",
+  "execution": {
+    "original_training_commit": "b3637cfe4ac3fb4096368cc0c93896b420bdb9a8",
+    "remaining_orchestration_commit": "b059d0ea7595f24a9db114b46a98cae60f0602b0",
+    "original_clock_preserved": true,
+    "elapsed_limit_extended_only": true,
+    "original_elapsed_limit_s": 14400,
+    "approved_elapsed_limit_s": 43200,
+    "occupied_card_limit_s": 14400,
+    "original_failure_and_pre_model_rejection_preserved": true
+  },
+  "checks": 337,
+  "audit_wall_s": 0.3040364198386669
+}

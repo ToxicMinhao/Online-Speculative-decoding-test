@@ -1,0 +1,55 @@
+{
+  "status": "completed_after_authorized_continuation",
+  "native_failures": [
+    {
+      "phase": "readout",
+      "source_commit": "b3637cfe4ac3fb4096368cc0c93896b420bdb9a8",
+      "cause": "Concurrent supervisor/child STORAGE.json.tmp writes",
+      "process_s": 93.80240797996521,
+      "completed_forwards": 74
+    },
+    {
+      "phase": "readout_preflight",
+      "source_commit": "b3a467200af0b255fe2a491924d03c2c1f0c286b",
+      "cause": "Checker required missing filename in compact FileNotFoundError repr instead of authenticated full traceback",
+      "process_s": 8.846716165542603,
+      "completed_forwards": 0
+    }
+  ],
+  "remaining_continuation": {
+    "source_commit": "b059d0ea7595f24a9db114b46a98cae60f0602b0",
+    "completed_readout_forwards": 63,
+    "scored_generations": 768,
+    "warmups": 24,
+    "new_training": 0,
+    "new_qualification": 0
+  },
+  "cpu_audit_delivery_failure": {
+    "cause": "Suffix-based retrieval omitted six preserved extensionless PID/exit receipts",
+    "bytes": 30,
+    "repair": "Fetched all six from A800 and authenticated against original REPAIR receipts",
+    "new_native_work": 0,
+    "failed_audits_retained": [
+      "serving_001",
+      "native_001"
+    ],
+    "passed_audits": [
+      "serving_002",
+      "native_002"
+    ]
+  },
+  "report_only_fix": {
+    "commit": "d63f62560110bd39249d90b0af28326b04933cdf",
+    "change": "Count all3 readout processes separately from2 model-forward attempts and record CPU-analysis source"
+  },
+  "elapsed_authorization": {
+    "user_answer": "Extend elapsed limit to 12 hours",
+    "old_limit_s": 14400,
+    "new_limit_s": 43200,
+    "unchanged_occupied_card_limit_s": 14400,
+    "original_epoch": 1795699866.5963655,
+    "clock_reset": false
+  },
+  "scientific_settings_changed": false,
+  "original_failures_erased": false
+}

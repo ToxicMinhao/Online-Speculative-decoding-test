@@ -1,0 +1,272 @@
+{
+  "status": "passed",
+  "source_commit": "b059d0ea7595f24a9db114b46a98cae60f0602b0",
+  "source_provenance": {
+    "training_commit": "b3637cfe4ac3fb4096368cc0c93896b420bdb9a8",
+    "serving_commit": "b059d0ea7595f24a9db114b46a98cae60f0602b0",
+    "readout_attempts": 3,
+    "readout_model_forward_attempts": 2,
+    "original_plan_identity": {
+      "bytes": 203176,
+      "sha256": "2d4e24408fc64343406525a9a1ee9eb61ca553ffca69f650d278867012b207d4"
+    },
+    "additional_adam_applications": 0,
+    "original_clock_epoch": 1795699866.5963655,
+    "orchestration_repairs": 2,
+    "historical_individual_readout_byte_equality_proven": false,
+    "clock": {
+      "first_gpu_action_epoch": 1795699866.5963655,
+      "elapsed_s": 31880.663005828857,
+      "occupied_card_s": 2401.5523097515106,
+      "failed_pre_model_s": 8.846716165542603,
+      "original_elapsed_limit_s": 14400,
+      "effective_elapsed_limit_s": 43200,
+      "occupied_limit_s": 14400
+    },
+    "source_manifests": [
+      {
+        "role": "source.json",
+        "commit": "b3637cfe4ac3fb4096368cc0c93896b420bdb9a8",
+        "identity": {
+          "bytes": 1011994,
+          "sha256": "6df4a773f11ea42609aa10779ac29a9126c38611aed06cb0efcb5d3b262f3e5b"
+        }
+      },
+      {
+        "role": "repair_source.json",
+        "commit": "b3a467200af0b255fe2a491924d03c2c1f0c286b",
+        "identity": {
+          "bytes": 1012347,
+          "sha256": "5424c0c64828715c389e4d6c737d82b35344f93abe05d806fd1fbee227f9e0f6"
+        }
+      },
+      {
+        "role": "execution_source.json",
+        "commit": "b059d0ea7595f24a9db114b46a98cae60f0602b0",
+        "identity": {
+          "bytes": 1013508,
+          "sha256": "943fafaebcfebe5c7cb9f52389695d895487c843ae909c1dcc2bf4b1a05e4aeb"
+        }
+      },
+      {
+        "role": "preflight_source.json",
+        "commit": "d819c243235e5a650ce5292f2fa26ebfa563a758",
+        "identity": {
+          "bytes": 1013120,
+          "sha256": "5e92ef3cf0edd0d30fd28ccba724c82dfe196ee6f103649eb7d2036830c72803"
+        }
+      }
+    ],
+    "source_authentication_scope": "Authenticates retained source manifests; full live checkout bytes require companion postflight.",
+    "elapsed_extension": {
+      "previous_elapsed_s": 14400,
+      "approved_elapsed_s": 43200,
+      "occupied_card_s": 14400,
+      "user_answer": "Extend elapsed limit to 12 hours"
+    },
+    "analysis_source": {
+      "analysis_execution_commit": "00ac1944e8d8d535c24c690917e2a2890af64659",
+      "serving_execution_commit": "b059d0ea7595f24a9db114b46a98cae60f0602b0",
+      "training_execution_commit": "b3637cfe4ac3fb4096368cc0c93896b420bdb9a8",
+      "clean": true,
+      "analysis_py_sha256": "20bb3f72785bcadd354bd826ee1a67fc04f26cdc197a2765c1912e2f930bbbd9",
+      "local_analysis_view_identity": {
+        "bytes": 204115,
+        "sha256": "44e2f1353a7f34833bd711007dde882f4f12ec33806de523c7f596349d6bbd66"
+      }
+    }
+  },
+  "generation_accounting": {
+    "returned": 792,
+    "valid": 792,
+    "scored": 768,
+    "warmups": 24,
+    "activations": 12
+  },
+  "native_blocks": 47676,
+  "totals": {
+    "BASE": {
+      "request_latency_s": 135.77771669998765,
+      "native_generate_s": 131.7541797546049,
+      "cache_maintenance_s": 0.05426000555356344,
+      "output_tokens": 50226.0,
+      "verification_calls": 7639.0,
+      "accepted_draft_tokens": 42580.0,
+      "native_accepted_draft_tokens": 42459.0,
+      "committed_progress": 50098.0,
+      "native_accepted_per_call": 5.558188244534625,
+      "stop_clipped_accepted_per_call": 5.574028014137976,
+      "committed_per_call": 6.558188244534625,
+      "tokens_per_s": 369.91342335634204,
+      "repeat_totals": {
+        "request_latency_s": [
+          135.796026147902,
+          135.81813840568066,
+          135.71898554638028
+        ],
+        "native_generate_s": [
+          131.7717108093202,
+          131.79594802483916,
+          131.6948804296553
+        ],
+        "cache_maintenance_s": [
+          0.0554707907140255,
+          0.053364500403404236,
+          0.053944725543260574
+        ]
+      },
+      "termination_counts": {
+        "eos": 128,
+        "length": 0
+      },
+      "output_length": {
+        "min": 144,
+        "max": 1314,
+        "mean": 392.390625,
+        "median": 359.5
+      }
+    },
+    "TAIL": {
+      "request_latency_s": 135.9103959252437,
+      "native_generate_s": 131.80043227722248,
+      "cache_maintenance_s": 0.05474383383989334,
+      "output_tokens": 50226.0,
+      "verification_calls": 7637.0,
+      "accepted_draft_tokens": 42583.0,
+      "native_accepted_draft_tokens": 42461.0,
+      "committed_progress": 50098.0,
+      "native_accepted_per_call": 5.559905722142203,
+      "stop_clipped_accepted_per_call": 5.575880581380123,
+      "committed_per_call": 6.559905722142203,
+      "tokens_per_s": 369.55230435518973,
+      "repeat_totals": {
+        "request_latency_s": [
+          136.0423719957471,
+          135.86202435195446,
+          135.82679142802954
+        ],
+        "native_generate_s": [
+          131.925566136837,
+          131.75263565406203,
+          131.72309504076838
+        ],
+        "cache_maintenance_s": [
+          0.05517404153943062,
+          0.054416473954916,
+          0.054640986025333405
+        ]
+      },
+      "termination_counts": {
+        "eos": 128,
+        "length": 0
+      },
+      "output_length": {
+        "min": 144,
+        "max": 1314,
+        "mean": 392.390625,
+        "median": 359.5
+      }
+    }
+  },
+  "contrasts": {
+    "TAIL_vs_BASE": {
+      "candidate": "TAIL",
+      "baseline": "BASE",
+      "request_latency_s_reduction_pct": {
+        "value": -0.09771796763178298,
+        "ci95": [
+          -0.4967132784272815,
+          0.27973209425873136
+        ],
+        "status": "prespecified_primary"
+      },
+      "native_generate_s_reduction_pct": {
+        "value": -0.035105165319015974,
+        "ci95": [
+          -0.4116615034156001,
+          0.3273231865708461
+        ],
+        "status": "descriptive_unadjusted"
+      },
+      "cache_maintenance_s_reduction_pct": {
+        "value": -0.8916849185580888,
+        "ci95": [
+          -2.40062963746674,
+          0.5319478736348182
+        ],
+        "status": "descriptive_unadjusted"
+      },
+      "verification_call_reduction_pct": {
+        "value": 0.026181437360905946,
+        "ci95": [
+          -0.36008621807644076,
+          0.3977136736753878
+        ],
+        "status": "descriptive_unadjusted"
+      },
+      "wins": 40,
+      "regressions": 40,
+      "ties": 48,
+      "gross_calls_saved": 60,
+      "gross_calls_added": 58,
+      "net_calls_saved": 2,
+      "request_latency_s_request_outcomes": {
+        "wins": 57,
+        "regressions": 71,
+        "ties": 0
+      },
+      "native_generate_s_request_outcomes": {
+        "wins": 54,
+        "regressions": 74,
+        "ties": 0
+      },
+      "cache_maintenance_s_request_outcomes": {
+        "wins": 55,
+        "regressions": 73,
+        "ties": 0
+      }
+    }
+  },
+  "bootstrap": {
+    "draws": 10000,
+    "seed": 20261126,
+    "generator": "PCG64",
+    "input_order_digest": "978d026c40b7a8acf286716434d2867fcacfdcea215d9b2a497172f72db76f57",
+    "draw_sha256": "d6d0fbd850363832ed28152a5a7adc7a1baf2070887b1cda537faf49d068106f",
+    "shared_indices_for_latency_and_calls": true
+  },
+  "decision": {
+    "label": "NO_DEMONSTRATED_BENEFIT",
+    "selected": "BASE"
+  },
+  "distinct_serving_weights": true,
+  "changed_high_occurrences": 22781.0,
+  "serving_costs": {
+    "loading_s": 21.76104050129652,
+    "activation_s": 63.843535136431456,
+    "warmup_request_latency_s": 32.997910905629396,
+    "scored_request_latency_s": 815.064337875694
+  },
+  "statistical_fallacy_scan": {
+    "coverage": "11/11 considered",
+    "simpson": "Prespecified summed request means/counts; per-request outcomes and repeat totals retained. No subgroup generalization.",
+    "ecological": "Whole requests are resampling units; timing repeats and training blocks are not independent replications.",
+    "berkson": "Reused selected development panel, explicitly not a fresh-population confirmation.",
+    "collider": "No fitted adjustment or output/performance-based request exclusion.",
+    "base_rate": "Both full call totals and gross saved/added counts retained.",
+    "regression_to_mean": "Fixed endpoints and sealed panel; one pilot cannot establish training-seed robustness.",
+    "survivorship": "Every768 scored execution and24 warmups required; no invalid/dropout removal.",
+    "look_elsewhere": "One prespecified primary timing interval; other intervals descriptive. This does not correct the project-wide history of mechanism exploration.",
+    "forking_paths": "Fixed PCG64 seed,10000 paired draws,linear percentiles,all declared requests; no tuning after outcomes.",
+    "causal": "Endpoint comparison does not isolate a theoretical causal mechanism or establish training-inclusive speedup.",
+    "reverse_causality": "Fixed checkpoints precede evaluation; mechanism readouts remain descriptive training evidence."
+  },
+  "checks": 7787452,
+  "files_read": 854,
+  "input_files_digest": "22e54383458ba273bbe35a256b71f9b300be27d7db14e80449731bb0f44e98c8",
+  "audit_implementation_sha256": "7f2c1ffa913502471cc2960e8998c7e71da4a585601441e3a046acd7f9f27088",
+  "numerical_comparison": "FP64 arithmetic replay atol1e-11/rtol2e-12 only; scientific decision uses unrounded results",
+  "independence": "Standalone arithmetic and validity code, no production reducer/bootstrap imports; shared context/model family and prior objective authorship disclosed.",
+  "limits": "Authenticates retained canonical/token/trace agreement, not a new verifier run or independent target-only reference. Full parameter-content authentication and server quiet/resource evidence require companion postflight audit.",
+  "new_model_work": 0
+}

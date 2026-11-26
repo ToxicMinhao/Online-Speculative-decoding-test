@@ -119,3 +119,24 @@ python -u -m experiments.continuation_repair_pilot.serving --plan REPAIRED_PLAN
 ```
 
 Postflight and retrieval execute only after all GPU processes stop. Postflight checks original input and endpoint file identities, all four staged source identities and current storage. Compact evidence is streamed directly to Fenrir, rehashed after extraction and preserved without model tensors. Derived CPU analysis is written to a separate directory; the raw seals and native records remain unchanged.
+
+## CPU analysis and independent audits
+
+The final CPU reducer ran from clean commit `00ac1944e8d8d535c24c690917e2a2890af64659`. It changes only reporting provenance/process counts, not scientific reductions or any GPU operation. `ANALYSIS_PLAN.json` copies the original final execution view and adds only `analysis_execution_commit`; local raw and derived locations are separate CLI arguments. `ANALYSIS_SOURCE.json` binds that view and an exact copy of the used `analysis.py`. The private raw files remain unchanged; six missing control receipts were supplemented after primary retrieval and authenticated against original failure receipts.
+
+The following environment variables denote the exact evidence locations. Commands run on Fenrir with CUDA disabled and do not load a model. Audit outputs are new paths, preserving earlier unsuccessful evidence-completeness checks.
+
+```bash
+STUDY=/home/minhao2/EAGLE_SPEC/research/dflash_continuation_repair_pilot_20261126
+PILOT_RAW="$STUDY/pilot_001/raw"
+PILOT_ANALYSIS="$STUDY/pilot_001/analysis"
+PILOT_PUBLIC="$STUDY/implementation_checkout/DFlash-Online/reports/dflash_continuation_repair_pilot_20261126/pilot_001"
+cd "$STUDY/implementation_checkout/DFlash-Online"
+CUDA_VISIBLE_DEVICES='' PYTHONDONTWRITEBYTECODE=1 OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 PYTHONPATH=.:training:inference:tests /home/minhao2/.venvs/dflash-specforge/bin/python -m experiments.continuation_repair_pilot.analysis --plan "$PILOT_ANALYSIS/ANALYSIS_PLAN.json" --raw-root "$PILOT_RAW" --analysis-output-root "$PILOT_ANALYSIS" --public "$PILOT_PUBLIC"
+python "$STUDY/audit_native_work.py" --raw "$PILOT_RAW" --retained-event "$PILOT_RAW/audit_inputs/retained_event.json" --feature-manifest "$PILOT_RAW/audit_inputs/feature_manifest.json" --base-status "$PILOT_RAW/audit_inputs/base_status.json" --diagnostic-contract "$PILOT_RAW/audit_inputs/diagnostic_contract.json" --output "$STUDY/final_audit/native_002.json"
+/home/minhao2/.venvs/dflash-specforge/bin/python "$STUDY/audit_serving_independent.py" --raw-root "$PILOT_RAW" --analysis-root "$PILOT_ANALYSIS" --public "$PILOT_PUBLIC" --output "$STUDY/final_audit/serving_002.json"
+python "$STUDY/audit_mechanism_independent.py" --raw-root "$PILOT_RAW" --retained-root /home/minhao2/EAGLE_SPEC/research/dflash_continuation_value_diagnostic_20261126/diagnostic_001/raw --output "$STUDY/final_audit/mechanism_001"
+python "$STUDY/audit_costs_independent.py" --raw-root "$PILOT_RAW" --cleanup "$STUDY/STORAGE_RETIREMENT.json" --base-status "$PILOT_RAW/audit_inputs/base_status.json" --postflight "$STUDY/POSTFLIGHT.json" --output "$STUDY/final_audit/costs_001"
+```
+
+The copied scripts in `audit_code/` are byte-identical to the executed study-local audit scripts. Their private inputs are intentionally not part of Git. The report's source identities remain tied to the original native phases, not the later publication commit.

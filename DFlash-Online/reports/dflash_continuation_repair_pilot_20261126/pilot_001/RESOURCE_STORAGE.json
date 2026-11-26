@@ -1,0 +1,23 @@
+{
+  "status": "passed",
+  "epoch": 1795732592.298008,
+  "remote_charged_bytes": 10446884864,
+  "remote_source_copies": 4,
+  "local_study_allocated_bytes": 1230970880,
+  "local_includes_blocked_snapshot": true,
+  "local_includes_raw_and_public_evidence": true,
+  "entire_shared_git_history_charged_conservatively_bytes": 60243968,
+  "all_locations_observed_boundary_bytes": 11738099712,
+  "all_locations_observed_transport_peak_plus_entire_shared_git_bytes": 11788152832,
+  "remaining_publication_allowance_bytes": 10000000,
+  "conservative_peak_with_publication_allowance_bytes": 11798152832,
+  "new_artifact_limit_bytes": 24000000000,
+  "a800_postflight_free_bytes": 414287224832,
+  "a800_reserve_bytes": 400000000000,
+  "fenrir_free_bytes": 71746519040,
+  "fenrir_reserve_bytes": 20000000000,
+  "storage_definition": "Allocated blocks at observed boundaries; initial23.5GB full-peak admission remains separate. Charge the entire shared Git store conservatively, including inherited history, rather than omitting newly added objects before the retrieval baseline. Post-commit measured growth must fit the10MB remaining allowance.",
+  "retired_obsolete_checkpoint_bytes": 19243552768,
+  "verified_redundant_transfer_archive_removed_bytes": 51649055,
+  "selected_checkpoints_and_raw_results_preserved": true
+}

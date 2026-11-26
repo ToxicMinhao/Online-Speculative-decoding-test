@@ -1,0 +1,222 @@
+{
+  "status": "ANALYZED",
+  "audit_status": "retained_arithmetic_and_validity_verified",
+  "scope": "CPU-only outcome interpretation after the fixed run; no new model execution or analysis choice.",
+  "source": {
+    "training_commit": "b3637cfe4ac3fb4096368cc0c93896b420bdb9a8",
+    "serving_commit": "b059d0ea7595f24a9db114b46a98cae60f0602b0",
+    "analysis_commit": "00ac1944e8d8d535c24c690917e2a2890af64659"
+  },
+  "primary": {
+    "candidate": "TAIL",
+    "baseline": "BASE",
+    "request_latency_s_reduction_pct": {
+      "value": -0.09771796763178298,
+      "ci95": [
+        -0.4967132784272815,
+        0.27973209425873136
+      ],
+      "status": "prespecified_primary"
+    },
+    "native_generate_s_reduction_pct": {
+      "value": -0.035105165319015974,
+      "ci95": [
+        -0.4116615034156001,
+        0.3273231865708461
+      ],
+      "status": "descriptive_unadjusted"
+    },
+    "cache_maintenance_s_reduction_pct": {
+      "value": -0.8916849185580888,
+      "ci95": [
+        -2.40062963746674,
+        0.5319478736348182
+      ],
+      "status": "descriptive_unadjusted"
+    },
+    "verification_call_reduction_pct": {
+      "value": 0.026181437360905946,
+      "ci95": [
+        -0.36008621807644076,
+        0.3977136736753878
+      ],
+      "status": "descriptive_unadjusted"
+    },
+    "wins": 40,
+    "regressions": 40,
+    "ties": 48,
+    "gross_calls_saved": 60,
+    "gross_calls_added": 58,
+    "net_calls_saved": 2,
+    "request_latency_s_request_outcomes": {
+      "wins": 57,
+      "regressions": 71,
+      "ties": 0
+    },
+    "native_generate_s_request_outcomes": {
+      "wins": 54,
+      "regressions": 74,
+      "ties": 0
+    },
+    "cache_maintenance_s_request_outcomes": {
+      "wins": 55,
+      "regressions": 73,
+      "ties": 0
+    }
+  },
+  "decision": {
+    "label": "NO_DEMONSTRATED_BENEFIT",
+    "selected": "BASE"
+  },
+  "conclusion": "TAIL was active but showed no demonstrated serving benefit. Retain native C+K+PAIR and close this refinement branch under the handoff; no equivalence or universal failure conclusion.",
+  "interval_interpretation": "The primary95% interval crosses zero. Its lower bound being slightly above-0.5% does not establish noninferiority or equivalence, and TENTATIVE also requires a positive latency point, which is absent.",
+  "unit_and_uncertainty": "128paired reused-development requests with fixed checkpoints; no training-seed or fresh-panel replication.",
+  "subgroup_repeat_descriptions": [
+    {
+      "grouping": "group",
+      "index": 0,
+      "request_count": 64,
+      "latency_s": {
+        "BASE": 72.29502370829384,
+        "TAIL": 72.4968391743799
+      },
+      "calls": {
+        "BASE": 4072,
+        "TAIL": 4077
+      },
+      "latency_reduction_pct": -0.27915540480403234,
+      "call_reduction_pct": -0.12278978388997608
+    },
+    {
+      "grouping": "group",
+      "index": 1,
+      "request_count": 64,
+      "latency_s": {
+        "BASE": 63.48269299169382,
+        "TAIL": 63.41355675086379
+      },
+      "calls": {
+        "BASE": 3567,
+        "TAIL": 3560
+      },
+      "latency_reduction_pct": 0.10890565218943937,
+      "call_reduction_pct": 0.19624334174376257
+    },
+    {
+      "grouping": "repeat",
+      "index": 0,
+      "request_count": 128,
+      "latency_s": {
+        "BASE": 135.796026147902,
+        "TAIL": 136.0423719957471
+      },
+      "calls": {
+        "BASE": 7639,
+        "TAIL": 7637
+      },
+      "latency_reduction_pct": -0.18140873104546262,
+      "call_reduction_pct": 0.026181437360905946
+    },
+    {
+      "grouping": "repeat",
+      "index": 1,
+      "request_count": 128,
+      "latency_s": {
+        "BASE": 135.81813840568066,
+        "TAIL": 135.86202435195446
+      },
+      "calls": {
+        "BASE": 7639,
+        "TAIL": 7637
+      },
+      "latency_reduction_pct": -0.032312286701152715,
+      "call_reduction_pct": 0.026181437360905946
+    },
+    {
+      "grouping": "repeat",
+      "index": 2,
+      "request_count": 128,
+      "latency_s": {
+        "BASE": 135.71898554638028,
+        "TAIL": 135.82679142802954
+      },
+      "calls": {
+        "BASE": 7639,
+        "TAIL": 7637
+      },
+      "latency_reduction_pct": -0.07943316199663375,
+      "call_reduction_pct": 0.026181437360905946
+    }
+  ],
+  "statistical_fallacy_scan": [
+    {
+      "type": "Simpson's paradox",
+      "disposition": "Descriptive heterogeneity; no uniform-benefit claim",
+      "finding": "Group0 is worse by0.279155% latency and5calls; group1 is better by0.108906% latency and7calls. The pooled latency point is negative, and all three repeat latency points are negative. There is no demonstrated reversal where every group improves but the aggregate worsens. Group checks are descriptive, not new hypothesis tests."
+    },
+    {
+      "type": "Ecological fallacy",
+      "disposition": "Inference limited to the stated unit",
+      "finding": "The128 whole requests are the resampling units. The768 scored timing executions and8,192 primary TRAIN blocks do not become independent training replications. The pooled result does not imply individual requests improve: call outcomes are40wins,40regressions,48ties."
+    },
+    {
+      "type": "Berkson selection bias",
+      "disposition": "Selection limitation disclosed",
+      "finding": "This is a reused eligible development panel, not a representative fresh confirmation set. The audit checks the complete sealed panel and its chronological slots; it does not claim population-unbiased sampling."
+    },
+    {
+      "type": "Collider bias",
+      "disposition": "No result-conditioned exclusion or adjustment",
+      "finding": "All128 requests enter the primary estimator. No request is selected or removed using latency, calls, output length or repair outcome; there is no fitted outcome-conditioned adjustment."
+    },
+    {
+      "type": "Base-rate neglect",
+      "disposition": "Full denominators checked",
+      "finding": "BASE7639calls versusTAIL7637calls over128requests and50,226outputtokens. Gross60saved and58added leave two netcalls. Counts use one validated trajectory per request, not three copies."
+    },
+    {
+      "type": "Regression to the mean",
+      "disposition": "Matched fresh control used; historical-selection limitation remains",
+      "finding": "Both fixed endpoints were evaluated contemporaneously in balanced order. Historical BASE training time is context only. Earlier favorable training diagnostics and project search history do not establish a repeatable gain."
+    },
+    {
+      "type": "Survivorship bias",
+      "disposition": "All work and both failures retained",
+      "finding": "All792serving executions are valid, including24warmups. Three readout processes contributed74,0,63forwards; the zero-forward checker failure and initial storage failure remain in original-clock costs. No unfavorable observation is omitted."
+    },
+    {
+      "type": "Look-elsewhere effect",
+      "disposition": "Exploratory-project limitation disclosed",
+      "finding": "One prespecified primary latency contrast is reported, with all declared secondary outcomes. Its interval is conditional on this fixed pilot and is not adjusted for the extensive wider project search. No positive claim is selected from the two-call point estimate."
+    },
+    {
+      "type": "Garden of forking paths",
+      "disposition": "Frozen analysis retained",
+      "finding": "The audit independently reproducesPCG64seed20261126,10,000shared paired draws and linearpercentiles. Production repairs changed receipt handling and elapsed authorization only; originaltraining, serving and CPUanalysis source identities remain distinct. No outcome-dependent threshold or panel change occurred."
+    },
+    {
+      "type": "Correlation versus causation",
+      "disposition": "No mechanism or broad efficacy claim",
+      "finding": "This valid fixed-event intervention did not demonstrate improved serving latency. TRAIN repair descriptions and coefficient activity do not establish a causal explanation, calibrated utility, general efficacy, or training-inclusive speedup."
+    },
+    {
+      "type": "Reverse causality",
+      "disposition": "Temporal order preserved",
+      "finding": "Fixed training endpoints precede fresh serving. Outcomes are not used to select a new allocation score, alter the training event or reinterpret PR64 as a positive predictive result."
+    }
+  ],
+  "fallacy_coverage": "11/11 considered",
+  "audit_failure": {
+    "attempt": "serving_001",
+    "kind": "missing retrieved input",
+    "cause": "Six extensionless prior-process files were omitted by compact retrieval. Original files were recovered with hashes matching retained REPAIR records.",
+    "resolution": "Authenticated retrieval supplement; serving_002 passed without changing auditor arithmetic, scientific data or model execution.",
+    "supplement_identity": {
+      "bytes": 1477,
+      "sha256": "415b245d94d0018b21729d4352a01e4ef30103f19158387370ae32ac00744a81"
+    }
+  },
+  "independence": "Standalone arithmetic and validity code, no production reducer/bootstrap imports; shared context/model family and prior objective authorship disclosed.",
+  "limits": "Authenticates retained canonical/token/trace agreement, not a new verifier run or independent target-only reference. Full parameter-content authentication and server quiet/resource evidence require companion postflight audit.",
+  "new_model_work": 0
+}

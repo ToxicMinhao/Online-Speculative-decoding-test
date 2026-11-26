@@ -1,0 +1,197 @@
+{
+  "requests": 128,
+  "totals": {
+    "BASE": {
+      "request_latency_s": 135.77771669998765,
+      "native_generate_s": 131.75417975460488,
+      "cache_maintenance_s": 0.05426000555356343,
+      "output_tokens": 50226.0,
+      "verification_calls": 7639.0,
+      "accepted_draft_tokens": 42580.0,
+      "native_accepted_draft_tokens": 42459.0,
+      "committed_progress": 50098.0,
+      "native_accepted_per_call": 5.558188244534625,
+      "stop_clipped_accepted_per_call": 5.574028014137976,
+      "committed_per_call": 6.558188244534625,
+      "tokens_per_s": 369.91342335634204,
+      "repeat_totals": {
+        "request_latency_s": [
+          135.796026147902,
+          135.81813840568066,
+          135.71898554638028
+        ],
+        "native_generate_s": [
+          131.7717108093202,
+          131.79594802483916,
+          131.6948804296553
+        ],
+        "cache_maintenance_s": [
+          0.0554707907140255,
+          0.053364500403404236,
+          0.053944725543260574
+        ]
+      },
+      "termination_counts": {
+        "eos": 128,
+        "length": 0
+      },
+      "output_length": {
+        "min": 144,
+        "max": 1314,
+        "mean": 392.390625,
+        "median": 359.5
+      }
+    },
+    "TAIL": {
+      "request_latency_s": 135.91039592524368,
+      "native_generate_s": 131.80043227722246,
+      "cache_maintenance_s": 0.05474383383989334,
+      "output_tokens": 50226.0,
+      "verification_calls": 7637.0,
+      "accepted_draft_tokens": 42583.0,
+      "native_accepted_draft_tokens": 42461.0,
+      "committed_progress": 50098.0,
+      "native_accepted_per_call": 5.559905722142203,
+      "stop_clipped_accepted_per_call": 5.575880581380123,
+      "committed_per_call": 6.559905722142203,
+      "tokens_per_s": 369.5523043551898,
+      "repeat_totals": {
+        "request_latency_s": [
+          136.0423719957471,
+          135.86202435195446,
+          135.82679142802954
+        ],
+        "native_generate_s": [
+          131.925566136837,
+          131.75263565406203,
+          131.72309504076838
+        ],
+        "cache_maintenance_s": [
+          0.05517404153943062,
+          0.054416473954916,
+          0.054640986025333405
+        ]
+      },
+      "termination_counts": {
+        "eos": 128,
+        "length": 0
+      },
+      "output_length": {
+        "min": 144,
+        "max": 1314,
+        "mean": 392.390625,
+        "median": 359.5
+      }
+    }
+  },
+  "contrasts": {
+    "TAIL_vs_BASE": {
+      "candidate": "TAIL",
+      "baseline": "BASE",
+      "request_latency_s_reduction_pct": {
+        "value": -0.09771796763176077,
+        "ci95": [
+          -0.4967132784272815,
+          0.27973209425873136
+        ],
+        "status": "prespecified_primary"
+      },
+      "native_generate_s_reduction_pct": {
+        "value": -0.035105165319015974,
+        "ci95": [
+          -0.4116615034156001,
+          0.3273231865708461
+        ],
+        "status": "descriptive_unadjusted"
+      },
+      "cache_maintenance_s_reduction_pct": {
+        "value": -0.8916849185580888,
+        "ci95": [
+          -2.40062963746674,
+          0.5319478736348182
+        ],
+        "status": "descriptive_unadjusted"
+      },
+      "verification_call_reduction_pct": {
+        "value": 0.026181437360905946,
+        "ci95": [
+          -0.36008621807644076,
+          0.3977136736753878
+        ],
+        "status": "descriptive_unadjusted"
+      },
+      "wins": 40,
+      "regressions": 40,
+      "ties": 48,
+      "gross_calls_saved": 60,
+      "gross_calls_added": 58,
+      "net_calls_saved": 2,
+      "request_latency_s_request_outcomes": {
+        "wins": 57,
+        "regressions": 71,
+        "ties": 0
+      },
+      "native_generate_s_request_outcomes": {
+        "wins": 54,
+        "regressions": 74,
+        "ties": 0
+      },
+      "cache_maintenance_s_request_outcomes": {
+        "wins": 55,
+        "regressions": 73,
+        "ties": 0
+      }
+    }
+  },
+  "generation_accounting": {
+    "returned": 792,
+    "valid": 792,
+    "scored": 768,
+    "warmups": 24,
+    "activations": 12
+  },
+  "parameter_identities": {
+    "BASE": {
+      "sha256": "558b515442397b1984058dc87035bf3e50a489325802b3a3d00a22df6fba43fd",
+      "tensors": 58,
+      "elements": 1048626432,
+      "representation": "sorted names/shapes/dtypes/native tensor bytes; header metadata excluded"
+    },
+    "TAIL": {
+      "sha256": "3d194e6b7099cd936367a503e050f7e18e23e5193c533a0b5d8d8867ec2edb8a",
+      "tensors": 58,
+      "elements": 1048626432,
+      "representation": "sorted names/shapes/dtypes/native tensor bytes; header metadata excluded"
+    }
+  },
+  "distinct_serving_weights": true,
+  "serving_costs": {
+    "loading_s": 21.76104050129652,
+    "activation_s": 63.843535136431456,
+    "warmup_request_latency_s": 32.997910905629396,
+    "scored_request_latency_s": 815.064337875694,
+    "primary_uses": "Sum of per-request means across three scored repeats; excludes loading/switching/warmups"
+  },
+  "decision": {
+    "label": "NO_DEMONSTRATED_BENEFIT",
+    "selected": "BASE",
+    "reason": "The completed fixed pilot meets neither benefit criterion"
+  },
+  "execution_commit": "b059d0ea7595f24a9db114b46a98cae60f0602b0",
+  "training_execution_commit": "b3637cfe4ac3fb4096368cc0c93896b420bdb9a8",
+  "serving_execution_commit": "b059d0ea7595f24a9db114b46a98cae60f0602b0",
+  "analysis_execution_commit": "00ac1944e8d8d535c24c690917e2a2890af64659",
+  "readout_attempts": 3,
+  "readout_model_forward_attempts": 2,
+  "readout_forward_counts_by_process": [
+    74,
+    0,
+    63
+  ],
+  "activity": {
+    "original_responses": 256,
+    "continuation_summaries": 256,
+    "active_response_count": 256,
+    "continuation_changed_high_positions": 22781
+  }
+}
