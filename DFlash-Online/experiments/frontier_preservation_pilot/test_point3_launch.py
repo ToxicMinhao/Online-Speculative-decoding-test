@@ -122,6 +122,8 @@ class Point3SupervisorTests(unittest.TestCase):
             source_manifest=str(self.root/'SOURCE.json'), training_python='unused-python',
             devices={'A':'gpu-a', 'B':'gpu-b'}, production_admitted=True,
             resource_admission={'admitted':True},
+            compiler_baseline=dict(directories={'TRITON_CACHE_DIR':'/cache/triton'},
+                                   allocated_bytes=2_000_000_000),
             forecast={'storage':{'remote_peak_bytes':20_000_000_000,
                                  'local_allowance_bytes':600_000_000}})
         self.path=self.root/'CONTRACT.json'
@@ -141,7 +143,64 @@ class Point3SupervisorTests(unittest.TestCase):
                                   return_value={'available_bytes':100_000_000_000}))
         stack.enter_context(patch('experiments.frontier_preservation_pilot.point3_launch.shutil.disk_usage',
                                   return_value=SimpleNamespace(free=430_000_000_000)))
+        stack.enter_context(patch('experiments.kplus_full_gsm8k.storage.compiler_snapshot',
+                                  return_value=self.plan['compiler_baseline']))
         return stack
+
+    def test_preflight_rejection_does_not_consume_qualification_or_clock(self):
+        for attempt in range(2):
+            with self.environment(), \
+                 patch('experiments.frontier_preservation_pilot.point1_prepare.gpu_inventory',
+                       return_value=dict(self.inventory, processes='another job')), \
+                 patch('experiments.frontier_preservation_pilot.point3_launch.subprocess.Popen') as spawn:
+                with self.assertRaisesRegex(RuntimeError, 'Both cards must be quiet'):
+                    launch(self.path)
+                spawn.assert_not_called()
+            self.assertFalse((self.root/'STEP_LEDGER.json').exists())
+            self.assertFalse((self.root/'CLOCK.json').exists())
+            failures = [json.loads(line) for line in
+                        (self.root/'PREFLIGHT_FAILURES.jsonl').read_text().splitlines()]
+            self.assertEqual(len(failures), attempt+1)
+            self.assertTrue(all(row['first_gpu_action_epoch'] is None
+                                and row['completed_card_s'] == 0 for row in failures))
+        # A later successful preflight still starts the original first attempt.
+        with self.environment(), \
+             patch('experiments.frontier_preservation_pilot.point3_launch.boundary',
+                   side_effect=RuntimeError('stop before any child')):
+            with self.assertRaisesRegex(RuntimeError, 'stop before any child'):
+                launch(self.path)
+        ledger = json.loads((self.root/'STEP_LEDGER.json').read_text())
+        self.assertEqual([row['number'] for row in ledger['attempts']], [1])
+        self.assertEqual(ledger['calls'], [])
+
+    def test_later_preflight_block_preserves_finished_phase_cost(self):
+        child = SimpleNamespace(pid=123, returncode=0, poll=lambda:0)
+        with self.environment(), \
+             patch('experiments.frontier_preservation_pilot.point3_launch.boundary', return_value={}), \
+             patch('experiments.frontier_preservation_pilot.point3_launch.subprocess.Popen', return_value=child) as spawn, \
+             patch.object(Point3StepLedger, 'finish_attempt'), \
+             patch('experiments.frontier_preservation_pilot.point3_launch.phase_preflight',
+                   side_effect=['B', RuntimeError('host memory changed')]):
+            with self.assertRaisesRegex(RuntimeError, 'host memory changed'):
+                launch(self.path)
+        self.assertEqual(spawn.call_count, 1)
+        clock = json.loads((self.root/'CLOCK.json').read_text())
+        self.assertEqual(clock['status'], 'blocked_before_phase')
+        self.assertEqual(clock['phases'][0]['status'], 'completed')
+        self.assertEqual(clock['completed_card_s'], clock['phases'][0]['wall_s'])
+        self.assertEqual(clock['preflight_failure']['phase'], 'train')
+
+    def test_changed_cleanup_receipt_stops_before_work(self):
+        receipt = self.root/'CLEANUP_RECEIPT.json'
+        receipt.write_text('{}')
+        self.plan['prelaunch_cleanup'] = dict(path=str(receipt), identity={'sha256':'changed'})
+        self.path.write_text(json.dumps(self.plan))
+        with self.environment(), \
+             patch('experiments.frontier_preservation_pilot.point3_launch.subprocess.Popen') as spawn:
+            with self.assertRaisesRegex(ValueError, 'cleanup receipt changed'):
+                launch(self.path)
+            spawn.assert_not_called()
+        self.assertFalse((self.root/'STEP_LEDGER.json').exists())
 
     def test_live_storage_block_prevents_popen(self):
         with self.environment(), \
@@ -206,6 +265,8 @@ class Point3SupervisorTests(unittest.TestCase):
                    phases=[dict(status='running',started_epoch=900.)])
         (self.root/'CLOCK.json').write_text(json.dumps(clock))
         with patch('experiments.frontier_preservation_pilot.point3_launch.time.time',return_value=1000.), \
+             patch('experiments.kplus_full_gsm8k.storage.compiler_snapshot',
+                   return_value=self.plan['compiler_baseline']), \
              patch('experiments.bounded_prefix_allocation.runtime.allocated_bytes',return_value=500_000_000), \
              patch('experiments.frontier_preservation_pilot.point3_launch.shutil.disk_usage',
                    return_value=SimpleNamespace(free=420_000_000_000)):
@@ -225,11 +286,52 @@ class Point3SupervisorTests(unittest.TestCase):
                            phases=[dict(status='running',started_epoch=900.)])
                 (self.root/'CLOCK.json').write_text(json.dumps(clock))
                 with patch('experiments.frontier_preservation_pilot.point3_launch.time.time',return_value=1000.), \
+                     patch('experiments.kplus_full_gsm8k.storage.compiler_snapshot',
+                           return_value=self.plan['compiler_baseline']), \
                      patch('experiments.bounded_prefix_allocation.runtime.allocated_bytes',return_value=500_000_000), \
                      patch('experiments.frontier_preservation_pilot.point3_launch.shutil.disk_usage',
                            return_value=SimpleNamespace(free=free)):
                     with self.assertRaises(error):
                         boundary(self.plan)
+
+    def test_boundary_charges_external_compiler_growth_against_global_cap(self):
+        clock = dict(first_gpu_action_epoch=900., completed_card_s=0.,
+                     phases=[dict(status='running', started_epoch=900.)])
+        (self.root/'CLOCK.json').write_text(json.dumps(clock))
+        compiler = dict(self.plan['compiler_baseline'], allocated_bytes=7_000_000_001)
+        with patch('experiments.frontier_preservation_pilot.point3_launch.time.time', return_value=1000.), \
+             patch('experiments.bounded_prefix_allocation.runtime.allocated_bytes', return_value=19_400_000_000), \
+             patch('experiments.kplus_full_gsm8k.storage.compiler_snapshot', return_value=compiler), \
+             patch('experiments.frontier_preservation_pilot.point3_launch.shutil.disk_usage',
+                   return_value=SimpleNamespace(free=450_000_000_000)):
+            with self.assertRaisesRegex(RuntimeError, 'peak storage/reserve'):
+                boundary(self.plan)
+
+    def test_cache_growth_consumes_planned_allowance_but_shrinkage_gives_no_credit(self):
+        clock = dict(first_gpu_action_epoch=900., completed_card_s=0.,
+                     phases=[dict(status='running', started_epoch=900.)])
+        (self.root/'CLOCK.json').write_text(json.dumps(clock))
+        for allocated, growth in ((3_000_000_000, 1_000_000_000), (1, 0)):
+            compiler = dict(self.plan['compiler_baseline'], allocated_bytes=allocated)
+            with self.environment(), \
+                 patch('experiments.frontier_preservation_pilot.point3_launch.time.time', return_value=1000.), \
+                 patch('experiments.bounded_prefix_allocation.runtime.allocated_bytes', return_value=500_000_000), \
+                 patch('experiments.kplus_full_gsm8k.storage.compiler_snapshot', return_value=compiler):
+                result = boundary(self.plan)
+            self.assertEqual(result['compiler_growth_bytes'], growth)
+            self.assertEqual(result['charged_bytes'], 1_100_000_000+growth)
+            self.assertEqual(result['remaining_peak_bytes'], 19_500_000_000-growth)
+
+    def test_changed_compiler_locations_stop_instead_of_erasing_growth(self):
+        clock = dict(first_gpu_action_epoch=900., completed_card_s=0.,
+                     phases=[dict(status='running', started_epoch=900.)])
+        (self.root/'CLOCK.json').write_text(json.dumps(clock))
+        with self.environment(), \
+             patch('experiments.frontier_preservation_pilot.point3_launch.time.time', return_value=1000.), \
+             patch('experiments.kplus_full_gsm8k.storage.compiler_snapshot',
+                   return_value=dict(directories={}, allocated_bytes=0)):
+            with self.assertRaisesRegex(ValueError, 'cache locations changed'):
+                boundary(self.plan)
 
 
 if __name__=='__main__':

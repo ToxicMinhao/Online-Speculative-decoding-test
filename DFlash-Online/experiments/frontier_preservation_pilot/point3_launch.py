@@ -114,6 +114,7 @@ class Point3StepLedger:
 def boundary(plan):
     """Read-only child boundary; no new clock or omitted occupied interval."""
     from experiments.bounded_prefix_allocation.runtime import allocated_bytes
+    from experiments.kplus_full_gsm8k.storage import compiler_snapshot
     root = Path(plan['root'])
     clock = json.loads((root/'CLOCK.json').read_text())
     now = time.time()
@@ -121,7 +122,13 @@ def boundary(plan):
     active = now-current['started_epoch'] if current['status']=='running' else 0.
     occupied = clock['completed_card_s']+active
     elapsed = now-clock['first_gpu_action_epoch']
-    charged_remote = allocated_bytes([str(root),str(Path(plan['source_manifest']).parent)])
+    compiler = compiler_snapshot()
+    baseline = plan['compiler_baseline']
+    if compiler['directories'] != baseline['directories']:
+        raise ValueError('Point3 compiler cache locations changed after admission')
+    compiler_growth = max(0, compiler['allocated_bytes'] - baseline['allocated_bytes'])
+    artifact_bytes = allocated_bytes([str(root),str(Path(plan['source_manifest']).parent)])
+    charged_remote = artifact_bytes + compiler_growth
     charged = charged_remote + plan['forecast']['storage']['local_allowance_bytes']
     remaining = max(0,plan['forecast']['storage']['remote_peak_bytes']-charged_remote)
     free = shutil.disk_usage(root).free
@@ -131,12 +138,32 @@ def boundary(plan):
         raise RuntimeError('Point3 peak storage/reserve no longer admitted')
     return dict(elapsed_s=elapsed,occupied_card_s=occupied,
         cumulative_card_s=HISTORICAL_CARD_S+occupied,charged_bytes=charged,
+        artifact_bytes=artifact_bytes,compiler_growth_bytes=compiler_growth,
         free_bytes=free,remaining_peak_bytes=remaining)
+
+
+def phase_preflight(plan, phase):
+    """Check live resources before creating a work attempt or starting a card clock."""
+    from .point1_prepare import gpu_inventory, host_memory
+    inventory = gpu_inventory()
+    if inventory['processes']:
+        raise RuntimeError('Both cards must be quiet before Point3 phase launch')
+    if host_memory()['available_bytes'] < 87_000_000_000:
+        raise RuntimeError('Point3 host workspace plus32GB reserve unavailable')
+    free = shutil.disk_usage(plan['root']).free
+    if free < LIMITS['reserve_bytes']:
+        raise RuntimeError('A800 free-space reserve lost')
+    if phase == 'qualification' and free < 420_000_000_000:
+        raise RuntimeError('Whole comparison storage no longer admitted')
+    card = 'A' if phase == 'evaluate' else 'B'
+    selected = next(row for row in inventory['cards'] if row['uuid'] == plan['devices'][card])
+    if selected['total_bytes'] - selected['used_bytes'] < 60_000_000_000:
+        raise RuntimeError('Point3 free VRAM requirement not met')
+    return card
 
 
 def launch(plan_path):
     """No automatic retry. Native qualification precedes both events and serving."""
-    from .point1_prepare import gpu_inventory, host_memory
     from .qualify import verify_source
     plan_path = Path(plan_path)
     plan = json.loads(plan_path.read_text())
@@ -144,25 +171,34 @@ def launch(plan_path):
             or not plan['production_admitted'] or not plan['resource_admission']['admitted']):
         raise ValueError('Require the complete admitted Point3 contract')
     verify_source(plan)
+    cleanup = plan.get('prelaunch_cleanup')
+    if cleanup is not None and identity(cleanup['path']) != cleanup['identity']:
+        raise ValueError('Point3 prelaunch cleanup receipt changed after admission')
     root = Path(plan['root'])
     clock_path = root/'CLOCK.json'
     if clock_path.exists():
         raise FileExistsError('Existing Point3 clock: preserve work; no full-event restart')
-    ledger = Point3StepLedger(root/'STEP_LEDGER.json', identity(plan_path))
-    ledger.start_attempt(1)
+    ledger = None
     phases = [('qualification', None), *[('train', arm) for arm in ARMS], ('evaluate', None)]
     clock = dict(first_gpu_action_epoch=None, completed_card_s=0.,
                  historical_card_s=HISTORICAL_CARD_S, phases=[], status='preflight')
     for phase, arm in phases:
-        inventory = gpu_inventory()
-        if inventory['processes']:
-            raise RuntimeError('Both cards must be quiet before Point3 phase launch')
-        if host_memory()['available_bytes'] < 87_000_000_000:
-            raise RuntimeError('Point3 host workspace plus32GB reserve unavailable')
-        if shutil.disk_usage(root).free < LIMITS['reserve_bytes']:
-            raise RuntimeError('A800 free-space reserve lost')
-        if phase == 'qualification' and shutil.disk_usage(root).free < 420_000_000_000:
-            raise RuntimeError('Whole comparison storage no longer admitted')
+        try:
+            card = phase_preflight(plan, phase)
+        except BaseException as error:
+            failure = dict(phase=phase, arm=arm, error=repr(error), epoch=time.time(),
+                           first_gpu_action_epoch=clock['first_gpu_action_epoch'],
+                           completed_card_s=clock['completed_card_s'])
+            # A rejected preflight consumes no qualification attempt. Append its
+            # evidence so a later resource check cannot erase the earlier block.
+            with (root/'PREFLIGHT_FAILURES.jsonl').open('a') as handle:
+                handle.write(json.dumps(failure)+'\n')
+                handle.flush()
+                os.fsync(handle.fileno())
+            if clock_path.exists():
+                clock.update(status='blocked_before_phase', preflight_failure=failure)
+                write_json(clock_path, clock)
+            raise
         now = time.time()
         if clock['first_gpu_action_epoch'] is None:
             clock['first_gpu_action_epoch'] = now
@@ -170,10 +206,9 @@ def launch(plan_path):
                         LIMITS['occupied_card_s']-clock['completed_card_s']) - 30
         if remaining <= 0:
             raise TimeoutError('Point3 phase budget exhausted')
-        card = 'A' if phase=='evaluate' else 'B'
-        selected = next(row for row in inventory['cards'] if row['uuid']==plan['devices'][card])
-        if selected['total_bytes']-selected['used_bytes'] < 60_000_000_000:
-            raise RuntimeError('Point3 free VRAM requirement not met')
+        if ledger is None:
+            ledger = Point3StepLedger(root/'STEP_LEDGER.json', identity(plan_path))
+            ledger.start_attempt(1)
         source = Path(plan['source_root'])
         env = dict(os.environ, CUDA_VISIBLE_DEVICES=plan['devices'][card],
             PYTHONDONTWRITEBYTECODE='1', PYTHONPATH=os.pathsep.join(str(source/x) for x in ('.','training','inference')))

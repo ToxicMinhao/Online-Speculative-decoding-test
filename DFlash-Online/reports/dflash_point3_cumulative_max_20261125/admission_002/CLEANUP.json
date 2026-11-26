@@ -1,0 +1,52 @@
+{
+  "schema": "point3_disposable_retirement_v1",
+  "status": "completed",
+  "authorization": "User explicitly authorized safe unnecessary checkpoint/cache retirement for Point3, preserving required states/results and400GBreserve",
+  "before_free_bytes": 407182217216,
+  "after_free_bytes": 421863133184,
+  "freed_allocated_bytes": 16778248192,
+  "observed_free_increase_bytes": 14680915968,
+  "lost_capability": "Exact reload/replay of two PR58 disposable qualification endpoints only; production parents, final exports, data and compact results preserved",
+  "visibility_limit": "Current cgroup namespace inspected; external parent cgroups explicitly uninspected; no host-wide visibility claim",
+  "settled_free_bytes": 423960395776,
+  "removed": [
+    {
+      "path": "/data/sources/minhao/runs/dflash_repair_conditional_kl_20261124/execution_001/qualification/BASE/disposable_state.pt",
+      "identity": {
+        "bytes": 6291857787,
+        "sha256": "f4babb389c1a25584755395a53a05f38105b64c92fb5915767d99cfe05f8dbb2"
+      },
+      "allocated_bytes": 6291861504,
+      "reason": "One-step qualification artifact, superseded by completed PR59 full-event endpoints; no production origin or Point3 dependency"
+    },
+    {
+      "path": "/data/sources/minhao/runs/dflash_repair_conditional_kl_20261124/execution_001/qualification/BASE/export/model.safetensors",
+      "identity": {
+        "bytes": 2097259104,
+        "sha256": "1166732fd5b0f15f37c70a25e459974cf95111cc2477509f2054c8bd96b6b1fd"
+      },
+      "allocated_bytes": 2097262592,
+      "reason": "One-step qualification artifact, superseded by completed PR59 full-event endpoints; no production origin or Point3 dependency"
+    },
+    {
+      "path": "/data/sources/minhao/runs/dflash_repair_conditional_kl_20261124/execution_001/qualification/PAIR/disposable_state.pt",
+      "identity": {
+        "bytes": 6291857787,
+        "sha256": "7c5c7599395bedb162e2ce93314e53e6306a4885b241f57b68f35eb25e0b931a"
+      },
+      "allocated_bytes": 6291861504,
+      "reason": "One-step qualification artifact, superseded by completed PR59 full-event endpoints; no production origin or Point3 dependency"
+    },
+    {
+      "path": "/data/sources/minhao/runs/dflash_repair_conditional_kl_20261124/execution_001/qualification/PAIR/export/model.safetensors",
+      "identity": {
+        "bytes": 2097259104,
+        "sha256": "abdd22498fbc68067958aa7fcf33412b76ba14462ed3614bded8a8cd96f8cc49"
+      },
+      "allocated_bytes": 2097262592,
+      "reason": "One-step qualification artifact, superseded by completed PR59 full-event endpoints; no production origin or Point3 dependency"
+    }
+  ],
+  "compact_evidence_count": 85,
+  "protected_dependency_count": 204
+}

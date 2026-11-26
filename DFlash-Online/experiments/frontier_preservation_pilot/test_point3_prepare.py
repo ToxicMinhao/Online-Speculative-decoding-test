@@ -256,5 +256,70 @@ class Point3InputTests(unittest.TestCase):
                     self.authenticate(fixture)
 
 
+class Point3PreparationBindingTests(unittest.TestCase):
+    def setUp(self):
+        self.temp = TemporaryDirectory()
+        self.addCleanup(self.temp.cleanup)
+        self.root = Path(self.temp.name)
+        self.receipt = dict(schema='point3_disposable_retirement_v1', status='completed',
+            authorization='User authorized this scoped retirement',
+            candidates=[dict(path='/old/disposable/recovery.pt')],
+            removed=['/old/disposable/recovery.pt'],
+            after_free_bytes=423_960_395_776, freed_allocated_bytes=16_778_248_192,
+            lost_capability='Two old disposable qualification endpoints cannot be reloaded')
+        self.receipt_path = self.root/'CLEANUP_RECEIPT.json'
+        self.receipt_path.write_text(json.dumps(self.receipt))
+
+    def test_cleanup_receipt_binds_only_completed_authorized_retirement(self):
+        result = P.cleanup_binding(self.receipt_path)
+        self.assertEqual(result['identity'], P.identity(self.receipt_path))
+        self.assertEqual(result['removed_count'], 1)
+        self.assertEqual(result['lost_capability'], self.receipt['lost_capability'])
+        self.assertFalse(result['further_cleanup_authorized'])
+
+    def test_incomplete_or_unaccounted_cleanup_cannot_enter_plan(self):
+        for key, value in (('status', 'validated_before_unlink'), ('removed', []),
+                           ('authorization', ''), ('lost_capability', ''),
+                           ('after_free_bytes', 399_999_999_999)):
+            with self.subTest(key=key):
+                receipt = dict(self.receipt, **{key: value})
+                self.receipt_path.write_text(json.dumps(receipt))
+                with self.assertRaisesRegex(ValueError, 'cleanup receipt'):
+                    P.cleanup_binding(self.receipt_path)
+
+    def test_prepare_seals_fresh_cache_baseline_after_cleanup(self):
+        admission = self.root/'ADMISSION.json'
+        admission.write_text(json.dumps(P.resource_admission(**resources())))
+        config = self.root/'control.yaml'
+        config.write_text('run_id: old\noutput_dir: old\n')
+        previous = {key: 'old-'+key for key in (
+            'parent_plan', 'parent_plan_identity', 'parent_recovery', 'parent_export',
+            'parent_features', 'original_probe', 'original_window', 'devices', 'training_python')}
+        previous['compiler_baseline'] = dict(directories={'cache':'/old-cache'}, allocated_bytes=9000)
+        production = {key: 'retained-'+key for key in (
+            'manifest', 'canonicals', 'warmup_canonicals', 'canonical_provenance',
+            'target', 'draft', 'worker_python', 'serving', 'model_identities', 'original_config')}
+        production.update(root='/retained-production', configs={'CONTROL':str(config)})
+        inputs = dict(production=production, previous=previous, historical_controls={},
+            witness={}, features=[], retained_C_status='/retained/status',
+            retained_C_status_identity={}, control=dict(training={}, checkpoint='/retained/export'))
+        source_manifest = self.root/'SOURCE.json'
+        source_manifest.write_text('{}')
+        current = dict(directories={'cache':'/current-cache'}, allocated_bytes=1000)
+        with patch.object(P, 'authenticated_inputs', return_value=inputs), \
+             patch.object(P, 'compiler_snapshot', return_value=current) as snapshot, \
+             patch('experiments.frontier_preservation_pilot.qualify.verify_source'):
+            plan = P.prepare(production_plan='/retained-plan', point2a_root='/point2a',
+                archive_manifest='/archive', root=self.root/'output',
+                source_manifest=source_manifest, execution_commit='published',
+                admission_path=admission, cleanup_receipt_path=self.receipt_path)
+        snapshot.assert_called_once_with()
+        self.assertEqual(plan['compiler_baseline'], current)
+        self.assertEqual(plan['historical_compiler_baseline'], previous['compiler_baseline'])
+        self.assertEqual(plan['prelaunch_cleanup']['identity'], P.identity(self.receipt_path))
+        self.assertFalse(plan['inherited_deletion_allowed'])
+        self.assertEqual(json.loads((self.root/'output/CONTRACT.json').read_text()), plan)
+
+
 if __name__ == '__main__':
     unittest.main()

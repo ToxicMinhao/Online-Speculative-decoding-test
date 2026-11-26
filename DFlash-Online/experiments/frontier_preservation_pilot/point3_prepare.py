@@ -7,6 +7,7 @@ from pathlib import Path
 import time
 
 from experiments.ok_coding.storage import identity
+from experiments.kplus_full_gsm8k.storage import compiler_snapshot
 from experiments.opencode_native_comparison.contract import digest
 from online_feedback.storage import write_json
 from .point1_prepare import (
@@ -157,8 +158,24 @@ def authenticated_inputs(production_plan, point2a_root, archive_manifest):
         witness=witness, witness_bindings=bindings)
 
 
+def cleanup_binding(path):
+    """Bind the separately authorized prelaunch retirement, never perform cleanup."""
+    receipt = json.loads(Path(path).read_text())
+    candidates = [row['path'] for row in receipt['candidates']]
+    if (receipt['schema'] != 'point3_disposable_retirement_v1'
+            or receipt['status'] != 'completed'
+            or not receipt['authorization'] or not receipt['lost_capability']
+            or not candidates or len(set(candidates)) != len(candidates)
+            or receipt['removed'] != candidates
+            or receipt['after_free_bytes'] < LIMITS['reserve_bytes']):
+        raise ValueError('Point3 prelaunch cleanup receipt is incomplete or outside its reserve')
+    return dict(path=str(path), identity=identity(path), authorization=receipt['authorization'],
+                removed_count=len(candidates), freed_allocated_bytes=receipt['freed_allocated_bytes'],
+                lost_capability=receipt['lost_capability'], further_cleanup_authorized=False)
+
+
 def prepare(*, production_plan, point2a_root, archive_manifest, root,
-            source_manifest, execution_commit, admission_path):
+            source_manifest, execution_commit, admission_path, cleanup_receipt_path=None):
     admission = json.loads(Path(admission_path).read_text())
     recomputed = resource_admission(**{key: admission[key] for key in (
         'filesystems','all_locations_peak_bytes','host_available_bytes',
@@ -169,6 +186,7 @@ def prepare(*, production_plan, point2a_root, archive_manifest, root,
         raise RuntimeError('Whole Point3 campaign must be admitted before native preparation')
     from .qualify import verify_source
     import yaml
+    cleanup = None if cleanup_receipt_path is None else cleanup_binding(cleanup_receipt_path)
     inputs = authenticated_inputs(production_plan, point2a_root, archive_manifest)
     production, previous = inputs['production'], inputs['previous']
     root = Path(root)
@@ -199,6 +217,11 @@ def prepare(*, production_plan, point2a_root, archive_manifest, root,
         retained_C_schedule=inputs['control']['training'], retained_C_checkpoint=inputs['control']['checkpoint'],
         resource_admission=admission, forecast=forecast(), created_epoch=time.time(),
         status='admitted', production_admitted=True, bootstrap_seed=20261125)
+    # Charge only growth after this study's admission. An inherited baseline
+    # predates the authorized retirement and cannot describe current cache usage.
+    plan['historical_compiler_baseline'] = plan['compiler_baseline']
+    plan['compiler_baseline'] = compiler_snapshot()
+    plan['prelaunch_cleanup'] = cleanup
     plan['binding'] = digest(plan)
     verify_source(plan)
     write_json(root/'CONTRACT.json', plan)
@@ -210,5 +233,6 @@ if __name__ == '__main__':
     for name in ('production-plan','point2a-root','archive-manifest','root',
                  'source-manifest','execution-commit','admission-path'):
         parser.add_argument('--'+name, required=True)
+    parser.add_argument('--cleanup-receipt-path')
     prepared = prepare(**vars(parser.parse_args()))
     print(json.dumps(dict(status=prepared['status'], root=prepared['root'])))

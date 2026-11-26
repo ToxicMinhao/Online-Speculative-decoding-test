@@ -1,0 +1,42 @@
+{
+  "admitted": true,
+  "checks": {
+    "filesystems": true,
+    "storage_cap": true,
+    "host_memory": true,
+    "gpu_memory": true,
+    "gpu_idle": true,
+    "elapsed": true,
+    "card_time": true
+  },
+  "filesystems": [
+    {
+      "role": "a800_original",
+      "device": "A800:2066",
+      "path": "/data/sources/minhao",
+      "free_bytes": 423960395776,
+      "remaining_peak_bytes": 20000000000,
+      "reserve_bytes": 400000000000,
+      "projected_free_bytes": 403960395776,
+      "deficit_bytes": 0,
+      "passed": true
+    },
+    {
+      "role": "local_delivery",
+      "device": "Fenrir:66306",
+      "path": "/home/minhao2/EAGLE_SPEC_ARCHIVE/20261021_dflash_foundation/research/dflash_point3_cumulative_max_20261125",
+      "free_bytes": 74571804672,
+      "remaining_peak_bytes": 600000000,
+      "reserve_bytes": 20000000000,
+      "projected_free_bytes": 73971804672,
+      "deficit_bytes": 0,
+      "passed": true
+    }
+  ],
+  "all_locations_peak_bytes": 20600000000,
+  "forecast_s": 13107.715124999999,
+  "occupied_forecast_s": 13107.715124999999,
+  "host_available_bytes": 103640956928,
+  "gpu_free_bytes": 85899345920,
+  "gpu_busy": false
+}
