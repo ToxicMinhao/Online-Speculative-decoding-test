@@ -5,7 +5,8 @@ Recorded 2026-11-25 following the Point1 handoff. Working method: native C + K+P
 | Order | Question | Status | Evidence governing next work |
 |---|---|---|---|
 | 1 | Does predicted allocation survive the actual update? | Completed bounded diagnostic; four restored steps, no retry | First substantial disagreement along score, gradient, continuous update, represented update and agreement determines the next question. Reliability prerequisite, not a novelty claim. |
-| 2 | Is allocation justified relative to working C? | Provisional; not authorized for execution | Consider reference and finite intervention size separately if Point1 supports this; defer if assessment is the stronger issue. |
+| 2A | Does C-referenced scoring improve native agreement? | Completed bounded diagnostic; park | Allocation changes, +1 local prefix versus F_BETA, disjoint discrete ties; no promotion. |
+| 2B | Does allocation geometry/intervention size explain the limitation? | Provisional; not authorized for execution | Choose only after a new decision, without an automatic sweep. |
 | 3 | Does assessment represent useful verification progress? | Provisional; not authorized for execution | Connect preservation damage and repair-unlocked continuation; choose one specific substitution only after evidence review. |
 
 PR60 completed one warm event with 2 net verification calls saved (7,639 versus 7,637), unresolved serving benefit and 4.32× training time. Its allocation fidelity gates passed, while its original 1.6% hidden-state check remains failed. This evidence is retained, not relabeled success. [Report](../dflash_frontier_preservation_20261125/production_001/REPORT.md).
@@ -22,6 +23,14 @@ Execution`269f05644eeed2f0396602c47beb2a71166f8dd0`,[report](../dflash_point1_up
 
 ## Point2A authorization — November25
 
-The new user handoff authorizes only C-referenced scoring: actual native C preclip gradient, unchanged FP32 shadow/assessment/allocator, beta budgets and BF16 native teaching. Three restored cases C/F_BETA/F_C; fixed 13+15-token oracle before interpreting new candidates. Exact Point1 parent/window and eight disjoint repeatedly inspected TRAIN witnesses. Three Adam calls planned, six maximum across one identified correction retry; no new feedback, event or serving. New one-hour/one-card-hour/2GB limits and400GB reserve, with prior5510.858022664 cardseconds separate. Results pending.
+The new user handoff authorizes only C-referenced scoring: actual native C preclip gradient, unchanged FP32 shadow/assessment/allocator, beta budgets and BF16 native teaching. Three restored cases C/F_BETA/F_C; fixed 13+15-token oracle before interpreting new candidates. Exact Point1 parent/window and eight disjoint repeatedly inspected TRAIN witnesses. Three Adam calls planned, six maximum across one identified correction retry; no new feedback, event or serving. New one-hour/one-card-hour/2GB limits and400GB reserve, with prior5510.858022664 cardseconds separate. Execution completed; see the appended Point2A evidence.
 
 Point1 is complete: effect survives locally, magnitude calibration remains unresolved, transfer unestablished. Point2B (allocation geometry/intervention size) and Point3 (assessment/verification progress) remain provisional. This explicitly supersedes the earlier blanket hold only for Point2A. Null/local-only results follow the handoff convergence rule, with no automatic sweep or event.
+
+## Point2A evidence — November25
+
+Execution `1a1fb42d4fbf90d2143f0ada544713525e5d39be`, [report](../dflash_point2a_c_reference_20261125/diagnostic_001/REPORT.md), [PR62](https://github.com/ToxicMinhao/Online-Speculative-decoding-test/pull/62). Three restored calls and28 native token backwards complete without retry in280.073 cardseconds. New-direction qualification, complete historical C/F_BETA identities and parent restoration pass;78 CPU checks and858,200 independent audit assertions pass.
+
+Only the scoring reference changed. F_C moves7,665/8,979 prefix coefficients,540/55,744 pairwise order relations and65 centered signs. F_C−F_BETA yields+1 matching-prefix occurrence (responses−14/+15),+3 useful repairs and+1 damaged prefix position; F_C−C yields+22 prefix/+9 repairs/−1 damage. All64 disjoint TRAIN blocks tie on every discrete metric. F_C assessment improves over F_BETA by0.029275 but remains worse than the parent. There was no serving measurement or demonstrated transfer benefit.
+
+**Park this reference change under the agreed local-gain/disjoint-tie rule.** No adoption, additional window/event, cap/reference sweep or automatic Point2B/3. The next decision should prioritize assessment/transfer: numerical allocation calibration and local TRAIN improvement have not established useful drafting on other responses. Ties in64 reused TRAIN blocks do not prove universal non-transfer. Stage1/projectNone remains unchanged.

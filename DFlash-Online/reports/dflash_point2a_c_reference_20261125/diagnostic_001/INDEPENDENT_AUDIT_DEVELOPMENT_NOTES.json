@@ -1,0 +1,16 @@
+{
+  "audit_tooling_corrections": 1,
+  "complete_scalar_delivery_table_privacy_audit_assertions": 858200,
+  "corrected_scalar_audit_assertions": 651363,
+  "correction": "Run Git archive from the repository root while keeping the exact pinned source subtree and execution commit.",
+  "initial_failure": "The auditor invoked Git archive from a repository subdirectory while selecting that directory tree, so Git rejected the working directory before scientific checks ran.",
+  "interpretation": "This was CPU audit tooling only; no native rerun, input edit, scientific tolerance change, or experiment retry.",
+  "native_experiment_retries": 0,
+  "numerical_threshold_changes": 0,
+  "preserved_private_failure_identity": {
+    "bytes": 1926,
+    "sha256": "35ab789fb3a4206a83b1bd31a5c1beb2f8c9d884418df800cf626aff2aec8e6a"
+  },
+  "raw_artifacts_modified": false,
+  "status": "passed_after_auditor_tooling_correction"
+}

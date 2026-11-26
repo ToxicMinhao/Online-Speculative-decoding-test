@@ -1,0 +1,190 @@
+{
+  "arithmetic_tolerances": {
+    "independent_allocator": "Inherited MASS_ATOL+MASS_RTOL*abs(beta); no changed admission gate",
+    "scalar_atol": 2e-12,
+    "scalar_rtol": 2e-12,
+    "softplus_atol": 2e-06,
+    "softplus_rtol": 3e-07
+  },
+  "assertions": 858200,
+  "authenticated_files": 84,
+  "benefits": {
+    "new_buffer": {
+      "F_BETA-C": {
+        "assessment_benefit": -0.002119269270373536,
+        "matching_prefix_delta": 0,
+        "response_benefits": [
+          -0.0062732884134106826,
+          -0.05072797803677531,
+          0.012866262946772622,
+          -0.011126770816190401,
+          0.1440283692832054,
+          -0.046620932307632756,
+          0.01525621410792155,
+          -0.0743560309268787
+        ],
+        "useful_repair_delta": 0
+      },
+      "F_C-C": {
+        "assessment_benefit": 0.027155384207716793,
+        "matching_prefix_delta": 0,
+        "response_benefits": [
+          0.08930445231527528,
+          -0.05530179463062268,
+          0.006763222225345089,
+          0.042729994897626966,
+          0.36400758503805264,
+          -0.07930415348602082,
+          0.02450241976578127,
+          -0.1754586524637034
+        ],
+        "useful_repair_delta": 0
+      },
+      "F_C-F_BETA": {
+        "assessment_benefit": 0.02927465347809033,
+        "matching_prefix_delta": 0,
+        "response_benefits": [
+          0.09557774072868597,
+          -0.0045738165938473685,
+          -0.006103040721427533,
+          0.05385676571381737,
+          0.21997921575484725,
+          -0.03268322117838807,
+          0.009246205657859718,
+          -0.1011026215368247
+        ],
+        "useful_repair_delta": 0
+      }
+    },
+    "window": {
+      "F_BETA-C": {
+        "assessment_benefit": 0.0806939949283372,
+        "matching_prefix_delta": 21,
+        "response_benefits": [
+          0.067958370853534,
+          0.09342961900314041
+        ],
+        "useful_repair_delta": 6
+      },
+      "F_C-C": {
+        "assessment_benefit": 0.08271396573503037,
+        "matching_prefix_delta": 22,
+        "response_benefits": [
+          0.06747638685493287,
+          0.09795154461512785
+        ],
+        "useful_repair_delta": 9
+      },
+      "F_C-F_BETA": {
+        "assessment_benefit": 0.0020199708066931644,
+        "matching_prefix_delta": 1,
+        "response_benefits": [
+          -0.00048198399860112373,
+          0.0045219256119874525
+        ],
+        "useful_repair_delta": 3
+      }
+    }
+  },
+  "delivery_bytes_rehashed": 51985836,
+  "delivery_files_rehashed": 61,
+  "evidence_bindings": {
+    "audit_script": {
+      "bytes": 52041,
+      "sha256": "1b413f9ba4187e3314a9c77211d08b92bb197667eaea6818e4f67ca3e2fc44b5"
+    },
+    "delivery_manifest": {
+      "bytes": 10740,
+      "sha256": "75e5f430a5bfdb63e3b3b09eef07e90403e5e51c1a761025572706c899b9f1ca"
+    },
+    "raw_postflight": {
+      "bytes": 19414,
+      "sha256": "e2097ab7a2add0c9613f7d0e284136326ab257a1d33bccbadbc988087dd620c8"
+    },
+    "source_manifest": {
+      "bytes": 981949,
+      "sha256": "d8efe89878330c080c5cfcf54ff5c415cf35f5662ac48e06d5ed9e67a3f1fdc8"
+    }
+  },
+  "execution_commit": "1a1fb42d4fbf90d2143f0ada544713525e5d39be",
+  "fallacy_checks": [
+    {
+      "assessment": "Keep per-response gains/losses/ties and local versus disjoint outcomes separate; aggregates cannot erase conflicts.",
+      "name": "Simpson's Paradox",
+      "status": "checked"
+    },
+    {
+      "assessment": "No population or individual-generalization claim from aggregated TRAIN occurrences.",
+      "name": "Ecological Fallacy",
+      "status": "checked"
+    },
+    {
+      "assessment": "Fixed development selection is deliberate; it does not represent a random serving population.",
+      "name": "Berkson's Paradox",
+      "status": "limitation"
+    },
+    {
+      "assessment": "Roles are frozen from the parent before endpoint outcomes; conditioning on these roles limits interpretation.",
+      "name": "Collider Bias",
+      "status": "limitation"
+    },
+    {
+      "assessment": "Reports retain original prefix/error/follower counts and response/nonempty-block denominators.",
+      "name": "Base Rate Neglect",
+      "status": "checked"
+    },
+    {
+      "assessment": "One fixed window and one-step controls cannot establish robustness; no extra window is selected after results.",
+      "name": "Regression to the Mean",
+      "status": "limitation"
+    },
+    {
+      "assessment": "Reserved failed work remains charged, complete selected pools are required, and all planned cases are retained.",
+      "name": "Survivorship Bias",
+      "status": "checked"
+    },
+    {
+      "assessment": "Three prospective contrasts are descriptive; no significance tests over overlapping anchors.",
+      "name": "Look-Elsewhere Effect",
+      "status": "checked"
+    },
+    {
+      "assessment": "Single C-reference change, sealed pools/coefficients and fixed criteria; no result-dependent tuning.",
+      "name": "Garden of Forking Paths",
+      "status": "checked"
+    },
+    {
+      "assessment": "Restored controlled branches identify this local intervention only, not a general cause of prior serving outcomes.",
+      "name": "Correlation != Causation",
+      "status": "limitation"
+    },
+    {
+      "assessment": "Direction and coefficient seals precede candidate updates; endpoint readouts cannot select the scoring rule.",
+      "name": "Reverse Causality",
+      "status": "checked"
+    }
+  ],
+  "fallacy_checks_covered": 11,
+  "limitations": [
+    "No full vectors retained: scalar consistency does not independently reconstruct gradient/direction/endpoint tensor contractions.",
+    "Native logits are unavailable. Margin/argmax consistency and FP32 contribution rounding are checked from retained measurements.",
+    "Protected remote input identities are authenticated receipts; original multi-GB inputs are not reread by this local CPU audit.",
+    "Repeatedly inspected overlapping TRAIN occurrences are development diagnostics, not independent observations or serving evidence.",
+    "No mechanism adoption, further run, or research-stage advancement follows this audit."
+  ],
+  "protected_artifact_receipts": 15,
+  "public_table_audit": {
+    "block_rows": 3380,
+    "contrast_rows": 12,
+    "privacy_files_scanned": 19,
+    "response_rows": 40,
+    "source_manifest_files": 18,
+    "status": "passed",
+    "token_rows": 28
+  },
+  "raw_bytes_rehashed": 51966422,
+  "raw_files_rehashed": 60,
+  "source_files_verified": 5295,
+  "status": "passed",
+  "verification_status": "ANALYZED"
+}

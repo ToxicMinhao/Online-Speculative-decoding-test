@@ -1,0 +1,12 @@
+{
+  "assessment": "Fixed parent-origin K; FP32 native margin softplus contributions, divided by each response nonempty-block count, then mean over responses.",
+  "cancellation": "1-abs(sum signed terms)/sum absolute terms; null if the exact denominator is zero.",
+  "coefficient_movement": "Relative movement uses frozen beta_i; half-L1 mass movement uses sum_prefix beta_i.",
+  "diagnostic_precision": "Represented operands promoted to FP32 before subtraction; diagnostic products and reductions FP64.",
+  "discrete": "Sums and paired gains/losses/ties over overlapping TRAIN block occurrences and response totals.",
+  "inference": "Development diagnostics only; overlapping anchors are not independent samples or serving calls.",
+  "native_gradient_contraction": "-dot(w_C,g_X-g_Y); native gradients are already normalized; no extra 1/(2*Z).",
+  "paired_assessment": "Subtract matched represented FP32 contributions in FP64; same frozen response denominators.",
+  "score_prediction": "Sum (a_X-a_Y)*s_C once across responses; s_C already includes 1/(2*Z_response).",
+  "useful_repair": "Original first error repaired with every preceding original prefix match surviving."
+}

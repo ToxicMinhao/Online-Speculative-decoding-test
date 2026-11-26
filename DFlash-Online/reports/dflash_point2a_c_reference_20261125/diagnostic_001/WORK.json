@@ -1,0 +1,83 @@
+{
+  "startup": {
+    "optimizer_steps": 0,
+    "physical_work": {
+      "counts": {
+        "draft_forwards": 2,
+        "layer_forwards": 10,
+        "objective_chunks": 196,
+        "response_forwards": 2,
+        "vocabulary_head_calls": 392
+      },
+      "optimizer_window_observations": 0,
+      "response_observations": 2
+    },
+    "status": "completed",
+    "wall_s": 20.20599102601409,
+    "work": {
+      "attempts": {
+        "optimizer_steps": 0,
+        "response_backwards": 2,
+        "response_forwards": 2
+      },
+      "completed": {
+        "optimizer_steps": 0,
+        "response_backwards": 2,
+        "response_forwards": 2
+      },
+      "unknown": {
+        "optimizer_steps": 0,
+        "response_backwards": 0,
+        "response_forwards": 0
+      }
+    }
+  },
+  "work": {
+    "attempted": {
+      "allocation_freeze_native_head_chunk": 98,
+      "allocation_native_backbone_forward": 44,
+      "allocation_native_reference_backward": 2,
+      "allocation_native_teaching_head_chunk": 196,
+      "allocation_native_token_head_chunk": 322,
+      "allocation_preview_native_head_chunk": 392,
+      "native_committed_response_forward_backward": 6,
+      "point1_fp32_shadow": 2,
+      "point1_native_C_capture_head_chunk": 98,
+      "point1_shadow_C_assessment_backward": 2,
+      "point1_shadow_beta_assessment_backward": 2,
+      "point2a_fast_scoring_window": 2,
+      "point2a_native_adam": 3,
+      "point2a_optimizer_vjp_shadow_C": 1,
+      "point2a_optimizer_vjp_shadow_beta": 1,
+      "point2a_readout_backbone_forward": 40,
+      "point2a_readout_head_chunk": 424,
+      "serial_reference_fp64_contractions": 28,
+      "serial_reference_token_graph": 28,
+      "serial_reference_token_vjp": 28
+    },
+    "completed": {
+      "allocation_freeze_native_head_chunk": 98,
+      "allocation_native_backbone_forward": 44,
+      "allocation_native_reference_backward": 2,
+      "allocation_native_teaching_head_chunk": 196,
+      "allocation_native_token_head_chunk": 322,
+      "allocation_preview_native_head_chunk": 392,
+      "native_committed_response_forward_backward": 6,
+      "point1_fp32_shadow": 2,
+      "point1_native_C_capture_head_chunk": 98,
+      "point1_shadow_C_assessment_backward": 2,
+      "point1_shadow_beta_assessment_backward": 2,
+      "point2a_fast_scoring_window": 2,
+      "point2a_native_adam": 3,
+      "point2a_optimizer_vjp_shadow_C": 1,
+      "point2a_optimizer_vjp_shadow_beta": 1,
+      "point2a_readout_backbone_forward": 40,
+      "point2a_readout_head_chunk": 424,
+      "serial_reference_fp64_contractions": 28,
+      "serial_reference_token_graph": 28,
+      "serial_reference_token_vjp": 28
+    },
+    "native_adam_steps": 3,
+    "pending": []
+  }
+}

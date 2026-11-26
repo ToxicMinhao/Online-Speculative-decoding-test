@@ -1,0 +1,533 @@
+{
+  "audit_limit": "Only scalar arithmetic and receipt consistency are independently recoverable; full vectors were not saved.",
+  "cases": {
+    "C": {
+      "adam_attempts": 1,
+      "adam_completed": 1,
+      "coefficient_identity": {
+        "sha256": "6ee10a5d1dc2051114e17cce9c6416460724d80c83282e5c5beb104ad14d27cb"
+      },
+      "endpoint": {
+        "exp_avg": {
+          "sha256": "63cfe603e7d461adf443ab6186619cfeea0b13f683ce761ff6856476760a1cfa"
+        },
+        "exp_avg_sq": {
+          "sha256": "18004e6c9d015044d69952ccd76e890ac2f755fcd8ed4cf6b0fc713247cfb630"
+        },
+        "global_step": 129,
+        "gradients_cleared": true,
+        "micro": 258,
+        "options": {
+          "amsgrad": false,
+          "betas": [
+            0.9,
+            0.999
+          ],
+          "capturable": false,
+          "decoupled_weight_decay": true,
+          "differentiable": false,
+          "eps": 1e-08,
+          "foreach": null,
+          "fused": null,
+          "lr": 0.0003,
+          "maximize": false,
+          "weight_decay": 0.01
+        },
+        "parameters": {
+          "sha256": "0ffe862ef3f0f181aa8048df73d25f7fe4f3d9170df77fe8bd831b7d67b8d5ef"
+        },
+        "presentations": 258,
+        "rng_sha256": "83d53b07abda7ae8ca6daf5a694b53ecbbd2641556b229c0390abe0d27b6e189",
+        "steps": [
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0
+        ]
+      },
+      "error_present": false,
+      "gradient_identity": {
+        "sha256": "07df3714c2a24837b4bbc16bd2c81c6ea8d5aba4c7cc0cabfeef55271eaa0b75"
+      },
+      "historical_reproduction": {
+        "complete_recorded_scientific_identity": true,
+        "excluded_fields": [
+          null,
+          null
+        ],
+        "status": "passed"
+      },
+      "name": "C",
+      "native_preclip_norm": 0.1435546875,
+      "physical_work_delta": {
+        "draft_forwards": 2,
+        "layer_forwards": 10,
+        "objective_chunks": 196,
+        "response_forwards": 2,
+        "vocabulary_head_calls": 392
+      },
+      "restoration": {
+        "additional_mismatch_count": 0,
+        "ancillary_exact": true,
+        "exact_resume": true,
+        "extra_model_passes": 0,
+        "extra_optimizer_steps": 0,
+        "global_step": 128,
+        "mismatch_count": 0,
+        "no_rng_reset": true,
+        "presentations": 256,
+        "runtime_exact": true,
+        "status": "passed"
+      },
+      "status": "completed"
+    },
+    "F_BETA": {
+      "adam_attempts": 1,
+      "adam_completed": 1,
+      "coefficient_identity": {
+        "sha256": "2203c77b4831909e3ccba944458ace3b4b9c57026fea3a311f5bcba617628728"
+      },
+      "endpoint": {
+        "exp_avg": {
+          "sha256": "2dce8f35cf22bf7e26d1b075942a08c2123e605efc939632bc14123544e2a1a0"
+        },
+        "exp_avg_sq": {
+          "sha256": "f5fef7d700780a08b52f7f1c687e64a7348ae37ca24433927ed4da860fdf7f34"
+        },
+        "global_step": 129,
+        "gradients_cleared": true,
+        "micro": 258,
+        "options": {
+          "amsgrad": false,
+          "betas": [
+            0.9,
+            0.999
+          ],
+          "capturable": false,
+          "decoupled_weight_decay": true,
+          "differentiable": false,
+          "eps": 1e-08,
+          "foreach": null,
+          "fused": null,
+          "lr": 0.0003,
+          "maximize": false,
+          "weight_decay": 0.01
+        },
+        "parameters": {
+          "sha256": "bd341f06f4abd779e199aef4299bcd471c1c295fcbaf7b4bd3149b2d2966da2b"
+        },
+        "presentations": 258,
+        "rng_sha256": "83d53b07abda7ae8ca6daf5a694b53ecbbd2641556b229c0390abe0d27b6e189",
+        "steps": [
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0
+        ]
+      },
+      "error_present": false,
+      "gradient_identity": {
+        "sha256": "a7691b7eb5fa3b0626afd06bfa4e0d4774cdcf1210d5b2c58f25e614aa7f40e9"
+      },
+      "historical_reproduction": {
+        "complete_recorded_scientific_identity": true,
+        "excluded_fields": [
+          null,
+          null
+        ],
+        "status": "passed"
+      },
+      "name": "F_BETA",
+      "native_preclip_norm": 0.162109375,
+      "physical_work_delta": {
+        "draft_forwards": 2,
+        "layer_forwards": 10,
+        "objective_chunks": 196,
+        "response_forwards": 2,
+        "vocabulary_head_calls": 392
+      },
+      "restoration": {
+        "additional_mismatch_count": 0,
+        "ancillary_exact": true,
+        "exact_resume": true,
+        "extra_model_passes": 0,
+        "extra_optimizer_steps": 0,
+        "global_step": 128,
+        "mismatch_count": 0,
+        "no_rng_reset": true,
+        "presentations": 256,
+        "runtime_exact": true,
+        "status": "passed"
+      },
+      "status": "completed"
+    },
+    "F_C": {
+      "adam_attempts": 1,
+      "adam_completed": 1,
+      "coefficient_identity": {
+        "sha256": "31ec2d44214f2c30a232e3d74d27adbfbd1cda75273cc23d037f0e0e92ed62c2"
+      },
+      "endpoint": {
+        "exp_avg": {
+          "sha256": "0be3371a44877faf05074f0770b002bd9642018f96a450c500fe84a81f6a59e3"
+        },
+        "exp_avg_sq": {
+          "sha256": "0f46fc6df2d7402216093eaf0f4d5645f6168a2642e2e5cf18570ac3013543d4"
+        },
+        "global_step": 129,
+        "gradients_cleared": true,
+        "micro": 258,
+        "options": {
+          "amsgrad": false,
+          "betas": [
+            0.9,
+            0.999
+          ],
+          "capturable": false,
+          "decoupled_weight_decay": true,
+          "differentiable": false,
+          "eps": 1e-08,
+          "foreach": null,
+          "fused": null,
+          "lr": 0.0003,
+          "maximize": false,
+          "weight_decay": 0.01
+        },
+        "parameters": {
+          "sha256": "9b7f2781275fb76a5465175aa887caf84284b979e9a29343714bc0b8b7b6637f"
+        },
+        "presentations": 258,
+        "rng_sha256": "83d53b07abda7ae8ca6daf5a694b53ecbbd2641556b229c0390abe0d27b6e189",
+        "steps": [
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0,
+          129.0
+        ]
+      },
+      "error_present": false,
+      "gradient_identity": {
+        "sha256": "435c74d89eb75d1f30e2beeffd9e12a85baf53d0e4ebf5387928e697d81c74d6"
+      },
+      "name": "F_C",
+      "native_preclip_norm": 0.1630859375,
+      "physical_work_delta": {
+        "draft_forwards": 2,
+        "layer_forwards": 10,
+        "objective_chunks": 196,
+        "response_forwards": 2,
+        "vocabulary_head_calls": 392
+      },
+      "restoration": {
+        "additional_mismatch_count": 0,
+        "ancillary_exact": true,
+        "exact_resume": true,
+        "extra_model_passes": 0,
+        "extra_optimizer_steps": 0,
+        "global_step": 128,
+        "mismatch_count": 0,
+        "no_rng_reset": true,
+        "presentations": 256,
+        "runtime_exact": true,
+        "status": "passed"
+      },
+      "status": "completed"
+    }
+  },
+  "immutable_vectors_retained": false,
+  "native_status": "completed",
+  "parent_restored": {
+    "additional_mismatch_count": 0,
+    "ancillary_exact": true,
+    "exact_resume": true,
+    "extra_model_passes": 0,
+    "extra_optimizer_steps": 0,
+    "global_step": 128,
+    "mismatch_count": 0,
+    "no_rng_reset": true,
+    "presentations": 256,
+    "runtime_exact": true,
+    "status": "passed"
+  },
+  "receipts": {
+    "AFTER_QUALIFICATION": {
+      "additional_mismatch_count": 0,
+      "ancillary_exact": true,
+      "exact_resume": true,
+      "extra_model_passes": 0,
+      "extra_optimizer_steps": 0,
+      "global_step": 128,
+      "mismatch_count": 0,
+      "no_rng_reset": true,
+      "presentations": 256,
+      "runtime_exact": true,
+      "status": "passed"
+    },
+    "AFTER_STARTUP": {
+      "additional_mismatch_count": 0,
+      "ancillary_exact": true,
+      "exact_resume": true,
+      "extra_model_passes": 0,
+      "extra_optimizer_steps": 0,
+      "global_step": 128,
+      "mismatch_count": 0,
+      "no_rng_reset": true,
+      "presentations": 256,
+      "runtime_exact": true,
+      "status": "passed"
+    },
+    "C_INITIAL_STATE": {
+      "additional_mismatch_count": 0,
+      "ancillary_exact": true,
+      "exact_resume": true,
+      "extra_model_passes": 0,
+      "extra_optimizer_steps": 0,
+      "global_step": 128,
+      "mismatch_count": 0,
+      "no_rng_reset": true,
+      "presentations": 256,
+      "runtime_exact": true,
+      "status": "passed"
+    },
+    "C_RESTORATION": {
+      "additional_mismatch_count": 0,
+      "ancillary_exact": true,
+      "exact_resume": true,
+      "extra_model_passes": 0,
+      "extra_optimizer_steps": 0,
+      "global_step": 128,
+      "mismatch_count": 0,
+      "no_rng_reset": true,
+      "presentations": 256,
+      "runtime_exact": true,
+      "status": "passed"
+    },
+    "FINAL_RESTORATION": {
+      "additional_mismatch_count": 0,
+      "ancillary_exact": true,
+      "exact_resume": true,
+      "extra_model_passes": 0,
+      "extra_optimizer_steps": 0,
+      "global_step": 128,
+      "mismatch_count": 0,
+      "no_rng_reset": true,
+      "presentations": 256,
+      "runtime_exact": true,
+      "status": "passed"
+    },
+    "F_BETA_INITIAL_STATE": {
+      "additional_mismatch_count": 0,
+      "ancillary_exact": true,
+      "exact_resume": true,
+      "extra_model_passes": 0,
+      "extra_optimizer_steps": 0,
+      "global_step": 128,
+      "mismatch_count": 0,
+      "no_rng_reset": true,
+      "presentations": 256,
+      "runtime_exact": true,
+      "status": "passed"
+    },
+    "F_BETA_RESTORATION": {
+      "additional_mismatch_count": 0,
+      "ancillary_exact": true,
+      "exact_resume": true,
+      "extra_model_passes": 0,
+      "extra_optimizer_steps": 0,
+      "global_step": 128,
+      "mismatch_count": 0,
+      "no_rng_reset": true,
+      "presentations": 256,
+      "runtime_exact": true,
+      "status": "passed"
+    },
+    "F_C_INITIAL_STATE": {
+      "additional_mismatch_count": 0,
+      "ancillary_exact": true,
+      "exact_resume": true,
+      "extra_model_passes": 0,
+      "extra_optimizer_steps": 0,
+      "global_step": 128,
+      "mismatch_count": 0,
+      "no_rng_reset": true,
+      "presentations": 256,
+      "runtime_exact": true,
+      "status": "passed"
+    },
+    "F_C_RESTORATION": {
+      "additional_mismatch_count": 0,
+      "ancillary_exact": true,
+      "exact_resume": true,
+      "extra_model_passes": 0,
+      "extra_optimizer_steps": 0,
+      "global_step": 128,
+      "mismatch_count": 0,
+      "no_rng_reset": true,
+      "presentations": 256,
+      "runtime_exact": true,
+      "status": "passed"
+    }
+  }
+}
