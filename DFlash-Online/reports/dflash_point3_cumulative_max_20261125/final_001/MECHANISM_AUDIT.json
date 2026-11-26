@@ -1,0 +1,16 @@
+{
+  "status": "passed",
+  "scope": "independent CPU scalar and native-proposal recomputation",
+  "execution_commit": "6f7f3a5d1769a630e4ec852205eb06ca55047341",
+  "checks": 26785,
+  "source_files": 519,
+  "limitations": [
+    "No original model tensors or full gradient vectors reconstructed",
+    "Native head-selected vocabulary rivals are retained evidence, not independently recomputed from full logits",
+    "Training witnesses are neither held-out requests nor native serving measurements",
+    "Process GPU peaks include startup; host-memory peak not recorded here"
+  ],
+  "no_model_forwards": true,
+  "no_training": true,
+  "no_GPU": true
+}
