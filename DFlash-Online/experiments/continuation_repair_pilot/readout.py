@@ -62,12 +62,12 @@ def paired_rows(parent, endpoint, bindings, *, cohort):
     return rows
 
 
-def resume_completed_readouts(root, contract, tail_status):
+def resume_completed_readouts(root, contract, tail_status, *, preserve=True):
     """Authenticate and preserve the one interrupted attempt, without model work."""
     previous = read(root / 'STATUS.json')
     closed = read(root / 'ENDPOINT_STATE.json')
     loading = read(root / 'LOADING.json')
-    if (previous['status'] != 'failed' or 'STORAGE.json.tmp' not in previous.get('error', '')
+    if (previous['status'] != 'failed' or not previous.get('error', '').startswith('FileNotFoundError(')
             or previous['completed_primary_responses'] != 73
             or previous['completed_retention_responses'] != 0
             or closed['status'] != 'passed' or not closed['parameters_unchanged']
@@ -77,6 +77,18 @@ def resume_completed_readouts(root, contract, tail_status):
             or not loading['mapping']['exact_copy'] or loading['mapping']['tensors'] != 58
             or closed['loading'] != loading or previous['work'] != closed['work']):
         raise ValueError('Saved readouts do not bind the exact unchanged TAIL export')
+    # OSError.__repr__ omits filename: authenticate the retained full traceback
+    # instead of demanding that absent information from the compact error field.
+    failure_log = root.parent / 'readout.log'
+    original_repair = read(root.parent / 'resume_001' / 'REPAIR.json')
+    failure_identity = original_repair['preserved_failures']['readout.log']
+    if identity(failure_log) != failure_identity:
+        raise ValueError('The preserved original readout traceback changed')
+    traceback_text = failure_log.read_text()
+    original_run = Path(original_repair['original_plan']).parent.parent
+    if ('FileNotFoundError: [Errno 2]' not in traceback_text
+            or str(original_run / 'STORAGE.json.tmp') not in traceback_text):
+        raise ValueError('The authenticated traceback does not identify the storage-writer failure')
     expected_paths = {root / 'primary' / f'{i:03d}.json' for i in range(73)}
     if set((root / 'primary').glob('*.json')) != expected_paths or list((root / 'parent_training').glob('*.json')):
         raise ValueError('Resume must not replace an attempted or unexpected response')
@@ -99,16 +111,27 @@ def resume_completed_readouts(root, contract, tail_status):
     if dict(work) != previous['work'] or work['response_reads_completed'] != 74:
         raise ValueError('Saved successful records do not reconcile all previous physical work')
     attempt = root / 'attempts' / '001'
-    attempt.mkdir(parents=True, exist_ok=False)
+    if attempt.exists():
+        raise FileExistsError('The original readout attempt is already preserved')
+    if preserve:
+        attempt.mkdir(parents=True, exist_ok=False)
     for name in ('STATUS.json', 'ENDPOINT_STATE.json', 'LOADING.json', 'ADAPTER_QUALIFICATION.json'):
-        shutil.copy2(root / name, attempt / name)
+        if preserve:
+            shutil.copy2(root / name, attempt / name)
         hashes[name] = identity(root / name)
+    if preserve:
+        shutil.copy2(failure_log, attempt / 'FAILURE.log')
     receipt = dict(status='passed', prior_completed_response_forwards=74,
         remaining_response_forwards=63, prior_work=dict(work), retained_file_identities=hashes,
         TAIL_checkpoint_identity=tail_status['checkpoint_identity'],
+        original_failure_log_identity=failure_identity,
+        failure_diagnosis='Authenticated full traceback, since compact OSError repr omits filename',
         original_failure_preserved=str(attempt / 'STATUS.json'),
-        repeat_check=comparison, no_completed_forward_repeated=True)
-    write_json(root / 'RESUME_BINDING.json', receipt)
+        repeat_check=comparison, no_completed_forward_repeated=True,
+        current_file_binding_scope='Fresh hashes of retained receipts at continuation; no historical per-response hash claim',
+        preservation_written=preserve)
+    if preserve:
+        write_json(root / 'RESUME_BINDING.json', receipt)
     return current, previous, receipt
 
 

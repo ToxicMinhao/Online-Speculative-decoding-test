@@ -1,0 +1,39 @@
+{
+  "status": "completed_phase_checks_passed",
+  "scope": "Only authenticated retained input identities and completed qualification/training; serving and whole-campaign final audit are not complete.",
+  "checks": 4872,
+  "failures": [],
+  "totals": {
+    "qualification_cases": 3,
+    "qualification_startup_forwards": 6,
+    "qualification_core_forwards": 6,
+    "qualification_advance_forwards": 0,
+    "training_steps": 128,
+    "training_presentations": 256,
+    "training_work": {
+      "draft_forwards": 256,
+      "layer_forwards": 1280,
+      "objective_chunks": 23580,
+      "vocabulary_head_calls": 47160,
+      "response_forwards": 256,
+      "backwards_attempted": 256,
+      "backwards_completed": 256
+    },
+    "training_startup_forwards": 2,
+    "active_responses": 256,
+    "changed_HIGH_occurrences": 22781,
+    "moved_weight_sum": 158.50616573542356
+  },
+  "limitations": [
+    "Qualification gradient/parameter/Adam/RNG equality is independently compared between saved fingerprints; tensor bytes are not available to this audit.",
+    "Compact coefficient receipts omit beta/HIGH/score/candidate vectors. Their exact FP64 oracle cannot be independently recomputed offline; production flags and saved scalar bounds are checked, with source/CPU mathematics review separate.",
+    "Restoration and final export exactness remain authenticated native runtime assertions supplemented by endpoint fingerprints and later external file postflight.",
+    "Readout full-vocabulary rival optimality cannot be reconstructed from compact selected logits; this work audit does not claim it.",
+    "No CUDA, optimizer, teacher, serving or scientific rerun is performed by this auditor."
+  ],
+  "training_execution_commit": "b3637cfe4ac3fb4096368cc0c93896b420bdb9a8",
+  "campaign_status": "blocked",
+  "readout_completed": 74,
+  "readout_remaining": 63,
+  "serving_attempts": 0
+}

@@ -7,7 +7,7 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 from unittest.mock import patch
 from experiments.continuation_repair_pilot.analysis import mechanism_summary
-from experiments.continuation_repair_pilot.readout import paired_rows, run_readout, validate_saved_readout
+from experiments.continuation_repair_pilot.readout import paired_rows, run_readout, validate_saved_readout, resume_completed_readouts
 from experiments.continuation_value_diagnostic.metrics import paired_block, roles_from_predictions
 from experiments.continuation_value_diagnostic.native import ReadOnlyEndpoint
 from test_continuation_value_native import DraftFixture
@@ -143,8 +143,14 @@ class ReadoutTests(unittest.TestCase):
                 (mechanism/'primary'/f'{ordinal:03d}.json').write_text(json.dumps(actual))
             actual=record(bindings[0]);prior_work.update(actual['work'])
             (mechanism/'qualification_repeat.json').write_text(json.dumps(actual))
-            previous=dict(status='failed',error="FileNotFoundError('STORAGE.json.tmp')",completed_primary_responses=73,
+            previous=dict(status='failed',error=repr(FileNotFoundError(2,'No such file or directory',str(root/'STORAGE.json.tmp'))),completed_primary_responses=73,
                           completed_retention_responses=0,work=dict(prior_work),wall_s=89.5)
+            self.assertEqual(previous['error'], "FileNotFoundError(2, 'No such file or directory')")
+            failure_log=root/'readout.log'
+            failure_log.write_text(f"FileNotFoundError: [Errno 2] No such file or directory: '{root/'STORAGE.json.tmp'}'\n")
+            from experiments.ok_coding.storage import identity
+            repair=root/'resume_001';repair.mkdir()
+            (repair/'REPAIR.json').write_text(json.dumps({'original_plan':str(root/'sealed/PLAN.json'),'preserved_failures':{'readout.log':identity(failure_log)}}))
             (mechanism/'STATUS.json').write_text(json.dumps(previous))
             (mechanism/'LOADING.json').write_text(json.dumps(loading))
             (mechanism/'ENDPOINT_STATE.json').write_text(json.dumps(dict(status='passed',work=dict(prior_work),loading=loading,
@@ -155,6 +161,16 @@ class ReadoutTests(unittest.TestCase):
             plan=dict(root=str(root),qualification_result=str(q),binding='fixed',original_config='config',training_gpu='fixtureGPU')
             receipts=dict(BASE={'checkpoint_identity':{'sha256':'base'}},TAIL={'checkpoint':'tail','checkpoint_identity':{'sha256':'tail'}})
             adapter=Adapter()
+            preflight=resume_completed_readouts(mechanism,contract,receipts['TAIL'],preserve=False)
+            self.assertFalse(preflight[2]['preservation_written'])
+            self.assertFalse((mechanism/'attempts').exists())
+            self.assertFalse((mechanism/'RESUME_BINDING.json').exists())
+            self.assertEqual((mechanism/'STATUS.json').read_bytes(),original['STATUS.json'])
+            original_trace=failure_log.read_bytes()
+            failure_log.write_text('changed traceback')
+            with self.assertRaisesRegex(ValueError,'traceback changed'):
+                resume_completed_readouts(mechanism,contract,receipts['TAIL'],preserve=False)
+            failure_log.write_bytes(original_trace)
             with patch.dict('os.environ',CUDA_VISIBLE_DEVICES='fixtureGPU'), \
                  patch('experiments.continuation_repair_pilot.launch.boundary',return_value={}), \
                  patch('experiments.continuation_repair_pilot.serving.endpoint_receipts',return_value=receipts), \

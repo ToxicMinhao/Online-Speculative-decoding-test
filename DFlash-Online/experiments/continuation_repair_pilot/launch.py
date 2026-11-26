@@ -183,14 +183,62 @@ def allowed_repair_file(relative):
             or relative.startswith('reports/dflash_continuation_repair_pilot_20261126/'))
 
 
-def prepare_continuation(plan_path, *, repair_source_root, repair_manifest, repair_commit):
+
+def validate_pre_model_rejection(root, clock):
+    """A second orchestration attempt is possible only after proven pre-model rejection."""
+    first = root/'resume_001'
+    receipt = json.loads((first/'REPAIR.json').read_text())
+    previous_plan = json.loads((first/'EXECUTION_PLAN.json').read_text())
+    verify_source(previous_plan)
+    before = json.loads((first/'prior/CLOCK.json').read_text())
+    if (clock['first_gpu_action_epoch'] != before['first_gpu_action_epoch']
+            or clock['processes'][:-1] != before['processes']
+            or len(clock['processes']) != len(before['processes']) + 1):
+        raise ValueError('Rejected attempt changed the original clock or prior work')
+    attempt = clock['processes'][-1]
+    if (attempt['phase'] != 'readout' or not attempt['continuation']
+            or attempt['execution_commit'] != receipt['orchestration_execution_commit']
+            or attempt['exit_code'] in (None, 0) or attempt['end_epoch'] is None):
+        raise ValueError('Only the single closed failed readout preparation can be continued')
+    preserved = receipt['preserved_failures']
+    unchanged = ('ADAM_LEDGER.json', 'qualification/RESULT.json', 'arms/TAIL/STATUS.json',
+                 'mechanism/STATUS.json', 'mechanism/ENDPOINT_STATE.json', 'readout.log')
+    for relative in unchanged:
+        if identity(root/relative) != preserved[relative]:
+            raise ValueError('A rejected preparation changed retained scientific evidence: ' + relative)
+    error_log = first/'readout.log'
+    traceback_text = error_log.read_text()
+    if ('resume_completed_readouts' not in traceback_text or
+            'ValueError: Resume requires the identified storage-writer failure after73 primary readouts'
+            not in traceback_text):
+        raise ValueError('Rejected attempt is not the reviewed pre-adapter validation error')
+    paths = sorted((root/'mechanism/primary').glob('*.json')) + [root/'mechanism/qualification_repeat.json']
+    if len(paths) != 74 or list((root/'mechanism/parent_training').glob('*.json')):
+        raise ValueError('The rejected preparation has unexpected readout work')
+    bindings = {}
+    for path in paths:
+        if path.stat().st_mtime > attempt['start_epoch']:
+            raise ValueError('A readout was written after the rejected preparation began')
+        bindings[str(path.relative_to(root))] = identity(path)
+    return dict(status='passed', original_clock_unchanged=True, retained_aggregate_hashes_unchanged=True,
+                authenticated_traceback_before_adapter_load=True, existing_readouts=74,
+                all_readout_mtimes_predate_rejected_process=True, new_forward_evidence=0,
+                historical_individual_byte_equality_proven=False,
+                individual_hash_scope='Fresh current binding; no pre-retry per-file hashes existed',
+                current_readout_identities=bindings, rejected_log_identity=identity(error_log),
+                rejected_process_occupied_s=attempt['end_epoch']-attempt['start_epoch'],
+                rejected_execution_commit=receipt['orchestration_execution_commit'],
+                prior_source_manifest=previous_plan['source_manifest'],
+                prior_charged_roots=previous_plan.get('prior_charged_roots', []))
+
+def prepare_continuation(plan_path, *, repair_source_root, repair_manifest, repair_commit, preflight_only=False):
     """Bind a single I/O repair to the unchanged experiment and completed state."""
     plan_path = Path(plan_path)
     plan = json.loads(plan_path.read_text())
     root = Path(plan['root'])
-    directory = root/'resume_001'
+    directory = root/('resume_002' if (root/'resume_001').exists() else 'resume_001')
     if directory.exists():
-        raise FileExistsError('The single localized continuation attempt is already recorded')
+        raise FileExistsError('The bounded remaining-phase continuation is already recorded')
     if Path(repair_source_root).resolve() == Path(plan['source_root']).resolve():
         raise ValueError('Keep the original execution checkout intact; stage the repair separately')
     verify_source(plan)
@@ -211,6 +259,12 @@ def prepare_continuation(plan_path, *, repair_source_root, repair_manifest, repa
     repaired['prior_charged_roots'] = list(dict.fromkeys([
         *plan.get('prior_charged_roots', []), str(Path(plan['source_manifest']).parent)]))
     clock = json.loads((root/'CLOCK.json').read_text())
+    rejected_preparation = (validate_pre_model_rejection(root, clock)
+                            if directory.name == 'resume_002' else None)
+    if rejected_preparation is not None:
+        repaired['prior_charged_roots'] = list(dict.fromkeys([
+            *repaired['prior_charged_roots'], *rejected_preparation['prior_charged_roots'],
+            str(Path(rejected_preparation['prior_source_manifest']).parent)]))
     status = json.loads((root/'STATUS.json').read_text())
     training = json.loads((root/'arms/TAIL/STATUS.json').read_text())
     qualification = json.loads(Path(plan['qualification_result']).read_text())
@@ -238,12 +292,23 @@ def prepare_continuation(plan_path, *, repair_source_root, repair_manifest, repa
     boundary(repaired, remaining_write_bytes=2_000_000_000)
     if gpu_inventory()['processes']:
         raise RuntimeError('Both cards must be idle before restoring remaining phases')
+    if rejected_preparation is not None or preflight_only:
+        from .readout import authenticated_retained, resume_completed_readouts
+        contract, *_ = authenticated_retained(repaired)
+        _, _, readout_preflight = resume_completed_readouts(
+            root/'mechanism', contract, training, preserve=False)
+    else:
+        readout_preflight = None
+    if preflight_only:
+        return repaired, dict(directory=str(directory), clock=clock, status=status, preflight_only=True,
+                              rejected_preparation=rejected_preparation, readout_preflight=readout_preflight)
     directory.mkdir()
     prior = directory/'prior'
     prior.mkdir()
     preserved = {}
     for relative in ('STATUS.json', 'CLOCK.json', 'EXIT', 'EXIT.json', 'EXIT_CODE', 'EXIT_CODE.txt',
                      'ADAM_LEDGER.json', 'PROCESS_EXIT_CODE', 'PROCESS_PID', 'RUN.sh',
+                     'RESUME_PROCESS_EXIT_CODE', 'RESUME_PROCESS_PID', 'resume_001/readout.log',
                      'readout.log', 'launch.log', 'qualification/RESULT.json',
                      'arms/TAIL/STATUS.json', 'mechanism/STATUS.json', 'mechanism/ENDPOINT_STATE.json'):
         source = root/relative
@@ -260,7 +325,8 @@ def prepare_continuation(plan_path, *, repair_source_root, repair_manifest, repa
                    original_source_identity=plan['source_identity'], repair_source_identity=repaired['source_identity'],
                    original_clock_epoch=clock['first_gpu_action_epoch'], prior_occupied_card_s=clock['occupied_card_s'],
                    original_adam_applications=len(calls), additional_adam_applications=0,
-                   preserved_failures=preserved, original_settings_unchanged=True)
+                   preserved_failures=preserved, original_settings_unchanged=True,
+                   rejected_preparation=rejected_preparation, CPU_readout_preflight=readout_preflight)
     write_json(directory/'REPAIR.json', receipt)
     write_json(directory/'EXECUTION_PLAN.json', repaired)
     return repaired, dict(directory=str(directory), clock=clock, status=status)
@@ -270,19 +336,31 @@ def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--plan', required=True)
     parser.add_argument('--resume-unexecuted', action='store_true')
+    parser.add_argument('--preflight-resume', action='store_true',
+                        help='Validate remaining-phase repair on CPU without model load or creating an attempt')
     parser.add_argument('--repair-source-root')
     parser.add_argument('--repair-source-manifest')
     parser.add_argument('--repair-commit')
     args=parser.parse_args()
-    if args.resume_unexecuted:
+    if args.resume_unexecuted and args.preflight_resume:
+        parser.error('Choose CPU preflight or actual continuation, never both')
+    if args.resume_unexecuted or args.preflight_resume:
         if not all((args.repair_source_root, args.repair_source_manifest, args.repair_commit)):
             parser.error('Remaining-phase continuation requires all three repair source arguments')
         plan, continuation = prepare_continuation(args.plan, repair_source_root=args.repair_source_root,
-            repair_manifest=args.repair_source_manifest, repair_commit=args.repair_commit)
-        execute(plan, continuation=continuation)
+            repair_manifest=args.repair_source_manifest, repair_commit=args.repair_commit,
+            preflight_only=args.preflight_resume)
+        if args.preflight_resume:
+            print(json.dumps(dict(status='passed', mode='CPU_ONLY_PREFLIGHT',
+                directory=continuation['directory'], original_clock=continuation['clock'],
+                rejected_preparation=continuation['rejected_preparation'],
+                readout_preflight=continuation['readout_preflight'], model_loads=0,
+                forwards=0, backwards=0, optimizer_steps=0)))
+        else:
+            execute(plan, continuation=continuation)
     else:
         if any((args.repair_source_root, args.repair_source_manifest, args.repair_commit)):
-            parser.error('Repair source arguments require --resume-unexecuted')
+            parser.error('Repair source arguments require --resume-unexecuted or --preflight-resume')
         execute(json.loads(Path(args.plan).read_text()))
 
 

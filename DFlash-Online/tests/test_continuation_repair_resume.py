@@ -69,6 +69,7 @@ class ResumeTests(unittest.TestCase):
         records={'STATUS.json':dict(status='blocked',phases=[dict(phase='qualification'),dict(phase='training')]),
                  'CLOCK.json':clock,'arms/TAIL/STATUS.json':training,
                  'mechanism/STATUS.json':dict(status='failed',completed_primary_responses=73),
+                 'mechanism/ENDPOINT_STATE.json':dict(status='passed', unchanged=True),
                  'qualification/RESULT.json':dict(status='passed',binding='c'*64,base_disabled_exact=True,retained_BASE_reusable=True),
                  'ADAM_LEDGER.json':dict(calls=[dict(phase='qualification',status='completed')]*3+
                                          [dict(phase='training',status='completed')]*128)}
@@ -103,7 +104,7 @@ class ResumeTests(unittest.TestCase):
             self.assertEqual(receipt['additional_adam_applications'],0)
             self.assertEqual((root/'resume_001/prior/EXIT').read_text(),'1\n')
             self.assertEqual((root/'resume_001/prior/readout.log').read_text(),(root/'readout.log').read_text())
-            with self.assertRaises(FileExistsError):
+            with mock.patch.object(launch, 'verify_source'), self.assertRaises((FileExistsError, ValueError)):
                 launch.prepare_continuation(original,repair_source_root=source,
                     repair_manifest=manifest,repair_commit='b'*40)
 
@@ -172,6 +173,51 @@ class ResumeTests(unittest.TestCase):
             self.assertTrue(after['processes'][-1]['active_process_unresolved'])
             self.assertIn('termination fixture', after['processes'][-1]['termination_error'])
             self.assertEqual(json.loads((root/'STATUS.json').read_text())['status'], 'blocked')
+
+    def test_second_preflight_is_cpu_only_and_does_not_create_attempt(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root, original, source, manifest, clock, plan, first = self.prepare(directory)
+            attempt = dict(phase='readout', physical_gpu='B', start_epoch=200., end_epoch=209.,
+                           exit_code=1, execution_commit='b'*40, continuation=True)
+            clock['processes'].append(attempt)
+            clock['occupied_card_s'] += 9.
+            (root/'CLOCK.json').write_text(json.dumps(clock))
+            (root/'resume_001/readout.log').write_text(
+                '  File "readout.py", in resume_completed_readouts\n'
+                'ValueError: Resume requires the identified storage-writer failure after73 primary readouts\n')
+            (root/'mechanism/primary').mkdir()
+            for index in range(73):
+                path = root/'mechanism/primary'/f'{index:03d}.json'
+                path.write_text('{}')
+                os.utime(path, (150., 150.))
+            path = root/'mechanism/qualification_repeat.json'
+            path.write_text('{}')
+            os.utime(path, (150., 150.))
+            third = Path(directory)/'repair_three'
+            third.mkdir()
+            third_manifest = third/'manifest.json'
+            updated = json.loads(manifest.read_text())
+            updated['commit'] = 'd'*40
+            updated['files']['experiments/continuation_repair_pilot/launch.py']['sha256'] = 'third'
+            third_manifest.write_text(json.dumps(updated))
+            with mock.patch.object(launch, 'verify_source'), mock.patch.object(launch, 'boundary'), \
+                 mock.patch.object(launch, 'gpu_inventory', return_value={'processes': []}), \
+                 mock.patch('experiments.continuation_repair_pilot.readout.authenticated_retained',
+                            return_value=({}, {}, {}, {}, {})), \
+                 mock.patch('experiments.continuation_repair_pilot.readout.resume_completed_readouts',
+                            return_value=({}, {}, {'status':'passed'})) as readout:
+                prepared, preflight = launch.prepare_continuation(original, repair_source_root=third,
+                    repair_manifest=third_manifest, repair_commit='d'*40, preflight_only=True)
+            self.assertIn(str(source), prepared['prior_charged_roots'])
+            self.assertIn(str(Path(directory)/'old_source'), prepared['prior_charged_roots'])
+            self.assertEqual(prepared['source_root'], str(third))
+            self.assertTrue(preflight['preflight_only'])
+            self.assertEqual(preflight['clock'], clock)
+            self.assertFalse((root/'resume_002').exists())
+            self.assertFalse(preflight['rejected_preparation']['historical_individual_byte_equality_proven'])
+            self.assertEqual(len(preflight['rejected_preparation']['current_readout_identities']), 74)
+            self.assertEqual(readout.call_args.kwargs, {'preserve':False})
+            self.assertEqual(json.loads((root/'CLOCK.json').read_text()), clock)
 
 
 if __name__=='__main__':

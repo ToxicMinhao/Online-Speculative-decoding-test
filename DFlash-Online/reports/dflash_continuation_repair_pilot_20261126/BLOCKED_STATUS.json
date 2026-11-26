@@ -1,0 +1,47 @@
+{
+  "status": "BLOCKED",
+  "reason": "Resume checker rejected authentic compact FileNotFoundError before model loading",
+  "training_execution_commit": "b3637cfe4ac3fb4096368cc0c93896b420bdb9a8",
+  "first_repair_execution_commit": "b3a467200af0b255fe2a491924d03c2c1f0c286b",
+  "qualification": "passed",
+  "temporary_adam_steps": 3,
+  "main_adam_steps": 128,
+  "main_presentations": 256,
+  "main_training_status": "completed",
+  "final_counters": {
+    "global_step": 256,
+    "presentations": 512,
+    "completed_event": 2
+  },
+  "readout_forwards_completed": 74,
+  "readout_forwards_unattempted": 63,
+  "scored_generations_completed": 0,
+  "scored_generations_unattempted": 768,
+  "warmups_completed": 0,
+  "warmups_unattempted": 24,
+  "second_failure_model_work": 0,
+  "occupied_process_seconds": 1308.5177264213562,
+  "elapsed_seconds_at_process_stop": 1876.408622264862,
+  "original_clock_epoch": 1795699866.5963655,
+  "first_failed_readout_process_seconds": 93.80240797996521,
+  "failed_resume_process_seconds": 8.846716165542603,
+  "activity": {
+    "original_responses": 256,
+    "continuation_summaries": 256,
+    "active_response_count": 256,
+    "continuation_changed_high_positions": 22781
+  },
+  "training_costs": {
+    "training_s": 607.4276065342128,
+    "checkpoint_save_s": 19.076024562120438,
+    "export_s": 15.791034530848265,
+    "event_wall_s_before_commit": 651.7456300593913
+  },
+  "training_process_wall_s": 776.9229786396027,
+  "training_peak_allocated_bytes": 20555326976,
+  "training_peak_reserved_bytes": 27780972544,
+  "storage_freed_allocated_bytes": 19243552768,
+  "benefit_conclusion": "Unavailable: no serving comparison has executed",
+  "recommendation": "Preserve native C+K+PAIR; no candidate adoption from activity alone",
+  "permission": "One localized retry consumed; another execution requires scoped authorization"
+}
