@@ -1,0 +1,403 @@
+{
+  "admission": {
+    "admitted": true,
+    "charged_bytes": 838014208,
+    "checks": {
+      "all_locations": true,
+      "disk_reserve": true,
+      "gpu_idle": true,
+      "gpu_memory": true,
+      "host_memory": true
+    },
+    "free_bytes": 407234703360,
+    "gpu_free_bytes": 85899345920,
+    "gpu_inventory": {
+      "cards": [
+        {
+          "ordinal": 0,
+          "total_bytes": 85899345920,
+          "used_bytes": 0
+        },
+        {
+          "ordinal": 1,
+          "total_bytes": 85899345920,
+          "used_bytes": 0
+        }
+      ]
+    },
+    "gpu_required_free_bytes": 60000000000,
+    "host_available_bytes": 103807889408,
+    "host_memory": {
+      "available_bytes": 103807889408,
+      "total_bytes": 269529780224
+    },
+    "host_reserve_bytes": 32000000000,
+    "host_workspace_bytes": 55000000000,
+    "remaining_write_bytes": 1000000000
+  },
+  "clock": {
+    "active_attempt": null,
+    "attempts": [
+      {
+        "exit_code": 0,
+        "number": 1,
+        "occupied_card_s": 280.0732731278986
+      }
+    ],
+    "completed_occupied_card_s": 280.0732731278986,
+    "contract_identity": {
+      "bytes": 17908,
+      "sha256": "994050b9f0ec5dfa5b47923dbc9060ddf013652e702c9b3983204394e6158752"
+    },
+    "elapsed_limit_s": 3600,
+    "first_gpu_action_epoch": 1795652783.4340284,
+    "historical_occupied_card_s": 5510.8580226639515,
+    "occupied_card_limit_s": 3600,
+    "schema": "point2a_clock_v1"
+  },
+  "native": {
+    "peak_allocated_bytes": 37657326080,
+    "peak_reserved_bytes": 48498737152,
+    "wall_s": 271.5664425920695
+  },
+  "process": {
+    "all_locations_charged_bytes": 890115328,
+    "compiler_growth_bytes": 0,
+    "elapsed_s": 280.0732731278986,
+    "exit_code": 0,
+    "free_bytes": 407182495744,
+    "historical_occupied_card_s": 5510.8580226639515,
+    "historical_plus_new_occupied_card_s": 5790.93129579185,
+    "local_allocated_bytes": 500000000,
+    "new_phase_elapsed_s": 280.5234363079071,
+    "new_phase_occupied_card_s": 280.0732731278986,
+    "occupied_card_s": 280.0732731278986,
+    "remote_allocated_bytes": 390115328,
+    "status": "completed"
+  },
+  "sampled_child_peak_resident_bytes": 25740525568,
+  "samples": [
+    {
+      "all_locations_charged_bytes": 838030592,
+      "child_memory": {
+        "peak_resident_bytes": 474832896,
+        "resident_bytes": 474832896,
+        "status": "measured"
+      },
+      "compiler_growth_bytes": 0,
+      "elapsed_s": 0.0011254437267780304,
+      "epoch": 1795652783.9427702,
+      "free_bytes": 407234686976,
+      "gpu_inventory": {
+        "cards": [
+          {
+            "ordinal": 0,
+            "total_bytes": 85899345920,
+            "used_bytes": 0
+          },
+          {
+            "ordinal": 1,
+            "total_bytes": 85899345920,
+            "used_bytes": 0
+          }
+        ]
+      },
+      "host_memory": {
+        "available_bytes": 103793852416,
+        "total_bytes": 269529780224
+      },
+      "local_allocated_bytes": 500000000,
+      "remote_allocated_bytes": 338030592
+    },
+    {
+      "all_locations_charged_bytes": 838051072,
+      "child_memory": {
+        "peak_resident_bytes": 7247212544,
+        "resident_bytes": 4394733568,
+        "status": "measured"
+      },
+      "compiler_growth_bytes": 0,
+      "elapsed_s": 30.552604975178838,
+      "epoch": 1795652814.4009063,
+      "free_bytes": 407234625536,
+      "gpu_inventory": {
+        "cards": [
+          {
+            "ordinal": 0,
+            "total_bytes": 85899345920,
+            "used_bytes": 0
+          },
+          {
+            "ordinal": 1,
+            "total_bytes": 85899345920,
+            "used_bytes": 2565865472
+          }
+        ]
+      },
+      "host_memory": {
+        "available_bytes": 100640071680,
+        "total_bytes": 269529780224
+      },
+      "local_allocated_bytes": 500000000,
+      "remote_allocated_bytes": 338051072
+    },
+    {
+      "all_locations_charged_bytes": 838178048,
+      "child_memory": {
+        "peak_resident_bytes": 14886301696,
+        "resident_bytes": 2680901632,
+        "status": "measured"
+      },
+      "compiler_growth_bytes": 0,
+      "elapsed_s": 61.01352886296809,
+      "epoch": 1795652844.927237,
+      "free_bytes": 407234772992,
+      "gpu_inventory": {
+        "cards": [
+          {
+            "ordinal": 0,
+            "total_bytes": 85899345920,
+            "used_bytes": 0
+          },
+          {
+            "ordinal": 1,
+            "total_bytes": 85899345920,
+            "used_bytes": 22459449344
+          }
+        ]
+      },
+      "host_memory": {
+        "available_bytes": 90181558272,
+        "total_bytes": 269529780224
+      },
+      "local_allocated_bytes": 500000000,
+      "remote_allocated_bytes": 338178048
+    },
+    {
+      "all_locations_charged_bytes": 838251776,
+      "child_memory": {
+        "peak_resident_bytes": 14886301696,
+        "resident_bytes": 8779464704,
+        "status": "measured"
+      },
+      "compiler_growth_bytes": 0,
+      "elapsed_s": 91.53793288394809,
+      "epoch": 1795652875.4160073,
+      "free_bytes": 407234375680,
+      "gpu_inventory": {
+        "cards": [
+          {
+            "ordinal": 0,
+            "total_bytes": 85899345920,
+            "used_bytes": 0
+          },
+          {
+            "ordinal": 1,
+            "total_bytes": 85899345920,
+            "used_bytes": 49531584512
+          }
+        ]
+      },
+      "host_memory": {
+        "available_bytes": 101171499008,
+        "total_bytes": 269529780224
+      },
+      "local_allocated_bytes": 500000000,
+      "remote_allocated_bytes": 338251776
+    },
+    {
+      "all_locations_charged_bytes": 840680704,
+      "child_memory": {
+        "peak_resident_bytes": 14886301696,
+        "resident_bytes": 13077901312,
+        "status": "measured"
+      },
+      "compiler_growth_bytes": 0,
+      "elapsed_s": 122.02465660311282,
+      "epoch": 1795652905.854351,
+      "free_bytes": 407231926272,
+      "gpu_inventory": {
+        "cards": [
+          {
+            "ordinal": 0,
+            "total_bytes": 85899345920,
+            "used_bytes": 0
+          },
+          {
+            "ordinal": 1,
+            "total_bytes": 85899345920,
+            "used_bytes": 49531584512
+          }
+        ]
+      },
+      "host_memory": {
+        "available_bytes": 97057243136,
+        "total_bytes": 269529780224
+      },
+      "local_allocated_bytes": 500000000,
+      "remote_allocated_bytes": 340680704
+    },
+    {
+      "all_locations_charged_bytes": 840680704,
+      "child_memory": {
+        "peak_resident_bytes": 17274408960,
+        "resident_bytes": 17274408960,
+        "status": "measured"
+      },
+      "compiler_growth_bytes": 0,
+      "elapsed_s": 152.46921507455409,
+      "epoch": 1795652936.3318117,
+      "free_bytes": 407231963136,
+      "gpu_inventory": {
+        "cards": [
+          {
+            "ordinal": 0,
+            "total_bytes": 85899345920,
+            "used_bytes": 0
+          },
+          {
+            "ordinal": 1,
+            "total_bytes": 85899345920,
+            "used_bytes": 49531584512
+          }
+        ]
+      },
+      "host_memory": {
+        "available_bytes": 92846952448,
+        "total_bytes": 269529780224
+      },
+      "local_allocated_bytes": 500000000,
+      "remote_allocated_bytes": 340680704
+    },
+    {
+      "all_locations_charged_bytes": 841987328,
+      "child_memory": {
+        "peak_resident_bytes": 17274957824,
+        "resident_bytes": 17274957824,
+        "status": "measured"
+      },
+      "compiler_growth_bytes": 0,
+      "elapsed_s": 182.94709664024413,
+      "epoch": 1795652966.8082442,
+      "free_bytes": 407230656512,
+      "gpu_inventory": {
+        "cards": [
+          {
+            "ordinal": 0,
+            "total_bytes": 85899345920,
+            "used_bytes": 0
+          },
+          {
+            "ordinal": 1,
+            "total_bytes": 85899345920,
+            "used_bytes": 49531584512
+          }
+        ]
+      },
+      "host_memory": {
+        "available_bytes": 92849000448,
+        "total_bytes": 269529780224
+      },
+      "local_allocated_bytes": 500000000,
+      "remote_allocated_bytes": 341987328
+    },
+    {
+      "all_locations_charged_bytes": 843998464,
+      "child_memory": {
+        "peak_resident_bytes": 19394068480,
+        "resident_bytes": 19394068480,
+        "status": "measured"
+      },
+      "compiler_growth_bytes": 0,
+      "elapsed_s": 213.4218293298036,
+      "epoch": 1795652997.2440448,
+      "free_bytes": 407228604416,
+      "gpu_inventory": {
+        "cards": [
+          {
+            "ordinal": 0,
+            "total_bytes": 85899345920,
+            "used_bytes": 0
+          },
+          {
+            "ordinal": 1,
+            "total_bytes": 85899345920,
+            "used_bytes": 49531584512
+          }
+        ]
+      },
+      "host_memory": {
+        "available_bytes": 90570915840,
+        "total_bytes": 269529780224
+      },
+      "local_allocated_bytes": 500000000,
+      "remote_allocated_bytes": 343998464
+    },
+    {
+      "all_locations_charged_bytes": 844502272,
+      "child_memory": {
+        "peak_resident_bytes": 25740525568,
+        "resident_bytes": 25740525568,
+        "status": "measured"
+      },
+      "compiler_growth_bytes": 0,
+      "elapsed_s": 243.8638641871512,
+      "epoch": 1795653027.9333944,
+      "free_bytes": 407228100608,
+      "gpu_inventory": {
+        "cards": [
+          {
+            "ordinal": 0,
+            "total_bytes": 85899345920,
+            "used_bytes": 0
+          },
+          {
+            "ordinal": 1,
+            "total_bytes": 85899345920,
+            "used_bytes": 49531584512
+          }
+        ]
+      },
+      "host_memory": {
+        "available_bytes": 83990196224,
+        "total_bytes": 269529780224
+      },
+      "local_allocated_bytes": 500000000,
+      "remote_allocated_bytes": 344502272
+    },
+    {
+      "all_locations_charged_bytes": 890115328,
+      "child_memory": {
+        "peak_resident_bytes": 25676869632,
+        "resident_bytes": 9620025344,
+        "status": "measured"
+      },
+      "compiler_growth_bytes": 0,
+      "elapsed_s": 274.5618722271174,
+      "epoch": 1795653058.4643066,
+      "free_bytes": 407182495744,
+      "gpu_inventory": {
+        "cards": [
+          {
+            "ordinal": 0,
+            "total_bytes": 85899345920,
+            "used_bytes": 0
+          },
+          {
+            "ordinal": 1,
+            "total_bytes": 85899345920,
+            "used_bytes": 13865320448
+          }
+        ]
+      },
+      "host_memory": {
+        "available_bytes": 100353654784,
+        "total_bytes": 269529780224
+      },
+      "local_allocated_bytes": 500000000,
+      "remote_allocated_bytes": 390115328
+    }
+  ],
+  "stopped_reason_present": false,
+  "storage_error_present": false
+}

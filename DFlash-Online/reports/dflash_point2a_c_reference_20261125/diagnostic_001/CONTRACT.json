@@ -1,0 +1,97 @@
+{
+  "case_counters": [
+    129,
+    258,
+    1
+  ],
+  "cases": [
+    "C",
+    "F_BETA",
+    "F_C"
+  ],
+  "context_contrast": "F_BETA-C",
+  "created_epoch": 1795652766.6062381,
+  "diagnostic_product_reduction": "FP64",
+  "execution_commit": "1a1fb42d4fbf90d2143f0ada544713525e5d39be",
+  "expected_oracle_pool_lengths": [
+    13,
+    15
+  ],
+  "full_events": 0,
+  "generation_calls": 0,
+  "historical_context_contrast": "F_BETA-C",
+  "limits": {
+    "allocated_bytes": 2000000000,
+    "attempted_adam_calls": 6,
+    "correction_retries": 1,
+    "elapsed_s": 3600,
+    "occupied_card_s": 3600,
+    "oracle_backwards_per_attempt": 30,
+    "oracle_backwards_total": 60,
+    "planned_adam_calls": 3,
+    "reserve_bytes": 400000000000
+  },
+  "live_precision": "native BF16",
+  "local_allocated_bytes": 500000000,
+  "native_steps_independently_restored": true,
+  "numerical_criteria": {
+    "aggregate_gradient_diagnostic_is_admission_gate": false,
+    "allocator_dtype": "torch.float32",
+    "efficacy_is_admission_gate": false,
+    "expected_selected_pool_sizes": [
+      13,
+      15
+    ],
+    "fast_evaluations": 2,
+    "gate_b_relative_beta": 0.025,
+    "gate_c_alignment_fraction": 0.9,
+    "historical_hidden_state_gate": {
+      "atol": 1e-05,
+      "production_veto": false,
+      "rtol": 0.016,
+      "status": "failed"
+    },
+    "mass_atol": 2e-07,
+    "mass_rtol": 2e-06,
+    "maximum_reference_backwards_including_one_correction": 60,
+    "maximum_reference_backwards_per_audit": 30,
+    "maximum_selected_pools": 2,
+    "native_block_size": 16,
+    "reference_dot_dtype": "torch.float64",
+    "relative_cap": 0.25,
+    "responses": 2,
+    "selection_requires_each_response": true
+  },
+  "objective_changes": false,
+  "old_hidden_gate_status": "failed_retained_diagnostic",
+  "oracle_selection": "Lowest-index complete prefix pool with at least two positions in each response; selected before scores.",
+  "parent_counters": [
+    128,
+    256,
+    1
+  ],
+  "planned_oracle_backwards": 28,
+  "primary_contrast": "F_C-F_BETA",
+  "prior_occupied_card_s": 5510.8580226639515,
+  "prospective_convergence": {
+    "changed_coefficients_no_native_progress": "do not promote; park",
+    "correctness_or_resource_failure": "preserve completed work; report blocker",
+    "gain_against_both_with_disjoint_support": "promising for proposed bounded serving screen, no automatic run",
+    "identical_allocation_or_complete_endpoint": "close as ineffective on this case",
+    "identical_parameters_different_moments": "park; no immediate prediction effect, not equivalence",
+    "local_gain_disjoint_tie_or_conflict": "inconclusive transfer; prioritize assessment/transfer decision",
+    "regression_without_disjoint_benefit": "drop reference change; retain working recipe"
+  },
+  "remaining_write_budget_bytes": 1000000000,
+  "schema": "point2a_c_reference_public_v1",
+  "shadow_precision": "FP32",
+  "status": "admitted",
+  "witness": {
+    "qualification_feature_paths_disjoint": true,
+    "qualification_record_ids_disjoint": true,
+    "responses": 8,
+    "set_name": "new_buffer",
+    "status": "authenticated"
+  },
+  "working_method_contrast": "F_C-C"
+}

@@ -1,0 +1,1429 @@
+{
+  "status": "passed",
+  "mismatches": [],
+  "complete_endpoint_identity": {
+    "parameters": {
+      "sha256": "f84a3db8d2376770b438c4f763921a03563401ffb30d621e99f48a2080dfe0d3",
+      "tensors": [
+        {
+          "name": "layers.0.self_attn.q_proj.weight",
+          "shape": [
+            4096,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.0.self_attn.k_proj.weight",
+          "shape": [
+            1024,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.0.self_attn.v_proj.weight",
+          "shape": [
+            1024,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.0.self_attn.o_proj.weight",
+          "shape": [
+            4096,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.0.self_attn.q_norm.weight",
+          "shape": [
+            128
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.0.self_attn.k_norm.weight",
+          "shape": [
+            128
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.0.mlp.gate_proj.weight",
+          "shape": [
+            12288,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.0.mlp.up_proj.weight",
+          "shape": [
+            12288,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.0.mlp.down_proj.weight",
+          "shape": [
+            4096,
+            12288
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.0.input_layernorm.weight",
+          "shape": [
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.0.post_attention_layernorm.weight",
+          "shape": [
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.1.self_attn.q_proj.weight",
+          "shape": [
+            4096,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.1.self_attn.k_proj.weight",
+          "shape": [
+            1024,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.1.self_attn.v_proj.weight",
+          "shape": [
+            1024,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.1.self_attn.o_proj.weight",
+          "shape": [
+            4096,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.1.self_attn.q_norm.weight",
+          "shape": [
+            128
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.1.self_attn.k_norm.weight",
+          "shape": [
+            128
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.1.mlp.gate_proj.weight",
+          "shape": [
+            12288,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.1.mlp.up_proj.weight",
+          "shape": [
+            12288,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.1.mlp.down_proj.weight",
+          "shape": [
+            4096,
+            12288
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.1.input_layernorm.weight",
+          "shape": [
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.1.post_attention_layernorm.weight",
+          "shape": [
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.2.self_attn.q_proj.weight",
+          "shape": [
+            4096,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.2.self_attn.k_proj.weight",
+          "shape": [
+            1024,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.2.self_attn.v_proj.weight",
+          "shape": [
+            1024,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.2.self_attn.o_proj.weight",
+          "shape": [
+            4096,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.2.self_attn.q_norm.weight",
+          "shape": [
+            128
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.2.self_attn.k_norm.weight",
+          "shape": [
+            128
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.2.mlp.gate_proj.weight",
+          "shape": [
+            12288,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.2.mlp.up_proj.weight",
+          "shape": [
+            12288,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.2.mlp.down_proj.weight",
+          "shape": [
+            4096,
+            12288
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.2.input_layernorm.weight",
+          "shape": [
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.2.post_attention_layernorm.weight",
+          "shape": [
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.3.self_attn.q_proj.weight",
+          "shape": [
+            4096,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.3.self_attn.k_proj.weight",
+          "shape": [
+            1024,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.3.self_attn.v_proj.weight",
+          "shape": [
+            1024,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.3.self_attn.o_proj.weight",
+          "shape": [
+            4096,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.3.self_attn.q_norm.weight",
+          "shape": [
+            128
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.3.self_attn.k_norm.weight",
+          "shape": [
+            128
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.3.mlp.gate_proj.weight",
+          "shape": [
+            12288,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.3.mlp.up_proj.weight",
+          "shape": [
+            12288,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.3.mlp.down_proj.weight",
+          "shape": [
+            4096,
+            12288
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.3.input_layernorm.weight",
+          "shape": [
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.3.post_attention_layernorm.weight",
+          "shape": [
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.4.self_attn.q_proj.weight",
+          "shape": [
+            4096,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.4.self_attn.k_proj.weight",
+          "shape": [
+            1024,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.4.self_attn.v_proj.weight",
+          "shape": [
+            1024,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.4.self_attn.o_proj.weight",
+          "shape": [
+            4096,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.4.self_attn.q_norm.weight",
+          "shape": [
+            128
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.4.self_attn.k_norm.weight",
+          "shape": [
+            128
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.4.mlp.gate_proj.weight",
+          "shape": [
+            12288,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.4.mlp.up_proj.weight",
+          "shape": [
+            12288,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.4.mlp.down_proj.weight",
+          "shape": [
+            4096,
+            12288
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.4.input_layernorm.weight",
+          "shape": [
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.4.post_attention_layernorm.weight",
+          "shape": [
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "norm.weight",
+          "shape": [
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "fc.weight",
+          "shape": [
+            4096,
+            20480
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "hidden_norm.weight",
+          "shape": [
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        }
+      ]
+    },
+    "exp_avg": {
+      "sha256": "eb1a548e1002dba62c10678c7f987ca27ccb567269c976b96359a699136405cc",
+      "tensors": [
+        {
+          "name": "layers.0.self_attn.q_proj.weight",
+          "shape": [
+            4096,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.0.self_attn.k_proj.weight",
+          "shape": [
+            1024,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.0.self_attn.v_proj.weight",
+          "shape": [
+            1024,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.0.self_attn.o_proj.weight",
+          "shape": [
+            4096,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.0.self_attn.q_norm.weight",
+          "shape": [
+            128
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.0.self_attn.k_norm.weight",
+          "shape": [
+            128
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.0.mlp.gate_proj.weight",
+          "shape": [
+            12288,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.0.mlp.up_proj.weight",
+          "shape": [
+            12288,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.0.mlp.down_proj.weight",
+          "shape": [
+            4096,
+            12288
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.0.input_layernorm.weight",
+          "shape": [
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.0.post_attention_layernorm.weight",
+          "shape": [
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.1.self_attn.q_proj.weight",
+          "shape": [
+            4096,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.1.self_attn.k_proj.weight",
+          "shape": [
+            1024,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.1.self_attn.v_proj.weight",
+          "shape": [
+            1024,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.1.self_attn.o_proj.weight",
+          "shape": [
+            4096,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.1.self_attn.q_norm.weight",
+          "shape": [
+            128
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.1.self_attn.k_norm.weight",
+          "shape": [
+            128
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.1.mlp.gate_proj.weight",
+          "shape": [
+            12288,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.1.mlp.up_proj.weight",
+          "shape": [
+            12288,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.1.mlp.down_proj.weight",
+          "shape": [
+            4096,
+            12288
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.1.input_layernorm.weight",
+          "shape": [
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.1.post_attention_layernorm.weight",
+          "shape": [
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.2.self_attn.q_proj.weight",
+          "shape": [
+            4096,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.2.self_attn.k_proj.weight",
+          "shape": [
+            1024,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.2.self_attn.v_proj.weight",
+          "shape": [
+            1024,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.2.self_attn.o_proj.weight",
+          "shape": [
+            4096,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.2.self_attn.q_norm.weight",
+          "shape": [
+            128
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.2.self_attn.k_norm.weight",
+          "shape": [
+            128
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.2.mlp.gate_proj.weight",
+          "shape": [
+            12288,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.2.mlp.up_proj.weight",
+          "shape": [
+            12288,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.2.mlp.down_proj.weight",
+          "shape": [
+            4096,
+            12288
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.2.input_layernorm.weight",
+          "shape": [
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.2.post_attention_layernorm.weight",
+          "shape": [
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.3.self_attn.q_proj.weight",
+          "shape": [
+            4096,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.3.self_attn.k_proj.weight",
+          "shape": [
+            1024,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.3.self_attn.v_proj.weight",
+          "shape": [
+            1024,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.3.self_attn.o_proj.weight",
+          "shape": [
+            4096,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.3.self_attn.q_norm.weight",
+          "shape": [
+            128
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.3.self_attn.k_norm.weight",
+          "shape": [
+            128
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.3.mlp.gate_proj.weight",
+          "shape": [
+            12288,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.3.mlp.up_proj.weight",
+          "shape": [
+            12288,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.3.mlp.down_proj.weight",
+          "shape": [
+            4096,
+            12288
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.3.input_layernorm.weight",
+          "shape": [
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.3.post_attention_layernorm.weight",
+          "shape": [
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.4.self_attn.q_proj.weight",
+          "shape": [
+            4096,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.4.self_attn.k_proj.weight",
+          "shape": [
+            1024,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.4.self_attn.v_proj.weight",
+          "shape": [
+            1024,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.4.self_attn.o_proj.weight",
+          "shape": [
+            4096,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.4.self_attn.q_norm.weight",
+          "shape": [
+            128
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.4.self_attn.k_norm.weight",
+          "shape": [
+            128
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.4.mlp.gate_proj.weight",
+          "shape": [
+            12288,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.4.mlp.up_proj.weight",
+          "shape": [
+            12288,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.4.mlp.down_proj.weight",
+          "shape": [
+            4096,
+            12288
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.4.input_layernorm.weight",
+          "shape": [
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.4.post_attention_layernorm.weight",
+          "shape": [
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "norm.weight",
+          "shape": [
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "fc.weight",
+          "shape": [
+            4096,
+            20480
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "hidden_norm.weight",
+          "shape": [
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        }
+      ]
+    },
+    "exp_avg_sq": {
+      "sha256": "634073cebdb189007784a0c9cae19e64b220a40a593794efe251d75e492d814f",
+      "tensors": [
+        {
+          "name": "layers.0.self_attn.q_proj.weight",
+          "shape": [
+            4096,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.0.self_attn.k_proj.weight",
+          "shape": [
+            1024,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.0.self_attn.v_proj.weight",
+          "shape": [
+            1024,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.0.self_attn.o_proj.weight",
+          "shape": [
+            4096,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.0.self_attn.q_norm.weight",
+          "shape": [
+            128
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.0.self_attn.k_norm.weight",
+          "shape": [
+            128
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.0.mlp.gate_proj.weight",
+          "shape": [
+            12288,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.0.mlp.up_proj.weight",
+          "shape": [
+            12288,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.0.mlp.down_proj.weight",
+          "shape": [
+            4096,
+            12288
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.0.input_layernorm.weight",
+          "shape": [
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.0.post_attention_layernorm.weight",
+          "shape": [
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.1.self_attn.q_proj.weight",
+          "shape": [
+            4096,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.1.self_attn.k_proj.weight",
+          "shape": [
+            1024,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.1.self_attn.v_proj.weight",
+          "shape": [
+            1024,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.1.self_attn.o_proj.weight",
+          "shape": [
+            4096,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.1.self_attn.q_norm.weight",
+          "shape": [
+            128
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.1.self_attn.k_norm.weight",
+          "shape": [
+            128
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.1.mlp.gate_proj.weight",
+          "shape": [
+            12288,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.1.mlp.up_proj.weight",
+          "shape": [
+            12288,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.1.mlp.down_proj.weight",
+          "shape": [
+            4096,
+            12288
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.1.input_layernorm.weight",
+          "shape": [
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.1.post_attention_layernorm.weight",
+          "shape": [
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.2.self_attn.q_proj.weight",
+          "shape": [
+            4096,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.2.self_attn.k_proj.weight",
+          "shape": [
+            1024,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.2.self_attn.v_proj.weight",
+          "shape": [
+            1024,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.2.self_attn.o_proj.weight",
+          "shape": [
+            4096,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.2.self_attn.q_norm.weight",
+          "shape": [
+            128
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.2.self_attn.k_norm.weight",
+          "shape": [
+            128
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.2.mlp.gate_proj.weight",
+          "shape": [
+            12288,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.2.mlp.up_proj.weight",
+          "shape": [
+            12288,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.2.mlp.down_proj.weight",
+          "shape": [
+            4096,
+            12288
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.2.input_layernorm.weight",
+          "shape": [
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.2.post_attention_layernorm.weight",
+          "shape": [
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.3.self_attn.q_proj.weight",
+          "shape": [
+            4096,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.3.self_attn.k_proj.weight",
+          "shape": [
+            1024,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.3.self_attn.v_proj.weight",
+          "shape": [
+            1024,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.3.self_attn.o_proj.weight",
+          "shape": [
+            4096,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.3.self_attn.q_norm.weight",
+          "shape": [
+            128
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.3.self_attn.k_norm.weight",
+          "shape": [
+            128
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.3.mlp.gate_proj.weight",
+          "shape": [
+            12288,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.3.mlp.up_proj.weight",
+          "shape": [
+            12288,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.3.mlp.down_proj.weight",
+          "shape": [
+            4096,
+            12288
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.3.input_layernorm.weight",
+          "shape": [
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.3.post_attention_layernorm.weight",
+          "shape": [
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.4.self_attn.q_proj.weight",
+          "shape": [
+            4096,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.4.self_attn.k_proj.weight",
+          "shape": [
+            1024,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.4.self_attn.v_proj.weight",
+          "shape": [
+            1024,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.4.self_attn.o_proj.weight",
+          "shape": [
+            4096,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.4.self_attn.q_norm.weight",
+          "shape": [
+            128
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.4.self_attn.k_norm.weight",
+          "shape": [
+            128
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.4.mlp.gate_proj.weight",
+          "shape": [
+            12288,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.4.mlp.up_proj.weight",
+          "shape": [
+            12288,
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.4.mlp.down_proj.weight",
+          "shape": [
+            4096,
+            12288
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.4.input_layernorm.weight",
+          "shape": [
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "layers.4.post_attention_layernorm.weight",
+          "shape": [
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "norm.weight",
+          "shape": [
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "fc.weight",
+          "shape": [
+            4096,
+            20480
+          ],
+          "dtype": "torch.bfloat16"
+        },
+        {
+          "name": "hidden_norm.weight",
+          "shape": [
+            4096
+          ],
+          "dtype": "torch.bfloat16"
+        }
+      ]
+    },
+    "steps": [
+      128.0,
+      128.0,
+      128.0,
+      128.0,
+      128.0,
+      128.0,
+      128.0,
+      128.0,
+      128.0,
+      128.0,
+      128.0,
+      128.0,
+      128.0,
+      128.0,
+      128.0,
+      128.0,
+      128.0,
+      128.0,
+      128.0,
+      128.0,
+      128.0,
+      128.0,
+      128.0,
+      128.0,
+      128.0,
+      128.0,
+      128.0,
+      128.0,
+      128.0,
+      128.0,
+      128.0,
+      128.0,
+      128.0,
+      128.0,
+      128.0,
+      128.0,
+      128.0,
+      128.0,
+      128.0,
+      128.0,
+      128.0,
+      128.0,
+      128.0,
+      128.0,
+      128.0,
+      128.0,
+      128.0,
+      128.0,
+      128.0,
+      128.0,
+      128.0,
+      128.0,
+      128.0,
+      128.0,
+      128.0,
+      128.0,
+      128.0,
+      128.0
+    ],
+    "options": {
+      "lr": 0.0003,
+      "betas": [
+        0.9,
+        0.999
+      ],
+      "eps": 1e-08,
+      "weight_decay": 0.01,
+      "amsgrad": false,
+      "maximize": false,
+      "foreach": null,
+      "capturable": false,
+      "differentiable": false,
+      "fused": null,
+      "decoupled_weight_decay": true
+    },
+    "global_step": 128,
+    "presentations": 256,
+    "micro": 256,
+    "rng_sha256": "3a23a9c2ac44b80cb02d24aee5f06e709b02d4a37ce77bce9d1d575f5f53156f",
+    "gradients_cleared": true
+  },
+  "checked_before_restoration": true
+}
