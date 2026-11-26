@@ -191,13 +191,13 @@ def c_direction(scorer, retained, parent_identity, captured_identity):
 
 def run_case(name, trainer, scorer, state, runtime, ancillary, features, responses,
              allocations, retained, ledger, work, output, sealed_identity,
-             historical=None):
+             historical=None, *, case_names=CASES, event_prefix='point2a'):
     """One original native optimizer call, then exact full parent restoration."""
-    require(name in CASES, 'Unplanned Point2A case')
+    require(name in case_names, 'Unplanned declared native case')
     require(vector_identity(['response_0', 'response_1'], allocations[name]) == sealed_identity,
             'Coefficient array changed after sealing: ' + name)
     restore_parent(trainer, state, runtime, ancillary, output / (name + '_INITIAL_STATE.json'))
-    trainer._active_event = 'point2a_' + name.lower()
+    trainer._active_event = event_prefix + '_' + name.lower()
     (trainer.events_root / trainer._active_event).mkdir(exist_ok=False)
     case = dict(name=name, status='running', adam_attempts=0, adam_completed=0,
                 coefficient_identity=sealed_identity)

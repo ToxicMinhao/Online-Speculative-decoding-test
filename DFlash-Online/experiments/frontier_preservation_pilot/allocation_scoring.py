@@ -69,7 +69,9 @@ class NativeAllocationScorer:
     small per-position state; neither logits nor per-token gradients are cached.
     """
 
-    def __init__(self, trainer, responses, work=None, *, collect_diagnostics=False):
+    def __init__(self, trainer, responses, work=None, *, collect_diagnostics=False,
+                 assessment='SUM', collect_assessment_diagnostics=False):
+        require(assessment in ('SUM', 'MAX'), 'Unknown preservation assessment')
         require(len(responses) == 2, 'Require exactly two frozen native responses')
         require(not trainer.core.accumulation_remainder, 'Require an accumulation boundary')
         self.trainer = trainer
@@ -77,6 +79,9 @@ class NativeAllocationScorer:
         self.responses = tuple(responses)
         self.work = work
         self.collect_diagnostics = collect_diagnostics
+        self.assessment = assessment
+        self.collect_assessment_diagnostics = collect_assessment_diagnostics
+        self.assessment_diagnostics = []
         self.hidden = NativeHidden(self.model)
         named = trainable_parameters(self.hidden)
         self.parameter_names = tuple(named)
@@ -334,9 +339,37 @@ class NativeAllocationScorer:
         return accumulated
 
     def _assessment(self, hidden, roles):
+        observed_chunks = {}
+        if self.collect_assessment_diagnostics:
+            self.assessment_diagnostics.append(observed_chunks)
+
         def chunk(hidden, labels, mask, weights):
             with self._operation('allocation_preview_native_head_chunk'):
                 logits = self.model.lm_head(hidden).to(self.model.loss_dtype)
+            if self.assessment == 'MAX' or self.collect_assessment_diagnostics:
+                from .point3_math import native_assessment_numerator
+                numerator, diagnostic = native_assessment_numerator(
+                    logits, labels, mask, weights, assessment=self.assessment,
+                    collect_diagnostics=self.collect_assessment_diagnostics)
+                if self.collect_assessment_diagnostics:
+                    start = (labels.storage_offset() - roles['labels'].storage_offset()) // labels.shape[-1]
+                    part = slice(start, start + labels.shape[1])
+                    multiplicity = diagnostic['bottleneck_multiplicity']
+                    active = multiplicity > 0
+                    continuation = roles['assessment_mask'][:, part] & ~(
+                        roles['prefix'][:, part] | roles['repair'][:, part])
+                    # Checkpoint recomputation overwrites the same block-slice
+                    # key; it never creates a second scientific observation.
+                    observed_chunks[start] = dict(
+                        blocks=labels.shape[1], margin_ties=diagnostic['margin_ties'],
+                        wrong_rival_ties=diagnostic['wrong_rival_ties'],
+                        tied_prefixes=int(diagnostic['tied_bottleneck_prefixes'].sum()),
+                        roles={name: dict(distinct_positions=int((active & role).sum()),
+                                         multiplicity=int((multiplicity * role).sum()))
+                               for name, role in (('P', roles['prefix'][:, part]),
+                                                  ('E', roles['repair'][:, part]),
+                                                  ('C', continuation))})
+                return (numerator,)
             selected = logits[mask]
             require(torch.isfinite(selected).all(), 'Nonfinite preview assessment logits')
             selected_labels = labels[mask]
