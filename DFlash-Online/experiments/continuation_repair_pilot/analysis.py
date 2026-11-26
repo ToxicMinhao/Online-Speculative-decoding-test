@@ -208,6 +208,8 @@ def run_analysis(plan, public):
         raise ValueError('An incomplete comparison cannot produce a gain report')
     serving['decision'] = decision
     serving['execution_commit'] = plan['execution_commit']
+    serving['training_execution_commit'] = training['execution_commit']
+    serving['readout_attempts'] = 2 if readout.get('resumed_unexecuted') else 1
     serving['activity'] = activity
     write_json(root / 'FINAL_ANALYSIS.json', dict(serving=serving, mechanism=mechanism))
     write_public_tables(root, public, serving, mechanism)
@@ -223,7 +225,7 @@ def run_analysis(plan, public):
     calls = contrast['verification_call_reduction_pct']
     interval = lambda value: '[' + ', '.join(f'{x:+.5f}%' for x in value['ci95']) + ']'
     lines = ['# Continuation repair allocation pilot', '',
-        f"Execution commit: `{plan['execution_commit']}`.", '',
+        f"Training execution commit: `{training['execution_commit']}`. Serving/report execution commit: `{plan['execution_commit']}`.", '',
         f"Completed fixed comparison: **{decision['label']}**. Recommended frozen configuration: **{decision['selected']}**.", '',
         'The intervention refines the existing HIGH repair budget within each response. BASE is the authenticated retained native C+K+PAIR event-two endpoint; TAIL alone receives the fixed continuation refinement. PR64 remains an inconclusive observational diagnostic.', '',
         '| Metric | BASE | TAIL | Reduction, TAIL versus BASE | 95% paired interval |',
@@ -240,6 +242,8 @@ def run_analysis(plan, public):
     lines += ['', 'Mechanism tables aggregate matched blocks within responses and separately retain raw/useful repairs, reachable followers, lost consecutive-prefix occurrences and damaged individual positions. These are training-buffer/retention descriptions, not independent block trials or serving measurements. No PR64 regression was repeated.', '',
         'Fresh native-generation/cache times, all repeats, loading/switching/warmup costs and parameter identities are in SERVING_SUMMARY.json and the per-request/repeat tables. Historical BASE training time is context, not a fresh matched overhead estimate. Qualification/startup/committed work and storage admission remain separately recorded in the run receipts.', '',
         'This fixed event on a reused development panel does not establish training-seed robustness, fresh-panel generalization, optimal/calibrated repair utility or training-inclusive speedup. No label automatically authorizes adoption, tuning or another run. Independent audit and final all-location cost/validity receipts accompany publication.', '']
+    if readout.get('resumed_unexecuted'):
+        lines += ['The first readout attempt stopped on a concurrent storage-receipt write after73 primary responses and one included repeat. The original failure and costs remain recorded. The repaired orchestration reused those74 completed forwards and executed only55 remaining primary plus eight retention readouts; no training, completed readout or qualification forward was repeated.', '']
     Path(public, 'REPORT.md').write_text('\n'.join(lines))
     return decision
 

@@ -1,6 +1,7 @@
 """Prospective resource ceilings retain failed work and all-location charges."""
 
 import json
+import os
 from pathlib import Path
 import tempfile
 import unittest
@@ -55,7 +56,7 @@ class ResourceTests(unittest.TestCase):
             with patch('experiments.continuation_repair_pilot.launch.storage_usage', return_value=usage):
                 with self.assertRaises(RuntimeError):
                     boundary(plan, remaining_write_bytes=22_000_000_001)
-            receipt = json.loads((Path(directory) / 'STORAGE.json').read_text())
+            receipt = json.loads((Path(directory) / f'STORAGE.{os.getpid()}.json').read_text())
             self.assertEqual(receipt['all_locations_charged_bytes'], 2_000_000_000)
 
     def test_original_clock_and_consumed_card_time_are_not_reset(self):
