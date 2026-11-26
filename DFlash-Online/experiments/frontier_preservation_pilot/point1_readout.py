@@ -102,8 +102,18 @@ def _origins_rows(origins):
     return origins['responses'] if isinstance(origins, dict) else origins
 
 
-@torch.no_grad()
 def evaluate_responses(trainer, responses, *, endpoint, origins=None, parameters=None, work=None):
+    """Point1's public endpoint contract remains restricted to Point1 labels."""
+    require(endpoint in ENDPOINTS, 'Unknown Point1 endpoint')
+    return _evaluate_responses(
+        trainer, responses, endpoint=endpoint, origins=origins,
+        parameters=parameters, work=work, readout_name='point1',
+    )
+
+
+@torch.no_grad()
+def _evaluate_responses(trainer, responses, *, endpoint, origins=None, parameters=None,
+                        work=None, readout_name):
     """Read a parent or alternative endpoint, retaining native eight-block heads.
 
     Functional dictionaries use NativeHidden parameter names. FP32 shadow leaves
@@ -111,7 +121,6 @@ def evaluate_responses(trainer, responses, *, endpoint, origins=None, parameters
     No counter is forged when a functional endpoint is evaluated at the parent.
     Existing modes, gradients, observer buffers, costs and RNG are preserved.
     """
-    require(endpoint in ENDPOINTS, 'Unknown Point1 endpoint')
     before = _boundary(trainer)
     model = trainer.bundle.model
     require(model.block_size == 16 and model.objective_chunk_blocks == 8,
@@ -143,7 +152,7 @@ def evaluate_responses(trainer, responses, *, endpoint, origins=None, parameters
     rng_before = rng_digest(capture_rng())
     trainer.work, model.costs = deepcopy(saved_work), {}
     result = dict(
-        schema='point1_native_endpoint_readout_v1', endpoint=endpoint,
+        schema=readout_name + '_native_endpoint_readout_v1', endpoint=endpoint,
         functional_endpoint=parameters is not None, live_counters=list(before),
         responses=[], backwards=0, optimizer_steps=0, teacher_forwards=0,
         head_calls=0, draft_forwards=0,
@@ -164,11 +173,11 @@ def evaluate_responses(trainer, responses, *, endpoint, origins=None, parameters
                 if response.anchors.shape[1]:
                     restore_rng(response.rng_after_sampling)
                     if work is not None:
-                        work.start('point1_readout_backbone_forward')
+                        work.start(readout_name + '_readout_backbone_forward')
                     hidden = (hidden_model(response) if represented is None
                               else torch.func.functional_call(hidden_model, represented, (response,)))
                     if work is not None:
-                        work.finish('point1_readout_backbone_forward')
+                        work.finish(readout_name + '_readout_backbone_forward')
                     result['draft_forwards'] += 1
                     labels, weights, _ = model._block_labels_and_weights(
                         response.tensors['input_ids'], response.tensors['loss_mask'],
@@ -178,10 +187,10 @@ def evaluate_responses(trainer, responses, *, endpoint, origins=None, parameters
                     for start in range(0, hidden.shape[1], 8):
                         part = slice(start, start + 8)
                         if work is not None:
-                            work.start('point1_readout_head_chunk')
+                            work.start(readout_name + '_readout_head_chunk')
                         logits = model.lm_head(hidden[:, part]).to(model.loss_dtype)
                         if work is not None:
-                            work.finish('point1_readout_head_chunk')
+                            work.finish(readout_name + '_readout_head_chunk')
                         result['head_calls'] += 1
                         chunk = block_readouts(
                             logits, labels[:, part], weights[:, part], model.eos_token_ids,
