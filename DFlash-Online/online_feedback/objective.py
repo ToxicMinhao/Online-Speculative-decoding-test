@@ -260,6 +260,17 @@ class TargetObjectiveModel(OnlineDFlashModel):
                     )
                     if getattr(self, 'repair_conditional_kl', False):
                         from .repair_conditional_kl import repair_pair_chunk_terms
+                        continuation = getattr(self, 'continuation_repair', None)
+                        if continuation is not None:
+                            pair_terms, pair_rows = repair_pair_chunk_terms(
+                                logits, teacher_logits, proposals, labels, weights,
+                                selection, self.eos_token_ids, return_rows=True,
+                            )
+                            tail = continuation.chunk_terms(
+                                logits, token_loss, proposals, labels, weights,
+                                selection, pair_rows, self.eos_token_ids,
+                            )
+                            return (*terms, *extra, *auxiliary, *pair_terms, *tail)
                         pair_terms = repair_pair_chunk_terms(
                             logits, teacher_logits, proposals, labels, weights,
                             selection, self.eos_token_ids,
@@ -509,10 +520,18 @@ class TargetObjectiveModel(OnlineDFlashModel):
                 chunk_size=self.objective_chunk_blocks, dim=1, checkpoint=True,
             )
         elif successor_shuffle is None:
-            terms = checkpointed_chunk_reduce(
-                self._chunk_loss, output_hidden, reference_hidden, labels, weights, teacher_hidden,
-                chunk_size=self.objective_chunk_blocks, dim=1, checkpoint=True,
-            )
+            continuation = getattr(self, 'continuation_repair', None)
+            if continuation is None:
+                terms = checkpointed_chunk_reduce(
+                    self._chunk_loss, output_hidden, reference_hidden, labels, weights, teacher_hidden,
+                    chunk_size=self.objective_chunk_blocks, dim=1, checkpoint=True,
+                )
+            else:
+                with continuation.collect_response():
+                    terms = checkpointed_chunk_reduce(
+                        self._chunk_loss, output_hidden, reference_hidden, labels, weights, teacher_hidden,
+                        chunk_size=self.objective_chunk_blocks, dim=1, checkpoint=True,
+                    )
         else:
             assignment = successor_shuffle.prepare_response(
                 self, output_hidden, labels, weights, anchors,
@@ -547,11 +566,18 @@ class TargetObjectiveModel(OnlineDFlashModel):
         forward_kl_sum = loss_sum
         if repair_pair:
             from .repair_conditional_kl import repair_pair_reduce_response
-            pair_numerator, pair_metrics = repair_pair_reduce_response(terms[15:], redistribution_metrics)
+            pair_numerator, pair_metrics = repair_pair_reduce_response(terms[15:18], redistribution_metrics)
             # No-error responses retain the original native numerator object.
             if bool(pair_metrics['repair_pair_repair_rows'] > 0):
                 loss_sum = loss_sum + pair_numerator
             redistribution_metrics.update(pair_metrics)
+        continuation = getattr(self, 'continuation_repair', None)
+        if continuation is not None:
+            loss_sum, continuation_metrics = continuation.reduce_response(
+                loss_sum, terms[18:], terms[:11], terms[15:18], redistribution_metrics,
+                preservation_terms=terms[11:15],
+            )
+            redistribution_metrics.update(continuation_metrics)
         if self.is_osd:
             # Apply the author's epsilon once per response, not once per chunk.
             denominator = denominator + 1e-6
