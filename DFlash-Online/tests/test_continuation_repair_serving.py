@@ -46,6 +46,49 @@ def decision_report(point=1., lower=.1, upper=2., calls=.2):
 
 
 class ServingTests(unittest.TestCase):
+    def test_relocated_incomplete_analysis_preserves_seals_and_raw(self):
+        with TemporaryDirectory() as folder:
+            root = Path(folder)
+            raw, output, public = root/'raw', root/'derived', root/'public'
+            plan = {'root':'/unavailable/original/run', 'execution_commit':'serving'}
+            records = {
+                'sealed/PLAN.json': plan,
+                'evaluation/SUMMARY.json': {'distinct_serving_weights':True},
+                'evaluation/STATUS.json': {'status':'failed'},
+                'mechanism/STATUS.json': {'status':'completed'},
+                'mechanism/SUMMARY.json': {},
+                'arms/TAIL/STATUS.json': {'status':'completed',
+                    'activity':{'continuation_changed_high_positions':2}},
+            }
+            for relative, data in records.items():
+                path = raw/relative
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_text(json.dumps(data))
+            before = {str(path.relative_to(raw)):path.read_bytes() for path in raw.rglob('*.json')}
+            with self.assertRaisesRegex(ValueError,'incomplete comparison'):
+                analysis.run_analysis(plan, public, raw_root=raw, analysis_output_root=output)
+            self.assertEqual(json.loads((output/'REPORT_BLOCKED.json').read_text())['label'],'BLOCKED')
+            self.assertEqual(before,{str(path.relative_to(raw)):path.read_bytes() for path in raw.rglob('*.json')})
+            self.assertEqual(plan,records['sealed/PLAN.json'])
+            self.assertFalse(public.exists())
+
+    def test_report_counts_all_readout_processes_and_separates_phase_sources(self):
+        from experiments.continuation_repair_pilot.analysis import report_provenance
+        plan={'execution_commit':'serving','analysis_execution_commit':'cpu-report'}
+        training={'execution_commit':'training'}
+        readout={'resumed_unexecuted':True,'prior_attempt_response_forwards':74,
+                 'attempt_work':{'response_reads_completed':63},'work':{'response_reads_completed':137}}
+        clock={'processes':[{'phase':name} for name in ('qualification','training','readout','readout','readout','evaluation')]}
+        result=report_provenance(plan,training,readout,clock,{'execution_commit':'serving'},{'new_forward_evidence':0})
+        self.assertEqual(result['readout_attempts'],3)
+        self.assertEqual(result['readout_model_forward_attempts'],2)
+        self.assertEqual(result['readout_forward_counts_by_process'],[74,0,63])
+        self.assertEqual(result['analysis_execution_commit'],'cpu-report')
+        self.assertEqual(result['training_execution_commit'],'training')
+        self.assertEqual(result['serving_execution_commit'],'serving')
+        with self.assertRaisesRegex(ValueError,'do not reconcile'):
+            report_provenance(plan,training,readout,clock,{'execution_commit':'serving'})
+
     def test_explicit_two_arm_budget_and_balance(self):
         panel, *_ = inputs()
         slots = serving.schedule(panel)

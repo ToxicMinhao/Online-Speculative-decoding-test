@@ -189,9 +189,31 @@ def pool_activity_table(training):
     return output
 
 
-def run_analysis(plan, public):
+def report_provenance(plan, training, readout, clock, protocol, rejected_preparation=None):
+    """Separate launched processes, model forwards and the source of each phase."""
+    processes = [row for row in clock['processes'] if row['phase'] == 'readout']
+    if readout.get('resumed_unexecuted'):
+        forwards = [readout['prior_attempt_response_forwards']]
+        if rejected_preparation is not None:
+            forwards.append(rejected_preparation['new_forward_evidence'])
+        forwards.append(readout['attempt_work']['response_reads_completed'])
+    else:
+        forwards = [readout['work']['response_reads_completed']]
+    if len(forwards) != len(processes) or sum(forwards) != readout['work']['response_reads_completed']:
+        raise ValueError('Readout process attempts and completed-forward receipts do not reconcile')
+    return dict(execution_commit=protocol['execution_commit'],
+        training_execution_commit=training['execution_commit'],
+        serving_execution_commit=protocol['execution_commit'],
+        analysis_execution_commit=plan.get('analysis_execution_commit', plan['execution_commit']),
+        readout_attempts=len(processes), readout_model_forward_attempts=sum(count > 0 for count in forwards),
+        readout_forward_counts_by_process=forwards)
+
+
+def run_analysis(plan, public, *, raw_root=None, analysis_output_root=None):
     """Reduce completed serving and mechanism evidence without another model call."""
-    root = Path(plan['root'])
+    root = Path(raw_root) if raw_root is not None else Path(plan['root'])
+    output = Path(analysis_output_root) if analysis_output_root is not None else root
+    output.mkdir(parents=True, exist_ok=True)
     serving = json.loads((root / 'evaluation/SUMMARY.json').read_text())
     evaluation = json.loads((root / 'evaluation/STATUS.json').read_text())
     readout = json.loads((root / 'mechanism/STATUS.json').read_text())
@@ -204,14 +226,17 @@ def run_analysis(plan, public):
     decision = freeze_decision(serving, distinct_weights=serving['distinct_serving_weights'],
         active=activity['continuation_changed_high_positions'] > 0, correctness_complete=complete)
     if decision['label'] == 'BLOCKED':
-        write_json(root / 'REPORT_BLOCKED.json', decision)
+        write_json(output / 'REPORT_BLOCKED.json', decision)
         raise ValueError('An incomplete comparison cannot produce a gain report')
     serving['decision'] = decision
-    serving['execution_commit'] = plan['execution_commit']
-    serving['training_execution_commit'] = training['execution_commit']
-    serving['readout_attempts'] = 2 if readout.get('resumed_unexecuted') else 1
+    rejection_path = root / 'resume_002/REPAIR.json'
+    rejected = (json.loads(rejection_path.read_text())['rejected_preparation']
+                if rejection_path.exists() else None)
+    serving.update(report_provenance(plan, training, readout,
+        json.loads((root / 'CLOCK.json').read_text()),
+        json.loads((root / 'evaluation/PROTOCOL.json').read_text()), rejected))
     serving['activity'] = activity
-    write_json(root / 'FINAL_ANALYSIS.json', dict(serving=serving, mechanism=mechanism))
+    write_json(output / 'FINAL_ANALYSIS.json', dict(serving=serving, mechanism=mechanism))
     write_public_tables(root, public, serving, mechanism)
     csv_table(Path(public) / 'POOL_ACTIVITY.csv', pool_activity_table(training))
     write_json(Path(public) / 'TRAINING_COSTS.json', dict(
@@ -225,7 +250,7 @@ def run_analysis(plan, public):
     calls = contrast['verification_call_reduction_pct']
     interval = lambda value: '[' + ', '.join(f'{x:+.5f}%' for x in value['ci95']) + ']'
     lines = ['# Continuation repair allocation pilot', '',
-        f"Training execution commit: `{training['execution_commit']}`. Serving/report execution commit: `{plan['execution_commit']}`.", '',
+        f"Training execution commit: `{serving['training_execution_commit']}`. Serving execution commit: `{serving['serving_execution_commit']}`. CPU analysis commit: `{serving['analysis_execution_commit']}`.", '',
         f"Completed fixed comparison: **{decision['label']}**. Recommended frozen configuration: **{decision['selected']}**.", '',
         'The intervention refines the existing HIGH repair budget within each response. BASE is the authenticated retained native C+K+PAIR event-two endpoint; TAIL alone receives the fixed continuation refinement. PR64 remains an inconclusive observational diagnostic.', '',
         '| Metric | BASE | TAIL | Reduction, TAIL versus BASE | 95% paired interval |',
@@ -239,11 +264,11 @@ def run_analysis(plan, public):
         '|---|---:|---:|---:|']
     for cohort, values in mechanism.items():
         lines.append(f"| {cohort} | {values['totals']['BASE']['Y']} | {values['totals']['TAIL']['Y']} | {values['differences']['Y']:+d} |")
-    lines += ['', 'Mechanism tables aggregate matched blocks within responses and separately retain raw/useful repairs, reachable followers, lost consecutive-prefix occurrences and damaged individual positions. These are training-buffer/retention descriptions, not independent block trials or serving measurements. No PR64 regression was repeated.', '',
+    lines += ['', 'Mechanism tables aggregate matched blocks within responses and separately retain raw/useful repairs, reachable followers, lost consecutive-prefix occurrences and damaged individual positions. These are training-buffer/retention descriptions, not independent block trials or serving measurements. No PR64 regression was repeated. The historical new-buffer witness overlaps these training responses and is not an independent cohort.', '',
         'Fresh native-generation/cache times, all repeats, loading/switching/warmup costs and parameter identities are in SERVING_SUMMARY.json and the per-request/repeat tables. Historical BASE training time is context, not a fresh matched overhead estimate. Qualification/startup/committed work and storage admission remain separately recorded in the run receipts.', '',
         'This fixed event on a reused development panel does not establish training-seed robustness, fresh-panel generalization, optimal/calibrated repair utility or training-inclusive speedup. No label automatically authorizes adoption, tuning or another run. Independent audit and final all-location cost/validity receipts accompany publication.', '']
     if readout.get('resumed_unexecuted'):
-        lines += ['The first readout attempt stopped on a concurrent storage-receipt write after73 primary responses and one included repeat. The original failure and costs remain recorded. The repaired orchestration reused those74 completed forwards and executed only55 remaining primary plus eight retention readouts; no training, completed readout or qualification forward was repeated.', '']
+        lines += [f"Readout processes: {serving['readout_attempts']}; processes completing model forwards: {serving['readout_model_forward_attempts']}; completed forwards by process: {serving['readout_forward_counts_by_process']}.", 'The first readout attempt stopped on a concurrent storage-receipt write after73 primary responses and one included repeat. The original failure and costs remain recorded. The repaired orchestration reused those74 completed forwards and executed only55 remaining primary plus eight retention readouts; no training, completed readout or qualification forward was repeated.', '']
     Path(public, 'REPORT.md').write_text('\n'.join(lines))
     return decision
 
@@ -253,5 +278,11 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--plan', required=True)
     parser.add_argument('--public', type=Path, required=True)
+    parser.add_argument('--raw-root', type=Path)
+    parser.add_argument('--analysis-output-root', type=Path)
+    parser.add_argument('--analysis-commit')
     args = parser.parse_args()
-    run_analysis(json.loads(Path(args.plan).read_text()), args.public)
+    plan = json.loads(Path(args.plan).read_text())
+    if args.analysis_commit is not None:
+        plan = dict(plan, analysis_execution_commit=args.analysis_commit)
+    run_analysis(plan, args.public, raw_root=args.raw_root, analysis_output_root=args.analysis_output_root)
