@@ -35,3 +35,5 @@ These repairs are independent audit/publication work, not experimental retries. 
 ## Privacy and publication
 
 Public tables replace original request IDs with ordinal labels; the bootstrap order is explicit. Prompts, original source IDs, tokens, anchors, teacher features, model tensors and recoveries stay outside Git. Every raw returned record, including all warmups, is retained privately; no unfavorable request was excluded. The public manifest binds this report bundle. Both final training recoveries and exports remain retained on A800.
+
+Published CSV line endings are normalized to LF for Git review; parsed cell values are unchanged from the independently audited exports. A superseded duplicate mechanism-note filename was removed before publication. These are formatting-only changes.
