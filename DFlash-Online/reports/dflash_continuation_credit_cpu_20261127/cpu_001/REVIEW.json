@@ -1,0 +1,55 @@
+{
+  "status": "passed",
+  "scope": "Lightweight CPU formula, data-alignment and interpretation review; no historical checkpoint audit",
+  "cpu_tests": 48,
+  "synthetic_independent_parent_child_cases": 1793,
+  "primary_records": {
+    "responses": 128,
+    "blocks": 8192,
+    "invalid": 0,
+    "omitted": 0
+  },
+  "association_bootstrap": {
+    "planned": 2000,
+    "identified": 2000,
+    "replaced": 0
+  },
+  "predictive_folds": {
+    "planned": 4,
+    "complete": 4,
+    "unavailable_rows": 0
+  },
+  "gpu_work": {
+    "model_forwards": 0,
+    "optimizer_steps": 0,
+    "generations": 0
+  },
+  "preparation_notes": [
+    "Optional threadpoolctl absent remotely; entry uses explicit environment limits and two-core affinity instead, before scientific execution.",
+    "One local pytest invocation used repository root instead of DFlash-Online and failed collection; correct-directory run passes 48 tests.",
+    "Remote rsync unavailable; compact results retrieved once using scp."
+  ],
+  "storage": {
+    "remote_before_bytes": 458286604288,
+    "remote_after_bytes": 458269679616,
+    "study_bytes": 12391738,
+    "reserve_bytes": 400000000000,
+    "notes": "Concurrent campaign writes explain global free-space difference; study size is measured separately. No cleanup necessary."
+  },
+  "active_campaign": {
+    "launcher_pid": 1918855,
+    "trainer_pid": 1918860,
+    "status": "Running before and after CPU analysis; source/settings/data unchanged. No serving sweep during analysis."
+  },
+  "review_roles": [
+    "Primary implementation and final report",
+    "Scoped records/association/prediction implementation and synthetic review; no independent scientific replication"
+  ],
+  "limitations": [
+    "No canonical q(y) for C alpha/cap replay",
+    "One historical trained-feedback transition",
+    "Fixed-OOF bootstrap conditional on folds and fitted models",
+    "Diagnostic allocations use 64 sampled anchors per response",
+    "No prospective policy value or serving benefit estimated"
+  ]
+}
