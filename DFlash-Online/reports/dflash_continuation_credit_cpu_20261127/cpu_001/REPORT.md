@@ -32,7 +32,7 @@ The prespecified HIGH regression preserves response effects, joint geometry, imm
 
 Per **0.1 added score**, the estimated association with full signed progress is **+1.1099 positions**, with 95% whole-response bootstrap interval **[−0.3957, +2.4228]**. For beyond-K progress, the estimate is +1.0962 [−0.2194, +2.1966]. On the smaller observed scale, one adjusted-score SD corresponds to +0.1906 [−0.0680, +0.4161] positions. Both intervals cross zero.
 
-All 2,000 fixed PCG64-seed-20261127 bootstrap draws are identified; none was replaced. The model retains 128 response effects and 1,822 residual degrees of freedom. Direct and accelerated calculations agree for the full fit and first five draws. This is a retrospective association under one historical update, not the effect of applying a proposed loss coefficient. [Association and all draws](ASSOCIATION.json).
+All 2,000 fixed PCG64-seed-20261127 bootstrap draws are identified; none was replaced. The model retains 128 response effects and 1,822 residual degrees of freedom. Direct and accelerated calculations agree for the full fit and first five draws. This is a retrospective association under one historical update, not the effect of applying a proposed loss coefficient. [Association and all draws](ASSOCIATION.json.gz).
 
 ## Severity improves prediction beyond structure
 
