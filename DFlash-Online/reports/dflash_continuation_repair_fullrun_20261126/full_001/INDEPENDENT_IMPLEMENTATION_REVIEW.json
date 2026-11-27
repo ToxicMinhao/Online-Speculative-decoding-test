@@ -1,0 +1,112 @@
+{
+  "status": "CPU_IMPLEMENTATION_REVIEW_PASSED",
+  "scope": "Pre-execution source review and CPU fixtures; not native GPU qualification",
+  "independence": "Independent cross-review of other owners; serving/analysis/launch refinements authored by this reviewer. Shared project context and model family disclosed.",
+  "files": {
+    "experiments/continuation_repair_fullrun/serving.py": {
+      "bytes": 25260,
+      "sha256": "184d2cdcd51413c6516b69772071e18344bbdb0b806c2287c20b5812b7cd35eb"
+    },
+    "experiments/continuation_repair_fullrun/analysis.py": {
+      "bytes": 10041,
+      "sha256": "c4154be2bd9455c3644813afdf86f3e2864d4e4a0c2da2c075c6c1ea9c6e484e"
+    },
+    "experiments/continuation_repair_fullrun/campaign.py": {
+      "bytes": 14117,
+      "sha256": "7c5abc7c9bf12d5d8ecbab878680dc610650f4c860c703c507c7784d10a95674"
+    },
+    "experiments/continuation_repair_fullrun/runtime.py": {
+      "bytes": 9692,
+      "sha256": "d27687be654b1d6307638be81e4a1880fbd4c7768b1ba842b32a6196294ab04c"
+    },
+    "experiments/continuation_repair_fullrun/storage.py": {
+      "bytes": 14177,
+      "sha256": "c9fbceb4a6e81aa8d8a039952603b89389d523ed850aff70153fb2956644a382"
+    },
+    "experiments/continuation_repair_fullrun/compact.py": {
+      "bytes": 10624,
+      "sha256": "8eaf49261de819351c2f80b8aedb31fe6657bf07c7ef285f4dbfd3d81c99766c"
+    },
+    "experiments/continuation_repair_fullrun/entry.py": {
+      "bytes": 3972,
+      "sha256": "185a957694b05c891e2bae9ec1918e7810a306116343454c3d1a5018a5f22d51"
+    },
+    "experiments/continuation_repair_fullrun/launch.py": {
+      "bytes": 9023,
+      "sha256": "f5b5ddfab012dc9455dd649ddf2cfb8a66522c0e5d3ac10a3b8d77c4dca6e9db"
+    },
+    "experiments/continuation_repair_fullrun/training.py": {
+      "bytes": 27270,
+      "sha256": "8cc6c7cef54d07a24f25aaf069d5e4a677c9c48de7f59232339f2835e957cfd8"
+    },
+    "experiments/continuation_repair_fullrun/qualification.py": {
+      "bytes": 17374,
+      "sha256": "cd6662f46403b04835d781a8579b486dcbe44aaf2a07212db65a97b9bebe1c9a"
+    },
+    "experiments/continuation_repair_fullrun/witness.py": {
+      "bytes": 8541,
+      "sha256": "ab46b4167a85c5f5068b6d9c680194cf434d41de7039c9719d2435adb169ee60"
+    },
+    "experiments/continuation_repair_fullrun/protected.py": {
+      "bytes": 1164,
+      "sha256": "048de68f25b9866fe391bae554822344f12b53b0e6b39bd408491a9bce344f82"
+    },
+    "tests/test_continuation_repair_fullrun_serving.py": {
+      "bytes": 14713,
+      "sha256": "8484d5bfc6009b767e6542016ad299356a401a7711209fb41e35e409e9530c0d"
+    },
+    "tests/test_continuation_repair_fullrun_runtime.py": {
+      "bytes": 8884,
+      "sha256": "e14c54d3797f5e24aace557d9af9248342f2403f257f00a080441857231419d7"
+    }
+  },
+  "tests": [
+    {
+      "command": "CUDA_VISIBLE_DEVICES='' PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=.:training:inference:tests /home/minhao2/.venvs/dflash-specforge/bin/python -m unittest discover -s tests -p 'test_continuation_repair_fullrun*.py' -q",
+      "passed": 51,
+      "seconds": 16.903
+    },
+    {
+      "command": "CUDA_VISIBLE_DEVICES='' PYTHONDONTWRITEBYTECODE=1 /home/minhao2/.venvs/dflash-specforge/bin/python ../../test_audit_statistics_independent.py -q",
+      "passed": 2,
+      "seconds": 0.637
+    }
+  ],
+  "corrected_findings": [
+    "Completed event/generation work is subtracted before remaining-time admission.",
+    "Future atomic tensor space stays reserved independently of compact/compiler growth.",
+    "No-child launch failures close begun leases; unresolved live children preserve open card clocks and durable failure receipts.",
+    "One total qualification retry spans both training and serving phases.",
+    "Malformed returned native records are invalid rather than unknown; raw evidence survives before validation.",
+    "Model loading in canonical generation is included in cost accounting, separately from scored timings."
+  ],
+  "mathematical_scope": [
+    "Unchanged frozen BASE/TAIL objective modules remain the numerical source; honest component logging is checked separately.",
+    "Four-endpoint schedule has12288 scored slots and96 planned warmups; canonical1024 separate.",
+    "Primary D is positive for slower TAIL; observed0.1 percent rule, upper-bound0.1 percent support and strict upper-bound-zero speed support remain separate.",
+    "Independent NumPy/statistical reducer uses shared whole-request PCG64 draws, seed20261126,10000 linear intervals; no model re-execution."
+  ],
+  "retirement": {
+    "audit_identity": {
+      "bytes": 124020,
+      "sha256": "3b8bfefdb15cfc73cbfb3025f2f69948a52ed8007ea018692b184c4274e24c05"
+    },
+    "execution_identity": {
+      "bytes": 42480,
+      "sha256": "181fb10bf3974d1188b2b8c3b911895e6b8d807e06cbda64bd39c4410676bb03"
+    },
+    "removed_states": 10,
+    "retained_exports": 10,
+    "exact_export_tensor_checks": true,
+    "removed_allocated_bytes": 62991458304,
+    "free_before_bytes": 414291537920,
+    "free_after_bytes": 477282930688,
+    "dependency_review": "Only completed historical ABT ADV/CLEAN2/RANDOM and MathQA fixed-LR N/S optimizer continuations; no new-run or protected PR56/59/60/64/65 dependency found. Trained negative exports, compact results and scientific evidence retained.",
+    "live_use_limitation": "Readable container descriptors and all readable command lines; external host/private OS descriptors are not observable. Both GPUs idle and no command names a retirement study.",
+    "uninspectable_descriptors": 1294,
+    "archived": false,
+    "lost_capability": "Direct optimizer/RNG continuation of the listed completed historical nonselected variants; not archived"
+  },
+  "native_checks_remaining": "Bounded native qualification, resource/source preflight, exact four-export native serving checks, then fixed production only if passed.",
+  "new_model_work": 0
+}

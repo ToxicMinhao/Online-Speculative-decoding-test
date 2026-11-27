@@ -1,0 +1,53 @@
+{
+  "status": "admitted",
+  "projected_peak_bytes": 73757483417,
+  "phases": {
+    "training": {
+      "tensor_peak_with_five_percent_margin_bytes": 59257483417,
+      "compact_bytes": 9000000000,
+      "compiler_bytes": 2000000000,
+      "source_bytes": 500000000,
+      "workspace_bytes": 1000000000,
+      "projected_peak_bytes": 73757483417
+    },
+    "evaluation": {
+      "tensor_peak_with_five_percent_margin_bytes": 34621265079,
+      "compact_bytes": 25000000000,
+      "compiler_bytes": 2000000000,
+      "source_bytes": 500000000,
+      "workspace_bytes": 1000000000,
+      "projected_peak_bytes": 65121265079
+    }
+  },
+  "external_charge_bytes": 2000000000,
+  "shared_witness_tensor_bound_bytes": 1611005952,
+  "complete_state_bound_bytes": 6791777312,
+  "weight_bytes": 2097259104,
+  "feature_peak_bytes": 14574028668,
+  "complete_state_copies_at_peak": 5,
+  "export_copies_at_peak": 3,
+  "qualification_peak_bytes": 35000000000,
+  "offload_assumed": false,
+  "required_initial_free_bytes": 473757483417,
+  "forecast": {
+    "full_arm_wall_s": 59283.538028481395,
+    "final_evaluation_wall_s": 23052.0,
+    "qualification_wall_s": 1200.0,
+    "audit_wall_s": 1800.0,
+    "initial_remaining_wall_s": 144619.07605696277,
+    "initial_remaining_card_s": 261386.15211392558,
+    "assumptions": [
+      "PR56 C full58 observed wall and training costs",
+      "PR59 same-event PAIR/BASE training ratio; PR65 TAIL/nativePAIR historical ratio",
+      "Both new arms priced at larger TAIL estimate; no serving speedup assumed",
+      "1.5 seconds/canonical or scored/warmup generation plus60 seconds/activation; quiet single-card evaluation",
+      "Fresh feedback lengths and state-persistence costs may differ; refresh every committed boundary"
+    ],
+    "measured": {
+      "pr56_C_full_arm_s": 54035.12501913495,
+      "pr56_C_training_s": 31044.2759085875,
+      "pr59_PAIR_training_ratio": 1.0865298221162398,
+      "pr65_TAIL_training_ratio": 1.0759595896412155
+    }
+  }
+}

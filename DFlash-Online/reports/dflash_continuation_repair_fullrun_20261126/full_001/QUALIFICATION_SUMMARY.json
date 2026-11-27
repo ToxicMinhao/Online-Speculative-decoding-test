@@ -1,0 +1,597 @@
+{
+  "status": "passed",
+  "execution_commit": "ef792694a52395a6c13ea5dabcf7ae64dd1d04ff",
+  "plan_binding": "0997159a261799b3ba99b31cda0f7f699aa7daaca307c1b503b64cf7deab94c4",
+  "training": {
+    "status": "passed",
+    "binding": "0997159a261799b3ba99b31cda0f7f699aa7daaca307c1b503b64cf7deab94c4",
+    "execution_commit": "ef792694a52395a6c13ea5dabcf7ae64dd1d04ff",
+    "cases": [
+      {
+        "arm": "BASE",
+        "implementation": "frozen_PR65",
+        "path": "/data/sources/minhao/runs/dflash_continuation_repair_fullrun_20261126/full_001/qualification/training_001/reference_BASE/RESULT.json"
+      },
+      {
+        "arm": "TAIL",
+        "implementation": "frozen_PR65",
+        "path": "/data/sources/minhao/runs/dflash_continuation_repair_fullrun_20261126/full_001/qualification/training_001/reference_TAIL/RESULT.json"
+      },
+      {
+        "arm": "BASE",
+        "implementation": "fullrun",
+        "path": "/data/sources/minhao/runs/dflash_continuation_repair_fullrun_20261126/full_001/qualification/training_001/integration_BASE/RESULT.json",
+        "scientific_exact": true,
+        "native_work_exact": true,
+        "serialization_exact": true
+      },
+      {
+        "arm": "TAIL",
+        "implementation": "fullrun",
+        "path": "/data/sources/minhao/runs/dflash_continuation_repair_fullrun_20261126/full_001/qualification/training_001/integration_TAIL/RESULT.json",
+        "scientific_exact": true,
+        "native_work_exact": true,
+        "serialization_exact": true
+      }
+    ],
+    "planned_disposable_adam": 4,
+    "maximum_disposable_adam": 8,
+    "production_updates": 0,
+    "fresh_initializations_exact": true,
+    "BASE_TAIL_PR65_integration_exact": true,
+    "exports": {
+      "BASE": {
+        "path": "/data/sources/minhao/runs/dflash_continuation_repair_fullrun_20261126/full_001/qualification/training_001/integration_BASE/export",
+        "identity": {
+          "bytes": 2097259104,
+          "sha256": "1246a63616ed1f84e15f2fe729dcfa9225a46b047004b1e8213668680f9fe31f"
+        },
+        "exact": true,
+        "kind": "disposable_one_step_numerical_fixture_not_production"
+      },
+      "TAIL": {
+        "path": "/data/sources/minhao/runs/dflash_continuation_repair_fullrun_20261126/full_001/qualification/training_001/integration_TAIL/export",
+        "identity": {
+          "bytes": 2097259104,
+          "sha256": "c3f6ec3a6d15395cf40caff8ff2b004659b432b2af3345b3caa5eaa7e6c54b38"
+        },
+        "exact": true,
+        "kind": "disposable_one_step_numerical_fixture_not_production"
+      }
+    },
+    "main_initialization": "new released fresh seed17 runtime; fixture states never reused"
+  },
+  "serving": {
+    "status": "passed",
+    "generation_attempts": 8,
+    "completed": 8,
+    "method_order": [
+      "F",
+      "BASE",
+      "TAIL",
+      "AREPO"
+    ],
+    "repeats": 2,
+    "canonical_kind": "native frozen F",
+    "target_only_AR": false
+  },
+  "work": {
+    "next_operation": 44,
+    "attempted": {
+      "startup.response_forward": 8,
+      "startup.response_backward": 8,
+      "qualification.response_forward": 8,
+      "qualification.response_backward": 8,
+      "qualification.adam": 4,
+      "qualification.generation": 8
+    },
+    "completed": {
+      "startup.response_forward": 8,
+      "startup.response_backward": 8,
+      "qualification.response_forward": 8,
+      "qualification.response_backward": 8,
+      "qualification.adam": 4,
+      "qualification.generation": 8
+    },
+    "pending": {},
+    "failures": [],
+    "qualification_limits": {
+      "adam": 8,
+      "generation": 16
+    },
+    "production_targets": {
+      "feedback_generation": 14848,
+      "teacher_preparation": 14848,
+      "response_forward": 29696,
+      "response_backward": 29696,
+      "adam": 14848,
+      "correctness_generation": 8,
+      "witness_response_forward": 72,
+      "canonical_generation": 1024,
+      "scored_generation": 12288,
+      "warmup_generation": 96,
+      "activation": 48
+    }
+  },
+  "cases": [
+    {
+      "status": "completed",
+      "arm": "BASE",
+      "counters": [
+        129,
+        258
+      ],
+      "wall_s": 144.73512140661478,
+      "restoration_exact": true,
+      "retained_BASE_first_window_exact": true,
+      "actual_work": {
+        "draft_forwards": 2,
+        "layer_forwards": 10,
+        "objective_chunks": 206,
+        "vocabulary_head_calls": 412,
+        "response_forwards": 2,
+        "backwards_attempted": 2,
+        "backwards_completed": 2
+      },
+      "coefficient_checks": []
+    },
+    {
+      "status": "completed",
+      "arm": "TAIL",
+      "counters": [
+        129,
+        258
+      ],
+      "wall_s": 131.66048518940806,
+      "restoration_exact": true,
+      "actual_work": {
+        "draft_forwards": 2,
+        "layer_forwards": 10,
+        "objective_chunks": 206,
+        "vocabulary_head_calls": 412,
+        "response_forwards": 2,
+        "backwards_attempted": 2,
+        "backwards_completed": 2
+      },
+      "coefficient_checks": [
+        {
+          "status": "passed",
+          "checks": {
+            "finite": true,
+            "score_bounds": true,
+            "native_coefficient_oracle": true,
+            "coefficient_oracle": true,
+            "high_mass": true,
+            "low_exact": true,
+            "high_bounds": true
+          },
+          "repair_count": 373,
+          "high_count": 134,
+          "changed_high_positions": 134,
+          "structurally_active": true,
+          "coefficient_max_error": 1.0700492492077274e-07,
+          "high_mass_error": 3.2264428000416956e-06,
+          "oracle_kappa": 0.24212497494040583,
+          "scalar_correction_not_used_as_activity": true,
+          "preservation_coefficients": {
+            "sha256": "ca471cc3e8874a88a121f62e76fa5e8a726a40fc7684325c25ddda2384320e48",
+            "tensors": [
+              {
+                "name": "coefficients",
+                "shape": [
+                  448,
+                  16
+                ],
+                "dtype": "torch.float32"
+              },
+              {
+                "name": "prefix_mask",
+                "shape": [
+                  448,
+                  16
+                ],
+                "dtype": "torch.bool"
+              }
+            ]
+          },
+          "preservation_terms": {
+            "sha256": "5d1ebedd03809f4011e7357a993cc5c6bd66e240ce6e515f661aa265e07a73bd",
+            "tensors": [
+              {
+                "name": "delta",
+                "shape": [],
+                "dtype": "torch.float32"
+              },
+              {
+                "name": "counts",
+                "shape": [
+                  13
+                ],
+                "dtype": "torch.float32"
+              },
+              {
+                "name": "by_slot",
+                "shape": [
+                  17,
+                  16,
+                  5
+                ],
+                "dtype": "torch.float32"
+              },
+              {
+                "name": "by_length",
+                "shape": [
+                  17
+                ],
+                "dtype": "torch.float32"
+              }
+            ]
+          }
+        },
+        {
+          "status": "passed",
+          "checks": {
+            "finite": true,
+            "score_bounds": true,
+            "native_coefficient_oracle": true,
+            "coefficient_oracle": true,
+            "high_mass": true,
+            "low_exact": true,
+            "high_bounds": true
+          },
+          "repair_count": 319,
+          "high_count": 85,
+          "changed_high_positions": 85,
+          "structurally_active": true,
+          "coefficient_max_error": 7.649190258973704e-08,
+          "high_mass_error": 1.4104649750379394e-06,
+          "oracle_kappa": 0.22760685682075238,
+          "scalar_correction_not_used_as_activity": true,
+          "preservation_coefficients": {
+            "sha256": "f07aeafebb3a4ed4e76f1bcb189bd782e7067d32cadd740ecb732accba792aca",
+            "tensors": [
+              {
+                "name": "coefficients",
+                "shape": [
+                  373,
+                  16
+                ],
+                "dtype": "torch.float32"
+              },
+              {
+                "name": "prefix_mask",
+                "shape": [
+                  373,
+                  16
+                ],
+                "dtype": "torch.bool"
+              }
+            ]
+          },
+          "preservation_terms": {
+            "sha256": "a2d0b95a21738a3649aaece701328246fb16255a99446a08c4ea713d92775f39",
+            "tensors": [
+              {
+                "name": "delta",
+                "shape": [],
+                "dtype": "torch.float32"
+              },
+              {
+                "name": "counts",
+                "shape": [
+                  13
+                ],
+                "dtype": "torch.float32"
+              },
+              {
+                "name": "by_slot",
+                "shape": [
+                  17,
+                  16,
+                  5
+                ],
+                "dtype": "torch.float32"
+              },
+              {
+                "name": "by_length",
+                "shape": [
+                  17
+                ],
+                "dtype": "torch.float32"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "status": "completed",
+      "arm": "BASE",
+      "counters": [
+        129,
+        258
+      ],
+      "wall_s": 184.9001469053328,
+      "restoration_exact": true,
+      "actual_work": {
+        "draft_forwards": 2,
+        "layer_forwards": 10,
+        "objective_chunks": 206,
+        "vocabulary_head_calls": 412,
+        "response_forwards": 2,
+        "backwards_attempted": 2,
+        "backwards_completed": 2
+      },
+      "coefficient_checks": []
+    },
+    {
+      "status": "completed",
+      "arm": "TAIL",
+      "counters": [
+        129,
+        258
+      ],
+      "wall_s": 188.16118134185672,
+      "restoration_exact": true,
+      "actual_work": {
+        "draft_forwards": 2,
+        "layer_forwards": 10,
+        "objective_chunks": 206,
+        "vocabulary_head_calls": 412,
+        "response_forwards": 2,
+        "backwards_attempted": 2,
+        "backwards_completed": 2
+      },
+      "coefficient_checks": [
+        {
+          "status": "passed",
+          "checks": {
+            "finite": true,
+            "score_bounds": true,
+            "native_coefficient_oracle": true,
+            "coefficient_oracle": true,
+            "high_mass": true,
+            "low_exact": true,
+            "high_bounds": true
+          },
+          "repair_count": 373,
+          "high_count": 134,
+          "changed_high_positions": 134,
+          "structurally_active": true,
+          "coefficient_max_error": 1.0700492492077274e-07,
+          "high_mass_error": 3.2264428000416956e-06,
+          "oracle_kappa": 0.24212497494040583,
+          "scalar_correction_not_used_as_activity": true,
+          "preservation_coefficients": {
+            "sha256": "ca471cc3e8874a88a121f62e76fa5e8a726a40fc7684325c25ddda2384320e48",
+            "tensors": [
+              {
+                "name": "coefficients",
+                "shape": [
+                  448,
+                  16
+                ],
+                "dtype": "torch.float32"
+              },
+              {
+                "name": "prefix_mask",
+                "shape": [
+                  448,
+                  16
+                ],
+                "dtype": "torch.bool"
+              }
+            ]
+          }
+        },
+        {
+          "status": "passed",
+          "checks": {
+            "finite": true,
+            "score_bounds": true,
+            "native_coefficient_oracle": true,
+            "coefficient_oracle": true,
+            "high_mass": true,
+            "low_exact": true,
+            "high_bounds": true
+          },
+          "repair_count": 319,
+          "high_count": 85,
+          "changed_high_positions": 85,
+          "structurally_active": true,
+          "coefficient_max_error": 7.649190258973704e-08,
+          "high_mass_error": 1.4104649750379394e-06,
+          "oracle_kappa": 0.22760685682075238,
+          "scalar_correction_not_used_as_activity": true,
+          "preservation_coefficients": {
+            "sha256": "f07aeafebb3a4ed4e76f1bcb189bd782e7067d32cadd740ecb732accba792aca",
+            "tensors": [
+              {
+                "name": "coefficients",
+                "shape": [
+                  373,
+                  16
+                ],
+                "dtype": "torch.float32"
+              },
+              {
+                "name": "prefix_mask",
+                "shape": [
+                  373,
+                  16
+                ],
+                "dtype": "torch.bool"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "disposable_retirement": {
+    "status": "completed",
+    "retired": [
+      {
+        "path": "/data/sources/minhao/runs/dflash_continuation_repair_fullrun_20261126/full_001/qualification/training_001/integration_BASE/export/model.safetensors",
+        "identity": {
+          "bytes": 2097259104,
+          "sha256": "1246a63616ed1f84e15f2fe729dcfa9225a46b047004b1e8213668680f9fe31f"
+        },
+        "arm": "BASE",
+        "retained_receipt": "/data/sources/minhao/runs/dflash_continuation_repair_fullrun_20261126/full_001/qualification/training_001/integration_BASE/RESULT.json",
+        "reason": "Passed disposable numerical and serving qualification; not a production endpoint"
+      },
+      {
+        "path": "/data/sources/minhao/runs/dflash_continuation_repair_fullrun_20261126/full_001/qualification/training_001/integration_TAIL/export/model.safetensors",
+        "identity": {
+          "bytes": 2097259104,
+          "sha256": "c3f6ec3a6d15395cf40caff8ff2b004659b432b2af3345b3caa5eaa7e6c54b38"
+        },
+        "arm": "TAIL",
+        "retained_receipt": "/data/sources/minhao/runs/dflash_continuation_repair_fullrun_20261126/full_001/qualification/training_001/integration_TAIL/RESULT.json",
+        "reason": "Passed disposable numerical and serving qualification; not a production endpoint"
+      }
+    ],
+    "candidates": [
+      {
+        "path": "/data/sources/minhao/runs/dflash_continuation_repair_fullrun_20261126/full_001/qualification/training_001/integration_BASE/export/model.safetensors",
+        "identity": {
+          "bytes": 2097259104,
+          "sha256": "1246a63616ed1f84e15f2fe729dcfa9225a46b047004b1e8213668680f9fe31f"
+        },
+        "arm": "BASE",
+        "retained_receipt": "/data/sources/minhao/runs/dflash_continuation_repair_fullrun_20261126/full_001/qualification/training_001/integration_BASE/RESULT.json",
+        "reason": "Passed disposable numerical and serving qualification; not a production endpoint"
+      },
+      {
+        "path": "/data/sources/minhao/runs/dflash_continuation_repair_fullrun_20261126/full_001/qualification/training_001/integration_TAIL/export/model.safetensors",
+        "identity": {
+          "bytes": 2097259104,
+          "sha256": "c3f6ec3a6d15395cf40caff8ff2b004659b432b2af3345b3caa5eaa7e6c54b38"
+        },
+        "arm": "TAIL",
+        "retained_receipt": "/data/sources/minhao/runs/dflash_continuation_repair_fullrun_20261126/full_001/qualification/training_001/integration_TAIL/RESULT.json",
+        "reason": "Passed disposable numerical and serving qualification; not a production endpoint"
+      }
+    ],
+    "lost_capability": "Direct serving of the disposable qualification endpoints; compact evidence and export companions retained"
+  },
+  "cpu_preflight": {
+    "status": "passed",
+    "execution_commit": "ef792694a52395a6c13ea5dabcf7ae64dd1d04ff",
+    "model_forwards": 0,
+    "source": "all staged source files authenticated",
+    "inputs": {
+      "status": "passed",
+      "training_requests": 7424,
+      "evaluation_requests": 1024,
+      "training_reselected": false
+    },
+    "configs": {
+      "BASE": {
+        "status": "passed",
+        "context_limit": 4096,
+        "seed": 17,
+        "allowed_changes": [
+          "data.max_length",
+          "run_id",
+          "output_dir"
+        ]
+      },
+      "TAIL": {
+        "status": "passed",
+        "context_limit": 4096,
+        "seed": 17,
+        "allowed_changes": [
+          "data.max_length",
+          "run_id",
+          "output_dir"
+        ]
+      }
+    },
+    "native_runtime": {
+      "python_version": "3.12.14",
+      "torch": "2.9.1+cu130",
+      "transformers": "4.57.1",
+      "cuda": "13.0",
+      "native_runtime_sha256": {
+        "speculative/dflash_worker.py": "9397402f5cfbf60b00b7d27d551e5e9e1b605be9b084d028d4ddda76c475dc8c",
+        "speculative/dflash_info.py": "9c7ac23a1bf0840eec8218f02f2adbfc3e419099cd19822137ce5c6e0e902218",
+        "layers/logits_processor.py": "5c6c54bec37b941652e29908c773a756fe6c86f99932ab80043672a1eaa0f086",
+        "models/qwen3.py": "e23ee8af21eac46685852854a5fe585cf58477d4a1f8047887d6afeefaf8e32d",
+        "models/dflash.py": "d4fcfe005a1acc51a4938d038e1dbc1a2c8ff245842f4253338527335b2327b2",
+        "entrypoints/engine.py": "2bcd4b04c325d4ed65f867490c5bac9e915e02f05471c83dacb5a4a097cf1f2a",
+        "server_args.py": "bd60199803698e4ffe6dc44499a8d42be73f42db28056cb6750411523cf56c04"
+      }
+    },
+    "compilers": {
+      "CC": "/data/conda_envs/minhao/dflash_tree_qualification_v2/bin/x86_64-conda-linux-gnu-gcc",
+      "CXX": "/data/conda_envs/minhao/dflash_tree_qualification_v2/bin/x86_64-conda-linux-gnu-g++"
+    },
+    "codec": {
+      "executable": "/data/conda_envs/minhao/dflash_specforge_20261022/bin/zstd",
+      "status": "passed",
+      "round_trip_bytes": 35,
+      "version": "*** Zstandard CLI (64-bit) v1.5.7, by Yann Collet ***"
+    },
+    "training_environment": {
+      "python": "3.12.15",
+      "torch": "2.13.0+cu130",
+      "transformers": "5.12.1"
+    },
+    "storage": {
+      "remote_allocated_bytes": 371523584,
+      "tensor_allocated_bytes": 0,
+      "compiler_growth_bytes": 0,
+      "external_charge_bytes": 2000000000,
+      "charged_bytes": 2371523584,
+      "free_bytes": 476908523520,
+      "projected_peak_bytes": 73757483417,
+      "storage_phase": "training",
+      "remaining_peak_bytes": 71385959833,
+      "remaining_components": {
+        "tensors": 59257483417,
+        "compact": 10128476416,
+        "compiler": 2000000000
+      },
+      "required_free_bytes": 471385959833
+    },
+    "available_host_bytes": 104027213824,
+    "wall_s": 54.93424978852272
+  },
+  "clock": {
+    "first_model_load_epoch": 1795738374.2656422,
+    "completed_card_s": 773.2166805267334,
+    "active": {
+      "train_BASE_001_A": {
+        "physical_gpu_uuid": "GPU-9986735a-3e68-d1bd-5998-9634ef24341e",
+        "started_epoch": 1795739152.103674,
+        "pid": 1913733
+      },
+      "train_BASE_001_B": {
+        "physical_gpu_uuid": "GPU-c6943f33-bcd0-a724-0b35-f77af6b0a3f1",
+        "started_epoch": 1795739152.1043196,
+        "pid": 1913733
+      }
+    },
+    "finished": [
+      {
+        "task": "qualification_training_001_B",
+        "physical_gpu_uuid": "GPU-c6943f33-bcd0-a724-0b35-f77af6b0a3f1",
+        "started_epoch": 1795738374.7337272,
+        "pid": 1913733,
+        "finished_epoch": 1795739029.055399,
+        "occupied_s": 654.3216686248779
+      },
+      {
+        "task": "qualification_serving_001_A",
+        "physical_gpu_uuid": "GPU-9986735a-3e68-d1bd-5998-9634ef24341e",
+        "started_epoch": 1795739029.0973783,
+        "pid": 1913733,
+        "finished_epoch": 1795739147.992393,
+        "occupied_s": 118.89501190185547
+      }
+    ]
+  },
+  "observed_epoch": 1795739203.2039964
+}

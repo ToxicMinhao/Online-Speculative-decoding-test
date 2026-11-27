@@ -1,0 +1,93 @@
+{
+  "status": "production_resumed_not_complete",
+  "observed_epoch": 1795741077.4985092,
+  "original_execution_commit": "ef792694a52395a6c13ea5dabcf7ae64dd1d04ff",
+  "actual_execution_commit": "6bfc2820bcdaeace26d4370a803dc8d3eaa9a77b",
+  "plan_binding": "0997159a261799b3ba99b31cda0f7f699aa7daaca307c1b503b64cf7deab94c4",
+  "source_amendment_binding": "95804a56790a30bc9bcf3580227bb2eb6e35cc1cacce5972f65240be905384a4",
+  "source_comparison": {
+    "changed_production_paths": [
+      "experiments/continuation_repair_fullrun/compact.py",
+      "experiments/continuation_repair_fullrun/entry.py",
+      "experiments/continuation_repair_fullrun/launch.py",
+      "experiments/continuation_repair_fullrun/source_amendment.py"
+    ],
+    "changed_diagnostic_or_documentation_paths": [
+      "reports/dflash_continuation_repair_fullrun_20261126/full_001/AUDIT_COMPLETION_READINESS.md",
+      "reports/dflash_continuation_repair_fullrun_20261126/full_001/COMPACTION_FAILURE_AUDIT.json",
+      "reports/dflash_continuation_repair_fullrun_20261126/full_001/PACKAGING_REPAIR_REPORT.md",
+      "reports/dflash_continuation_repair_fullrun_20261126/full_001/QUALIFICATION_REPORT.md",
+      "reports/dflash_continuation_repair_fullrun_20261126/full_001/QUALIFICATION_SUMMARY.json",
+      "reports/dflash_continuation_repair_fullrun_20261126/full_001/READINESS.md",
+      "reports/dflash_continuation_repair_fullrun_20261126/full_001/REPORT_BUILDER_READINESS.json",
+      "reports/dflash_continuation_repair_fullrun_20261126/full_001/REPORT_SCHEMA_REVIEW.json",
+      "reports/dflash_continuation_repair_fullrun_20261126/full_001/SERVING_VALIDITY_AUDITOR_READINESS.json",
+      "reports/dflash_continuation_repair_fullrun_20261126/full_001/audit_tools/AUDIT_SERVING_VALIDITY_GUIDE.md",
+      "reports/dflash_continuation_repair_fullrun_20261126/full_001/audit_tools/audit_completed_work.py",
+      "reports/dflash_continuation_repair_fullrun_20261126/full_001/audit_tools/audit_serving_validity.py",
+      "reports/dflash_continuation_repair_fullrun_20261126/full_001/audit_tools/audit_statistics_independent.py",
+      "reports/dflash_continuation_repair_fullrun_20261126/full_001/audit_tools/build_final_report.py",
+      "reports/dflash_continuation_repair_fullrun_20261126/full_001/audit_tools/test_audit_completed_work.py",
+      "reports/dflash_continuation_repair_fullrun_20261126/full_001/audit_tools/test_audit_serving_validity.py",
+      "reports/dflash_continuation_repair_fullrun_20261126/full_001/audit_tools/test_audit_statistics_independent.py",
+      "reports/dflash_continuation_repair_fullrun_20261126/full_001/audit_tools/test_build_final_report.py",
+      "reports/dflash_continuation_repair_fullrun_20261126/full_001/repair_tools/recover_packaging.py",
+      "tests/test_continuation_repair_fullrun_compact.py",
+      "tests/test_continuation_repair_fullrun_source_amendment.py"
+    ],
+    "unchanged_production_python_files": 1372
+  },
+  "cpu_recovery": {
+    "status": "passed",
+    "new_model_work": 0,
+    "wall_s": 8.243630647659302,
+    "remaining_files_completed": 3,
+    "archive_unchanged": {
+      "bytes": 13837534,
+      "sha256": "157c28d85a761c24777774fd7c55e63cc6946235e37d37b85747df3b29fee703"
+    }
+  },
+  "native_resume_checks": {
+    "campaign_001/arms/BASE/RESUME_001.json": {
+      "status": "passed",
+      "global_step": 128,
+      "presentations": 256,
+      "export_exact": true,
+      "live": {
+        "status": "passed",
+        "exact_resume": true,
+        "mismatches": [],
+        "global_step": 128,
+        "presentations": 256,
+        "no_rng_reset": true,
+        "extra_model_passes": 0,
+        "extra_optimizer_steps": 0
+      }
+    }
+  },
+  "completed_work": {
+    "startup.response_forward": 10,
+    "startup.response_backward": 10,
+    "qualification.response_forward": 8,
+    "qualification.response_backward": 8,
+    "qualification.adam": 4,
+    "qualification.generation": 8,
+    "production.training_initialization": 2,
+    "production.feedback_generation": 179,
+    "production.correctness_generation": 4,
+    "production.teacher_preparation": 128,
+    "production.witness_response_forward": 16,
+    "production.response_forward": 256,
+    "production.response_backward": 256,
+    "production.adam": 128
+  },
+  "free_bytes": 466367741952,
+  "forecast": {
+    "status": "admitted",
+    "raw_remaining_wall_s": 142396.94609095447,
+    "forecast_wall_s": 184133.09230788788,
+    "forecast_card_s": 329029.5846072881,
+    "contingency_factor": 1.25,
+    "fixed_allowance_s": 3600
+  }
+}
