@@ -142,6 +142,31 @@ class CompletionAuditTests(unittest.TestCase):
    startup['optimizer_steps']=1;put('campaign_001/arms/TAIL/startup_000/RESULT.json',startup)
    with self.assertRaises(AssertionError):A.audit_auxiliary_work(A.Evidence(root),work,A.Audit())
 
+ def test_repaired_source_can_only_change_four_infrastructure_files(self):
+  original=dict(files=dict(A.FROZEN_FORMULAS,**{A.AMENDMENT_FILES[0]:{'sha256':'old'}}))
+  repaired=deepcopy(original);repaired['files'].update({A.AMENDMENT_FILES[0]:{'sha256':'new'},A.AMENDMENT_FILES[-1]:{'sha256':'new'}})
+  result=A.compare_source_manifests(original,repaired,A.Audit())
+  self.assertEqual(set(result['changed_production_paths']),{A.AMENDMENT_FILES[0],A.AMENDMENT_FILES[-1]})
+  repaired['files']['online_feedback/objective.py']={'sha256':'different'}
+  with self.assertRaises(AssertionError):A.compare_source_manifests(original,repaired,A.Audit())
+
+ def test_archive_recovery_retains_failed_attempt_cost_and_bytes(self):
+  with tempfile.TemporaryDirectory() as directory:
+   root=Path(directory);name='compact/BASE/event_001.tar.zst'
+   def put(path,row):
+    path=root/path;path.parent.mkdir(parents=True,exist_ok=True);path.write_text(json.dumps(row));return path
+   failed=dict(status='failed',verification={'status':'passed'},error='Loose member changed after archive verification: x',
+    removed_paths=['first'],removed_allocated_bytes=5,wall_s=7)
+   failed_path=put(name+'.retirement.failed_001.json',failed)
+   recovery=dict(status='completed',new_model_work=0,failed_receipt=dict(path=str(failed_path),**A.identity(failed_path)),
+    verification=failed['verification'],new_removed_paths=['next'],previous_removed_count=1,remaining_count=1,
+    new_removed_allocated_bytes=3,wall_s=2)
+   put(name+'.retirement.recovery_001.json',recovery)
+   final=dict(recovery=recovery,removed_paths=['first','next'],removed_allocated_bytes=8,wall_s=9)
+   A.verify_archive_recovery(A.Evidence(root),name,final)
+   final['wall_s']=2
+   with self.assertRaisesRegex(ValueError,'accounting'):A.verify_archive_recovery(A.Evidence(root),name,final)
+
  def test_external_locators_need_explicit_mapping(self):
   with tempfile.TemporaryDirectory() as directory:
    evidence=A.Evidence(directory)

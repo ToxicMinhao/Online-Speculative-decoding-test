@@ -163,6 +163,125 @@ def checked_analysis(raw, plan):
     return report
 
 
+def relocated(raw, plan, original_path):
+    """Locate a retained run file without changing paths in its immutable seal."""
+    return raw / Path(original_path).relative_to(Path(plan['root']))
+
+
+def checked_source_chain(raw, plan, campaign, postflight):
+    chain = postflight['source_chain']
+    actual = campaign.get('actual_execution_commit', plan['execution_commit'])
+    require(chain['status'] == 'passed' and chain['original_execution_commit'] == plan['execution_commit']
+            and chain['actual_execution_commit'] == actual, 'Postflight source chain does not match execution')
+    result = dict(original_execution_commit=plan['execution_commit'], actual_execution_commit=actual,
+                  source_count=chain['source_count'], postflight_source_verified=True)
+    if actual == plan['execution_commit']:
+        require(chain['source_count'] == 1 and not campaign.get('source_amendment_path'),
+                'Original-only execution has an inconsistent amendment')
+        return result
+    require(chain['source_count'] == 2 and chain['original_plan_unchanged'] and chain['scientific_code_unchanged']
+            and chain['preserved_resume_receipts'] > 0 and chain['phase_process_receipts_verified'] > 0,
+            'Infrastructure source amendment lacks complete postflight proof')
+    path = relocated(raw, plan, campaign['source_amendment_path'])
+    amendment = read(path)
+    require(identity(path) == campaign['source_amendment_identity'] == chain['source_amendment_identity']
+            and amendment['binding'] == campaign['source_amendment_binding'] == chain['source_amendment_binding']
+            and amendment['binding'] == digest({k:v for k,v in amendment.items() if k != 'binding'}),
+            'Source amendment identity or seal changed')
+    require(amendment['plan_binding'] == plan['binding'] and amendment['execution_commit'] == plan['execution_commit']
+            and amendment['actual_execution_commit'] == actual and amendment['source_identity'] == chain['actual_source_identity'],
+            'Source amendment changes the scientific binding or actual checkout')
+    proof = amendment['resume_evidence']
+    proof_path = relocated(raw, plan, proof['path'])
+    require(identity(proof_path) == proof['identity'], 'CPU recovery evidence identity changed')
+    recovery = read(proof_path)
+    require(recovery['status'] in ('passed', 'completed') and recovery['new_model_work'] == 0
+            and recovery['plan_binding'] == plan['binding'] and recovery['execution_commit'] == plan['execution_commit'],
+            'CPU recovery evidence is not an unchanged scientific continuation')
+    changes = chain['infrastructure_only_production_changes']
+    allowed = {'experiments/continuation_repair_fullrun/' + name for name in
+               ('compact.py', 'entry.py', 'launch.py', 'source_amendment.py')}
+    require(set(changes) <= allowed and changes == amendment['source_comparison']['changed_production_paths'],
+            'Source chain includes an unapproved production change')
+    result.update(source_amendment_identity=chain['source_amendment_identity'],
+        source_amendment_binding=chain['source_amendment_binding'], actual_source_identity=chain['actual_source_identity'],
+        infrastructure_only_production_changes=changes, original_plan_unchanged=True, scientific_code_unchanged=True,
+        preserved_resume_receipts=chain['preserved_resume_receipts'],
+        phase_process_receipts_verified=chain['phase_process_receipts_verified'],
+        cpu_recovery_identity=proof['identity'],
+        cpu_recovery={key:recovery[key] for key in ('new_model_work', 'global_step', 'presentations', 'next_event', 'wall_s')})
+    return result
+
+
+def phase_process_table(raw, plan, source_chain):
+    """A process can fail after all its model operations have completed."""
+    rows = []
+    for path in sorted((raw / 'processes').glob('*.json')):
+        process = read(path)
+        phase_path = raw / 'phases' / path.stem / 'STATUS.json'
+        phase = read(phase_path) if phase_path.exists() else None
+        failed = process['exit_code'] != 0 or (phase is not None and phase['status'] != 'completed')
+        error = '' if phase is None else phase.get('error', '') + phase.get('traceback', '')
+        packaging = failed and 'Loose member changed after archive verification:' in error
+        recovery = source_chain.get('cpu_recovery') if packaging else None
+        if packaging:
+            require(recovery is not None and recovery['global_step'] == 128 and recovery['presentations'] == 256
+                    and recovery['next_event'] == 2, 'Packaging failure lacks the verified committed event-one recovery')
+        rows.append(dict(process_ordinal=len(rows), phase=process['phase'], arm=process.get('arm'),
+            attempt=process['attempt'], exit_code=process['exit_code'],
+            termination_confirmed=process['termination_confirmed'],
+            phase_status=phase['status'] if phase is not None else 'no phase receipt', failed=failed,
+            failure_category=('post-update archive retirement metadata check' if packaging else
+                              'other execution failure; see retained evidence' if failed else 'none'),
+            scientific_execution_commit=plan['execution_commit'],
+            actual_execution_commit=process.get('actual_execution_commit', plan['execution_commit']),
+            committed_steps_at_failure=recovery['global_step'] if recovery is not None else None,
+            committed_presentations_at_failure=recovery['presentations'] if recovery is not None else None,
+            phase_wall_s=phase.get('wall_s') if phase is not None else None))
+    require(bool(rows), 'Process receipts are missing')
+    return rows
+
+
+def compaction_timing(raw, arm, event, costs, archive):
+    """Recover only the missing timer from authenticated failed + CPU recovery work."""
+    updated = dict(costs)
+    evidence = dict(compact_timing_scope='original_complete_call', compact_timer_recovered=False,
+                    failed_compaction_wall_s=0., recovery_compaction_wall_s=0.)
+    if 'compact_persistence_s' in costs:
+        return updated, evidence
+    base = raw / 'compact' / arm / f'event_{event:03d}.tar.zst'
+    final = read(str(base) + '.retirement.json')
+    recovery_path = Path(str(base) + '.retirement.recovery_001.json')
+    failed_path = Path(str(base) + '.retirement.failed_001.json')
+    recovery, failed = read(recovery_path), read(failed_path)
+    pin = recovery['failed_receipt']
+    require(identity(failed_path) == {key:pin[key] for key in ('bytes', 'sha256')},
+            'Original failed compaction receipt identity changed')
+    require(final['status'] == 'completed' and final['recovery'] == recovery and recovery['status'] == 'completed'
+            and recovery['new_model_work'] == 0 and failed['status'] == 'failed'
+            and 'Loose member changed after archive verification:' in failed.get('error', ''),
+            'Missing compact timer lacks the identified completed CPU recovery')
+    verification = recovery['verification']
+    require(verification == failed['verification'] == final['verification'] and verification['status'] == 'passed'
+            and verification['archive_sha256'] == archive['archive_sha256']
+            and verification['archive_bytes'] == archive['archive_bytes']
+            and verification['regular_members'] == archive['original_member_count'],
+            'Recovered compaction does not bind this verified archive')
+    require(final['removed_paths'] == failed['removed_paths'] + recovery['new_removed_paths']
+            and recovery['previous_removed_count'] == len(failed['removed_paths'])
+            and recovery['remaining_count'] == len(recovery['new_removed_paths']),
+            'Recovered compaction path counts do not reconcile')
+    previous_s = finite(failed['wall_s'], 'failed compaction time')
+    recovery_s = finite(recovery['wall_s'], 'CPU compaction recovery time')
+    combined = finite(final['wall_s'], 'combined compaction time')
+    require(previous_s >= 0 and recovery_s >= 0 and math.isclose(combined, previous_s + recovery_s, abs_tol=1e-6),
+            'Recovered compaction time does not retain both attempts')
+    updated['compact_persistence_s'] = combined
+    evidence.update(compact_timing_scope='recovered_compaction_not_original_complete_call',
+        compact_timer_recovered=True, failed_compaction_wall_s=previous_s, recovery_compaction_wall_s=recovery_s)
+    return updated, evidence
+
+
 def archived_event(raw, arm, event, zstd):
     """Stream once, verify every member, retain only compact report inputs."""
     archive = raw / 'compact' / arm / f'event_{event:03d}.tar.zst'
@@ -353,7 +472,7 @@ def statistical_review(commit):
         *[f'| {name} | {finding} |' for name, finding in checks], ''])
 
 
-def prose(plan, report, arm_costs, activity, witness, work, clock, campaign, audit_refs):
+def prose(plan, report, arm_costs, activity, witness, work, clock, campaign, audit_refs, source_chain, processes):
     chosen = decision(report)
     primary = report['contrasts']['TAIL_vs_BASE']
     timing = primary['request_latency_s_degradation_pct']
@@ -362,7 +481,7 @@ def prose(plan, report, arm_costs, activity, witness, work, clock, campaign, aud
     lines = [
         '# BASE versus TAIL: complete 58-event comparison', '',
         '## Material Passport', '',
-        f"Experiment: PR66, fixed full-run confirmation. Execution commit: `{plan['execution_commit']}`. Sealed plan binding: `{plan['binding']}`.",
+        f"Experiment: PR66, fixed full-run confirmation. Original scientific/state-binding commit: `{plan['execution_commit']}`. Final actual execution commit: `{source_chain['actual_execution_commit']}`. Sealed plan binding: `{plan['binding']}`.",
         'Status: complete execution, with the separately referenced CPU audits passed. Report assembly is not a second GPU replication.', '',
         f"**Retain {chosen['selected']} under the user's prespecified practical rule.** TAIL's complete-request latency degradation versus BASE is {interval(timing)} (paired 95% interval). Positive values mean slower. This recommendation uses the unrounded estimate, not the displayed rounding.", '',
         '| Question | Prespecified criterion | Result |', '|---|---|---|',
@@ -374,6 +493,8 @@ def prose(plan, report, arm_costs, activity, witness, work, clock, campaign, aud
         lines += ['The point estimate satisfies the user’s preference, but the 0.1% bound remains unresolved. This does not establish equivalence.', '']
     if identical:
         lines += ['The retained tensor or native-trajectory identity check found BASE and TAIL identical in that respect. Timing differences alone therefore cannot establish a mechanism benefit.', '']
+    if source_chain['source_count'] > 1:
+        lines += ['An authenticated infrastructure amendment changed compaction and execution bookkeeping only. The original plan, scientific code, configuration and state binding stayed unchanged; the original and repaired sources and every phase/process identity passed postflight. [Source chain](SOURCE_CHAIN.json) records both commits and the preserved resume evidence.', '']
     lines += [
         f"Verification-call reduction for TAIL versus BASE is {interval(primary['verification_call_reduction_pct'])}. Request wins/regressions/ties are {primary['wins']}/{primary['regressions']}/{primary['ties']}; gross calls saved/added are {primary['gross_calls_saved']}/{primary['gross_calls_added']}. Calls are a separate outcome, not an additional adoption gate.", '',
         '## Final serving comparison', '',
@@ -412,7 +533,7 @@ def prose(plan, report, arm_costs, activity, witness, work, clock, campaign, aud
     lines += ['', f"Total elapsed time on the original clock is {campaign['clock']['elapsed_s']/3600:.3f} h; occupied GPU-card time is {clock['completed_card_s']/3600:.3f} h. The fixed limits are 72 elapsed hours and 120 GPU-card-hours. Witness work totals {sum(r['actual_response_forwards'] for r in witness)} response forwards and {sum(r['wall_s'] for r in witness):.3f} s; it is diagnostic work, not an extra optimizer update.", '',
         'Worker, update, training and component timers have nested scopes and must not be added together. Teacher preparation, feature persistence, export, activation, checkpoint saving and archive maintenance are listed separately in [event costs](EVENT_COSTS.csv) and [cost summaries](COSTS.json). Live feature capture is included in feedback-serving time; the retained receipts do not isolate a capture-only causal overhead. Compiler/recomputation/startup work is covered by the work audit, not silently included in committed Adam counts. Backend loading and disposable-startup timers are reported separately; a standalone trainer-construction timer was not recorded.', '',
         f"Qualification attempted {work['attempted'].get('qualification.adam',0)} disposable Adam steps and {work['attempted'].get('qualification.generation',0)} generations. All attempts, failures, startup and committed work are retained in [work accounting](WORK_ACCOUNTING.json). New canonical warmup generations: 0 (the optional ceiling of 2 was unused).", '',
-        f"Recorded failed work operations: {len(work['failures'])}. Their identities, process attempts and any authorized resumes are retained by the work audit. A finite negative or mixed scientific result is not a correctness failure.", '',
+        f"Recorded failed model-work operations: {len(work['failures'])}; failed processes: {sum(row['failed'] for row in processes)}; failed phase receipts: {sum(row['phase_status'] == 'failed' for row in processes)}. These are different accounting levels: a process can fail after its model updates have already committed. [Process and phase accounting](PHASE_PROCESSES.csv) retains every attempt. A finite negative or mixed scientific result is not a correctness failure.", '',
         'The storage audit covers the 90 GB new-allocation ceiling and 400 GB A800 reserve. [Retirement summary](RETIREMENT_SUMMARY.json) distinguishes lossless compacting from deletion of bulky recovery/features. Retired tensors are not described as archived or resumable. Final event-57/58 recoveries and event-58 exports must pass the separate postflight audit.', '',
         '## Audit scope and limitations', '',
         'Required CPU audit receipts: ' + ', '.join(f'[{key}]({value})' for key, value in audit_refs.items()) + '.',
@@ -424,6 +545,10 @@ def prose(plan, report, arm_costs, activity, witness, work, clock, campaign, aud
         'PR65 remains a negative pilot under its own prespecified decision rule; this full-run authorization does not rewrite that result. No algorithm tuning, extra seed, endpoint selection or automatic further run follows this report.', '',
         'Source, plan, audit and artifact identities are in [provenance](PROVENANCE.json). Private prompts, source IDs, tokens, sampled anchors, features and model states are excluded from this public package.', '',
     ]
+    if any(row['failure_category'] == 'post-update archive retirement metadata check' for row in processes):
+        lines += ['## Preserved packaging failure and recovery', '',
+            'BASE event 1 completed its 128 Adam updates and 256 presentations before archival cleanup failed. The archive bytes had verified; the old checker treated a change in allocated filesystem blocks as a content change. CPU-only recovery finished the unexecuted cleanup, preserving the original failed receipt, archive, model state, optimizer state and clock. Qualification and event-1 training were not repeated.', '',
+            'The event status did not contain a completed compaction-call timer because the exception occurred before that assignment. The report derives the combined time only from the authenticated failed-retirement and CPU-recovery receipts. EVENT_COSTS labels it `recovered_compaction_not_original_complete_call`; it is not presented as the originally completed timer. This includes the failure and repair work and is not an intrinsic algorithm cost.', '']
     return '\n'.join(lines)
 
 
@@ -442,6 +567,7 @@ def build(args):
         required = dict(serving=args.serving_audit, statistics=args.statistics_audit, work=args.work_audit,
                         resource=args.resource_audit, postflight=args.postflight)
         audit_refs, audit_identities = {}, {}
+        source_chain = None
         for name, path in required.items():
             receipt = read(path)
             require(receipt['status'] == 'passed', name + ' audit has not passed')
@@ -457,6 +583,8 @@ def build(args):
                     receipt.get('draw_sha256') == report['bootstrap']['draw_sha256'] and
                     set(receipt.get('contrasts', {})) == set(CONTRASTS),
                     'Statistics audit lacks the fixed paired reductions and bootstrap identity')
+            elif name == 'postflight':
+                source_chain = checked_source_chain(raw, plan, campaign, receipt)
             filename = name.upper() + '_AUDIT.json'
             # Audit owners provide public-safe receipts; never copy arbitrary raw
             # nested details or an entire retained plan into the public report.
@@ -466,11 +594,17 @@ def build(args):
                 original_receipt_identity=identity(path),
                 scope='Original audit receipt retained privately; independently authored public narrative accompanies publication',
                 execution_commit=plan['execution_commit'], plan_binding=plan['binding']))
+        processes = phase_process_table(raw, plan, source_chain)
+        source_chain['observed_process_execution_commits'] = sorted({row['actual_execution_commit'] for row in processes})
+        write(stage / 'SOURCE_CHAIN.json', source_chain)
+        csv_table(stage / 'PHASE_PROCESSES.csv', processes)
         events, event_costs, compact = [], [], []
         for arm in ARMS:
             for event, entry in enumerate(statuses[arm]['event_costs'], 1):
                 result, resource, costs, feedback, archive = archived_event(raw, arm, event, args.zstd)
-                activity, timing = summarize_event(arm, event, result, resource, costs, feedback, entry['costs'])
+                adjusted_costs, timing_evidence = compaction_timing(raw, arm, event, entry['costs'], archive)
+                activity, timing = summarize_event(arm, event, result, resource, costs, feedback, adjusted_costs)
+                timing.update(timing_evidence)
                 events.append(activity)
                 event_costs.append(timing)
                 compact.append(archive)
@@ -507,13 +641,17 @@ def build(args):
             witness_wall_s=total((r['wall_s'] for r in witness), 'witness time'),
             capture_only_overhead_s=None,
             capture_scope='Included in feedback serving; no isolated capture-only timing was recorded',
-            timer_scope='Nested timers, not an additive decomposition', execution_commit=plan['execution_commit']))
+            timer_scope='Nested timers, not an additive decomposition; recovered compact timers include failed and CPU repair work',
+            execution_commit=plan['execution_commit'], actual_execution_commit=source_chain['actual_execution_commit']))
         write(stage / 'WORK_ACCOUNTING.json', dict(attempted=work['attempted'], completed=work['completed'],
             pending_count=len(work['pending']), failed_operations=len(work['failures']),
+            failed_processes=sum(row['failed'] for row in processes),
+            failed_phase_receipts=sum(row['phase_status'] == 'failed' for row in processes),
             process_receipts=len(list((raw / 'processes').glob('*.json'))),
             original_model_load_epoch=clock['first_model_load_epoch'],
             finished_card_intervals=len(clock['finished']), qualification_limits=work['qualification_limits'],
-            production_targets=work['production_targets'], execution_commit=plan['execution_commit']))
+            production_targets=work['production_targets'], execution_commit=plan['execution_commit'],
+            actual_execution_commit=source_chain['actual_execution_commit']))
         cleanup = None
         if args.cleanup:
             receipt = read(args.cleanup)
@@ -537,11 +675,12 @@ def build(args):
             work=identity(raw / 'WORK.json'), clock=identity(raw / 'CLOCK.json'),
             qualification=identity(raw / 'qualification/QUALIFICATION.json'),
             report_builder=identity(__file__), audits=audit_identities)
-        (stage / 'REPORT.md').write_text(prose(plan, report, costs, events, witness, work, clock, campaign, audit_refs))
+        (stage / 'REPORT.md').write_text(prose(plan, report, costs, events, witness, work, clock, campaign, audit_refs, source_chain, processes))
         (stage / 'STATISTICAL_REVIEW.md').write_text(statistical_review(plan['execution_commit']))
         input_names = ('original_config', 'runtime_pin', 'training_pin', 'model_pin', 'manifest',
                        'evaluation_inputs', 'data_seal', 'exposure_inventory', 'witness_selection', 'warmup_canonicals')
         write(stage / 'PROVENANCE.json', dict(execution_commit=plan['execution_commit'], plan_binding=plan['binding'],
+            actual_execution_commit=source_chain['actual_execution_commit'], source_chain=source_chain,
             report_assembly='CPU-only report assembly; no scientific fitting or model work',
             evidence=references, endpoint_parameter_identities=report['parameter_identities'],
             source_identity=plan['source_identity'],
@@ -557,6 +696,7 @@ def build(args):
         stage.rmdir()
         write(output / 'BUILD_STATUS.json', dict(status='completed', wall_s=time.perf_counter() - started,
             execution_commit=plan['execution_commit'], plan_binding=plan['binding'],
+            actual_execution_commit=source_chain['actual_execution_commit'],
             scientific_work='zero', report=identity(output / 'REPORT.md')))
         return output
     except BaseException as error:

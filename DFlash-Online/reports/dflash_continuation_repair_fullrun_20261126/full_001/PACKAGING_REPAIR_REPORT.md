@@ -11,3 +11,7 @@ The original execution source `ef792694a52395a6c13ea5dabcf7ae64dd1d04ff` and sea
 A local test attempt with GPU visibility enabled failed a CPU fixture’s RNG-state assumption; rerunning with its required CPU-only visibility passed, without changing code, tolerances or A800 model work. Both logs are retained privately.
 
 The original clock and all 2,752.219 occupied-card seconds at the stop remain charged. This is an infrastructure failure and recovery, not a scientific result or a revised algorithm. The full experiment remains incomplete until both trajectories, the fixed evaluation and independent audits finish.
+
+CPU recovery completed in 8.244 seconds with zero model work. The original archive and all scientific/status/clock bytes remained unchanged; the three remaining redundant files were removed with the original failure receipt preserved. All 72 CPU checks also passed on A800. Source amendment `95804a56790a30bc9bcf3580227bb2eb6e35cc1cacce5972f65240be905384a4` records actual resumed commit `6bfc2820bcdaeace26d4370a803dc8d3eaa9a77b`; 1,372 other production Python files are unchanged.
+
+Native resume passed at step 128 / 256 presentations, with exact export, complete state and RNG restoration, no RNG reset and no additional model pass or optimizer step for restoration. BASE is collecting event 2. The refreshed forecast is 39.55 hours of remaining work, or 51.15 hours total with contingency on the original clock. This is a running-status snapshot, not the final result.

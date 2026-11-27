@@ -15,6 +15,8 @@ import subprocess
 import tarfile
 
 ARMS=('BASE','TAIL')
+AMENDMENT_FILES=['experiments/continuation_repair_fullrun/'+name for name in
+ ('compact.py','entry.py','launch.py','source_amendment.py')]
 EVENTS=58
 FROZEN_FORMULAS={
  'online_feedback/objective.py':{'bytes':36960,'sha256':'031cdb176e6d367549891a0966abcb6002dd9a6c8976746caee081b4b56dc87c'},
@@ -122,6 +124,7 @@ class Evidence:
   retirement=self.json(name+'.retirement.json')
   if retirement['status']!='completed' or set(retirement['removed_paths'])!=set(expected):
    raise ValueError('Archive retirement is not complete')
+  if 'recovery' in retirement:verify_archive_recovery(self,name,retirement)
   self.archives[key]=keep
   return keep
  def event(self,arm,event,suffix='trainer'):
@@ -130,6 +133,92 @@ class Evidence:
   archive=self.archive(arm,event)
   if name not in archive:raise MissingEvidence(name)
   return archive[name]
+
+
+def compare_source_manifests(original,repaired,audit):
+ changed=sorted(name for name in set(original['files'])|set(repaired['files'])
+  if original['files'].get(name)!=repaired['files'].get(name))
+ def documentary(name):
+  path=Path(name);return path.parts[0] in ('tests','reports') or path.suffix.lower()=='.md'
+ production=[name for name in changed if not documentary(name)]
+ audit.require(set(production)<=set(AMENDMENT_FILES) and AMENDMENT_FILES[0] in production
+  and AMENDMENT_FILES[-1] in repaired['files'],'scoped infrastructure source changes')
+ return dict(changed_production_paths=production,
+  changed_diagnostic_or_documentation_paths=[name for name in changed if documentary(name)],
+  unchanged_production_python_files=sum(name.endswith('.py') and not documentary(name) and name not in production for name in original['files']))
+
+
+def audit_source_chain(evidence,plan,original,audit):
+ status=evidence.json('STATUS.json');actual=status.get('actual_execution_commit',plan['execution_commit'])
+ if actual==plan['execution_commit']:
+  audit.require(not status.get('source_amendment_path'),'original-only source receipt')
+  return dict(actual_execution_commit=actual,source_count=1,source_amendment_identity=None,source_amendment_binding=None)
+ amendment=evidence.json(status['source_amendment_path']);pin=identity(evidence.path(status['source_amendment_path']))
+ audit.require(pin==status['source_amendment_identity'] and amendment['schema']=='continuation_repair_fullrun_source_amendment_v1'
+  and amendment['binding']==digest({k:v for k,v in amendment.items() if k!='binding'}),'source amendment seal')
+ audit.require(amendment['plan_binding']==plan['binding'] and amendment['execution_commit']==plan['execution_commit']
+  and amendment['actual_execution_commit']==actual and amendment['original_plan_identity']==identity(evidence.path('sealed/PLAN.json'))
+  and Path(amendment['original_plan_path'])==Path(plan['root'])/'sealed/PLAN.json','unchanged original plan under repair')
+ audit.require(amendment['approved_production_changes']==AMENDMENT_FILES and
+  Path(amendment['source_root']).is_relative_to(Path(plan['root'])/'infrastructure_sources'),'charged infrastructure-only repair')
+ repaired=evidence.json(amendment['source_manifest'])
+ audit.require(identity(evidence.path(amendment['source_manifest']))==amendment['source_identity'] and
+  repaired['commit']==actual and repaired['clean'] is True,'actual repaired source manifest')
+ audit.require(compare_source_manifests(original,repaired,audit)==amendment['source_comparison'],'independent source difference reduction')
+ for name,pin_formula in FROZEN_FORMULAS.items():audit.require(repaired['files'][name]==pin_formula,'unchanged repaired scientific formula '+name)
+ proof=amendment['resume_evidence'];recovery=evidence.json(proof['path'])
+ audit.require(identity(evidence.path(proof['path']))==proof['identity'] and recovery['status'] in ('passed','completed')
+  and recovery['new_model_work']==0,'CPU-only resume evidence')
+ resumes=list(evidence.root.glob('infrastructure_resumes/resume_*/RESUME.json'))
+ if not resumes:raise MissingEvidence('Original resume snapshots missing')
+ preserved={};clock=evidence.json('CLOCK.json');work=evidence.json('WORK.json')
+ for path in resumes:
+  row=evidence.json(path)
+  audit.require(row['status']=='preserved' and row['plan_binding']==plan['binding'] and row['new_model_work']==0
+   and row['source_amendment_identity']==pin and row['actual_execution_commit']==actual
+   and row['source_amendment_binding']==amendment['binding'],'preserved resume binding')
+  for name,expected in row['prior_files'].items():
+   audit.require(not Path(name).is_absolute() and '..' not in Path(name).parts,'safe preserved receipt locator')
+   backup=path.parent/'prior'/name;evidence.raw(backup)
+   audit.require(identity(backup)==expected,'original failed/resume receipt preserved')
+   preserved.setdefault(name,[]).append(expected)
+   if name.startswith(('processes/','phases/')):
+    evidence.raw(name);audit.require(identity(evidence.path(name))==expected,'original process/phase not overwritten')
+  prior=evidence.json(path.parent/'prior/CLOCK.json')
+  audit.require(prior['first_model_load_epoch']==row['original_model_load_epoch']==clock['first_model_load_epoch']
+   and not prior['active'] and all(item in clock['finished'] for item in prior['finished']),'original clock and consumed intervals retained')
+  old_work=evidence.json(path.parent/'prior/WORK.json')
+  audit.require(not old_work['pending'] and all(work['attempted'].get(key,0)>=value for key,value in old_work['attempted'].items()),'prior physical work retained')
+ for path in [evidence.root/'STATUS.json',*evidence.root.glob('processes/*.json'),*evidence.root.glob('phases/*/STATUS.json')]:
+  row=evidence.json(path);executed=row.get('actual_execution_commit',plan['execution_commit'])
+  audit.require(row.get('execution_commit',plan['execution_commit'])==plan['execution_commit'],'original scientific commit binding')
+  if executed==plan['execution_commit']:
+   audit.require(identity(path) in preserved.get(str(path.relative_to(evidence.root)),[]),'original untagged process byte proof')
+  else:
+   audit.require(executed==actual and row['source_amendment_identity']==pin and
+    row['source_amendment_binding']==amendment['binding'] and row['actual_source_root']==amendment['source_root']
+    and row['actual_source_identity']==amendment['source_identity'],'actual process source binding')
+ return dict(actual_execution_commit=actual,source_count=2,preserved_resume_receipts=len(resumes),
+  source_amendment_identity=pin,source_amendment_binding=amendment['binding'],actual_source_identity=amendment['source_identity'],
+  scientific_python_unchanged=True,infrastructure_changed_paths=amendment['source_comparison']['changed_production_paths'])
+
+
+def verify_archive_recovery(evidence,name,final):
+ recovery=evidence.json(name+'.retirement.recovery_001.json')
+ if final['recovery']!=recovery or recovery['status']!='completed' or recovery['new_model_work']!=0:
+  raise ValueError('Archive recovery differs or adds model work')
+ failed_path=name+'.retirement.failed_001.json';previous=evidence.json(failed_path)
+ expected=recovery['failed_receipt']
+ if identity(evidence.path(failed_path))!={key:expected[key] for key in ('bytes','sha256')}:
+  raise ValueError('Original failed archive receipt bytes changed')
+ old,new=previous['removed_paths'],recovery['new_removed_paths']
+ if (previous['status']!='failed' or previous['verification']!=recovery['verification'] or
+     previous['verification']['status']!='passed' or 'Loose member changed after archive verification:' not in previous.get('error','') or
+     len(set(old))!=len(old) or len(set(new))!=len(new) or set(old)&set(new) or final['removed_paths']!=old+new or
+     recovery['previous_removed_count']!=len(old) or recovery['remaining_count']!=len(new) or
+     final['removed_allocated_bytes']!=previous['removed_allocated_bytes']+recovery['new_removed_allocated_bytes'] or
+     abs(final['wall_s']-previous['wall_s']-recovery['wall_s'])>1e-6):
+  raise ValueError('Failed/recovered archive accounting does not reconcile')
 
 
 def audit_local_work(rows,audit):
@@ -294,7 +383,8 @@ def run(root,*,source_manifest=None,tensor_inventory=None,postflight=None,extern
   audit.require(plan['formula_code_identities']==FROZEN_FORMULAS,'frozen PR65 objective identities')
   for name,pin in FROZEN_FORMULAS.items():audit.require(source['files'][name]==pin,'staged formula '+name)
   for name,value in LIMITS.items():audit.require(plan['limits'][name]==value,'fixed resource limit '+name)
-  return dict(execution_commit=plan['execution_commit'],frozen_formula_origin='ab7d8231a70387c7e02f0d9d1feeedd1e80dd258')
+  chain=audit_source_chain(evidence,plan,source,audit)
+  return dict(execution_commit=plan['execution_commit'],frozen_formula_origin='ab7d8231a70387c7e02f0d9d1feeedd1e80dd258',**chain)
  audit.totals['provenance']=audit.section('source_and_formula_identity',provenance)
  status=audit.section('campaign_status',lambda:evidence.json('STATUS.json'))
  if status:audit.section('campaign_complete',lambda:audit.require(status['status']=='completed','campaign complete'))
@@ -375,7 +465,7 @@ def run(root,*,source_manifest=None,tensor_inventory=None,postflight=None,extern
  if work:audit.totals['auxiliary_work']=audit.section('qualification_and_startup_work',lambda:audit_auxiliary_work(evidence,work,audit))
  def resources():
   receipts=[]
-  for pattern in ('STORAGE.*.json','forecasts/*.json','phases/*/STATUS.json'):
+  for pattern in ('STORAGE.*.json','forecasts/**/*.json','phases/*/STATUS.json'):
    for path in evidence.root.glob(pattern):
     value=evidence.json(path)
     if 'charged_bytes' in value:receipts.append(value)
@@ -385,6 +475,8 @@ def run(root,*,source_manifest=None,tensor_inventory=None,postflight=None,extern
    for name,value in members.items():
     if name.endswith('/ADMISSION.json'):receipts.append(value['storage'])
   final=evidence.json(postflight or 'POSTFLIGHT.json');audit.require(final['status']=='passed','final postflight')
+  audit.require(final['plan_binding']==plan['binding'] and final['execution_commit']==plan['execution_commit'],'postflight original plan/source binding')
+  audit.require(identity(evidence.path(tensor_inventory or 'FINAL_TENSOR_INVENTORY.json'))==final['tensor_inventory_identity'],'live inventory bound by postflight')
   receipts.append(final['storage'])
   return audit_resources(evidence.json('CLOCK.json'),status,processes,receipts,audit)
  audit.totals['resources']=audit.section('resource_accounting',resources)
@@ -402,6 +494,14 @@ def main():
  output=Path(args.output);output.mkdir(parents=True,exist_ok=False)
  (output/'AUDIT_WORK.json').write_text(json.dumps(report,indent=2,allow_nan=False)+'\n')
  (output/'PRIVATE_INPUTS_AND_ERRORS.json').write_text(json.dumps(private,indent=2,allow_nan=False)+'\n')
+ plan_path=Path(args.root)/'sealed/PLAN.json'
+ plan=json.loads(plan_path.read_text()) if plan_path.is_file() else {}
+ wrapper=dict(status=report['status'].lower(),plan_binding=plan.get('binding'),execution_commit=plan.get('execution_commit'),
+  original_detail_identity=identity(output/'AUDIT_WORK.json'),checks=report['checks'],
+  failed_sections=report['failed_sections'],missing_sections=report['missing_sections'],
+  provenance=report['totals'].get('provenance'),independence=report['independence'],limitations=report['limitations'])
+ (output/'AUDIT_WORK_PUBLIC.json').write_text(json.dumps(wrapper,indent=2,allow_nan=False)+'\n')
+ (output/'AUDIT_RESOURCES_PUBLIC.json').write_text(json.dumps(dict(wrapper,resources=report['totals'].get('resources')),indent=2,allow_nan=False)+'\n')
  print(json.dumps(dict(status=report['status'],checks=report['checks'],failed=len(report['failed_sections']),missing=len(report['missing_sections']))))
  return 0 if report['status']=='PASSED' else 2
 
