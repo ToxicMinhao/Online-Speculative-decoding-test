@@ -1,0 +1,49 @@
+{
+  "status": "passed_source_scope",
+  "scope": [
+    "summarize_event schema",
+    "witness_tables schema",
+    "completed_evidence schema",
+    "native loading/startup/capture timing limits"
+  ],
+  "review_type": "Shared-context source cross-review; reviewer authored native training and witness implementation",
+  "findings": [],
+  "confirmed_limits": [
+    "Backend loading and discarded-startup timers exist.",
+    "Standalone trainer-construction-only and capture-only causal cost are not recorded.",
+    "Worker/update/training/component timers are nested and nonadditive.",
+    "No full-run outcome or artifact completeness is claimed before execution finishes."
+  ],
+  "input_identities": {
+    "build_final_report.py": {
+      "bytes": 44168,
+      "sha256": "6822df1c65ded356f88ecb19dc088faedf4a7587ad869298c94cb00a77943d68"
+    },
+    "implementation_checkout/DFlash-Online/online_feedback/continuation_repair.py": {
+      "bytes": 10796,
+      "sha256": "da11ae9a13da557dbbe983ee678a8c21c9064ca3645e97faf6571cf2938ef6da"
+    },
+    "implementation_checkout/DFlash-Online/online_feedback/controller.py": {
+      "bytes": 6983,
+      "sha256": "94f817c71eeff059024640ed75436a72ac1861bf50d4dabaf1a673fde6f383f6"
+    },
+    "implementation_checkout/DFlash-Online/experiments/full_k_gsm8k/costs.py": {
+      "bytes": 1807,
+      "sha256": "ef5c7ca2c13e9282aae2c2b017c06a7a3c37acd1fedc2c0e5f0e064a034ccf03"
+    },
+    "implementation_checkout/DFlash-Online/experiments/continuation_value_diagnostic/metrics.py": {
+      "bytes": 16284,
+      "sha256": "3ce2519157a09d6d91e668b45f03d203539ebf67cac6b792d27b0272f4a7243e"
+    },
+    "implementation_checkout/DFlash-Online/experiments/continuation_repair_fullrun/campaign.py": {
+      "bytes": 14117,
+      "sha256": "7c5abc7c9bf12d5d8ecbab878680dc610650f4c860c703c507c7784d10a95674"
+    },
+    "implementation_checkout/DFlash-Online/experiments/continuation_repair_fullrun/witness.py": {
+      "bytes": 8541,
+      "sha256": "ab46b4167a85c5f5068b6d9c680194cf434d41de7039c9719d2435adb169ee60"
+    }
+  },
+  "production_changes": false,
+  "model_work": 0
+}

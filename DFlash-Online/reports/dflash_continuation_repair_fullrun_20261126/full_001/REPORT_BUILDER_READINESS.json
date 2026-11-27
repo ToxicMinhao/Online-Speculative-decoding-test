@@ -1,0 +1,42 @@
+{
+  "status": "CPU_ready",
+  "execution_source_expected": "ef792694a52395a6c13ea5dabcf7ae64dd1d04ff",
+  "plan_binding_expected": "0997159a261799b3ba99b31cda0f7f699aa7daaca307c1b503b64cf7deab94c4",
+  "files": {
+    "build_final_report.py": {
+      "bytes": 44168,
+      "sha256": "6822df1c65ded356f88ecb19dc088faedf4a7587ad869298c94cb00a77943d68"
+    },
+    "test_build_final_report.py": {
+      "bytes": 17587,
+      "sha256": "6cc78d5659ae87928c4a3c3ff9fd0dd0550f94bcbe29d9043288463f28e0cf7d"
+    }
+  },
+  "tests": {
+    "passed": 13,
+    "failed": 0,
+    "command": "/home/minhao2/.venvs/dflash-specforge/bin/python -m unittest -v test_build_final_report.py"
+  },
+  "new_model_work": 0,
+  "production_source_edits": 0,
+  "run_condition": "Run only after complete raw retrieval, production FINAL_ANALYSIS, both58-event states, and passed serving/work/resource/postflight receipts binding this plan and execution commit.",
+  "reports_generated_from_actual_results": false,
+  "schema_scope": "Current source writer schemas, plus synthetic publication and archived-member fixtures. Actual-record assembly remains unexecuted.",
+  "native_schema_cross_review": {
+    "status": "passed",
+    "reviewer": "/root/point3_native",
+    "scope": [
+      "summarize_event actual writer fields",
+      "witness work and metric fields",
+      "final status and global activation accounting",
+      "recorded versus unavailable loading and capture timers"
+    ],
+    "independence_limit": "Separate implementation owner with shared context; static source review, not a GPU replication."
+  },
+  "audit_receipt_contract": {
+    "status": "passed",
+    "plan_binding": "original sealed binding",
+    "execution_commit": "actual execution source from immutable plan"
+  },
+  "usage": "python build_final_report.py --plan PLAN.json --raw-root RETRIEVED_RAW --output NEW_PUBLIC_DIRECTORY --serving-audit SERVING_AUDIT.json --work-audit WORK_AUDIT.json --resource-audit RESOURCE_AUDIT.json --postflight POSTFLIGHT.json --cleanup storage_audit/RETIREMENT_EXECUTED.json"
+}
