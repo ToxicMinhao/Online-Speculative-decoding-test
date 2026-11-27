@@ -1,0 +1,19 @@
+# Fresh BASE/TAIL 58-event run: readiness
+
+Status: implementation and CPU review complete; native qualification and the main run are pending. Execution will use the exact published source commit recorded in SOURCE.json and the sealed PLAN; this preparation document does not assert a GPU pass.
+
+BASE is C+K+PAIR. TAIL adds the unchanged PR65 within-HIGH continuation refinement. Both start independently from released DFlash, fresh BF16 AdamW and seed17, and collect their own responses to the unchanged7,424 PR56 prompts. Each completes58events /7,424Adamsteps /14,848presentations. No Graduate changes or historical baseline retraining.
+
+The five scientific objective modules are byte-identical to ab7d8231a70387c7e02f0d9d1feeedd1e80dd258. The new wrapper owns honest BASE/TAIL identities, original numerical execution, full recovery, independent fresh initialization, storage retention and bounded qualification. The native check compares the old PR65 integration and the new wrapper on the same retained two-response fixture, four disposable Adam applications, followed by eight serving generations. Aggregate ceilings remain8Adam/16generations including one localized retry. Production begins only after both gates pass and disposable states are retired.
+
+The new1,024-request confirmation panel was selected before model work from18,880 eligible inputs in the fixed reservoir. Training and original/reserved/previous-study evaluation inputs are excluded by source identity, text and tokens. All7424 original training prompts/order and original INPUTS bytes authenticate. The two original warmup references are authenticated and reused; no new canonical warmups are planned. Actual requests, tokens and responses remain outside Git.
+
+Final endpoints: BASE58, TAIL58, retained AREPO_CODE58 and released F. Work is1024freshFcanonicals plus12288scored generations and96activationwarmups. Only the two new arms train. Final timing runs on physicalA while physicalB is quiet. Training and artifact transfers finish before timed serving. Exact tokens/termination and repeat counts are required.
+
+The practical rule is D=100*(summed mean TAIL time/summed mean BASE time−1)<=0.1%. The unrounded point decision, upper95% bound<=0.1%, and demonstrated speedup (upper95%<0) are separately reported. Paired whole-request bootstrap uses10000PCG64draws,seed20261126,linearpercentiles. Historical PR65 remains NO_DEMONSTRATED_BENEFIT; a new point-rule pass would not rewrite it or establish equivalence.
+
+Storage: retired10obsolete nonselected optimizer states after exact export equality and compact-evidence/live-use checks, freeing62,991,458,304bytes. Free space is477,282,930,688bytes. Trained exports, results, source and required PR56/59/60/64/65states remain. Those ten old optimizer/RNG continuations are lost, not archived. Planned peak73.757GB includes5complete-state copies,3exports, fullcappedfeaturewindow, fixedwitness, compiler growth and all-location staging. Runtime admission preserves400GBfree and90GBnewallocation ceilings. Final new57/58recoveries and58exports remain per arm.
+
+Estimated raw execution40.17hours; with1.25contingency and1hour allowance51.22hours. Occupied-card forecast91.76hours fits120cardhours; elapsed fits72hours. These are estimates from retained native costs, not guarantees; remaining work is reforecast at every committed event. BothA800s were idle at admission.
+
+CPU coverage includes complete tiny five-layer BF16 BASE/TAIL events, fresh-state parity, typed disposable/full recovery, witness RNG/state isolation, immutable inputs, four-endpoint schedules, invalid-record preservation, aggregate arithmetic, bootstrap, resource accounting, failure-preserving launches and the shared retry ceiling. 51 focused CPU tests and two independent statistical-audit tests passed; review receipts are published alongside this document. No outcome-driven changes are authorized.

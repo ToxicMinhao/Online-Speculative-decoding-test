@@ -1,0 +1,89 @@
+{
+  "status": "passed",
+  "epoch": 1795737348.9834228,
+  "model_work": 0,
+  "source_downloads": 0,
+  "original_inputs_identity": {
+    "bytes": 32309622,
+    "sha256": "df7194e667126f34f8e2ab2f6e22e2e5480cd7921728ceb4f946bd3a0cce6581"
+  },
+  "input_projection_identity": {
+    "bytes": 52298315,
+    "sha256": "6690e15b8e41d5be45c4dd4fcd06e7f3ff1c6ba8347fdf4313fbca763f43677e"
+  },
+  "original_training_count": 7424,
+  "original_training_order_digest": "c9fa532810173d6ec8651e3ed7948b55d7ec82a59e5bc70f474471982e03f609",
+  "fresh_evaluation_count": 1024,
+  "eligible_count": 18880,
+  "new_panel_identity": {
+    "bytes": 6330310,
+    "sha256": "3e1f8b1aebcbe66357f2f1d23e810178b6f3b3e6ae314ed938955288c3ce699e"
+  },
+  "data_seal_identity": {
+    "bytes": 2167,
+    "sha256": "7946aac5d0a77a9b51d755b9814aac89b79ba47604989b6b9e6a8ac3520386a3"
+  },
+  "warmup_check": {
+    "status": "passed",
+    "reused": 2,
+    "new_generations": 0,
+    "reference_kind": "native_frozen_DFlash",
+    "original_PR56_warmups": true
+  },
+  "warmup_exact_original_PR56_F": true,
+  "original_PR56_reference_identity": {
+    "bytes": 29436825,
+    "sha256": "305b817b6c580f02cf849a13ff11b4fc244ee6b45f4b71d62cfc61f8d277d7fb"
+  },
+  "original_plan_identity": {
+    "bytes": 20373,
+    "sha256": "99aa38b6307ec5ecf2e2c6ba2db8144897352df7e53aabffc496c7b3287e81b0"
+  },
+  "arepo_companion_identity": {
+    "bytes": 1211,
+    "sha256": "5749d96966f9ce7e6a9662c9f482b8aa0d461845fb6b9ce09ac2c08311fab2aa"
+  },
+  "arepo_status_boundary": {
+    "status": "passed",
+    "arm": "AREPO_CODE58",
+    "completed_event": 58,
+    "global_step": 7424,
+    "presentations": 14848,
+    "adam_state_entries": 58,
+    "cuda_rng_states": 1,
+    "extra_model_passes": 0,
+    "extra_optimizer_steps": 0,
+    "context_limit": 4096,
+    "actual_CODE_state_unchanged": true,
+    "live": {
+      "status": "passed",
+      "exact_resume": true,
+      "mismatches": [],
+      "global_step": 7424,
+      "presentations": 14848,
+      "extra_model_passes": 0,
+      "extra_optimizer_steps": 0
+    },
+    "export_exact": true,
+    "serialized_size": {
+      "status": "passed",
+      "path": "/data/sources/minhao/runs/dflash_opencode_native_comparison_20261120/campaign_001/arms/AREPO_CODE58/trainer/training_state.pt",
+      "bytes": 6352883419,
+      "maximum_bytes": 6791777312
+    },
+    "wall_s": 20.674144068732858
+  },
+  "retrieval": {
+    "method": "SSH streaming tar to new local study; no remote archive",
+    "failed_rsync": "remote rsync not installed; zero payload copied",
+    "original_remote_root": "/data/sources/minhao/runs/dflash_opencode_native_comparison_20261120",
+    "compact_read_identity": {
+      "bytes": 161808,
+      "sha256": "135c1c1d64ea3fb2e3ae47db8139934effdcc9d7e066bc244cfd46928fe8a305"
+    }
+  },
+  "limits": [
+    "Freshness is relative to audited retained project inventories, not all historical unknown or semantic duplicates.",
+    "No model or native qualification is established by this CPU preparation check."
+  ]
+}

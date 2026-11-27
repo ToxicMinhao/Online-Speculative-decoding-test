@@ -1,0 +1,125 @@
+{
+  "status": "passed_with_scoped_limits",
+  "reviewer": "point3_serving preparation author and cross-file integration reviewer",
+  "review_type": "Shared-context code review and separate retained-file inventory; not independent GPU replication",
+  "reviewed_epoch": 1795737885.1742413,
+  "base_commit": "ab7d8231a70387c7e02f0d9d1feeedd1e80dd258",
+  "files": {
+    "preflight.py": {
+      "bytes": 4578,
+      "sha256": "8afde4c54f2f6b5d31866db50e1dfba35b6189f44d448894905223ff83465b78"
+    },
+    "runtime.py": {
+      "bytes": 9692,
+      "sha256": "d27687be654b1d6307638be81e4a1880fbd4c7768b1ba842b32a6196294ab04c"
+    },
+    "launch.py": {
+      "bytes": 9023,
+      "sha256": "f5b5ddfab012dc9455dd649ddf2cfb8a66522c0e5d3ac10a3b8d77c4dca6e9db"
+    },
+    "campaign.py": {
+      "bytes": 14117,
+      "sha256": "7c5abc7c9bf12d5d8ecbab878680dc610650f4c860c703c507c7784d10a95674"
+    },
+    "witness.py": {
+      "bytes": 8541,
+      "sha256": "ab46b4167a85c5f5068b6d9c680194cf434d41de7039c9719d2435adb169ee60"
+    },
+    "entry.py": {
+      "bytes": 3972,
+      "sha256": "185a957694b05c891e2bae9ec1918e7810a306116343454c3d1a5018a5f22d51"
+    },
+    "storage.py": {
+      "bytes": 14177,
+      "sha256": "c9fbceb4a6e81aa8d8a039952603b89389d523ed850aff70153fb2956644a382"
+    },
+    "compact.py": {
+      "bytes": 10624,
+      "sha256": "8eaf49261de819351c2f80b8aedb31fe6657bf07c7ef285f4dbfd3d81c99766c"
+    },
+    "protected.py": {
+      "bytes": 1164,
+      "sha256": "048de68f25b9866fe391bae554822344f12b53b0e6b39bd408491a9bce344f82"
+    },
+    "prepare.py": {
+      "bytes": 12199,
+      "sha256": "fb1467313b6327fe7157a0acab0b514c8d7fc71295c7023f58c286d526d2f018"
+    },
+    "data.py": {
+      "bytes": 4918,
+      "sha256": "8462e330d71fef9978e20c4f91f4f820aa91beaf58a88e35ef9f15c22b93eb29"
+    },
+    "configuration.py": {
+      "bytes": 832,
+      "sha256": "87ef0f7296710512d1d5495c70cf120afb4fb12b90517fbc9f2de9d51aad5345"
+    },
+    "contract.py": {
+      "bytes": 4832,
+      "sha256": "4345da7c860f7c0392ff7852aaa5e629ae29045e3ef2de9629b68a4349807490"
+    }
+  },
+  "cpu_tests": [
+    {
+      "suite": "test_continuation_repair_fullrun_preparation",
+      "count": 12,
+      "passed": 12
+    },
+    {
+      "suite": "test_continuation_repair_fullrun_runtime + test_continuation_repair_fullrun_native",
+      "count": 24,
+      "passed": 24
+    }
+  ],
+  "input_checks": {
+    "original_training_count": 7424,
+    "new_confirmation_count": 1024,
+    "remaining_eligible_count": 18880,
+    "original_manifest_exact": true,
+    "training_reselected": false,
+    "fixed_seed": 20261126,
+    "separate_exclusion_keys": [
+      "source identity",
+      "normalized raw prompt",
+      "rendered prompt",
+      "token hash"
+    ],
+    "additional_post_PR56_filename_inventory_missing_candidates": 0,
+    "retained_supplement_files": 36,
+    "retained_original_history_included": true,
+    "current_jobs": "Root reports both A800s idle and no other research run from readable command-line inspection; no second remote job inspection by this reviewer.",
+    "data_seal_identity": {
+      "bytes": 2167,
+      "sha256": "7946aac5d0a77a9b51d755b9814aac89b79ba47604989b6b9e6a8ac3520386a3"
+    }
+  },
+  "warmups": {
+    "original_two_reused": true,
+    "exact_PR56_frozen_F_reference_equality": true,
+    "new_canonical_generations_expected": 0,
+    "unused_handoff_allowance": 2
+  },
+  "integration_checks": {
+    "fresh_BASE_then_TAIL": true,
+    "own_feedback_and_rng_per_arm": true,
+    "native_event1_checks": "Capture-disabled replay of first feedback response; updated/frozen/reloaded checks on training ordinal128. No fresh confirmation input.",
+    "witness_timing": "Eight requests sealed input-only; BASE feedback features and independent anchors sealed before first update. Released origin once, then both arms at events1/16/32/58; at most72 response forwards.",
+    "witness_state": "Existing eval/no_grad adapter preserves modes, caches and RNG; wrapper verifies live parameter/gradient/moment/counter versions and restores observation buffers.",
+    "retirement": "Current/predecessor states and final57/58 retained; successor authenticated before obsolete export/state retirement; historical dependencies stay outside retirement roots.",
+    "resource_checks": "Original elapsed/card clock and per-operation work ledger preserved; complete future tensor/compact/cache reserve remains budgeted."
+  },
+  "resolved_findings": [
+    {
+      "issue": "Log/Popen setup failure originally escaped card-lease cleanup before child try/finally.",
+      "resolution": "Launch setup now guarded with process=None, an owned-card list and preserved failure receipt; closes only known begun leases when no live process remains.",
+      "test": "CPU test_preprocess_start_failure_closes_only_begun_card_leases plus failed-termination retention test passed."
+    }
+  ],
+  "no_new_model_work": true,
+  "no_remote_work_in_this_review": true,
+  "limits": [
+    "No guarantee for unknown/deleted-only historical inventories or semantic near-duplicates.",
+    "Current-job evidence is supplied by the root executor, not independently re-collected here.",
+    "CPU checks and source review do not establish native GPU qualification or completed campaign.",
+    "A mid-event interruption is preserved and blocked for explicit reconciliation; success is not reconstructed from incomplete work."
+  ]
+}
