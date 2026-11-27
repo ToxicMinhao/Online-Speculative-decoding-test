@@ -5,15 +5,24 @@ import time
 import traceback
 
 from .runtime import WorkLedger, read, write_json, boundary
+from .source_amendment import execution_source
 
 
-def run(plan, phase, *, arm=None, resume=False, attempt=1):
+def run(plan, phase, *, arm=None, resume=False, attempt=1, plan_path=None,
+        source_amendment=None, source_amendment_sha256=None):
+    if plan_path is None:
+        raise ValueError('A model-owning phase requires the immutable plan path')
+    source=execution_source(plan_path,source_amendment,expected_sha256=source_amendment_sha256)
+    if source_amendment is not None and phase.startswith('qualification'):
+        raise ValueError('Infrastructure continuation cannot repeat qualification')
+    if plan!=read(plan_path):
+        raise ValueError('In-memory scientific plan differs from its immutable file')
     root=Path(plan['root'])
     name=phase+('_'+arm if arm else '')+f'_{attempt:03d}'
     output=root/'phases'/name
     output.mkdir(parents=True,exist_ok=False)
     report=dict(status='running',phase=phase,arm=arm,attempt=attempt,
-        execution_commit=plan['execution_commit'],started_epoch=time.time())
+        **source,started_epoch=time.time())
     write_json(output/'STATUS.json',report)
     ledger=WorkLedger(root,name,'qualification' if phase.startswith('qualification') else 'production')
     try:
@@ -71,5 +80,9 @@ if __name__=='__main__':
     parser.add_argument('--arm',choices=['BASE','TAIL'])
     parser.add_argument('--attempt',type=int,default=1)
     parser.add_argument('--resume',action='store_true')
+    parser.add_argument('--source-amendment')
+    parser.add_argument('--source-amendment-sha256')
     args=parser.parse_args()
-    run(read(args.plan),args.phase,arm=args.arm,resume=args.resume,attempt=args.attempt)
+    run(read(args.plan),args.phase,arm=args.arm,resume=args.resume,attempt=args.attempt,
+        plan_path=args.plan,source_amendment=args.source_amendment,
+        source_amendment_sha256=args.source_amendment_sha256)

@@ -1,0 +1,42 @@
+{
+  "status": "cpu_ready_not_experiment_audited",
+  "scope": "Prepared independent native-serving validity and independent arithmetic audits only",
+  "tests": [
+    {
+      "command": "CUDA_VISIBLE_DEVICES='' PYTHONDONTWRITEBYTECODE=1 /home/minhao2/.venvs/dflash-specforge/bin/python test_audit_serving_validity.py -q",
+      "count": 11,
+      "result": "passed",
+      "seconds": 0.849
+    },
+    {
+      "command": "CUDA_VISIBLE_DEVICES='' PYTHONDONTWRITEBYTECODE=1 /home/minhao2/.venvs/dflash-specforge/bin/python test_audit_statistics_independent.py -q",
+      "count": 5,
+      "result": "passed",
+      "seconds": 0.787
+    }
+  ],
+  "new_model_work": 0,
+  "files": {
+    "audit_serving_validity.py": {
+      "bytes": 26875,
+      "sha256": "27a275c1c6654cca8b1851c520769feea4be6d2743b1d209501899d17657fca0"
+    },
+    "test_audit_serving_validity.py": {
+      "bytes": 15235,
+      "sha256": "6cf4a3a4e91c6226c0c33496b3411e278c040db3d6ba4c27c7afef813b7d5266"
+    },
+    "audit_statistics_independent.py": {
+      "bytes": 8887,
+      "sha256": "d258ed957d020bcd2509138d1bfe9e25e1f82848f409e643022c931f235a5375"
+    },
+    "test_audit_statistics_independent.py": {
+      "bytes": 4674,
+      "sha256": "a785cd8414469e8114a6dc179297ad95044dbd286852bde3952276cd93c54ebf"
+    },
+    "AUDIT_SERVING_VALIDITY_GUIDE.md": {
+      "bytes": 4428,
+      "sha256": "98be531bfbff623a2da3b5774250bfc900a759790ab91a3712ae0d73461ef78d"
+    }
+  },
+  "result_claim": "No current-run serving validity or scientific outcome claimed."
+}

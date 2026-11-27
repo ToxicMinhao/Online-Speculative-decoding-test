@@ -45,6 +45,13 @@ def _identity(path):
                 device=stat.st_dev, inode=stat.st_ino, mtime_ns=stat.st_mtime_ns)
 
 
+def _same_file(actual, expected):
+    # Delayed allocation/preallocation can change st_blocks with identical
+    # contents. Allocation is cost evidence, not immutable file identity.
+    return all(actual[key] == expected[key]
+               for key in ('bytes', 'sha256', 'device', 'inode', 'mtime_ns'))
+
+
 def _index_path(archive):
     return Path(str(archive) + '.index.json')
 
@@ -194,11 +201,17 @@ def archive_completed_event(study_root, arm, event, records, *, zstd='zstd'):
         write_json(receipt_path, result)
         for path in paths:
             name = str(path.relative_to(root))
-            if _identity(path) != members[name]:
+            actual = _identity(_inside(path, root))
+            if not _same_file(actual, members[name]):
                 raise ValueError('Loose member changed after archive verification: ' + name)
+            actual['allocated_bytes'] = path.stat().st_blocks * 512
             path.unlink()
             result['removed_paths'].append(name)
-            result['removed_allocated_bytes'] += members[name]['allocated_bytes']
+            result['removed_allocated_bytes'] += actual['allocated_bytes']
+            if actual['allocated_bytes'] != members[name]['allocated_bytes']:
+                result.setdefault('allocation_changes', {})[name] = dict(
+                    planned_bytes=members[name]['allocated_bytes'],
+                    before_unlink_bytes=actual['allocated_bytes'])
         result['status'] = 'completed'
     except BaseException as error:
         result.update(status='failed', error=repr(error))
@@ -212,4 +225,101 @@ def archive_completed_event(study_root, arm, event, records, *, zstd='zstd'):
         finally:
             result['wall_s'] = time.time() - result['started_epoch']
             write_json(receipt_path, result)
+    return result
+
+
+def resume_verified_retirement(study_root, arm, event):
+    """Finish one failed, verified archive retirement without model work.
+
+    Original failure bytes survive in an exclusive backup. This repair has its
+    own journal and cannot be automatically repeated after an interruption.
+    """
+    root = Path(study_root).resolve()
+    if arm not in ARMS or type(event) is not int or not 1 <= event <= 58:
+        raise ValueError('Require a prescribed completed event')
+    archive = root / 'compact' / arm / f'event_{event:03d}.tar.zst'
+    receipt_path = Path(str(archive) + '.retirement.json')
+    failed_path = Path(str(archive) + '.retirement.failed_001.json')
+    recovery_path = Path(str(archive) + '.retirement.recovery_001.json')
+    if failed_path.exists() or recovery_path.exists():
+        raise FileExistsError('Retirement recovery already attempted; preserve its evidence')
+    failed_bytes = receipt_path.read_bytes()
+    previous = json.loads(failed_bytes)
+    if (previous['status'] != 'failed' or previous.get('verification', {}).get('status') != 'passed'
+            or 'Loose member changed after archive verification:' not in previous.get('error', '')):
+        raise ValueError('Only the identified verified partial-retirement failure may resume')
+    with failed_path.open('xb') as stream:
+        stream.write(failed_bytes); stream.flush(); os.fsync(stream.fileno())
+    recovery = dict(status='started', started_epoch=time.time(), new_removed_paths=[],
+                    new_removed_allocated_bytes=0, allocation_changes={}, new_model_work=0,
+                    failed_receipt=dict(path=str(failed_path), bytes=len(failed_bytes),
+                        sha256=hashlib.sha256(failed_bytes).hexdigest()))
+    write_json(recovery_path, recovery)
+    try:
+        plan = json.loads(Path(str(archive) + '.plan.json').read_text())
+        index = json.loads(_index_path(archive).read_text())
+        if (plan['study_root'] != str(root) or plan['arm'] != arm or plan['event'] != event
+                or any(index.get(key) != value for key, value in plan.items())
+                or previous['archive_path'] != str(archive)
+                or previous['index_path'] != str(_index_path(archive))):
+            raise ValueError('Original archive/plan/retirement binding changed')
+        recovery['verification'] = verify_archive(archive)
+        if recovery['verification'] != previous['verification']:
+            raise ValueError('Original verified archive receipt changed')
+        base = root / 'campaign_001' / 'arms' / arm
+        boundary = json.loads((base/'boundaries'/f'event_{event:03d}.json').read_text())
+        status = json.loads((base/'STATUS.json').read_text())
+        if (boundary['status'] != 'passed' or boundary['event'] != event
+                or status['events_completed'] != event or status['phase'] != 'idle_boundary'):
+            raise ValueError('Recovery requires this exact completed idle boundary')
+        members, removed = index['members'], previous['removed_paths']
+        if len(removed) != len(set(removed)) or not set(removed) <= set(members):
+            raise ValueError('Invalid previous retirement path accounting')
+        remaining = []
+        for name, expected in members.items():
+            path = root / name
+            if not path.is_relative_to(base) or '..' in Path(name).parts:
+                raise ValueError('Archive member escaped the completed arm')
+            if name in removed:
+                if path.exists() or path.is_symlink():
+                    raise ValueError('Previously retired path unexpectedly exists: ' + name)
+            else:
+                if not path.exists():
+                    raise ValueError('Unrecorded missing loose member: ' + name)
+                path = _inside(path, root)
+                if not _same_file(_identity(path), expected):
+                    raise ValueError('Remaining loose member differs: ' + name)
+                remaining.append((name, path, expected))
+        protected.require_retirement_paths(root, [path for _, path, _ in remaining])
+        recovery['protected_before'] = protected.check(root, purpose='resume_compact_retirement')
+        recovery['previous_removed_count'] = len(removed)
+        recovery['remaining_count'] = len(remaining)
+        write_json(recovery_path, recovery)
+        for name, path, expected in remaining:
+            actual = _identity(_inside(path, root))
+            if not _same_file(actual, expected):
+                raise ValueError('Remaining member changed during recovery: ' + name)
+            actual['allocated_bytes'] = path.stat().st_blocks * 512
+            path.unlink()
+            recovery['new_removed_paths'].append(name)
+            recovery['new_removed_allocated_bytes'] += actual['allocated_bytes']
+            if actual['allocated_bytes'] != expected['allocated_bytes']:
+                recovery['allocation_changes'][name] = dict(planned_bytes=expected['allocated_bytes'],
+                    before_unlink_bytes=actual['allocated_bytes'])
+            write_json(recovery_path, recovery)
+        recovery['protected_after'] = protected.check(root, purpose='resumed_compact_retirement')
+        recovery['status'] = 'completed'
+    except BaseException as error:
+        recovery.update(status='failed', error=repr(error))
+        raise
+    finally:
+        recovery['wall_s'] = time.time() - recovery['started_epoch']
+        write_json(recovery_path, recovery)
+    result = dict(previous)
+    result.pop('error', None)
+    result.update(status='completed', removed_paths=removed+recovery['new_removed_paths'],
+        removed_allocated_bytes=previous['removed_allocated_bytes']+recovery['new_removed_allocated_bytes'],
+        wall_s=previous['wall_s']+recovery['wall_s'], recovery=recovery,
+        protected_dependencies=recovery['protected_after'])
+    write_json(receipt_path, result)
     return result

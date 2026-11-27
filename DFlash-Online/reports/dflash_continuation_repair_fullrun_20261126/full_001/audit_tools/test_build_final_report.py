@@ -1,5 +1,6 @@
 """CPU fixtures for report-only decisions, publication privacy and failure gates."""
 import argparse
+from contextlib import redirect_stderr
 import copy
 import importlib.util
 import io
@@ -120,6 +121,7 @@ def complete_fixture(root):
     final = dict(execution_commit=plan['execution_commit'], requests=1024, paired=paired, totals=totals,
         contrasts=contrasts, bootstrap=dict(draws=10000, generator='PCG64', seed=20261126,
             percentiles='linear 2.5/97.5', shared_indices_across_endpoints_metrics=True,
+            draw_sha256='b'*64,
             input_order=[r['request_id'] for r in paired]),
         parameter_identities={m: dict(sha256=str(i)*64) for i,m in enumerate(report.METHODS)},
         serving_costs=dict(loading_s=2., activation_s=48., actual_scoring_phase_activations=48))
@@ -127,9 +129,13 @@ def complete_fixture(root):
                              identical_native_trajectories=False)
     save('FINAL_ANALYSIS.json', final)
     audit_paths = {}
-    for name in ('serving_audit', 'work_audit', 'resource_audit', 'postflight'):
-        audit_paths[name] = str(save(name+'.json', dict(status='passed', plan_binding=plan['binding'],
-            execution_commit=plan['execution_commit'])))
+    for name in ('serving_audit', 'statistics_audit', 'work_audit', 'resource_audit', 'postflight'):
+        audit = dict(status='passed', plan_binding=plan['binding'], execution_commit=plan['execution_commit'])
+        if name == 'serving_audit':
+            audit['counts'] = dict(scored=12288, warmups=96, canonical=1024, invalid=0, unknown=0, unattempted=0)
+        elif name == 'statistics_audit':
+            audit.update(requests=1024, draw_sha256='b'*64, contrasts=contrasts)
+        audit_paths[name] = str(save(name+'.json', audit))
     for endpoint in report.EXPECTED_WITNESSES:
         blocks = [] if endpoint == 'released' else [dict(Y=2, raw_repair=True, useful_repair=True,
             reachable_origin_followers=1, lost_prefix=0, damaged_prefix_positions=0, prefix_damaged=False)]
@@ -207,6 +213,10 @@ class ReportTests(unittest.TestCase):
                 self.assertNotIn('sampled_anchors', text, path.name)
             self.assertEqual(len((output/'EVENT_TRAINING.csv').read_text().splitlines()), 117)
             self.assertEqual(len((output/'ALL_REPEATS.csv').read_text().splitlines()), 12289)
+            provenance = report.read(output/'PROVENANCE.json')
+            self.assertEqual(provenance['evidence']['audits']['statistics'], report.identity(args.statistics_audit))
+            self.assertEqual(report.read(output/'STATISTICS_AUDIT.json')['audit_role'], 'statistics')
+            self.assertIn('Neither audit substitutes for the other.', (output/'REPORT.md').read_text())
 
     def test_missing_final_state_leaves_only_blocked_build(self):
         with tempfile.TemporaryDirectory() as folder:
@@ -225,6 +235,50 @@ class ReportTests(unittest.TestCase):
             receipt['plan_binding'] = '0'*64
             report.write(args.work_audit, receipt)
             with self.assertRaisesRegex(ValueError, 'actual plan'):
+                report.build(args)
+            self.assertFalse((Path(args.output)/'REPORT.md').exists())
+
+    def test_cli_requires_separate_statistics_receipt(self):
+        arguments = []
+        for key in ('plan', 'raw-root', 'output', 'serving-audit', 'work-audit', 'resource-audit', 'postflight'):
+            arguments += ['--'+key, key+'.json']
+        with redirect_stderr(io.StringIO()), self.assertRaises(SystemExit) as error:
+            report.parser().parse_args(arguments)
+        self.assertEqual(error.exception.code, 2)
+
+    def test_missing_or_failed_statistics_blocks_complete_report(self):
+        for failure in ('missing', 'failed'):
+            with self.subTest(failure=failure), tempfile.TemporaryDirectory() as folder:
+                args = complete_fixture(Path(folder))
+                if failure == 'missing':
+                    Path(args.statistics_audit).unlink()
+                    error = FileNotFoundError
+                else:
+                    receipt = report.read(args.statistics_audit)
+                    receipt['status'] = 'failed'
+                    report.write(args.statistics_audit, receipt)
+                    error = ValueError
+                with self.assertRaises(error):
+                    report.build(args)
+                self.assertEqual(report.read(Path(args.output)/'BUILD_STATUS.json')['status'], 'blocked')
+                self.assertFalse((Path(args.output)/'REPORT.md').exists())
+
+    def test_statistics_audit_must_bind_source_plan_and_bootstrap(self):
+        for key in ('execution_commit', 'plan_binding', 'draw_sha256'):
+            with self.subTest(key=key), tempfile.TemporaryDirectory() as folder:
+                args = complete_fixture(Path(folder))
+                receipt = report.read(args.statistics_audit)
+                receipt[key] = 'bad'
+                report.write(args.statistics_audit, receipt)
+                with self.assertRaises(ValueError):
+                    report.build(args)
+                self.assertFalse((Path(args.output)/'REPORT.md').exists())
+
+    def test_serving_receipt_cannot_substitute_for_statistics(self):
+        with tempfile.TemporaryDirectory() as folder:
+            args = complete_fixture(Path(folder))
+            args.statistics_audit = args.serving_audit
+            with self.assertRaisesRegex(ValueError, 'Statistics audit lacks'):
                 report.build(args)
             self.assertFalse((Path(args.output)/'REPORT.md').exists())
 

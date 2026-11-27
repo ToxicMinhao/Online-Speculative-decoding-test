@@ -1,6 +1,6 @@
 # Fresh BASE/TAIL 58-event run
 
-The implementation, CPU checks and native qualification are complete. Production is running; no full-run outcome is available yet. See [QUALIFICATION_REPORT.md](QUALIFICATION_REPORT.md) for the launch snapshot. The executed source is `ef792694a52395a6c13ea5dabcf7ae64dd1d04ff`; later report publications do not change the running numerical code.
+The implementation, CPU checks and native qualification are complete. BASE event 1 is committed. A packaging-only failure has paused continuation; the repair is described in [PACKAGING_REPAIR_REPORT.md](PACKAGING_REPAIR_REPORT.md). No full-run outcome is available yet. See [QUALIFICATION_REPORT.md](QUALIFICATION_REPORT.md) for the launch snapshot. The executed source is `ef792694a52395a6c13ea5dabcf7ae64dd1d04ff`; later report publications do not change the running numerical code.
 
 BASE is C+K+PAIR. TAIL adds the unchanged PR65 within-HIGH continuation refinement. Both start independently from released DFlash with fresh BF16 AdamW and seed 17, then collect their own responses to the unchanged 7,424 PR56 prompts. Each completes 58 events, 7,424 Adam steps and 14,848 response presentations. The five scientific objective modules are byte-identical to `ab7d8231a70387c7e02f0d9d1feeedd1e80dd258`. Graduate and historical baselines remain unchanged.
 

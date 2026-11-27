@@ -75,17 +75,62 @@ def compare(expected,actual,path='root'):
     return 1
 
 
-def main():
-    p=argparse.ArgumentParser();p.add_argument('--raw-root',type=Path,required=True);p.add_argument('--output',type=Path,required=True)
-    args=p.parse_args();rows=[json.loads(l) for l in (args.raw_root/'evaluation/MEASUREMENTS.jsonl').read_text().splitlines()]
-    if len(rows)!=12384 or sum(r['phase']=='warmup' for r in rows)!=96:raise ValueError('Complete serving work required')
-    report=reduce_independently(rows)
-    final=json.loads((args.raw_root/'FINAL_ANALYSIS.json').read_text())
-    expected={k:report[k] for k in ('requests','totals','contrasts','decision')}
-    checks=compare(expected,final)
-    if report['draw_sha256']!=final['bootstrap']['draw_sha256']:raise ValueError('Bootstrap draw identities differ')
-    report.update(status='passed',checks=checks+1,scope='Independent arithmetic only; canonical/native validity and provenance require companion audit',
-        independence='Standard-library/NumPy reducer without production analysis imports; shared context/model family and earlier implementation authorship disclosed',new_model_work=0)
-    args.output.parent.mkdir(parents=True,exist_ok=True);args.output.write_text(json.dumps(report,indent=2)+'\n')
+def digest(value):
+    return hashlib.sha256(json.dumps(value,sort_keys=True,separators=(',',':'),ensure_ascii=False,allow_nan=False).encode()).hexdigest()
 
-if __name__=='__main__':main()
+
+def audit(plan,raw_root,external=None):
+    """Bind arithmetic to the sealed inputs; leave raw-token validity separate."""
+    root=Path(raw_root).resolve();original=Path(plan['root']);external=external or {}
+    inputs={}
+    def read(locator,pin=None):
+        path=Path(locator)
+        if str(path) in external:path=Path(external[str(path)])
+        elif not path.is_absolute():path=root/path
+        elif path.is_relative_to(original):path=root/path.relative_to(original)
+        else:raise FileNotFoundError('Missing external evidence mapping: '+str(locator))
+        data=path.read_bytes();identity=dict(bytes=len(data),sha256=hashlib.sha256(data).hexdigest())
+        inputs[str(locator)]=identity
+        if pin is not None and identity!=pin:raise ValueError('Input identity differs: '+str(locator))
+        return data
+    result=dict(status='running',plan_binding=plan['binding'],execution_commit=plan['execution_commit'],
+        scope='Independent arithmetic only; canonical/native validity and live endpoint identities require companion audits',
+        independence='Standard-library/NumPy reducer without production analysis imports; shared context and earlier serving implementation authorship disclosed',new_model_work=0)
+    try:
+        if plan['binding']!=digest({k:v for k,v in plan.items() if k!='binding'}):raise ValueError('Sealed plan binding differs')
+        source=json.loads(read(plan['source_manifest'],plan['source_identity']))
+        if source['commit']!=plan['execution_commit'] or source['clean'] is not True:raise ValueError('Source identity differs')
+        sealed=json.loads(read(plan['evaluation_inputs'],plan['input_identities'][plan['evaluation_inputs']]))
+        rows=[json.loads(line) for line in read('evaluation/MEASUREMENTS.jsonl').splitlines() if line.strip()]
+        if len(rows)!=12384 or sum(row['phase']=='warmup' for row in rows)!=96:raise ValueError('Complete serving work required')
+        if {row['request_id'] for row in rows if row['phase']=='scored'}!={row['request_id'] for row in sealed['evaluation_requests']}:
+            raise ValueError('Scored request identities differ from sealed panel')
+        if {row['request_id'] for row in rows if row['phase']=='warmup'}!={row['request_id'] for row in sealed['warmup_requests']}:
+            raise ValueError('Warmup identities differ from sealed inputs')
+        final=json.loads(read('FINAL_ANALYSIS.json'))
+        if final['execution_commit']!=plan['execution_commit']:raise ValueError('Analysis execution source differs')
+        reduced=reduce_independently(rows)
+        expected={k:reduced[k] for k in ('requests','totals','contrasts','decision')}
+        checks=compare(expected,final)
+        if reduced['draw_sha256']!=final['bootstrap']['draw_sha256']:raise ValueError('Bootstrap draw identities differ')
+        result.update(reduced,status='passed',checks=checks+1)
+    except FileNotFoundError as error:result.update(status='incomplete',missing=str(error))
+    except (KeyError,TypeError,ValueError,IndexError,OSError,ZeroDivisionError) as error:result.update(status='failed',error=repr(error))
+    result['input_manifest_digest']=digest(inputs)
+    return result,inputs
+
+
+def main():
+    p=argparse.ArgumentParser();p.add_argument('--plan',type=Path,required=True);p.add_argument('--raw-root',type=Path,required=True)
+    p.add_argument('--external-map',type=Path);p.add_argument('--output',type=Path,required=True)
+    args=p.parse_args();plan=json.loads(args.plan.read_text())
+    external=json.loads(args.external_map.read_text()) if args.external_map else None
+    report,inputs=audit(plan,args.raw_root,external)
+    args.output.parent.mkdir(parents=True,exist_ok=True)
+    with args.output.open('x') as stream:json.dump(report,stream,indent=2,allow_nan=False);stream.write('\n')
+    with args.output.with_name(args.output.stem+'_PRIVATE_INPUTS.json').open('x') as stream:
+        json.dump(inputs,stream,indent=2,allow_nan=False);stream.write('\n')
+    print(json.dumps(dict(status=report['status'],checks=report.get('checks',0))))
+    return 0 if report['status']=='passed' else 2
+
+if __name__=='__main__':raise SystemExit(main())

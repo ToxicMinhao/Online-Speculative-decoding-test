@@ -6,13 +6,13 @@ import subprocess
 import time
 import traceback
 
-from experiments.frontier_preservation_pilot.qualify import verify_source
 from experiments.frontier_preservation_pilot.point1_prepare import gpu_inventory
 from experiments.persistent_prefix_withholding.launch import child_environment, check_compilers
 from experiments.bounded_prefix_allocation.launch import stop_owned
 from .contract import ARMS
 from .runtime import (read,write_json,initialize,clock_status,
                       storage,forecast,LIMITS,begin_card,end_card)
+from .source_amendment import execution_source, preserve_resume
 
 
 def check_clock(plan):
@@ -31,7 +31,7 @@ def qualification_attempt(root, phase):
     return 1+sum(path.name.startswith(phase+'_') for path in paths)
 
 
-def child(plan_path,plan,phase,*,arm=None,resume=False,attempt=1):
+def child(plan_path,plan,phase,*,arm=None,resume=False,attempt=1,source=None):
     root=Path(plan['root'])
     name=phase+('_'+arm if arm else '')+f'_{attempt:03d}'
     if gpu_inventory()['processes']:
@@ -40,17 +40,27 @@ def child(plan_path,plan,phase,*,arm=None,resume=False,attempt=1):
              '--plan',str(plan_path),'--phase',phase,'--attempt',str(attempt)]
     if arm:command.extend(['--arm',arm])
     if resume:command.append('--resume')
+    if source is not None and source['source_amendment_path'] is not None:
+        command.extend(['--source-amendment',source['source_amendment_path'],
+            '--source-amendment-sha256',source['source_amendment_identity']['sha256']])
     slot='B' if phase in ('train','qualification_training') else 'A'
     slots=('A','B') if phase=='train' else (slot,)
     environment=child_environment(plan,slot)
+    actual_root=source['actual_source_root'] if source is not None else plan['source_root']
+    if actual_root!=plan['source_root']:
+        original_paths={plan['source_root'],str(Path(plan['source_root'])/'training'),str(Path(plan['source_root'])/'inference')}
+        inherited=[p for p in environment['PYTHONPATH'].split(os.pathsep) if p and p not in original_paths]
+        environment['PYTHONPATH']=os.pathsep.join([actual_root,str(Path(actual_root)/'training'),
+            str(Path(actual_root)/'inference'),*inherited])
     environment['PATH']=str(Path(plan['zstd']).parent)+os.pathsep+environment['PATH']
     record=dict(phase=phase,arm=arm,attempt=attempt,command=command,devices=[plan['devices'][s] for s in slots])
+    if source is not None:record.update(source)
     process=None;owned=[]
     try:
         for card in slots:
             begin_card(root,name+'_'+card,plan['devices'][card]);owned.append(card)
         with (root/'logs'/f'{name}.log').open('x') as log:
-            process=subprocess.Popen(command,cwd=plan['source_root'],env=environment,
+            process=subprocess.Popen(command,cwd=actual_root,env=environment,
                 stdout=log,stderr=subprocess.STDOUT,start_new_session=True)
             record.update(pid=process.pid,started_epoch=time.time())
             write_json(root/'processes'/f'{name}.json',record)
@@ -112,9 +122,11 @@ def remaining_forecast(plan):
                 card_s=2*training+evaluation+qualification)
 
 
-def run(plan_path,*,resume=False):
+def run(plan_path,*,resume=False,source_amendment=None):
     plan_path=Path(plan_path);plan=read(plan_path);root=Path(plan['root'])
-    check_compilers();verify_source(plan)
+    if source_amendment is not None and not resume:
+        raise ValueError('An infrastructure amendment requires explicit continuation')
+    check_compilers();source=execution_source(plan_path,source_amendment)
     for name in ('logs','processes','qualification'): (root/name).mkdir(exist_ok=True)
     if not resume:
         if (root/'STATUS.json').exists():raise FileExistsError('Preserve existing attempt; use explicit continuation')
@@ -123,8 +135,16 @@ def run(plan_path,*,resume=False):
         initialize(root)
     elif not (root/'CLOCK.json').exists():
         raise ValueError('Continuation must keep the original model-load clock')
+    if source_amendment is not None:
+        qualified=read(root/'qualification/QUALIFICATION.json')
+        if qualified['status']!='passed' or qualified['execution_commit']!=plan['execution_commit']:
+            raise ValueError('Infrastructure continuation reuses the existing passed qualification')
+    previous=preserve_resume(plan,source) if resume else None
     report=read(root/'STATUS.json') if resume else dict(status='running',phases=[],started_epoch=time.time())
-    report.update(status='running',execution_commit=plan['execution_commit'])
+    if previous is not None:
+        report.pop('error',None);report.pop('traceback',None)
+    report.update(status='running',**source)
+    if previous is not None:report['resume_receipt']=previous
     write_json(root/'STATUS.json',report)
     try:
         estimates=remaining_forecast(plan)
@@ -136,7 +156,7 @@ def run(plan_path,*,resume=False):
                 receipt=root/'qualification'/('TRAINING.json' if phase.endswith('training') else 'SERVING.json')
                 if receipt.exists() and read(receipt)['status']=='passed':continue
                 attempt=qualification_attempt(root,phase)
-                result=child(plan_path,plan,phase,attempt=attempt)
+                result=child(plan_path,plan,phase,attempt=attempt,source=source)
                 report['phases'].append(result);write_json(root/'STATUS.json',report)
             training,serving=read(root/'qualification/TRAINING.json'),read(root/'qualification/SERVING.json')
             if training['status']!='passed' or serving['status']!='passed':
@@ -151,11 +171,11 @@ def run(plan_path,*,resume=False):
             path=root/'campaign_001/arms'/arm/'STATUS.json'
             if path.exists() and read(path)['status']=='completed':continue
             attempts=len(list((root/'processes').glob('train_'+arm+'_*.json')))
-            result=child(plan_path,plan,'train',arm=arm,resume=path.exists(),attempt=attempts+1)
+            result=child(plan_path,plan,'train',arm=arm,resume=path.exists(),attempt=attempts+1,source=source)
             report['phases'].append(result);write_json(root/'STATUS.json',report)
         if not (root/'evaluation/SUMMARY.json').exists():
             attempts=len(list((root/'processes').glob('evaluate_*.json')))
-            result=child(plan_path,plan,'evaluate',resume=resume,attempt=attempts+1)
+            result=child(plan_path,plan,'evaluate',resume=resume,attempt=attempts+1,source=source)
             report['phases'].append(result);write_json(root/'STATUS.json',report)
         report.update(status='completed',finished_epoch=time.time())
     except BaseException as error:
@@ -171,4 +191,5 @@ def run(plan_path,*,resume=False):
 if __name__=='__main__':
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--plan',required=True);parser.add_argument('--resume',action='store_true')
-    args=parser.parse_args();run(args.plan,resume=args.resume)
+    parser.add_argument('--source-amendment')
+    args=parser.parse_args();run(args.plan,resume=args.resume,source_amendment=args.source_amendment)

@@ -4,22 +4,22 @@
   "plan_binding_expected": "0997159a261799b3ba99b31cda0f7f699aa7daaca307c1b503b64cf7deab94c4",
   "files": {
     "build_final_report.py": {
-      "bytes": 44168,
-      "sha256": "6822df1c65ded356f88ecb19dc088faedf4a7587ad869298c94cb00a77943d68"
+      "bytes": 45346,
+      "sha256": "cb9273ff82c6f3544765e0284533cd0ffac41b294e3b5f0cdf5c49977d6dd916"
     },
     "test_build_final_report.py": {
-      "bytes": 17587,
-      "sha256": "6cc78d5659ae87928c4a3c3ff9fd0dd0550f94bcbe29d9043288463f28e0cf7d"
+      "bytes": 20712,
+      "sha256": "d29b7ec5fc5db7d0f97eb5bdc73b77d02a4235a4d41163c4a00a5801f282f480"
     }
   },
   "tests": {
-    "passed": 13,
+    "passed": 17,
     "failed": 0,
     "command": "/home/minhao2/.venvs/dflash-specforge/bin/python -m unittest -v test_build_final_report.py"
   },
   "new_model_work": 0,
   "production_source_edits": 0,
-  "run_condition": "Run only after complete raw retrieval, production FINAL_ANALYSIS, both58-event states, and passed serving/work/resource/postflight receipts binding this plan and execution commit.",
+  "run_condition": "Run only after complete raw retrieval, production FINAL_ANALYSIS, both 58-event states, and separate passed raw-serving/statistics/work/resource/postflight receipts binding this plan and execution commit.",
   "reports_generated_from_actual_results": false,
   "schema_scope": "Current source writer schemas, plus synthetic publication and archived-member fixtures. Actual-record assembly remains unexecuted.",
   "native_schema_cross_review": {
@@ -38,5 +38,13 @@
     "plan_binding": "original sealed binding",
     "execution_commit": "actual execution source from immutable plan"
   },
-  "usage": "python build_final_report.py --plan PLAN.json --raw-root RETRIEVED_RAW --output NEW_PUBLIC_DIRECTORY --serving-audit SERVING_AUDIT.json --work-audit WORK_AUDIT.json --resource-audit RESOURCE_AUDIT.json --postflight POSTFLIGHT.json --cleanup storage_audit/RETIREMENT_EXECUTED.json"
+  "usage": "python build_final_report.py --plan PLAN.json --raw-root RETRIEVED_RAW --output NEW_PUBLIC_DIRECTORY --serving-audit SERVING_VALIDITY_AUDIT.json --statistics-audit STATISTICS_AUDIT.json --work-audit WORK_AUDIT.json --resource-audit RESOURCE_AUDIT.json --postflight POSTFLIGHT.json --cleanup storage_audit/RETIREMENT_EXECUTED.json",
+  "required_audits": [
+    "raw serving validity",
+    "independent statistical arithmetic",
+    "work",
+    "resource",
+    "postflight"
+  ],
+  "statistics_extension": "A distinct --statistics-audit is required. It must match 1,024 requests, the retained bootstrap draw identity and all five contrasts; a raw-serving receipt cannot substitute. Missing, failed or stale evidence blocks report publication."
 }

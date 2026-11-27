@@ -3,7 +3,8 @@
 
 CPU-only, standard library, no experimental or model imports. This is report
 assembly, not an independent statistical replication. It consumes the retained
-analysis and requires separately supplied passing serving/work/resource audits.
+analysis and requires separately supplied passing raw-serving, statistics,
+work, resource and postflight audits.
 Original private files and seals are read only; public tables use ordinals.
 """
 from __future__ import annotations
@@ -347,7 +348,7 @@ def statistical_review(commit):
         ('Reverse causality', 'Training precedes serving evaluation. Within-training activity and witness changes are descriptive; their association with serving performance does not identify a causal direction.'),
     ]
     return '\n'.join(['# Statistical interpretation review', '', f'Execution commit: `{commit}`.', '',
-        'Coverage: 11/11 ARS statistical fallacy categories checked at report assembly. These are scoped interpretation checks, not a proof that all structural biases are absent. Numerical reconstruction is covered by the separate serving audit.', '',
+        'Coverage: 11/11 ARS statistical fallacy categories checked at report assembly. These are scoped interpretation checks, not a proof that all structural biases are absent. Numerical reconstruction is covered by the separate statistics audit; raw native-F correctness is covered by the serving-validity audit.', '',
         '| Check | Finding and scope |', '|---|---|',
         *[f'| {name} | {finding} |' for name, finding in checks], ''])
 
@@ -415,6 +416,7 @@ def prose(plan, report, arm_costs, activity, witness, work, clock, campaign, aud
         'The storage audit covers the 90 GB new-allocation ceiling and 400 GB A800 reserve. [Retirement summary](RETIREMENT_SUMMARY.json) distinguishes lossless compacting from deletion of bulky recovery/features. Retired tensors are not described as archived or resumable. Final event-57/58 recoveries and event-58 exports must pass the separate postflight audit.', '',
         '## Audit scope and limitations', '',
         'Required CPU audit receipts: ' + ', '.join(f'[{key}]({value})' for key, value in audit_refs.items()) + '.',
+        'Serving validity checks raw canonical tokens, termination, traces, counts, timing records and execution order. The separate statistics audit independently recomputes paired reductions, bootstrap intervals and the selection decision. Neither audit substitutes for the other.',
         'The [statistical interpretation review](STATISTICAL_REVIEW.md) covers all 11 ARS fallacy categories, with structural and causal limitations stated explicitly.',
         'The report assembler uses no model or production analysis imports. Its arithmetic checks and exact member hashes are additional consistency checks; the independent audits establish the scope of raw reconstruction. Shared implementation context and compact-evidence limitations remain disclosed in those audits.', '',
         'Freshness is relative to the audited retained project history through PR65 and the recorded current-job inventory. This does not prove absence of unrecorded or deleted historical exposure, or of semantic near-duplicates. Inputs were selected without generated lengths or outcomes.', '',
@@ -437,7 +439,7 @@ def build(args):
         require(plan['binding'] == digest({k: v for k, v in plan.items() if k != 'binding'}), 'Original plan seal mismatch')
         statuses, work, clock, campaign, qualification = completed_evidence(raw, plan)
         report = checked_analysis(raw, plan)
-        required = dict(serving=args.serving_audit, work=args.work_audit,
+        required = dict(serving=args.serving_audit, statistics=args.statistics_audit, work=args.work_audit,
                         resource=args.resource_audit, postflight=args.postflight)
         audit_refs, audit_identities = {}, {}
         for name, path in required.items():
@@ -445,12 +447,23 @@ def build(args):
             require(receipt['status'] == 'passed', name + ' audit has not passed')
             require(receipt['plan_binding'] == plan['binding'] and receipt['execution_commit'] == plan['execution_commit'],
                     name + ' audit does not bind the actual plan/source')
+            if name == 'serving':
+                counts = receipt.get('counts', {})
+                require(all(counts.get(key) == value for key, value in dict(
+                    scored=12288, warmups=96, canonical=1024, invalid=0, unknown=0, unattempted=0).items()),
+                    'Serving audit lacks complete raw-validity coverage')
+            elif name == 'statistics':
+                require(receipt.get('requests') == 1024 and
+                    receipt.get('draw_sha256') == report['bootstrap']['draw_sha256'] and
+                    set(receipt.get('contrasts', {})) == set(CONTRASTS),
+                    'Statistics audit lacks the fixed paired reductions and bootstrap identity')
             filename = name.upper() + '_AUDIT.json'
             # Audit owners provide public-safe receipts; never copy arbitrary raw
             # nested details or an entire retained plan into the public report.
             audit_refs[name] = filename
             audit_identities[name] = identity(path)
-            write(stage / filename, dict(status='passed', original_receipt_identity=identity(path),
+            write(stage / filename, dict(status='passed', audit_role=name,
+                original_receipt_identity=identity(path),
                 scope='Original audit receipt retained privately; independently authored public narrative accompanies publication',
                 execution_commit=plan['execution_commit'], plan_binding=plan['binding']))
         events, event_costs, compact = [], [], []
@@ -555,7 +568,7 @@ def build(args):
 
 def parser():
     command = argparse.ArgumentParser(description=__doc__)
-    for name in ('plan', 'raw-root', 'output', 'serving-audit', 'work-audit', 'resource-audit', 'postflight'):
+    for name in ('plan', 'raw-root', 'output', 'serving-audit', 'statistics-audit', 'work-audit', 'resource-audit', 'postflight'):
         command.add_argument('--' + name, required=True)
     command.add_argument('--cleanup')
     command.add_argument('--zstd', default=shutil.which('zstd') or '/home/minhao2/miniconda3/bin/zstd')

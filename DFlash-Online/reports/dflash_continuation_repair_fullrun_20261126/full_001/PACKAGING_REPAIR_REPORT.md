@@ -1,0 +1,13 @@
+# Event-1 packaging repair
+
+The first BASE event completed all 128 Adam updates and 256 response presentations, its 128 feedback/teacher preparations, all four native correctness generations and the fixed post-event TRAIN readout. Its complete recovery and serving export passed scientific state validation. No event-1 model work needs to be repeated.
+
+The subsequent CPU packaging operation stopped after verifying all 1,048 archive members and removing 1,045 redundant loose files. The remaining observation file had identical logical size (9,123,871 bytes), SHA256, device, inode and modification time. Only allocated disk blocks changed: 16,515,072 to 9,125,888 bytes. The old checker incorrectly included that mutable allocation measurement in file identity. Filesystem allocation/preallocation behavior can explain this; the underlying filesystem transition was not instrumented.
+
+The repair retains strict content and stable file-identity checks, while recording actual allocated bytes immediately before deletion. A CPU-only recovery verifies the original archive and every remaining file, preserves the exact original failed receipt, and finishes only the three outstanding redundant-copy deletions. It does not regenerate the archive, change training records, or perform model work. All 72 full-run CPU tests pass with CUDA hidden, including eight focused packaging regressions and thirteen source-amendment checks. The packaging tests cover the reproduced allocation-only failure, content-change rejection, missing-member rejection, and prechecking all three remaining files before deletion.
+
+The original execution source `ef792694a52395a6c13ea5dabcf7ae64dd1d04ff` and sealed scientific plan remain intact. The repaired checkout is staged separately. An explicit source amendment binds the actual repair commit and restricts production-code differences to packaging and source-tracking infrastructure. Objective, model, optimizer, native training and serving files must remain byte-identical. Resume uses BASE's authenticated event-1 complete state; it repeats neither qualification nor event-1 updates. Required disposable compiler startup is separately counted and restores the resumed training state.
+
+A local test attempt with GPU visibility enabled failed a CPU fixture’s RNG-state assumption; rerunning with its required CPU-only visibility passed, without changing code, tolerances or A800 model work. Both logs are retained privately.
+
+The original clock and all 2,752.219 occupied-card seconds at the stop remain charged. This is an infrastructure failure and recovery, not a scientific result or a revised algorithm. The full experiment remains incomplete until both trajectories, the fixed evaluation and independent audits finish.
