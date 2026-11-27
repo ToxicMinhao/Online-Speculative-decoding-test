@@ -1,0 +1,55 @@
+{
+  "source_revision": "e76c5ec3b274737732f6b83e002178069c1145dc",
+  "source_base": "ab7d8231a70387c7e02f0d9d1feeedd1e80dd258",
+  "primary_root": "/data/sources/minhao/runs/dflash_continuation_value_diagnostic_20261126/diagnostic_001",
+  "optional_tail_root": "/data/sources/minhao/runs/dflash_continuation_repair_pilot_20261126/pilot_001",
+  "primary_responses": 128,
+  "primary_blocks": 8192,
+  "parent_roles": {
+    "LOW": 4215,
+    "NO_ERROR": 1863,
+    "HIGH": 2114
+  },
+  "eligible_later_followers": 2234,
+  "tail_responses": 128,
+  "tail_blocks": 8192,
+  "missing_tail_ordinals": [],
+  "arithmetic": "FP64 reductions of retained FP32 support values; no model precision change",
+  "support_formula_check": {
+    "relative_tolerance": 2e-06,
+    "absolute_tolerance": 2e-07
+  },
+  "alignment": "response identity, original ordered anchors, canonical tokens, contiguous validity and native roles",
+  "secondary_scope": "Same parent/responses as primary; descriptive, not independent replication",
+  "canonical_probability_availability": {
+    "status": "deferred: canonical probabilities not retained",
+    "checked_C_receipt": "/data/sources/minhao/runs/dflash_frontier_preservation_20261125/production_001/arms/CONTROL/trainer/events/event_002/RESPONSE_OBSERVATIONS.jsonl",
+    "inspected_field": "prefix_allocation",
+    "retained_fields": [
+      "blocks",
+      "valid_positions",
+      "prefix_positions",
+      "changed_blocks",
+      "changed_positions",
+      "prefix_weight_before",
+      "prefix_weight_after",
+      "weight_moved",
+      "mass_error_abs_sum",
+      "mass_violations",
+      "bounds_violations",
+      "support_violations",
+      "nonfinite_values",
+      "prefix_length_counts",
+      "by_prefix_length_and_slot",
+      "delta_numerator"
+    ],
+    "writer": "online_feedback/prefix_allocation.py:PrefixAllocation.reduce_response",
+    "missing": "Per-token canonical probabilities q(y), including future valid positions",
+    "scope": "Primary compact position schema and retained C receipt/writer inspection; no new model readout"
+  },
+  "preservation_sensitivity": "deferred: canonical probabilities not retained",
+  "canonical_probability_evidence": "PR64 position records retain margins/support only; PR65 C prefix_allocation receipts contain aggregate masses and by-slot summaries, not per-position q(y).",
+  "new_model_forwards": 0,
+  "new_optimizer_steps": 0,
+  "new_generations": 0
+}
